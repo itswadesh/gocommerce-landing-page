@@ -16,7 +16,7 @@ GoCommerce is pre-1.0. Consult the repositories for current requirements, licens
 
 The page is prepared for go.misiki.tech. GitHub Pages serves the root of the main branch; pushes to main publish updates automatically. The custom domain is not configured. For other static hosting upload index.html, style.css, app.js, and assets/ together.
 
-The technology logo cloud uses locally bundled Simple Icons SVG assets (https://github.com/simple-icons/simple-icons), with one Svelte entry for admin and storefront. It describes technology, not customer endorsements. Logo scrolling and terminal typing have pause controls and respect reduced-motion preferences. The terminal previews commands only; Copy returns the complete selected setup block during animation.
+The technology logo cloud uses locally bundled Simple Icons SVG assets (https://github.com/simple-icons/simple-icons), with one Svelte entry for admin and storefront. It describes technology, not customer endorsements. Logo scrolling pauses on hover; terminal typing has pause controls. Both respect reduced-motion preferences. The terminal previews commands only; Copy returns the complete selected setup block during animation.
 
 Docker Compose commands follow the GoCommerce repository's compose configuration. The Codespaces link opens workspace creation; it does not automatically provision a running store. Vercel and Netlify links open the storefront deployment flows published in the Svelte Commerce README. Accounts, configuration, and a separately deployed backend are required. These workflows were linked and inspected, not used to create paid infrastructure or validate a production commerce deployment.
 
