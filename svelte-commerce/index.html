@@ -26,7 +26,7 @@
 <meta name="twitter:image" content="https://kitcommerce.store/assets/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
 {"@type":"Organization","@id":"https://kitcommerce.store/#org","name":"KitCommerce","url":"https://kitcommerce.store/"},
 {"@type":"WebPage","@id":"https://kitcommerce.store/svelte-commerce/#page","url":"https://kitcommerce.store/svelte-commerce/","name":"Svelte Commerce — Open Source Ecommerce Storefront for Svelte","isPartOf":{"@id":"https://kitcommerce.store/#site"},"primaryTopic":{"@id":"https://kitcommerce.store/svelte-commerce/#app"},"inLanguage":"en"},
@@ -76,7 +76,6 @@
   <!-- ───────────────────────────────────────────────────────── hero -->
   <section class="hero wrap page-hero">
     <div class="hero-copy">
-      <p class="eyebrow eyebrow-store">Storefront</p>
       <h1>Open-source ecommerce storefront built with Svelte</h1>
       <p class="lede">
         Svelte Commerce provides a fast, customizable storefront for headless
@@ -145,11 +144,7 @@
       <time datetime="2026-09-21">21 September 2026</time>.
     </p>
 
-    <div class="shots-tri">
-      <figure class="shot shot-phone">
-        <img src="/assets/admin/storefront-mobile.webp" width="780" height="1688" alt="The Arialshop storefront home page on a phone, showing category tiles, a jewellery hero banner and a bottom navigation bar." loading="lazy" decoding="async">
-        <figcaption>Home, on a phone</figcaption>
-      </figure>
+    <div class="shots-wide">
       <figure class="shot">
         <img src="/assets/admin/storefront-home.webp" width="1440" height="900" alt="The Arialshop storefront home page on a desktop: a jewellery hero image with a shop call to action, category navigation across the top, and a strip of store guarantees beneath." loading="lazy" decoding="async">
         <figcaption>Home, on a desktop</figcaption>
@@ -158,6 +153,26 @@
         <img src="/assets/admin/storefront-product.webp" width="1440" height="900" alt="An Arialshop product page: a large ring photograph with thumbnails, the product title and price, metal colour and carat weight options, a ring size selector and an add to bag button." loading="lazy" decoding="async">
         <figcaption>Product detail, with variants</figcaption>
       </figure>
+    </div>
+
+    <div class="shots-phone">
+      <figure class="shot shot-phone">
+        <img src="/assets/admin/storefront-mobile.webp" width="780" height="1688" alt="The Arialshop storefront home page on a phone, showing category tiles, a jewellery hero banner and a bottom navigation bar." loading="lazy" decoding="async">
+        <figcaption>Home, on a phone</figcaption>
+      </figure>
+      <div class="shots-phone-note">
+        <h3>The same components, narrower</h3>
+        <p>
+          There is no separate mobile theme and no template language to learn.
+          The storefront is ordinary Svelte components in a SvelteKit app, so a
+          phone gets the same code a desktop does, laid out for the width it
+          actually has.
+        </p>
+        <p>
+          Which means changing how it looks is changing a component &mdash; the
+          skill you already have, in the framework you already chose.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -203,7 +218,7 @@
       exercised against a live production instance of its platform.
     </p>
 
-    <a class="button" href="/svelte-commerce/backends/">View all 26 backend integrations &rarr;</a>
+    <a class="button" href="/svelte-commerce/backends/">View all 26 backend integrations</a>
   </section>
 
   <!-- ───────────────────────────────────────────────────── connector -->

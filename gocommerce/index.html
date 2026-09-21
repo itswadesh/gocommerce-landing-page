@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="GoCommerce is an open-source ecommerce backend and admin built with Go: commerce APIs, PostgreSQL, an embedded Svelte admin, 44 modules and 342 documented operations. Self-hosted, MIT licensed.">
+<meta name="description" content="GoCommerce is an open-source ecommerce backend written in Go, with a Svelte admin compiled into the same binary: commerce APIs, PostgreSQL, 44 modules and 342 documented operations. Self-hosted, MIT licensed.">
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
 <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0a0f16" media="(prefers-color-scheme: dark)">
@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://kitcommerce.store/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="GoCommerce — open-source ecommerce backend and admin built with Go">
+<meta property="og:image:alt" content="GoCommerce — an open-source ecommerce backend in Go, with a Svelte admin">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="GoCommerce — Ecommerce Backend + Admin in Go">
@@ -26,20 +26,20 @@
 <meta name="twitter:image" content="https://kitcommerce.store/assets/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap">
 <!-- This page owns the GoCommerce application node; the homepage references it
      by the same @id rather than redefining it. -->
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
 {"@type":"Organization","@id":"https://kitcommerce.store/#org","name":"KitCommerce","url":"https://kitcommerce.store/"},
 {"@type":"WebPage","@id":"https://kitcommerce.store/gocommerce/#page","url":"https://kitcommerce.store/gocommerce/","name":"GoCommerce — Open Source Ecommerce Backend + Admin in Go","isPartOf":{"@id":"https://kitcommerce.store/#site"},"primaryTopic":{"@id":"https://kitcommerce.store/gocommerce/#app"},"inLanguage":"en"},
-{"@type":"SoftwareApplication","@id":"https://kitcommerce.store/gocommerce/#app","name":"GoCommerce","url":"https://kitcommerce.store/gocommerce/","applicationCategory":["DeveloperApplication","BusinessApplication"],"applicationSubCategory":"Ecommerce backend","operatingSystem":"Cross-platform","runtimePlatform":"Go 1.27","softwareRequirements":"Go 1.27, PostgreSQL","license":"https://opensource.org/licenses/MIT","isAccessibleForFree":true,"publisher":{"@id":"https://kitcommerce.store/#org"},"description":"An open-source ecommerce backend and admin built with Go: catalog, carts, checkout, orders, payments, inventory and fulfillment, with a Svelte admin compiled into the same binary. One production dependency, one database, self-hosted.","featureList":["Catalog","Carts","Checkout","Orders","Payments","Inventory","Fulfillment","Pricing","Discounts","Customers","Commerce events","Extension modules","Embedded admin panel","OpenAPI documentation"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"}},
+{"@type":"SoftwareApplication","@id":"https://kitcommerce.store/gocommerce/#app","name":"GoCommerce","url":"https://kitcommerce.store/gocommerce/","applicationCategory":["DeveloperApplication","BusinessApplication"],"applicationSubCategory":"Ecommerce backend","operatingSystem":"Cross-platform","runtimePlatform":"Go 1.27","softwareRequirements":"Go 1.27, PostgreSQL","license":"https://opensource.org/licenses/MIT","isAccessibleForFree":true,"publisher":{"@id":"https://kitcommerce.store/#org"},"description":"An open-source ecommerce backend written in Go: catalog, carts, checkout, orders, payments, inventory and fulfillment, with a Svelte admin compiled into the same binary. One production dependency, one database, self-hosted.","featureList":["Catalog","Carts","Checkout","Orders","Payments","Inventory","Fulfillment","Pricing","Discounts","Customers","Commerce events","Extension modules","Embedded admin panel","OpenAPI documentation"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"}},
 {"@type":"SoftwareSourceCode","@id":"https://github.com/itswadesh/gocommerce","name":"GoCommerce","codeRepository":"https://github.com/itswadesh/gocommerce","programmingLanguage":"Go","runtimePlatform":"Go 1.27","license":"https://opensource.org/licenses/MIT","targetProduct":{"@id":"https://kitcommerce.store/gocommerce/#app"}},
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://kitcommerce.store/"},
 {"@type":"ListItem","position":2,"name":"GoCommerce","item":"https://kitcommerce.store/gocommerce/"}]}
 ]}</script>
 <!-- FAQ-SCHEMA:start -->
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/gocommerce/#faq","mainEntity":[{"@type":"Question","name":"Is GoCommerce production-ready?","acceptedAnswer":{"@type":"Answer","text":"It is pre-1.0 and the API may change before 1.0. The engine carries 1,036 tests and a documented contract for every route, and no store we know of is running it in production yet. Treat it as something to build on deliberately, not something to migrate a live business to this week."}},{"@type":"Question","name":"What do I have to run in production?","acceptedAnswer":{"@type":"Answer","text":"One Go binary and one PostgreSQL database. The Svelte admin is compiled into the binary, so there is no Node.js server, no Redis, no message broker and no second deployment to keep in step. Add infrastructure later if a real requirement asks for it."}},{"@type":"Question","name":"Does GoCommerce need Svelte Commerce?","acceptedAnswer":{"@type":"Answer","text":"No. GoCommerce is a standalone backend. It serves 342 documented operations over REST, published as OpenAPI, so any storefront or application that can call HTTP can drive it. Svelte Commerce is one option in front of it, not a requirement."}},{"@type":"Question","name":"Can I rebrand it and sell what I build?","acceptedAnswer":{"@type":"Answer","text":"Yes. GoCommerce is MIT. Rename it, restyle the admin, cut what you do not need, and ship it under your own name and domain. Nothing phones home and there is no plan to outgrow."}},{"@type":"Question","name":"How well does it work with AI coding agents?","acceptedAnswer":{"@type":"Answer","text":"The repository is written for it: AGENTS.md holds 18 architectural rules for anyone changing the code, human or agent, and skills/ holds 16 task guides so an agent loads the one matching its job instead of reading everything. There is one production dependency, so the graph an agent must understand is small, and 1,036 tests to catch a wrong edit. Separately, the MCP module lets an agent operate a running store through the same domain services a REST call uses — never the database directly."}},{"@type":"Question","name":"How fast is it?","acceptedAnswer":{"@type":"Answer","text":"We have not published benchmarks, so we do not make a speed claim. Anything you read about this project’s performance did not come from us. Benchmarking is on the contribution list."}},{"@type":"Question","name":"Does it handle B2B, or marketplaces?","acceptedAnswer":{"@type":"Answer","text":"Both have engine support. B2B pricing resolves by customer group and quantity through price lists. Marketplaces have vendors as first-class sellers with pending, approved and suspended states. Neither is as deep as a dedicated platform; read core/pricing.go and core/vendors.go before committing to one."}},{"@type":"Question","name":"How do I migrate an existing catalogue?","acceptedAnswer":{"@type":"Answer","text":"Shopify and Amazon import modules exist and match on the source platform’s own product id, so re-running an import updates rather than duplicates. There is also an order importer that takes a created_at, fires no events and moves no stock, because loading history should not send two hundred confirmation emails."}},{"@type":"Question","name":"Is there a paid tier, a cloud, or an enterprise edition?","acceptedAnswer":{"@type":"Answer","text":"No. There is no hosted offering, no paid tier and nothing to buy. It is MIT source you run yourself."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/gocommerce/#faq","mainEntity":[{"@type":"Question","name":"Is GoCommerce production-ready?","acceptedAnswer":{"@type":"Answer","text":"It is 1.0, so the exported API and the HTTP contract are stable and breaking either takes a major version. The engine carries 1,036 tests and a documented contract for every route. No store we know of is running it in production yet — 1.0 is a promise about compatibility, not a record of mileage. Treat it as something to build on deliberately, not something to migrate a live business to this week."}},{"@type":"Question","name":"What do I have to run in production?","acceptedAnswer":{"@type":"Answer","text":"One Go binary and one PostgreSQL database. The Svelte admin is compiled into the binary, so there is no Node.js server, no Redis, no message broker and no second deployment to keep in step. Add infrastructure later if a real requirement asks for it."}},{"@type":"Question","name":"Does GoCommerce need Svelte Commerce?","acceptedAnswer":{"@type":"Answer","text":"No. GoCommerce is a standalone backend. It serves 342 documented operations over REST, published as OpenAPI, so any storefront or application that can call HTTP can drive it. Svelte Commerce is one option in front of it, not a requirement."}},{"@type":"Question","name":"Can I rebrand it and sell what I build?","acceptedAnswer":{"@type":"Answer","text":"Yes. GoCommerce is MIT. Rename it, restyle the admin, cut what you do not need, and ship it under your own name and domain. Nothing phones home and there is no plan to outgrow."}},{"@type":"Question","name":"How well does it work with AI coding agents?","acceptedAnswer":{"@type":"Answer","text":"The repository is written for it: AGENTS.md holds 18 architectural rules for anyone changing the code, human or agent, and skills/ holds 16 task guides so an agent loads the one matching its job instead of reading everything. There is one production dependency, so the graph an agent must understand is small, and 1,036 tests to catch a wrong edit. Separately, the MCP module lets an agent operate a running store through the same domain services a REST call uses — never the database directly."}},{"@type":"Question","name":"How fast is it?","acceptedAnswer":{"@type":"Answer","text":"We have not published benchmarks, so we do not make a speed claim. Anything you read about this project’s performance did not come from us. Benchmarking is on the contribution list."}},{"@type":"Question","name":"Does it handle B2B, or marketplaces?","acceptedAnswer":{"@type":"Answer","text":"Both have engine support. B2B pricing resolves by customer group and quantity through price lists. Marketplaces have vendors as first-class sellers with pending, approved and suspended states. Neither is as deep as a dedicated platform; read core/pricing.go and core/vendors.go before committing to one."}},{"@type":"Question","name":"How do I migrate an existing catalogue?","acceptedAnswer":{"@type":"Answer","text":"Shopify and Amazon import modules exist and match on the source platform’s own product id, so re-running an import updates rather than duplicates. There is also an order importer that takes a created_at, fires no events and moves no stock, because loading history should not send two hundred confirmation emails."}},{"@type":"Question","name":"Is there a paid tier, a cloud, or an enterprise edition?","acceptedAnswer":{"@type":"Answer","text":"No. There is no hosted offering, no paid tier and nothing to buy. It is MIT source you run yourself."}}]}</script>
 <!-- FAQ-SCHEMA:end -->
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -78,13 +78,13 @@
   <!-- ───────────────────────────────────────────────────────── hero -->
   <section class="hero wrap page-hero">
     <div class="hero-copy">
-      <p class="eyebrow eyebrow-engine">Backend + admin</p>
-      <h1>GoCommerce &mdash; ecommerce backend + admin built with Go</h1>
+      <h1>GoCommerce &mdash; an ecommerce backend in Go, with a Svelte admin</h1>
       <p class="lede">
-        GoCommerce provides the backend foundation for ecommerce applications,
-        including commerce APIs, PostgreSQL persistence and an admin experience.
-        It is a standalone project that pairs naturally with Svelte Commerce, and
-        runs perfectly well without it.
+        An enterprise-grade headless commerce backend, open source and
+        self-hosted. Catalog, checkout, orders, payments, inventory and
+        fulfillment behind 342 documented REST operations &mdash; with no third-party
+        plugins, no marketplace, and nothing in your binary you did not compile
+        into it yourself.
       </p>
       <div class="actions">
         <a class="button" href="#quickstart">Run it locally</a>
@@ -93,7 +93,7 @@
       </div>
       <ul class="hero-proof">
         <li><b>MIT</b> licensed</li>
-        <li><b>Pre-1.0</b>, built in the open</li>
+        <li><b>1.0</b> &mdash; stable API</li>
         <li><b>1</b> production dependency</li>
         <li><b>Go 1.27</b> and PostgreSQL</li>
       </ul>
@@ -112,6 +112,88 @@
       </div>
       <figcaption id="stack-cap">One Go process, one database. Storefronts call it over HTTP.</figcaption>
     </figure>
+  </section>
+
+  <!-- ────────────────────────────────────────────────── enterprise -->
+  <section id="enterprise" class="section wrap" aria-labelledby="ent-title">
+    <h2 id="ent-title">Enterprise shape. No enterprise platform.</h2>
+    <p class="section-lede">
+      The capabilities a large store needs, without the thing that usually comes
+      with them &mdash; a plugin marketplace, a runtime that loads other
+      people&rsquo;s code, and a bill. Each claim below is measured, and says how.
+    </p>
+
+    <div class="why-grid">
+      <div class="why-item">
+        <h3>Headless, not headless-ish</h3>
+        <p>
+          342 operations, published as OpenAPI. The admin is a <em>client</em> of
+          that contract rather than an exception to it: of the 142 admin
+          endpoints it calls, every one is in the document your own integrations
+          read. Privileged, not private.
+        </p>
+      </div>
+
+      <div class="why-item">
+        <h3>Composable, and measurably so</h3>
+        <p>
+          Modules are ordinary Go packages in a slice, not plugins discovered at
+          runtime. All 44 of them cost <b>4.8&nbsp;MB</b>: a binary with
+          everything installed is 26.6&nbsp;MB, one with nothing is
+          21.8&nbsp;MB.
+        </p>
+      </div>
+
+      <div class="why-item">
+        <h3>No third-party plugins</h3>
+        <p>
+          There are plugins &mdash; 17 of them, switches over features already
+          compiled in, and the admin has a screen for them. What there is not is
+          a <b>third-party</b> plugin: nothing is downloaded, nothing loads at
+          runtime, and there is no marketplace whose code you would have to
+          trust. Leave a module out and none of its code is in your binary at
+          all &mdash; not disabled, not dormant, absent.
+        </p>
+      </div>
+
+      <div class="why-item">
+        <h3>Scales sideways</h3>
+        <p>
+          The binary holds no state, and the event outbox claims work with
+          <code>FOR&nbsp;UPDATE&nbsp;SKIP&nbsp;LOCKED</code> &mdash; so, in the
+          engine&rsquo;s own words, &ldquo;each worker takes rows no other worker
+          holds, with no coordination beyond the database.&rdquo; An abandoned
+          cart fires once however many replicas run.
+        </p>
+      </div>
+
+      <div class="why-item">
+        <h3>Customisation has no ceiling</h3>
+        <p>
+          It is MIT source that you compile. There is no extension API to be
+          limited by, because the limit would be a line in code you already own.
+          The admin is an ordinary SvelteKit app &mdash; restyle it, cut it, or
+          replace it.
+        </p>
+      </div>
+
+      <div class="why-item">
+        <h3>Run it, do not rent it</h3>
+        <p>
+          One Go process and one PostgreSQL. No hosted control plane, no licence
+          server, no per-order fee, nothing phoning home. The ceiling is your
+          database, which is a limit you can see and price.
+        </p>
+      </div>
+    </div>
+
+    <p class="fineprint">
+      Two things this page will not tell you, because nobody has measured them:
+      how fast it is, and how far it scales. No benchmarks are published, so any
+      number you read about GoCommerce&rsquo;s throughput did not come from us.
+      The architecture is built for horizontal scale and the code says where;
+      what it has not got is a graph to prove it under load.
+    </p>
   </section>
 
   <!-- ─────────────────────────────────────────────────────────── why -->
@@ -564,7 +646,7 @@ go run ./cmd/gocommerce serve</code></pre>
     <div class="faq">
       <details>
         <summary>Is GoCommerce production-ready?</summary>
-        <p>It is pre-1.0 and the API may change before 1.0. The engine carries 1,036 tests and a documented contract for every route, and no store we know of is running it in production yet. Treat it as something to build on deliberately, not something to migrate a live business to this week.</p>
+        <p>It is 1.0, so the exported API and the HTTP contract are stable and breaking either takes a major version. The engine carries 1,036 tests and a documented contract for every route. No store we know of is running it in production yet — 1.0 is a promise about compatibility, not a record of mileage. Treat it as something to build on deliberately, not something to migrate a live business to this week.</p>
       </details>
 
       <details>

@@ -164,4 +164,111 @@
     d.addEventListener('toggle', function () { if (d.open) track('faq_expand', { q: (d.querySelector("summary") || {}).textContent }) })
   })
 
+
+  /* ──────────────────────────────────────────────────────── motion */
+
+  // Two moments, both carrying information, both once.
+  //
+  // The rule everything here follows: the finished state is what the HTML
+  // already says. JS *arms* an element — hides what it is about to reveal —
+  // and only then plays it. So with JS blocked, reduced motion on, or a
+  // crawler reading, the page is complete and nothing is stuck at opacity 0.
+  // Arming inside the observer also means an element scrolled past before the
+  // script runs is simply never hidden.
+
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  function playOnce (el, ms) {
+    if (!el || reduced) return
+    if (!('IntersectionObserver' in window)) return
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return
+        io.disconnect()
+        el.classList.add('is-armed')
+        // One frame armed, so the browser has a start value to animate from.
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            el.classList.remove('is-armed')
+            el.classList.add('is-running')
+            setTimeout(function () { el.classList.remove('is-running') }, ms)
+          })
+        })
+      })
+    }, { threshold: 0.35 })
+    io.observe(el)
+  }
+
+  // 1. The compose output arrives line by line — which is what the command
+  //    does. Seven lines at 260ms, plus the caret.
+  playOnce($('.term'), 7 * 260 + 6200)
+
+  // 2. Coverage bars grow to their measured value. The motion is the
+  //    measurement; it settles on the figure printed over it.
+  playOnce($('.matrix'), 1200)
+
+
+  /* ─────────────────────────────────────────────── privacy notice */
+
+  // Not a cookie banner, because there are no cookies to consent to. This site
+  // sets none, keeps no analytics and has nothing to profile you with — so a
+  // consent gate here would be asking permission for something that does not
+  // happen, and an "accept" button that governs nothing is theatre.
+  //
+  // What is true and worth saying: three third parties see your IP address
+  // because the page asks them for something. Google Fonts serves the two
+  // typefaces, and api.github.com is asked for the live star counts. That is a
+  // disclosure, not a decision, so the notice states it and gets out of the way.
+  //
+  // The dismissal is remembered in localStorage — the one thing the site does
+  // store, and only because you closed this. It is strictly functional, which
+  // is the one category consent rules have never required consent for, and the
+  // notice says so rather than leaving you to assume it.
+  var NOTICE_KEY = 'kc-privacy-notice-dismissed'
+
+  function remembered (key) {
+    // Private windows and blocked site data both throw here rather than
+    // returning null, so every read and write is guarded. A storage failure
+    // means the notice shows again, which is the harmless direction to fail in.
+    try { return localStorage.getItem(key) } catch (e) { return null }
+  }
+
+  function remember (key, value) {
+    try { localStorage.setItem(key, value) } catch (e) { /* shows again; fine */ }
+  }
+
+  function showPrivacyNotice () {
+    if (remembered(NOTICE_KEY)) return
+
+    var el = document.createElement('aside')
+    el.className = 'notice'
+    // A region rather than a dialog: it demands nothing, traps no focus and
+    // blocks no content, so announcing it as a modal would misdescribe it.
+    el.setAttribute('role', 'region')
+    el.setAttribute('aria-label', 'Privacy notice')
+    el.innerHTML =
+      '<p class="notice-text">' +
+        '<b>This site sets no cookies</b> and runs no analytics. ' +
+        'Google Fonts serves the typefaces and GitHub serves the star counts, ' +
+        'so those two see your IP address. Closing this remembers itself in ' +
+        'local storage &mdash; the only thing stored, and only because you closed it.' +
+      '</p>' +
+      '<button class="notice-close" type="button">Got it</button>'
+
+    var close = el.querySelector('.notice-close')
+    close.addEventListener('click', function () {
+      remember(NOTICE_KEY, '1')
+      el.classList.remove('is-in')
+      // Removed after the transition so it does not sit in the DOM invisible,
+      // where a screen reader would still find it.
+      setTimeout(function () { el.remove() }, 220)
+    })
+
+    document.body.appendChild(el)
+    // Next frame, so the element has a resting state to animate from rather
+    // than appearing already-arrived.
+    requestAnimationFrame(function () { el.classList.add('is-in') })
+  }
+
+  showPrivacyNotice()
 })()

@@ -226,5 +226,5 @@ configured yet. No
 candidate with no `srcset` (§100). Fonts load from Google rather than
 self-hosted (§99). Sitemap `lastmod` is maintained by hand (§65). And from
 Google's Starter Guide, the one the playbook omits entirely: there is no
-off-page or promotion plan, which for two pre-1.0 open-source projects is where
+off-page or promotion plan, which for two open-source projects without a marketing budget is where
 discovery will actually come from.

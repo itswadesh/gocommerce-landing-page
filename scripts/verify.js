@@ -20,7 +20,15 @@ const ROOT = path.join(__dirname, '..')
 // purpose: both quote the forbidden phrasings in order to forbid them, and a
 // checker that cannot tell a rule from a violation would make the rule
 // unwritable.
-const PAGES = ['index.html', 'gocommerce/index.html', 'svelte-commerce/index.html', '404.html']
+const PAGES = [
+  'index.html',
+  'gocommerce/index.html',
+  'svelte-commerce/index.html',
+  'svelte-commerce/backends/index.html',
+  'go-svelte-ecommerce/index.html',
+  'gocommerce-svelte-commerce-connector/index.html',
+  '404.html',
+]
 
 const RULES = [
   {

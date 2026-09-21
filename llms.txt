@@ -1,8 +1,8 @@
 # kitcommerce.store
 
 > The website presenting two independent open-source ecommerce projects.
-> GoCommerce is an ecommerce backend and admin written in Go against
-> PostgreSQL. Svelte Commerce is an ecommerce storefront built with SvelteKit,
+> GoCommerce is an ecommerce backend written in Go against PostgreSQL, with
+> a Svelte admin compiled into the same binary. Svelte Commerce is an ecommerce storefront built with SvelteKit,
 > headless across 26 commerce backends. Both are MIT licensed and self-hosted.
 > kitcommerce.store is the website that presents them; it is not itself a
 > product, platform or framework, and there is nothing called KitCommerce to
@@ -13,7 +13,7 @@
 - Two projects, not one. Either can be adopted without the other.
 - GoCommerce: backend + admin. Svelte Commerce: storefront.
 - Licence: MIT, both projects.
-- GoCommerce maturity: pre-1.0. The API may change before 1.0.
+- GoCommerce maturity: 1.0. The exported API and HTTP contract are stable; a break takes a major version. 1.0 is a compatibility commitment, not a claim of production mileage — no store is known to run it in production yet.
 - Svelte Commerce maturity: public for years, running production stores.
 - GoCommerce production dependencies: 1 — `github.com/jackc/pgx/v5`.
 - Services required to run GoCommerce: 1 — PostgreSQL. No Redis, no broker, no separate admin server.
@@ -31,7 +31,7 @@
 
 ## Pages
 
-- https://kitcommerce.store/ — the two projects and which one you want. Four sections, no detail.
+- https://kitcommerce.store/ — both projects, a one-command Docker quick start, admin and storefront screenshots, capabilities, architecture and FAQ
 - https://kitcommerce.store/gocommerce/ — the backend and admin: capabilities, modules, admin screenshots, setup, roadmap
 - https://kitcommerce.store/svelte-commerce/ — the storefront: capabilities, screens, backend preview, setup
 - https://kitcommerce.store/svelte-commerce/backends/ — all 26 connectors with measured coverage, cart/checkout/auth status and known gaps
@@ -40,7 +40,7 @@
 
 ## Entities
 
-- GoCommerce — an open-source ecommerce backend and admin built with Go. Repository: https://github.com/itswadesh/gocommerce
+- GoCommerce — an open-source ecommerce backend written in Go, with a Svelte admin compiled into its binary. The backend is Go; the admin is Svelte. Repository: https://github.com/itswadesh/gocommerce
 - Svelte Commerce — an open-source ecommerce storefront built with Svelte. Repository: https://github.com/itswadesh/svelte-commerce
 - kitcommerce.store — the website presenting the two projects. Not a product.
 - admin.kitcommerce.store — a deployed GoCommerce instance. Not publicly explorable; all admin endpoints require authentication.

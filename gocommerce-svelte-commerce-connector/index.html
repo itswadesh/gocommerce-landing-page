@@ -26,7 +26,7 @@
 <meta name="twitter:image" content="https://kitcommerce.store/assets/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
 {"@type":"Organization","@id":"https://kitcommerce.store/#org","name":"KitCommerce","url":"https://kitcommerce.store/"},
 {"@type":"WebPage","@id":"https://kitcommerce.store/gocommerce-svelte-commerce-connector/#page","url":"https://kitcommerce.store/gocommerce-svelte-commerce-connector/","name":"GoCommerce ↔ Svelte Commerce Connector — Status","isPartOf":{"@id":"https://kitcommerce.store/#site"},"inLanguage":"en","mentions":[{"@id":"https://kitcommerce.store/gocommerce/#app"},{"@id":"https://kitcommerce.store/svelte-commerce/#app"}]},
@@ -72,7 +72,6 @@
   </nav>
 
   <section class="wrap page-head">
-    <p class="eyebrow">Integration status</p>
     <h1>GoCommerce &harr; Svelte Commerce connector</h1>
     <div class="status-banner">
       <p class="status-line"><span class="dot dot-dev"></span><b>Status: In development.</b> Not published.</p>
@@ -150,11 +149,12 @@
 
     <div class="tri">
       <div class="tri-item">
-        <h3>GoCommerce is pre-1.0</h3>
+        <h3>A stable contract, not a proven one</h3>
         <p>
-          Its API may change before 1.0. A connector written against it inherits
-          that, so early versions will track the backend rather than promise
-          stability.
+          GoCommerce is 1.0, so the API a connector binds to will not move
+          without a major version. What 1.0 does not supply is production
+          mileage: no store is known to run it yet, so a connector will meet
+          whatever the first real catalogue exposes.
         </p>
       </div>
       <div class="tri-item">

@@ -26,7 +26,7 @@
 <meta name="twitter:image" content="https://kitcommerce.store/assets/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap">
 <link rel="preload" as="image" href="/assets/admin/dashboard-light.webp" media="(prefers-color-scheme: light)">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
 {"@type":"Organization","@id":"https://kitcommerce.store/#org","name":"KitCommerce","url":"https://kitcommerce.store/","description":"The website presenting GoCommerce and Svelte Commerce, two independent open-source ecommerce projects.","sameAs":["https://github.com/itswadesh/gocommerce","https://github.com/itswadesh/svelte-commerce","https://github.com/itswadesh","https://discord.gg/GgdAeccwDR"]},
@@ -36,7 +36,7 @@
 {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kitcommerce.store/"}]}
 ]}</script>
 <!-- FAQ-SCHEMA:start -->
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/#faq","mainEntity":[{"@type":"Question","name":"What is GoCommerce?","acceptedAnswer":{"@type":"Answer","text":"GoCommerce is an open-source, headless ecommerce backend built with Go and PostgreSQL, with a Svelte-based admin compiled into the same binary. It serves 342 documented operations over REST."}},{"@type":"Question","name":"What is Svelte Commerce?","acceptedAnswer":{"@type":"Answer","text":"Svelte Commerce is an open-source headless ecommerce storefront built with Svelte and SvelteKit. It reaches a commerce backend through a connector package, and 26 connectors exist today."}},{"@type":"Question","name":"Is KitCommerce a product?","acceptedAnswer":{"@type":"Answer","text":"No. kitcommerce.store is the website presenting GoCommerce and Svelte Commerce. They are independent projects, and there is nothing called KitCommerce to install."}},{"@type":"Question","name":"Can I self-host them, and is there a platform fee?","acceptedAnswer":{"@type":"Answer","text":"Yes to self-hosting, and no platform fee. Both projects are MIT licensed and designed to run on your own infrastructure. No fee is charged for running the software. Your own servers, domains and third-party services still cost money — the software is free, hosting is not."}},{"@type":"Question","name":"Can I use GoCommerce without Svelte Commerce, or the other way round?","acceptedAnswer":{"@type":"Answer","text":"Both. GoCommerce serves any client that speaks HTTP, so any storefront framework can drive it. Svelte Commerce runs against 26 commerce backends including Medusa, Vendure, Shopify, Saleor and WooCommerce. Neither requires the other."}},{"@type":"Question","name":"Can they work together today?","acceptedAnswer":{"@type":"Answer","text":"Not with an installable package. The direct connector between them is in development and unpublished, so pairing them currently means writing that client yourself against the documented GoCommerce API."}},{"@type":"Question","name":"How quickly can I get started?","acceptedAnswer":{"@type":"Answer","text":"One Docker Compose command. Download docker-compose.yml and env.example from this site, set your secrets in .env, then run docker compose up -d. The first run compiles GoCommerce from source because no image is published yet; later runs are cached."}},{"@type":"Question","name":"What does Docker Compose actually start?","acceptedAnswer":{"@type":"Answer","text":"Three services: PostgreSQL, GoCommerce — which serves both the commerce API and the admin, because the admin is compiled into the binary — and Caddy as a reverse proxy on port 80. It does not start Svelte Commerce, because the connector that would let the storefront read from GoCommerce is unpublished, and a storefront that cannot load a product is worse than no storefront."}},{"@type":"Question","name":"Can I use my own PostgreSQL database?","acceptedAnswer":{"@type":"Answer","text":"Yes. GoCommerce takes a DATABASE_URL, so pointing it at a Postgres you already run means setting that variable and removing the bundled postgres service from the compose file."}},{"@type":"Question","name":"Is it production ready?","acceptedAnswer":{"@type":"Answer","text":"They differ, and it matters. Svelte Commerce has been public for years and runs production stores — arialshop.com is one. GoCommerce is pre-1.0, its API may change before 1.0, it carries 1,036 tests and a documented contract for every route, and no store we know of is running it in production yet. Treat it as something to build on deliberately rather than migrate a live business to this week."}},{"@type":"Question","name":"Does it work with coding agents?","acceptedAnswer":{"@type":"Answer","text":"The repository is written for it: AGENTS.md holds 18 architectural rules, skills/ holds 16 task guides, there is one production dependency so the graph an agent must understand is small, and 1,036 tests catch a wrong edit. The MCP module also lets an agent operate a running store through the same domain services a REST call uses."}},{"@type":"Question","name":"Is there a live demo I can click around?","acceptedAnswer":{"@type":"Answer","text":"Not yet. A GoCommerce instance is deployed at admin.kitcommerce.store, but every endpoint requires authentication and there is no guest account, so the link opens a sign-in screen. The screenshots on this site are the honest preview until a read-only demo account exists."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/#faq","mainEntity":[{"@type":"Question","name":"What is GoCommerce?","acceptedAnswer":{"@type":"Answer","text":"GoCommerce is an open-source, headless ecommerce backend built with Go and PostgreSQL, with a Svelte-based admin compiled into the same binary. It serves 342 documented operations over REST."}},{"@type":"Question","name":"What is Svelte Commerce?","acceptedAnswer":{"@type":"Answer","text":"Svelte Commerce is an open-source headless ecommerce storefront built with Svelte and SvelteKit. It reaches a commerce backend through a connector package, and 26 connectors exist today."}},{"@type":"Question","name":"Is KitCommerce a product?","acceptedAnswer":{"@type":"Answer","text":"No. kitcommerce.store is the website presenting GoCommerce and Svelte Commerce. They are independent projects, and there is nothing called KitCommerce to install."}},{"@type":"Question","name":"Can I self-host them, and is there a platform fee?","acceptedAnswer":{"@type":"Answer","text":"Yes to self-hosting, and no platform fee. Both projects are MIT licensed and designed to run on your own infrastructure. No fee is charged for running the software. Your own servers, domains and third-party services still cost money — the software is free, hosting is not."}},{"@type":"Question","name":"Can I use GoCommerce without Svelte Commerce, or the other way round?","acceptedAnswer":{"@type":"Answer","text":"Both. GoCommerce serves any client that speaks HTTP, so any storefront framework can drive it. Svelte Commerce runs against 26 commerce backends including Medusa, Vendure, Shopify, Saleor and WooCommerce. Neither requires the other."}},{"@type":"Question","name":"Can they work together today?","acceptedAnswer":{"@type":"Answer","text":"Not with an installable package. The direct connector between them is in development and unpublished, so pairing them currently means writing that client yourself against the documented GoCommerce API."}},{"@type":"Question","name":"How quickly can I get started?","acceptedAnswer":{"@type":"Answer","text":"One Docker Compose command. Download docker-compose.yml and env.example from this site, set your secrets in .env, then run docker compose up -d. The first run compiles GoCommerce from source because no image is published yet; later runs are cached."}},{"@type":"Question","name":"What does Docker Compose actually start?","acceptedAnswer":{"@type":"Answer","text":"Three services: PostgreSQL, GoCommerce — which serves both the commerce API and the admin, because the admin is compiled into the binary — and Caddy as a reverse proxy on port 80. It does not start Svelte Commerce, because the connector that would let the storefront read from GoCommerce is unpublished, and a storefront that cannot load a product is worse than no storefront."}},{"@type":"Question","name":"Can I use my own PostgreSQL database?","acceptedAnswer":{"@type":"Answer","text":"Yes. GoCommerce takes a DATABASE_URL, so pointing it at a Postgres you already run means setting that variable and removing the bundled postgres service from the compose file."}},{"@type":"Question","name":"Is it production ready?","acceptedAnswer":{"@type":"Answer","text":"They differ, and it matters. Svelte Commerce has been public for years and runs production stores — arialshop.com is one. GoCommerce reached 1.0, so its API and HTTP contract are stable and breaking either takes a major version. It carries 1,036 tests and a documented contract for every route. No store we know of is running it in production yet — 1.0 is a promise about compatibility, not a record of mileage. Treat it as something to build on deliberately rather than migrate a live business to this week."}},{"@type":"Question","name":"Does it work with coding agents?","acceptedAnswer":{"@type":"Answer","text":"The repository is written for it: AGENTS.md holds 18 architectural rules, skills/ holds 16 task guides, there is one production dependency so the graph an agent must understand is small, and 1,036 tests catch a wrong edit. The MCP module also lets an agent operate a running store through the same domain services a REST call uses."}},{"@type":"Question","name":"Is there a live demo I can click around?","acceptedAnswer":{"@type":"Answer","text":"Not yet. A GoCommerce instance is deployed at admin.kitcommerce.store, but every endpoint requires authentication and there is no guest account, so the link opens a sign-in screen. The screenshots on this site are the honest preview until a read-only demo account exists."}}]}</script>
 <!-- FAQ-SCHEMA:end -->
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -94,39 +94,73 @@
 <main id="main">
 
   <!-- ══════════════════════════════════════════════════ 1 — hero -->
-  <section class="hero wrap">
-    <div class="hero-copy">
-      <h1>Self-hosted ecommerce. Go backend. Svelte storefront.</h1>
-      <p class="lede">
-        <b>GoCommerce</b> for backend and admin. <b>Svelte Commerce</b> for the
-        storefront. Headless, API-first, and yours to run on your own
-        infrastructure.
-      </p>
-      <div class="actions">
-        <a class="button" href="/gocommerce/" data-ev="gocommerce_explore">Explore GoCommerce</a>
-        <a class="button" href="/svelte-commerce/" data-ev="sveltecommerce_explore">Explore Svelte Commerce</a>
+  <section class="hero-ledger wrap">
+    <h1>Self-hosted ecommerce.<br>Go backend. Svelte storefront.</h1>
+    <p class="lede">
+      Two open-source projects that ship separately and fit together. Run them
+      on your own infrastructure, read every line, change anything.
+    </p>
+
+    <!-- A kit's parts list. Each row carries its real part number — the
+         repository path — its materials, its measured quantities and its own
+         action, so the two projects stay equal instead of competing for one
+         hero button. -->
+    <div class="plate">
+      <p class="plate-head">Parts <span>Both MIT licensed. Either works without the other.</span></p>
+
+      <div class="part part-engine">
+        <p class="part-id">itswadesh/gocommerce</p>
+        <div>
+          <p class="part-name"><a href="/gocommerce/" data-ev="gocommerce_explore">GoCommerce</a></p>
+          <p class="part-role">Backend and admin. Go, PostgreSQL, OpenAPI.</p>
+        </div>
+        <ul class="part-figures">
+          <li><b>44</b> modules</li>
+          <li><b>342</b> API operations</li>
+          <li><b>1,036</b> tests</li>
+          <li><b>61</b> admin screens</li>
+        </ul>
+        <p class="part-cta"><a class="button" href="/gocommerce/" data-ev="gocommerce_explore">Explore GoCommerce</a></p>
       </div>
-      <p class="hero-sub">
-        <a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer" data-ev="github_hero_click">GitHub</a>
-        <span aria-hidden="true">·</span>
-        <a href="#one-command" data-ev="quickstart_click">One-command quick start</a>
-      </p>
+
+      <div class="part part-store">
+        <p class="part-id">itswadesh/svelte-commerce</p>
+        <div>
+          <p class="part-name"><a href="/svelte-commerce/" data-ev="sveltecommerce_explore">Svelte Commerce</a></p>
+          <p class="part-role">Storefront. SvelteKit, headless, server-rendered.</p>
+        </div>
+        <ul class="part-figures">
+          <li><b>26</b> backends</li>
+          <li><b>43</b> service surface</li>
+          <li><b data-gh="sv-stars">1,813</b> stars</li>
+          <li><b data-gh="sv-forks">335</b> forks</li>
+        </ul>
+        <p class="part-cta"><a class="button" href="/svelte-commerce/" data-ev="sveltecommerce_explore">Explore Svelte Commerce</a></p>
+      </div>
     </div>
 
-    <figure class="devices" aria-labelledby="dev-cap">
-      <div class="dev-desktop">
-        <span class="dev-label dev-label-engine">GoCommerce &middot; Backend + Admin</span>
+    <p class="hero-sub">
+      <a href="#one-command" data-ev="quickstart_click">Run the whole thing with one command</a>
+      <a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer" data-ev="github_hero_click">Both repositories on GitHub</a>
+    </p>
+  </section>
+
+  <!-- The screenshots immediately below the plate, at a size where they
+       actually prove something. Cropped wide rather than shrunk. -->
+  <section class="hero-shots" aria-label="The software">
+    <div class="wrap hero-shots-grid">
+      <figure class="dev-desktop">
         <picture>
           <source media="(prefers-color-scheme: dark)" srcset="/assets/admin/dashboard-dark.webp">
           <img src="/assets/admin/dashboard-light.webp" width="1440" height="900" alt="The GoCommerce admin dashboard: net sales for the last thirty days, order, product and customer counts, a daily sales chart and a best-sellers table." decoding="async" fetchpriority="high">
         </picture>
-      </div>
-      <div class="dev-phone">
-        <span class="dev-label dev-label-store">Svelte Commerce &middot; Storefront</span>
-        <img src="/assets/admin/storefront-mobile.webp" width="780" height="1688" alt="The Arialshop storefront on a phone, built with Svelte Commerce: category tiles, a jewellery hero with a shop call to action, and a bottom navigation bar." decoding="async">
-      </div>
-      <figcaption id="dev-cap">Real software, not mockups. The storefront is <a href="https://arialshop.com" target="_blank" rel="noopener noreferrer" data-ev="live_store_click">arialshop.com</a>.</figcaption>
-    </figure>
+        <figcaption><span class="shot-mark shot-go"></span>GoCommerce admin, running against a seeded store</figcaption>
+      </figure>
+      <figure class="dev-phone">
+        <img src="/assets/admin/storefront-mobile.webp" width="780" height="1688" alt="The Arialshop storefront on a phone: category tiles, a jewellery hero with a shop call to action, and a bottom navigation bar." decoding="async">
+        <figcaption><span class="shot-mark shot-sv"></span>Svelte Commerce, on arialshop.com</figcaption>
+      </figure>
+    </div>
   </section>
 
   <!-- ══════════════════════════════════════════ 2 — proof strip -->
@@ -139,56 +173,6 @@
       <li><svg aria-hidden="true"><use href="#i-coin"/></svg>No platform fees</li>
       <li><svg aria-hidden="true"><use href="#i-bot"/></svg>Agent-friendly</li>
     </ul>
-  </section>
-
-  <!-- ══════════════════════════════════════════ 3 — two projects -->
-  <section id="projects" class="section wrap" aria-labelledby="projects-title">
-    <h2 id="projects-title">Two independent projects</h2>
-    <p class="section-lede">
-      Neither is a component of the other. Adopt one, or both.
-    </p>
-
-    <div class="duo-grid">
-      <article class="duo-card duo-card-engine">
-        <p class="duo-card-role">Headless Go backend + Svelte admin</p>
-        <h3><a href="/gocommerce/" data-ev="gocommerce_explore">GoCommerce</a></h3>
-        <ul class="duo-caps">
-          <li>Go</li><li>PostgreSQL</li><li>Svelte admin</li><li>OpenAPI</li><li>Docker</li>
-        </ul>
-        <dl class="metrics">
-          <div><dt>Modules</dt><dd>44</dd></div>
-          <div><dt>API operations</dt><dd>342</dd></div>
-          <div><dt>Tests</dt><dd>1,036</dd></div>
-          <div><dt>Admin screens</dt><dd>61</dd></div>
-        </dl>
-        <p class="status-line"><span class="dot dot-dev"></span>Pre-1.0 &mdash; API may change before 1.0</p>
-        <div class="actions">
-          <a class="button" href="/gocommerce/" data-ev="gocommerce_explore">Explore</a>
-          <a class="button secondary" href="#live-admin" data-ev="live_admin_click">Live admin</a>
-          <a class="button secondary" href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer" data-ev="github_gocommerce_click">GitHub</a>
-        </div>
-      </article>
-
-      <article class="duo-card duo-card-store">
-        <p class="duo-card-role">Headless Svelte / SvelteKit storefront</p>
-        <h3><a href="/svelte-commerce/" data-ev="sveltecommerce_explore">Svelte Commerce</a></h3>
-        <ul class="duo-caps">
-          <li>SvelteKit</li><li>Headless</li><li>26 backends</li><li>SSR</li><li>MIT</li>
-        </ul>
-        <dl class="metrics">
-          <div><dt>GitHub stars</dt><dd data-gh="sv-stars">1,813</dd></div>
-          <div><dt>Forks</dt><dd data-gh="sv-forks">335</dd></div>
-          <div><dt>Connectors</dt><dd>26</dd></div>
-          <div><dt>Service surface</dt><dd>43</dd></div>
-        </dl>
-        <p class="status-line"><span class="dot dot-ship"></span>Public for years, running production stores</p>
-        <div class="actions">
-          <a class="button" href="/svelte-commerce/" data-ev="sveltecommerce_explore">Explore</a>
-          <a class="button secondary" href="/svelte-commerce/backends/">Backends</a>
-          <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer" data-ev="github_sveltecommerce_click">GitHub</a>
-        </div>
-      </article>
-    </div>
   </section>
 
   <!-- ══════════════════════════════════ 4 — one command -->
@@ -218,13 +202,13 @@ docker compose up -d</code></pre>
 
         <div class="terminal" role="img" aria-label="Terminal output: postgres, gocommerce and web containers started, then the admin, API docs and catalogue URLs.">
           <p class="term-bar"><span></span><span></span><span></span></p>
-<pre class="term"><code><span class="tp">$</span> docker compose up -d
- <span class="tok">✔</span> Container postgres-1    <span class="tdim">Healthy</span>
- <span class="tok">✔</span> Container gocommerce-1  <span class="tdim">Started</span>
- <span class="tok">✔</span> Container web-1         <span class="tdim">Started</span>
-
-<span class="tp">$</span> curl -s -o /dev/null -w <span class="tstr">"%{http_code}"</span> localhost
-<span class="tok">200</span></code></pre>
+<pre class="term"><code><span data-line style="--i:0"><span class="tp">$</span> docker compose up -d</span>
+<span data-line style="--i:1"> <span class="tok">✔</span> Container postgres-1    <span class="tdim">Healthy</span></span>
+<span data-line style="--i:2"> <span class="tok">✔</span> Container gocommerce-1  <span class="tdim">Started</span></span>
+<span data-line style="--i:3"> <span class="tok">✔</span> Container web-1         <span class="tdim">Started</span></span>
+<span data-line style="--i:4"> </span>
+<span data-line style="--i:5"><span class="tp">$</span> curl -s -o /dev/null -w <span class="tstr">"%{http_code}"</span> localhost</span>
+<span data-line style="--i:6"><span class="tok">200</span><span class="term-caret"></span></span></code></pre>
         </div>
       </div>
 
@@ -580,7 +564,7 @@ docker compose up -d</code></pre>
 
       <details>
         <summary>Is it production ready?</summary>
-        <p>They differ, and it matters. Svelte Commerce has been public for years and runs production stores — arialshop.com is one. GoCommerce is pre-1.0, its API may change before 1.0, it carries 1,036 tests and a documented contract for every route, and no store we know of is running it in production yet. Treat it as something to build on deliberately rather than migrate a live business to this week.</p>
+        <p>They differ, and it matters. Svelte Commerce has been public for years and runs production stores — arialshop.com is one. GoCommerce reached 1.0, so its API and HTTP contract are stable and breaking either takes a major version. It carries 1,036 tests and a documented contract for every route. No store we know of is running it in production yet — 1.0 is a promise about compatibility, not a record of mileage. Treat it as something to build on deliberately rather than migrate a live business to this week.</p>
       </details>
 
       <details>
