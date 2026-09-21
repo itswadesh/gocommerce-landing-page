@@ -16,3 +16,18 @@
 @media(max-width:1000px){.terminal .window-bar{flex-wrap:wrap}.terminal-controls{gap:5px}.launch-grid article{padding:24px}.cloud-group{gap:38px;padding-right:38px}}
 @media(max-width:760px){.cloud-logo{min-width:160px}.cloud-logo strong{font-size:20px}.launch-grid{grid-template-columns:1fr}.launch-grid p{min-height:0}.terminal-controls{width:100%;margin-left:0;justify-content:flex-end}.terminal-caption{padding:16px 16px 0;flex-wrap:wrap;font-size:8px}.terminal pre{min-height:350px}.hero p br{display:none}.hero p{max-width:100%}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.cloud-track{width:100%}.cloud-group{width:100%;justify-content:center;flex-wrap:wrap;padding:0 24px;gap:25px}.cloud-group[aria-hidden="true"]{display:none}.cloud-viewport{mask-image:none}}
+
+.partner{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:inherit;white-space:nowrap}
+/* The label is the quiet half and the name is the loud one, so the credit
+   reads as "hosting partner: Cloudflare" at a glance rather than as two
+   equally weighted words. */
+.partner>span:first-child{opacity:.7}
+.partner-name{font-weight:600}
+/* Inline, so currentColor actually applies: through an <img> the file is a
+   separate document and this page's fill never reaches it, which left a black
+   mark on a black footer. */
+.partner-mark{fill:currentColor;opacity:.85;flex:none}
+.partner:hover .partner-name{text-decoration:underline}
+/* The footer is a single flex row that already wraps; at phone width the
+   credit goes to its own line rather than squeezing the links. */
+@media(max-width:700px){.partner{width:100%;justify-content:flex-start}}
