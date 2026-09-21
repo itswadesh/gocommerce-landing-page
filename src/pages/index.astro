@@ -7,6 +7,7 @@
  */
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
+import demoAccount from '../data/demo.json'
 
 const path = '/'
 const site = Astro.site!
@@ -29,14 +30,15 @@ async function repoStats(repo: string, fallback: { stars: number; forks: number 
 const sv = await repoStats('itswadesh/svelte-commerce', { stars: 1813, forks: 335 })
 const n = (x: number) => x.toLocaleString('en')
 
-// The live demo. With a read-only demo account configured, the admin link
-// carries its credentials in the URL fragment — never sent to the server, so
-// never in an access log or a Referer — and the admin's sign-in form prefills
-// from it. With none configured, the link is the plain sign-in screen and
-// says so; nothing here invents an account.
+// The live demo. The read-only demo account lives in src/data/demo.json —
+// public by design, since it is printed on this page — and the build
+// environment can override or blank it. The admin link carries the
+// credentials in the URL fragment, never sent to the server, so never in an
+// access log or a Referer, and the admin's sign-in form prefills from it.
+// With no account, the link is the plain sign-in screen and says so.
 const admin = 'https://admin.kitcommerce.store/'
-const demoEmail = import.meta.env.PUBLIC_DEMO_EMAIL ?? ''
-const demoPassword = import.meta.env.PUBLIC_DEMO_PASSWORD ?? ''
+const demoEmail = import.meta.env.PUBLIC_DEMO_EMAIL ?? demoAccount.email ?? ''
+const demoPassword = import.meta.env.PUBLIC_DEMO_PASSWORD ?? demoAccount.password ?? ''
 const demo = demoEmail && demoPassword ? `${admin}#email=${encodeURIComponent(demoEmail)}&password=${encodeURIComponent(demoPassword)}` : ''
 const adminHref = demo || admin
 const adminLabel = demo ? 'Live demo' : 'Open admin'

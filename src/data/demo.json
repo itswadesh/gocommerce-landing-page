@@ -1,0 +1,5 @@
+{
+  "_comment": "The public demo account on admin.kitcommerce.store. It is published on the home page by design, so it must be a read-only operator and never anything else. PUBLIC_DEMO_EMAIL / PUBLIC_DEMO_PASSWORD in the build environment override these; empty strings here disable the demo link.",
+  "email": "demo@kitcommerce.store",
+  "password": "Demo1234"
+}
