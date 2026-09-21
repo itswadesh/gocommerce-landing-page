@@ -1,0 +1,42 @@
+---
+interface Props { kind: 'headless' | 'stack' }
+const { kind } = Astro.props
+const isStack = kind === 'stack'
+const id = `diagram-${kind}`
+---
+<figure class="commerce-diagram">
+  <svg viewBox="0 0 420 390" role="img" aria-labelledby={`${id}-title ${id}-desc`}>
+    <title id={`${id}-title`}>{isStack ? 'The self-hosted GoCommerce stack' : 'Independent storefront and commerce backend'}</title>
+    <desc id={`${id}-desc`}>{isStack ? 'HTTP requests pass through Caddy to one GoCommerce binary containing the API and admin, then to PostgreSQL through pgx. Svelte Commerce is an optional profile and its GoCommerce connector is unpublished.' : 'A storefront, an app, or an agent can use GoCommerce through REST or MCP. GoCommerce stores data in PostgreSQL. Svelte Commerce has 26 other backend connectors; its GoCommerce connector is in development.'}</desc>
+    <defs><marker id={`${id}-arrow`} markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1 6 4 1 7" fill="none" stroke="currentColor" stroke-width="1.5"/></marker></defs>
+    <rect class="box" x="20" y="16" width="380" height="66" rx="5"/>
+    <text class="title" x="210" y="44">{isStack ? 'Caddy' : 'Your storefront, app or agent'}</text>
+    <text class="label" x="210" y="66">{isStack ? 'Reverse proxy · port 80' : 'Any HTTP client · MCP tools'}</text>
+    <path class="wire" d="M210 82V137" marker-end={`url(#${id}-arrow)`}/>
+    <rect class="wire-label" x="115" y="99" width="190" height="22"/>
+    <text class="label" x="210" y="114">{isStack ? 'HTTP' : 'REST / JSON · MCP'}</text>
+    <rect class="box engine" x="20" y="145" width="380" height="86" rx="5"/>
+    <text class="title" x="210" y="177">GoCommerce</text>
+    <text class="label" x="210" y="203">{isStack ? 'API + Svelte admin · one binary' : 'Documented API + domain services'}</text>
+    <path class="wire" d="M210 231V289" marker-end={`url(#${id}-arrow)`}/>
+    <rect class="wire-label" x="165" y="250" width="90" height="22"/>
+    <text class="label" x="210" y="265">pgx</text>
+    <rect class="box" x="20" y="297" width="380" height="66" rx="5"/>
+    <text class="title" x="210" y="325">PostgreSQL</text>
+    <text class="label" x="210" y="347">Your data, on your infrastructure</text>
+  </svg>
+  <figcaption>{isStack ? 'Three default services. Svelte Commerce is an optional profile; its GoCommerce connector is unpublished.' : 'Svelte Commerce: 26 backend connectors. The GoCommerce connector is still in development.'} <a href="/gocommerce-svelte-commerce-connector/">Connector status ↗</a></figcaption>
+</figure>
+<style>
+  .commerce-diagram { margin: 0; padding: 18px; border: 1px solid var(--rule); background: var(--surface); }
+  svg { display: block; width: 100%; max-width: 440px; height: auto; margin: auto; color: var(--ink-3); }
+  .box { fill: var(--paper); stroke: var(--rule-strong); }
+  .engine { stroke: var(--go); }
+  text { text-anchor: middle; font-family: var(--sans); }
+  .title { fill: var(--ink); font-size: 19px; font-weight: 600; }
+  .label { fill: var(--ink-2); font-size: 14px; }
+  .wire { fill: none; stroke: var(--ink-3); stroke-width: 1.5; }
+  .wire-label { fill: var(--surface); }
+  figcaption { color: var(--ink-2); font-size: .8125rem; line-height: 1.6; border-top: 1px solid var(--rule); padding-top: 12px; }
+  @media (max-width: 600px) { .commerce-diagram { padding: 8px; } }
+</style>

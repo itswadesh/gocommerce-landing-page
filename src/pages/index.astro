@@ -8,6 +8,9 @@
  */
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
+import ProductShot from '../components/ProductShot.astro'
+import CommerceDiagram from '../components/CommerceDiagram.astro'
+import '../styles/home-visuals.css'
 
 const path = '/'
 const site = Astro.site!
@@ -40,14 +43,6 @@ const composeCmd = `curl -O https://kitcommerce.store/docker-compose.yml
 curl -o .env https://kitcommerce.store/env.example
 <span class="cm"># edit .env — it refuses to start on placeholder secrets</span>
 docker compose up -d`
-const termOut = `<span data-line style="--i:0"><span class="tp">$</span> docker compose up -d</span>
-<span data-line style="--i:1"> <span class="tok">✔</span> Container postgres-1    <span class="tdim">Healthy</span></span>
-<span data-line style="--i:2"> <span class="tok">✔</span> Container gocommerce-1  <span class="tdim">Started</span></span>
-<span data-line style="--i:3"> <span class="tok">✔</span> Container web-1         <span class="tdim">Started</span></span>
-<span data-line style="--i:4"> </span>
-<span data-line style="--i:5"><span class="tp">$</span> curl -s -o /dev/null -w <span class="tstr">"%{http_code}"</span> localhost</span>
-<span data-line style="--i:6"><span class="tok">200</span><span class="term-caret"></span></span>`
-
 const stack = [
   { src: '/assets/go.svg', name: 'Go' },
   { src: '/assets/svelte.svg', name: 'Svelte' },
@@ -55,8 +50,6 @@ const stack = [
   { src: '/assets/brands/meilisearch.svg', name: 'Meilisearch' },
   { src: '/assets/docker.svg', name: 'Docker' },
 ]
-const marquee = [...stack, { src: '/assets/typescript.svg', name: 'TypeScript' }, { src: '/assets/github.svg', name: 'GitHub' }, { src: '/assets/cloudflare.svg', name: 'Cloudflare' }]
-
 // Integrations that have a mark get one; the rest stay as text. All are
 // modules under ext/ in the GoCommerce repository, none is an endorsement.
 const pay = [['Stripe', 'stripe'], ['Razorpay', 'razorpay'], ['Adyen', 'adyen'], ['Paddle', 'paddle'], ['HyperSwitch'], ['Lemon Squeezy', 'lemonsqueezy'], ['Helcim'], ['Creem'], ['RevenueCat', 'revenuecat']]
@@ -72,41 +65,49 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
   graph={graph}
   faq={faq}
 >
-  <Fragment slot="head">
-    <link rel="preload" as="image" href="/assets/admin/dashboard-light.webp" media="(prefers-color-scheme: light)">
-  </Fragment>
-
-  {/* ══════════════════════════════════════════════ 1 — hero */}
-  <section class="hero-ledger wrap">
-    <p class="kicker">Open Source</p>
-    <h1>Fast ecommerce.<br>Yours to host.</h1>
-
-    {/* Under the heading: the numbers, each attributed. Stars belong to Svelte
-        Commerce and say so; GitHub publishes no download count for a repo
-        without releases, so the second figure is forks, which it does. */}
-    <ul class="hero-stats" aria-label="By the numbers">
-      <li><svg aria-hidden="true"><use href="#i-git"/></svg><b data-gh="sv-stars">1,813</b><span>GitHub stars, Svelte Commerce</span></li>
-      <li><svg aria-hidden="true"><use href="#i-source"/></svg><b data-gh="sv-forks">335</b><span>forks on GitHub</span></li>
-      <li><svg aria-hidden="true"><use href="#i-plug"/></svg><b>26</b><span>commerce backends connected</span></li>
-    </ul>
-
-    <p class="lede">
-      Open source, and built to be quick: a backend that runs as one compiled
-      process on one database, and a storefront that sends finished HTML
-      instead of a bundle to boot. MIT licensed, hosted by you, no platform
-      fees — up on your own server with a single command.
-    </p>
-
-    <div class="actions hero-actions">
-      <a class="button" href="#one-command" data-ev="quickstart_click">Download now</a>
-      <a class="button secondary" href="#live-admin" data-ev="live_admin_click">Live demo</a>
-      <a class="button secondary" href="https://github.com/itswadesh/gocommerce#readme" target="_blank" rel="noopener noreferrer">Documentation</a>
+  <section class="hero-ledger visual-hero wrap" aria-labelledby="hero-title">
+    <p class="kicker">Open source · Self-hosted · MIT licensed</p>
+    <div class="hero-intro">
+      <div>
+        <h1 id="hero-title">Fast ecommerce.<br>Yours to host.</h1>
+        <div class="actions hero-actions">
+          <a class="button" href="#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+          <a class="button secondary" href="#live-admin" data-ev="live_admin_click">Explore the admin</a>
+        </div>
+      </div>
+      <div>
+        <p class="lede">GoCommerce for the backend and admin. Svelte Commerce for the storefront. Two independent projects, built for developers who want to own the code and host it themselves.</p>
+        <ul class="stack-row" aria-label="Built with">
+          {stack.map((item) => <li><img src={item.src} width="22" height="22" alt="" loading="lazy"><span>{item.name}</span></li>)}
+        </ul>
+      </div>
     </div>
-
-    <ul class="stack-row" aria-label="Built with">
-      {stack.map((s) => <li><img src={s.src} width="26" height="26" alt="" loading="lazy"><span>{s.name}</span></li>)}
+    <div class="product-composite">
+      <div class="hero-admin">
+        <ProductShot name="hero" original="dashboard" label="GoCommerce / Overview" alt="GoCommerce dashboard detail from the seeded demo store." mobileAlt="Revenue detail from the seeded GoCommerce store." caption="GoCommerce admin · seeded demo data" width={590} height={312} mobileWidth={282} mobileHeight={92} eager priority />
+        <div class="hero-terminal">
+          <p class="hero-terminal-label">Your server / quick start</p>
+          <code><span aria-hidden="true">$ </span>docker compose up -d</code>
+          <p>Download the files and set your secrets first. <a href="#one-command">Setup instructions ↗</a></p>
+        </div>
+      </div>
+      <figure class="storefront-phone">
+        <div class="phone-frame">
+          <p class="phone-bar">arialshop.com</p>
+          <a href="/assets/admin/storefront-mobile.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full Arialshop mobile screenshot in a new tab"><img src="/assets/admin/focus/storefront-hero.webp" width="780" height="1134" alt="Arialshop mobile storefront crop with jewellery categories and a pendant promotion." decoding="async"></a>
+        </div>
+        <figcaption>Svelte Commerce · a production store</figcaption>
+      </figure>
+    </div>
+    <p class="composite-note">Separate product captures. The GoCommerce ↔ Svelte Commerce connector is <a href="/gocommerce-svelte-commerce-connector/">in development</a>.</p>
+    <ul class="hero-stats" aria-label="By the numbers">
+      <li><b data-gh="sv-stars">1,813</b><span>GitHub stars, Svelte Commerce</span></li>
+      <li><b data-gh="sv-forks">335</b><span>forks on GitHub</span></li>
+      <li><b>26</b><span>commerce backend connectors</span></li>
     </ul>
+  </section>
 
+  <section class="project-chooser wrap" aria-label="Choose a project">
     <div class="plate">
       <p class="plate-head">Parts <span>Both MIT licensed. Either works without the other.</span></p>
 
@@ -141,26 +142,6 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
       </div>
     </div>
 
-    <p class="hero-sub">
-      <a href="#one-command" data-ev="quickstart_click">Run the whole thing with one command</a>
-      <a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer" data-ev="github_hero_click">Both repositories on GitHub</a>
-    </p>
-  </section>
-
-  <section class="hero-shots" aria-label="The software">
-    <div class="wrap hero-shots-grid">
-      <figure class="dev-desktop">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="/assets/admin/dashboard-dark.webp">
-          <img src="/assets/admin/dashboard-light.webp" width="1440" height="900" alt="The GoCommerce admin dashboard: net sales for the last thirty days, order, product and customer counts, a daily sales chart and a best-sellers table." decoding="async" fetchpriority="high">
-        </picture>
-        <figcaption><span class="shot-mark shot-go"></span>GoCommerce admin, running against a seeded store</figcaption>
-      </figure>
-      <figure class="dev-phone">
-        <img src="/assets/admin/storefront-mobile.webp" width="780" height="1688" alt="The Arialshop storefront on a phone: category tiles, a jewellery hero with a shop call to action, and a bottom navigation bar." decoding="async">
-        <figcaption><span class="shot-mark shot-sv"></span>Svelte Commerce, on arialshop.com</figcaption>
-      </figure>
-    </div>
   </section>
 
   {/* ══════════════════════════════════════ 2 — proof strip */}
@@ -171,9 +152,9 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
       <li><a href="#ownership"><svg aria-hidden="true"><use href="#i-source"/></svg>Open source</a></li>
       <li><a href="/gocommerce/#modules"><svg aria-hidden="true"><use href="#i-braces"/></svg>Open API</a></li>
       <li><a href="#ownership"><svg aria-hidden="true"><use href="#i-coin"/></svg>Free</a></li>
-      <li><a href="#operations"><svg aria-hidden="true"><use href="#i-shield"/></svg>Enterprise grade</a></li>
+      <li><a href="#operations"><svg aria-hidden="true"><use href="#i-shield"/></svg>Roles &amp; rights</a></li>
       <li><a href="#speed"><svg aria-hidden="true"><use href="#i-server"/></svg>Scalable</a></li>
-      <li><a href="#operations"><svg aria-hidden="true"><use href="#i-check"/></svg>Robust</a></li>
+      <li><a href="#operations"><svg aria-hidden="true"><use href="#i-check"/></svg>Idempotent writes</a></li>
       <li><a href="#speed"><svg aria-hidden="true"><use href="#i-zap"/></svg>Fast</a></li>
       <li><a href="#one-command"><svg aria-hidden="true"><use href="#i-package"/></svg>Portable</a></li>
       <li><a href="#one-command"><svg aria-hidden="true"><use href="#i-terminal"/></svg>1-command deploy</a></li>
@@ -181,17 +162,6 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
       <li><a href="#headless"><svg aria-hidden="true"><use href="#i-plug"/></svg>Headless</a></li>
       <li><a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-users"/></svg>Discord community</a></li>
     </ul>
-  </section>
-
-  {/* ══════════════════════════════════════ built with, scrolling */}
-  <section class="marquee-section" aria-labelledby="marquee-title">
-    <h2 id="marquee-title" class="vh">Built with</h2>
-    <div class="marquee">
-      <ul class="marquee-track">
-        {marquee.map((s) => <li><img src={s.src} width="28" height="28" alt="" loading="lazy"><span>{s.name}</span></li>)}
-        {marquee.map((s) => <li aria-hidden="true"><img src={s.src} width="28" height="28" alt="" loading="lazy"><span>{s.name}</span></li>)}
-      </ul>
-    </div>
   </section>
 
   {/* ══════════════════════════════════════ 3 — one command */}
@@ -204,6 +174,7 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
       </p>
 
       <div class="onecmd-grid">
+        <div class="setup-details">
         <div class="code-block">
           <div class="code-head">
             <p><svg class="ic" aria-hidden="true"><use href="#i-terminal"/></svg>Get it and run it</p>
@@ -213,12 +184,6 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
           <p class="code-note"><a href="/docker-compose.yml">docker-compose.yml</a> · <a href="/env.example">env.example</a></p>
         </div>
 
-        <div class="terminal" role="img" aria-label="Terminal output: postgres, gocommerce and web containers started, then a 200 from localhost.">
-          <p class="term-bar"><span></span><span></span><span></span></p>
-          <pre class="term"><code set:html={termOut} /></pre>
-        </div>
-      </div>
-
       <h3 class="sub">After one command</h3>
       <ul class="outcome">
         <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>PostgreSQL</b><span>the database GoCommerce owns</span></li>
@@ -226,6 +191,10 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
         <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Admin panel</b><span>compiled into the same binary</span></li>
         <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Reverse proxy</b><span>Caddy, so it answers on port 80</span></li>
       </ul>
+
+        </div>
+        <CommerceDiagram kind="stack" />
+      </div>
 
       <div class="urls">
         <div class="url"><p class="url-what">Admin</p><p class="url-where"><code>http://localhost/</code></p><p class="url-note">Sign in with the email and password from your <code>.env</code>.</p></div>
@@ -266,17 +235,17 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
         <button role="tab" id="tab-inventory" aria-controls="panel-inventory" aria-selected="false" tabindex="-1"><svg class="ic" aria-hidden="true"><use href="#i-warehouse"/></svg>Inventory</button>
       </div>
 
-      <div class="panel" role="tabpanel" id="panel-dashboard" aria-labelledby="tab-dashboard">
-        <div class="stage"><picture><source media="(prefers-color-scheme: dark)" srcset="/assets/admin/dashboard-dark.webp"><img src="/assets/admin/dashboard-light.webp" width="1440" height="900" alt="The GoCommerce dashboard: net sales, order and customer counts, a daily sales chart and a best-sellers table." decoding="async"></picture></div>
+      <div class="panel" role="tabpanel" id="panel-dashboard" aria-labelledby="tab-dashboard" >
+        <ProductShot name="dashboard" label="GoCommerce / Dashboard" alt="GoCommerce dashboard detail from the seeded store." mobileAlt="Revenue detail from the seeded store." caption="Revenue, recent orders and daily sales." width={1180} height={620} mobileWidth={282} mobileHeight={92} eager />
       </div>
       <div class="panel" role="tabpanel" id="panel-products" aria-labelledby="tab-products" hidden>
-        <div class="stage"><picture><source media="(prefers-color-scheme: dark)" srcset="/assets/admin/products-dark.webp"><img src="/assets/admin/products-light.webp" width="1440" height="900" alt="The products list showing sixty-four products with status, variant count, price, available stock and last-updated time." loading="lazy" decoding="async"></picture></div>
+        <ProductShot name="products" label="GoCommerce / Products" alt="GoCommerce product catalogue detail." mobileAlt="Product names and slugs." caption="Names, status, variants, prices and available stock." width={1180} height={436} mobileWidth={370} mobileHeight={436}  />
       </div>
       <div class="panel" role="tabpanel" id="panel-orders" aria-labelledby="tab-orders" hidden>
-        <div class="stage"><picture><source media="(prefers-color-scheme: dark)" srcset="/assets/admin/orders-dark.webp"><img src="/assets/admin/orders-light.webp" width="1440" height="900" alt="The orders list showing two hundred and sixty orders with order number, customer, fulfillment status, payment status, item count and total." loading="lazy" decoding="async"></picture></div>
+        <ProductShot name="orders" label="GoCommerce / Orders" alt="GoCommerce order management detail." mobileAlt="Fulfillment and payment states, side by side." caption="Fulfillment and payment are separate states." width={1180} height={410} mobileWidth={310} mobileHeight={410}  />
       </div>
       <div class="panel" role="tabpanel" id="panel-inventory" aria-labelledby="tab-inventory" hidden>
-        <div class="stage"><picture><source media="(prefers-color-scheme: dark)" srcset="/assets/admin/inventory-dark.webp"><img src="/assets/admin/inventory-light.webp" width="1440" height="900" alt="The inventory screen showing stock on hand for each SKU across several warehouse locations." loading="lazy" decoding="async"></picture></div>
+        <ProductShot name="inventory" label="GoCommerce / Inventory" alt="GoCommerce inventory quantities detail." mobileAlt="On-hand, reserved and available stock." caption="On-hand, reserved and available stock per SKU." width={1180} height={423} mobileWidth={354} mobileHeight={423}  />
       </div>
 
       <p class="fineprint">
@@ -287,14 +256,15 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
     </div>
   </section>
 
-  {/* ══════════════════════════════ 5 — solutions, Bagisto-shaped */}
-  {/* Three full sections — headless, marketplace, B2B — each with copy on one
-      side and a diagram of the real primitives on the other. No screenshot
-      exists for vendors or price lists, so the visual is the data flow, which
+  {/* ══════════════════════════════ 5 — headless and solution links */}
+  {/* Headless architecture plus compact solution links. The screenshots show real
+      product UI; diagrams explain primitives for which no screenshot
+      exists for vendors or price lists. Keep the homepage concise, with
       is the honest picture of the feature. D2C and channels follow compact. */}
   <section id="sol-headless" class="section wrap feature" aria-labelledby="fh-title">
     <div class="feature-copy">
       <p class="kicker">Headless E-commerce</p>
+      <span id="headless" class="anchor-target"></span>
       <h2 id="fh-title">The storefront is yours. The backend is an API.</h2>
       <p class="section-lede">
         GoCommerce holds no templates and renders no pages. It serves 342
@@ -306,113 +276,24 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
         <li>Storefront and backend deploy, scale and fail independently</li>
         <li>Swap the storefront without touching an order</li>
         <li>The admin uses the same public contract, so nothing is hidden from you</li>
-        <li>Svelte Commerce runs against 26 backends; GoCommerce is one target of many</li>
+        <li>Svelte Commerce has 26 backend connectors; its GoCommerce connector is in development</li>
       </ul>
       <div class="actions">
         <a class="button" href="/go-svelte-ecommerce/" data-ev="architecture_click">See the architecture</a>
         <a class="button secondary" href="/svelte-commerce/backends/">26 backend integrations</a>
       </div>
     </div>
-    <figure class="feature-visual flow" aria-labelledby="fh-cap">
-      <figcaption id="fh-cap" class="flow-cap">Any client, one contract</figcaption>
-      <div class="arch-row"><h3>Storefront, app, or agent</h3><p>Svelte Commerce · Next.js · iOS · MCP</p></div>
-      <p class="arch-wire"><span>REST / JSON — OpenAPI</span></p>
-      <div class="arch-row arch-engine"><h3>GoCommerce</h3><p>342 operations, 142 of them admin</p></div>
-      <p class="arch-wire"><span>pgx</span></p>
-      <div class="arch-row arch-data"><h3>PostgreSQL</h3></div>
-    </figure>
-  </section>
-
-  <section id="sol-marketplace" class="section wrap feature feature-flip" aria-labelledby="fm-title">
-    <div class="feature-copy">
-      <p class="kicker">Multi-vendor marketplace</p>
-      <h2 id="fm-title">Launch a marketplace where sellers are first-class</h2>
-      <p class="section-lede">
-        Vendors are sellers on your store, not brands on a product. A new seller
-        arrives <em>pending</em> and is approved or suspended by you — because a
-        marketplace that lists whoever signs up is not moderating, it is hosting
-        whatever turns up.
-      </p>
-      <ul class="tick">
-        <li>Vendor accounts with pending, approved and suspended states</li>
-        <li>Vendor offers: several sellers, one catalogue entry, their own price and stock</li>
-        <li>Orders carry the seller, so fulfilment and payout know whose goods moved</li>
-        <li>Moderation is a state machine in the engine, not a checkbox in a theme</li>
-      </ul>
-      <div class="actions">
-        <a class="button" href="/gocommerce/#use-cases" data-ev="gocommerce_explore">How marketplaces work in GoCommerce</a>
-        <a class="button secondary" href="/gocommerce/#quickstart" data-ev="quickstart_click">Run it locally</a>
-      </div>
-      <p class="sol-prim">core/vendors.go — vendors, vendor offers, moderation states</p>
-    </div>
-    <figure class="feature-visual flow" aria-labelledby="fm-cap">
-      <figcaption id="fm-cap" class="flow-cap">A seller's path through the engine</figcaption>
-      <div class="arch-row"><h3>Seller signs up</h3><p>state: pending</p></div>
-      <p class="arch-wire"><span>you review</span></p>
-      <div class="arch-row arch-engine"><h3>Approved</h3><p>may list offers</p></div>
-      <p class="arch-wire"><span>publishes</span></p>
-      <div class="arch-row arch-store"><h3>Vendor offer</h3><p>own price, own stock, on your catalogue</p></div>
-      <p class="arch-wire"><span>customer buys</span></p>
-      <div class="arch-row arch-data"><h3>Order</h3><p>carries the seller</p></div>
-    </figure>
-  </section>
-
-  <section id="sol-b2b" class="section wrap feature" aria-labelledby="fb-title">
-    <div class="feature-copy">
-      <p class="kicker">B2B Commerce</p>
-      <h2 id="fb-title">Sell to businesses with negotiated, tiered pricing</h2>
-      <p class="section-lede">
-        Pricing resolves by who is buying and how many. Customer groups share a
-        price list, quantity breaks apply within it, and the cart enforces the
-        same one-price-at-a-time rule it already uses for everyone else — so a
-        wholesale account and a walk-in shopper hit the same checkout.
-      </p>
-      <ul class="tick">
-        <li>Customer groups, each mapped to a price list</li>
-        <li>Quantity breaks resolved per line, not per cart</li>
-        <li>Money stored as integer minor units — no rounding drift on volume orders</li>
-        <li>Scoped API keys, so a buyer's procurement system can order without a login</li>
-      </ul>
-      <div class="actions">
-        <a class="button" href="/gocommerce/#use-cases" data-ev="gocommerce_explore">How B2B pricing resolves</a>
-        <a class="button secondary" href="/gocommerce/#modules">Payments and invoicing modules</a>
-      </div>
-      <p class="sol-prim">core/pricing.go — customer groups, price lists, quantity pricing</p>
-    </div>
-    <figure class="feature-visual flow" aria-labelledby="fb-cap">
-      <figcaption id="fb-cap" class="flow-cap">How a B2B price is found</figcaption>
-      <div class="arch-row"><h3>Customer</h3><p>in group: wholesale</p></div>
-      <p class="arch-wire"><span>group → price list</span></p>
-      <div class="arch-row arch-engine"><h3>Price list</h3><p>wholesale-2026</p></div>
-      <p class="arch-wire"><span>quantity 250 → break</span></p>
-      <div class="arch-row arch-store"><h3>Unit price</h3><p>resolved once, per line</p></div>
-      <p class="arch-wire"><span>same rule as retail</span></p>
-      <div class="arch-row arch-data"><h3>Cart</h3><p>integer minor units</p></div>
-    </figure>
+    <CommerceDiagram kind="headless" />
   </section>
 
   <section id="solutions" class="section wrap" aria-labelledby="sol-title">
-    <h2 id="sol-title">And the other two shapes of store</h2>
-    <p class="section-lede">
-      Engine capabilities, not customer stories. Each names the primitive that
-      does the work, so the claim can be checked in the source.
-    </p>
-
-    <div class="solutions">
-      <article class="solution" id="sol-d2c">
-        <svg class="sol-ic" aria-hidden="true"><use href="#i-bag"/></svg>
-        <h3>Run a direct-to-consumer store</h3>
-        <p>The default. Guest checkout, cash on delivery and manual fulfillment are built in, so a store sells with no modules installed at all. Add Stripe or a carrier when you need them, not before.</p>
-        <p class="sol-prim">Carts, checkout, orders, inventory</p>
-        <a href="/gocommerce/#quickstart" data-ev="quickstart_click">Start with the default store</a>
-      </article>
-      <article class="solution" id="sol-channels">
-        <svg class="sol-ic" aria-hidden="true"><use href="#i-server"/></svg>
-        <h3>Serve several storefronts from one catalogue</h3>
-        <p>Channels are storefronts over one catalogue, differing in what is published to each. A store that never creates a second channel pays nothing for the feature.</p>
-        <p class="sol-prim">Channels, per-channel publishing</p>
-        <a href="/gocommerce/#use-cases" data-ev="gocommerce_explore">How channels are scoped</a>
-      </article>
+    <h2 id="sol-title">One engine, different shapes of store</h2>
+    <p class="section-lede">Explore the primitives on the GoCommerce page.</p>
+    <div class="solutions compact-solutions">
+      <article class="solution" id="sol-marketplace"><h3>Multi-vendor marketplace</h3><p>Vendor accounts, moderated sellers and offers with their own price and stock.</p><a href="/gocommerce/#use-cases">Explore marketplaces ↗</a></article>
+      <article class="solution" id="sol-b2b"><h3>B2B commerce</h3><p>Customer groups, price lists and quantity breaks, resolved per line.</p><a href="/gocommerce/#use-cases">Explore B2B pricing ↗</a></article>
+      <article class="solution" id="sol-d2c"><h3>Direct-to-consumer</h3><p>Guest checkout, cash on delivery and manual fulfillment, built in.</p><a href="/gocommerce/#quickstart">Start with the default store ↗</a></article>
+      <article class="solution" id="sol-channels"><h3>Multiple storefronts</h3><p>One catalogue with per-channel publishing for each storefront.</p><a href="/gocommerce/#use-cases">Explore channels ↗</a></article>
     </div>
   </section>
 
@@ -420,16 +301,22 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
   <section id="live-stores" class="section wrap" aria-labelledby="stores-title">
     <h2 id="stores-title">See it running in the real world</h2>
     <p class="section-lede">One store, because one is what we can point at honestly. Invented case studies are the fastest way to lose a developer.</p>
-    <div class="store-card">
-      <div class="store-shots">
-        <img class="store-desk" src="/assets/admin/storefront-home.webp" width="1440" height="900" alt="The Arialshop desktop storefront: a jewellery hero image with a shop call to action, category navigation and a strip of store guarantees." loading="lazy" decoding="async">
-        <img class="store-phone" src="/assets/admin/storefront-mobile.webp" width="780" height="1688" alt="The Arialshop storefront on a phone, showing category tiles and a jewellery hero banner." loading="lazy" decoding="async">
-      </div>
+    <div class="store-card real-store">
+      <figure class="storefront-desktop">
+        <div class="store-browser">
+          <p class="store-browser-bar"><span aria-hidden="true">○ ○ ○</span> arialshop.com <span>Desktop storefront</span></p>
+          <a href="/assets/admin/storefront-home.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full Arialshop desktop screenshot in a new tab">
+            <picture>
+              <source media="(max-width: 600px)" srcset="/assets/admin/storefront-mobile.webp" width="780" height="1688">
+              <img src="/assets/admin/focus/storefront-desktop.webp" width="1440" height="764" alt="Arialshop jewellery storefront with category navigation and a pendant promotion." loading="lazy" decoding="async">
+            </picture>
+          </a>
+        </div>
+        <figcaption>Real storefront capture · <a href="/assets/admin/storefront-home.webp" target="_blank" rel="noopener noreferrer">Full desktop screenshot ↗</a></figcaption>
+      </figure>
       <div class="store-meta">
-        <h3>Arialshop</h3>
-        <p class="store-domain">arialshop.com</p>
-        <p>A production jewellery storefront built on Svelte Commerce — lab-grown diamond rings, with variants, sizing and checkout.</p>
-        <a class="button secondary" href="https://arialshop.com" target="_blank" rel="noopener noreferrer" data-ev="live_store_click">Visit store</a>
+        <div><h3>Arialshop</h3><p class="store-domain">arialshop.com</p><p>A production jewellery storefront built on Svelte Commerce, with variants, sizing and checkout.</p></div>
+        <a class="button secondary" href="https://arialshop.com" target="_blank" rel="noopener noreferrer" data-ev="live_store_click">Visit store ↗</a>
       </div>
     </div>
   </section>
@@ -510,35 +397,6 @@ const msg = [['Resend', 'resend'], ['SendGrid', 'sendgrid'], ['Twilio', 'twilio'
       <li><svg aria-hidden="true"><use href="#i-db"/></svg>Migrations</li>
       <li><svg aria-hidden="true"><use href="#i-server"/></svg>Admin</li>
     </ul>
-  </section>
-
-  {/* ══════════════════════════════════ 10 — headless architecture */}
-  <section id="headless" class="section wrap" aria-labelledby="headless-title">
-    <h2 id="headless-title">Headless by design</h2>
-    <p class="section-lede">Use either project independently, or combine them as a Go + Svelte headless commerce architecture.</p>
-    <div class="flows">
-      <figure class="flow" aria-labelledby="flow-c2">
-        <figcaption id="flow-c2" class="flow-cap">Shopper</figcaption>
-        <div class="arch-row"><h3>Customer</h3></div>
-        <p class="arch-wire"><span>HTTPS</span></p>
-        <div class="arch-row arch-store"><h3>Svelte Commerce</h3></div>
-        <p class="arch-wire"><span>REST / JSON</span></p>
-        <div class="arch-row arch-engine"><h3>GoCommerce</h3></div>
-        <p class="arch-wire"><span>pgx</span></p>
-        <div class="arch-row arch-data"><h3>PostgreSQL</h3></div>
-      </figure>
-      <figure class="flow" aria-labelledby="flow-m2">
-        <figcaption id="flow-m2" class="flow-cap">Merchant</figcaption>
-        <div class="arch-row"><h3>Merchant</h3></div>
-        <p class="arch-wire"><span>HTTPS</span></p>
-        <div class="arch-row arch-admin"><h3>GoCommerce admin</h3></div>
-        <p class="arch-wire"><span>same documented API</span></p>
-        <div class="arch-row arch-engine"><h3>GoCommerce</h3></div>
-        <p class="arch-wire"><span>pgx</span></p>
-        <div class="arch-row arch-data"><h3>PostgreSQL</h3></div>
-      </figure>
-    </div>
-    <p class="status-line status-inline"><span class="dot dot-dev"></span><b>GoCommerce ↔ Svelte Commerce connector: in development.</b>&nbsp;<a href="/gocommerce-svelte-commerce-connector/" data-ev="architecture_click">Status</a> · <a href="/go-svelte-ecommerce/">Full architecture</a></p>
   </section>
 
   {/* ══════════════════════════════════════ 11 — agent friendly */}

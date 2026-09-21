@@ -1,15 +1,15 @@
 # kitcommerce.store
 
-A static site. No build step, no package installation.
+An Astro static site. Edit `src/` and `public/`; the legacy HTML at the
+repository root is not the shipped source.
 
+```sh
+npm ci
+npm run dev        # http://127.0.0.1:4321
+npm run build
+npm run verify
+npm run preview    # inspect dist/ locally
 ```
-node serve.cjs      # http://127.0.0.1:4173
-```
-
-`serve.cjs` mirrors the two Cloudflare Workers static-asset behaviours the site
-depends on: a directory serves its `index.html`, and an unmatched path serves
-`404.html` with a 404 status. The second is currently *stricter* than
-production — see Hosting.
 
 ## What this site is
 
@@ -54,12 +54,11 @@ Six pages, each with one job. The homepage directs; the project pages explain.
 | `/go-svelte-ecommerce/` | understand how the two fit together |
 | `/gocommerce-svelte-commerce-connector/` | understand integration status |
 
-**The homepage is the long one now.** Fifteen sections: hero, proof strip, two
-projects, one-command Docker, live admin, live stores, maturity, capability
-wall, headless architecture, why-this-stack, agent-friendly, ownership, FAQ,
-start building. It argues with screenshots, icons and measured numbers rather
-than prose — an earlier revision capped it at four sections, and that was
-reversed deliberately.
+The homepage leads with real product captures and a Docker command. It retains
+the project chooser, admin gallery, storefront proof and developer evidence.
+Marketplace/B2B detail is linked from compact solution cards, and the duplicate
+architecture section and logo marquee are consolidated. Both original
+architecture anchors still work.
 
 Nav is five items: GoCommerce, Svelte Commerce, Live admin, Architecture, GitHub. Secondary
 navigation lives inside the project pages, not in the header.
@@ -92,7 +91,7 @@ instruction that 404s is worse than none.
 
 ### Image distribution
 
-Each image appears on one page, so no page repeats another.
+The homepage uses focused derivatives; project pages retain the complete originals.
 
 | Page | Images |
 | --- | --- |
@@ -131,8 +130,10 @@ the matrix from it.
 
 ## Screenshots
 
-`assets/admin/*.webp` are real captures, taken with Playwright at
-deviceScaleFactor 2 and encoded as WebP.
+`public/assets/admin/*.webp` are real Playwright captures encoded as WebP.
+The checked-in admin/desktop files are 1440 × 900 pixels and the mobile
+storefront is 780 × 1688 pixels. See [the visual playbook](docs/screenshot-visual-playbook.md)
+for provenance, deterministic lossless crops and review criteria.
 
 - **Admin (7 screens)** — a locally seeded GoCommerce instance at 1440×900. The
   store was filled by the engine's own `scripts/seed-demo.ps1` with a fixed
