@@ -1,0 +1,18 @@
+{
+  "name": "kitcommerce-store",
+  "private": true,
+  "type": "module",
+  "description": "kitcommerce.store — the website presenting GoCommerce and Svelte Commerce.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "verify": "node scripts/verify.js && node scripts/verify-dist.js",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "@vite-pwa/astro": "^1.2.0",
+    "astro": "^5.12.0"
+  }
+}

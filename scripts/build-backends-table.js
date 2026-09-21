@@ -11,10 +11,12 @@
  *   node scripts/build-backends-table.js          # check only, exits 1 if stale
  *   node scripts/build-backends-table.js --write  # rewrite it
  */
-const fs = require('fs')
-const path = require('path')
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const ROOT = path.join(__dirname, '..')
+// __dirname does not exist in an ES module; derive it from this file's URL.
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 const PAGE = path.join(ROOT, 'svelte-commerce', 'backends', 'index.html')
 const DATA = path.join(ROOT, 'data', 'connectors.json')
 const START = '<!-- BACKENDS-TABLE:start -->'

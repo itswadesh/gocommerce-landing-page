@@ -1,0 +1,134 @@
+---
+import Base from '../layouts/Base.astro'
+import Faq from '../components/Faq.astro'
+
+const path = '/gocommerce-svelte-commerce-connector/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'GoCommerce ↔ Svelte Commerce Connector — Status', isPartOf: { '@id': abs('/#site') }, inLanguage: 'en', mentions: [{ '@id': abs('/gocommerce/#app') }, { '@id': abs('/svelte-commerce/#app') }] },
+]
+
+const faq = [
+  { q: 'Can I connect Svelte Commerce to GoCommerce today?', a: 'Not with an installable package. The connector is in development and unpublished. GoCommerce serves a documented JSON API with 342 operations, so you can write the client yourself, but you would be writing it rather than installing it.' },
+  { q: 'When will the connector be ready?', a: 'There is no date, and publishing one we cannot hold to would be worse than saying so. The work is a package mapping GoCommerce routes onto the 43-service connector surface; progress is visible in the repositories rather than announced here.' },
+  { q: 'What is blocking it?', a: 'Nothing structural. The backend API exists and is documented, the connector interface is settled across 26 implementations, and the switching mechanism needs no storefront change. What is missing is the package itself being written and verified.' },
+  { q: 'Will it be called anything in particular?', a: 'It will follow the existing naming, so @misiki/gocommerce-connector, matching the other 26 packages. Installing it and removing the previous connector is the whole switch.' },
+  { q: 'Does this mean the two projects are not really a stack?', a: 'Today they are two good projects rather than one wired stack, and this page exists so nobody has to guess which. Both are independently useful right now — GoCommerce behind any client, Svelte Commerce in front of 26 other backends.' },
+]
+
+// The ledger. One state per line, and the states mean what the legend says.
+const ledger = [
+  { state: 'ship', title: 'The GoCommerce API it would call', body: '342 operations, all in OpenAPI, with a documented contract per route. Nothing about the backend is blocking.' },
+  { state: 'ship', title: 'The connector interface it would implement', body: 'a 43-service surface, already implemented 26 times over, so the shape is settled rather than speculative.' },
+  { state: 'ship', title: 'The switching mechanism', body: 'Svelte Commerce resolves its connector from package.json, with PUBLIC_CONNECTOR to override. No storefront change is needed to adopt a new one.' },
+  { state: 'dev', title: 'The connector package itself', body: 'mapping GoCommerce’s routes onto those 43 services. This is the work.' },
+  { state: 'plan', title: 'Published to npm', body: 'as @misiki/gocommerce-connector, following the naming of the other 26.' },
+  { state: 'plan', title: 'A verified end-to-end path', body: 'a storefront running against a GoCommerce instance, with cart, checkout and auth exercised rather than asserted.' },
+  { state: 'plan', title: 'Setup documentation', body: 'which environment variables, which GoCommerce version, what to expect.' },
+]
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+---
+<Base
+  title="GoCommerce ↔ Svelte Commerce Connector — Status"
+  description="Status of the GoCommerce to Svelte Commerce connector: in development, not published. What exists today, what is being written, what is planned, the known limitations, and how to help."
+  path={path}
+  ogTitle="GoCommerce ↔ Svelte Commerce Connector — Status"
+  ogDescription="In development, not published. What exists, what is being written, and how to help."
+  ogImageAlt="Status of the connector between GoCommerce and Svelte Commerce"
+  nav="connector"
+  crumbs={[{ name: 'Connector status', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <h1>GoCommerce ↔ Svelte Commerce connector</h1>
+    <div class="status-banner">
+      <p class="status-line"><span class="dot dot-dev" aria-hidden="true"></span><b>Status: In development.</b> Not published.</p>
+      <p>There is no installable package. You cannot point Svelte Commerce at GoCommerce today by changing a dependency, and nothing on this site claims otherwise.</p>
+    </div>
+    <p class="lede">This page exists so the answer is one link rather than an inference. It will become the connector’s documentation when there is a connector to document.</p>
+  </section>
+
+  <section id="architecture" class="section wrap" aria-labelledby="arch-title">
+    <h2 id="arch-title">Current architecture</h2>
+    <p class="section-lede">Both halves exist and are solid. The piece between them is the gap.</p>
+    <div class="arch">
+      <div class="arch-row arch-store">
+        <h3>Svelte Commerce</h3>
+        <p>Calls a connector package. Imports none by name — <code>$connector</code> resolves from <code>package.json</code>.</p>
+      </div>
+      <p class="arch-wire arch-wire-gap"><span>the missing piece — a package mapping 43 services onto the GoCommerce API</span></p>
+      <div class="arch-row arch-engine">
+        <h3>GoCommerce</h3>
+        <p>Serves 342 documented operations over REST, published as OpenAPI.</p>
+      </div>
+    </div>
+    <p class="fineprint">Svelte Commerce reaches every backend through a connector implementing a shared 43-service surface — <code>product</code>, <code>cart</code>, <code>checkout</code>, <code>order</code>, <code>auth</code>, <code>address</code> and the rest. <a href="/svelte-commerce/backends/">26 of them exist</a>. A GoCommerce connector is the twenty-seventh, and it is the one that is not written. The two halves are described on the <a href="/go-svelte-ecommerce/">architecture page</a>.</p>
+  </section>
+
+  <section id="ledger" class="section wrap" aria-labelledby="ledger-title">
+    <h2 id="ledger-title">What exists, what does not</h2>
+    <ul class="legend">
+      <li><span class="dot dot-ship" aria-hidden="true"></span>Done — in a repository today</li>
+      <li><span class="dot dot-dev" aria-hidden="true"></span>In progress — being written now</li>
+      <li><span class="dot dot-plan" aria-hidden="true"></span>Planned — not started</li>
+    </ul>
+    <div class="mkt">
+      <ul class="growth-list">
+        {ledger.map((l) => (
+          <li><span class={`dot dot-${l.state}`} aria-hidden="true"></span><span class="vh">{l.state === 'ship' ? 'Done: ' : l.state === 'dev' ? 'In progress: ' : 'Planned: '}</span><b>{l.title}</b> — {l.body}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="limitations" class="section wrap" aria-labelledby="lim-title">
+    <h2 id="lim-title">Known limitations</h2>
+    <p class="section-lede">Things that will still be true on the day the connector first works.</p>
+    <div class="tri">
+      <div class="tri-item">
+        <h3>A stable contract, not a proven one</h3>
+        <p>GoCommerce is 1.0, so the API a connector binds to will not move without a major version. What 1.0 does not supply is production mileage: no store is known to run it yet, so a connector will meet whatever the first real catalogue exposes.</p>
+      </div>
+      <div class="tri-item">
+        <h3>Coverage will start partial</h3>
+        <p>The other 26 connectors range from 9 to 39 of 43 services. A first GoCommerce connector will land somewhere in that range, not at the top of it.</p>
+      </div>
+      <div class="tri-item">
+        <h3>No benchmarks either way</h3>
+        <p>Nothing has been published about GoCommerce’s performance, so nothing can honestly be said about the pair’s. That stays true until somebody measures it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contribute" class="section wrap" aria-labelledby="con-title">
+    <h2 id="con-title">How to help</h2>
+    <div class="contrib">
+      <ul class="contrib-list">
+        <li><b>Write services against the existing interface.</b> The surface is documented by 26 prior implementations; Litekart and Vendure at 39/43 are the closest thing to a reference.</li>
+        <li><b>Start with the commerce path.</b> Product, cart, checkout, order. Those four decide whether a store can transact at all; the rest is refinement.</li>
+        <li><b>Do not stub auth.</b> The convention across every connector is to throw rather than mint a session — a stub that logs anyone in is an auth bypass, not a placeholder.</li>
+        <li><b>Exercise it against a real instance.</b> The standing weakness of all 26 connectors is that none has been run against a live production store. Being the first would matter more than the code.</li>
+      </ul>
+      <div class="contrib-cta">
+        <p>The backend carries <b>1,036 tests</b> and a documented contract for every route, so a connector has something precise to build against.</p>
+        <a class="button" href="https://github.com/itswadesh/gocommerce/issues" {...ext}>GoCommerce issues</a>
+        <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce/discussions/new/choose" {...ext}>Svelte Commerce discussions</a>
+        <a class="button secondary" href="https://discord.gg/GgdAeccwDR" {...ext}>Discord</a>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Connector questions" />
+
+  <section class="closing wrap">
+    <h2>Either project is useful today</h2>
+    <p>The connector is the only thing on this site marked in development. Everything else either ships or is plainly marked as planned.</p>
+    <div class="actions">
+      <a class="button" href="/gocommerce/">Explore GoCommerce</a>
+      <a class="button" href="/svelte-commerce/">Explore Svelte Commerce</a>
+      <a class="button secondary" href="/svelte-commerce/backends/">See the 26 that work</a>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,75 @@
+---
+/**
+ * Two of the five items are disclosure menus — Solutions and Develop — in
+ * the StoreHippo shape. They are native <details>, so they open on Enter and
+ * Space, are reachable by Tab, work on touch, and work with JavaScript off.
+ * app.js adds only what <details> lacks: Escape closes, and so does a click
+ * anywhere else. Nothing is hover-only.
+ *
+ * `current` marks the page you are on with aria-current on the item.
+ */
+type Current = 'gocommerce' | 'svelte-commerce' | 'solutions' | 'develop' | 'architecture' | 'live-admin' | 'connector' | 'backends'
+interface Props { current?: Current }
+const { current } = Astro.props
+
+// Pages that live under a menu light that menu up.
+const inDevelop = ['develop', 'architecture', 'live-admin', 'connector', 'backends'] as const
+const developOpen = inDevelop.includes(current as (typeof inDevelop)[number])
+
+const solutions = [
+  { href: '/#sol-marketplace', label: 'Multi-vendor marketplace', note: 'Vendors as first-class sellers, with moderation states' },
+  { href: '/#sol-b2b', label: 'B2B pricing', note: 'Customer groups, price lists, quantity breaks' },
+  { href: '/#sol-d2c', label: 'Direct-to-consumer', note: 'The default store, selling with no modules installed' },
+  { href: '/#sol-channels', label: 'Several storefronts, one catalogue', note: 'Channels with per-channel publishing' },
+  { href: '/go-svelte-ecommerce/#when', label: 'Which project to start with', note: 'Backend, storefront, or both' },
+]
+const develop = [
+  { href: '/#one-command', label: 'One-command Docker stack', note: 'Postgres, API with admin, proxy' },
+  { href: '/gocommerce/#quickstart', label: 'GoCommerce quick start', note: 'Go 1.27 and a PostgreSQL' },
+  { href: '/svelte-commerce/#quickstart', label: 'Svelte Commerce quick start', note: 'Node and a backend to point at' },
+  { href: '/gocommerce/#modules', label: '44 modules', note: 'Payments, shipping, messaging, migration' },
+  { href: '/svelte-commerce/backends/', label: '26 backend integrations', note: 'Measured coverage, per connector' },
+  { href: '/go-svelte-ecommerce/', label: 'Architecture', note: 'How the two projects fit' },
+  { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status', note: 'In development, not published' },
+  { href: '/#agents', label: 'Coding agents', note: 'AGENTS.md, skills, MCP' },
+  { href: 'https://github.com/itswadesh/gocommerce#readme', label: 'GoCommerce docs', note: 'README and OpenAPI', external: true },
+]
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+---
+<header>
+  <nav class="wrap nav" aria-label="Primary">
+    <a class="wordmark" href="/" aria-label="kitcommerce.store home">
+      <svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+        <rect x="4" y="4" width="3.6" height="16" rx="1"/>
+        <path d="M9.6 12 15.4 4h4.4l-5.8 8z"/>
+        <path d="M9.6 12h4.4l5.8 8h-4.4z"/>
+      </svg>
+      <span class="wordmark-name">kitcommerce<span class="wordmark-tld">.store</span></span>
+    </a>
+    <button class="menu" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    <div id="navlinks" class="navlinks">
+      <a href="/gocommerce/" aria-current={current === 'gocommerce' ? 'page' : undefined}>GoCommerce</a>
+      <a href="/svelte-commerce/" aria-current={current === 'svelte-commerce' ? 'page' : undefined}>Svelte Commerce</a>
+
+      <details class="navmenu">
+        <summary aria-current={current === 'solutions' ? 'true' : undefined}>Solutions</summary>
+        <ul class="navpanel">
+          {solutions.map((i) => (
+            <li><a href={i.href}><b>{i.label}</b><span>{i.note}</span></a></li>
+          ))}
+        </ul>
+      </details>
+
+      <details class="navmenu navmenu-wide">
+        <summary aria-current={developOpen ? 'true' : undefined}>Develop</summary>
+        <ul class="navpanel">
+          {develop.map((i) => (
+            <li><a href={i.href} {...(i.external ? ext : {})}><b>{i.label}</b><span>{i.note}</span></a></li>
+          ))}
+        </ul>
+      </details>
+
+      <a class="nav-git" href="https://github.com/itswadesh" {...ext} data-ev="github_nav_click">GitHub</a>
+    </div>
+  </nav>
+</header>

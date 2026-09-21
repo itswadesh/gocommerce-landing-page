@@ -1,0 +1,21 @@
+---
+/**
+ * The visible trail. The matching BreadcrumbList JSON-LD is emitted by the
+ * layout from the same array, so the two cannot disagree. The last item is
+ * the current page: no link, aria-current, and it is what a screen reader
+ * announces as "current page" when it reaches the nav.
+ */
+import type { Crumb } from '../layouts/Base.astro'
+interface Props { items: Crumb[] }
+const { items } = Astro.props
+const last = items.length - 1
+---
+<nav class="wrap crumbs" aria-label="Breadcrumb">
+  <ol>
+    {items.map((c, i) =>
+      i === last
+        ? <li aria-current="page">{c.name}</li>
+        : <li><a href={c.href}>{c.name}</a></li>
+    )}
+  </ol>
+</nav>

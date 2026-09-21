@@ -1,0 +1,40 @@
+---
+/**
+ * The consent banner, kept minimal and honest. It names every third party
+ * that would load, defaults to nothing loading, and offers one tap either way.
+ * It is rendered hidden and app.js shows it only when (a) at least one
+ * analytics ID is configured and (b) no choice has been stored. With no IDs
+ * configured, the site loads no analytics and this element never appears —
+ * shipping dark rather than shipping a banner that describes nothing.
+ *
+ * The party list is built from the same config the loader reads, so the
+ * banner cannot promise less than the code does.
+ */
+const cfg = {
+  ga4: import.meta.env.PUBLIC_GA4_ID ?? '',
+  clarity: import.meta.env.PUBLIC_CLARITY_ID ?? '',
+  segment: import.meta.env.PUBLIC_SEGMENT_KEY ?? '',
+  reo: import.meta.env.PUBLIC_REO_ID ?? '',
+}
+const parties = [
+  cfg.ga4 && 'Google Analytics',
+  cfg.clarity && 'Microsoft Clarity',
+  cfg.segment && 'Segment',
+  cfg.reo && 'Reo',
+].filter(Boolean) as string[]
+const list = parties.length <= 1 ? parties.join('') : parties.slice(0, -1).join(', ') + ' and ' + parties.at(-1)
+---
+{parties.length > 0 && (
+  <div class="consent" id="consent" role="region" aria-label="Analytics consent" hidden>
+    <p>
+      <b>Analytics, only if you say so.</b> With your OK this site loads {list},
+      which set cookies and see your IP address. Decline and nothing loads: the
+      typefaces are served from this domain, and the only other request is to
+      GitHub, for the live star counts.
+    </p>
+    <div class="consent-actions">
+      <button class="button" type="button" data-consent="granted">Allow analytics</button>
+      <button class="button secondary" type="button" data-consent="denied">No thanks</button>
+    </div>
+  </div>
+)}

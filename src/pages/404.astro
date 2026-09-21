@@ -1,0 +1,37 @@
+---
+/**
+ * The 404 is noindex but its links are followed — it is how a crawler that
+ * arrives on a dead inbound link finds the live site. It lists every page,
+ * because there are only six.
+ */
+import Base from '../layouts/Base.astro'
+---
+<Base
+  title="Page not found — kitcommerce.store"
+  description="That page is not here. Every page on kitcommerce.store is listed."
+  path="/404/"
+  noindex
+>
+  <section class="wrap notfound">
+    <p class="notfound-code">404</p>
+    <h1>That page is not here</h1>
+    <p class="lede">
+      The link may be from an older version of this site, or it may simply be
+      wrong. Every page on this site is listed below.
+    </p>
+
+    <ul class="notfound-links">
+      <li><a href="/">Home</a> — both projects, the one-command stack, and which one you want</li>
+      <li><a href="/gocommerce/">GoCommerce</a> — the ecommerce backend and admin, in Go</li>
+      <li><a href="/svelte-commerce/">Svelte Commerce</a> — the storefront, in SvelteKit</li>
+      <li><a href="/svelte-commerce/backends/">Backend integrations</a> — all 26 connectors and their coverage</li>
+      <li><a href="/go-svelte-ecommerce/">Architecture</a> — how the two fit together</li>
+      <li><a href="/gocommerce-svelte-commerce-connector/">Connector status</a> — what is and is not wired</li>
+    </ul>
+
+    <div class="actions">
+      <a class="button" href="/">Go to the home page</a>
+      <a class="button secondary" href="https://github.com/itswadesh/gocommerce/issues" target="_blank" rel="noopener noreferrer">Report a broken link</a>
+    </div>
+  </section>
+</Base>

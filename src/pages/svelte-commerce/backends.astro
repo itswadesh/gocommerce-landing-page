@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+import ConnectorMatrix from '../../components/ConnectorMatrix.astro'
+
+const path = '/svelte-commerce/backends/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'Svelte Commerce Backend Integrations', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/svelte-commerce/#app') }, inLanguage: 'en' },
+]
+
+const faq = [
+  { q: 'How many backends does Svelte Commerce support?', a: '26 connectors exist today, covering Litekart, Vendure, Medusa, Broadleaf, Saleor, Shopware, Virto Commerce, WooCommerce, Magento, Spree, X-Cart, EverShop, Spryker, nopCommerce, PrestaShop, Sylius, Swell, Bagisto, commercetools, OroCommerce, Sharetribe, CS-Cart, Shuup, Shopify, Django Oscar and OpenCart. They differ a great deal in how complete they are, which is what the coverage column on this page is for.' },
+  { q: 'Which connectors are the most complete?', a: 'Litekart and Vendure, both at 39 of 43 services, with cart, checkout and auth all wired. Litekart is the reference implementation and Vendure’s GraphQL Shop API covers essentially the whole surface.' },
+  { q: 'Is the coverage number reliable?', a: 'It is measured rather than asserted. A script traces which service methods transitively reach the HTTP layer, following each connector’s own request helpers, and a service counts as wired only if it genuinely issues a request or delegates to one that does. What the number does not tell you is whether the connector has been run against a live store, because none of them has.' },
+  { q: 'Can I use Svelte Commerce with GoCommerce?', a: 'Not yet. The GoCommerce connector is in development and unpublished, which is why it appears at the bottom of this table with no coverage. GoCommerce serves a documented JSON API that any client can call, so pairing them today means writing that client yourself.' },
+  { q: 'What if my platform is not listed?', a: 'Then there is no adapter for it yet. A connector is a TypeScript package mapping one platform’s API onto the shared service surface, so adding one does not require changing the storefront. The existing 26 are the pattern to follow.' },
+]
+---
+<Base
+  title="Svelte Commerce Backend Integrations — 26 Connectors and Their Coverage"
+  description="Which commerce backends Svelte Commerce speaks to, and how completely. 26 connectors with script-measured coverage of a 43-service surface, cart, checkout and auth status, and the known gaps for each."
+  path={path}
+  ogTitle="Svelte Commerce Backend Integrations"
+  ogDescription="26 connectors, with measured coverage of a 43-service surface. Cart, checkout and auth status per platform, and the gaps."
+  ogImageAlt="Svelte Commerce backend connector coverage"
+  nav="backends"
+  crumbs={[{ name: 'Svelte Commerce', href: '/svelte-commerce/' }, { name: 'Backends', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <h1>Which backends Svelte Commerce speaks to, and how completely</h1>
+    <p class="lede">Svelte Commerce talks to a backend through a <b>connector</b>: a package that maps one platform’s API onto a shared 43-service surface. Nothing in the storefront imports a connector by name, so installing a different package runs the same storefront on a different backend.</p>
+    <ul class="hero-proof">
+      <li><b>26</b> connectors</li>
+      <li><b>43</b> services in the surface</li>
+      <li><b>2</b> at 39/43</li>
+      <li><b>0</b> hand-asserted numbers</li>
+    </ul>
+  </section>
+
+  <section id="matrix" class="section wrap" aria-labelledby="matrix-title">
+    <h2 id="matrix-title">Coverage, measured</h2>
+    <p class="section-lede">Coverage is not claimed, it is traced: a script follows each connector’s own request helpers and counts a service as wired only if it genuinely reaches the HTTP layer. Sort order is coverage, highest first.</p>
+    <ul class="legend">
+      <li><span class="mk ok" aria-hidden="true">●</span>Wired — issues a real request</li>
+      <li><span class="mk no" aria-hidden="true">✕</span>No endpoint on the platform — throws rather than faking a session</li>
+      <li><span class="mk pending" aria-hidden="true">○</span>Not yet wired</li>
+    </ul>
+    <ConnectorMatrix />
+  </section>
+
+  <section id="reading" class="section wrap" aria-labelledby="reading-title">
+    <h2 id="reading-title">How to read it</h2>
+    <div class="tri">
+      <div class="tri-item"><h3>A low score is often correct</h3><p>OpenCart core ships exactly ten API controllers and no product, category or search controller at all. Its 9/43 is the honest ceiling for that API, not a to-do list.</p></div>
+      <div class="tri-item"><h3>“No endpoint” is not a gap</h3><p>Where a platform has no real customer-auth endpoint, <code>auth</code> throws rather than minting a session. A stub that logs anyone in for any password is an auth bypass, not a placeholder.</p></div>
+      <div class="tri-item"><h3>Some services count for nobody</h3><p>Reels, deals, chat, gallery, popularity and a few others are Litekart-native concepts with no equivalent elsewhere. They stay documented placeholders and are excluded from the gaps column.</p></div>
+    </div>
+    <div class="connector" aria-labelledby="caveat-title">
+      <div class="connector-head"><h3 id="caveat-title">The one caveat that matters</h3><p class="badge">Read this before choosing</p></div>
+      <p>Every connector was written by reading its platform’s <b>authoritative source</b> — the OpenAPI spec, the RAML, the router registration, or the controller source. No endpoint was guessed, and where a route could not be verified it was left an explicit placeholder rather than shipped as a plausible path that 404s in a merchant’s store.</p>
+      <p>But reading a spec is not running against a real store. <b>None of these connectors has been exercised against a live production instance of its platform.</b> That is the single biggest gap in this table, and it is the thing platform maintainers can help with that we cannot do alone.</p>
+      <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce/discussions/new/choose" target="_blank" rel="noopener noreferrer">Offer a sandbox or a correction</a>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions about backends" />
+
+  <section class="closing wrap">
+    <h2>Pick a backend, or help fix one</h2>
+    <p>The storefront is the same either way. The connector is what changes.</p>
+    <div class="actions">
+      <a class="button" href="/svelte-commerce/">Back to Svelte Commerce</a>
+      <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a class="button secondary" href="/gocommerce-svelte-commerce-connector/">GoCommerce connector status</a>
+    </div>
+  </section>
+</Base>

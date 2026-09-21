@@ -12,10 +12,12 @@
  *   node scripts/build-faq-schema.js          # check only, exits 1 if stale
  *   node scripts/build-faq-schema.js --write  # rewrite them
  */
-const fs = require('fs')
-const path = require('path')
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const ROOT = path.join(__dirname, '..')
+// __dirname does not exist in an ES module; derive it from this file's URL.
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 const START = '<!-- FAQ-SCHEMA:start -->'
 const END = '<!-- FAQ-SCHEMA:end -->'
 const write = process.argv.includes('--write')

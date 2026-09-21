@@ -1,0 +1,22 @@
+---
+/**
+ * Renders a FAQ visibly. The page passes the same array to the layout, which
+ * emits the FAQPage JSON-LD — so the schema can only ever say what the reader
+ * sees. details/summary, so every answer is in the DOM with JavaScript off.
+ */
+import type { FaqItem } from '../layouts/Base.astro'
+interface Props { items: FaqItem[]; title: string; lede?: string; id?: string }
+const { items, title, lede, id = 'faq' } = Astro.props
+---
+<section id={id} class="section wrap" aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`}>{title}</h2>
+  {lede && <p class="section-lede">{lede}</p>}
+  <div class="faq">
+    {items.map((f) => (
+      <details>
+        <summary>{f.q}</summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </div>
+</section>

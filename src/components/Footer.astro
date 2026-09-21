@@ -1,0 +1,120 @@
+---
+/**
+ * The footer carries the whole map of the site, so every page links every
+ * other page from its body — no page is reachable only through the header.
+ *
+ * Columns follow the shape shared by Medusa, Saleor, Vendure and Bagisto —
+ * Product, Developers, Community, Company, Legal — with only the links that
+ * are honest here. There is no blog, careers page, status page, cloud tier or
+ * terms of service, so none are listed. The word "partner" appears once, for
+ * the one relationship that is one.
+ */
+const wa = import.meta.env.PUBLIC_WHATSAPP ?? ''
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+
+const cols = [
+  {
+    title: 'Product',
+    links: [
+      { href: '/gocommerce/#admin', label: 'Admin' },
+      { href: '/gocommerce/#modules', label: 'Modules' },
+      { href: '/#partners', label: 'Integrations' },
+      { href: '/#sol-headless', label: 'Headless' },
+      { href: '/#sol-b2b', label: 'B2B' },
+      { href: '/#sol-marketplace', label: 'Marketplace' },
+      { href: '/svelte-commerce/', label: 'Storefront' },
+      { href: '/gocommerce/#roadmap', label: 'Roadmap' },
+      { href: 'https://github.com/itswadesh/svelte-commerce/blob/main/docs/CHANGELOG.md', label: 'Changelog', external: true },
+      { href: '/#ownership', label: 'Pricing — free, no platform fees' },
+    ],
+  },
+  {
+    title: 'Developers',
+    links: [
+      { href: 'https://github.com/itswadesh/gocommerce#readme', label: 'Documentation', external: true },
+      { href: 'https://github.com/itswadesh/gocommerce/blob/main/core/openapi.json', label: 'API reference (OpenAPI)', external: true },
+      { href: '/#one-command', label: 'One-command Docker stack' },
+      { href: '/gocommerce/#quickstart', label: 'GoCommerce quick start' },
+      { href: '/svelte-commerce/#quickstart', label: 'Svelte Commerce quick start' },
+      { href: 'https://github.com/itswadesh/gocommerce/tree/main/examples/store', label: 'Example store', external: true },
+      { href: '/svelte-commerce/backends/', label: '26 backend integrations' },
+      { href: '/go-svelte-ecommerce/', label: 'Architecture' },
+      { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status' },
+      { href: 'https://github.com/itswadesh/gocommerce/blob/main/AGENTS.md', label: 'Agent guide (AGENTS.md)', external: true },
+    ],
+  },
+  {
+    title: 'Community',
+    links: [
+      { href: 'https://discord.gg/GgdAeccwDR', label: 'Discord', external: true },
+      { href: 'https://github.com/itswadesh/gocommerce', label: 'GoCommerce on GitHub', external: true },
+      { href: 'https://github.com/itswadesh/svelte-commerce', label: 'Svelte Commerce on GitHub', external: true },
+      { href: 'https://github.com/itswadesh/svelte-commerce/discussions', label: 'Discussions', external: true },
+      { href: 'https://github.com/itswadesh/gocommerce/issues', label: 'Open issues', external: true },
+      { href: 'https://github.com/itswadesh/gocommerce/issues', label: 'Contribute', external: true },
+      { href: 'https://arialshop.com', label: 'A store running it', external: true },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { href: 'https://github.com/itswadesh', label: 'About — built by itswadesh', external: true },
+      { href: '/#partners', label: 'Partners' },
+      ...(wa ? [{ href: `https://wa.me/${wa}`, label: 'Contact on WhatsApp', external: true }] : []),
+      { href: 'https://discord.gg/GgdAeccwDR', label: 'Contact on Discord', external: true },
+      { href: 'https://github.com/itswadesh/gocommerce/issues/new', label: 'Report a problem', external: true },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      { href: '/privacy/', label: 'Privacy' },
+      { href: 'https://github.com/itswadesh/gocommerce/blob/main/LICENSE', label: 'GoCommerce licence (MIT)', external: true },
+      { href: 'https://github.com/itswadesh/svelte-commerce/blob/main/LICENSE', label: 'Svelte Commerce licence (MIT)', external: true },
+      { href: '/llms.txt', label: 'llms.txt' },
+    ],
+  },
+]
+---
+<footer>
+  <div class="wrap footer-cta">
+    <div>
+      <p class="footer-cta-title">A store on your own server, in one command</p>
+      <p>Three services — PostgreSQL, the API with its admin, and a proxy on port 80. Run end to end before it was published here.</p>
+    </div>
+    <a class="button" href="/#one-command" data-ev="quickstart_click">Get the compose file</a>
+  </div>
+
+  <div class="wrap footer-grid footer-grid-5">
+    {cols.map((c) => (
+      <nav class="footer-col" aria-label={c.title}>
+        <h2>{c.title}</h2>
+        {c.links.map((l) => (
+          <a href={l.href} {...(l.external ? ext : {})}>{l.label}</a>
+        ))}
+      </nav>
+    ))}
+  </div>
+
+  <div class="wrap footer-brand-row">
+    <div class="footer-brand">
+      <p class="wordmark-name">kitcommerce.store</p>
+      <p>The website presenting GoCommerce and Svelte Commerce — two independent open-source ecommerce projects, one for the backend and admin, one for the storefront.</p>
+      <p class="footer-meta">MIT licensed — Go — SvelteKit — PostgreSQL</p>
+    </div>
+    <nav class="footer-social" aria-label="Elsewhere">
+      <ul class="social">
+        <li><a href="https://github.com/itswadesh" {...ext} data-ev="github_footer_click"><svg aria-hidden="true"><use href="#i-git"/></svg>GitHub</a></li>
+        <li><a href="https://discord.gg/GgdAeccwDR" {...ext}><svg aria-hidden="true"><use href="#i-bot"/></svg>Discord</a></li>
+        {wa && <li><a href={`https://wa.me/${wa}`} {...ext}><img src="/assets/brands/whatsapp.svg" width="15" height="15" alt="" loading="lazy">WhatsApp</a></li>}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="wrap footer-base">
+    <p>Built by <a href="https://github.com/itswadesh" {...ext}>itswadesh</a>.</p>
+    <a class="partner" href="https://www.cloudflare.com" {...ext}><span>Hosting partner</span><img src="/assets/cloudflare.svg" width="20" height="20" alt="" loading="lazy"><span class="partner-name">Cloudflare</span></a>
+    <button type="button" class="linklike" data-consent="reopen" hidden>Analytics preferences</button>
+    <a href="#main">Back to top</a>
+  </div>
+</footer>

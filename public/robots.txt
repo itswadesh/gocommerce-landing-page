@@ -1,0 +1,46 @@
+# kitcommerce.store
+#
+# Everything here is public documentation for an MIT-licensed project, so the
+# policy is deliberate rather than inherited: being read, summarised and cited
+# by answer engines is the point, not a risk to manage. Nothing is disallowed.
+#
+# The named agents below are all permitted anyway by `User-agent: *`. They are
+# listed so the decision is on the record — a later reader can see that live
+# retrieval and training access were chosen, not overlooked.
+
+User-agent: *
+Allow: /
+
+# Live retrieval and citation — how answer engines fetch a page to quote it.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# User-triggered fetch — somebody pasted a link and asked about it.
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Training crawlers. Allowed: the source is MIT and the prose is documentation
+# for it, so a model that has read this is a model that can answer questions
+# about the project correctly.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://kitcommerce.store/sitemap.xml

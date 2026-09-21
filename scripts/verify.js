@@ -11,24 +11,49 @@
  *
  * Exits non-zero on any violation, naming the file, the line and the text.
  */
-const fs = require('fs')
-const path = require('path')
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const ROOT = path.join(__dirname, '..')
+// __dirname does not exist in an ES module; derive it from this file's URL.
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 
-// Only the pages a reader actually sees. llms.txt and README.md are excluded on
-// purpose: both quote the forbidden phrasings in order to forbid them, and a
-// checker that cannot tell a rule from a violation would make the rule
-// unwritable.
-const PAGES = [
-  'index.html',
-  'gocommerce/index.html',
-  'svelte-commerce/index.html',
-  'svelte-commerce/backends/index.html',
-  'go-svelte-ecommerce/index.html',
-  'gocommerce-svelte-commerce-connector/index.html',
-  '404.html',
-]
+// Built output, not source, and discovered rather than listed.
+//
+// Two reasons. A hardcoded list silently stops covering a page the moment one
+// is added, and this list had already gone stale once. And the Astro migration
+// left the old hand-written HTML at the repository root — still tracked, no
+// longer shipped — so checking those was auditing files nobody will ever load
+// while reporting success, which is the one thing a checker must never do.
+//
+// dist/ is what Cloudflare serves, so dist/ is what gets audited. Run
+// `npm run build` first, or this checks the previous build.
+const DIST = path.join(ROOT, 'dist')
+
+function htmlUnder(dir, base = '') {
+  const out = []
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const rel = base ? `${base}/${entry.name}` : entry.name
+    if (entry.isDirectory()) {
+      // _astro holds hashed bundles: generated, and carrying no prose.
+      if (entry.name === '_astro') continue
+      out.push(...htmlUnder(path.join(dir, entry.name), rel))
+    } else if (entry.name.endsWith('.html')) {
+      out.push(rel)
+    }
+  }
+  return out
+}
+
+if (!fs.existsSync(DIST)) {
+  console.error('No dist/ — run `npm run build` before verifying.')
+  process.exit(1)
+}
+
+// llms.txt and README.md stay out of scope on purpose: both quote the forbidden
+// phrasings in order to forbid them, and a checker that cannot tell a rule from
+// a violation would make the rule unwritable.
+const PAGES = htmlUnder(DIST)
 
 const RULES = [
   {
@@ -82,7 +107,7 @@ let violations = 0
 let scanned = 0
 
 for (const page of PAGES) {
-  const file = path.join(ROOT, page)
+  const file = path.join(DIST, page)
   if (!fs.existsSync(file)) {
     console.error(`  MISSING  ${page}`)
     violations++

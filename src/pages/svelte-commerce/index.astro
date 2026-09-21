@@ -1,0 +1,160 @@
+---
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+
+const path = '/svelte-commerce/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'Svelte Commerce — Open Source Ecommerce Storefront for Svelte', isPartOf: { '@id': abs('/#site') }, primaryTopic: { '@id': abs(path + '#app') }, inLanguage: 'en' },
+  { '@type': 'SoftwareApplication', '@id': abs(path + '#app'), name: 'Svelte Commerce', url: abs(path), applicationCategory: ['DeveloperApplication', 'BusinessApplication'], applicationSubCategory: 'Headless ecommerce storefront', operatingSystem: 'Cross-platform', runtimePlatform: 'SvelteKit', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, publisher: { '@id': abs('/#org') }, description: 'An open-source ecommerce storefront built with SvelteKit: browse, search, cart, checkout and account. Headless across 26 commerce backends through connector packages.', featureList: ['Product browsing', 'Search', 'Cart', 'Checkout', 'Customer account', 'Headless backend connectors', 'Customizable Svelte components', 'Server-side rendering'], offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
+  { '@type': 'SoftwareSourceCode', '@id': 'https://github.com/itswadesh/svelte-commerce', name: 'Svelte Commerce', codeRepository: 'https://github.com/itswadesh/svelte-commerce', programmingLanguage: 'TypeScript', runtimePlatform: 'SvelteKit', license: 'https://opensource.org/licenses/MIT', targetProduct: { '@id': abs(path + '#app') } },
+]
+
+const faq = [
+  { q: 'Which commerce backends does Svelte Commerce support?', a: '26 connectors exist today. Litekart and Vendure are the most complete at 39 of 43 services; Medusa is at 31, Broadleaf, Saleor, Shopware and Virto Commerce at 28, WooCommerce at 27, and the rest range down to OpenCart at 9. Coverage is measured by a script rather than asserted.' },
+  { q: 'Can I use Svelte Commerce with GoCommerce today?', a: 'Not without writing the glue yourself. The connector that maps the GoCommerce API onto the Svelte Commerce service surface is in development and unpublished. GoCommerce serves a documented JSON API that any client can call, so it is possible, but you would be writing that client.' },
+  { q: 'Does Svelte Commerce need GoCommerce?', a: 'No. Svelte Commerce is a standalone storefront and predates GoCommerce by years. It runs against any of the 26 backends it supports today, and GoCommerce is not one of them yet.' },
+  { q: 'Is it production-ready?', a: 'It has been public for years and runs production stores — arialshop.com is one of them, and it is linked on this page so you can judge it yourself rather than take our word for it. The connectors are a separate question: none of the 26 has been exercised against a live production instance of its platform.' },
+  { q: 'How do I switch backends?', a: 'Remove one connector package and add another. Nothing in the storefront imports a connector by name — the active one resolves from package.json, with PUBLIC_CONNECTOR to override — so switching is a dependency change rather than a rewrite.' },
+  { q: 'Can I change the design?', a: 'Yes. The storefront is ordinary Svelte components rather than a theme DSL, so changing a template means editing that template. It is MIT licensed, so you can rebrand it and ship it for a client.' },
+  { q: 'Is it good for SEO?', a: 'Product and category pages are server-rendered by SvelteKit, so a crawler receives HTML with the catalogue in it rather than an empty shell. The rest of a store’s SEO — titles, structured data, canonical URLs — is yours to write, as it is in any storefront.' },
+  { q: 'Is there a paid tier?', a: 'No. It is MIT source you run yourself. There is no hosted offering, no paid tier and nothing to buy.' },
+]
+
+const startCode = `<span class="cm"># 1 — get the source</span>
+git clone https://github.com/itswadesh/svelte-commerce
+<span class="b">cd</span> svelte-commerce
+
+<span class="cm"># 2 — install dependencies</span>
+bun install
+
+<span class="cm"># 3 — the backend IS the connector package. Swapping it is the switch.</span>
+bun remove @misiki/litekart-connector
+bun add    @misiki/vendure-connector
+
+<span class="cm"># 4 — every backend but Litekart needs its own PUBLIC_&lt;NAME&gt;_* env</span>
+cp .env.example .env
+
+<span class="cm"># 5 — run it</span>
+bun dev`
+
+const top6 = [['Litekart', '39/43'], ['Vendure', '39/43'], ['Medusa', '31/43'], ['Broadleaf', '28/43'], ['Saleor', '28/43'], ['Shopware', '28/43']]
+---
+<Base
+  title="Svelte Commerce — Open Source Ecommerce Storefront for Svelte"
+  description="Svelte Commerce is an open-source ecommerce storefront built with SvelteKit: browse, search, cart, checkout and account. Headless across 26 commerce backends through connector packages. MIT licensed."
+  path={path}
+  ogTitle="Svelte Commerce — Ecommerce Storefront for Svelte"
+  ogDescription="A standalone open-source storefront built with SvelteKit, headless across 26 commerce backends. MIT licensed."
+  ogImageAlt="Svelte Commerce — open-source ecommerce storefront built with Svelte"
+  nav="svelte-commerce"
+  crumbs={[{ name: 'Svelte Commerce', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="hero wrap page-hero">
+    <div class="hero-copy">
+      <h1>Open-source ecommerce storefront built with Svelte</h1>
+      <p class="lede">Svelte Commerce provides a fast, customizable storefront for headless ecommerce, built around the Svelte ecosystem. It is a standalone project that connects to GoCommerce or another compatible commerce backend.</p>
+      <div class="actions">
+        <a class="button" href="#quickstart">Run it locally</a>
+        <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="button secondary" href="/svelte-commerce/backends/">Backend integrations</a>
+      </div>
+      <ul class="hero-proof">
+        <li><b>MIT</b> licensed</li>
+        <li><b>SvelteKit</b></li>
+        <li><b>26</b> backend connectors</li>
+        <li><b>Public</b> for years</li>
+      </ul>
+    </div>
+    <figure class="phone-hero" aria-labelledby="phone-cap">
+      <img src="/assets/admin/storefront-mobile.webp" width="780" height="1688" alt="The Arialshop storefront on a phone: category tiles for engagement, rings, earrings and pendants across the top, a jewellery hero reading The piece you never take off with a shop pendants button, a bestsellers section below, and a bottom navigation bar." decoding="async">
+      <figcaption id="phone-cap"><b>Arialshop.com</b><br>Built with Svelte Commerce</figcaption>
+    </figure>
+  </section>
+
+  <section id="proof" class="section proof-section" aria-labelledby="proof-title">
+    <div class="wrap">
+      <h2 id="proof-title">Open source, in the open</h2>
+      <div class="strip">
+        <div class="strip-item"><h3 data-gh="sv-stars">1,813</h3><p>Stars on GitHub, read live from the API.</p></div>
+        <div class="strip-item"><h3 data-gh="sv-forks">335</h3><p>Forks — the project has been public for years.</p></div>
+        <div class="strip-item"><h3>26</h3><p>Backend connectors, from Litekart to OpenCart.</p></div>
+        <div class="strip-item"><h3>43</h3><p>Services in the shared connector surface.</p></div>
+      </div>
+      <p class="fineprint">Star and fork counts are read from the GitHub API on load, falling back to the values measured on <time datetime="2026-09-21">21 September 2026</time> when the unauthenticated call is rate limited.</p>
+    </div>
+  </section>
+
+  <section id="screens" class="section wrap" aria-labelledby="screens-title">
+    <h2 id="screens-title">Storefront screens</h2>
+    <p class="section-lede">Real captures from <a href="https://arialshop.com" target="_blank" rel="noopener noreferrer">arialshop.com</a>, a production store running Svelte Commerce, taken on <time datetime="2026-09-21">21 September 2026</time>.</p>
+    <div class="shots-tri">
+      <figure class="shot shot-phone"><img src="/assets/admin/storefront-mobile.webp" width="780" height="1688" alt="The Arialshop storefront home page on a phone, showing category tiles, a jewellery hero banner and a bottom navigation bar." loading="lazy" decoding="async"><figcaption>Home, on a phone</figcaption></figure>
+      <figure class="shot"><img src="/assets/admin/storefront-home.webp" width="1440" height="900" alt="The Arialshop storefront home page on a desktop: a jewellery hero image with a shop call to action, category navigation across the top, and a strip of store guarantees beneath." loading="lazy" decoding="async"><figcaption>Home, on a desktop</figcaption></figure>
+      <figure class="shot"><img src="/assets/admin/storefront-product.webp" width="1440" height="900" alt="An Arialshop product page: a large ring photograph with thumbnails, the product title and price, metal colour and carat weight options, a ring size selector and an add to bag button." loading="lazy" decoding="async"><figcaption>Product detail, with variants</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="features" class="section wrap" aria-labelledby="features-title">
+    <h2 id="features-title">What the storefront does</h2>
+    <ul class="feature-grid">
+      <li><b>Product discovery</b><span>Categories, collections, listing pages.</span></li>
+      <li><b>Search</b><span>Over the backend’s own search service.</span></li>
+      <li><b>Cart</b><span>Wired on 23 of the 26 connectors.</span></li>
+      <li><b>Checkout</b><span>Wired on 25 of the 26 connectors.</span></li>
+      <li><b>Responsive UI</b><span>Ordinary Svelte components, not a theme DSL.</span></li>
+      <li><b>Backend adapters</b><span>One shared 43-service surface, 26 implementations.</span></li>
+    </ul>
+    <p class="fineprint">Those cart and checkout counts are per-connector rather than universal, because what a storefront can do depends on what its backend exposes. <a href="/svelte-commerce/backends/">The matrix says which is which</a>.</p>
+  </section>
+
+  <section id="backends" class="section wrap" aria-labelledby="backends-title">
+    <h2 id="backends-title">Backend compatibility</h2>
+    <p class="section-lede">26 connectors exist. These are the six most complete, by measured coverage of the 43-service surface.</p>
+    <ul class="backend-preview">
+      {top6.map(([n, c]) => <li><span class="bp-name">{n}</span><span class="bp-cov">{c}</span></li>)}
+    </ul>
+    <p class="fineprint">Shopify, WooCommerce, Magento, PrestaShop, commercetools, Spree, Sylius and eighteen others are also wired, at varying completeness. Coverage is traced by a script rather than asserted, and no connector has yet been exercised against a live production instance of its platform.</p>
+    <a class="button" href="/svelte-commerce/backends/">View all 26 backend integrations</a>
+  </section>
+
+  <section id="connector" class="section wrap" aria-labelledby="connector-title">
+    <h2 id="connector-title">Using it with GoCommerce</h2>
+    <div class="connector">
+      <div class="connector-head"><h3>GoCommerce ↔ Svelte Commerce</h3><p class="badge">Connector in development</p></div>
+      <p>GoCommerce is not yet one of the 26. The connector that maps its API onto the Svelte Commerce service surface is being written and is not published.</p>
+      <p>Until it lands, pairing the two means writing that client yourself against the documented GoCommerce API — 342 operations, published as OpenAPI.</p>
+      <div class="actions">
+        <a class="button secondary" href="/gocommerce-svelte-commerce-connector/">Connector status</a>
+        <a class="button secondary" href="/gocommerce/">Read about GoCommerce</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="quickstart" class="section quickstart-section" aria-labelledby="qs-title">
+    <div class="wrap">
+      <h2 id="qs-title">Run the storefront locally</h2>
+      <p class="section-lede">You need Node.js and a commerce backend to point it at. The storefront holds no data of its own, so it needs something to read from before it shows a catalogue.</p>
+      <div class="code-block">
+        <div class="code-head"><p>Clone it, install, choose a connector</p><button class="copy" data-copy="code-sv-start">Copy</button></div>
+        <pre id="code-sv-start"><code set:html={startCode} /></pre>
+      </div>
+      <p class="fineprint">There is no per-backend module to uncomment: <code>$connector</code> resolves from <code>package.json</code>, and <code>PUBLIC_CONNECTOR</code> overrides it when more than one is installed. The repository’s <a href="https://github.com/itswadesh/svelte-commerce/blob/main/docs/CONNECTORS.md" target="_blank" rel="noopener noreferrer">CONNECTORS.md</a> is the authority on each one’s environment variables.</p>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions people actually ask" lede="Direct answers, including the unflattering ones. If a question here has a bad answer, that is the answer." />
+
+  <section class="closing wrap">
+    <h2>Build the storefront, keep the backend you have</h2>
+    <p>SvelteKit in front of any of 26 commerce backends. Yours under MIT.</p>
+    <div class="actions">
+      <a class="button" href="#quickstart">Run Svelte Commerce locally</a>
+      <a class="button secondary" href="/svelte-commerce/backends/">Backend integrations</a>
+      <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </section>
+</Base>

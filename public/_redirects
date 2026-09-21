@@ -1,0 +1,29 @@
+# Real pages are absent from this file on purpose: /gocommerce/,
+# /svelte-commerce/, /svelte-commerce/backends/, /go-svelte-ecommerce/ and
+# /gocommerce-svelte-commerce-connector/ are served from disk, and a redirect
+# rule matching any of them would shadow the page it points at.
+#
+# 301 rather than 302: these aliases are permanent, and a temporary redirect
+# consolidates no signal on the destination.
+
+# Sections that moved off the homepage when it was cut to four blocks.
+/architecture     /go-svelte-ecommerce/                           301
+/quick-start      /gocommerce/#quickstart                         301
+/growth           /gocommerce/#roadmap                            301
+/roadmap          /gocommerce/#roadmap                            301
+/faq              /go-svelte-ecommerce/#faq                       301
+/modules          /gocommerce/#modules                            301
+/admin            /gocommerce/#admin                              301
+
+# Shapes people guess at for the pages that do exist.
+/backends         /svelte-commerce/backends/                      301
+/integrations     /svelte-commerce/backends/                      301
+/connector        /gocommerce-svelte-commerce-connector/          301
+/docs             https://github.com/itswadesh/gocommerce#readme  301
+
+# Do not re-add a `/* /404 404` splat here. It was tried and does nothing: an
+# unmatched path returns 404 with a zero-length body either way. The site is
+# served by Cloudflare Workers static assets, and that behaviour is the default
+# `not_found_handling = "none"`. The fix is `not_found_handling = "404-page"`
+# in the Worker config, which serves /404.html for unmatched paths with a 404
+# status. It is not a redirect and it is not this file.
