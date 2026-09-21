@@ -8,3 +8,12 @@
 /quick-start      /#quickstart       302
 /docs             https://github.com/itswadesh/gocommerce#readme  302
 /roadmap          /#growth           302
+
+# Must stay last: the first matching rule wins, so a splat placed above these
+# would swallow every path named above it.
+#
+# Cloudflare did not fall back to 404.html on its own here — an unmatched path
+# returned a 404 with a zero-length body, which is exactly the blank page the
+# custom 404 was written to replace. Serving the file explicitly keeps the
+# status honest and still gives the visitor somewhere to go.
+/*                /404.html          404
