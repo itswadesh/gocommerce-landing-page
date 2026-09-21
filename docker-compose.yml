@@ -1,0 +1,79 @@
+# A GoCommerce store on your own machine, in one command.
+#
+#   curl -O https://kitcommerce.store/docker-compose.yml
+#   curl -o .env https://kitcommerce.store/env.example
+#   docker compose up -d
+#
+# What this starts, and what it deliberately does not:
+#
+#   postgres    the database GoCommerce owns
+#   gocommerce  the commerce API *and* the Svelte admin — one Go binary, because
+#               the admin is compiled into it with //go:embed. There is no
+#               separate admin service to run, and adding one would be theatre.
+#   web         Caddy in front, so the store answers on port 80 rather than 8080
+#               and there is one place to add TLS later.
+#
+# Svelte Commerce is NOT here. The connector that would let it read from
+# GoCommerce is still unpublished, so a storefront service would start, serve a
+# page, and fail to load a single product. A container that runs but cannot work
+# is worse than an absent one — see
+# https://kitcommerce.store/gocommerce-svelte-commerce-connector/
+#
+# GoCommerce builds from source rather than pulling a published image, because
+# no image is published yet. The first run compiles Go and takes a few minutes;
+# later runs are cached.
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: gocommerce
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: gocommerce
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      # gocommerce waits on this rather than on a fixed sleep, so a slow first
+      # boot is slow rather than broken.
+      test: ["CMD-SHELL", "pg_isready -U gocommerce -d gocommerce"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+
+  gocommerce:
+    build:
+      # Built straight from the public repository, so there is nothing to clone
+      # first. Pin a tag here once releases exist.
+      context: https://github.com/itswadesh/gocommerce.git
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://gocommerce:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@postgres:5432/gocommerce?sslmode=disable
+      GOCOMMERCE_ADMIN_TOKEN: ${GOCOMMERCE_ADMIN_TOKEN:?set GOCOMMERCE_ADMIN_TOKEN in .env}
+      # Creates the first operator, and only while there is none — so leaving
+      # these set does not reset your password on every restart.
+      GOCOMMERCE_ADMIN_EMAIL: ${GOCOMMERCE_ADMIN_EMAIL:-admin@example.com}
+      GOCOMMERCE_ADMIN_PASSWORD: ${GOCOMMERCE_ADMIN_PASSWORD:?set GOCOMMERCE_ADMIN_PASSWORD in .env}
+    volumes:
+      - media:/data/media
+    expose:
+      - "8080"
+
+  web:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - gocommerce
+    ports:
+      - "${PORT:-80}:80"
+    command: caddy reverse-proxy --from :80 --to gocommerce:8080
+    volumes:
+      - caddydata:/data
+
+volumes:
+  pgdata:
+  media:
+  caddydata:

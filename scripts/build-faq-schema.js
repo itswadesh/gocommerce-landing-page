@@ -24,7 +24,7 @@ const write = process.argv.includes('--write')
 // from, so it has to match the page's own <link rel="canonical"> exactly —
 // a mismatch here would point the FAQ at a URL that does not exist.
 const PAGES = [
-  { file: "index.html", url: "https://kitcommerce.store/", faq: false },
+  { file: "index.html", url: "https://kitcommerce.store/" },
   { file: "gocommerce/index.html", url: "https://kitcommerce.store/gocommerce/" },
   { file: "svelte-commerce/index.html", url: "https://kitcommerce.store/svelte-commerce/" },
   { file: "svelte-commerce/backends/index.html", url: "https://kitcommerce.store/svelte-commerce/backends/" },

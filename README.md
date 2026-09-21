@@ -46,22 +46,48 @@ Six pages, each with one job. The homepage directs; the project pages explain.
 
 | URL | Its one job |
 | --- | --- |
-| `/` | choose a project |
+| `/` | choose a project, and prove the software is real |
 | `/gocommerce/` | understand GoCommerce |
 | `/svelte-commerce/` | understand Svelte Commerce |
 | `/svelte-commerce/backends/` | understand backend compatibility |
 | `/go-svelte-ecommerce/` | understand how the two fit together |
 | `/gocommerce-svelte-commerce-connector/` | understand integration status |
 
-**The homepage is deliberately short** — four sections: hero, the two projects,
-how they connect, start building. It must not grow an admin carousel, a backend
-matrix, a connector roadmap, a detailed architecture diagram, a module list, API
-documentation, an FAQ, installation commands or a contributor guide. Every one
-of those belongs to a page above. A visitor should scan it and decide *I want
-GoCommerce* / *I want Svelte Commerce* / *I want to understand how they fit*.
+**The homepage is the long one now.** Fifteen sections: hero, proof strip, two
+projects, one-command Docker, live admin, live stores, maturity, capability
+wall, headless architecture, why-this-stack, agent-friendly, ownership, FAQ,
+start building. It argues with screenshots, icons and measured numbers rather
+than prose — an earlier revision capped it at four sections, and that was
+reversed deliberately.
 
-Nav is four items: GoCommerce, Svelte Commerce, Architecture, GitHub. Secondary
+Nav is five items: GoCommerce, Svelte Commerce, Live admin, Architecture, GitHub. Secondary
 navigation lives inside the project pages, not in the header.
+
+### The Docker quick start
+
+`docker-compose.yml` and `env.example` sit at the repository root and are served
+from the domain, so the command on the homepage is a real download:
+
+```
+curl -O https://kitcommerce.store/docker-compose.yml
+curl -o .env https://kitcommerce.store/env.example
+docker compose up -d
+```
+
+Three services: `postgres`, `gocommerce` (API **and** admin — the admin is
+compiled into the binary, so a separate admin service would be theatre) and
+`web` (Caddy on port 80). **This was run end to end before it was published** —
+all three containers healthy, `/` serving the admin, `/docs` the OpenAPI page,
+`/api/products` returning JSON.
+
+It deliberately does **not** start Svelte Commerce. The connector is
+unpublished, so a storefront container would boot, serve a page and fail to
+load a product. Do not add one to look complete.
+
+GoCommerce builds from source because no image is published; pin a tag in
+`build.context` once releases exist. The env template is `env.example`, not
+`.env.example`, because Cloudflare Pages may not serve dotfiles and a download
+instruction that 404s is worse than none.
 
 ### Image distribution
 
@@ -69,7 +95,7 @@ Each image appears on one page, so no page repeats another.
 
 | Page | Images |
 | --- | --- |
-| `/` | one admin dashboard, one Arialshop mobile |
+| `/` | hero composite (admin + Arialshop mobile), four admin tabs, one live-store card |
 | `/gocommerce/` | the seven admin screens |
 | `/svelte-commerce/` | Arialshop mobile, desktop and product |
 | the other three | none — diagrams only |
@@ -122,7 +148,7 @@ product listing. Do not restore it — retake it.
 
 ### Lazy loading
 
-Only the six screenshots behind the admin tabs are lazy. Everything always
+Only screenshots behind an admin tab are lazy — three on the homepage, six on the GoCommerce page. Everything always
 visible loads normally, because a lazy image inside a `hidden` panel is never in
 the viewport and revealing it does not reliably start the load — the reader gets
 a blank frame where a screenshot should be. `app.js` promotes a panel's images
@@ -174,7 +200,7 @@ Run them before pushing. There is still no CI, and the broader page verifier
 forbidden phrasings) lives in the session scratchpad rather than the repository —
 checking it in is tracked as outstanding work.
 
-### One CSS trap, documented because it cost an hour
+### Two CSS traps, documented because they cost real time
 
 Do not put `min-width` on `.matrix`. A `min-width` on that table escapes its
 `.tbl-scroll` container and widens the whole document at phone sizes — measured
@@ -183,9 +209,19 @@ inline-size`, or `overflow-x: clip` on any ancestor. The cells carry their own
 `nowrap` and min-widths, so the table is still wider than a phone and still
 scrolls horizontally; it just no longer drags the page with it.
 
+Second: **grid items default to `min-width: auto`**, so any grid track holding a
+wide `<pre>` refuses to shrink below its content and pushes the page sideways —
+measured at +57px on a 400px viewport — even though the `<pre>` has its own
+`overflow-x`. Every grid that can contain code carries `min-width: 0` on its
+children for this reason. Do not remove it.
+
 ## Still outstanding
 
-No analytics or conversion instrumentation (§29, §117, §118). No
+Conversion events are now **shipped dark** (§117): `app.js` reads
+`window.KC_ANALYTICS` and no-ops entirely when it is absent, so nothing is
+requested and nothing is recorded until an analytics object is assigned. The
+funnel is named in `data-ev` attributes on the CTAs. No analytics provider is
+configured yet. No
 `Content-Security-Policy` (§107). Admin screenshots ship a single 1440w
 candidate with no `srcset` (§100). Fonts load from Google rather than
 self-hosted (§99). Sitemap `lastmod` is maintained by hand (§65). And from

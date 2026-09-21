@@ -136,4 +136,32 @@
         .catch(function () { /* keep the measured values */ })
     })
   }
+
+  /* ──────────────────────────────────────────── conversion events */
+
+  // Shipped dark, per the audit playbook §117: with no analytics configured
+  // this records nothing and requests nothing. It exists so that turning
+  // analytics on later is one assignment rather than a hunt through the
+  // markup for every CTA — and so the funnel is named in one place.
+  //
+  // The events are the ones worth knowing: which project a visitor chose,
+  // whether they copied the compose command, whether they went to GitHub.
+  var analytics = window.KC_ANALYTICS || null
+
+  function track (name, detail) {
+    if (!name) return
+    if (!analytics || typeof analytics.track !== 'function') return
+    try { analytics.track(name, detail || {}) } catch (e) { /* never break a click */ }
+  }
+
+  document.addEventListener('click', function (e) {
+    var el = e.target && e.target.closest ? e.target.closest('[data-ev]') : null
+    if (!el) return
+    track(el.dataset.ev, { text: (el.textContent || "").trim().slice(0, 40) })
+  })
+
+  $$('.faq details').forEach(function (d) {
+    d.addEventListener('toggle', function () { if (d.open) track('faq_expand', { q: (d.querySelector("summary") || {}).textContent }) })
+  })
+
 })()
