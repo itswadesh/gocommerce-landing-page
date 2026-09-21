@@ -9,26 +9,9 @@
 /docs             https://github.com/itswadesh/gocommerce#readme  302
 /roadmap          /#growth           302
 
-# Must stay last: the first matching rule wins, so a splat placed above these
-# would swallow every path named above it.
-#
-# Cloudflare did not fall back to 404.html on its own here — an unmatched path
-# returned a 404 with a zero-length body, which is exactly the blank page the
-# custom 404 was written to replace. Serving the file explicitly keeps the
-# status honest and still gives the visitor somewhere to go.
-#
-# The destination is /404, not /404.html: Cloudflare normalises the .html form
-# with a 307 to the extensionless path, so a rule pointing at the file resolves
-# to a redirect rather than to a body.
-#
-# KNOWN NOT TO WORK as of 21 Sep 2026, and kept because it is the documented
-# mechanism and costs nothing if the cause is fixed. What was established:
-#   * 404.html is deployed — /404 returns 200 with the right page
-#   * _headers applies to the 404 response, so Pages is generating it
-#   * the named rules above work, so _redirects is being read
-#   * fresh, never-requested paths behave the same, so it is not edge cache
-# An unmatched path still returns 404 with a zero-length body. That points at a
-# Pages project setting rather than anything in this repository — check the
-# build output directory, and whether a Worker route is bound to the custom
-# domain ahead of Pages.
-/*                /404               404
+# Do not re-add a `/* /404 404` splat here. It was tried and does nothing on
+# this project: an unmatched path returns 404 with a zero-length body either
+# way. 404.html is deployed and /404 serves it correctly, the named rules above
+# work, and it is not edge cache — so the cause is a Pages project setting, not
+# this file. Check the build output directory and whether a Worker route is
+# bound to the custom domain ahead of Pages.
