@@ -1,23 +1,76 @@
 # GoCommerce landing page
 
-Open `index.html` directly in a browser, or run `node serve.cjs` in this folder and visit http://127.0.0.1:4173.
+A static site. No build step, no package installation.
 
-This is a complete, static marketing website. No package installation or build step is required. The admin views, storefront bag, and API response examples are illustrative local demos, not a connected ecommerce backend. The quick start copies commands but does not run them.
+```
+node serve.cjs      # http://127.0.0.1:4173
+```
 
-Files: index.html (content), style.css (responsive design and graphics), app.js (interactions), serve.cjs (optional local preview server).
+Files: `index.html` (content), `style.css` (design and layout), `app.js` (tabs,
+copy buttons, mobile nav), `serve.cjs` (local preview), `assets/` (images).
 
-Graphics include original interface diagrams, an SVG chart, and geometric digital print designs. GitHub logos and live star counts are displayed through Shields.io badges linking to the project repositories. Badges require internet access and may reflect cached counts. Google Fonts are optional; system fonts are used when offline.
+## Where the numbers come from
 
-Verified reference links on 20 September 2026:
-- https://github.com/misiki-in/gocommerce
-- https://github.com/itswadesh/svelte-commerce
+Every figure on the page was measured against the repositories on **21 September
+2026**, not estimated. If the code moves, these move with it:
 
-GoCommerce is pre-1.0. Consult the repositories for current requirements, licenses, API schemas, admin build instructions, and integration details. No GitHub star counts, performance benchmarks, or production customer claims have been invented.
+| Claim on the page | Measured from |
+| --- | --- |
+| 1 production dependency | the non-indirect `require` block in `go.mod` — `jackc/pgx/v5` |
+| 342 documented API operations | 238 in `core/openapi.json` plus 104 across `ext/*/openapi.json` |
+| 142 admin endpoints | paths under `/api/admin` in `core/openapi.json` |
+| 1,036 tests | `Test`/`Example` functions across `*_test.go` |
+| 44 modules | directories in `ext/` |
+| 61 admin screens | `+page.svelte` files under `admin/src/routes` |
+| 48 migrations | migration markers in `core/schema.go` |
+| 17 commerce events | event constants in `core/events.go` |
+| Star and fork counts | the GitHub API, per repository |
 
-The page is prepared for go.misiki.tech. GitHub Pages serves the root of the main branch; pushes to main publish updates automatically. The custom domain is not configured. For other static hosting upload index.html, style.css, app.js, and assets/ together.
+`app.js` re-fetches the two star counts from the GitHub API on load and updates
+them if the call succeeds. An unauthenticated call is rate limited per address
+and will sometimes fail, so the values in the HTML are real on their own and the
+page is correct when the request never returns.
 
-The technology logo cloud uses locally bundled Simple Icons SVG assets (https://github.com/simple-icons/simple-icons), with one Svelte entry for admin and storefront. It describes technology, not customer endorsements. Logo scrolling pauses on hover; terminal typing has pause controls. Both respect reduced-motion preferences. The terminal previews commands only; Copy returns the complete selected setup block during animation.
+## Screenshots
 
-Docker Compose commands follow the GoCommerce repository's compose configuration. The Codespaces link opens workspace creation; it does not automatically provision a running store. Vercel and Netlify links open the storefront deployment flows published in the Svelte Commerce README. Accounts, configuration, and a separately deployed backend are required. These workflows were linked and inspected, not used to create paid infrastructure or validate a production commerce deployment.
+`assets/admin/*.webp` are real captures of the running admin panel, taken with
+Playwright at 1440×900 and deviceScaleFactor 2, then resized to 1440 and encoded
+as WebP. Both themes are captured, and the page picks one with
+`prefers-color-scheme` — a light screenshot on a dark page looks like a bug.
 
-Content references reviewed: https://www.storehippo.com/en/, https://medusajs.com/, https://saleor.io/, https://vendure.io/. The resulting copy is original and focuses on headless separation, composability, and ownership; competitors' feature claims, customer logos, and benchmarks are not attributed to GoCommerce.
+The store behind them was filled by the engine's own `scripts/seed-demo.ps1`,
+which uses a fixed random seed so the same store can be photographed twice: 64
+products, 260 orders across 150 days. Retaking a shot later will match.
+
+`storefront-home.webp` is [arialshop.com](https://arialshop.com), a production
+store running Svelte Commerce, captured the same way.
+
+## What the page deliberately does not claim
+
+- **The Svelte Commerce connector is not published.** Svelte Commerce is headless
+  across Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart; GoCommerce
+  is not among them yet. The storefront section says so plainly rather than
+  implying a wired stack.
+- **No benchmarks.** None are published, so the page makes no speed claim at all.
+- **The marketing section is split into shipped and roadmap.** Behavioural
+  events, unified profiles, segments, a workflow builder, WhatsApp, retargeting,
+  attribution and loyalty are roadmap. The engine emits order and catalog events
+  only.
+- **Star counts sit with the project they belong to.** GoCommerce is new and its
+  count says so; Svelte Commerce's larger numbers are never shown in a way that
+  could be read as GoCommerce's.
+
+## Hosting
+
+Cloudflare Pages serves `kitcommerce.store` from the `main` branch; a push
+publishes. `9aed8449d5c60c850c662366e3d64c9a.txt` is the IndexNow key and must
+stay at the site root, byte-exact and with no trailing newline, or verification
+returns 403.
+
+## Verifying a change
+
+The audit in the session scratchpad (`verify/page-check.mjs`) loads the page in
+both colour schemes and fails on console errors, failed requests, horizontal
+overflow at 1440/1024/768/400px, any text below WCAG AA contrast computed from
+rendered colours, missing alt text, heading-level jumps and silent font
+fallbacks. Run it before pushing a design change.

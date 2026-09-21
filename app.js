@@ -1,47 +1,129 @@
-document.querySelector('.menu').addEventListener('click',function(){const open=this.getAttribute('aria-expanded')!=='true';this.setAttribute('aria-expanded',String(open));document.querySelector('#navlinks').classList.toggle('open',open)});
-document.querySelectorAll('#navlinks a').forEach(a=>a.addEventListener('click',()=>{document.querySelector('#navlinks').classList.remove('open');document.querySelector('.menu').setAttribute('aria-expanded','false')}));
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelector('#navlinks').classList.remove('open');document.querySelector('.menu').setAttribute('aria-expanded','false')}});
-const panel=document.querySelector('#admin-panel');
-const overview=`<div class="stats"><div class="stat"><span>Total revenue</span><strong>$24,680</strong><small>+18.6% this period</small></div><div class="stat"><span>Orders</span><strong>348</strong><small>+12.4% this period</small></div><div class="stat"><span>Average order</span><strong>$70.92</strong><small>+5.5% this period</small></div></div><div class="chart-box"><div class="chart-label"><span>Revenue overview</span><small>— This month</small></div><svg class="chart" viewBox="0 0 640 130" preserveAspectRatio="none" role="img" aria-label="Illustrative revenue chart trending upward across September"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#67dced" stop-opacity=".22"/><stop offset="100%" stop-color="#67dced" stop-opacity="0"/></linearGradient></defs><path d="M0 20H640 M0 60H640 M0 100H640" stroke="#263744" stroke-dasharray="3 5" fill="none"/><path d="M0 110 L25 101 50 105 75 83 100 95 125 72 150 79 175 63 200 78 225 70 250 81 275 57 300 61 325 42 350 56 375 38 400 45 425 27 450 35 475 16 500 25 525 18 550 34 575 15 600 22 640 4 V130 H0Z" fill="url(#area)"/><path d="M0 110 L25 101 50 105 75 83 100 95 125 72 150 79 175 63 200 78 225 70 250 81 275 57 300 61 325 42 350 56 375 38 400 45 425 27 450 35 475 16 500 25 525 18 550 34 575 15 600 22 640 4" fill="none" stroke="#77d8e8" stroke-width="2.5"/></svg><div class="chart-days"><span>Sep 01</span><span>Sep 07</span><span>Sep 14</span><span>Sep 21</span><span>Sep 30</span></div></div>`;
-const tables={Products:{headers:['Product','SKU','Price','Status'],rows:[['Colour Studies','ART-001','$24.00','Active'],['Grid System','ART-002','$18.00','Active'],['Botanical Forms','ART-003','$32.00','Draft'],['Paper Textures','ART-004','$16.00','Active']]},Orders:{headers:['Order','Customer','Total','Status'],rows:[['#1048','Alex Morgan','$48.00','Paid'],['#1047','Sam Taylor','$32.00','Paid'],['#1046','Jamie Chen','$24.00','Pending'],['#1045','Robin Patel','$66.00','Paid']]},Inventory:{headers:['Product','SKU','Available','Status'],rows:[['Studio Notebook','NB-001','128','In stock'],['Canvas Tote','TT-002','64','In stock'],['Desk Planner','PL-003','5','Low stock'],['Art Print / A3','PR-004','42','In stock']]}};
-function setAdmin(name){document.querySelector('#admin-title').textContent=name;document.querySelectorAll('[data-admin]').forEach(b=>{const active=b.dataset.admin===name;b.classList.toggle('active',active);b.setAttribute('aria-pressed',active)});if(name==='Overview'){panel.innerHTML=overview;return}const t=tables[name];panel.innerHTML=`<div class="table-wrap"><table class="preview-table"><thead><tr>${t.headers.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${t.rows.map(row=>`<tr>${row.map((c,i)=>`<td>${i===3?`<span class="badge ${['Low stock','Pending','Draft'].includes(c)?'low':''}">${c}</span>`:c}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="table-note">Illustrative ${name.toLowerCase()} view · Sample data for this landing page.</p>`}
-document.querySelectorAll('[data-admin]').forEach(b=>b.addEventListener('click',()=>setAdmin(b.dataset.admin)));setAdmin('Overview');
-const examples={products:{request:'curl http://localhost:8080/api/products?limit=2',response:'{\n  "data": [\n    { "id": 1, "title": "Colour Studies" },\n    { "id": 2, "title": "Grid System" }\n  ],\n  "meta": { "total": 2, "limit": 2, "page": 1 }\n}'},cart:{request:'curl -X POST http://localhost:8080/api/carts',response:'{\n  "data": {\n    "id": "example-cart-id"\n  }\n}\n\n// Illustrative payload.\n// See /docs for the full schema.'}};
-function setApi(key){document.querySelector('#api-request').textContent=examples[key].request;document.querySelector('#api-response').textContent=examples[key].response;document.querySelectorAll('[data-api]').forEach(b=>{const a=b.dataset.api===key;b.classList.toggle('active',a);b.setAttribute('aria-pressed',a)})}document.querySelectorAll('[data-api]').forEach(b=>b.addEventListener('click',()=>setApi(b.dataset.api)));setApi('products');
+/* Behaviour for the GoCommerce landing page.
+ *
+ * Everything here is progressive: the page is readable and complete with the
+ * script blocked. The tabs fall back to the first screenshot, the copy buttons
+ * simply do nothing, and the repository numbers stay at the values measured
+ * when the page was built.
+ */
 
-const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-let terminalText='', terminalIndex=0, terminalTimer=null, terminalPaused=false, terminalVisible=false;
-const commandWindow=document.querySelector('#start-code');
-const pauseTerminal=document.querySelector('#pause-terminal');
-function updateTerminal(){
-  commandWindow.textContent=terminalText.slice(0,terminalIndex);
-  document.querySelector('.terminal-progress span').style.width=(terminalText.length?100*terminalIndex/terminalText.length:0)+'%';
-  commandWindow.classList.toggle('typing',terminalIndex<terminalText.length&&!terminalPaused);
-}
-function tickCommands(){
-  clearTimeout(terminalTimer);
-  if(terminalPaused||!terminalVisible||document.hidden||terminalIndex>=terminalText.length)return;
-  terminalIndex=Math.min(terminalIndex+3,terminalText.length);updateTerminal();
-  if(terminalIndex<terminalText.length)terminalTimer=setTimeout(tickCommands,22);
-  else {pauseTerminal.textContent='Complete';pauseTerminal.disabled=true;}
-}
-function finishCommands(){clearTimeout(terminalTimer);terminalIndex=terminalText.length;updateTerminal();pauseTerminal.textContent='Complete';pauseTerminal.disabled=true;}
-function animateCommands(code){
-  clearTimeout(terminalTimer);terminalText=code;terminalIndex=0;terminalPaused=false;
-  pauseTerminal.disabled=false;pauseTerminal.textContent='Pause';pauseTerminal.setAttribute('aria-pressed','false');
-  if(reducedMotion.matches){finishCommands();return;}updateTerminal();tickCommands();
-}
-pauseTerminal.addEventListener('click',()=>{terminalPaused=!terminalPaused;pauseTerminal.textContent=terminalPaused?'Resume':'Pause';pauseTerminal.setAttribute('aria-pressed',String(terminalPaused));updateTerminal();if(terminalPaused)clearTimeout(terminalTimer);else tickCommands();});
-document.querySelector('#replay-terminal').addEventListener('click',()=>animateCommands(terminalText));
-new IntersectionObserver(entries=>{terminalVisible=entries[0].isIntersecting;if(terminalVisible)tickCommands();else clearTimeout(terminalTimer);},{threshold:.1}).observe(document.querySelector('.terminal'));
-document.addEventListener('visibilitychange',()=>{if(document.hidden)clearTimeout(terminalTimer);else tickCommands();});
-function syncMotion(){document.querySelector('.terminal-mode').textContent=reducedMotion.matches?'STATIC PREVIEW':'TYPEWRITER';if(reducedMotion.matches)finishCommands();}
-reducedMotion.addEventListener('change',syncMotion);
+(function () {
+  'use strict'
 
-const starts={docker:{"code":"git clone https://github.com/misiki-in/gocommerce.git\ncd gocommerce\n\n# Generate local credentials (POSIX shell)\nexport POSTGRES_PASSWORD=$(openssl rand -hex 24)\nexport GOCOMMERCE_ADMIN_TOKEN=$(openssl rand -hex 32)\nexport GOCOMMERCE_ADMIN_PASSWORD=$(openssl rand -hex 24)\nexport GOCOMMERCE_ADMIN_EMAIL=admin@example.com\n\ndocker compose up --build -d\ndocker compose ps","requirements":"Requires Git, Docker with Compose, and OpenSSL in a POSIX shell (macOS, Linux, or WSL). Save the generated admin password in a password manager to sign in.","note":"Runs the engine, admin, and PostgreSQL at localhost:8080. For production, configure persistent secrets, TLS, backups, and your domain. Deploy the storefront separately.","title":"terminal / docker compose","url":"https://github.com/misiki-in/gocommerce/blob/main/docker-compose.yml"},engine:{code:'git clone https://github.com/misiki-in/gocommerce.git\ncd gocommerce\n\ncreatedb mystore\nexport DATABASE_URL=postgres://localhost/mystore\nexport GOCOMMERCE_ADMIN_TOKEN=$(openssl rand -hex 32)\n\ngo run ./cmd/gocommerce serve',requirements:'Requires Go 1.23+, PostgreSQL 16+, Git, and OpenSSL. These commands use a POSIX shell (macOS, Linux, or WSL).',note:'The engine serves at localhost:8080. Follow the README for admin build and authentication details.',title:'terminal / gocommerce',url:'https://github.com/misiki-in/gocommerce#quick-start'},storefront:{code:'git clone https://github.com/itswadesh/svelte-commerce.git\ncd svelte-commerce\n\ncp .env.example .env\nnpm install\nnpm run dev\n\n# Opens at localhost:5173\n# Configure .env for your own backend.',requirements:'Start with Git and the Node.js/package-manager versions required by the repository. Backend configuration is required before end-to-end checkout.',note:'The default environment uses the public Litekart demo API. Configure your own backend using the repository guide.',title:'terminal / svelte-commerce',url:'https://github.com/itswadesh/svelte-commerce#readme'}};
-function setStart(key){const s=starts[key];animateCommands(s.code);document.querySelector('#requirements').textContent=s.requirements;document.querySelector('#start-note').textContent=s.note;document.querySelector('#terminal-title').textContent=s.title;document.querySelector('#setup-link').href=s.url;document.querySelectorAll('[data-start]').forEach(b=>{const a=b.dataset.start===key;b.classList.toggle('active',a);b.setAttribute('aria-pressed',a)})}document.querySelectorAll('[data-start]').forEach(b=>b.addEventListener('click',()=>setStart(b.dataset.start)));setStart('docker');
-let toastTimer;function toast(message){const t=document.querySelector('#toast');t.textContent=message;t.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('visible'),2600)}
-document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{const value=b.dataset.copy==='start-code'?terminalText:document.getElementById(b.dataset.copy).textContent;try{await navigator.clipboard.writeText(value);toast('Copied to clipboard')}catch{if(b.dataset.copy==='start-code'){finishCommands();}const range=document.createRange();range.selectNodeContents(document.getElementById(b.dataset.copy));const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);toast('Text selected. Press Ctrl+C or Command+C to copy.')}}));
-let inBag=false;document.querySelector('#add-bag').addEventListener('click',()=>{inBag=!inBag;document.querySelector('#cart-count').textContent=`Bag (${inBag?1:0})`;document.querySelector('#add-bag').textContent=inBag?'Remove from bag −':'Add to bag · $24 +';toast(inBag?'Added to the demo bag':'Removed from the demo bag')});
+  var $ = function (sel, root) { return (root || document).querySelector(sel) }
+  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)) }
 
-syncMotion();
+  /* ───────────────────────────────────────────────── mobile nav */
+
+  var menu = $('.menu')
+  var links = $('#navlinks')
+
+  function closeNav () {
+    if (!menu || !links) return
+    links.classList.remove('open')
+    menu.setAttribute('aria-expanded', 'false')
+  }
+
+  if (menu && links) {
+    menu.addEventListener('click', function () {
+      var open = menu.getAttribute('aria-expanded') !== 'true'
+      menu.setAttribute('aria-expanded', String(open))
+      links.classList.toggle('open', open)
+    })
+    $$('#navlinks a').forEach(function (a) { a.addEventListener('click', closeNav) })
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNav() })
+  }
+
+  /* ──────────────────────────────────────────── admin screenshots */
+
+  var tablist = $('.tabs')
+
+  if (tablist) {
+    var tabs = $$('[role="tab"]', tablist)
+
+    var select = function (tab, focus) {
+      tabs.forEach(function (t) {
+        var on = t === tab
+        t.setAttribute('aria-selected', String(on))
+        t.tabIndex = on ? 0 : -1
+        var panel = document.getElementById(t.getAttribute('aria-controls'))
+        if (panel) panel.hidden = !on
+      })
+      if (focus) tab.focus()
+    }
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () { select(tab, false) })
+    })
+
+    // Arrow keys move between tabs, which is what a screen-reader user expects
+    // of a tablist and what the roles we have already claimed promise.
+    tablist.addEventListener('keydown', function (e) {
+      var i = tabs.indexOf(document.activeElement)
+      if (i < 0) return
+      var next =
+        e.key === 'ArrowRight' ? (i + 1) % tabs.length :
+        e.key === 'ArrowLeft' ? (i - 1 + tabs.length) % tabs.length :
+        e.key === 'Home' ? 0 :
+        e.key === 'End' ? tabs.length - 1 : -1
+      if (next < 0) return
+      e.preventDefault()
+      select(tabs[next], true)
+    })
+  }
+
+  /* ──────────────────────────────────────────────── copy buttons */
+
+  var toast = $('#toast')
+  var toastTimer
+
+  function say (message) {
+    if (!toast) return
+    toast.textContent = message
+    toast.classList.add('visible')
+    clearTimeout(toastTimer)
+    toastTimer = setTimeout(function () { toast.classList.remove('visible') }, 2200)
+  }
+
+  $$('.copy').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var target = document.getElementById(button.dataset.copy)
+      if (!target) return
+      var text = target.innerText.replace(/ /g, ' ')
+
+      if (!navigator.clipboard) { say('Copying needs a secure connection'); return }
+      navigator.clipboard.writeText(text).then(
+        function () { say('Copied to your clipboard') },
+        function () { say('Your browser blocked the copy') },
+      )
+    })
+  })
+
+  /* ─────────────────────────────────────── live repository numbers */
+
+  // The numbers in the HTML are real, measured on the date printed beside them.
+  // This refreshes them if GitHub answers, and leaves them alone if it does not
+  // — an unauthenticated call is rate limited per address and will sometimes
+  // fail, which must not turn an accurate page into a broken one.
+  var REPOS = [
+    { repo: 'misiki-in/gocommerce', fields: { 'go-stars': 'stargazers_count' } },
+    { repo: 'itswadesh/svelte-commerce', fields: { 'sv-stars': 'stargazers_count', 'sv-forks': 'forks_count' } },
+  ]
+
+  var wanted = $$('[data-gh]')
+  if (wanted.length && 'fetch' in window) {
+    REPOS.forEach(function (entry) {
+      fetch('https://api.github.com/repos/' + entry.repo, {
+        headers: { Accept: 'application/vnd.github+json' },
+      })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status) })
+        .then(function (data) {
+          Object.keys(entry.fields).forEach(function (key) {
+            var el = $('[data-gh="' + key + '"]')
+            var value = data[entry.fields[key]]
+            if (el && typeof value === 'number') el.textContent = value.toLocaleString('en')
+          })
+        })
+        .catch(function () { /* keep the measured values */ })
+    })
+  }
+})()
