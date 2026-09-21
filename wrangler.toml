@@ -1,0 +1,23 @@
+# Cloudflare Worker serving kitcommerce.store as static assets.
+#
+# Deploys run in Workers Builds on every push to main (repository
+# itswadesh/gocommerce-landing-page, deploy command `npx wrangler deploy`).
+# This file is what that command reads: build the site, then upload dist/.
+# There is no Worker script — every request is answered from the assets —
+# so `main` is deliberately absent.
+
+name = "gocommerce-landing-page"
+compatibility_date = "2026-09-21"
+
+[build]
+command = "npm run build"
+
+[assets]
+directory = "./dist"
+# Astro emits /path/index.html and every canonical carries a trailing slash;
+# auto-trailing-slash serves /gocommerce/ from that file and redirects
+# /gocommerce to it, which is the behaviour the canonicals assume.
+html_handling = "auto-trailing-slash"
+# An unmatched path serves 404.html with a 404 status. The default, "none",
+# is the zero-length 404 body the first audit found.
+not_found_handling = "404-page"
