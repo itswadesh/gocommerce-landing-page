@@ -1,13 +1,24 @@
-# /gocommerce/ and /svelte-commerce/ are real pages now, not anchors, so they
-# are deliberately absent from this file. A redirect rule matching either path
-# would shadow the page it is supposed to reach.
+# Real pages are absent from this file on purpose: /gocommerce/,
+# /svelte-commerce/, /svelte-commerce/backends/, /go-svelte-ecommerce/ and
+# /gocommerce-svelte-commerce-connector/ are served from disk, and a redirect
+# rule matching any of them would shadow the page it points at.
 #
 # 301 rather than 302: these aliases are permanent, and a temporary redirect
 # consolidates no signal on the destination.
-/architecture     /#architecture                                  301
-/quick-start      /#quick-start                                   301
+
+# Sections that moved off the homepage when it was cut to four blocks.
+/architecture     /go-svelte-ecommerce/                           301
+/quick-start      /gocommerce/#quickstart                         301
 /growth           /gocommerce/#roadmap                            301
 /roadmap          /gocommerce/#roadmap                            301
+/faq              /go-svelte-ecommerce/#faq                       301
+/modules          /gocommerce/#modules                            301
+/admin            /gocommerce/#admin                              301
+
+# Shapes people guess at for the pages that do exist.
+/backends         /svelte-commerce/backends/                      301
+/integrations     /svelte-commerce/backends/                      301
+/connector        /gocommerce-svelte-commerce-connector/          301
 /docs             https://github.com/itswadesh/gocommerce#readme  301
 
 # Do not re-add a `/* /404 404` splat here. It was tried and does nothing on

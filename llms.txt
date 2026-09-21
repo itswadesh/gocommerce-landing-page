@@ -2,10 +2,11 @@
 
 > The website presenting two independent open-source ecommerce projects.
 > GoCommerce is an ecommerce backend and admin written in Go against
-> PostgreSQL. Svelte Commerce is an ecommerce storefront built with SvelteKit.
-> Both are MIT licensed and self-hosted. kitcommerce.store is the website that
-> presents them; it is not itself a product, platform or framework, and there
-> is nothing called KitCommerce to install.
+> PostgreSQL. Svelte Commerce is an ecommerce storefront built with SvelteKit,
+> headless across 26 commerce backends. Both are MIT licensed and self-hosted.
+> kitcommerce.store is the website that presents them; it is not itself a
+> product, platform or framework, and there is nothing called KitCommerce to
+> install.
 
 ## Key facts
 
@@ -22,27 +23,37 @@
 - GoCommerce: 1,036 tests, 61 admin screens, 44 modules, 48 migrations, 17 commerce events.
 - Money is stored and returned as integer minor units plus a currency code, never a float and never a formatted string.
 - Go module path: `github.com/misiki/gocommerce`. This is unchanged by the repository rename and is the path to import.
-- Svelte Commerce supports six backends today: Medusa, Shopify, Saleor, Vendure, WooCommerce, Litekart.
+- Svelte Commerce reaches a backend through a connector package implementing a shared 43-service surface.
+- 26 connectors exist. Coverage is traced by a script, not hand-asserted.
+- Most complete: Litekart and Vendure at 39/43. Then Medusa 31/43; Broadleaf, Saleor, Shopware and Virto Commerce 28/43; WooCommerce 27/43. Lowest is OpenCart at 9/43, which is the honest ceiling for that API.
+- Cart is wired on 23 of 26 connectors, checkout on 25, auth on 20.
+- No connector has been exercised against a live production instance of its platform.
 
 ## Pages
 
-- https://kitcommerce.store/ — both projects, how they relate, architecture, comparison, quick starts
+- https://kitcommerce.store/ — the two projects and which one you want. Four sections, no detail.
 - https://kitcommerce.store/gocommerce/ — the backend and admin: capabilities, modules, admin screenshots, setup, roadmap
-- https://kitcommerce.store/svelte-commerce/ — the storefront: capabilities, supported backends, a live store, setup
+- https://kitcommerce.store/svelte-commerce/ — the storefront: capabilities, screens, backend preview, setup
+- https://kitcommerce.store/svelte-commerce/backends/ — all 26 connectors with measured coverage, cart/checkout/auth status and known gaps
+- https://kitcommerce.store/go-svelte-ecommerce/ — how the two projects relate, when to use each, side-by-side comparison
+- https://kitcommerce.store/gocommerce-svelte-commerce-connector/ — connector status: in development, not published
 
 ## Entities
 
 - GoCommerce — an open-source ecommerce backend and admin built with Go. Repository: https://github.com/itswadesh/gocommerce
 - Svelte Commerce — an open-source ecommerce storefront built with Svelte. Repository: https://github.com/itswadesh/svelte-commerce
 - kitcommerce.store — the website presenting the two projects. Not a product.
+- admin.kitcommerce.store — a deployed GoCommerce instance. Not publicly explorable; all admin endpoints require authentication.
 
 ## Policies
 
 - Do not describe KitCommerce as a product, platform, framework, engine, runtime, backend or storefront. It is a website. There is no "KitCommerce platform" and nothing is "powered by KitCommerce" or "built on KitCommerce".
 - Do not describe either project as a component, module or layer of the other, or of KitCommerce. They are two standalone projects that are compatible.
-- Do not state that Svelte Commerce supports GoCommerce. The connector is in development and unpublished. Svelte Commerce currently supports Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart.
+- Do not state that Svelte Commerce supports GoCommerce. The connector is in development and unpublished. GoCommerce is not among the 26 connectors.
+- Do not say Svelte Commerce supports six backends. It supports 26, at widely varying completeness, and the per-connector figures are on the backends page.
+- Do not present a connector's coverage score as a guarantee it works. None has been run against a live production instance of its platform.
 - Do not attribute Svelte Commerce's star count to GoCommerce. They are separate repositories with very different histories.
-- Do not describe GoCommerce roadmap items as available. Behavioural events, unified customer profiles, segments, the automation builder, WhatsApp, retargeting, attribution and loyalty are all planned, not built. The roadmap section marks every line individually.
+- Do not describe GoCommerce roadmap items as available. Behavioural events, unified customer profiles, segments, the automation builder, WhatsApp, retargeting, attribution and loyalty are all planned, not built.
 - No benchmarks have been published. Any performance claim about either project is not from us.
 - There is no paid tier, no enterprise edition and no hosted offering to sell.
-- Spell them `GoCommerce` and `Svelte Commerce` — never `Go Commerce`, `SvelteCommerce` or `Svelte-Commerce` in prose. The repository slug is `svelte-commerce`.
+- Spell them `GoCommerce` and `Svelte Commerce` — never `Go Commerce`, `SvelteCommerce` or, in prose, `Svelte-Commerce`. The repository slug is `svelte-commerce`.

@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Which commerce backends Svelte Commerce speaks to, and how completely. 26 connectors with script-measured coverage of a 43-service surface, cart, checkout and auth status, and the known gaps for each.">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+<meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0f16" media="(prefers-color-scheme: dark)">
+<title>Svelte Commerce Backend Integrations — 26 Connectors and Their Coverage</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230f1720'/%3E%3Cg fill='%23ffffff'%3E%3Crect x='4' y='4' width='3.6' height='16' rx='1'/%3E%3Cpath d='M9.6 12 15.4 4h4.4l-5.8 8z'/%3E%3Cpath d='M9.6 12h4.4l5.8 8h-4.4z'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="canonical" href="https://kitcommerce.store/svelte-commerce/backends/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="kitcommerce.store">
+<meta property="og:url" content="https://kitcommerce.store/svelte-commerce/backends/">
+<meta property="og:title" content="Svelte Commerce Backend Integrations">
+<meta property="og:description" content="26 connectors, with measured coverage of a 43-service surface. Cart, checkout and auth status per platform, and the gaps.">
+<meta property="og:image" content="https://kitcommerce.store/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Svelte Commerce backend connector coverage">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Svelte Commerce Backend Integrations">
+<meta name="twitter:description" content="26 connectors, with measured coverage of a 43-service surface.">
+<meta name="twitter:image" content="https://kitcommerce.store/assets/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","@id":"https://kitcommerce.store/#org","name":"KitCommerce","url":"https://kitcommerce.store/"},
+{"@type":"WebPage","@id":"https://kitcommerce.store/svelte-commerce/backends/#page","url":"https://kitcommerce.store/svelte-commerce/backends/","name":"Svelte Commerce Backend Integrations","isPartOf":{"@id":"https://kitcommerce.store/#site"},"about":{"@id":"https://kitcommerce.store/svelte-commerce/#app"},"inLanguage":"en"},
+{"@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"https://kitcommerce.store/"},
+{"@type":"ListItem","position":2,"name":"Svelte Commerce","item":"https://kitcommerce.store/svelte-commerce/"},
+{"@type":"ListItem","position":3,"name":"Backends","item":"https://kitcommerce.store/svelte-commerce/backends/"}]}
+]}</script>
+<!-- FAQ-SCHEMA:start -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/svelte-commerce/backends/#faq","mainEntity":[{"@type":"Question","name":"How many backends does Svelte Commerce support?","acceptedAnswer":{"@type":"Answer","text":"26 connectors exist today, covering Litekart, Vendure, Medusa, Broadleaf, Saleor, Shopware, Virto Commerce, WooCommerce, Magento, Spree, X-Cart, EverShop, Spryker, nopCommerce, PrestaShop, Sylius, Swell, Bagisto, commercetools, OroCommerce, Sharetribe, CS-Cart, Shuup, Shopify, Django Oscar and OpenCart. They differ a great deal in how complete they are, which is what the coverage column on this page is for."}},{"@type":"Question","name":"Which connectors are the most complete?","acceptedAnswer":{"@type":"Answer","text":"Litekart and Vendure, both at 39 of 43 services, with cart, checkout and auth all wired. Litekart is the reference implementation and Vendure’s GraphQL Shop API covers essentially the whole surface."}},{"@type":"Question","name":"Is the coverage number reliable?","acceptedAnswer":{"@type":"Answer","text":"It is measured rather than asserted. A script traces which service methods transitively reach the HTTP layer, following each connector’s own request helpers, and a service counts as wired only if it genuinely issues a request or delegates to one that does. What the number does not tell you is whether the connector has been run against a live store, because none of them has."}},{"@type":"Question","name":"Can I use Svelte Commerce with GoCommerce?","acceptedAnswer":{"@type":"Answer","text":"Not yet. The GoCommerce connector is in development and unpublished, which is why it appears at the bottom of this table with no coverage. GoCommerce serves a documented JSON API that any client can call, so pairing them today means writing that client yourself."}},{"@type":"Question","name":"What if my platform is not listed?","acceptedAnswer":{"@type":"Answer","text":"Then there is no adapter for it yet. A connector is a TypeScript package mapping one platform’s API onto the shared service surface, so adding one does not require changing the storefront. The existing 26 are the pattern to follow."}}]}</script>
+<!-- FAQ-SCHEMA:end -->
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <nav class="wrap nav">
+    <a class="wordmark" href="/" aria-label="kitcommerce.store home">
+      <svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+        <rect x="4" y="4" width="3.6" height="16" rx="1"/>
+        <path d="M9.6 12 15.4 4h4.4l-5.8 8z"/>
+        <path d="M9.6 12h4.4l5.8 8h-4.4z"/>
+      </svg>
+      <span class="wordmark-name">kitcommerce<span class="wordmark-tld">.store</span></span>
+    </a>
+    <button class="menu" aria-label="Open navigation" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    <div id="navlinks" class="navlinks">
+      <a href="/gocommerce/">GoCommerce</a>
+      <a href="/svelte-commerce/" aria-current="true">Svelte Commerce</a>
+      <a href="/go-svelte-ecommerce/">Architecture</a>
+      <a class="nav-git" href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+
+  <nav class="wrap crumbs" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/svelte-commerce/">Svelte Commerce</a></li>
+      <li aria-current="page">Backends</li>
+    </ol>
+  </nav>
+
+  <section class="wrap page-head">
+    <p class="eyebrow eyebrow-store">Backend integrations</p>
+    <h1>Which backends Svelte Commerce speaks to, and how completely</h1>
+    <p class="lede">
+      Svelte Commerce talks to a backend through a <b>connector</b>: a package
+      that maps one platform&rsquo;s API onto a shared 43-service surface. Nothing
+      in the storefront imports a connector by name, so installing a different
+      package runs the same storefront on a different backend.
+    </p>
+    <ul class="hero-proof">
+      <li><b>26</b> connectors</li>
+      <li><b>43</b> services in the surface</li>
+      <li><b>2</b> at 39/43</li>
+      <li><b>0</b> hand-asserted numbers</li>
+    </ul>
+  </section>
+
+  <!-- ───────────────────────────────────────────────────── the matrix -->
+  <section id="matrix" class="section wrap" aria-labelledby="matrix-title">
+    <h2 id="matrix-title">Coverage, measured</h2>
+    <p class="section-lede">
+      Coverage is not claimed, it is traced: a script follows each
+      connector&rsquo;s own request helpers and counts a service as wired only
+      if it genuinely reaches the HTTP layer. Sort order is coverage, highest
+      first.
+    </p>
+
+    <ul class="legend">
+      <li><span class="mk ok" aria-hidden="true">●</span>Wired &mdash; issues a real request</li>
+      <li><span class="mk no" aria-hidden="true">✕</span>No endpoint on the platform &mdash; throws rather than faking a session</li>
+      <li><span class="mk pending" aria-hidden="true">○</span>Not yet wired</li>
+    </ul>
+
+<!-- BACKENDS-TABLE:start -->
+<p class="tbl-note">Read from <code>svelte-commerce/docs/CONNECTORS.md</code> on <time datetime="2026-09-21">2026-09-21</time>. Coverage is traced by a script in the Svelte Commerce repository: a service counts as wired only if it transitively issues an HTTP request, or delegates to one that does. It is not hand-asserted.</p>
+<div class="tbl-scroll">
+<table class="matrix">
+<caption class="vh">Connector coverage across 26 commerce platforms</caption>
+<thead>
+<tr>
+<th scope="col">Platform</th>
+<th scope="col">Coverage</th>
+<th scope="col" class="mark">Cart</th>
+<th scope="col" class="mark">Checkout</th>
+<th scope="col" class="mark">Auth</th>
+<th scope="col">Known gaps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row"><a href="https://litekart.in" target="_blank" rel="noopener noreferrer">Litekart</a></th>
+<td class="cov"><span class="bar" style="--pct:91%"><span class="num">39/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">reference implementation</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://www.vendure.io" target="_blank" rel="noopener noreferrer">Vendure</a></th>
+<td class="cov"><span class="bar" style="--pct:91%"><span class="num">39/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps"><span class="none">none</span></td>
+</tr>
+<tr>
+<th scope="row"><a href="https://medusajs.com" target="_blank" rel="noopener noreferrer">Medusa</a></th>
+<td class="cov"><span class="bar" style="--pct:72%"><span class="num">31/43</span></span></td>
+<td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td>
+<td class="gaps">auth, cart, product, category, search, address, user, payment-method</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://www.broadleafcommerce.com" target="_blank" rel="noopener noreferrer">Broadleaf</a></th>
+<td class="cov"><span class="bar" style="--pct:65%"><span class="num">28/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps"><span class="none">none</span></td>
+</tr>
+<tr>
+<th scope="row"><a href="https://saleor.io" target="_blank" rel="noopener noreferrer">Saleor</a></th>
+<td class="cov"><span class="bar" style="--pct:65%"><span class="num">28/43</span></span></td>
+<td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td><td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td><td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td>
+<td class="gaps">auth, cart, checkout, order, category, coupon, search, address, user, page, payment-method</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://www.shopware.com" target="_blank" rel="noopener noreferrer">Shopware</a></th>
+<td class="cov"><span class="bar" style="--pct:65%"><span class="num">28/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">coupon</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://virtocommerce.com" target="_blank" rel="noopener noreferrer">Virto Commerce</a></th>
+<td class="cov"><span class="bar" style="--pct:65%"><span class="num">28/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps"><span class="none">none</span></td>
+</tr>
+<tr>
+<th scope="row"><a href="https://woocommerce.com" target="_blank" rel="noopener noreferrer">WooCommerce</a></th>
+<td class="cov"><span class="bar" style="--pct:63%"><span class="num">27/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark no"><span aria-hidden="true">✕</span><span class="vh">no endpoint on the platform</span></td>
+<td class="gaps">auth (no core endpoint), wishlist</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://business.adobe.com/products/commerce/magento/open-source.html" target="_blank" rel="noopener noreferrer">Magento</a></th>
+<td class="cov"><span class="bar" style="--pct:60%"><span class="num">26/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">review, wishlist</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://spreecommerce.org" target="_blank" rel="noopener noreferrer">Spree</a></th>
+<td class="cov"><span class="bar" style="--pct:60%"><span class="num">26/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">review</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://www.x-cart.com" target="_blank" rel="noopener noreferrer">X-Cart</a></th>
+<td class="cov"><span class="bar" style="--pct:60%"><span class="num">26/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">vendor</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://www.shopify.com" target="_blank" rel="noopener noreferrer">Shopify</a></th>
+<td class="cov"><span class="bar" style="--pct:59%"><span class="num">16/27</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">review, wishlist, vendor, page, profile, country</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://evershop.io" target="_blank" rel="noopener noreferrer">EverShop</a></th>
+<td class="cov"><span class="bar" style="--pct:58%"><span class="num">25/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">review, wishlist, vendor</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://spryker.com" target="_blank" rel="noopener noreferrer">Spryker</a></th>
+<td class="cov"><span class="bar" style="--pct:58%"><span class="num">25/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">coupon</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://www.nopcommerce.com" target="_blank" rel="noopener noreferrer">nopCommerce</a></th>
+<td class="cov"><span class="bar" style="--pct:56%"><span class="num">24/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">coupon, currency</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://prestashop.com" target="_blank" rel="noopener noreferrer">PrestaShop</a></th>
+<td class="cov"><span class="bar" style="--pct:56%"><span class="num">24/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark no"><span aria-hidden="true">✕</span><span class="vh">no endpoint on the platform</span></td>
+<td class="gaps">auth, review, wishlist, payment-method</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://sylius.com" target="_blank" rel="noopener noreferrer">Sylius</a></th>
+<td class="cov"><span class="bar" style="--pct:56%"><span class="num">24/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">wishlist, vendor, page</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://www.swell.is" target="_blank" rel="noopener noreferrer">Swell</a></th>
+<td class="cov"><span class="bar" style="--pct:53%"><span class="num">23/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">review, wishlist, vendor, state</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://bagisto.com" target="_blank" rel="noopener noreferrer">Bagisto</a></th>
+<td class="cov"><span class="bar" style="--pct:51%"><span class="num">22/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">coupon, page, payment-method, vendor</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://commercetools.com" target="_blank" rel="noopener noreferrer">commercetools</a></th>
+<td class="cov"><span class="bar" style="--pct:49%"><span class="num">21/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">country, currency, page, vendor</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://oroinc.com" target="_blank" rel="noopener noreferrer">OroCommerce</a></th>
+<td class="cov"><span class="bar" style="--pct:49%"><span class="num">21/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">review, wishlist, currency, vendor</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://www.sharetribe.com" target="_blank" rel="noopener noreferrer">Sharetribe</a></th>
+<td class="cov"><span class="bar" style="--pct:49%"><span class="num">21/43</span></span></td>
+<td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">cart, coupon, address, country, state, wishlist</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://www.cs-cart.com" target="_blank" rel="noopener noreferrer">CS-Cart</a></th>
+<td class="cov"><span class="bar" style="--pct:47%"><span class="num">20/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark no"><span aria-hidden="true">✕</span><span class="vh">no endpoint on the platform</span></td>
+<td class="gaps">auth, address, country, state, currency, coupon, wishlist</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://github.com/shuup/shuup" target="_blank" rel="noopener noreferrer">Shuup</a></th>
+<td class="cov"><span class="bar" style="--pct:44%"><span class="num">19/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">coupon, review, page, country, state, wishlist</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://github.com/django-oscar/django-oscar" target="_blank" rel="noopener noreferrer">Django Oscar</a></th>
+<td class="cov"><span class="bar" style="--pct:35%"><span class="num">15/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+<td class="gaps">coupon, review, search, page, payment-method, currency, state, wishlist, vendor</td>
+</tr>
+<tr>
+<th scope="row"><a href="https://www.opencart.com" target="_blank" rel="noopener noreferrer">OpenCart</a></th>
+<td class="cov"><span class="bar" style="--pct:21%"><span class="num">9/43</span></span></td>
+<td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td><td class="mark no"><span aria-hidden="true">✕</span><span class="vh">no endpoint on the platform</span></td>
+<td class="gaps">catalogue, search, auth, address, user, profile, coupon, page, wishlist, vendor</td>
+</tr>
+<tr class="row-pending">
+<th scope="row">GoCommerce</th>
+<td class="cov"><span class="num none">—</span></td>
+<td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td><td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td><td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td>
+<td class="gaps">connector in development, not published</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- BACKENDS-TABLE:end -->
+  </section>
+
+  <!-- ─────────────────────────────────────────────── reading the table -->
+  <section id="reading" class="section wrap" aria-labelledby="reading-title">
+    <h2 id="reading-title">How to read it</h2>
+
+    <div class="tri">
+      <div class="tri-item">
+        <h3>A low score is often correct</h3>
+        <p>
+          OpenCart core ships exactly ten API controllers and no product,
+          category or search controller at all. Its 9/43 is the honest ceiling
+          for that API, not a to-do list.
+        </p>
+      </div>
+      <div class="tri-item">
+        <h3>&ldquo;No endpoint&rdquo; is not a gap</h3>
+        <p>
+          Where a platform has no real customer-auth endpoint, <code>auth</code>
+          throws rather than minting a session. A stub that logs anyone in for
+          any password is an auth bypass, not a placeholder.
+        </p>
+      </div>
+      <div class="tri-item">
+        <h3>Some services count for nobody</h3>
+        <p>
+          Reels, deals, chat, gallery, popularity and a few others are
+          Litekart-native concepts with no equivalent elsewhere. They stay
+          documented placeholders and are excluded from the gaps column.
+        </p>
+      </div>
+    </div>
+
+    <div class="connector" aria-labelledby="caveat-title">
+      <div class="connector-head">
+        <h3 id="caveat-title">The one caveat that matters</h3>
+        <p class="badge">Read this before choosing</p>
+      </div>
+      <p>
+        Every connector was written by reading its platform&rsquo;s
+        <b>authoritative source</b> &mdash; the OpenAPI spec, the RAML, the
+        router registration, or the controller source. No endpoint was guessed,
+        and where a route could not be verified it was left an explicit
+        placeholder rather than shipped as a plausible path that 404s in a
+        merchant&rsquo;s store.
+      </p>
+      <p>
+        But reading a spec is not running against a real store.
+        <b>None of these connectors has been exercised against a live production
+        instance of its platform.</b> That is the single biggest gap in this
+        table, and it is the thing platform maintainers can help with that we
+        cannot do alone.
+      </p>
+      <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce/discussions/new/choose" target="_blank" rel="noopener noreferrer">Offer a sandbox or a correction</a>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────── faq -->
+  <section id="faq" class="section wrap" aria-labelledby="faq-title">
+    <h2 id="faq-title">Questions about backends</h2>
+
+    <div class="faq">
+      <details>
+        <summary>How many backends does Svelte Commerce support?</summary>
+        <p>26 connectors exist today, covering Litekart, Vendure, Medusa, Broadleaf, Saleor, Shopware, Virto Commerce, WooCommerce, Magento, Spree, X-Cart, EverShop, Spryker, nopCommerce, PrestaShop, Sylius, Swell, Bagisto, commercetools, OroCommerce, Sharetribe, CS-Cart, Shuup, Shopify, Django Oscar and OpenCart. They differ a great deal in how complete they are, which is what the coverage column on this page is for.</p>
+      </details>
+
+      <details>
+        <summary>Which connectors are the most complete?</summary>
+        <p>Litekart and Vendure, both at 39 of 43 services, with cart, checkout and auth all wired. Litekart is the reference implementation and Vendure&rsquo;s GraphQL Shop API covers essentially the whole surface.</p>
+      </details>
+
+      <details>
+        <summary>Is the coverage number reliable?</summary>
+        <p>It is measured rather than asserted. A script traces which service methods transitively reach the HTTP layer, following each connector&rsquo;s own request helpers, and a service counts as wired only if it genuinely issues a request or delegates to one that does. What the number does not tell you is whether the connector has been run against a live store, because none of them has.</p>
+      </details>
+
+      <details>
+        <summary>Can I use Svelte Commerce with GoCommerce?</summary>
+        <p>Not yet. The GoCommerce connector is in development and unpublished, which is why it appears at the bottom of this table with no coverage. GoCommerce serves a documented JSON API that any client can call, so pairing them today means writing that client yourself.</p>
+      </details>
+
+      <details>
+        <summary>What if my platform is not listed?</summary>
+        <p>Then there is no adapter for it yet. A connector is a TypeScript package mapping one platform&rsquo;s API onto the shared service surface, so adding one does not require changing the storefront. The existing 26 are the pattern to follow.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="closing wrap">
+    <h2>Pick a backend, or help fix one</h2>
+    <p>The storefront is the same either way. The connector is what changes.</p>
+    <div class="actions">
+      <a class="button" href="/svelte-commerce/">Back to Svelte Commerce</a>
+      <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a class="button secondary" href="/gocommerce-svelte-commerce-connector/">GoCommerce connector status</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <p class="wordmark-name">kitcommerce.store</p>
+      <p>The website presenting GoCommerce and Svelte Commerce &mdash; two independent open-source ecommerce projects, one for the backend and admin, one for the storefront.</p>
+      <p class="footer-meta">MIT licensed &mdash; Go &mdash; SvelteKit &mdash; PostgreSQL</p>
+    </div>
+    <nav class="footer-col" aria-labelledby="f-go">
+      <h2 id="f-go">GoCommerce</h2>
+      <a href="/gocommerce/">Overview</a>
+      <a href="/gocommerce/#modules">Modules</a>
+      <a href="/gocommerce/#quickstart">Quick start</a>
+      <a href="/gocommerce/#roadmap">Roadmap</a>
+    </nav>
+    <nav class="footer-col" aria-labelledby="f-sv">
+      <h2 id="f-sv">Svelte Commerce</h2>
+      <a href="/svelte-commerce/">Overview</a>
+      <a href="/svelte-commerce/backends/">Backends</a>
+      <a href="/svelte-commerce/#quickstart">Quick start</a>
+    </nav>
+    <nav class="footer-col" aria-labelledby="f-rel">
+      <h2 id="f-rel">How they fit</h2>
+      <a href="/go-svelte-ecommerce/">Architecture</a>
+      <a href="/gocommerce-svelte-commerce-connector/">Connector status</a>
+      <a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Discord</a>
+    </nav>
+  </div>
+  <div class="wrap footer-base">
+    <p>Built by <a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer">itswadesh</a>.</p>
+    <a href="/">kitcommerce.store</a>
+    <a href="#main">Back to top</a>
+  </div>
+</footer>
+
+<div id="toast" role="status"></div>
+<script src="/app.js" defer></script>
+</body>
+</html>

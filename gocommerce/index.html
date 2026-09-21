@@ -60,8 +60,7 @@
     <div id="navlinks" class="navlinks">
       <a href="/gocommerce/" aria-current="page">GoCommerce</a>
       <a href="/svelte-commerce/">Svelte Commerce</a>
-      <a href="/#architecture">Architecture</a>
-      <a href="https://github.com/itswadesh/gocommerce#readme" target="_blank" rel="noopener noreferrer">Docs</a>
+      <a href="/go-svelte-ecommerce/">Architecture</a>
       <a class="nav-git" href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">GitHub</a>
     </div>
   </nav>
@@ -215,7 +214,12 @@
       <div class="panel" role="tabpanel" id="panel-dashboard" aria-labelledby="tab-dashboard">
         <div class="stage"><p class="stage-bar"><code>GET /api/admin/reports/sales</code><span class="stage-tag">admin</span></p><picture>
           <source media="(prefers-color-scheme: dark)" srcset="/assets/admin/dashboard-dark.webp">
-          <img src="/assets/admin/dashboard-light.webp" width="1440" height="900" alt="The GoCommerce dashboard: net sales for the last thirty days, order, product and customer counts, a recent-orders list, a daily sales chart and a best-sellers table." loading="lazy" decoding="async">
+          <!-- Not lazy: this is the panel the page opens on, so deferring it is
+               the carousel trap in §101 — the one screenshot everybody sees is
+               the one that must not wait for an intersection that may never
+               come. The six behind the other tabs stay lazy and are promoted
+               by app.js when their tab is selected. -->
+          <img src="/assets/admin/dashboard-light.webp" width="1440" height="900" alt="The GoCommerce dashboard: net sales for the last thirty days, order, product and customer counts, a recent-orders list, a daily sales chart and a best-sellers table." decoding="async">
         </picture></div>
         <p class="shot-note">Net sales, orders awaiting shipment, a sales chart by day, and best sellers ranked by revenue or units.</p>
       </div>
@@ -637,16 +641,14 @@ go run ./cmd/gocommerce serve</code></pre>
     <nav class="footer-col" aria-labelledby="f-sv">
       <h2 id="f-sv">Svelte Commerce</h2>
       <a href="/svelte-commerce/">Overview</a>
-      <a href="/svelte-commerce/#backends">Backends</a>
+      <a href="/svelte-commerce/backends/">Backends</a>
       <a href="/svelte-commerce/#quickstart">Quick start</a>
-      <a href="/svelte-commerce/#connector">Connector status</a>
-    </nav>
+          </nav>
 
-    <nav class="footer-col" aria-labelledby="f-dev">
-      <h2 id="f-dev">Developers</h2>
-      <a href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">GoCommerce on GitHub</a>
-      <a href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">Svelte Commerce on GitHub</a>
-      <a href="https://github.com/itswadesh/gocommerce/tree/main/examples/store" target="_blank" rel="noopener noreferrer">Example store</a>
+    <nav class="footer-col" aria-labelledby="f-rel">
+      <h2 id="f-rel">How they fit</h2>
+      <a href="/go-svelte-ecommerce/">Architecture</a>
+      <a href="/gocommerce-svelte-commerce-connector/">Connector status</a>
       <a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Discord</a>
     </nav>
   </div>

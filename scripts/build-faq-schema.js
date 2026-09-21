@@ -24,9 +24,12 @@ const write = process.argv.includes('--write')
 // from, so it has to match the page's own <link rel="canonical"> exactly —
 // a mismatch here would point the FAQ at a URL that does not exist.
 const PAGES = [
-  { file: 'index.html', url: 'https://kitcommerce.store/' },
-  { file: 'gocommerce/index.html', url: 'https://kitcommerce.store/gocommerce/' },
-  { file: 'svelte-commerce/index.html', url: 'https://kitcommerce.store/svelte-commerce/' },
+  { file: "index.html", url: "https://kitcommerce.store/", faq: false },
+  { file: "gocommerce/index.html", url: "https://kitcommerce.store/gocommerce/" },
+  { file: "svelte-commerce/index.html", url: "https://kitcommerce.store/svelte-commerce/" },
+  { file: "svelte-commerce/backends/index.html", url: "https://kitcommerce.store/svelte-commerce/backends/" },
+  { file: "go-svelte-ecommerce/index.html", url: "https://kitcommerce.store/go-svelte-ecommerce/" },
+  { file: "gocommerce-svelte-commerce-connector/index.html", url: "https://kitcommerce.store/gocommerce-svelte-commerce-connector/" },
 ]
 
 // Entities and tags have to go: schema carries text, not markup. A literal
@@ -51,6 +54,7 @@ let stale = 0
 let checked = 0
 
 for (const page of PAGES) {
+  if (page.faq === false) { console.log(`  ${page.file} — no FAQ by design, skipped`); continue }
   const file = path.join(ROOT, page.file)
   if (!fs.existsSync(file)) throw new Error(`missing page: ${page.file}`)
 

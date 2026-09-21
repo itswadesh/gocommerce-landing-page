@@ -40,13 +40,23 @@
   if (tablist) {
     var tabs = $$('[role="tab"]', tablist)
 
+    // A lazy image inside a hidden panel has never been in the viewport, and
+    // revealing its panel does not reliably start the load — the browser may
+    // never register the intersection, and the reader gets a blank frame where
+    // a screenshot should be. So reveal is the moment to ask for it directly.
+    var promote = function (panel) {
+      $$('img[loading="lazy"]', panel).forEach(function (img) { img.loading = 'eager' })
+    }
+
     var select = function (tab, focus) {
       tabs.forEach(function (t) {
         var on = t === tab
         t.setAttribute('aria-selected', String(on))
         t.tabIndex = on ? 0 : -1
         var panel = document.getElementById(t.getAttribute('aria-controls'))
-        if (panel) panel.hidden = !on
+        if (!panel) return
+        panel.hidden = !on
+        if (on) promote(panel)
       })
       if (focus) tab.focus()
     }
