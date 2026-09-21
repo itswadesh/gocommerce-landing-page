@@ -249,8 +249,9 @@
     el.innerHTML =
       '<p class="notice-text">' +
         '<b>This site sets no cookies</b> and runs no analytics. ' +
-        'Google Fonts serves the typefaces and GitHub serves the star counts, ' +
-        'so those two see your IP address. Closing this remembers itself in ' +
+        'The typefaces are served from this domain, so the only third party is ' +
+        'GitHub, asked for the live star counts — it sees your IP address. ' +
+        'Closing this remembers itself in ' +
         'local storage &mdash; the only thing stored, and only because you closed it.' +
       '</p>' +
       '<button class="notice-close" type="button">Got it</button>'

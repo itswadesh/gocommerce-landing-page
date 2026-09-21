@@ -24,9 +24,6 @@
 <meta name="twitter:title" content="GoCommerce ↔ Svelte Commerce Connector — Status">
 <meta name="twitter:description" content="In development, not published. What exists, what is being written, and how to help.">
 <meta name="twitter:image" content="https://kitcommerce.store/assets/og.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
 {"@type":"Organization","@id":"https://kitcommerce.store/#org","name":"KitCommerce","url":"https://kitcommerce.store/"},
 {"@type":"WebPage","@id":"https://kitcommerce.store/gocommerce-svelte-commerce-connector/#page","url":"https://kitcommerce.store/gocommerce-svelte-commerce-connector/","name":"GoCommerce ↔ Svelte Commerce Connector — Status","isPartOf":{"@id":"https://kitcommerce.store/#site"},"inLanguage":"en","mentions":[{"@id":"https://kitcommerce.store/gocommerce/#app"},{"@id":"https://kitcommerce.store/svelte-commerce/#app"}]},
@@ -37,6 +34,7 @@
 <!-- FAQ-SCHEMA:start -->
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/gocommerce-svelte-commerce-connector/#faq","mainEntity":[{"@type":"Question","name":"Can I connect Svelte Commerce to GoCommerce today?","acceptedAnswer":{"@type":"Answer","text":"Not with an installable package. The connector is in development and unpublished. GoCommerce serves a documented JSON API with 342 operations, so you can write the client yourself, but you would be writing it rather than installing it."}},{"@type":"Question","name":"When will the connector be ready?","acceptedAnswer":{"@type":"Answer","text":"There is no date, and publishing one we cannot hold to would be worse than saying so. The work is a package mapping GoCommerce routes onto the 43-service connector surface; progress is visible in the repositories rather than announced here."}},{"@type":"Question","name":"What is blocking it?","acceptedAnswer":{"@type":"Answer","text":"Nothing structural. The backend API exists and is documented, the connector interface is settled across 26 implementations, and the switching mechanism needs no storefront change. What is missing is the package itself being written and verified."}},{"@type":"Question","name":"Will it be called anything in particular?","acceptedAnswer":{"@type":"Answer","text":"It will follow the existing naming, so @misiki/gocommerce-connector, matching the other 26 packages. Installing it and removing the previous connector is the whole switch."}},{"@type":"Question","name":"Does this mean the two projects are not really a stack?","acceptedAnswer":{"@type":"Answer","text":"Today they are two good projects rather than one wired stack, and this page exists so nobody has to guess which. Both are independently useful right now — GoCommerce behind any client, Svelte Commerce in front of 26 other backends."}}]}</script>
 <!-- FAQ-SCHEMA:end -->
+<link rel="preload" href="/assets/fonts/archivo-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
