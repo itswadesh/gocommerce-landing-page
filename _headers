@@ -1,0 +1,37 @@
+# Cloudflare Pages response headers.
+#
+# Cache rules follow the filename strategy, which here is "nothing is
+# fingerprinted". index.html, style.css and app.js all keep their names across
+# deploys, so none of them may be cached immutably — a visitor would keep an old
+# stylesheet against new markup until they cleared their cache. They revalidate
+# instead, which costs one conditional request and cannot go stale.
+#
+# The screenshots are the exception worth making: they change only when the
+# admin is re-photographed, and a stale one is a cosmetic problem rather than a
+# broken page.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+/assets/admin/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/assets/og.png
+  Cache-Control: public, max-age=86400
+
+# Byte-exact and uncached: a stale or rewritten key fails IndexNow verification
+# with a 403, and the failure is silent from this side.
+/9aed8449d5c60c850c662366e3d64c9a.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: no-cache
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Cache-Control: public, max-age=3600

@@ -111,6 +111,27 @@ claim that will disagree with itself.
 1200×630. Regenerate it whenever the brand architecture changes, or the social
 card will keep advertising the previous one.
 
+## SEO and GEO
+
+Audited against `universal-seo-geo-website-audit-playbook-v2.md`. What that added:
+
+| File | Why |
+| --- | --- |
+| `robots.txt` | Carries the sitemap, and states the AI-crawler policy explicitly. Everything is allowed — being read and cited by answer engines is the point of documentation for an MIT project, so the permission is on the record rather than merely inherited from `User-agent: *`. |
+| `llms.txt` | Key facts, canonical entity names, and a **policies** block naming the four things a model should not say about this project (§85). |
+| `404.html` | Was a blank page, which wastes every stale inbound link. Now carries the header, an explanation and the section list, with `noindex,follow` so the links are still crawled (§110, §74). |
+| `_headers` | Security headers plus cache rules that match the filename strategy: nothing is fingerprinted, so HTML/CSS/JS revalidate and only the screenshots cache long (§107, §108). |
+| `scripts/build-faq-schema.js` | Generates the `FAQPage` JSON-LD **from the visible FAQ**, so the two cannot drift (§61, §83). Run without `--write` to fail if stale. |
+
+In the page head: `robots` with `max-snippet:-1,max-image-preview:large`,
+`viewport-fit=cover`, and structured data as an **entity graph** — Organization
+(with `sameAs`), WebSite, SoftwareApplication, two SoftwareSourceCode nodes,
+BreadcrumbList and FAQPage, joined by `@id` (§80, §81).
+
+The FAQ is `<details>`/`<summary>`: every answer is in the DOM and readable with
+JavaScript disabled, because an FAQ that needs a script to reveal its text reads
+as empty to a crawler (§77).
+
 ## Verifying a change
 
 The audit in the session scratchpad (`verify/page-check.mjs`) loads the page in
