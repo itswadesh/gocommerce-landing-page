@@ -34,11 +34,15 @@
 <!-- FAQ-SCHEMA:start -->
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/go-svelte-ecommerce/#faq","mainEntity":[{"@type":"Question","name":"Do GoCommerce and Svelte Commerce require each other?","acceptedAnswer":{"@type":"Answer","text":"No. Both projects can be used independently, but they can also be combined to build a complete ecommerce stack. GoCommerce runs with no Svelte storefront in front of it, and Svelte Commerce runs against 26 backends that are not GoCommerce."}},{"@type":"Question","name":"What is kitcommerce.store?","acceptedAnswer":{"@type":"Answer","text":"kitcommerce.store is the website that presents GoCommerce and Svelte Commerce, two open-source ecommerce projects. It is not itself a product, a platform or a framework, and there is nothing called KitCommerce to install."}},{"@type":"Question","name":"Can Svelte Commerce work with another ecommerce backend?","acceptedAnswer":{"@type":"Answer","text":"Yes. Svelte Commerce is a headless storefront that reaches a backend through a connector package, and 26 connectors exist today — Litekart and Vendure are the most complete at 39 of 43 services. The storefront imports no connector by name, so switching backends is a package change rather than a rewrite."}},{"@type":"Question","name":"Can GoCommerce work with another frontend?","acceptedAnswer":{"@type":"Answer","text":"Yes. GoCommerce exposes commerce backend functionality that any compatible storefront or application can consume. It serves 342 documented operations over REST, published as OpenAPI, so any framework that can call HTTP can drive it."}},{"@type":"Question","name":"Can I run the two together today?","acceptedAnswer":{"@type":"Answer","text":"Not without writing the glue yourself. The connector that maps the GoCommerce API onto the Svelte Commerce data layer is in development and unpublished. Until it ships, pairing them means writing that client against the documented GoCommerce API."}},{"@type":"Question","name":"Which should I start with?","acceptedAnswer":{"@type":"Answer","text":"Start with whichever solves the problem you actually have. If you need orders, inventory and an admin, start with GoCommerce. If you have a backend already and need a storefront, start with Svelte Commerce. Neither choice commits you to the other."}}]}</script>
 <!-- FAQ-SCHEMA:end -->
-<link rel="preload" href="/assets/fonts/archivo-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 4v4M9 14h.01M15 14h.01"/></symbol>
+  <symbol id="i-git" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5a6 6 0 0 1-6 6H6"/></symbol>
+</svg>
 
 <header>
   <nav class="wrap nav">
@@ -293,6 +297,12 @@
       <a href="/gocommerce-svelte-commerce-connector/">Connector status</a>
       <a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Discord</a>
     </nav>
+  </div>
+  <div class="wrap footer-social" aria-label="Elsewhere">
+    <ul class="social">
+      <li><a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer" data-ev="github_footer_click"><svg aria-hidden="true"><use href="#i-git"/></svg>GitHub</a></li>
+      <li><a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-bot"/></svg>Discord</a></li>
+    </ul>
   </div>
   <div class="wrap footer-base">
     <p>Built by <a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer">itswadesh</a>.</p>

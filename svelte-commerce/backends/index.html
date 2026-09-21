@@ -35,11 +35,15 @@
 <!-- FAQ-SCHEMA:start -->
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/svelte-commerce/backends/#faq","mainEntity":[{"@type":"Question","name":"How many backends does Svelte Commerce support?","acceptedAnswer":{"@type":"Answer","text":"26 connectors exist today, covering Litekart, Vendure, Medusa, Broadleaf, Saleor, Shopware, Virto Commerce, WooCommerce, Magento, Spree, X-Cart, EverShop, Spryker, nopCommerce, PrestaShop, Sylius, Swell, Bagisto, commercetools, OroCommerce, Sharetribe, CS-Cart, Shuup, Shopify, Django Oscar and OpenCart. They differ a great deal in how complete they are, which is what the coverage column on this page is for."}},{"@type":"Question","name":"Which connectors are the most complete?","acceptedAnswer":{"@type":"Answer","text":"Litekart and Vendure, both at 39 of 43 services, with cart, checkout and auth all wired. Litekart is the reference implementation and Vendure’s GraphQL Shop API covers essentially the whole surface."}},{"@type":"Question","name":"Is the coverage number reliable?","acceptedAnswer":{"@type":"Answer","text":"It is measured rather than asserted. A script traces which service methods transitively reach the HTTP layer, following each connector’s own request helpers, and a service counts as wired only if it genuinely issues a request or delegates to one that does. What the number does not tell you is whether the connector has been run against a live store, because none of them has."}},{"@type":"Question","name":"Can I use Svelte Commerce with GoCommerce?","acceptedAnswer":{"@type":"Answer","text":"Not yet. The GoCommerce connector is in development and unpublished, which is why it appears at the bottom of this table with no coverage. GoCommerce serves a documented JSON API that any client can call, so pairing them today means writing that client yourself."}},{"@type":"Question","name":"What if my platform is not listed?","acceptedAnswer":{"@type":"Answer","text":"Then there is no adapter for it yet. A connector is a TypeScript package mapping one platform’s API onto the shared service surface, so adding one does not require changing the storefront. The existing 26 are the pattern to follow."}}]}</script>
 <!-- FAQ-SCHEMA:end -->
-<link rel="preload" href="/assets/fonts/archivo-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 4v4M9 14h.01M15 14h.01"/></symbol>
+  <symbol id="i-git" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5a6 6 0 0 1-6 6H6"/></symbol>
+</svg>
 
 <header>
   <nav class="wrap nav">
@@ -412,6 +416,12 @@
       <a href="/gocommerce-svelte-commerce-connector/">Connector status</a>
       <a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Discord</a>
     </nav>
+  </div>
+  <div class="wrap footer-social" aria-label="Elsewhere">
+    <ul class="social">
+      <li><a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer" data-ev="github_footer_click"><svg aria-hidden="true"><use href="#i-git"/></svg>GitHub</a></li>
+      <li><a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-bot"/></svg>Discord</a></li>
+    </ul>
   </div>
   <div class="wrap footer-base">
     <p>Built by <a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer">itswadesh</a>.</p>

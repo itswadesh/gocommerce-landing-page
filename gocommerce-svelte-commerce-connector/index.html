@@ -34,11 +34,15 @@
 <!-- FAQ-SCHEMA:start -->
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/gocommerce-svelte-commerce-connector/#faq","mainEntity":[{"@type":"Question","name":"Can I connect Svelte Commerce to GoCommerce today?","acceptedAnswer":{"@type":"Answer","text":"Not with an installable package. The connector is in development and unpublished. GoCommerce serves a documented JSON API with 342 operations, so you can write the client yourself, but you would be writing it rather than installing it."}},{"@type":"Question","name":"When will the connector be ready?","acceptedAnswer":{"@type":"Answer","text":"There is no date, and publishing one we cannot hold to would be worse than saying so. The work is a package mapping GoCommerce routes onto the 43-service connector surface; progress is visible in the repositories rather than announced here."}},{"@type":"Question","name":"What is blocking it?","acceptedAnswer":{"@type":"Answer","text":"Nothing structural. The backend API exists and is documented, the connector interface is settled across 26 implementations, and the switching mechanism needs no storefront change. What is missing is the package itself being written and verified."}},{"@type":"Question","name":"Will it be called anything in particular?","acceptedAnswer":{"@type":"Answer","text":"It will follow the existing naming, so @misiki/gocommerce-connector, matching the other 26 packages. Installing it and removing the previous connector is the whole switch."}},{"@type":"Question","name":"Does this mean the two projects are not really a stack?","acceptedAnswer":{"@type":"Answer","text":"Today they are two good projects rather than one wired stack, and this page exists so nobody has to guess which. Both are independently useful right now — GoCommerce behind any client, Svelte Commerce in front of 26 other backends."}}]}</script>
 <!-- FAQ-SCHEMA:end -->
-<link rel="preload" href="/assets/fonts/archivo-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 4v4M9 14h.01M15 14h.01"/></symbol>
+  <symbol id="i-git" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5a6 6 0 0 1-6 6H6"/></symbol>
+</svg>
 
 <header>
   <nav class="wrap nav">
@@ -264,6 +268,12 @@
       <a href="/gocommerce-svelte-commerce-connector/">Connector status</a>
       <a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Discord</a>
     </nav>
+  </div>
+  <div class="wrap footer-social" aria-label="Elsewhere">
+    <ul class="social">
+      <li><a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer" data-ev="github_footer_click"><svg aria-hidden="true"><use href="#i-git"/></svg>GitHub</a></li>
+      <li><a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-bot"/></svg>Discord</a></li>
+    </ul>
   </div>
   <div class="wrap footer-base">
     <p>Built by <a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer">itswadesh</a>.</p>
