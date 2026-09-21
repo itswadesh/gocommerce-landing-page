@@ -16,4 +16,8 @@
 # returned a 404 with a zero-length body, which is exactly the blank page the
 # custom 404 was written to replace. Serving the file explicitly keeps the
 # status honest and still gives the visitor somewhere to go.
-/*                /404.html          404
+#
+# The destination is /404, not /404.html: Cloudflare normalises the .html form
+# with a 307 to the extensionless path, so a rule pointing at the file resolved
+# to a redirect rather than to a body.
+/*                /404               404
