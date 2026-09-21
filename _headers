@@ -1,4 +1,5 @@
-# Cloudflare Pages response headers.
+# Response headers. Served by Cloudflare Workers static assets, which honours
+# this file the same way Pages does — verified live on robots.txt.
 #
 # Cache rules follow the filename strategy, which here is "nothing is
 # fingerprinted". index.html, style.css and app.js all keep their names across

@@ -1,7 +1,8 @@
-// Local preview. Mirrors the two Cloudflare Pages behaviours the site depends
-// on: a directory serves its index.html, and an unmatched path serves 404.html
-// with a 404 status — which is the behaviour production is currently missing,
-// so this server is deliberately the stricter of the two.
+// Local preview. Mirrors the two Cloudflare Workers static-asset behaviours the
+// site depends on: a directory serves its index.html, and an unmatched path
+// serves 404.html with a 404 status. Production is missing the second until
+// not_found_handling = "404-page" is set in the Worker config, so this server
+// is deliberately the stricter of the two.
 const http = require('node:http'), fs = require('node:fs'), path = require('node:path')
 
 const root = __dirname

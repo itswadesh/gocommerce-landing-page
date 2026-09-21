@@ -6,9 +6,10 @@ A static site. No build step, no package installation.
 node serve.cjs      # http://127.0.0.1:4173
 ```
 
-`serve.cjs` mirrors the two Cloudflare Pages behaviours the site depends on: a
-directory serves its `index.html`, and an unmatched path serves `404.html` with
-a 404 status. The second is currently *stricter* than production — see Hosting.
+`serve.cjs` mirrors the two Cloudflare Workers static-asset behaviours the site
+depends on: a directory serves its `index.html`, and an unmatched path serves
+`404.html` with a 404 status. The second is currently *stricter* than
+production — see Hosting.
 
 ## What this site is
 
@@ -86,7 +87,7 @@ load a product. Do not add one to look complete.
 
 GoCommerce builds from source because no image is published; pin a tag in
 `build.context` once releases exist. The env template is `env.example`, not
-`.env.example`, because Cloudflare Pages may not serve dotfiles and a download
+`.env.example`, because the static host may not serve dotfiles and a download
 instruction that 404s is worse than none.
 
 ### Image distribution
@@ -170,7 +171,11 @@ panel or to any image the page shows on arrival.
 
 ## Hosting
 
-Cloudflare Pages serves `kitcommerce.store` from `main`; a push publishes.
+Cloudflare **Workers** (static assets) serves `kitcommerce.store`. The Worker
+config is not in this repository. **A push does not deploy** unless Workers
+Builds is connected — on 21 September 2026 the live site was found one deploy
+behind `main` — so after every push, compare the live homepage byte size to
+local before trusting what you see.
 `9aed8449d5c60c850c662366e3d64c9a.txt` is the IndexNow key and must stay at the
 site root, byte-exact, no trailing newline.
 
@@ -179,8 +184,10 @@ site root, byte-exact, no trailing newline.
 points at.
 
 An unmatched path still returns 404 with a **zero-length body** in production.
-That is a Cloudflare Pages project setting, not anything here; see the note in
-`_redirects`.
+That is Workers Static Assets’ `not_found_handling`, which defaults to `"none"`
+(an empty 404). Set it to `"404-page"` in the Worker config and `/404.html` is
+served for unmatched paths with a 404 status. `serve.cjs` already behaves that
+way, so the local preview is currently stricter than production.
 
 `admin.kitcommerce.store` is a deployed GoCommerce instance. It is **not**
 publicly explorable — every admin endpoint returns 401 — so the site does not

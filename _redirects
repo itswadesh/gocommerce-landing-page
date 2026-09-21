@@ -21,9 +21,9 @@
 /connector        /gocommerce-svelte-commerce-connector/          301
 /docs             https://github.com/itswadesh/gocommerce#readme  301
 
-# Do not re-add a `/* /404 404` splat here. It was tried and does nothing on
-# this project: an unmatched path returns 404 with a zero-length body either
-# way. 404.html is deployed and /404 serves it correctly, the named rules above
-# work, and it is not edge cache — so the cause is a Pages project setting, not
-# this file. Check the build output directory and whether a Worker route is
-# bound to the custom domain ahead of Pages.
+# Do not re-add a `/* /404 404` splat here. It was tried and does nothing: an
+# unmatched path returns 404 with a zero-length body either way. The site is
+# served by Cloudflare Workers static assets, and that behaviour is the default
+# `not_found_handling = "none"`. The fix is `not_found_handling = "404-page"`
+# in the Worker config, which serves /404.html for unmatched paths with a 404
+# status. It is not a redirect and it is not this file.
