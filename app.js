@@ -105,7 +105,7 @@
   // — an unauthenticated call is rate limited per address and will sometimes
   // fail, which must not turn an accurate page into a broken one.
   var REPOS = [
-    { repo: 'misiki-in/gocommerce', fields: { 'go-stars': 'stargazers_count' } },
+    { repo: 'itswadesh/gocommerce', fields: { 'go-stars': 'stargazers_count' } },
     { repo: 'itswadesh/svelte-commerce', fields: { 'sv-stars': 'stargazers_count', 'sv-forks': 'forks_count' } },
   ]
 

@@ -1,4 +1,4 @@
-# GoCommerce landing page
+# KitCommerce landing page
 
 A static site. No build step, no package installation.
 
@@ -7,7 +7,32 @@ node serve.cjs      # http://127.0.0.1:4173
 ```
 
 Files: `index.html` (content), `style.css` (design and layout), `app.js` (tabs,
-copy buttons, mobile nav), `serve.cjs` (local preview), `assets/` (images).
+copy buttons, mobile nav), `serve.cjs` (local preview), `assets/` (images),
+`_redirects` (Cloudflare path rules).
+
+## Brand architecture
+
+**KitCommerce** is the umbrella and takes no colour of its own — the logo is
+monochrome because a brand wearing one of its own layers' hues would be claiming
+to be that layer. Underneath it:
+
+| Layer | Project | Colour |
+| --- | --- | --- |
+| Storefront | Svelte Commerce | Svelte orange `#ff3e00` |
+| Engine and admin | GoCommerce | Go blue `#00add8` |
+| Growth | KitCommerce Growth | violet `#7c4dff` |
+
+Spell them `KitCommerce`, `GoCommerce`, `Svelte Commerce`, `KitCommerce Growth`
+— never `Kit Commerce`, `Go Commerce` or `SvelteCommerce`. Colour marks
+architectural layers and nothing else; an accent on something that is not a
+layer is a bug.
+
+Both repositories moved to the `itswadesh` account. The GitHub paths are
+`itswadesh/gocommerce` and `itswadesh/svelte-commerce`; the old
+`misiki-in/gocommerce` still redirects, but no link here should rely on that.
+The **Go module path is unchanged** at `github.com/misiki/gocommerce` — renaming
+a repository does not rename its module, and the code sample on the page says so
+rather than quietly showing an import that would not resolve.
 
 ## Where the numbers come from
 
@@ -50,12 +75,20 @@ store running Svelte Commerce, captured the same way.
 - **The Svelte Commerce connector is not published.** Svelte Commerce is headless
   across Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart; GoCommerce
   is not among them yet. The storefront section says so plainly rather than
-  implying a wired stack.
+  implying a wired stack. It is the only thing on the page marked *in
+  development*.
 - **No benchmarks.** None are published, so the page makes no speed claim at all.
-- **The marketing section is split into shipped and roadmap.** Behavioural
-  events, unified profiles, segments, a workflow builder, WhatsApp, retargeting,
-  attribution and loyalty are roadmap. The engine emits order and catalog events
-  only.
+- **KitCommerce Growth is a name, not yet a product.** The third pillar carries a
+  different status marker from the other two for that reason. Every capability in
+  the Growth section is tagged shipped or roadmap individually, in one
+  interleaved list rather than two side-by-side columns — a two-column layout let
+  a skimmer read only the shipped side and come away believing the whole layer
+  exists. Behavioural events, unified profiles, segments, the automation builder,
+  WhatsApp, retargeting, attribution and loyalty are all roadmap; the engine
+  emits order and catalog events only.
+- **No recovery-link plumbing is claimed.** `core/notify.go` subscribes to
+  `order.*` deliberately and nothing else; there is no `StorefrontURL` in core.
+  Cart recovery is the module's own schedule, which is what the page says.
 - **Star counts sit with the project they belong to.** GoCommerce is new and its
   count says so; Svelte Commerce's larger numbers are never shown in a way that
   could be read as GoCommerce's.
@@ -66,6 +99,17 @@ Cloudflare Pages serves `kitcommerce.store` from the `main` branch; a push
 publishes. `9aed8449d5c60c850c662366e3d64c9a.txt` is the IndexNow key and must
 stay at the site root, byte-exact and with no trailing newline, or verification
 returns 403.
+
+`_redirects` makes the brief's recommended project paths resolve instead of
+404ing — `/gocommerce`, `/svelte-commerce`, `/growth`, `/architecture`,
+`/quick-start`, `/roadmap` point at the matching homepage section and `/docs`
+points at the engine README. They are redirects rather than pages on purpose:
+separate pages would duplicate every claim, and a claim kept in two places is a
+claim that will disagree with itself.
+
+`assets/og.png` is generated, not hand-drawn — `scratchpad/og.html` rendered at
+1200×630. Regenerate it whenever the brand architecture changes, or the social
+card will keep advertising the previous one.
 
 ## Verifying a change
 

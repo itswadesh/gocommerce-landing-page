@@ -1,0 +1,10 @@
+# The brief's recommended project paths, made real rather than left to 404.
+# They resolve to the homepage sections instead of thin duplicate pages, so
+# there is one canonical copy of every claim.
+/gocommerce       /#gocommerce       302
+/svelte-commerce  /#svelte-commerce  302
+/growth           /#growth           302
+/architecture     /#architecture     302
+/quick-start      /#quickstart       302
+/docs             https://github.com/itswadesh/gocommerce#readme  302
+/roadmap          /#growth           302
