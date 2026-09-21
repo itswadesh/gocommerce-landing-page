@@ -17,6 +17,12 @@
   Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
 
+# Fonts carry their weight in the filename and are replaced rather than
+# edited, so a year is safe and immutable stops the revalidation round trip
+# that was costing most of what self-hosting them saved.
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
 /assets/admin/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 
