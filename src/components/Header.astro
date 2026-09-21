@@ -21,18 +21,19 @@ const inDevelop = ['develop', 'architecture', 'live-admin', 'connector', 'backen
 const developOpen = inDevelop.includes(current as (typeof inDevelop)[number])
 
 const solutions = [
-  { href: '/#sol-headless', label: 'Headless ecommerce', note: 'Any storefront, app or agent on one API' },
-  { href: '/#sol-marketplace', label: 'Multi-vendor marketplace', note: 'Vendors as first-class sellers, with moderation states' },
-  { href: '/#sol-b2b', label: 'B2B commerce', note: 'Customer groups, price lists, quantity breaks' },
-  { href: '/#sol-d2c', label: 'Direct-to-consumer', note: 'The default store, selling with no modules installed' },
-  { href: '/#sol-channels', label: 'Several storefronts, one catalogue', note: 'Channels with per-channel publishing' },
+  { href: '/solutions/marketplace/', label: 'Multi-vendor marketplace', note: 'Vendors as first-class sellers, with moderation states' },
+  { href: '/solutions/b2b/', label: 'B2B commerce', note: 'Customer groups, price lists, quantity breaks' },
+  { href: '/solutions/d2c/', label: 'Direct-to-consumer', note: 'The default store, selling with no modules installed' },
+  { href: '/solutions/multi-store/', label: 'Multi-store', note: 'Several storefronts, one catalogue, channels' },
+  { href: '/#headless', label: 'Headless ecommerce', note: 'Any storefront, app or agent on one API' },
+  { href: '/solutions/', label: 'All solutions', note: 'Which shape of store fits, and what does the work' },
   { href: '/go-svelte-ecommerce/#when', label: 'Which project to start with', note: 'Backend, storefront, or both' },
 ]
 const develop = [
   { href: '/#one-command', label: 'One-command Docker stack', note: 'Postgres, API with admin, proxy' },
   { href: '/gocommerce/#quickstart', label: 'GoCommerce quick start', note: 'Go 1.27 and a PostgreSQL' },
   { href: '/svelte-commerce/#quickstart', label: 'Svelte Commerce quick start', note: 'Node and a backend to point at' },
-  { href: '/gocommerce/#modules', label: '44 modules', note: 'Payments, shipping, messaging, migration' },
+  { href: '/integrations/', label: '44 modules', note: 'Payments, shipping, messaging, migration' },
   { href: '/svelte-commerce/backends/', label: '26 backend integrations', note: 'Measured coverage, per connector' },
   { href: '/go-svelte-ecommerce/', label: 'Architecture', note: 'How the two projects fit' },
   { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status', note: 'In development, not published' },

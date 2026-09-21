@@ -1,0 +1,178 @@
+[
+  {
+    "dir": "cart-recovery",
+    "doc": "chases a basket somebody gave up on."
+  },
+  {
+    "dir": "cms",
+    "doc": "adds content pages — about, terms, delivery, a landing page — to a gocommerce store."
+  },
+  {
+    "dir": "contact",
+    "doc": "is the storefront's contact form and the inbox behind it."
+  },
+  {
+    "dir": "faq",
+    "doc": "is the questions a shop is asked often, and its answers."
+  },
+  {
+    "dir": "feeds",
+    "doc": "publishes the catalogue in the shapes advertising platforms read: Google Merchant Center's RSS feed and Meta's catalogue CSV."
+  },
+  {
+    "dir": "fulfill-delhivery",
+    "doc": "books shipments through Delhivery."
+  },
+  {
+    "dir": "fulfill-easyship",
+    "doc": "books shipments through Easyship."
+  },
+  {
+    "dir": "fulfill-indiapost",
+    "doc": "records shipments handed to India Post."
+  },
+  {
+    "dir": "fulfill-nimbuspost",
+    "doc": "books shipments through NimbusPost."
+  },
+  {
+    "dir": "fulfill-onfleet",
+    "doc": "dispatches deliveries through Onfleet."
+  },
+  {
+    "dir": "fulfill-shippit",
+    "doc": "books shipments through Shippit."
+  },
+  {
+    "dir": "fulfill-shippo",
+    "doc": "buys shipping labels through Shippo."
+  },
+  {
+    "dir": "fulfill-shiprocket",
+    "doc": "books shipments through Shiprocket."
+  },
+  {
+    "dir": "fulfill-shipstation",
+    "doc": "buys shipping labels through ShipStation."
+  },
+  {
+    "dir": "fulfill-usps",
+    "doc": "buys shipping labels directly from the United States Postal Service."
+  },
+  {
+    "dir": "fulfill-veeqo",
+    "doc": "records shipments against a Veeqo order."
+  },
+  {
+    "dir": "identity",
+    "doc": "adds shopper accounts to a gocommerce store."
+  },
+  {
+    "dir": "import-amazon",
+    "doc": "imports a product from an Amazon listing."
+  },
+  {
+    "dir": "import-shopify",
+    "doc": "imports a whole Shopify catalogue in one go."
+  },
+  {
+    "dir": "indexnow",
+    "doc": "tells search engines a page changed, the moment it does."
+  },
+  {
+    "dir": "invoices",
+    "doc": "issues a numbered invoice for every paid order."
+  },
+  {
+    "dir": "klaviyo",
+    "doc": "tells Klaviyo what happens in this store, so its flows — abandoned cart, post-purchase, win-back — have something to run on."
+  },
+  {
+    "dir": "mcp",
+    "doc": "exposes a gocommerce store to AI agents over the Model Context Protocol."
+  },
+  {
+    "dir": "navigation",
+    "doc": "is the storefront's menus: a header, a footer, a sidebar, each a tree of items an operator arranges by hand."
+  },
+  {
+    "dir": "newsletter",
+    "doc": "is the signup box: who asked to hear from the store, and who asked to stop."
+  },
+  {
+    "dir": "notify-msg91",
+    "doc": "delivers gocommerce notifications as SMS through MSG91."
+  },
+  {
+    "dir": "notify-resend",
+    "doc": "delivers gocommerce notifications as email through Resend."
+  },
+  {
+    "dir": "notify-sendgrid",
+    "doc": "delivers gocommerce notifications as email through SendGrid."
+  },
+  {
+    "dir": "notify-twilio",
+    "doc": "carries the store's SMS through Twilio's REST API."
+  },
+  {
+    "dir": "payments-adyen",
+    "doc": "takes payments through Adyen."
+  },
+  {
+    "dir": "payments-creem",
+    "doc": "takes payments through Creem."
+  },
+  {
+    "dir": "payments-helcim",
+    "doc": "takes payments through Helcim."
+  },
+  {
+    "dir": "payments-hyperswitch",
+    "doc": "takes payments through Hyperswitch."
+  },
+  {
+    "dir": "payments-lemonsqueezy",
+    "doc": "takes payments through Lemon Squeezy."
+  },
+  {
+    "dir": "payments-paddle",
+    "doc": "takes payments through Paddle Billing."
+  },
+  {
+    "dir": "payments-razorpay",
+    "doc": "takes payments through Razorpay."
+  },
+  {
+    "dir": "payments-revenuecat",
+    "doc": "takes payments through RevenueCat Web Billing."
+  },
+  {
+    "dir": "payments-stripe",
+    "doc": "takes card payments through Stripe."
+  },
+  {
+    "dir": "reviews",
+    "doc": "is what shoppers say about a product: a rating out of five and some words, moderated before it shows."
+  },
+  {
+    "dir": "search-meilisearch",
+    "doc": "keeps a Meilisearch index of the catalogue and answers storefront searches from it."
+  },
+  {
+    "dir": "sitemaps",
+    "doc": "publishes the storefront's sitemap: every active product, every active collection, and every published page when the cms module is installed, each with the time it last changed."
+  },
+  {
+    "dir": "translations",
+    "doc": "serves catalog content in the language a shopper asked for."
+  },
+  {
+    "dir": "webhooks",
+    "doc": "delivers this store's events to somebody else's server."
+  },
+  {
+    "dir": "wishlist",
+    "doc": "is what shoppers wanted and did not buy yet."
+  }
+]

@@ -1,0 +1,98 @@
+---
+/**
+ * Multi-store is channels: one catalogue, several storefronts, differing in
+ * what is published to each and at what price. The page says exactly what a
+ * channel scopes — publishing and price — and what it does not.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+
+const path = '/solutions/multi-store/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'Multi-store on GoCommerce — channels', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, inLanguage: 'en' },
+]
+
+const faq = [
+  { q: 'What is a channel?', a: 'A named storefront over the one catalogue: a code, a name, an active flag and a count of the products published to it. Exactly one channel is the default — enforced by a partial unique index — and a request that names no channel is served from it, which is why a store that never creates a second channel never notices the feature.' },
+  { q: 'What differs between channels?', a: 'Two things: which products are published to each, set per product with a list of channel ids, and which price lists apply, since a price list can be limited to one channel. Orders, customers and inventory are not partitioned by channel; a second storefront sells from the same stock.' },
+  { q: 'How does a storefront pick its channel?', a: 'By naming it on the request. Any HTTP client can, so two Svelte Commerce instances, a Next.js site and a native app can each be a channel of the same backend. The admin sees all of them.' },
+  { q: 'Can I run separate brands from one install?', a: 'Separate catalogues per brand, yes — publish each product to its brand’s channel and price it per channel. Separate merchants with separate staff and separate books, no: that is one store with one admin, one set of rights and one ledger.' },
+  { q: 'Is this multi-tenant?', a: 'No. Channels are storefronts of one merchant. Several merchants selling on one store is the marketplace shape, and several unrelated stores is several installs.' },
+]
+---
+<Base
+  title="Multi-Store on GoCommerce — Several Storefronts, One Catalogue, Channels"
+  description="Run several storefronts from one open-source backend: channels with per-channel product publishing and per-channel price lists, one default channel, one admin over all of them. What a channel scopes, and what it does not."
+  path={path}
+  ogTitle="Multi-store: several storefronts, one catalogue"
+  ogDescription="Channels with per-channel publishing and pricing, one default, one admin — and the two things channels do not partition."
+  nav="solutions"
+  crumbs={[{ name: 'Solutions', href: '/solutions/' }, { name: 'Multi-store', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Multi-store</p>
+    <h1>Several storefronts, one catalogue</h1>
+    <p class="lede">Channels are storefronts over one catalogue, differing in what is published to each and at what price. A store that never creates a second channel pays nothing for the feature: one channel is the default, and every request that names none is served from it.</p>
+    <ul class="head-facts">
+      <li><b>core/channels.go</b> channels, publishing</li>
+      <li><b>core/pricing.go</b> per-channel price lists</li>
+      <li><b>1</b> default channel, enforced by the database</li>
+    </ul>
+  </section>
+
+  <section id="how" class="section wrap feature" aria-labelledby="how-title">
+    <div class="feature-copy">
+      <h2 id="how-title">What a channel scopes</h2>
+      <ul class="tick">
+        <li><b>Publishing.</b> Each product carries the list of channels it is published to; <code>Publish(product, channels)</code> sets it.</li>
+        <li><b>Price.</b> A price list can be limited to one channel, so the same variant sells at a different price on a different storefront — resolved by <code>PriceInChannel</code>.</li>
+        <li><b>The default.</b> Exactly one channel is default, guaranteed by a partial unique index, and is what a request without a channel gets.</li>
+        <li><b>Not orders, customers or stock.</b> Those are one store’s. A second storefront sells the same inventory from the same locations.</li>
+      </ul>
+      <p class="sol-prim">Channel: code, name, active, default, products</p>
+    </div>
+    <figure class="feature-visual flow" aria-labelledby="fc-cap">
+      <figcaption id="fc-cap" class="flow-cap">Two storefronts, one backend</figcaption>
+      <div class="arch-row arch-store"><h3>Storefront A</h3><p>channel: retail</p></div>
+      <p class="arch-wire"><span>published set A · retail prices</span></p>
+      <div class="arch-row arch-engine"><h3>GoCommerce</h3><p>one catalogue, one admin, one stock</p></div>
+      <p class="arch-wire"><span>published set B · outlet prices</span></p>
+      <div class="arch-row arch-store"><h3>Storefront B</h3><p>channel: outlet</p></div>
+    </figure>
+  </section>
+
+  <section id="shapes" class="section wrap" aria-labelledby="shapes-title">
+    <h2 id="shapes-title">Three things channels are good for</h2>
+    <div class="tri">
+      <div class="tri-item"><h3>An outlet store</h3><p>Publish the discontinued lines to a second channel with a lower price list. Stock is shared, so selling out on one side sells out on the other, which is the truth.</p></div>
+      <div class="tri-item"><h3>A brand per storefront</h3><p>Two brands, one warehouse, one admin. Each product goes to its brand’s channel; staff and rights are shared because the merchant is.</p></div>
+      <div class="tri-item"><h3>A wholesale storefront</h3><p>A B2B channel with a group-restricted price list — <a href="/solutions/b2b/">how B2B pricing resolves</a> — beside the retail one, on the same catalogue.</p></div>
+    </div>
+  </section>
+
+  <section id="edge" class="section wrap" aria-labelledby="edge-title">
+    <h2 id="edge-title">Where the edge is</h2>
+    <div class="tri">
+      <div class="tri-item"><h3>Not multi-tenant</h3><p>Channels belong to one merchant. Unrelated stores are separate installs, each one binary and one database.</p></div>
+      <div class="tri-item"><h3>No per-channel staff or ledger</h3><p>Rights, customers, orders and payouts are store-wide. A channel is a shop window, not a subsidiary.</p></div>
+      <div class="tri-item"><h3>The storefront side is yours</h3><p>A channel is named on the request, so a second storefront is a second client of the API — Svelte Commerce once its <a href="/gocommerce-svelte-commerce-connector/">connector</a> ships, anything HTTP today.</p></div>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions about multi-store" />
+
+  <section class="closing wrap">
+    <h2>One catalogue, as many windows as you need</h2>
+    <p>Create a channel in the admin, publish a product to it, and price a cart against it from the API docs.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="/solutions/b2b/">B2B pricing</a>
+      <a class="button secondary" href="/solutions/d2c/">The default store</a>
+      <a class="button secondary" href="/solutions/">All solutions</a>
+    </div>
+  </section>
+</Base>

@@ -108,6 +108,27 @@ for (const page of pages) {
   }
 }
 
+// ── 3b. a fragment must land on an id
+//
+// /gocommerce/#modules with no such id is a dead link that returns 200 — the
+// kind no crawler ever reports and every reader notices.
+const idsOf = new Map()
+const idsIn = (rel) => {
+  if (!idsOf.has(rel)) idsOf.set(rel, new Set([...read(rel).matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])))
+  return idsOf.get(rel)
+}
+for (const page of pages) {
+  const html = read(page)
+  for (const m of html.matchAll(/href="([^"]*#[^"]+)"/g)) {
+    const href = m[1]
+    if (/^(https?:|mailto:|tel:|data:)/.test(href)) continue
+    const [p, frag] = href.split('#')
+    const target = p === '' ? page : fileFor(p)
+    if (!fs.existsSync(path.join(DIST, target))) continue // reported above
+    if (!idsIn(target).has(frag)) fail(`${page}: link ${href} points at no id in ${target}`)
+  }
+}
+
 // ── 4. files the host needs, which a build can silently drop
 const required = ['robots.txt', 'llms.txt', '_headers', '_redirects']
 for (const f of required) {

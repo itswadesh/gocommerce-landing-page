@@ -40,6 +40,12 @@
 - https://kitcommerce.store/svelte-commerce/backends/ — all 26 connectors with measured coverage, cart/checkout/auth status and known gaps
 - https://kitcommerce.store/go-svelte-ecommerce/ — how the two projects relate, when to use each, side-by-side comparison
 - https://kitcommerce.store/gocommerce-svelte-commerce-connector/ — connector status: in development, not published
+- https://kitcommerce.store/solutions/ — the four shapes of store and the engine primitive behind each
+- https://kitcommerce.store/solutions/marketplace/ — multi-vendor marketplace: vendors, moderation states, vendor offers, commission recorded per vendor
+- https://kitcommerce.store/solutions/b2b/ — B2B: customer groups, price lists, quantity breaks, scoped API keys, invoices
+- https://kitcommerce.store/solutions/d2c/ — direct-to-consumer: the default store, guest checkout, cash on delivery, manual fulfillment, the Svelte Commerce storefront
+- https://kitcommerce.store/solutions/multi-store/ — several storefronts on one catalogue: channels, per-channel publishing and pricing
+- https://kitcommerce.store/integrations/ — all 44 GoCommerce modules by category, each a directory under ext/, and the one hosting partner
 - https://kitcommerce.store/privacy/ — what the site stores, which third parties it contacts, and what loads only after consent
 
 ## Entities

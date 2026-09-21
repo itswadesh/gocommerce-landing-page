@@ -17,7 +17,6 @@
 
 # Shapes people guess at for the pages that do exist.
 /backends         /svelte-commerce/backends/                      301
-/integrations     /svelte-commerce/backends/                      301
 /connector        /gocommerce-svelte-commerce-connector/          301
 /docs             https://github.com/itswadesh/gocommerce#readme  301
 
@@ -27,3 +26,8 @@
 # `not_found_handling = "none"`. The fix is `not_found_handling = "404-page"`
 # in the Worker config, which serves /404.html for unmatched paths with a 404
 # status. It is not a redirect and it is not this file.
+/marketplace       /solutions/marketplace/                          301
+/b2b               /solutions/b2b/                                  301
+/d2c               /solutions/d2c/                                  301
+/multi-store       /solutions/multi-store/                          301
+/plugins           /integrations/                                   301

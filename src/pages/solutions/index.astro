@@ -1,0 +1,122 @@
+---
+/**
+ * The hub for the four shapes of store. Each solution page argues from the
+ * engine primitive that does the work; this page is the map between them,
+ * and the honest note that they are capabilities of one engine, not four
+ * products.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+
+const path = '/solutions/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const graph = [
+  { '@type': 'CollectionPage', '@id': abs(path + '#page'), url: abs(path), name: 'Solutions — four shapes of store on GoCommerce', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, inLanguage: 'en' },
+]
+
+const solutions = [
+  { href: '/solutions/marketplace/', icon: 'i-users', title: 'Multi-vendor marketplace', cta: 'Explore marketplace', points: ['Vendor accounts', 'Vendor offers', 'Moderation states', 'Commission recorded per vendor'], prim: 'core/vendors.go' },
+  { href: '/solutions/b2b/', icon: 'i-tag', title: 'B2B commerce', cta: 'Explore B2B', points: ['Customer groups', 'Price lists', 'Quantity breaks', 'Scoped API keys'], prim: 'core/pricing.go, core/api_keys.go' },
+  { href: '/solutions/d2c/', icon: 'i-bag', title: 'Direct-to-consumer', cta: 'Explore D2C', points: ['The default store', 'Cash on delivery built in', 'Manual fulfillment built in', 'Svelte Commerce in front'], prim: 'core/checkout.go, core/orders.go' },
+  { href: '/solutions/multi-store/', icon: 'i-store', title: 'Multi-store', cta: 'Explore multi-store', points: ['Channels', 'Per-channel publishing', 'Per-channel price lists', 'One default channel'], prim: 'core/channels.go' },
+]
+
+const faq = [
+  { q: 'Are these four separate products or editions?', a: 'No. They are four ways of configuring one engine. A marketplace, a B2B catalogue and a plain direct-to-consumer store run the same GoCommerce binary against the same PostgreSQL; what differs is which records you create — vendors, customer groups and price lists, or channels — and none of them costs anything to leave unused.' },
+  { q: 'Can one store be more than one of these?', a: 'Yes. A B2B price list can be limited to one channel, a vendor can list offers on a store that also sells its own goods, and a direct-to-consumer store can add a second channel later. The primitives compose because they are rows in one database, not plugins with their own state.' },
+  { q: 'Is the depth here the same as a dedicated platform’s?', a: 'Not yet, and each page says where the edge is. Marketplace commission is recorded per vendor but not settled; the storefront half of every solution depends on a client you choose. Read the page for the shape you need before committing.' },
+  { q: 'Which page should I read first?', a: 'The one matching the store you are building. If you do not know yet, direct-to-consumer is the default and the other three add to it rather than replace it.' },
+]
+---
+<Base
+  title="Solutions — Marketplace, B2B, D2C and Multi-store on One Open-Source Engine"
+  description="Four shapes of store on GoCommerce: multi-vendor marketplace, B2B pricing, direct-to-consumer and multi-store channels. Each names the engine primitive that does the work, and where its edge is."
+  path={path}
+  ogTitle="Four shapes of store, one open-source engine"
+  ogDescription="Marketplace, B2B, direct-to-consumer and multi-store — each a configuration of GoCommerce, each with the primitive named."
+  nav="solutions"
+  crumbs={[{ name: 'Solutions', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <h1>Four shapes of store. One engine.</h1>
+    <p class="lede">A marketplace, a wholesale catalogue, a plain shop and a group of storefronts are not four products here. They are records you create in one GoCommerce database — vendors, price lists, channels — and a store that never creates them pays nothing for their existence.</p>
+    <ul class="head-facts">
+      <li><b>1</b> binary, all four</li>
+      <li><b>0</b> modules required for the default store</li>
+      <li><b>342</b> documented operations behind each</li>
+    </ul>
+  </section>
+
+  <section id="four" class="section wrap" aria-labelledby="four-title">
+    <h2 id="four-title">Pick the shape you are building</h2>
+    <div class="solgrid">
+      {solutions.map((s) => (
+        <article>
+          <svg class="sol-ic" aria-hidden="true"><use href={`#${s.icon}`}/></svg>
+          <h3><a href={s.href}>{s.title}</a></h3>
+          <ul>{s.points.map((p) => <li>{p}</li>)}</ul>
+          <p class="sol-prim">{s.prim}</p>
+          <a href={s.href}>{s.cta}</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="compare" class="section wrap" aria-labelledby="compare-title">
+    <h2 id="compare-title">What each one adds</h2>
+    <p class="section-lede">Every row is a capability in the engine today, checkable in the file named. What is <em>not</em> there is named too.</p>
+    <div class="tbl-scroll">
+      <table class="reltable">
+        <caption>The four solutions compared</caption>
+        <thead>
+          <tr><th scope="col"><span class="vh">Aspect</span></th><th scope="col">Marketplace</th><th scope="col">B2B</th><th scope="col">Direct-to-consumer</th><th scope="col">Multi-store</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Records you create</th><td>Vendors, offers</td><td>Customer groups, price lists</td><td>Products, nothing else</td><td>Channels</td></tr>
+          <tr><th scope="row">Who sets the price</th><td>Each vendor, per offer</td><td>A price list, per group and quantity</td><td>You, per variant</td><td>A price list, per channel</td></tr>
+          <tr><th scope="row">Who holds the stock</th><td>Each offer</td><td>Your locations</td><td>Your locations</td><td>Your locations, published per channel</td></tr>
+          <tr><th scope="row">Moderation</th><td>pending → approved → suspended</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><th scope="row">Machine buyers</th><td>—</td><td>Scoped API keys</td><td>—</td><td>—</td></tr>
+          <tr><th scope="row">Known edge</th><td>Commission recorded, not settled</td><td>No quotes or approvals workflow</td><td>Storefront is a separate project</td><td>Channels scope publishing and price, not orders</td></tr>
+          <tr><th scope="row">Source</th><td><code>core/vendors.go</code></td><td><code>core/pricing.go</code></td><td><code>core/checkout.go</code></td><td><code>core/channels.go</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="storefront" class="section wrap" aria-labelledby="sf-title">
+    <h2 id="sf-title">The storefront half</h2>
+    <div class="tri">
+      <div class="tri-item tri-store">
+        <h3>Svelte Commerce</h3>
+        <p>A server-rendered SvelteKit storefront that runs against <a href="/svelte-commerce/backends/">26 commerce backends</a>. The GoCommerce connector is <a href="/gocommerce-svelte-commerce-connector/">in development</a>, so today it fronts other backends, and arialshop.com is it in production.</p>
+        <a class="button secondary" href="/svelte-commerce/">Explore Svelte Commerce</a>
+      </div>
+      <div class="tri-item tri-engine">
+        <h3>Anything that speaks HTTP</h3>
+        <p>GoCommerce holds no templates. Any client can drive its 342 operations — a Next.js site, a native app, a coding agent over MCP. The admin uses the same contract.</p>
+        <a class="button secondary" href="/#headless">Headless, on the home page</a>
+      </div>
+      <div class="tri-item">
+        <h3>Or none, to start</h3>
+        <p>The one-command stack gives you the API and the admin on port 80. Load a catalogue, place a test order from the API docs, and choose a storefront after the backend has earned it.</p>
+        <a class="button secondary" href="/#one-command">Start on your own server</a>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions about solutions" />
+
+  <section class="closing wrap">
+    <h2>Start with the default, add the rest when a real order asks</h2>
+    <p>Every solution above is a configuration of the same engine you can run in one command.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="/gocommerce/">Explore GoCommerce</a>
+      <a class="button secondary" href="/integrations/">44 modules</a>
+    </div>
+  </section>
+</Base>

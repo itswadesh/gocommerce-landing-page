@@ -1,0 +1,129 @@
+---
+/**
+ * Every module in the GoCommerce repository, described in its own words: the
+ * first sentence of each package's doc comment, extracted from ext/ at
+ * build time into src/data/modules.json. Nothing here is paraphrased, so
+ * nothing here can drift from what the code says about itself.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+import modules from '../../data/modules.json'
+
+const path = '/integrations/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const graph = [
+  { '@type': 'CollectionPage', '@id': abs(path + '#page'), url: abs(path), name: 'GoCommerce modules and integrations', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, inLanguage: 'en' },
+]
+
+// Marks exist for these; the rest are text. A mark is not an endorsement.
+const marks: Record<string, string> = {
+  'payments-stripe': 'stripe', 'payments-razorpay': 'razorpay', 'payments-adyen': 'adyen', 'payments-paddle': 'paddle',
+  'payments-lemonsqueezy': 'lemonsqueezy', 'payments-revenuecat': 'revenuecat', 'fulfill-usps': 'usps',
+  'notify-resend': 'resend', 'notify-sendgrid': 'sendgrid', 'notify-twilio': 'twilio', 'search-meilisearch': 'meilisearch',
+}
+const names: Record<string, string> = {
+  'payments-stripe': 'Stripe', 'payments-razorpay': 'Razorpay', 'payments-adyen': 'Adyen', 'payments-paddle': 'Paddle', 'payments-hyperswitch': 'HyperSwitch', 'payments-lemonsqueezy': 'Lemon Squeezy', 'payments-helcim': 'Helcim', 'payments-creem': 'Creem', 'payments-revenuecat': 'RevenueCat',
+  'fulfill-shiprocket': 'Shiprocket', 'fulfill-delhivery': 'Delhivery', 'fulfill-shippo': 'Shippo', 'fulfill-shipstation': 'ShipStation', 'fulfill-easyship': 'Easyship', 'fulfill-shippit': 'Shippit', 'fulfill-usps': 'USPS', 'fulfill-indiapost': 'India Post', 'fulfill-nimbuspost': 'NimbusPost', 'fulfill-onfleet': 'Onfleet', 'fulfill-veeqo': 'Veeqo',
+  'notify-resend': 'Resend', 'notify-sendgrid': 'SendGrid', 'notify-twilio': 'Twilio', 'notify-msg91': 'MSG91',
+  'cart-recovery': 'Cart recovery', 'klaviyo': 'Klaviyo', 'newsletter': 'Newsletter', 'reviews': 'Reviews', 'wishlist': 'Wishlist', 'feeds': 'Product feeds',
+  'cms': 'CMS', 'identity': 'Identity', 'navigation': 'Navigation', 'search-meilisearch': 'Search (Meilisearch)', 'sitemaps': 'Sitemaps', 'translations': 'Translations', 'invoices': 'Invoices', 'webhooks': 'Webhooks', 'contact': 'Contact', 'faq': 'FAQ', 'indexnow': 'IndexNow', 'mcp': 'MCP',
+  'import-shopify': 'Shopify import', 'import-amazon': 'Amazon import',
+}
+const groups: [string, string, (d: string) => boolean][] = [
+  ['payments', 'Payments', (d) => d.startsWith('payments-')],
+  ['fulfillment', 'Fulfillment', (d) => d.startsWith('fulfill-')],
+  ['messaging', 'Email and SMS', (d) => d.startsWith('notify-')],
+  ['retention', 'Retention', (d) => ['cart-recovery', 'klaviyo', 'newsletter', 'reviews', 'wishlist', 'feeds'].includes(d)],
+  ['commerce', 'Commerce and content', (d) => ['cms', 'identity', 'navigation', 'search-meilisearch', 'sitemaps', 'translations', 'invoices', 'webhooks', 'contact', 'faq', 'indexnow', 'mcp'].includes(d)],
+  ['migration', 'Migration', (d) => d.startsWith('import-')],
+]
+const grouped = groups.map(([id, title, pick]) => ({ id, title, items: modules.filter((m) => pick(m.dir)) }))
+const placed = grouped.reduce((n, g) => n + g.items.length, 0)
+if (placed !== modules.length) throw new Error(`integrations page: ${modules.length - placed} module(s) not placed in a group`)
+
+const importCode = `<span class="k">import</span> (
+	<span class="s">"github.com/misiki/gocommerce/core"</span>
+	stripe <span class="s">"github.com/misiki/gocommerce/ext/payments-stripe"</span>
+	shiprocket <span class="s">"github.com/misiki/gocommerce/ext/fulfill-shiprocket"</span>
+)
+
+modules := []gocommerce.<span class="t">Module</span>{
+	stripe.<span class="f">New</span>(stripe.<span class="t">Config</span>{}),
+	shiprocket.<span class="f">New</span>(shiprocket.<span class="t">Config</span>{}),
+}`
+
+const faq = [
+  { q: 'What is a module?', a: 'A Go package under ext/ in the GoCommerce repository that you import and pass to the app at start-up. It is compiled into your binary only if you import it; a module you leave out contributes no code, no routes and no tables. There is no runtime plugin loading.' },
+  { q: 'Where do these descriptions come from?', a: 'Each is the first sentence of that package’s own doc comment, extracted from the source at build time. They are the code describing itself, not marketing copy about it.' },
+  { q: 'Are these partnerships or endorsements?', a: 'No. A module speaks to a provider’s public API. None of the providers listed endorses GoCommerce, and the only partner of this website is the one named at the bottom of the page: Cloudflare hosts it.' },
+  { q: 'Is there a module I need that is not here?', a: 'Then it does not exist yet. Modules follow one pattern — read any of the payment or fulfillment packages as the template — and a new one does not change the core.' },
+]
+---
+<Base
+  title="GoCommerce Modules and Integrations — All 44, In Their Own Words"
+  description="Every module in the GoCommerce repository: 9 payment providers, 11 fulfillment carriers, 4 email and SMS senders, retention, content, search, MCP and migration importers. Each described by its own package doc, extracted at build time."
+  path={path}
+  ogTitle="44 GoCommerce modules, in their own words"
+  ogDescription="Payments, fulfillment, messaging, retention, content, search, MCP and migration — every module described by its own package doc."
+  nav="develop"
+  crumbs={[{ name: 'Integrations', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <h1>{modules.length} modules, in their own words</h1>
+    <p class="lede">Every name below is a directory under <code>ext/</code> in the GoCommerce repository. Each description is the first sentence of that package's own doc comment, read from the source when this page was built — so it says what the code says, not what a brochure would.</p>
+    <ul class="head-facts">
+      {grouped.map((g) => <li><b>{g.items.length}</b> {g.title.toLowerCase()}</li>)}
+    </ul>
+  </section>
+
+  {grouped.map((g) => (
+    <section id={g.id} class="section wrap" aria-labelledby={`${g.id}-title`}>
+      <h2 id={`${g.id}-title`}>{g.title} <span class="h-count">{g.items.length} modules</span></h2>
+      <ul class="moddir">
+        {g.items.map((m) => (
+          <li>
+            {marks[m.dir] ? <img src={`/assets/brands/${marks[m.dir]}.svg`} width="17" height="17" alt="" loading="lazy"> : <svg aria-hidden="true"><use href="#i-package"/></svg>}
+            <b>{names[m.dir] ?? m.dir}</b>
+            <span>{m.doc} <code>ext/{m.dir}</code></span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <section id="install" class="section wrap" aria-labelledby="install-title">
+    <h2 id="install-title">How a module is installed</h2>
+    <p class="section-lede">Import it, construct it, pass it in. A module you did not import is not in your binary.</p>
+    <div class="code-block">
+      <div class="code-head"><p><svg class="ic" aria-hidden="true"><use href="#i-braces"/></svg>main.go</p><button class="copy" data-copy="code-import" data-ev="docker_compose_copy">Copy</button></div>
+      <pre id="code-import"><code set:html={importCode} /></pre>
+      <p class="code-note">Module path <code>github.com/misiki/gocommerce</code> — unchanged by the repository rename. <a href="/gocommerce/#modify">Modifying a module</a> · <a href="/gocommerce/#modules">Modules on the GoCommerce page</a></p>
+    </div>
+  </section>
+
+  <section id="partner" class="section wrap" aria-labelledby="partner-title">
+    <h2 id="partner-title">Partner</h2>
+    <p class="section-lede">One, and the distinction matters: a partner hosts this website, an integration is a module that speaks to a provider's API.</p>
+    <div class="partner-row">
+      <a class="partner-card" href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer">
+        <img src="/assets/cloudflare.svg" width="32" height="32" alt="" loading="lazy">
+        <span><b>Cloudflare</b><span>Hosting partner — serves this site from Workers</span></span>
+      </a>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions about modules" />
+
+  <section class="closing wrap">
+    <h2>Start with none, add the one an order asks for</h2>
+    <p>The default store transacts with no modules installed. These are what you reach for afterwards.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="/gocommerce/">Explore GoCommerce</a>
+      <a class="button secondary" href="/solutions/d2c/">The default store</a>
+    </div>
+  </section>
+</Base>

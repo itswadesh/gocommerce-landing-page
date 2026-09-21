@@ -1,0 +1,107 @@
+---
+/**
+ * B2B on GoCommerce is pricing that resolves by who is buying and how many,
+ * plus a way for a buyer's own system to place orders. Every claim names the
+ * file it lives in; the edge — no quotes, no approvals, no net terms — is
+ * named too.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+
+const path = '/solutions/b2b/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'B2B commerce on GoCommerce', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, inLanguage: 'en' },
+]
+
+const faq = [
+  { q: 'How does a wholesale customer get a different price?', a: 'Put them in a customer group, then attach a price list to that group. A price list holds rows of variant, minimum quantity and amount; when that customer’s cart is priced, the engine finds the row for the variant whose minimum quantity is highest but not above the quantity ordered. A list with no group applies to everybody, which is how a launch price or a seasonal price is expressed with the same mechanism.' },
+  { q: 'What happens when two price lists both match?', a: 'Each list carries a priority and the higher one wins. A list can also be limited to a date window and to one channel, so a wholesale list for one storefront during one quarter is three fields, not a custom rule.' },
+  { q: 'Can a buyer’s procurement system order without a person logging in?', a: 'Yes. Create an API key with a role. The key carries that role’s rights, a prefix that identifies it in a log line, its last-used time and a revocation, so an integration is a credential you can inspect and switch off rather than a shared password.' },
+  { q: 'Are invoices generated?', a: 'The invoices module issues a numbered invoice for every paid order. It is a module under ext/, so a store that does not need invoices does not compile it in.' },
+  { q: 'What B2B features are not there?', a: 'Quote requests, order approval chains, net payment terms and credit limits. None exists in the engine today, and this page will not describe them as if they did. What exists is pricing, machine access and invoicing, which is where most wholesale stores start.' },
+]
+---
+<Base
+  title="B2B Commerce on GoCommerce — Customer Groups, Price Lists, Quantity Breaks, Scoped API Keys"
+  description="Sell to businesses with negotiated, tiered pricing on an open-source backend: customer groups, price lists with quantity breaks, priorities and date windows, scoped API keys for procurement systems, numbered invoices. And what is not there yet."
+  path={path}
+  ogTitle="B2B commerce on GoCommerce"
+  ogDescription="Customer groups, price lists, quantity breaks, scoped API keys and invoices — with the edges named."
+  nav="solutions"
+  crumbs={[{ name: 'Solutions', href: '/solutions/' }, { name: 'B2B', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">B2B commerce</p>
+    <h1>Sell to businesses with negotiated, tiered pricing</h1>
+    <p class="lede">Pricing resolves by who is buying and how many. Customer groups share a price list, quantity breaks apply within it, and the cart enforces the same one-price-per-line rule it uses for everyone else — so a wholesale account and a walk-in shopper hit the same checkout.</p>
+    <ul class="head-facts">
+      <li><b>core/pricing.go</b> groups, lists, resolution</li>
+      <li><b>core/api_keys.go</b> scoped keys</li>
+      <li><b>ext/invoices</b> numbered invoices</li>
+    </ul>
+  </section>
+
+  <section id="resolve" class="section wrap feature" aria-labelledby="resolve-title">
+    <div class="feature-copy">
+      <h2 id="resolve-title">How a B2B price is found</h2>
+      <ul class="tick">
+        <li><b>Customer groups</b> hold members by email; a customer is priced by the groups they are in.</li>
+        <li><b>Price lists</b> attach to a group, or to nobody — a list with no group is a launch or seasonal price for everyone.</li>
+        <li><b>Quantity breaks</b> are rows of variant, minimum quantity and amount. Minimum quantity 1 means any quantity.</li>
+        <li><b>Priority</b> breaks a tie when two lists cover a line; higher wins. Lists can also carry a start, an end and a channel.</li>
+        <li><b>Integer minor units</b> throughout — no rounding drift on a 2,000-unit order.</li>
+      </ul>
+      <p class="sol-prim">PriceFor(variant, quantity, email) · PriceInChannel(…, channel)</p>
+    </div>
+    <figure class="feature-visual flow" aria-labelledby="fb-cap">
+      <figcaption id="fb-cap" class="flow-cap">One line, priced once</figcaption>
+      <div class="arch-row"><h3>Customer</h3><p>member of group: wholesale</p></div>
+      <p class="arch-wire"><span>group → active lists, by priority</span></p>
+      <div class="arch-row arch-engine"><h3>Price list</h3><p>wholesale, this channel, this quarter</p></div>
+      <p class="arch-wire"><span>quantity 250 → highest break ≤ 250</span></p>
+      <div class="arch-row arch-store"><h3>Unit price</h3><p>resolved per line, not per cart</p></div>
+      <p class="arch-wire"><span>same rule as retail</span></p>
+      <div class="arch-row arch-data"><h3>Cart</h3><p>integer minor units</p></div>
+    </figure>
+  </section>
+
+  <section id="machines" class="section wrap" aria-labelledby="machines-title">
+    <h2 id="machines-title">Buyers that are systems, not people</h2>
+    <p class="section-lede">A procurement system does not log in. It holds a key.</p>
+    <ul class="evidence">
+      <li><svg aria-hidden="true"><use href="#i-braces"/></svg><b>A key carries a role</b><span>The same rights model the admin uses: 52 granular rights, read and write separately, grouped into roles.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-search"/></svg><b>A prefix in every log line</b><span>You can tell which integration made a request without the secret ever appearing.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>Last used, and revoked</b><span>A key records when it last authenticated and who revoked it. Revoked keys stay listed; they just stop working.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-return"/></svg><b>Idempotent checkout</b><span>A system that retries a timed-out request does not place the order twice.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-card"/></svg><b>Numbered invoices</b><span>The invoices module issues one per paid order — a module, so opt in.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-webhook"/></svg><b>Webhooks out</b><span>Order and payment events delivered to the buyer’s system, or yours, from the webhooks module.</span></li>
+    </ul>
+  </section>
+
+  <section id="edge" class="section wrap" aria-labelledby="edge-title">
+    <h2 id="edge-title">Where the edge is</h2>
+    <p class="section-lede">What a dedicated B2B platform has that this engine does not, today.</p>
+    <div class="tri">
+      <div class="tri-item"><h3>No quotes or approvals</h3><p>There is no request-for-quote flow and no order approval chain. An order is placed by whoever holds the key or the login.</p></div>
+      <div class="tri-item"><h3>No net terms</h3><p>Payment is a payment module or cash on delivery. Credit limits and net-30 terms are not modelled.</p></div>
+      <div class="tri-item"><h3>Group pricing, not per-contract pricing</h3><p>A group with one member is per-customer pricing; per-contract terms beyond price are not a concept in the engine.</p></div>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions about B2B" />
+
+  <section class="closing wrap">
+    <h2>Price lists are rows. Start with one.</h2>
+    <p>Run the stack, create a group and a list from the admin, and price a cart from the API docs.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="/solutions/multi-store/">Per-channel pricing</a>
+      <a class="button secondary" href="/solutions/marketplace/">Marketplace</a>
+      <a class="button secondary" href="/solutions/">All solutions</a>
+    </div>
+  </section>
+</Base>

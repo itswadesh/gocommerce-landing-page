@@ -1,0 +1,107 @@
+---
+/**
+ * Direct-to-consumer is the default: what a store does with no modules
+ * installed. The page shows what that default contains, what a module adds,
+ * and points at the one real storefront this site can name.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+
+const path = '/solutions/d2c/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'Direct-to-consumer on GoCommerce and Svelte Commerce', isPartOf: { '@id': abs('/#site') }, mentions: [{ '@id': abs('/gocommerce/#app') }, { '@id': abs('/svelte-commerce/#app') }], inLanguage: 'en' },
+]
+
+const faq = [
+  { q: 'What does a store do with no modules installed?', a: 'Sell. The catalogue, carts, checkout, orders, customers, inventory across locations, discounts and channels are in the core. Checkout takes an email, defaults the payment method to cash on delivery, and the manual fulfillment provider records the shipment you make yourself. A card processor or a carrier is a module you add when a real order asks for it.' },
+  { q: 'Do shoppers need an account?', a: 'No. Checkout identifies the shopper by email. Shopper accounts — sign-in, saved addresses, order history — are the identity module, which you compile in when you want them.' },
+  { q: 'Which storefront do I put in front of it?', a: 'Any client that speaks HTTP. Svelte Commerce is the storefront presented on this site, and arialshop.com runs it in production; its GoCommerce connector is in development, so today it fronts one of 26 other backends. Until that connector ships, a GoCommerce store’s storefront is one you write against the documented API.' },
+  { q: 'Is Arialshop running on GoCommerce?', a: 'No — on Svelte Commerce, against a different backend. It is shown as proof that the storefront runs a real business, not that the two projects are wired together. The connector page is explicit about that.' },
+  { q: 'What about retention — abandoned carts, reviews, wishlists?', a: 'Each is a module: cart-recovery chases a basket somebody gave up on, reviews holds what shoppers say, wishlist holds what they wanted, newsletter holds who asked to hear from you, klaviyo forwards events to Klaviyo flows. None is in the binary until imported.' },
+]
+---
+<Base
+  title="Direct-to-Consumer on GoCommerce — The Default Store, With Nothing Installed"
+  description="A direct-to-consumer store on an open-source backend: guest checkout by email, cash on delivery and manual fulfillment built in, discounts and multi-location inventory in the core, and modules for cards, carriers and retention when you need them. Svelte Commerce as the storefront."
+  path={path}
+  ogTitle="Direct-to-consumer: the default store"
+  ogDescription="Sells with no modules installed. Add a card processor or a carrier when a real order asks."
+  nav="solutions"
+  crumbs={[{ name: 'Solutions', href: '/solutions/' }, { name: 'Direct-to-consumer', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Direct-to-consumer</p>
+    <h1>The default store sells with nothing installed</h1>
+    <p class="lede">Guest checkout, cash on delivery and manual fulfillment are in the core, so a store transacts on the day it boots. Modules add a card processor, a carrier or a retention flow — each a directory you import, none in the binary until you do.</p>
+    <ul class="head-facts">
+      <li><b>0</b> modules required</li>
+      <li><b>"cod"</b> the default payment method</li>
+      <li><b>manual</b> the built-in fulfillment provider</li>
+    </ul>
+  </section>
+
+  <section id="default" class="section wrap" aria-labelledby="default-title">
+    <h2 id="default-title">What is in the default</h2>
+    <ul class="evidence">
+      <li><svg aria-hidden="true"><use href="#i-bag"/></svg><b>Checkout by email</b><span>No account needed. The identity module adds sign-in and order history when you want them.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-coin"/></svg><b>Cash on delivery</b><span>The registered default payment method, so a store can take orders before it has a processor.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-truck"/></svg><b>Manual fulfillment</b><span>Record the parcel you posted yourself; carriers are modules.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-warehouse"/></svg><b>Inventory per location</b><span>Stock on hand and reserved, per warehouse, from the first product.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-tag"/></svg><b>Discounts and price lists</b><span>A launch price is a price list with no group; a code is a discount.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-server"/></svg><b>The admin</b><span>61 screens, compiled into the same binary, on the same API.</span></li>
+    </ul>
+  </section>
+
+  <section id="add" class="section wrap" aria-labelledby="add-title">
+    <h2 id="add-title">What a module adds</h2>
+    <p class="section-lede">Each is a directory under <code>ext/</code>. Import it and it is in your binary; leave it out and none of its code is.</p>
+    <div class="tri">
+      <div class="tri-item">
+        <h3>Take cards</h3>
+        <ul class="tick"><li>Stripe, Razorpay, Adyen, Paddle</li><li>HyperSwitch, Lemon Squeezy, Helcim</li><li>Creem, RevenueCat</li></ul>
+      </div>
+      <div class="tri-item">
+        <h3>Ship it</h3>
+        <ul class="tick"><li>Shiprocket, Delhivery, NimbusPost, India Post</li><li>Shippo, ShipStation, EasyShip, USPS</li><li>Shippit, Onfleet, Veeqo</li></ul>
+      </div>
+      <div class="tri-item">
+        <h3>Keep them</h3>
+        <ul class="tick"><li>Cart recovery, reviews, wishlist</li><li>Newsletter, Klaviyo</li><li>Email and SMS: Resend, SendGrid, Twilio, MSG91</li></ul>
+      </div>
+    </div>
+    <p class="fineprint">The full directory, with what each one does in its own words, is on the <a href="/integrations/">integrations page</a>.</p>
+  </section>
+
+  <section id="storefront" class="section wrap" aria-labelledby="sf-title">
+    <h2 id="sf-title">The storefront</h2>
+    <div class="store-card">
+      <div class="store-shots">
+        <img class="store-desk" src="/assets/admin/storefront-home.webp" width="1440" height="900" alt="The Arialshop desktop storefront: a jewellery hero image with a shop call to action, category navigation and a strip of store guarantees." loading="lazy" decoding="async">
+        <img class="store-phone" src="/assets/admin/storefront-product.webp" width="780" height="1688" alt="An Arialshop product page on a phone: a diamond ring with price, size selection and an add-to-cart button." loading="lazy" decoding="async">
+      </div>
+      <div class="store-meta">
+        <h3>Svelte Commerce, on arialshop.com</h3>
+        <p class="store-domain">server-rendered SvelteKit</p>
+        <p>A real production jewellery storefront running on Svelte Commerce. It fronts one of <a href="/svelte-commerce/backends/">26 backends</a>; the GoCommerce connector is <a href="/gocommerce-svelte-commerce-connector/">in development</a>, so a GoCommerce store’s storefront today is one you write against the API.</p>
+        <a class="button secondary" href="/svelte-commerce/">Explore Svelte Commerce</a>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions about direct-to-consumer" />
+
+  <section class="closing wrap">
+    <h2>Boot it, load a catalogue, place an order</h2>
+    <p>The default store is what one command gives you. Everything else is a decision you can make later.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="/solutions/multi-store/">Add a second storefront</a>
+      <a class="button secondary" href="/solutions/b2b/">Add wholesale pricing</a>
+      <a class="button secondary" href="/solutions/">All solutions</a>
+    </div>
+  </section>
+</Base>

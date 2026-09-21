@@ -1,0 +1,110 @@
+---
+/**
+ * A marketplace on GoCommerce is vendors as first-class sellers: their own
+ * record, their own login scoped to what is theirs, their own offers with
+ * their own price and stock, and a moderation state machine you control.
+ * The edge — commission recorded but not settled, no seller on the order
+ * line yet — is stated, because a marketplace that hides its edges hides them
+ * from the people who will hit them first.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+
+const path = '/solutions/marketplace/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'Multi-vendor marketplace on GoCommerce', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, inLanguage: 'en' },
+]
+
+const faq = [
+  { q: 'How does a seller get onto the marketplace?', a: 'A vendor record is created — by you, or by their own sign-up — and starts pending. Nothing of theirs is shown until you approve it. Suspending keeps the row, the history and the offers, and stops the storefront showing them; it is reversible in a way that deleting is not.' },
+  { q: 'What does a vendor actually own?', a: 'A vendor record with a slug, legal name, contact details, an address for the invoice and for tax, a tax id and a commission rate; a login of their own; and offers. An offer is one vendor’s price and stock for one variant of your catalogue, with its own active or paused state and its own reserved-versus-on-hand stock.' },
+  { q: 'Can several sellers sell the same product?', a: 'Yes. That is what an offer is: several vendors, one catalogue entry, each with their own price and stock. The unique constraint is one offer per vendor per variant, so a seller cannot list the same thing twice.' },
+  { q: 'What does a vendor see when they log in?', a: 'Only what is theirs. A vendor account uses the same login table, password hashing, sessions and rights machinery as every other operator — a second identity system would be a second place for a login bug to live — and what makes it a vendor account is a scope, not a right: the role is vendor and the row points at their vendor.' },
+  { q: 'Is commission paid out automatically?', a: 'No. Each vendor carries a commission rate in basis points — 250 is 2.5% — and it is recorded, not settled. There is no payout ledger and no settlement run. A marketplace that pays its sellers needs to compute that from orders itself, today.' },
+  { q: 'Does an order know which seller it belongs to?', a: 'Not yet. Offers carry the seller, and a line bought from an offer is priced and stocked from that offer, but the order line does not yet record the vendor. This is the most visible gap for a marketplace and it is named here rather than left for you to find.' },
+]
+---
+<Base
+  title="Multi-Vendor Marketplace on GoCommerce — Vendors, Offers, Moderation, Vendor Logins"
+  description="Launch a marketplace on an open-source backend: vendor records with pending, approved and suspended states, vendor offers with their own price and stock per variant, vendor logins scoped to what is theirs, commission recorded per vendor. And the two gaps, named."
+  path={path}
+  ogTitle="Multi-vendor marketplace on GoCommerce"
+  ogDescription="Vendors as first-class sellers: moderation states, offers with their own price and stock, scoped logins. Commission recorded, not yet settled."
+  nav="solutions"
+  crumbs={[{ name: 'Solutions', href: '/solutions/' }, { name: 'Marketplace', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Multi-vendor marketplace</p>
+    <h1>Launch a marketplace where sellers are first-class</h1>
+    <p class="lede">Vendors are sellers on your store, not brands on a product. A new seller arrives <em>pending</em> and is approved or suspended by you — because a marketplace that lists whoever signs up is not moderating, it is hosting whatever turns up.</p>
+    <ul class="head-facts">
+      <li><b>core/vendors.go</b> vendors, offers, states</li>
+      <li><b>core/vendor_accounts.go</b> a seller's own login</li>
+      <li><b>3</b> vendor states, <b>2</b> offer states</li>
+    </ul>
+  </section>
+
+  <section id="path" class="section wrap feature" aria-labelledby="path-title">
+    <div class="feature-copy">
+      <h2 id="path-title">A seller's path through the engine</h2>
+      <ul class="tick">
+        <li><b>Pending</b> is a seller who has arrived and not been let in. Nothing of theirs shows.</li>
+        <li><b>Approved</b> is a seller the storefront will show. Their offers can go active.</li>
+        <li><b>Suspended</b> keeps the row, the history and the offers, and stops the storefront showing them.</li>
+        <li><b>An offer</b> is one vendor's price and stock for one variant, <em>active</em> or <em>paused</em>, one per vendor per variant.</li>
+        <li><b>Stock</b> on an offer is on-hand and reserved, so two shoppers cannot both buy the last one.</li>
+      </ul>
+      <p class="sol-prim">VendorStatus: pending · approved · suspended — OfferStatus: active · paused</p>
+    </div>
+    <figure class="feature-visual flow" aria-labelledby="fm-cap">
+      <figcaption id="fm-cap" class="flow-cap">From sign-up to a listing</figcaption>
+      <div class="arch-row"><h3>Seller signs up</h3><p>state: pending</p></div>
+      <p class="arch-wire"><span>you review</span></p>
+      <div class="arch-row arch-engine"><h3>Approved</h3><p>may list offers — or suspended, reversibly</p></div>
+      <p class="arch-wire"><span>publishes</span></p>
+      <div class="arch-row arch-store"><h3>Vendor offer</h3><p>own price, own stock, on your catalogue entry</p></div>
+      <p class="arch-wire"><span>customer buys</span></p>
+      <div class="arch-row arch-data"><h3>Order</h3><p>priced and stocked from the offer</p></div>
+    </figure>
+  </section>
+
+  <section id="record" class="section wrap" aria-labelledby="record-title">
+    <h2 id="record-title">What a vendor is</h2>
+    <p class="section-lede">The record, the login and the rate — each a real field, none a placeholder.</p>
+    <ul class="evidence">
+      <li><svg aria-hidden="true"><use href="#i-users"/></svg><b>A record</b><span>Slug, name, legal name, email, phone, website, about, a logo, an address for the invoice and for tax, a tax id.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>A login of their own</b><span>Same table, hashing, sessions and rights as every operator. What differs is a scope: role vendor, pointing at their vendor.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-coin"/></svg><b>A commission rate</b><span>In basis points on the vendor — 250 is 2.5%. Recorded on the record, not settled by the engine.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-tag"/></svg><b>Offers, one per variant</b><span>Their price and their stock against your catalogue entry, with their own active or paused state.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Moderation in the engine</b><span>A state machine in core, enforced on write — not a checkbox in a theme.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-server"/></svg><b>Admin screens</b><span>Vendors and their offers are managed on the same admin, on the same API, with the same 52 rights.</span></li>
+    </ul>
+  </section>
+
+  <section id="edge" class="section wrap" aria-labelledby="edge-title">
+    <h2 id="edge-title">Where the edge is</h2>
+    <p class="section-lede">Two gaps a marketplace will meet early. Both are named so nobody discovers them in production.</p>
+    <div class="tri">
+      <div class="tri-item"><h3>Commission is recorded, not settled</h3><p>The rate lives on the vendor. There is no payout ledger, no settlement run and no statement. Paying sellers means computing it from orders yourself.</p></div>
+      <div class="tri-item"><h3>The order line does not yet carry the seller</h3><p>A line is priced and stocked from an offer, but the vendor is not written onto the order. Per-seller fulfillment and payout reports need that, and it is not there.</p></div>
+      <div class="tri-item"><h3>No seller-facing storefront</h3><p>A vendor's login is to the admin, scoped to their records. A separate seller portal is a client you would build on the same API.</p></div>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions about marketplaces" />
+
+  <section class="closing wrap">
+    <h2>Sellers are rows. Moderation is a state.</h2>
+    <p>Run the stack, create a vendor from the admin, approve it, and list an offer against a variant from the API docs.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="/solutions/b2b/">B2B pricing</a>
+      <a class="button secondary" href="/solutions/multi-store/">Multi-store</a>
+      <a class="button secondary" href="/solutions/">All solutions</a>
+    </div>
+  </section>
+</Base>
