@@ -7,7 +7,10 @@
  */
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
+import ProductShot from '../components/ProductShot.astro'
+import CommerceDiagram from '../components/CommerceDiagram.astro'
 import demoAccount from '../data/demo.json'
+import '../styles/home-visuals.css'
 
 const path = '/'
 const site = Astro.site!
@@ -81,16 +84,19 @@ const stack = [
   { src: '/assets/docker.svg', name: 'Docker' },
 ]
 
-// Admin screens, in the order a merchant meets them. Every file exists in
-// light and dark; the dashboard is eager because it is the default tab.
+// Admin screens, in the order a merchant meets them. Each tab shows a focused,
+// lossless crop of the real capture (scripts/crop-product-screenshots.mjs) in
+// a browser frame, with a narrower crop for phones and a link to the full
+// screenshot. Dimensions are the crop boxes; the dashboard is eager because
+// it is the default tab.
 const screens = [
-  ['dashboard', 'Dashboard', 'i-server', 'The GoCommerce dashboard: net sales, order and customer counts, a daily sales chart and a best-sellers table.'],
-  ['products', 'Products', 'i-package', 'The products list showing sixty-four products with status, variant count, price, available stock and last-updated time.'],
-  ['orders', 'Orders', 'i-bag', 'The orders list showing two hundred and sixty orders with order number, customer, fulfillment status, payment status, item count and total.'],
-  ['inventory', 'Inventory', 'i-warehouse', 'The inventory screen showing stock on hand for each SKU across several warehouse locations.'],
-  ['payments', 'Payments', 'i-card', 'The payments screen listing payment providers and their configuration state.'],
-  ['shipping', 'Shipping', 'i-truck', 'The shipping screen listing carriers and fulfillment providers.'],
-  ['integrations', 'Plugins', 'i-plug', 'The plugins screen listing installed modules and their settings.'],
+  { key: 'dashboard', label: 'Dashboard', icon: 'i-server', w: 1180, h: 620, mw: 282, mh: 92, alt: 'GoCommerce dashboard detail from the seeded store: revenue, orders, products and customers, recent orders and the daily sales chart.', mobileAlt: 'Revenue detail from the seeded store.', caption: 'Revenue, recent orders and daily sales.' },
+  { key: 'products', label: 'Products', icon: 'i-package', w: 1180, h: 436, mw: 370, mh: 436, alt: 'The GoCommerce products list: names, status, variant count, price and available stock.', mobileAlt: 'Product names and slugs.', caption: 'Names, status, variants, prices and available stock.' },
+  { key: 'orders', label: 'Orders', icon: 'i-bag', w: 1180, h: 410, mw: 310, mh: 410, alt: 'The GoCommerce orders list: order number, customer, fulfillment status, payment status and total.', mobileAlt: 'Fulfillment and payment states, side by side.', caption: 'Fulfillment and payment are separate states.' },
+  { key: 'inventory', label: 'Inventory', icon: 'i-warehouse', w: 1180, h: 423, mw: 354, mh: 423, alt: 'The GoCommerce inventory screen: on-hand, reserved and available stock per SKU across locations.', mobileAlt: 'On-hand, reserved and available stock.', caption: 'On-hand, reserved and available stock per SKU.' },
+  { key: 'payments', label: 'Payments', icon: 'i-card', w: 1000, h: 260, mw: 386, mh: 108, alt: 'The payment methods screen of a store with no gateway module installed: cash on delivery, built in and active.', mobileAlt: 'Cash on delivery, built in.', caption: 'Cash on delivery is built in; gateways are modules.' },
+  { key: 'shipping', label: 'Shipping', icon: 'i-truck', w: 1180, h: 560, mw: 360, mh: 500, alt: 'The shipping and delivery screen: one zone with USPS and FedEx rates by basket value.', mobileAlt: 'Rates by basket value.', caption: 'Zones and rates by basket value; the most specific zone wins.' },
+  { key: 'integrations', label: 'Plugins', icon: 'i-plug', w: 1180, h: 620, mw: 386, mh: 466, alt: 'The plugins screen: storefront and marketing features already in the binary, switched on or off per store.', mobileAlt: 'Storefront plugins, on or off.', caption: 'Seventeen switches already in the binary; a storefront reads the enabled ones.' },
 ]
 
 // The strip shows a few marks; the number is the point. All are modules
@@ -115,7 +121,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   faq={faq}
 >
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/assets/admin/dashboard-light.webp" media="(prefers-color-scheme: light)">
+    <link rel="preload" as="image" href="/assets/admin/focus/hero-light.webp" media="(min-width: 901px) and (prefers-color-scheme: light)">
   </Fragment>
 
   {/* ══════════════════════════════════════════════ 1 — hero */}
@@ -148,6 +154,24 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <ul class="stack-row" aria-label="Built with">
       {stack.map((s) => <li><img src={s.src} width="26" height="26" alt="" loading="lazy"><span>{s.name}</span></li>)}
     </ul>
+
+    {/* The software, before the argument: a focused crop of the real admin in
+        a browser frame, and the real storefront in a phone. Both are lossless
+        crops of the checked-in captures (scripts/crop-product-screenshots.mjs),
+        each linking to its full screenshot. */}
+    <div class="product-composite">
+      <div class="hero-admin">
+        <ProductShot name="hero" original="dashboard" label="GoCommerce / Backend + Admin" alt="GoCommerce dashboard detail from the seeded demo store: revenue, orders, products and customers for the last thirty days." mobileAlt="Revenue detail from the seeded GoCommerce store." caption="GoCommerce — backend + admin, seeded demo data" width={590} height={312} mobileWidth={282} mobileHeight={92} eager priority />
+      </div>
+      <figure class="storefront-phone">
+        <div class="phone-frame">
+          <p class="phone-bar">arialshop.com</p>
+          <a href="/assets/admin/storefront-mobile.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full Arialshop mobile screenshot in a new tab"><img src="/assets/admin/focus/storefront-hero.webp" width="780" height="1134" alt="The Arialshop mobile storefront: jewellery categories and a pendant promotion." decoding="async"></a>
+        </div>
+        <figcaption>Svelte Commerce — storefront, a production store</figcaption>
+      </figure>
+    </div>
+    <p class="composite-note">Separate product captures. The GoCommerce ↔ Svelte Commerce connector is <a href="/gocommerce-svelte-commerce-connector/">in development</a>.</p>
 
     {/* ═══════════════════════════════════ 2 — the two projects */}
     <div class="plate">
@@ -189,22 +213,6 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
           <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_sveltecommerce_click">GitHub</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="hero-shots" aria-label="The software">
-    <div class="wrap hero-shots-grid">
-      <figure class="dev-desktop">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="/assets/admin/dashboard-dark.webp">
-          <img src="/assets/admin/dashboard-light.webp" width="1440" height="900" alt="The GoCommerce admin dashboard: net sales for the last thirty days, order, product and customer counts, a daily sales chart and a best-sellers table." decoding="async" fetchpriority="high">
-        </picture>
-        <figcaption><span class="shot-mark shot-go"></span><b>GoCommerce</b> <span class="role">Backend + Admin</span></figcaption>
-      </figure>
-      <figure class="dev-phone">
-        <img src="/assets/admin/storefront-mobile.webp" width="780" height="1688" alt="The Arialshop storefront on a phone: category tiles, a jewellery hero with a shop call to action, and a bottom navigation bar." decoding="async">
-        <figcaption><span class="shot-mark shot-sv"></span><b>Svelte Commerce</b> <span class="role">Storefront</span></figcaption>
-      </figure>
     </div>
   </section>
 
@@ -294,14 +302,14 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       </div>
 
       <div class="tabs" role="tablist" aria-label="Admin screens">
-        {screens.map(([key, label, icon], i) => (
-          <button role="tab" id={`tab-${key}`} aria-controls={`panel-${key}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? undefined : -1}><svg class="ic" aria-hidden="true"><use href={`#${icon}`}/></svg>{label}</button>
+        {screens.map((s, i) => (
+          <button role="tab" id={`tab-${s.key}`} aria-controls={`panel-${s.key}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? undefined : -1}><svg class="ic" aria-hidden="true"><use href={`#${s.icon}`}/></svg>{s.label}</button>
         ))}
       </div>
 
-      {screens.map(([key, , , alt], i) => (
-        <div class="panel" role="tabpanel" id={`panel-${key}`} aria-labelledby={`tab-${key}`} hidden={i !== 0}>
-          <div class="stage"><picture><source media="(prefers-color-scheme: dark)" srcset={`/assets/admin/${key}-dark.webp`}><img src={`/assets/admin/${key}-light.webp`} width="1440" height="900" alt={alt} loading={i === 0 ? undefined : 'lazy'} decoding="async"></picture></div>
+      {screens.map((s, i) => (
+        <div class="panel" role="tabpanel" id={`panel-${s.key}`} aria-labelledby={`tab-${s.key}`} hidden={i !== 0}>
+          <ProductShot name={s.key} label={`GoCommerce / ${s.label}`} alt={s.alt} mobileAlt={s.mobileAlt} caption={s.caption} width={s.w} height={s.h} mobileWidth={s.mw} mobileHeight={s.mh} eager={i === 0} />
         </div>
       ))}
 
@@ -312,15 +320,21 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   {/* ═══════════════════════════ 4 — see the software: a real store */}
   <section id="live-stores" class="section wrap" aria-labelledby="stores-title">
     <h2 id="stores-title">See it running in the real world</h2>
-    <div class="store-card">
-      <div class="store-shots">
-        <img class="store-desk" src="/assets/admin/storefront-home.webp" width="1440" height="900" alt="The Arialshop desktop storefront: a jewellery hero image with a shop call to action, category navigation and a strip of store guarantees." loading="lazy" decoding="async">
-        <img class="store-phone" src="/assets/admin/storefront-mobile.webp" width="780" height="1688" alt="The Arialshop storefront on a phone, showing category tiles and a jewellery hero banner." loading="lazy" decoding="async">
-      </div>
+    <div class="store-card real-store">
+      <figure class="storefront-desktop">
+        <div class="store-browser">
+          <p class="store-browser-bar"><span aria-hidden="true">○ ○ ○</span> arialshop.com <span>Desktop storefront</span></p>
+          <a href="/assets/admin/storefront-home.webp" {...ext} aria-label="Open full Arialshop desktop screenshot in a new tab">
+            <picture>
+              <source media="(max-width: 600px)" srcset="/assets/admin/storefront-mobile.webp" width="780" height="1688">
+              <img src="/assets/admin/focus/storefront-desktop.webp" width="1440" height="764" alt="The Arialshop desktop storefront: a jewellery hero image with a shop call to action and category navigation." loading="lazy" decoding="async">
+            </picture>
+          </a>
+        </div>
+        <figcaption>Real storefront capture · <a href="/assets/admin/storefront-home.webp" {...ext}>Full desktop screenshot ↗</a></figcaption>
+      </figure>
       <div class="store-meta">
-        <h3>Arialshop</h3>
-        <p class="store-domain">arialshop.com</p>
-        <p>A real production jewellery storefront running on Svelte Commerce — lab-grown diamond rings, with variants, sizing and checkout.</p>
+        <div><h3>Arialshop</h3><p class="store-domain">arialshop.com</p><p>A real production jewellery storefront running on Svelte Commerce — lab-grown diamond rings, with variants, sizing and checkout.</p></div>
         <a class="button secondary" href="https://arialshop.com" {...ext} data-ev="live_store_click">Visit store</a>
       </div>
     </div>
@@ -403,27 +417,8 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <a class="button" href="/go-svelte-ecommerce/" data-ev="architecture_click">See full architecture →</a>
       </div>
     </div>
-    <div class="feature-visual flows">
-      <figure class="flow flow-mini" aria-labelledby="flow-c2">
-        <figcaption id="flow-c2" class="flow-cap">Shopper</figcaption>
-        <div class="arch-row"><h3>Customer</h3></div>
-        <p class="arch-wire"><span>HTTPS</span></p>
-        <div class="arch-row arch-store"><h3>Svelte Commerce</h3></div>
-        <p class="arch-wire"><span>REST / JSON</span></p>
-        <div class="arch-row arch-engine"><h3>GoCommerce</h3></div>
-        <p class="arch-wire"><span>pgx</span></p>
-        <div class="arch-row arch-data"><h3>PostgreSQL</h3></div>
-      </figure>
-      <figure class="flow flow-mini" aria-labelledby="flow-m2">
-        <figcaption id="flow-m2" class="flow-cap">Merchant</figcaption>
-        <div class="arch-row"><h3>Merchant</h3></div>
-        <p class="arch-wire"><span>HTTPS</span></p>
-        <div class="arch-row arch-admin"><h3>GoCommerce admin</h3></div>
-        <p class="arch-wire"><span>same API</span></p>
-        <div class="arch-row arch-engine"><h3>GoCommerce</h3></div>
-        <p class="arch-wire"><span>pgx</span></p>
-        <div class="arch-row arch-data"><h3>PostgreSQL</h3></div>
-      </figure>
+    <div class="feature-visual">
+      <CommerceDiagram kind="headless" />
     </div>
   </section>
 

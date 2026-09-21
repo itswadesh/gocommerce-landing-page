@@ -1,0 +1,54 @@
+---
+/** Real UI only. The small-screen source is a focused crop, never a scaled-down desktop. */
+interface Props {
+  name: string
+  label: string
+  alt: string
+  mobileAlt: string
+  caption: string
+  width: number
+  height: number
+  mobileWidth: number
+  mobileHeight: number
+  eager?: boolean
+  priority?: boolean
+  original?: string
+}
+const { name, label, alt, mobileAlt, caption, width, height, mobileWidth, mobileHeight, eager = false, priority = false, original = name } = Astro.props
+const base = '/assets/admin/focus/'
+---
+<figure class="product-shot" style={`--shot-width: ${width}px; --mobile-shot-width: ${mobileWidth}px`}>
+  <div class="browser-frame">
+    <div class="browser-bar"><span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{label}</span><span class="capture-label">UI capture</span></div>
+    <a class="shot-link" href={`/assets/admin/${original}-light.webp`} target="_blank" rel="noopener noreferrer" aria-label={`Open full ${label} screenshot in a new tab`}>
+      <picture>
+        <source media="(max-width: 900px) and (prefers-color-scheme: dark)" srcset={`${base}${name}-mobile-dark.webp`} width={mobileWidth} height={mobileHeight}>
+        <source media="(max-width: 900px)" srcset={`${base}${name}-mobile-light.webp`} width={mobileWidth} height={mobileHeight}>
+        <source media="(prefers-color-scheme: dark)" srcset={`${base}${name}-dark.webp`}>
+        <img src={`${base}${name}-light.webp`} width={width} height={height} alt={alt} loading={eager ? 'eager' : 'lazy'} fetchpriority={priority ? 'high' : 'auto'} decoding="async">
+      </picture>
+    </a>
+  </div>
+  <figcaption><span class="shot-caption-wide">{caption}</span><span class="shot-caption-small">{mobileAlt}</span><a href={`/assets/admin/${original}-light.webp`} target="_blank" rel="noopener noreferrer">Full screenshot ↗</a></figcaption>
+</figure>
+<style>
+  .product-shot { margin: 0; min-width: 0; }
+  .browser-frame { max-width: var(--shot-width); border: 1px solid var(--rule-strong); border-radius: 8px; overflow: hidden; background: var(--surface); }
+  .browser-bar { display: flex; align-items: center; gap: 12px; min-height: 38px; padding: 9px 12px; background: var(--bar); border-bottom: 1px solid var(--rule); font: 400 .75rem/1.4 var(--mono); color: var(--ink-2); }
+  .frame-dots { display: flex; gap: 4px; flex: none; }
+  .frame-dots i { width: 6px; height: 6px; border: 1px solid var(--ink-3); border-radius: 50%; }
+  .capture-label { margin-left: auto; font: 400 .6875rem/1 var(--sans); white-space: nowrap; }
+  .shot-link { display: block; }
+  .shot-link:focus-visible { outline-offset: -3px; }
+  picture { display: block; }
+  img { width: 100%; height: auto; border: 0; }
+  figcaption { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; font-size: .8125rem; line-height: 1.5; color: var(--ink-2); }
+  figcaption a { flex: none; }
+  .shot-caption-small { display: none; }
+  @media (max-width: 900px) {
+    .browser-frame { max-width: var(--mobile-shot-width); margin-inline: auto; }
+    .capture-label, .shot-caption-wide { display: none; }
+    .shot-caption-small { display: inline; }
+    figcaption { flex-direction: column; gap: 4px; }
+  }
+</style>
