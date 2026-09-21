@@ -78,7 +78,7 @@
       </svg>
       <span class="wordmark-name">kitcommerce<span class="wordmark-tld">.store</span></span>
     </a>
-    <button class="menu" aria-label="Open navigation" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    <button class="menu" aria-expanded="false" aria-controls="navlinks">Menu</button>
     <div id="navlinks" class="navlinks">
       <a href="/gocommerce/">GoCommerce</a>
       <a href="/svelte-commerce/">Svelte Commerce</a>
@@ -173,6 +173,29 @@
     </ul>
   </section>
 
+
+  <!-- ══════════════════════════════════════════ built with -->
+  <section class="marquee-section" aria-labelledby="marquee-title">
+    <h2 id="marquee-title" class="vh">Built with</h2>
+    <div class="marquee" aria-hidden="false">
+      <ul class="marquee-track">
+        <li><img src="/assets/go.svg" width="28" height="28" alt="" loading="lazy"><span>Go</span></li>
+        <li><img src="/assets/svelte.svg" width="28" height="28" alt="" loading="lazy"><span>Svelte</span></li>
+        <li><img src="/assets/typescript.svg" width="28" height="28" alt="" loading="lazy"><span>TypeScript</span></li>
+        <li><img src="/assets/postgresql.svg" width="28" height="28" alt="" loading="lazy"><span>PostgreSQL</span></li>
+        <li><img src="/assets/docker.svg" width="28" height="28" alt="" loading="lazy"><span>Docker</span></li>
+        <li><img src="/assets/github.svg" width="28" height="28" alt="" loading="lazy"><span>GitHub</span></li>
+        <li><img src="/assets/cloudflare.svg" width="28" height="28" alt="" loading="lazy"><span>Cloudflare</span></li>
+        <li aria-hidden="true"><img src="/assets/go.svg" width="28" height="28" alt="" loading="lazy"><span>Go</span></li>
+        <li aria-hidden="true"><img src="/assets/svelte.svg" width="28" height="28" alt="" loading="lazy"><span>Svelte</span></li>
+        <li aria-hidden="true"><img src="/assets/typescript.svg" width="28" height="28" alt="" loading="lazy"><span>TypeScript</span></li>
+        <li aria-hidden="true"><img src="/assets/postgresql.svg" width="28" height="28" alt="" loading="lazy"><span>PostgreSQL</span></li>
+        <li aria-hidden="true"><img src="/assets/docker.svg" width="28" height="28" alt="" loading="lazy"><span>Docker</span></li>
+        <li aria-hidden="true"><img src="/assets/github.svg" width="28" height="28" alt="" loading="lazy"><span>GitHub</span></li>
+        <li aria-hidden="true"><img src="/assets/cloudflare.svg" width="28" height="28" alt="" loading="lazy"><span>Cloudflare</span></li>
+      </ul>
+    </div>
+  </section>
   <!-- ══════════════════════════════════ 4 — one command -->
   <section id="one-command" class="section onecmd-section" aria-labelledby="onecmd-title">
     <div class="wrap">
@@ -328,6 +351,65 @@ docker compose up -d</code></pre>
     </div>
   </section>
 
+
+  <!-- ══════════════════════════════════════ solutions -->
+  <section id="solutions" class="section wrap" aria-labelledby="sol-title">
+    <h2 id="sol-title">One backend, four shapes of store</h2>
+    <p class="section-lede">
+      These are engine capabilities, not customer stories. Each names the
+      primitive that does the work, so the claim can be checked in the source.
+    </p>
+
+    <div class="solutions">
+      <article class="solution">
+        <svg class="sol-ic" aria-hidden="true"><use href="#i-store"/></svg>
+        <h3>Launch a multi-vendor marketplace</h3>
+        <p>
+          Vendors are first-class sellers on your store, not brands. New sellers
+          arrive pending, because a marketplace that lists whoever signs up is
+          not moderating, it is hosting whatever turns up.
+        </p>
+        <p class="sol-prim">Vendors, vendor offers, pending / approved / suspended states</p>
+        <a href="/gocommerce/#use-cases" data-ev="gocommerce_explore">How marketplaces work in GoCommerce</a>
+      </article>
+
+      <article class="solution">
+        <svg class="sol-ic" aria-hidden="true"><use href="#i-tag"/></svg>
+        <h3>Sell B2B with negotiated pricing</h3>
+        <p>
+          Pricing resolves by who is buying and how many. Customer groups share
+          a price list, and quantity breaks apply under the same
+          one-price-at-a-time rule the cart already enforces.
+        </p>
+        <p class="sol-prim">Customer groups, price lists, quantity pricing</p>
+        <a href="/gocommerce/#use-cases" data-ev="gocommerce_explore">How B2B pricing resolves</a>
+      </article>
+
+      <article class="solution">
+        <svg class="sol-ic" aria-hidden="true"><use href="#i-bag"/></svg>
+        <h3>Run a direct-to-consumer store</h3>
+        <p>
+          The default. Guest checkout, cash on delivery and manual fulfillment
+          are built in, so a store sells with no modules installed at all.
+          Add Stripe or a carrier when you need them, not before.
+        </p>
+        <p class="sol-prim">Carts, checkout, orders, inventory</p>
+        <a href="/gocommerce/#quickstart" data-ev="quickstart_click">Start with the default store</a>
+      </article>
+
+      <article class="solution">
+        <svg class="sol-ic" aria-hidden="true"><use href="#i-server"/></svg>
+        <h3>Serve several storefronts from one catalogue</h3>
+        <p>
+          Channels are storefronts over one catalogue, differing in what is
+          published to each. A store that never creates a second channel pays
+          nothing for the feature.
+        </p>
+        <p class="sol-prim">Channels, per-channel publishing</p>
+        <a href="/gocommerce/#use-cases" data-ev="gocommerce_explore">How channels are scoped</a>
+      </article>
+    </div>
+  </section>
   <!-- ══════════════════════════════════════ 7 — mature codebase -->
   <section id="mature" class="section wrap" aria-labelledby="mature-title">
     <h2 id="mature-title">Built from years of ecommerce engineering</h2>
@@ -479,6 +561,55 @@ docker compose up -d</code></pre>
     </p>
   </section>
 
+
+  <!-- ══════════════════════════════════════ partners -->
+  <section id="partners" class="section partners-section" aria-labelledby="partners-title">
+    <div class="wrap">
+      <h2 id="partners-title">Partners and integrations</h2>
+      <p class="section-lede">
+        One partner, and twenty-six integrations. The distinction matters: a
+        partner hosts this site, an integration is a module in the repository
+        that speaks to that provider&rsquo;s API. None of the providers below
+        endorses either project.
+      </p>
+
+      <div class="partner-row">
+        <a class="partner-card" href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer">
+          <img src="/assets/cloudflare.svg" width="32" height="32" alt="" loading="lazy">
+          <span><b>Cloudflare</b><span>Hosting partner &mdash; serves this site from Pages</span></span>
+        </a>
+      </div>
+
+      <div class="integrations">
+        <div class="int-group">
+          <h3>Payments <span>9 modules</span></h3>
+          <ul>
+            <li>Stripe</li><li>Razorpay</li><li>Adyen</li><li>Paddle</li><li>HyperSwitch</li>
+            <li>Lemon Squeezy</li><li>Helcim</li><li>Creem</li><li>RevenueCat</li>
+          </ul>
+        </div>
+        <div class="int-group">
+          <h3>Shipping <span>11 modules</span></h3>
+          <ul>
+            <li>Shiprocket</li><li>Delhivery</li><li>Shippo</li><li>ShipStation</li><li>EasyShip</li><li>Shippit</li>
+            <li>USPS</li><li>India Post</li><li>NimbusPost</li><li>Onfleet</li><li>Veeqo</li>
+          </ul>
+        </div>
+        <div class="int-group">
+          <h3>Messaging and growth <span>6 modules</span></h3>
+          <ul>
+            <li>Resend</li><li>SendGrid</li><li>Twilio</li><li>MSG91</li><li>Klaviyo</li><li>Meilisearch</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="fineprint">
+        Every name above is a directory under <code>ext/</code> in the GoCommerce
+        repository. Install one by importing it; leave it out and none of its
+        code is in your binary. <a href="/gocommerce/#modules">All 44 modules</a>.
+      </p>
+    </div>
+  </section>
   <!-- ══════════════════════════════════════ 12 — open source -->
   <section id="ownership" class="section ownership-section" aria-labelledby="own-title">
     <div class="wrap">
@@ -634,6 +765,12 @@ docker compose up -d</code></pre>
       <a href="/gocommerce-svelte-commerce-connector/">Connector status</a>
       <a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Discord</a>
     </nav>
+  </div>
+  <div class="wrap footer-social" aria-label="Elsewhere">
+    <ul class="social">
+      <li><a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer" data-ev="github_footer_click"><svg aria-hidden="true"><use href="#i-git"/></svg>GitHub</a></li>
+      <li><a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-bot"/></svg>Discord</a></li>
+    </ul>
   </div>
   <div class="wrap footer-base">
     <p>Built by <a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer">itswadesh</a>.</p>

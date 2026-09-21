@@ -602,7 +602,10 @@ footer { border-top: 1px solid var(--rule); background: var(--surface); padding-
    through an <img> the file is a separate document and this page's fill never
    applies, which once left a black mark on a black footer. */
 .partner { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; white-space: nowrap; }
-.partner > span:first-child { opacity: .75; }
+/* An explicit colour, not opacity. At .75 the label faded to #858f87 and
+   measured 3.34:1 — opacity is invisible to a token-level contrast check but
+   not to a reader, which is exactly how this survived one. */
+.partner > span:first-child { color: var(--ink-3); }
 .partner-mark { fill: currentColor; opacity: .85; flex: none; }
 .partner-name { font-weight: 600; }
 .partner:hover .partner-name { text-decoration: underline; }
@@ -1372,3 +1375,99 @@ header { view-transition-name: site-header; }
 @media (prefers-reduced-motion: reduce) {
   .notice { transition: none; opacity: 1; transform: none; }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   Marquee, solutions, partners, explainers, social
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── built-with marquee ──────────────────────────────────────────── */
+
+/* The one piece of perpetual motion on the site, and it was asked for. It
+   pauses under the pointer, and under reduced motion it is a static row that
+   wraps — the marks are the content, the movement is not. */
+.marquee-section { border-bottom: 1px solid var(--rule); background: var(--surface); overflow: hidden; }
+.marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.marquee-track {
+  list-style: none; margin: 0; padding-block: 20px; display: flex; gap: 56px; width: max-content;
+  animation: marquee 36s linear infinite;
+}
+.marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state: paused; }
+.marquee-track li { display: flex; align-items: center; gap: 12px; font: 500 .9375rem/1 var(--sans); color: var(--ink-2); white-space: nowrap; }
+.marquee-track img { width: 26px; height: 26px; display: block; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee { mask-image: none; -webkit-mask-image: none; }
+  .marquee-track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; gap: 18px 40px; }
+  .marquee-track li[aria-hidden="true"] { display: none; }
+}
+
+/* ── solutions ───────────────────────────────────────────────────── */
+
+.solutions { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 32px; background: var(--rule); border: 1px solid var(--rule); }
+@media (max-width: 800px) { .solutions { grid-template-columns: 1fr; } }
+.solution { background: var(--surface); padding: 26px 26px 24px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.sol-ic { width: 22px; height: 22px; color: var(--go); }
+.solution h3 { font-size: 1.1875rem; letter-spacing: -.02em; }
+.solution > p { font-size: .9375rem; color: var(--ink-2); }
+.sol-prim { font: 400 .8125rem/1.5 var(--mono); color: var(--ink-3); padding-top: 10px; border-top: 1px dashed var(--rule); }
+.solution > a { margin-top: auto; padding-top: 8px; font-size: .9375rem; font-weight: 500; color: var(--go); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.solution:first-child .sol-ic { color: var(--svelte); }
+.solution:first-child > a { color: var(--svelte); }
+
+/* ── partners and integrations ───────────────────────────────────── */
+
+.partners-section { border-block: 1px solid var(--rule); background: var(--surface); padding-block: clamp(46px, 5.5vw, 72px); }
+.partner-row { margin-top: 28px; }
+.partner-card {
+  display: inline-flex; align-items: center; gap: 16px; padding: 16px 20px;
+  border: 1.5px solid var(--ink); background: var(--paper); text-decoration: none; box-shadow: var(--lift);
+}
+.partner-card img { width: 30px; height: 30px; }
+.partner-card > span { display: flex; flex-direction: column; gap: 2px; }
+.partner-card b { font-size: 1rem; }
+.partner-card span span { font-size: .8125rem; color: var(--ink-3); }
+
+.integrations { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 34px; }
+@media (max-width: 860px) { .integrations { grid-template-columns: 1fr; gap: 20px; } }
+.int-group { min-width: 0; border-top: 1px solid var(--rule-strong); padding-top: 14px; }
+.int-group h3 { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: .9375rem; }
+.int-group h3 span { font: 400 .8125rem/1 var(--sans); color: var(--ink-3); white-space: nowrap; }
+.int-group ul { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 7px; }
+.int-group li { font-size: .8125rem; color: var(--ink-2); padding: 6px 10px; background: var(--paper); border: 1px solid var(--rule); }
+
+/* ── explainer rows on /gocommerce/ ──────────────────────────────── */
+
+/* One screen at a time, alternating sides. The image is the argument, so it
+   takes the wider column; the copy says what an operator learns from it. */
+.explainers { display: flex; flex-direction: column; gap: 0; margin-top: 34px; }
+.explainer { display: grid; grid-template-columns: 1.35fr 1fr; gap: 34px; align-items: center; padding-block: 34px; border-top: 1px solid var(--rule); }
+.explainer:first-child { border-top: 0; padding-top: 0; }
+.explainer-right .explainer-shot { order: 2; }
+.explainer-right .explainer-copy { order: 1; }
+@media (max-width: 860px) {
+  .explainer { grid-template-columns: 1fr; gap: 18px; }
+  .explainer-right .explainer-shot, .explainer-right .explainer-copy { order: initial; }
+}
+.explainer-shot { min-width: 0; }
+.explainer-shot .stage-bar { margin: 0; }
+.explainer-shot img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); border-top: 0; }
+.explainer-copy { min-width: 0; }
+.explainer-copy h3 { font-size: 1.25rem; letter-spacing: -.022em; }
+.explainer-copy p { margin-top: 10px; font-size: .9375rem; color: var(--ink-2); }
+.explainer-prim { font: 400 .8125rem/1.5 var(--mono) !important; color: var(--ink-3) !important; padding-top: 12px; border-top: 1px dashed var(--rule); margin-top: 14px !important; }
+
+/* ── footer social ───────────────────────────────────────────────── */
+
+.footer-social { padding-block: 18px 6px; }
+.social { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.social a {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 13px;
+  font-size: .875rem; font-weight: 500; color: var(--ink-2); text-decoration: none;
+  border: 1px solid var(--rule); background: var(--paper);
+}
+.social a:hover { border-color: var(--ink); color: var(--ink); }
+.social svg { width: 15px; height: 15px; }
+
+/* the footer wordmark + one-line pitch sits above the columns; the social row
+   goes between the columns and the base line */
+.footer-base { border-top: 1px solid var(--rule); margin-top: 10px; padding-top: 18px; }
