@@ -1,4 +1,4 @@
-# KitCommerce landing page
+# kitcommerce.store
 
 A static site. No build step, no package installation.
 
@@ -6,38 +6,68 @@ A static site. No build step, no package installation.
 node serve.cjs      # http://127.0.0.1:4173
 ```
 
-Files: `index.html` (content), `style.css` (design and layout), `app.js` (tabs,
-copy buttons, mobile nav), `serve.cjs` (local preview), `assets/` (images),
-`_redirects` (Cloudflare path rules).
+Files: `index.html`, `gocommerce/index.html`, `svelte-commerce/index.html` (the
+three pages), `style.css` (design and layout), `app.js` (tabs, copy buttons,
+mobile nav), `serve.cjs` (local preview), `assets/` (images), `_redirects`
+(Cloudflare path rules).
 
-## Brand architecture
+## What this site is
 
-**KitCommerce** is the umbrella and takes no colour of its own — the logo is
-monochrome because a brand wearing one of its own layers' hues would be claiming
-to be that layer. Underneath it:
+`kitcommerce.store` is **the website presenting two independent open-source
+projects**. It is not itself a product.
 
-| Layer | Project | Colour |
+| | GoCommerce | Svelte Commerce |
 | --- | --- | --- |
-| Storefront | Svelte Commerce | Svelte orange `#ff3e00` |
-| Engine and admin | GoCommerce | Go blue `#00add8` |
-| Growth | KitCommerce Growth | violet `#7c4dff` |
+| Role | Backend + admin | Storefront |
+| Language | Go | SvelteKit |
+| Standalone | Yes | Yes |
+| Repository | `itswadesh/gocommerce` | `itswadesh/svelte-commerce` |
+| Accent | Go blue `#00add8` | Svelte orange `#ff3e00` |
 
-Spell them `KitCommerce`, `GoCommerce`, `Svelte Commerce`, `KitCommerce Growth`
-— never `Kit Commerce`, `Go Commerce` or `SvelteCommerce`. Colour marks
-architectural layers and nothing else; an accent on something that is not a
-layer is a bug.
+The site takes no hue of its own and the wordmark is monochrome, because a
+website that wore one of the projects' colours would be claiming to be that
+project.
 
-Both repositories moved to the `itswadesh` account. The GitHub paths are
-`itswadesh/gocommerce` and `itswadesh/svelte-commerce`; the old
-`misiki-in/gocommerce` still redirects, but no link here should rely on that.
-The **Go module path is unchanged** at `github.com/misiki/gocommerce` — renaming
-a repository does not rename its module, and the code sample on the page says so
-rather than quietly showing an import that would not resolve.
+### The branding rule
+
+Do **not** reintroduce KitCommerce as a third product — no platform, framework,
+engine, runtime, umbrella, parent, backend or storefront. Never write "powered
+by KitCommerce", "built on KitCommerce", or describe either project as a
+KitCommerce module or layer. There is nothing called KitCommerce to install.
+
+Spell them `GoCommerce` and `Svelte Commerce` — never `Go Commerce`,
+`SvelteCommerce` or, in prose, `Svelte-Commerce`. The repository slug is
+`svelte-commerce`; the project is two words.
+
+Colour marks which of the two projects a thing belongs to and nothing else. An
+accent on something that is not one of the two projects is a bug.
+
+The verifier enforces the first rule mechanically: it fails on
+`KitCommerce platform|framework|engine|Growth|stack`, `powered by KitCommerce`,
+`built on KitCommerce`, `Start with KitCommerce`, and `Svelte-Commerce`.
+
+## Page structure
+
+| URL | Primary intent | H1 |
+| --- | --- | --- |
+| `/` | the two projects and how they relate | Open-source ecommerce with Go + Svelte |
+| `/gocommerce/` | Go ecommerce backend | GoCommerce — ecommerce backend + admin built with Go |
+| `/svelte-commerce/` | Svelte storefront | Svelte Commerce — a modern open-source ecommerce storefront |
+
+Three pages rather than one, so each targets its own keyword set with its own
+title and canonical. The homepage is a hub: it summarises both projects and
+links down, and deep material lives on the project page it belongs to. Shared
+claims are stated once, on the page that owns them, and referenced from the
+other — the homepage never repeats the GoCommerce module list, and the
+GoCommerce page never repeats the storefront's backend list.
+
+Both repositories keep their names. They were not renamed to match the domain,
+and should not be.
 
 ## Where the numbers come from
 
-Every figure on the page was measured against the repositories on **21 September
-2026**, not estimated. If the code moves, these move with it:
+Every figure was measured against the repositories on **21 September 2026**,
+not estimated. If the code moves, these move with it:
 
 | Claim on the page | Measured from |
 | --- | --- |
@@ -49,6 +79,7 @@ Every figure on the page was measured against the repositories on **21 September
 | 61 admin screens | `+page.svelte` files under `admin/src/routes` |
 | 48 migrations | migration markers in `core/schema.go` |
 | 17 commerce events | event constants in `core/events.go` |
+| 6 Svelte Commerce backends | the adapters in that repository |
 | Star and fork counts | the GitHub API, per repository |
 
 `app.js` re-fetches the two star counts from the GitHub API on load and updates
@@ -58,9 +89,9 @@ page is correct when the request never returns.
 
 ## Screenshots
 
-`assets/admin/*.webp` are real captures of the running admin panel, taken with
-Playwright at 1440×900 and deviceScaleFactor 2, then resized to 1440 and encoded
-as WebP. Both themes are captured, and the page picks one with
+`assets/admin/*.webp` are real captures of the running GoCommerce admin, taken
+with Playwright at 1440×900 and deviceScaleFactor 2, then resized to 1440 and
+encoded as WebP. Both themes are captured, and the page picks one with
 `prefers-color-scheme` — a light screenshot on a dark page looks like a bug.
 
 The store behind them was filled by the engine's own `scripts/seed-demo.ps1`,
@@ -70,25 +101,24 @@ products, 260 orders across 150 days. Retaking a shot later will match.
 `storefront-home.webp` is [arialshop.com](https://arialshop.com), a production
 store running Svelte Commerce, captured the same way.
 
-## What the page deliberately does not claim
+There was also a `storefront-listing.webp`. It was deleted: the capture had
+landed on that store's 404 page, so it showed an error screen rather than a
+product listing. It had never been referenced, which is presumably why nobody
+noticed. Do not restore it — retake it.
+
+## What the site deliberately does not claim
 
 - **The Svelte Commerce connector is not published.** Svelte Commerce is headless
   across Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart; GoCommerce
-  is not among them yet. The storefront section says so plainly rather than
-  implying a wired stack. It is the only thing on the page marked *in
-  development*.
-- **No benchmarks.** None are published, so the page makes no speed claim at all.
-- **KitCommerce Growth is a name, not yet a product.** The third pillar carries a
-  different status marker from the other two for that reason. Every capability in
-  the Growth section is tagged shipped or roadmap individually, in one
-  interleaved list rather than two side-by-side columns — a two-column layout let
-  a skimmer read only the shipped side and come away believing the whole layer
-  exists. Behavioural events, unified profiles, segments, the automation builder,
-  WhatsApp, retargeting, attribution and loyalty are all roadmap; the engine
-  emits order and catalog events only.
-- **No recovery-link plumbing is claimed.** `core/notify.go` subscribes to
-  `order.*` deliberately and nothing else; there is no `StorefrontURL` in core.
-  Cart recovery is the module's own schedule, which is what the page says.
+  is not among them yet. Every page that mentions pairing them says so plainly.
+  It is the only thing on the site marked *in development*.
+- **No benchmarks.** None are published, so the site makes no speed claim at all.
+- **Nothing on the GoCommerce roadmap is presented as shipped.** Behavioural
+  events, unified profiles, segments, the automation builder, WhatsApp,
+  retargeting, attribution and loyalty are all planned; the engine emits order
+  and catalog events only. The roadmap marks each line individually, in one
+  interleaved list rather than two columns — a two-column layout let a skimmer
+  read only the shipped side and come away believing the whole thing exists.
 - **Star counts sit with the project they belong to.** GoCommerce is new and its
   count says so; Svelte Commerce's larger numbers are never shown in a way that
   could be read as GoCommerce's.
@@ -100,42 +130,62 @@ publishes. `9aed8449d5c60c850c662366e3d64c9a.txt` is the IndexNow key and must
 stay at the site root, byte-exact and with no trailing newline, or verification
 returns 403.
 
-`_redirects` makes the brief's recommended project paths resolve instead of
-404ing — `/gocommerce`, `/svelte-commerce`, `/growth`, `/architecture`,
-`/quick-start`, `/roadmap` point at the matching homepage section and `/docs`
-points at the engine README. They are redirects rather than pages on purpose:
-separate pages would duplicate every claim, and a claim kept in two places is a
-claim that will disagree with itself.
+`_redirects` carries the remaining path aliases as 301s: `/architecture`,
+`/quick-start`, `/growth`, `/roadmap` and `/docs`. `/gocommerce` and
+`/svelte-commerce` are deliberately **absent** — they are real pages now, and a
+redirect rule matching either path would shadow the page it points at.
+
+An unmatched path still returns a 404 with a zero-length body in production.
+That is a Cloudflare Pages project setting, not anything in this repository; see
+the note in `_redirects`. `serve.cjs` serves `404.html` correctly, so the local
+preview is currently stricter than production.
 
 `assets/og.png` is generated, not hand-drawn — `scratchpad/og.html` rendered at
-1200×630. Regenerate it whenever the brand architecture changes, or the social
-card will keep advertising the previous one.
+1200×630. Regenerate it whenever the positioning changes, or the social card
+will keep advertising the previous one.
 
 ## SEO and GEO
 
-Audited against `universal-seo-geo-website-audit-playbook-v2.md`. What that added:
+Audited against `universal-seo-geo-website-audit-playbook-v2.md` and Google's
+SEO Starter Guide.
 
 | File | Why |
 | --- | --- |
-| `robots.txt` | Carries the sitemap, and states the AI-crawler policy explicitly. Everything is allowed — being read and cited by answer engines is the point of documentation for an MIT project, so the permission is on the record rather than merely inherited from `User-agent: *`. |
-| `llms.txt` | Key facts, canonical entity names, and a **policies** block naming the four things a model should not say about this project (§85). |
-| `404.html` | Was a blank page, which wastes every stale inbound link. Now carries the header, an explanation and the section list, with `noindex,follow` so the links are still crawled (§110, §74). |
+| `robots.txt` | Carries the sitemap and states the AI-crawler policy explicitly. Everything is allowed — being read and cited by answer engines is the point of documentation for MIT projects, so the permission is on the record rather than merely inherited from `User-agent: *`. |
+| `llms.txt` | Key facts, canonical entity names, and a **policies** block naming what a model must not say — starting with the rule that KitCommerce is not a product (§85). |
+| `404.html` | Carries the header, an explanation and all three pages, with `noindex,follow` so the links are still crawled (§110, §74). |
 | `_headers` | Security headers plus cache rules that match the filename strategy: nothing is fingerprinted, so HTML/CSS/JS revalidate and only the screenshots cache long (§107, §108). |
-| `scripts/build-faq-schema.js` | Generates the `FAQPage` JSON-LD **from the visible FAQ**, so the two cannot drift (§61, §83). Run without `--write` to fail if stale. |
+| `scripts/build-faq-schema.js` | Generates each page's `FAQPage` JSON-LD **from its visible FAQ**, so the two cannot drift (§61, §83). It also fails if a page's canonical disagrees with the URL it builds `@id` from. Run without `--write` to fail on stale output. |
 
-In the page head: `robots` with `max-snippet:-1,max-image-preview:large`,
-`viewport-fit=cover`, and structured data as an **entity graph** — Organization
-(with `sameAs`), WebSite, SoftwareApplication, two SoftwareSourceCode nodes,
-BreadcrumbList and FAQPage, joined by `@id` (§80, §81).
+In every page head: `robots` with `max-snippet:-1,max-image-preview:large`,
+`viewport-fit=cover`, and structured data as an **entity graph** joined by `@id`
+(§80, §81). The two projects are siblings in that graph — each is its own
+`SoftwareApplication` with its own `SoftwareSourceCode`, and the `Organization`
+publishes the *website*, not the software. Subpages reference the shared nodes
+by `@id` rather than redefining them.
 
-The FAQ is `<details>`/`<summary>`: every answer is in the DOM and readable with
+Each page has a visible breadcrumb and a matching `BreadcrumbList` (§11).
+
+FAQs are `<details>`/`<summary>`: every answer is in the DOM and readable with
 JavaScript disabled, because an FAQ that needs a script to reveal its text reads
 as empty to a crawler (§77).
 
+### Still outstanding
+
+No analytics or conversion instrumentation exists (§29, §117, §118), there is no
+`Content-Security-Policy` (§107), the admin screenshots ship a single 1440w
+candidate with no `srcset` (§100), fonts load from Google rather than self-hosted
+(§99), and sitemap `lastmod` is maintained by hand rather than derived from a
+content hash (§65). Google's Starter Guide adds one the playbook omits entirely:
+there is no off-page or promotion plan, which for two pre-1.0 open-source
+projects is where discovery will actually come from.
+
 ## Verifying a change
 
-The audit in the session scratchpad (`verify/page-check.mjs`) loads the page in
-both colour schemes and fails on console errors, failed requests, horizontal
-overflow at 1440/1024/768/400px, any text below WCAG AA contrast computed from
-rendered colours, missing alt text, heading-level jumps and silent font
-fallbacks. Run it before pushing a design change.
+```
+node scripts/build-faq-schema.js     # fails if any page's FAQ schema is stale
+```
+
+Run it before pushing. There is no CI yet, and the broader page verifier the
+previous revision of this README referenced was never checked in — that gap is
+tracked as outstanding work, not a step you can currently follow.

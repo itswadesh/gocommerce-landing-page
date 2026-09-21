@@ -1,13 +1,12 @@
-/* KitCommerce — the open-source commerce stack you can own.
+/* kitcommerce.store — the website presenting GoCommerce and Svelte Commerce.
  *
- * Colour carries architecture here, it does not decorate. Svelte orange marks
- * the storefront, Go blue marks the engine, violet marks the growth layer, and
- * everything structural is a cool neutral. An accent on something that is not a
- * layer of the stack is a bug in the design rather than a flourish.
+ * Colour marks which project a thing belongs to, it does not decorate. Svelte
+ * orange marks the storefront, Go blue marks the backend, and everything
+ * structural is a cool neutral. An accent on something that is not one of the
+ * two projects is a bug in the design rather than a flourish.
  *
- * KitCommerce itself takes no hue. The umbrella is the neutral the three layers
- * sit inside, which is why the logo is monochrome: a brand that borrowed one of
- * its own layers' colours would claim to be that layer.
+ * The site itself takes no hue and the wordmark is monochrome: this is a
+ * website presenting two projects, not a third product competing with them.
  */
 
 /* ────────────────────────────────────────────────────────── tokens */
@@ -177,10 +176,9 @@ header {
 }
 .hero-proof b { color: var(--ink); font-weight: 500; }
 
-/* The stack diagram: the one bold object on the page. The brand label sits on
-   the container because KitCommerce is the whole box, not one of the rows. */
+/* The stack diagram: the one bold object on a page. Each row is a real piece
+   of software; nothing wraps them, because nothing contains them. */
 .stack { margin: 0; min-width: 0; border: 1px solid var(--rule); padding: 14px; background: color-mix(in srgb, var(--surface) 55%, transparent); }
-.stack-brand { font: 500 .75rem/1 var(--mono); color: var(--ink-3); padding-bottom: 12px; }
 .layer {
   background: var(--surface);
   border: 1px solid var(--rule);
@@ -194,7 +192,6 @@ header {
    whole point of the diagram, so a lost accent here is a lost meaning. */
 .layer-store { border-left-color: var(--svelte-mark); }
 .layer-engine { border-left-color: var(--go-mark); }
-.layer-growth { border-left-color: var(--growth-mark); }
 .layer-name { font: 500 1rem/1.3 var(--sans); letter-spacing: -.018em; }
 .layer-role { margin-top: 4px; font-size: .875rem; color: var(--ink-2); line-height: 1.5; }
 .layer-note {
@@ -270,25 +267,12 @@ header {
 .faq details > p code { color: var(--go); }
 @media (prefers-reduced-motion: reduce) { .faq summary::before, .faq summary::after { transition: none; } }
 
-/* ───────────────────────────────────────────────────────── pillars */
-
-.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 34px; }
-.pillar { background: var(--surface); border: 1px solid var(--rule); border-top: 3px solid var(--rule-strong); padding: 22px; box-shadow: var(--shadow); min-width: 0; }
-.pillar-engine { border-top-color: var(--go-mark); }
-.pillar-store { border-top-color: var(--svelte-mark); }
-.pillar-growth { border-top-color: var(--growth-mark); }
-.pillar-role { margin-top: 5px; font: 400 .8125rem/1.4 var(--mono); color: var(--ink-3); }
-.pillar > p:nth-of-type(2) { margin-top: 12px; font-size: .9375rem; color: var(--ink-2); }
-.pillar-state { margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--rule); display: flex; align-items: center; gap: 8px; font-size: .8125rem; color: var(--ink-3); }
-@media (max-width: 860px) { .pillars { grid-template-columns: 1fr; } }
-
 /* Status dots. Three states, three shapes of emphasis: shipped is solid,
    in development is ringed, roadmap is hollow — so the distinction survives
    for anyone who cannot separate the hues. */
 .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; display: inline-block; }
 .dot-ship { background: var(--go-mark); }
 .dot-dev { background: var(--growth-mark); box-shadow: 0 0 0 2px color-mix(in srgb, var(--growth-mark) 30%, transparent); }
-.dot-part { background: var(--growth-mark); }
 .dot-plan { background: transparent; border: 1.5px solid var(--rule-strong); }
 
 .legend { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: .8125rem; color: var(--ink-3); }
@@ -341,18 +325,12 @@ header {
 
 /* ─────────────────────────────────────────────────── architecture */
 
-/* The whole diagram sits inside one bordered box labelled KitCommerce: the
-   umbrella is drawn as containment, and the layers keep their own colours. */
+/* The request flow, drawn as a sequence rather than a containment: the boxes
+   are separate projects and the wires between them are real protocols. */
 .arch { margin-top: 34px; border: 1px solid var(--rule-strong); padding: 18px; }
-.arch-brand { font: 500 .8125rem/1 var(--mono); color: var(--ink-3); padding-bottom: 16px; }
-.arch-top { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-@media (max-width: 700px) { .arch-top { grid-template-columns: 1fr; } }
-
 .arch-row { background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--rule-strong); padding: 20px 22px; box-shadow: var(--shadow); min-width: 0; }
 .arch-store { border-left-color: var(--svelte-mark); }
-.arch-admin { border-left-color: var(--svelte-mark); }
 .arch-engine { border-left-color: var(--go-mark); }
-.arch-growth { border-left-color: var(--growth-mark); }
 .arch-row p { margin-top: 6px; font-size: .9375rem; color: var(--ink-2); }
 
 .arch-wire { display: flex; align-items: center; gap: 12px; margin: 0; padding-left: 26px; }
@@ -363,17 +341,6 @@ header {
 .arch-caps li { padding: 0 12px; border-right: 1px solid var(--rule); }
 .arch-caps li:first-child { padding-left: 0; }
 .arch-caps li:last-child { border-right: 0; }
-
-.arch-split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
-@media (max-width: 760px) { .arch-split { grid-template-columns: 1fr; } }
-
-.admin-relation { margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--rule); }
-.admin-relation p { margin-top: 12px; color: var(--ink-2); max-width: 46rem; font-size: .9375rem; }
-.chain { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 22px; }
-.chain-node { font: 500 .8125rem/1 var(--mono); padding: 9px 13px; background: var(--surface); border: 1px solid var(--rule); border-bottom: 2px solid var(--rule-strong); }
-.chain-store { border-bottom-color: var(--svelte-mark); }
-.chain-engine { border-bottom-color: var(--go-mark); }
-.chain-step { font: 400 .75rem/1 var(--mono); color: var(--ink-3); }
 
 /* ────────────────────────────────────────────────────── one binary */
 
@@ -562,3 +529,135 @@ footer { border-top: 1px solid var(--rule); background: var(--surface); padding-
 .notfound-links a { color: var(--ink); font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--rule-strong); }
 .notfound-links a:hover { border-color: var(--ink); }
 .notfound .actions { margin-top: 32px; }
+
+/* ══════════════════════════════════════════════════════════════════
+   Two projects, one website
+   ══════════════════════════════════════════════════════════════════
+   Everything below serves the rule that GoCommerce and Svelte Commerce
+   are siblings. Where they appear together they get identical treatment:
+   same box, same padding, same type, differing only in the accent that
+   says which project it is. A layout that gave one of them more room
+   would be making a claim about hierarchy that is not true. */
+
+.wordmark-tld { color: var(--ink-3); font-weight: 400; }
+
+/* ───────────────────────────────────────────────────── breadcrumbs */
+
+.crumbs { padding-top: 20px; }
+.crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 400 .8125rem/1.5 var(--mono); color: var(--ink-3); }
+.crumbs li + li::before { content: "/"; margin-right: 8px; color: var(--rule-strong); }
+.crumbs a { color: var(--ink-3); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.crumbs a:hover { color: var(--ink); border-bottom-color: currentColor; }
+.crumbs [aria-current="page"] { color: var(--ink-2); }
+
+/* ───────────────────────────────────────────────────────── eyebrow */
+
+.eyebrow { font: 500 .75rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 16px; display: flex; align-items: center; gap: 9px; }
+.eyebrow::before { content: ""; width: 20px; height: 2px; background: var(--rule-strong); flex: none; }
+.eyebrow-engine::before { background: var(--go-mark); }
+.eyebrow-store::before { background: var(--svelte-mark); }
+.page-hero { padding-block: clamp(30px, 4vw, 54px) clamp(46px, 6.5vw, 88px); }
+
+/* ─────────────────────────────────────── diagram rows added for / */
+
+.layer-data { border-left-color: var(--rule-strong); }
+.arch-data { border-left-color: var(--rule-strong); }
+
+/* ────────────────────────────────── the hero pair on the homepage */
+
+/* Two equal boxes joined by a label, never nested in a third. The join is
+   deliberately a thin rule and not an arrow: an arrow would assert a
+   direction of dependency that does not exist between two standalone
+   projects. The request-flow arrows live in the architecture section, where
+   the claim is about data rather than about branding. */
+.duo-figure { margin: 0; min-width: 0; border: 1px solid var(--rule); padding: 14px; background: color-mix(in srgb, var(--surface) 55%, transparent); }
+.duo-side { background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--rule-strong); padding: 18px 20px; box-shadow: var(--shadow); }
+.duo-store { border-left-color: var(--svelte-mark); }
+.duo-engine { border-left-color: var(--go-mark); }
+.duo-name { font: 500 1.0625rem/1.3 var(--sans); letter-spacing: -.018em; }
+.duo-role { margin-top: 4px; font-size: .875rem; color: var(--ink-2); }
+.duo-tech { margin-top: 10px; font: 400 .78125rem/1.45 var(--mono); color: var(--ink-3); }
+.duo-join { display: flex; align-items: center; gap: 12px; margin: 0; padding-left: 22px; }
+.duo-join::before { content: ""; width: 1px; height: 30px; background: var(--rule-strong); flex: none; }
+.duo-join span { font: 400 .75rem/1 var(--mono); color: var(--ink-3); }
+.duo-figure figcaption { margin-top: 14px; font-size: .875rem; color: var(--ink-3); line-height: 1.55; }
+
+/* ─────────────────────────────── the two project cards, side by side */
+
+.duo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 34px; }
+@media (max-width: 860px) { .duo-grid { grid-template-columns: 1fr; } }
+.duo-card { background: var(--surface); border: 1px solid var(--rule); border-top: 3px solid var(--rule-strong); padding: 24px; box-shadow: var(--shadow); min-width: 0; display: flex; flex-direction: column; }
+.duo-card-engine { border-top-color: var(--go-mark); }
+.duo-card-store { border-top-color: var(--svelte-mark); }
+.duo-card-role { font: 400 .8125rem/1.4 var(--mono); color: var(--ink-3); }
+.duo-card h3 { margin-top: 6px; font-size: 1.375rem; letter-spacing: -.02em; }
+.duo-card h3 a { color: inherit; text-decoration: none; border-bottom: 2px solid var(--rule); }
+.duo-card h3 a:hover { border-bottom-color: currentColor; }
+.duo-card > p { margin-top: 12px; font-size: .9375rem; color: var(--ink-2); }
+.duo-caps { list-style: none; margin: 18px 0 0; padding: 16px 0 0; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: 7px 0; font: 400 .78125rem/1.6 var(--mono); color: var(--ink-2); }
+.duo-caps li { padding: 0 11px; border-right: 1px solid var(--rule); }
+.duo-caps li:first-child { padding-left: 0; }
+.duo-caps li:last-child { border-right: 0; }
+.duo-card .actions { margin-top: auto; padding-top: 22px; }
+
+/* ──────────────────────────────────────────── three ways to adopt */
+
+.tri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 34px; }
+@media (max-width: 860px) { .tri { grid-template-columns: 1fr; } }
+.tri-item { border-top: 1px solid var(--rule-strong); padding-top: 18px; min-width: 0; }
+.tri-item h3 { font-size: 1rem; letter-spacing: -.015em; }
+.tri-item p { margin-top: 9px; font-size: .9375rem; color: var(--ink-2); }
+
+/* ──────────────────────────────────────────── relationship table */
+
+.tbl-scroll { overflow-x: auto; margin-top: 30px; }
+.reltable { width: 100%; border-collapse: collapse; font-size: .9375rem; min-width: 34rem; }
+.reltable caption { text-align: left; font-size: .8125rem; color: var(--ink-3); padding-bottom: 12px; }
+.reltable th, .reltable td { text-align: left; padding: 13px 18px 13px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.reltable thead th { font: 500 .9375rem/1.4 var(--sans); border-bottom: 1px solid var(--rule-strong); }
+.reltable thead th:nth-child(2) { color: var(--go); }
+.reltable thead th:nth-child(3) { color: var(--svelte); }
+.reltable tbody th { font: 400 .8125rem/1.5 var(--mono); color: var(--ink-3); font-weight: 400; width: 30%; }
+.reltable td { color: var(--ink-2); }
+.reltable code { font-size: .8125rem; }
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ──────────────────────────────────────────── measured-facts strip */
+
+.proof-section { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--surface); padding-block: clamp(46px, 5.5vw, 70px); }
+.proof-section .strip { grid-template-columns: repeat(3, 1fr); margin-top: 30px; }
+.proof-section .strip-item:nth-child(3n) { border-right: 0; }
+.proof-section .strip-item:nth-child(-n+3) { padding-top: 0; }
+.proof-section .strip-item:nth-child(n+4) { border-top: 1px solid var(--rule); }
+.strip-item h3 { font-size: 1rem; letter-spacing: -.015em; }
+@media (max-width: 860px) {
+  .proof-section .strip { grid-template-columns: 1fr 1fr; }
+  .proof-section .strip-item:nth-child(3n) { border-right: 1px solid var(--rule); }
+  .proof-section .strip-item:nth-child(2n) { border-right: 0; }
+}
+@media (max-width: 560px) {
+  .proof-section .strip { grid-template-columns: 1fr; }
+  .proof-section .strip-item { border-right: 0; padding-left: 0; }
+}
+
+/* ─────────────────────────────────────────── two quick-start paths */
+
+.qs-split { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 32px; align-items: start; }
+@media (max-width: 900px) { .qs-split { grid-template-columns: 1fr; } }
+.qs-path { min-width: 0; }
+.qs-path h3 { font-size: 1.125rem; letter-spacing: -.018em; }
+.qs-need { margin-top: 7px; font: 400 .8125rem/1.5 var(--mono); color: var(--ink-3); }
+.qs-path .code-block { margin-top: 16px; }
+.qs-path .button { margin-top: 16px; }
+
+/* ──────────────────────────────────────────────── three-door close */
+
+.doors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+@media (max-width: 860px) { .doors { grid-template-columns: 1fr; } }
+.door { border-top: 1px solid var(--rule-strong); padding-top: 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; min-width: 0; }
+.door-q { margin: 0; font-size: .9375rem; color: var(--ink-2); }
+
+/* ─────────────────────────────────────────────────── backend list */
+
+.backend-list { list-style: none; margin: 30px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.backend-list li { font: 500 .875rem/1 var(--mono); padding: 11px 15px; background: var(--surface); border: 1px solid var(--rule); border-bottom: 2px solid var(--svelte-mark); }

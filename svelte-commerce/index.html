@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Svelte Commerce is an open-source ecommerce storefront built with SvelteKit: browse, search, cart, checkout and account. Headless across Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart. MIT licensed.">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+<meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0f16" media="(prefers-color-scheme: dark)">
+<title>Svelte Commerce — Open Source Ecommerce Storefront for Svelte</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230f1720'/%3E%3Cg fill='%23ffffff'%3E%3Crect x='4' y='4' width='3.6' height='16' rx='1'/%3E%3Cpath d='M9.6 12 15.4 4h4.4l-5.8 8z'/%3E%3Cpath d='M9.6 12h4.4l5.8 8h-4.4z'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="canonical" href="https://kitcommerce.store/svelte-commerce/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="kitcommerce.store">
+<meta property="og:url" content="https://kitcommerce.store/svelte-commerce/">
+<meta property="og:title" content="Svelte Commerce — Ecommerce Storefront for Svelte">
+<meta property="og:description" content="A standalone open-source storefront built with SvelteKit, headless across six commerce backends. MIT licensed.">
+<meta property="og:image" content="https://kitcommerce.store/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Svelte Commerce — open-source ecommerce storefront built with Svelte">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Svelte Commerce — Ecommerce Storefront for Svelte">
+<meta name="twitter:description" content="A standalone open-source storefront built with SvelteKit, headless across six commerce backends.">
+<meta name="twitter:image" content="https://kitcommerce.store/assets/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<!-- This page owns the Svelte Commerce application node; the homepage
+     references it by the same @id rather than redefining it. -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","@id":"https://kitcommerce.store/#org","name":"KitCommerce","url":"https://kitcommerce.store/"},
+{"@type":"WebPage","@id":"https://kitcommerce.store/svelte-commerce/#page","url":"https://kitcommerce.store/svelte-commerce/","name":"Svelte Commerce — Open Source Ecommerce Storefront for Svelte","isPartOf":{"@id":"https://kitcommerce.store/#site"},"primaryTopic":{"@id":"https://kitcommerce.store/svelte-commerce/#app"},"inLanguage":"en"},
+{"@type":"SoftwareApplication","@id":"https://kitcommerce.store/svelte-commerce/#app","name":"Svelte Commerce","url":"https://kitcommerce.store/svelte-commerce/","applicationCategory":["DeveloperApplication","BusinessApplication"],"applicationSubCategory":"Ecommerce storefront","operatingSystem":"Cross-platform","runtimePlatform":"SvelteKit","license":"https://opensource.org/licenses/MIT","isAccessibleForFree":true,"publisher":{"@id":"https://kitcommerce.store/#org"},"description":"An open-source ecommerce storefront built with SvelteKit: browse, search, cart, checkout and account. Headless across Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart.","featureList":["Product browsing","Search","Cart","Checkout","Customer account","Headless backend integration","Customizable components","Server-side rendering"],"offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"}},
+{"@type":"SoftwareSourceCode","@id":"https://github.com/itswadesh/svelte-commerce","name":"Svelte Commerce","codeRepository":"https://github.com/itswadesh/svelte-commerce","programmingLanguage":"TypeScript","runtimePlatform":"SvelteKit","license":"https://opensource.org/licenses/MIT","targetProduct":{"@id":"https://kitcommerce.store/svelte-commerce/#app"}},
+{"@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"https://kitcommerce.store/"},
+{"@type":"ListItem","position":2,"name":"Svelte Commerce","item":"https://kitcommerce.store/svelte-commerce/"}]}
+]}</script>
+<!-- FAQ-SCHEMA:start -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/svelte-commerce/#faq","mainEntity":[{"@type":"Question","name":"Which commerce backends does Svelte Commerce support?","acceptedAnswer":{"@type":"Answer","text":"Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart. That is the current state of the repository rather than a roadmap: if a backend is not on that list, there is no adapter for it yet."}},{"@type":"Question","name":"Can I use Svelte Commerce with GoCommerce today?","acceptedAnswer":{"@type":"Answer","text":"Not without writing the glue yourself. The connector that maps the GoCommerce API onto the Svelte Commerce data layer is in development and unpublished. GoCommerce serves a documented JSON API that any framework can call, so it is possible, but you would be writing that client."}},{"@type":"Question","name":"Does Svelte Commerce need GoCommerce?","acceptedAnswer":{"@type":"Answer","text":"No. Svelte Commerce is a standalone storefront and predates GoCommerce by years. It runs against any of the six backends it supports today, and GoCommerce is not one of them yet."}},{"@type":"Question","name":"Is it production-ready?","acceptedAnswer":{"@type":"Answer","text":"It has been public for years and runs production stores — arialshop.com is one of them, and it is linked on this page so you can judge it yourself rather than take our word for it."}},{"@type":"Question","name":"Can I change the design?","acceptedAnswer":{"@type":"Answer","text":"Yes. The storefront is ordinary Svelte components rather than a theme DSL, so changing a template means editing that template. It is MIT licensed, so you can rebrand it and ship it for a client."}},{"@type":"Question","name":"Is it good for SEO?","acceptedAnswer":{"@type":"Answer","text":"Product and category pages are server-rendered by SvelteKit, so a crawler receives HTML with the catalogue in it rather than an empty shell. The rest of a store’s SEO — titles, structured data, canonical URLs — is yours to write, as it is in any storefront."}},{"@type":"Question","name":"Is there a paid tier?","acceptedAnswer":{"@type":"Answer","text":"No. It is MIT source you run yourself. There is no hosted offering, no paid tier and nothing to buy."}}]}</script>
+<!-- FAQ-SCHEMA:end -->
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <nav class="wrap nav">
+    <a class="wordmark" href="/" aria-label="kitcommerce.store home">
+      <svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+        <rect x="4" y="4" width="3.6" height="16" rx="1"/>
+        <path d="M9.6 12 15.4 4h4.4l-5.8 8z"/>
+        <path d="M9.6 12h4.4l5.8 8h-4.4z"/>
+      </svg>
+      <span class="wordmark-name">kitcommerce<span class="wordmark-tld">.store</span></span>
+    </a>
+    <button class="menu" aria-label="Open navigation" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    <div id="navlinks" class="navlinks">
+      <a href="/gocommerce/">GoCommerce</a>
+      <a href="/svelte-commerce/" aria-current="page">Svelte Commerce</a>
+      <a href="/#architecture">Architecture</a>
+      <a href="https://github.com/itswadesh/svelte-commerce#readme" target="_blank" rel="noopener noreferrer">Docs</a>
+      <a class="nav-git" href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+
+  <nav class="wrap crumbs" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li aria-current="page">Svelte Commerce</li>
+    </ol>
+  </nav>
+
+  <!-- ───────────────────────────────────────────────────────── hero -->
+  <section class="hero wrap page-hero">
+    <div class="hero-copy">
+      <p class="eyebrow eyebrow-store">Storefront</p>
+      <h1>Svelte Commerce &mdash; a modern open-source ecommerce storefront</h1>
+      <p class="lede">
+        Svelte Commerce provides a fast, customizable storefront for headless
+        ecommerce, built around the Svelte ecosystem. It is a standalone project
+        that connects to GoCommerce or another compatible commerce backend.
+      </p>
+      <div class="actions">
+        <a class="button" href="#quickstart">Run it locally</a>
+        <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="button secondary" href="https://arialshop.com" target="_blank" rel="noopener noreferrer">See a live store</a>
+      </div>
+      <ul class="hero-proof">
+        <li><b>MIT</b> licensed</li>
+        <li><b>SvelteKit</b></li>
+        <li><b>6</b> backends supported</li>
+        <li><b>Public</b> for years</li>
+      </ul>
+    </div>
+
+    <figure class="stack" aria-labelledby="stack-cap">
+      <div class="layer layer-store">
+        <p class="layer-name">Svelte Commerce</p>
+        <p class="layer-role">Browse, search, cart, checkout, account</p>
+        <p class="layer-note">SvelteKit &mdash; server-rendered, themeable</p>
+      </div>
+      <p class="wire"><span>REST / JSON</span></p>
+      <div class="layer layer-data">
+        <p class="layer-name">Your commerce backend</p>
+        <p class="layer-role">Medusa, Shopify, Saleor, Vendure, WooCommerce or Litekart</p>
+      </div>
+      <figcaption id="stack-cap">Headless: the storefront renders, the backend owns the data.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ────────────────────────────────────────────────── live example -->
+  <section id="live" class="section wrap" aria-labelledby="live-title">
+    <h2 id="live-title">A store running on it today</h2>
+    <p class="section-lede">
+      Not a mockup and not a demo theme &mdash; a production jewellery store
+      built on Svelte Commerce, captured on
+      <time datetime="2026-09-21">21 September 2026</time>.
+    </p>
+
+    <figure class="storefront-shot">
+      <img src="/assets/admin/storefront-home.webp" width="1440" height="900" alt="The Arialshop storefront built with Svelte Commerce: a jewellery hero image with a shop call to action, category navigation across the top, and a strip of store guarantees beneath." loading="lazy" decoding="async">
+      <figcaption><a href="https://arialshop.com" target="_blank" rel="noopener noreferrer">arialshop.com</a> &mdash; a production store running on Svelte Commerce.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────── why -->
+  <section id="why" class="section wrap" aria-labelledby="why-title">
+    <h2 id="why-title">What the storefront gives you</h2>
+    <p class="section-lede">
+      The customer-facing half of a store: the pages people actually shop on,
+      built as Svelte components you own and can restyle.
+    </p>
+    <div class="why-grid">
+      <div class="why-item">
+        <h3>SvelteKit</h3>
+        <p>Server-side rendering and client-side navigation from one framework, so the first paint is HTML and the second page is instant.</p>
+      </div>
+      <div class="why-item">
+        <h3>Headless</h3>
+        <p>The storefront holds no commerce rules of its own. Prices, stock and orders come from the backend, which means the same storefront works over several of them.</p>
+      </div>
+      <div class="why-item">
+        <h3>Customizable UI</h3>
+        <p>Ordinary Svelte components, not a theme DSL. Change a template by editing the template.</p>
+      </div>
+      <div class="why-item">
+        <h3>SEO-friendly rendering</h3>
+        <p>Product and category pages are rendered on the server, so a crawler sees the catalogue rather than an empty shell waiting for JavaScript.</p>
+      </div>
+      <div class="why-item">
+        <h3>Backend-independent</h3>
+        <p>Six commerce backends are supported today. Switching one out is a data-layer change, not a rewrite of the storefront.</p>
+      </div>
+      <div class="why-item">
+        <h3>Yours under MIT</h3>
+        <p>Fork it, rebrand it, ship it for a client. There is no licence tier and nothing phones home.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────── backends -->
+  <section id="backends" class="section wrap" aria-labelledby="backends-title">
+    <h2 id="backends-title">Backends it speaks to today</h2>
+    <p class="section-lede">
+      Svelte Commerce is a headless storefront capable of integrating with
+      compatible commerce backends. These six are supported now.
+    </p>
+
+    <ul class="backend-list">
+      <li>Medusa</li>
+      <li>Shopify</li>
+      <li>Saleor</li>
+      <li>Vendure</li>
+      <li>WooCommerce</li>
+      <li>Litekart</li>
+    </ul>
+
+    <p class="fineprint">
+      That list is the current state of the repository, not a roadmap. If a
+      backend is not on it, there is no adapter for it yet.
+    </p>
+  </section>
+
+  <!-- ───────────────────────────────────────────────────── connector -->
+  <section id="connector" class="section wrap" aria-labelledby="connector-title">
+    <h2 id="connector-title">Using it with GoCommerce</h2>
+
+    <div class="connector">
+      <div class="connector-head">
+        <h3>GoCommerce &harr; Svelte Commerce</h3>
+        <p class="badge">Connector in development</p>
+      </div>
+      <p>
+        GoCommerce is not yet one of the backends above. The connector that maps
+        the GoCommerce API onto the Svelte Commerce data layer is being written
+        and is not published.
+      </p>
+      <p>
+        Until it lands, pairing the two means writing that client yourself against
+        the documented GoCommerce API &mdash; 342 operations, published as
+        OpenAPI. That is the honest state of it, and it is the single most useful
+        thing anybody could help with.
+      </p>
+      <div class="actions">
+        <a class="button secondary" href="https://github.com/itswadesh/gocommerce/issues" target="_blank" rel="noopener noreferrer">Help build the connector</a>
+        <a class="button secondary" href="/gocommerce/">Read about GoCommerce</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────── quick start -->
+  <section id="quickstart" class="section quickstart-section" aria-labelledby="qs-title">
+    <div class="wrap">
+      <h2 id="qs-title">Run the storefront locally</h2>
+      <p class="section-lede">
+        You need Node.js and a commerce backend to point it at. The storefront
+        holds no data of its own, so it needs something to read from before it
+        shows a catalogue.
+      </p>
+
+      <div class="code-block">
+        <div class="code-head">
+          <p>Clone it, install, point it at a backend</p>
+          <button class="copy" data-copy="code-sv-start">Copy</button>
+        </div>
+<pre id="code-sv-start"><code><span class="cm"># 1 — get the source</span>
+git clone https://github.com/itswadesh/svelte-commerce
+<span class="b">cd</span> svelte-commerce
+
+<span class="cm"># 2 — install dependencies</span>
+pnpm install
+
+<span class="cm"># 3 — tell it which backend to read from</span>
+cp .env.example .env
+<span class="cm">#    then edit .env for your backend and its endpoint</span>
+
+<span class="cm"># 4 — run it</span>
+pnpm dev</code></pre>
+      </div>
+
+      <p class="fineprint">
+        The repository&rsquo;s own README is the authority on environment
+        variables for each backend, because those change with the adapters.
+        <a href="https://github.com/itswadesh/svelte-commerce#readme" target="_blank" rel="noopener noreferrer">Read the setup docs</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────── repository -->
+  <section id="repo" class="section wrap" aria-labelledby="repo-title">
+    <h2 id="repo-title">The repository</h2>
+
+    <div class="projects">
+      <article class="project project-store">
+        <h3>Svelte Commerce</h3>
+        <p class="project-for">Ecommerce storefront. SvelteKit, headless across six backends.</p>
+        <dl class="facts">
+          <div><dt>Language</dt><dd>SvelteKit</dd></div>
+          <div><dt>Licence</dt><dd>MIT</dd></div>
+          <div><dt>Forks</dt><dd data-gh="sv-forks">335</dd></div>
+          <div><dt>Stars</dt><dd data-gh="sv-stars">1,813</dd></div>
+        </dl>
+        <a class="project-link" href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">itswadesh/svelte-commerce</a>
+      </article>
+    </div>
+
+    <p class="fineprint">
+      Star and fork counts are read live from the GitHub API on page load, and
+      fall back to the values measured on
+      <time datetime="2026-09-21">21 September 2026</time> when the call is rate
+      limited.
+    </p>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────── faq -->
+  <section id="faq" class="section wrap" aria-labelledby="faq-title">
+    <h2 id="faq-title">Questions people actually ask</h2>
+    <p class="section-lede">
+      Direct answers, including the unflattering ones. If a question here has a
+      bad answer, that is the answer.
+    </p>
+
+    <div class="faq">
+      <details>
+        <summary>Which commerce backends does Svelte Commerce support?</summary>
+        <p>Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart. That is the current state of the repository rather than a roadmap: if a backend is not on that list, there is no adapter for it yet.</p>
+      </details>
+
+      <details>
+        <summary>Can I use Svelte Commerce with GoCommerce today?</summary>
+        <p>Not without writing the glue yourself. The connector that maps the GoCommerce API onto the Svelte Commerce data layer is in development and unpublished. GoCommerce serves a documented JSON API that any framework can call, so it is possible, but you would be writing that client.</p>
+      </details>
+
+      <details>
+        <summary>Does Svelte Commerce need GoCommerce?</summary>
+        <p>No. Svelte Commerce is a standalone storefront and predates GoCommerce by years. It runs against any of the six backends it supports today, and GoCommerce is not one of them yet.</p>
+      </details>
+
+      <details>
+        <summary>Is it production-ready?</summary>
+        <p>It has been public for years and runs production stores — arialshop.com is one of them, and it is linked on this page so you can judge it yourself rather than take our word for it.</p>
+      </details>
+
+      <details>
+        <summary>Can I change the design?</summary>
+        <p>Yes. The storefront is ordinary Svelte components rather than a theme DSL, so changing a template means editing that template. It is MIT licensed, so you can rebrand it and ship it for a client.</p>
+      </details>
+
+      <details>
+        <summary>Is it good for SEO?</summary>
+        <p>Product and category pages are server-rendered by SvelteKit, so a crawler receives HTML with the catalogue in it rather than an empty shell. The rest of a store’s SEO — titles, structured data, canonical URLs — is yours to write, as it is in any storefront.</p>
+      </details>
+
+      <details>
+        <summary>Is there a paid tier?</summary>
+        <p>No. It is MIT source you run yourself. There is no hosted offering, no paid tier and nothing to buy.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────── closing -->
+  <section class="closing wrap">
+    <h2>Build the storefront, keep the backend you have</h2>
+    <p>SvelteKit in front of Medusa, Shopify, Saleor, Vendure, WooCommerce or Litekart. Yours under MIT.</p>
+    <div class="actions">
+      <a class="button" href="#quickstart">Run Svelte Commerce locally</a>
+      <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">Clone the repository</a>
+      <a class="button secondary" href="/gocommerce/">Look at the backend project</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <p class="wordmark-name">kitcommerce.store</p>
+      <p>The website presenting GoCommerce and Svelte Commerce &mdash; two independent open-source ecommerce projects, one for the backend and admin, one for the storefront.</p>
+      <p class="footer-meta">MIT licensed &mdash; Go &mdash; SvelteKit &mdash; PostgreSQL</p>
+    </div>
+
+    <nav class="footer-col" aria-labelledby="f-go">
+      <h2 id="f-go">GoCommerce</h2>
+      <a href="/gocommerce/">Overview</a>
+      <a href="/gocommerce/#modules">Modules</a>
+      <a href="/gocommerce/#quickstart">Quick start</a>
+      <a href="/gocommerce/#roadmap">Roadmap</a>
+    </nav>
+
+    <nav class="footer-col" aria-labelledby="f-sv">
+      <h2 id="f-sv">Svelte Commerce</h2>
+      <a href="/svelte-commerce/">Overview</a>
+      <a href="/svelte-commerce/#backends">Backends</a>
+      <a href="/svelte-commerce/#quickstart">Quick start</a>
+      <a href="/svelte-commerce/#connector">Connector status</a>
+    </nav>
+
+    <nav class="footer-col" aria-labelledby="f-dev">
+      <h2 id="f-dev">Developers</h2>
+      <a href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">GoCommerce on GitHub</a>
+      <a href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">Svelte Commerce on GitHub</a>
+      <a href="https://github.com/itswadesh/gocommerce/tree/main/examples/store" target="_blank" rel="noopener noreferrer">Example store</a>
+      <a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Discord</a>
+    </nav>
+  </div>
+
+  <div class="wrap footer-base">
+    <p>Built by <a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer">itswadesh</a>.</p>
+    <a href="/">kitcommerce.store</a>
+    <a href="#main">Back to top</a>
+  </div>
+</footer>
+
+<div id="toast" role="status"></div>
+<script src="/app.js" defer></script>
+</body>
+</html>

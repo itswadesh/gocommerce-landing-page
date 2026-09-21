@@ -4,4 +4,12 @@
     <loc>https://kitcommerce.store/</loc>
     <lastmod>2026-09-21</lastmod>
   </url>
+  <url>
+    <loc>https://kitcommerce.store/gocommerce/</loc>
+    <lastmod>2026-09-21</lastmod>
+  </url>
+  <url>
+    <loc>https://kitcommerce.store/svelte-commerce/</loc>
+    <lastmod>2026-09-21</lastmod>
+  </url>
 </urlset>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Page not found — KitCommerce</title>
+<title>Page not found — kitcommerce.store</title>
 <!-- A 404 must never be indexed, but its links are still worth following: they
      are the way a crawler arriving on a dead inbound link finds the live site. -->
 <meta name="robots" content="noindex,follow">
@@ -13,25 +13,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
 <header>
   <nav class="wrap nav">
-    <a class="wordmark" href="/" aria-label="KitCommerce home">
+    <a class="wordmark" href="/" aria-label="kitcommerce.store home">
       <svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
         <rect x="4" y="4" width="3.6" height="16" rx="1"/>
         <path d="M9.6 12 15.4 4h4.4l-5.8 8z"/>
         <path d="M9.6 12h4.4l5.8 8h-4.4z"/>
       </svg>
-      <span class="wordmark-name">KitCommerce</span>
+      <span class="wordmark-name">kitcommerce<span class="wordmark-tld">.store</span></span>
     </a>
     <div id="navlinks" class="navlinks">
-      <a href="/#architecture">Architecture</a>
-      <a href="/#quickstart">Quick start</a>
-      <a class="nav-git" href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="/gocommerce/">GoCommerce</a>
+      <a href="/svelte-commerce/">Svelte Commerce</a>
+      <a class="nav-git" href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer">GitHub</a>
     </div>
   </nav>
 </header>
@@ -41,18 +41,16 @@
   <h1>That page is not here</h1>
   <p class="lede">
     The link may be from an older version of this site, or it may simply be
-    wrong. Everything this project publishes is on the home page; the sections
-    below are the usual destinations.
+    wrong. This site has three pages, and they are all listed below.
   </p>
 
   <ul class="notfound-links">
-    <li><a href="/">Home</a> &mdash; the whole stack on one page</li>
-    <li><a href="/#architecture">Architecture</a> &mdash; how the layers fit together</li>
-    <li><a href="/#gocommerce">GoCommerce</a> &mdash; the commerce engine</li>
-    <li><a href="/#svelte-commerce">Svelte Commerce</a> &mdash; the storefront</li>
-    <li><a href="/#growth">Growth</a> &mdash; what ships today and what does not</li>
-    <li><a href="/#quickstart">Quick start</a> &mdash; run a store locally</li>
-    <li><a href="/#faq">FAQ</a> &mdash; direct answers</li>
+    <li><a href="/">Home</a> &mdash; both projects, and how they relate</li>
+    <li><a href="/gocommerce/">GoCommerce</a> &mdash; the ecommerce backend and admin, in Go</li>
+    <li><a href="/svelte-commerce/">Svelte Commerce</a> &mdash; the storefront, in SvelteKit</li>
+    <li><a href="/gocommerce/#quickstart">Run GoCommerce</a> &mdash; a store on your machine</li>
+    <li><a href="/svelte-commerce/#quickstart">Run Svelte Commerce</a> &mdash; a storefront on your machine</li>
+    <li><a href="/#faq">FAQ</a> &mdash; how the two projects relate</li>
   </ul>
 
   <div class="actions">
@@ -64,7 +62,7 @@
 <footer>
   <div class="wrap footer-base">
     <p>Built by <a href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer">itswadesh</a>.</p>
-    <a href="/">Back to KitCommerce</a>
+    <a href="/">Back to kitcommerce.store</a>
   </div>
 </footer>
 </body>

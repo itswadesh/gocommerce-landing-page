@@ -3,72 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="KitCommerce is an open-source commerce stack you clone and white-label: GoCommerce for the engine and admin, Svelte Commerce for the storefront, built to be modified by AI coding agents.">
-<!-- Rich previews are wanted: this is public documentation for an MIT project,
+<meta name="description" content="Explore GoCommerce, an open-source ecommerce backend and admin built with Go, and Svelte Commerce, a modern open-source storefront built with Svelte. Two independent projects that work well together.">
+<!-- Rich previews are wanted: this is public documentation for two MIT projects,
      and being quoted at length in a result or an AI answer is the point. -->
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
 <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0a0f16" media="(prefers-color-scheme: dark)">
-<title>KitCommerce — Open Source Commerce Stack for Go + Svelte</title>
+<title>Open Source Ecommerce with Go + Svelte | GoCommerce &amp; Svelte Commerce</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230f1720'/%3E%3Cg fill='%23ffffff'%3E%3Crect x='4' y='4' width='3.6' height='16' rx='1'/%3E%3Cpath d='M9.6 12 15.4 4h4.4l-5.8 8z'/%3E%3Cpath d='M9.6 12h4.4l5.8 8h-4.4z'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="canonical" href="https://kitcommerce.store/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="KitCommerce">
+<meta property="og:site_name" content="kitcommerce.store">
 <meta property="og:url" content="https://kitcommerce.store/">
-<meta property="og:title" content="KitCommerce — The Open Source Commerce Stack">
-<meta property="og:description" content="GoCommerce behind it. Svelte Commerce in front. Growth and automation on top of the same commerce data.">
+<meta property="og:title" content="Open Source Ecommerce with Go + Svelte">
+<meta property="og:description" content="Two independent open-source projects: GoCommerce for backend and admin, Svelte Commerce for the storefront. Use either alone, or both together.">
 <meta property="og:image" content="https://kitcommerce.store/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="KitCommerce — the open-source commerce stack for Go and Svelte">
+<meta property="og:image:alt" content="GoCommerce and Svelte Commerce — open-source ecommerce with Go and Svelte">
+<meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="KitCommerce — The Open Source Commerce Stack">
-<meta name="twitter:description" content="GoCommerce behind it. Svelte Commerce in front. Growth and automation on top of the same commerce data.">
+<meta name="twitter:title" content="Open Source Ecommerce with Go + Svelte">
+<meta name="twitter:description" content="Two independent open-source projects: GoCommerce for backend and admin, Svelte Commerce for the storefront.">
 <meta name="twitter:image" content="https://kitcommerce.store/assets/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<!-- An entity graph rather than one blob: the Organization, the application and
-     the two repositories are separate nodes joined by @id, so an answer engine
-     can tell what KitCommerce *is* from what it *ships*. Every fact mirrored
-     here is also visible in the page text. -->
+<!-- An entity graph rather than one blob. The two projects are siblings here,
+     not parent and child: each is its own SoftwareApplication with its own
+     repository node, and the Organization is the publisher of the *website*,
+     which is all kitcommerce.store is. Every fact mirrored here is also
+     visible in the page text. -->
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
-{"@type":"Organization","@id":"https://kitcommerce.store/#org","name":"KitCommerce","alternateName":["KitCommerce Stack","GoCommerce"],"url":"https://kitcommerce.store/","description":"An open-source commerce stack for Go and Svelte, built to be self-hosted and white-labelled.","sameAs":["https://github.com/itswadesh/gocommerce","https://github.com/itswadesh/svelte-commerce","https://github.com/itswadesh","https://discord.gg/GgdAeccwDR"]},
-{"@type":"WebSite","@id":"https://kitcommerce.store/#site","name":"KitCommerce","url":"https://kitcommerce.store/","publisher":{"@id":"https://kitcommerce.store/#org"},"inLanguage":"en"},
-{"@type":"SoftwareApplication","@id":"https://kitcommerce.store/#app","name":"GoCommerce","alternateName":"KitCommerce","applicationCategory":["DeveloperApplication","BusinessApplication"],"applicationSubCategory":"Ecommerce platform","operatingSystem":"Cross-platform","runtimePlatform":"Go 1.27","softwareRequirements":"Go 1.27, PostgreSQL","license":"https://opensource.org/licenses/MIT","isAccessibleForFree":true,"publisher":{"@id":"https://kitcommerce.store/#org"},"description":"A commerce engine for Go: catalog, carts, checkout, orders, payments, inventory and fulfillment, with a Svelte admin compiled into the same binary. One production dependency, one database, self-hosted.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"}},
-{"@type":"SoftwareSourceCode","@id":"https://github.com/itswadesh/gocommerce","name":"GoCommerce","description":"The commerce engine inside KitCommerce: catalog, carts, checkout, orders, payments, inventory and fulfillment as a Go library, with a Svelte admin compiled into the binary.","codeRepository":"https://github.com/itswadesh/gocommerce","programmingLanguage":"Go","runtimePlatform":"Go 1.27","license":"https://opensource.org/licenses/MIT"},
-{"@type":"SoftwareSourceCode","@id":"https://github.com/itswadesh/svelte-commerce","name":"Svelte Commerce","description":"The storefront layer for KitCommerce, built with SvelteKit.","codeRepository":"https://github.com/itswadesh/svelte-commerce","programmingLanguage":"TypeScript","license":"https://opensource.org/licenses/MIT"},
-{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"KitCommerce","item":"https://kitcommerce.store/"}]}
+{"@type":"Organization","@id":"https://kitcommerce.store/#org","name":"KitCommerce","url":"https://kitcommerce.store/","description":"The website presenting GoCommerce and Svelte Commerce, two independent open-source ecommerce projects.","sameAs":["https://github.com/itswadesh/gocommerce","https://github.com/itswadesh/svelte-commerce","https://github.com/itswadesh","https://discord.gg/GgdAeccwDR"]},
+{"@type":"WebSite","@id":"https://kitcommerce.store/#site","name":"kitcommerce.store","url":"https://kitcommerce.store/","publisher":{"@id":"https://kitcommerce.store/#org"},"inLanguage":"en"},
+{"@type":"SoftwareApplication","@id":"https://kitcommerce.store/gocommerce/#app","name":"GoCommerce","url":"https://kitcommerce.store/gocommerce/","applicationCategory":["DeveloperApplication","BusinessApplication"],"applicationSubCategory":"Ecommerce backend","operatingSystem":"Cross-platform","runtimePlatform":"Go 1.27","softwareRequirements":"Go 1.27, PostgreSQL","license":"https://opensource.org/licenses/MIT","isAccessibleForFree":true,"description":"An open-source ecommerce backend and admin built with Go: catalog, carts, checkout, orders, payments, inventory and fulfillment, with a Svelte admin compiled into the same binary. One production dependency, one database, self-hosted.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"}},
+{"@type":"SoftwareApplication","@id":"https://kitcommerce.store/svelte-commerce/#app","name":"Svelte Commerce","url":"https://kitcommerce.store/svelte-commerce/","applicationCategory":["DeveloperApplication","BusinessApplication"],"applicationSubCategory":"Ecommerce storefront","operatingSystem":"Cross-platform","runtimePlatform":"SvelteKit","license":"https://opensource.org/licenses/MIT","isAccessibleForFree":true,"description":"An open-source ecommerce storefront built with SvelteKit: browse, search, cart, checkout and account, headless across several commerce backends.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"}},
+{"@type":"SoftwareSourceCode","@id":"https://github.com/itswadesh/gocommerce","name":"GoCommerce","description":"An open-source ecommerce backend and admin as a Go library, with a Svelte admin compiled into the binary.","codeRepository":"https://github.com/itswadesh/gocommerce","programmingLanguage":"Go","runtimePlatform":"Go 1.27","license":"https://opensource.org/licenses/MIT"},
+{"@type":"SoftwareSourceCode","@id":"https://github.com/itswadesh/svelte-commerce","name":"Svelte Commerce","description":"An open-source ecommerce storefront built with SvelteKit, headless across several commerce backends.","codeRepository":"https://github.com/itswadesh/svelte-commerce","programmingLanguage":"TypeScript","license":"https://opensource.org/licenses/MIT"},
+{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kitcommerce.store/"}]}
 ]}</script>
 <!-- Generated from the visible FAQ by scripts/build-faq-schema.js. Do not edit
      by hand: the page is the source, and a hand-edit here would be the copy a
      search engine trusts and no reader ever sees. -->
 <!-- FAQ-SCHEMA:start -->
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/#faq","mainEntity":[{"@type":"Question","name":"Is this production-ready?","acceptedAnswer":{"@type":"Answer","text":"It is pre-1.0 and the API may change before 1.0. The engine carries 1,036 tests and a documented contract for every route, and no store we know of is running it in production yet. Treat it as something to build on deliberately, not something to migrate a live business to this week."}},{"@type":"Question","name":"Can I use Svelte Commerce as the storefront today?","acceptedAnswer":{"@type":"Answer","text":"Not against GoCommerce yet. Svelte Commerce is headless across Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart; the GoCommerce connector is being written and is not published. Until it lands, GoCommerce serves a documented JSON API that any framework can call, and you would be writing that client yourself."}},{"@type":"Question","name":"What do I have to run in production?","acceptedAnswer":{"@type":"Answer","text":"One Go binary and one PostgreSQL database. The Svelte admin is compiled into the binary, so there is no Node.js server, no Redis, no message broker and no second deployment to keep in step. Add infrastructure later if a real requirement asks for it."}},{"@type":"Question","name":"Can I rebrand it and sell what I build?","acceptedAnswer":{"@type":"Answer","text":"Yes. Both projects are MIT. Rename them, restyle the admin, cut what you do not need, and ship it under your own name and domain. Nothing phones home and there is no plan to outgrow."}},{"@type":"Question","name":"How well does it work with AI coding agents?","acceptedAnswer":{"@type":"Answer","text":"The repository is written for it: AGENTS.md holds 18 architectural rules for anyone changing the code, human or agent, and skills/ holds 16 task guides so an agent loads the one matching its job instead of reading everything. There is one production dependency, so the graph an agent must understand is small, and 1,036 tests to catch a wrong edit. Separately, the MCP module lets an agent operate a running store through the same domain services a REST call uses — never the database directly."}},{"@type":"Question","name":"How fast is it?","acceptedAnswer":{"@type":"Answer","text":"We have not published benchmarks, so we do not make a speed claim. Anything you read about this project’s performance did not come from us. Benchmarking is on the contribution list."}},{"@type":"Question","name":"Does it handle B2B, or marketplaces?","acceptedAnswer":{"@type":"Answer","text":"Both have engine support. B2B pricing resolves by customer group and quantity through price lists. Marketplaces have vendors as first-class sellers with pending, approved and suspended states. Neither is as deep as a dedicated platform; read core/pricing.go and core/vendors.go before committing to one."}},{"@type":"Question","name":"Is there a paid tier, a cloud, or an enterprise edition?","acceptedAnswer":{"@type":"Answer","text":"No. There is no hosted offering, no paid tier and nothing to buy. It is MIT source you run yourself."}},{"@type":"Question","name":"How do I migrate an existing catalogue?","acceptedAnswer":{"@type":"Answer","text":"Shopify and Amazon import modules exist and match on the source platform’s own product id, so re-running an import updates rather than duplicates. There is also an order importer that takes a created_at, fires no events and moves no stock, because loading history should not send two hundred confirmation emails."}},{"@type":"Question","name":"What is KitCommerce Growth, exactly?","acceptedAnswer":{"@type":"Answer","text":"A name for the marketing and retention layer, which is partly built. Shipped: the event spine, abandoned-cart recovery, email and SMS providers, product feeds, reviews, wishlists and webhooks. Not built: behavioural events, unified customer profiles, segments, the automation builder, WhatsApp, retargeting, attribution and loyalty. The Growth section marks every line individually."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://kitcommerce.store/#faq","mainEntity":[{"@type":"Question","name":"What is GoCommerce?","acceptedAnswer":{"@type":"Answer","text":"GoCommerce is an open-source ecommerce backend and admin application built with Go. It provides commerce APIs, PostgreSQL persistence and an admin interface, and it is self-hosted under an MIT licence."}},{"@type":"Question","name":"What is Svelte Commerce?","acceptedAnswer":{"@type":"Answer","text":"Svelte Commerce is an open-source ecommerce storefront built with Svelte. It is a headless storefront, which means it renders the shopping experience and calls a separate commerce backend for the data."}},{"@type":"Question","name":"What is kitcommerce.store?","acceptedAnswer":{"@type":"Answer","text":"kitcommerce.store is the website that presents GoCommerce and Svelte Commerce, two open-source ecommerce projects. It is not itself a product, a platform or a framework, and there is nothing called KitCommerce to install."}},{"@type":"Question","name":"Do GoCommerce and Svelte Commerce require each other?","acceptedAnswer":{"@type":"Answer","text":"No. Both projects can be used independently, but they can also be combined to build a complete ecommerce stack. GoCommerce runs with no Svelte storefront in front of it, and Svelte Commerce runs against backends that are not GoCommerce."}},{"@type":"Question","name":"Can Svelte Commerce work with another ecommerce backend?","acceptedAnswer":{"@type":"Answer","text":"Yes. Svelte Commerce is a headless storefront capable of integrating with compatible commerce backends. It supports Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart today."}},{"@type":"Question","name":"Can GoCommerce work with another frontend?","acceptedAnswer":{"@type":"Answer","text":"Yes. GoCommerce exposes commerce backend functionality that can be consumed by compatible storefronts and applications. It serves 342 documented operations over REST, published as OpenAPI, so any framework that can call HTTP can drive it."}},{"@type":"Question","name":"Can I run the two together today?","acceptedAnswer":{"@type":"Answer","text":"Not without writing the glue yourself. The connector that maps the GoCommerce API onto the Svelte Commerce data layer is in development and unpublished. Until it ships, pairing them means writing that client against the documented GoCommerce API."}},{"@type":"Question","name":"Are both projects open source, and is there a paid tier?","acceptedAnswer":{"@type":"Answer","text":"Both are MIT licensed. There is no hosted offering, no paid tier, no enterprise edition and nothing to buy. Rename either one, restyle it, cut what you do not need, and ship it under your own name."}},{"@type":"Question","name":"Are they production-ready?","acceptedAnswer":{"@type":"Answer","text":"They differ. Svelte Commerce has been public for years and runs production stores. GoCommerce is pre-1.0, its API may change before 1.0, it carries 1,036 tests and a documented contract for every route, and no store we know of is running it in production yet."}}]}</script>
 <!-- FAQ-SCHEMA:end -->
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
 <header>
   <nav class="wrap nav">
-    <a class="wordmark" href="./" aria-label="KitCommerce home">
+    <a class="wordmark" href="/" aria-label="kitcommerce.store home">
       <svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
         <rect x="4" y="4" width="3.6" height="16" rx="1"/>
         <path d="M9.6 12 15.4 4h4.4l-5.8 8z"/>
         <path d="M9.6 12h4.4l5.8 8h-4.4z"/>
       </svg>
-      <span class="wordmark-name">KitCommerce</span>
+      <span class="wordmark-name">kitcommerce<span class="wordmark-tld">.store</span></span>
     </a>
     <button class="menu" aria-label="Open navigation" aria-expanded="false" aria-controls="navlinks">Menu</button>
     <div id="navlinks" class="navlinks">
+      <a href="/gocommerce/">GoCommerce</a>
+      <a href="/svelte-commerce/">Svelte Commerce</a>
       <a href="#architecture">Architecture</a>
-      <a href="#gocommerce">GoCommerce</a>
-      <a href="#svelte-commerce">Svelte Commerce</a>
-      <a href="#growth">Growth</a>
-      <a href="#quickstart">Quick start</a>
-      <a class="nav-git" href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://github.com/itswadesh/gocommerce#readme" target="_blank" rel="noopener noreferrer">Docs</a>
+      <a class="nav-git" href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer">GitHub</a>
     </div>
   </nav>
 </header>
@@ -78,213 +80,166 @@
   <!-- ───────────────────────────────────────────────────────── hero -->
   <section class="hero wrap">
     <div class="hero-copy">
-      <h1>The open-source commerce stack you can own</h1>
+      <h1>Open-source ecommerce with Go&nbsp;+&nbsp;Svelte</h1>
       <p class="lede">
-        Clone a working commerce stack instead of building one. GoCommerce behind
-        it, Svelte Commerce in front, your brand on all of it &mdash; and a
-        codebase written to be read and changed, by you or by a coding agent.
+        Build modern ecommerce with two independent open-source projects:
+        <b>GoCommerce</b> for backend and admin, and <b>Svelte Commerce</b> for
+        the storefront. Adopt either one on its own, or combine them.
       </p>
       <div class="actions">
-        <a class="button" href="#architecture">Explore the stack</a>
-        <a class="button secondary" href="#quickstart">Run GoCommerce</a>
-        <a class="button secondary" href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+        <a class="button" href="/gocommerce/">Explore GoCommerce</a>
+        <a class="button" href="/svelte-commerce/">Explore Svelte Commerce</a>
+        <a class="button secondary" href="https://github.com/itswadesh" target="_blank" rel="noopener noreferrer">View on GitHub</a>
       </div>
       <ul class="hero-proof">
-        <li><b>MIT</b> licensed</li>
-        <li><b>Pre-1.0</b>, built in the open</li>
-        <li><b>1</b> production dependency</li>
-        <li><b>Go 1.27</b> and PostgreSQL</li>
+        <li><b>2</b> standalone projects</li>
+        <li><b>MIT</b> licensed, both</li>
+        <li><b>Go</b> and <b>SvelteKit</b></li>
+        <li><b>Self-hosted</b>, no control plane</li>
       </ul>
     </div>
 
-    <!-- The diagram is the hero: the brief's first job is that a reader sees
-         the whole stack on the first screen. Colour is the key used everywhere
-         below — Svelte orange storefront, Go blue engine, violet growth,
-         neutral infrastructure. -->
-    <figure class="stack" aria-labelledby="stack-cap">
-      <p class="stack-brand">KitCommerce</p>
-      <div class="layer layer-store">
-        <p class="layer-name">Svelte Commerce</p>
-        <p class="layer-role">SvelteKit storefront &mdash; what the customer sees</p>
+    <!-- Two boxes side by side, joined by an optional link rather than wrapped
+         in a third. The request flow is drawn below, in the architecture
+         section, where it is a claim about data rather than about branding. -->
+    <figure class="duo-figure" aria-labelledby="duo-cap">
+      <div class="duo-side duo-store">
+        <p class="duo-name">Svelte Commerce</p>
+        <p class="duo-role">Storefront</p>
+        <p class="duo-tech">SvelteKit</p>
       </div>
-      <p class="wire"><span>REST / JSON</span></p>
-      <div class="layer layer-engine">
-        <p class="layer-name">GoCommerce</p>
-        <p class="layer-role">Catalog, carts, checkout, orders, payments, inventory, fulfillment</p>
-        <p class="layer-note">Svelte admin compiled into the same binary</p>
+      <p class="duo-join"><span>independent &middot; compatible</span></p>
+      <div class="duo-side duo-engine">
+        <p class="duo-name">GoCommerce</p>
+        <p class="duo-role">Backend + admin</p>
+        <p class="duo-tech">Go &middot; PostgreSQL</p>
       </div>
-      <p class="wire"><span>pgx</span></p>
-      <div class="layer layer-data">
-        <p class="layer-name">PostgreSQL</p>
-        <p class="layer-role">Your database, on your infrastructure</p>
-      </div>
-      <p class="wire"><span>events / outbox</span></p>
-      <div class="layer layer-growth">
-        <p class="layer-name">KitCommerce Growth</p>
-        <p class="layer-role">Recovery, retention and messaging on the same commerce data</p>
-      </div>
-      <figcaption id="stack-cap">Go behind it. Svelte in front. Growth on top. Your infrastructure underneath.</figcaption>
+      <figcaption id="duo-cap">Two projects. Either one alone, or both together.</figcaption>
     </figure>
   </section>
 
-  <!-- ────────────────────────────────────────────── capability strip -->
-  <section class="strip-section" aria-label="What you get">
-    <div class="wrap strip">
-      <div class="strip-item">
-        <h2>Modules</h2>
-        <p>Commerce logic as 44 ordinary Go packages. Install what the store needs.</p>
-      </div>
-      <div class="strip-item">
-        <h2>Admin</h2>
-        <p>61 screens, compiled into the binary. Rebrand it; it is your Svelte app.</p>
-      </div>
-      <div class="strip-item">
-        <h2>Guardrails</h2>
-        <p><code>AGENTS.md</code> &mdash; 18 rules for anyone changing the repository, human or agent.</p>
-      </div>
-      <div class="strip-item">
-        <h2>Agent tools</h2>
-        <p>MCP over the same domain services. An agent never touches the database.</p>
-      </div>
-      <div class="strip-item">
-        <h2>White-label</h2>
-        <p>MIT. Your name, your domain, your repository. Nothing phones home.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────────────── white-label and AI -->
-  <section id="whitelabel" class="section wrap" aria-labelledby="wl-title">
-    <h2 id="wl-title">Download it, change it, ship it as yours.</h2>
+  <!-- ─────────────────────────────────────────────── the two projects -->
+  <section id="projects" class="section wrap" aria-labelledby="projects-title">
+    <h2 id="projects-title">Two open-source ecommerce projects</h2>
     <p class="section-lede">
-      The alternative to a commerce platform is usually months of building one,
-      then months of finding the bugs that only appear once real money moves.
-      This is the other option: a working stack you clone, rename and modify
-      &mdash; with a coding agent doing much of the modifying.
+      Neither is a component of the other, and neither is a component of this
+      website. They are two repositories, maintained separately, that happen to
+      fit together well.
     </p>
 
-    <div class="wl-grid">
-      <div class="wl-item">
-        <h3>A codebase an agent can hold</h3>
+    <div class="duo-grid">
+      <article class="duo-card duo-card-engine">
+        <p class="duo-card-role">Backend + admin</p>
+        <h3><a href="/gocommerce/">GoCommerce</a></h3>
         <p>
-          One production dependency and a flat package layout, so the graph an
-          agent has to understand is small. Comments explain <em>why</em>,
-          because the code already says what.
+          A Go-based ecommerce backend with commerce APIs, PostgreSQL persistence
+          and an integrated admin interface.
         </p>
-      </div>
-      <div class="wl-item">
-        <h3>Rules that are written down</h3>
+        <ul class="duo-caps">
+          <li>Go 1.27</li><li>PostgreSQL</li><li>REST / OpenAPI</li>
+          <li>Embedded admin</li><li>Modular</li><li>Self-hosting</li>
+        </ul>
+        <div class="actions">
+          <a class="button" href="/gocommerce/">Explore GoCommerce</a>
+          <a class="button secondary" href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </article>
+
+      <article class="duo-card duo-card-store">
+        <p class="duo-card-role">Storefront</p>
+        <h3><a href="/svelte-commerce/">Svelte Commerce</a></h3>
         <p>
-          <code>AGENTS.md</code> carries 18 architectural rules and
-          <code>skills/</code> carries 16 task guides &mdash; load the one that
-          matches the job instead of reading the whole repository. Cursor,
-          Claude, Codex and Antigravity all read these the same way.
+          An open-source storefront built with Svelte for fast, flexible,
+          headless ecommerce experiences.
         </p>
-      </div>
-      <div class="wl-item">
-        <h3>A suite that catches the agent</h3>
-        <p>
-          <b>1,036 tests.</b> This is the part that makes agent-assisted change
-          safe rather than fast: a wrong edit fails here instead of in a
-          customer&rsquo;s checkout.
-        </p>
-      </div>
-      <div class="wl-item">
-        <h3>Machine-readable everything</h3>
-        <p>
-          342 operations in OpenAPI, and <code>gocommerce doctor -json</code> for
-          diagnostics an agent can parse rather than screen-scrape.
-        </p>
-      </div>
-      <div class="wl-item">
-        <h3>Agents can run the store too</h3>
-        <p>
-          The MCP module exposes the store over the Model Context Protocol. Every
-          tool calls the same service a REST request would, so there is one place
-          an order becomes paid, whether a person, an app or an agent asked.
-          <code>ReadOnly</code> withholds every mutating tool while you are still
-          deciding how much to trust it.
-        </p>
-      </div>
-      <div class="wl-item">
-        <h3>Yours under MIT</h3>
-        <p>
-          Rename it, restyle it, sell what you build with it. There is no hosted
-          control plane to depend on and no plan to outgrow.
-        </p>
-      </div>
+        <ul class="duo-caps">
+          <li>SvelteKit</li><li>Headless</li><li>Customizable UI</li>
+          <li>SEO-friendly rendering</li><li>Backend-independent</li><li>Themeable</li>
+        </ul>
+        <div class="actions">
+          <a class="button" href="/svelte-commerce/">Explore Svelte Commerce</a>
+          <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </article>
     </div>
   </section>
 
-  <!-- ──────────────────────────────────────────────────────── pillars -->
-  <section id="pillars" class="section wrap" aria-labelledby="pillars-title">
-    <h2 id="pillars-title">One stack. Three layers.</h2>
+  <!-- ──────────────────────────────────────────── how they fit together -->
+  <section id="together" class="section wrap" aria-labelledby="together-title">
+    <h2 id="together-title">Use them independently. Or use them together.</h2>
     <p class="section-lede">
-      Use the complete stack, or adopt the layers independently. GoCommerce runs
-      without a Svelte storefront, Svelte Commerce runs against other backends,
-      and growth modules are installed only when a store wants them.
+      GoCommerce and Svelte Commerce are standalone projects. Use either one with
+      your existing stack, or combine them for a complete Go&nbsp;+&nbsp;Svelte
+      ecommerce architecture.
     </p>
 
-    <div class="pillars">
-      <article class="pillar pillar-engine">
-        <h3>GoCommerce</h3>
-        <p class="pillar-role">The commerce engine</p>
-        <p>Commerce engine, APIs, embedded admin, payments, orders, inventory and fulfillment, written in Go.</p>
-        <p class="pillar-state"><span class="dot dot-ship"></span>Shipped &mdash; 1,036 tests, 44 modules</p>
-      </article>
-
-      <article class="pillar pillar-store">
-        <h3>Svelte Commerce</h3>
-        <p class="pillar-role">The storefront layer</p>
-        <p>Modern storefronts built with SvelteKit, already headless across several commerce backends.</p>
-        <p class="pillar-state"><span class="dot dot-ship"></span>Shipped &mdash; 1,813 stars, 335 forks</p>
-      </article>
-
-      <article class="pillar pillar-growth">
-        <h3>KitCommerce Growth</h3>
-        <p class="pillar-role">Customer intelligence and automation</p>
-        <p>Retention, recovery, attribution and omnichannel messaging, driven by the engine&rsquo;s own events.</p>
-        <p class="pillar-state"><span class="dot dot-part"></span>Partly shipped &mdash; modules exist, the layer does not</p>
-      </article>
+    <div class="tri">
+      <div class="tri-item">
+        <h3>GoCommerce on its own</h3>
+        <p>
+          A documented JSON API and an admin panel, serving any storefront you
+          already have &mdash; Next.js, Nuxt, Astro, a native app, or your own
+          Svelte build.
+        </p>
+      </div>
+      <div class="tri-item">
+        <h3>Svelte Commerce on its own</h3>
+        <p>
+          A storefront over a backend you already run. It is headless today
+          across Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart.
+        </p>
+      </div>
+      <div class="tri-item">
+        <h3>Both together</h3>
+        <p>
+          The Go&nbsp;+&nbsp;Svelte pairing this site exists to describe:
+          SvelteKit in front, Go behind, PostgreSQL underneath, all of it yours
+          to host.
+        </p>
+      </div>
     </div>
 
-    <p class="fineprint">
-      The third pillar is deliberately marked differently. Growth is the name for
-      work that is <b>partly real</b>: the event spine, cart recovery and the
-      messaging modules ship today, and the customer profile, segments and
-      automation builder do not. The
-      <a href="#growth">Growth section</a> lists which is which, line by line.
-    </p>
+    <!-- The one place the pairing is currently a promise rather than a fact, so
+         it gets said in the plainest available words rather than buried. -->
+    <div class="connector" aria-labelledby="connector-title">
+      <div class="connector-head">
+        <h3 id="connector-title">GoCommerce &harr; Svelte Commerce</h3>
+        <p class="badge">Connector in development</p>
+      </div>
+      <p>
+        Svelte Commerce speaks to several commerce backends today. GoCommerce is
+        not one of them yet: the connector that maps the GoCommerce API onto the
+        storefront&rsquo;s data layer is being written and is not published.
+      </p>
+      <p>
+        Until it lands, pairing the two means writing that client yourself against
+        the documented GoCommerce API. That is the honest state of it, and it is
+        the single most useful thing anybody could help with.
+      </p>
+      <a class="button secondary" href="https://github.com/itswadesh/gocommerce/issues" target="_blank" rel="noopener noreferrer">Help build the connector</a>
+    </div>
   </section>
 
-  <!-- ─────────────────────────────────────────────── architecture -->
+  <!-- ─────────────────────────────────────────────────── architecture -->
   <section id="architecture" class="section wrap" aria-labelledby="arch-title">
-    <h2 id="arch-title">Built as one stack. Flexible as separate projects.</h2>
+    <h2 id="arch-title">How a request flows</h2>
     <p class="section-lede">
-      Nothing here proxies for something else. The storefront and the admin both
-      talk to the engine over ordinary HTTP, the engine owns the commerce rules
-      and the database, and growth consumes the events the engine already writes.
+      Nothing here proxies for something else. The storefront talks to the
+      backend over ordinary HTTP, the backend owns the commerce rules and the
+      database, and everything optional sits beside that line rather than on it.
     </p>
 
     <div class="arch">
-      <p class="arch-brand">KitCommerce</p>
-
-      <div class="arch-top">
-        <div class="arch-row arch-store">
-          <h3>Svelte Commerce</h3>
-          <p>Storefront: browse, search, cart, checkout, account.</p>
-        </div>
-        <div class="arch-row arch-admin">
-          <h3>Admin UI</h3>
-          <p>Svelte, compiled into the engine binary. 61 screens.</p>
-        </div>
+      <div class="arch-row arch-store">
+        <h3>Svelte Commerce</h3>
+        <p>Storefront: browse, search, cart, checkout, account. SvelteKit.</p>
       </div>
 
       <p class="arch-wire"><span>REST / JSON over HTTP</span></p>
 
       <div class="arch-row arch-engine">
         <h3>GoCommerce</h3>
-        <p>The commerce engine.</p>
+        <p>Backend + admin. Go.</p>
         <ul class="arch-caps">
           <li>Catalog</li><li>Carts</li><li>Checkout</li><li>Orders</li>
           <li>Payments</li><li>Inventory</li><li>Fulfillment</li><li>Pricing</li>
@@ -296,433 +251,100 @@
 
       <div class="arch-row arch-data">
         <h3>PostgreSQL</h3>
-        <p>Every table this store owns, on a database you run. 48 append-only migrations, applied on boot.</p>
-      </div>
-
-      <p class="arch-wire"><span>17 events, written through a transactional outbox</span></p>
-
-      <div class="arch-row arch-growth">
-        <h3>KitCommerce Growth</h3>
-        <p>Recovery, retention, messaging and attribution, reading the events rather than the tables.</p>
+        <p>Every table the store owns, on a database you run. 48 append-only migrations, applied on boot.</p>
       </div>
     </div>
 
     <p class="fineprint">
-      Growth sits after the data layer rather than above the storefront because
-      that is how it actually works: the engine writes an event in the same
-      transaction as the state change, and a growth module consumes it. Drawing
-      it between the customer and the storefront would look tidier and would be
-      a lie about the data flow.
+      Redis, search, object storage, queues, payment providers and messaging are
+      integrations around that core, not parts of it. A store that never installs
+      one runs on Go and PostgreSQL alone &mdash; that is the default, not a
+      stripped-down mode.
     </p>
   </section>
 
-  <!-- ───────────────────────────────────────────────────── gocommerce -->
-  <section id="gocommerce" class="section wrap" aria-labelledby="go-title">
-    <h2 id="go-title">GoCommerce powers the engine.</h2>
-    <p class="section-lede">
-      GoCommerce is the backend foundation of KitCommerce. It handles catalog,
-      cart, checkout, payments, orders, inventory, fulfillment, pricing, events
-      and integrations &mdash; as ordinary Go packages, against PostgreSQL.
-    </p>
-    <div class="why-grid">
-      <div class="why-item">
-        <h3>Native Go</h3>
-        <p>Ordinary packages, interfaces and modules. &ldquo;Go to definition&rdquo; works on every part of your store, including the parts you did not write.</p>
-      </div>
-      <div class="why-item">
-        <h3>Self-hosted</h3>
-        <p>Your server, your database, your backups. No proprietary control plane sits between you and your orders.</p>
-      </div>
-      <div class="why-item">
-        <h3>Modular</h3>
-        <p>44 modules exist and a store installs the ones it needs. With none installed the engine still sells: cash on delivery and manual fulfillment are built in, because they need no third party.</p>
-      </div>
-      <div class="why-item">
-        <h3>Embedded admin</h3>
-        <p>The Svelte admin compiles into the binary. One artifact to build, ship and roll back.</p>
-      </div>
-      <div class="why-item">
-        <h3>API-first</h3>
-        <p>342 operations across the engine and its modules, every one in a published OpenAPI document. The admin is a client of that contract, not an exception to it.</p>
-      </div>
-      <div class="why-item">
-        <h3>PostgreSQL-first</h3>
-        <p>Money is integer minor units plus a currency code, never a float and never a formatted string. Migrations are append-only. The schema is one you could read and query yourself.</p>
-      </div>
+  <!-- ───────────────────────────────────────────── relationship table -->
+  <section id="compare" class="section wrap" aria-labelledby="compare-title">
+    <h2 id="compare-title">Which is which</h2>
+    <div class="tbl-scroll">
+      <table class="reltable">
+        <caption>GoCommerce and Svelte Commerce compared</caption>
+        <thead>
+          <tr>
+            <th scope="col"><span class="vh">Property</span></th>
+            <th scope="col">GoCommerce</th>
+            <th scope="col">Svelte Commerce</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Role</th><td>Backend + admin</td><td>Storefront</td></tr>
+          <tr><th scope="row">Primary language</th><td>Go</td><td>Svelte / SvelteKit</td></tr>
+          <tr><th scope="row">Can be used standalone</th><td>Yes</td><td>Yes</td></tr>
+          <tr><th scope="row">Can work together</th><td colspan="2">Yes &mdash; connector in development</td></tr>
+          <tr><th scope="row">Open source</th><td>MIT</td><td>MIT</td></tr>
+          <tr><th scope="row">Maturity</th><td>Pre-1.0</td><td>Public for years</td></tr>
+          <tr>
+            <th scope="row">Repository</th>
+            <td><a href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer"><code>itswadesh/gocommerce</code></a></td>
+            <td><a href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer"><code>itswadesh/svelte-commerce</code></a></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
-  <!-- ───────────────────────────────────────────────────── use cases -->
-  <section id="use-cases" class="section wrap" aria-labelledby="uc-title">
-    <h2 id="uc-title">One engine, four shapes of store</h2>
-    <p class="section-lede">
-      These are engine capabilities, not customer stories &mdash; this project is
-      too new to have the second kind, and inventing them is the fastest way to
-      lose a developer&rsquo;s trust. Each one names the primitive that does the work.
-    </p>
-
-    <div class="usecases">
-      <article class="usecase">
-        <h3>D2C</h3>
-        <p>The default. Guest checkout, cash on delivery and manual fulfillment are built in, so a store sells with no modules installed at all.</p>
-        <p class="usecase-prim">Carts, checkout, orders, inventory</p>
-      </article>
-
-      <article class="usecase">
-        <h3>B2B</h3>
-        <p>Pricing resolves by who is buying and how many. Customer groups share a price list, and quantity breaks apply underneath the same one-price-at-a-time rule the cart already enforces.</p>
-        <p class="usecase-prim">Customer groups, price lists, quantity pricing</p>
-      </article>
-
-      <article class="usecase">
-        <h3>Marketplace</h3>
-        <p>Vendors are sellers on your store, not brands. New sellers arrive pending, because a marketplace that lists whoever signs up is not moderating, it is hosting whatever turns up.</p>
-        <p class="usecase-prim">Vendors, vendor offers, moderation states</p>
-      </article>
-
-      <article class="usecase">
-        <h3>Multi-storefront</h3>
-        <p>Channels are storefronts over one catalogue, differing in what is published to each. A store that never creates one pays nothing for the feature.</p>
-        <p class="usecase-prim">Channels, per-channel publishing</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- ───────────────────────────────────────────────────── one binary -->
-  <section id="binary" class="section wrap" aria-labelledby="binary-title">
-    <h2 id="binary-title">One binary. One database.</h2>
-    <p class="section-lede">
-      The Svelte admin is compiled directly into the GoCommerce executable, so
-      the commerce API and the admin run from one Go process. Start with Go and
-      PostgreSQL; add Redis, search, object storage or queues only when a real
-      requirement asks for them.
-    </p>
-
-    <div class="binary-grid">
-      <pre class="tree" aria-label="What the GoCommerce binary contains"><code>gocommerce
-├── Commerce API            <span class="c">238 operations</span>
-├── Embedded Svelte admin   <span class="c">61 screens</span>
-├── Payments
-├── Orders and fulfillment
-├── Inventory
-├── Events and outbox
-└── Installed modules       <span class="c">104 operations</span>
-        │
-        ▼
-    PostgreSQL</code></pre>
-
-      <dl class="binary-facts">
-        <div>
-          <dt>Production dependencies</dt>
-          <dd><b>1</b> &mdash; <code>github.com/jackc/pgx/v5</code>, the Postgres driver. That is the
-          entire <code>require</code> block that is not marked indirect.</dd>
-        </div>
-        <div>
-          <dt>Services to run</dt>
-          <dd><b>1</b> &mdash; PostgreSQL. No Redis, no message broker, no separate admin server.</dd>
-        </div>
-        <div>
-          <dt>Processes in production</dt>
-          <dd><b>1</b> &mdash; the API and the admin are the same process, from the same build.</dd>
-        </div>
-      </dl>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────────────── admin screenshots -->
-  <section id="admin" class="section admin-section" aria-labelledby="admin-title">
+  <!-- ───────────────────────────────────────────── technical credibility -->
+  <section id="proof" class="section proof-section" aria-labelledby="proof-title">
     <div class="wrap">
-      <h2 id="admin-title">The admin, as it actually looks</h2>
+      <h2 id="proof-title">Measured, not estimated</h2>
       <p class="section-lede">
-        Screenshots from the running panel, not mockups. The store behind them was
-        filled by the project&rsquo;s own demo seeder: 64 products, 260 orders
-        across 150 days.
+        Every number here was counted against the repositories on
+        <time datetime="2026-09-21">21 September 2026</time>, and each says which
+        project it belongs to. No benchmarks have been published, so this page
+        makes no claim about speed.
       </p>
 
-      <div class="tabs" role="tablist" aria-label="Admin screens">
-        <button role="tab" id="tab-dashboard" aria-controls="panel-dashboard" aria-selected="true">Dashboard</button>
-        <button role="tab" id="tab-products" aria-controls="panel-products" aria-selected="false" tabindex="-1">Products</button>
-        <button role="tab" id="tab-orders" aria-controls="panel-orders" aria-selected="false" tabindex="-1">Orders</button>
-        <button role="tab" id="tab-inventory" aria-controls="panel-inventory" aria-selected="false" tabindex="-1">Inventory</button>
-        <button role="tab" id="tab-plugins" aria-controls="panel-plugins" aria-selected="false" tabindex="-1">Plugins</button>
-        <button role="tab" id="tab-payments" aria-controls="panel-payments" aria-selected="false" tabindex="-1">Payments</button>
-        <button role="tab" id="tab-shipping" aria-controls="panel-shipping" aria-selected="false" tabindex="-1">Shipping</button>
-      </div>
-
-      <div class="panel" role="tabpanel" id="panel-dashboard" aria-labelledby="tab-dashboard">
-        <div class="stage"><p class="stage-bar"><code>GET /api/admin/reports/sales</code><span class="stage-tag">admin</span></p><picture>
-          <source media="(prefers-color-scheme: dark)" srcset="assets/admin/dashboard-dark.webp">
-          <img src="assets/admin/dashboard-light.webp" width="1440" height="900" alt="The GoCommerce dashboard: net sales for the last thirty days, order, product and customer counts, a recent-orders list, a daily sales chart and a best-sellers table." fetchpriority="high" decoding="async">
-        </picture></div>
-        <p class="shot-note">Net sales, orders awaiting shipment, a sales chart by day, and best sellers ranked by revenue or units.</p>
-      </div>
-
-      <div class="panel" role="tabpanel" id="panel-products" aria-labelledby="tab-products" hidden>
-        <div class="stage"><p class="stage-bar"><code>GET /api/admin/products</code><span class="stage-tag">admin</span></p><picture>
-          <source media="(prefers-color-scheme: dark)" srcset="assets/admin/products-dark.webp">
-          <img src="assets/admin/products-light.webp" width="1440" height="900" alt="The products list showing sixty-four products with status, variant count, price, available stock and last-updated time." loading="lazy" decoding="async">
-        </picture></div>
-        <p class="shot-note">Status, variants, price and available stock per product, with search, filters and CSV export.</p>
-      </div>
-
-      <div class="panel" role="tabpanel" id="panel-orders" aria-labelledby="tab-orders" hidden>
-        <div class="stage"><p class="stage-bar"><code>GET /api/admin/orders</code><span class="stage-tag">admin</span></p><picture>
-          <source media="(prefers-color-scheme: dark)" srcset="assets/admin/orders-dark.webp">
-          <img src="assets/admin/orders-light.webp" width="1440" height="900" alt="The orders list showing two hundred and sixty orders with order number, customer, fulfillment status, payment status, item count and total." loading="lazy" decoding="async">
-        </picture></div>
-        <p class="shot-note">Fulfillment and payment state are tracked separately, because an order can be paid and unshipped.</p>
-      </div>
-
-      <div class="panel" role="tabpanel" id="panel-inventory" aria-labelledby="tab-inventory" hidden>
-        <div class="stage"><p class="stage-bar"><code>GET /api/admin/inventory/low-stock</code><span class="stage-tag">admin</span></p><picture>
-          <source media="(prefers-color-scheme: dark)" srcset="assets/admin/inventory-dark.webp">
-          <img src="assets/admin/inventory-light.webp" width="1440" height="900" alt="The inventory screen showing stock on hand for each SKU across several warehouse locations." loading="lazy" decoding="async">
-        </picture></div>
-        <p class="shot-note">Stock per SKU per location, with a ledger behind every movement rather than one mutable number.</p>
-      </div>
-
-      <div class="panel" role="tabpanel" id="panel-plugins" aria-labelledby="tab-plugins" hidden>
-        <div class="stage"><p class="stage-bar"><code>GET /api/plugins</code><span class="stage-tag">public</span></p><picture>
-          <source media="(prefers-color-scheme: dark)" srcset="assets/admin/integrations-dark.webp">
-          <img src="assets/admin/integrations-light.webp" width="1440" height="900" alt="The plugins screen listing storefront, marketing and analytics features grouped by category, each with an activate button and settings link." loading="lazy" decoding="async">
-        </picture></div>
-        <p class="shot-note">Features already compiled into the binary, switched on per store. A storefront reads the enabled ones from <code>GET /api/plugins</code>.</p>
-      </div>
-
-      <div class="panel" role="tabpanel" id="panel-payments" aria-labelledby="tab-payments" hidden>
-        <div class="stage"><p class="stage-bar"><code>GET /api/admin/settings</code><span class="stage-tag">admin</span></p><picture>
-          <source media="(prefers-color-scheme: dark)" srcset="assets/admin/payments-dark.webp">
-          <img src="assets/admin/payments-light.webp" width="1440" height="900" alt="The payments settings screen showing which payment providers are installed in this build, with their configuration." loading="lazy" decoding="async">
-        </picture></div>
-        <p class="shot-note">Only providers compiled into this build appear. Ask the store to refund through one that is not installed and it refuses rather than failing quietly.</p>
-      </div>
-
-      <div class="panel" role="tabpanel" id="panel-shipping" aria-labelledby="tab-shipping" hidden>
-        <div class="stage"><p class="stage-bar"><code>GET /api/admin/shipping/zones</code><span class="stage-tag">admin</span></p><picture>
-          <source media="(prefers-color-scheme: dark)" srcset="assets/admin/shipping-dark.webp">
-          <img src="assets/admin/shipping-light.webp" width="1440" height="900" alt="The shipping screen showing delivery zones and the rates configured within them." loading="lazy" decoding="async">
-        </picture></div>
-        <p class="shot-note">Zones and rates, with carrier modules plugging in beside the rates you set by hand.</p>
-      </div>
-
-      <p class="api-claim">
-        The admin calls <b>142 documented admin endpoints</b>, and every one is in
-        the same OpenAPI document your integrations read. There is no undocumented
-        channel the panel uses and you cannot &mdash; those endpoints are
-        privileged, not private.
-      </p>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────────────────── svelte commerce -->
-  <section id="svelte-commerce" class="section wrap" aria-labelledby="store-title">
-    <h2 id="store-title">Svelte Commerce powers the experience.</h2>
-    <p class="section-lede">
-      Svelte Commerce is the customer-facing storefront layer for KitCommerce:
-      browse, search, cart, checkout and account, built with SvelteKit. Below is
-      a live store running on it.
-    </p>
-
-    <figure class="storefront-shot">
-      <img src="assets/admin/storefront-home.webp" width="1440" height="900" alt="The Arialshop storefront built with Svelte Commerce: a jewellery hero image with a shop call to action, category navigation across the top, and a strip of store guarantees beneath." loading="lazy" decoding="async">
-      <figcaption><a href="https://arialshop.com" target="_blank" rel="noopener noreferrer">arialshop.com</a> &mdash; a production store running on Svelte Commerce.</figcaption>
-    </figure>
-
-    <!-- The brief is explicit that nothing may be claimed complete when it is
-         not. The connector is the one place the umbrella story is currently a
-         promise rather than a fact, so it gets said in the plainest words. -->
-    <div class="connector" aria-labelledby="connector-title">
-      <div class="connector-head">
-        <h3 id="connector-title">GoCommerce &harr; Svelte Commerce</h3>
-        <p class="badge">In development</p>
-      </div>
-      <p>
-        Svelte Commerce is headless across several backends today &mdash; Medusa,
-        Shopify, Saleor, Vendure, WooCommerce and Litekart. GoCommerce is not one
-        of them yet. The connector that maps the GoCommerce API onto the
-        storefront&rsquo;s data layer is being written and is not published.
-      </p>
-      <p>
-        Until it is, the two projects in this stack are two good projects rather
-        than one wired stack. That is the honest state of it, and it is the single
-        most useful thing anybody could help with.
-      </p>
-      <a class="button secondary" href="https://github.com/itswadesh/gocommerce/issues" target="_blank" rel="noopener noreferrer">Help build the connector</a>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────────────────────────── growth -->
-  <section id="growth" class="section wrap" aria-labelledby="growth-title">
-    <h2 id="growth-title">Commerce should not stop at checkout.</h2>
-    <p class="section-lede">
-      KitCommerce Growth turns commerce data into customer actions &mdash; cart
-      activity, orders and purchase history driving recovery, retention and
-      reactivation. Some of it ships today. Most of it does not. Every line below
-      says which.
-    </p>
-
-    <ul class="legend">
-      <li><span class="dot dot-ship"></span>Shipped &mdash; in the repository, tested, running</li>
-      <li><span class="dot dot-dev"></span>In development &mdash; being written now</li>
-      <li><span class="dot dot-plan"></span>Roadmap &mdash; designed, not built</li>
-    </ul>
-
-    <div class="mkt">
-      <ul class="growth-list">
-        <li><span class="dot dot-ship"></span><b>Commerce events</b> &mdash; 17 of them, written through a transactional outbox in the same transaction as the state change, so an event cannot be lost or invented.</li>
-        <li><span class="dot dot-ship"></span><b>Abandoned-cart recovery</b> &mdash; the engine records and announces <code>cart.abandoned</code>; the module owns the schedule, so the first sweep after install does not mail every stale basket at once.</li>
-        <li><span class="dot dot-ship"></span><b>Email and SMS</b> &mdash; Resend, SendGrid, Twilio, MSG91. The store owns the sending account.</li>
-        <li><span class="dot dot-ship"></span><b>Order notifications</b> &mdash; paid, shipped, delivered, refunded and returned, wired into delivery by the engine itself.</li>
-        <li><span class="dot dot-ship"></span><b>Klaviyo, newsletter, reviews, wishlists</b> &mdash; installable modules.</li>
-        <li><span class="dot dot-ship"></span><b>Product feeds, sitemaps, IndexNow</b> &mdash; discovery for Google and Meta.</li>
-        <li><span class="dot dot-ship"></span><b>Webhooks</b> &mdash; so anything not on this list can be built outside the engine today.</li>
-        <li><span class="dot dot-plan"></span><b>Behavioural events</b> &mdash; product viewed, search performed, checkout started, payment failed. The engine emits order and catalog events only, so the intent half of a customer profile has no source yet.</li>
-        <li><span class="dot dot-plan"></span><b>Unified customer profile</b> &mdash; visits, searches, carts, orders and messages on one timeline.</li>
-        <li><span class="dot dot-plan"></span><b>Dynamic segments</b> &mdash; at risk, dormant, high value, computed rather than listed.</li>
-        <li><span class="dot dot-plan"></span><b>Automation builder</b> &mdash; trigger, condition, wait, action, measured against revenue.</li>
-        <li><span class="dot dot-plan"></span><b>Browse abandonment and personalisation</b> &mdash; both need the behavioural events above.</li>
-        <li><span class="dot dot-plan"></span><b>WhatsApp</b> &mdash; no WhatsApp module exists today.</li>
-        <li><span class="dot dot-plan"></span><b>Retargeting sync, attribution, loyalty</b> and next-best-action suggestions.</li>
-      </ul>
-    </div>
-
-    <p class="fineprint">
-      Consent, frequency caps and quiet hours are part of that design rather than
-      an afterthought: a marketing engine that cannot be told to stop is a
-      liability, not a feature. Nothing in the roadmap column is currently being
-      written &mdash; the one piece of this stack actively in development is the
-      storefront connector above.
-    </p>
-  </section>
-
-  <!-- ─────────────────────────────────────────────────────── modules -->
-  <section id="modules" class="section wrap" aria-labelledby="modules-title">
-    <h2 id="modules-title">Start small. Add what you need.</h2>
-    <p class="section-lede">
-      44 modules live in the GoCommerce repository. Every one is an ordinary Go
-      package: import it, pass it a config struct, and it is installed. Leave it
-      out and none of its code is in your binary.
-    </p>
-
-    <div class="modgrid">
-      <section class="modgroup" aria-labelledby="mod-pay"><h3 id="mod-pay">Payments <span>9</span></h3>
-        <ul><li>Stripe</li><li>Razorpay</li><li>Adyen</li><li>Paddle</li><li>HyperSwitch</li><li>Lemon Squeezy</li><li>Helcim</li><li>Creem</li><li>RevenueCat</li></ul></section>
-
-      <section class="modgroup" aria-labelledby="mod-ful"><h3 id="mod-ful">Fulfillment <span>11</span></h3>
-        <ul><li>Shiprocket</li><li>Delhivery</li><li>Shippo</li><li>ShipStation</li><li>EasyShip</li><li>Shippit</li><li>USPS</li><li>India Post</li><li>NimbusPost</li><li>Onfleet</li><li>Veeqo</li></ul></section>
-
-      <section class="modgroup" aria-labelledby="mod-msg"><h3 id="mod-msg">Email and SMS <span>4</span></h3>
-        <ul><li>Resend</li><li>SendGrid</li><li>Twilio</li><li>MSG91</li></ul></section>
-
-      <section class="modgroup" aria-labelledby="mod-grow"><h3 id="mod-grow">Growth <span>6</span></h3>
-        <ul><li>Cart recovery</li><li>Klaviyo</li><li>Newsletter</li><li>Reviews</li><li>Wishlist</li><li>Product feeds</li></ul></section>
-
-      <section class="modgroup" aria-labelledby="mod-com"><h3 id="mod-com">Commerce and content <span>12</span></h3>
-        <ul><li>CMS</li><li>Identity</li><li>Navigation</li><li>Search (Meilisearch)</li><li>Sitemaps</li><li>Translations</li><li>Invoices</li><li>Webhooks</li><li>Contact</li><li>FAQ</li><li>IndexNow</li><li>MCP</li></ul></section>
-
-      <section class="modgroup" aria-labelledby="mod-imp"><h3 id="mod-imp">Migration <span>2</span></h3>
-        <ul><li>Shopify import</li><li>Amazon import</li></ul></section>
-    </div>
-
-    <div class="code-block">
-      <div class="code-head">
-        <p>Installing a module is a slice entry, not a plugin registry</p>
-        <button class="copy" data-copy="code-compose">Copy</button>
-      </div>
-<pre id="code-compose"><code><span class="k">import</span> (
-	<span class="s">"github.com/misiki/gocommerce/core"</span>
-	stripe <span class="s">"github.com/misiki/gocommerce/ext/payments-stripe"</span>
-	shiprocket <span class="s">"github.com/misiki/gocommerce/ext/fulfill-shiprocket"</span>
-	meilisearch <span class="s">"github.com/misiki/gocommerce/ext/search-meilisearch"</span>
-)
-
-modules := []gocommerce.<span class="t">Module</span>{
-	stripe.<span class="f">New</span>(stripe.<span class="t">Config</span>{}),
-	shiprocket.<span class="f">New</span>(shiprocket.<span class="t">Config</span>{}),
-	meilisearch.<span class="f">New</span>(meilisearch.<span class="t">Config</span>{}),
-}
-
-app, err := gocommerce.<span class="f">New</span>(gocommerce.<span class="t">Config</span>{
-	DBURL:       os.<span class="f">Getenv</span>(<span class="s">"DATABASE_URL"</span>),
-	Addr:        <span class="s">":8080"</span>,
-	Currency:    <span class="s">"USD"</span>,
-	AdminTokens: []<span class="t">string</span>{os.<span class="f">Getenv</span>(<span class="s">"GOCOMMERCE_ADMIN_TOKEN"</span>)},
-}, modules...)</code></pre>
-      <p class="code-note">Adapted from <code>examples/store/main.go</code>. The Go module path is still <code>github.com/misiki/gocommerce</code>; only the repository moved.</p>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────────────────────── quick start -->
-  <section id="quickstart" class="section quickstart-section" aria-labelledby="qs-title">
-    <div class="wrap">
-      <h2 id="qs-title">Your first store, in about five minutes</h2>
-      <p class="section-lede">
-        No cloud account, no hosted control plane, no signup. You need Go 1.27 and
-        a PostgreSQL you can reach.
-      </p>
-
-      <div class="code-block">
-        <div class="code-head">
-          <p>Clone it, point it at a database, run it</p>
-          <button class="copy" data-copy="code-start">Copy</button>
+      <div class="strip">
+        <div class="strip-item">
+          <h3>1,036 tests</h3>
+          <p>GoCommerce &mdash; <code>Test</code> and <code>Example</code> functions across the suite.</p>
         </div>
-<pre id="code-start"><code><span class="cm"># 1 — get the source</span>
-git clone https://github.com/itswadesh/gocommerce
-<span class="b">cd</span> gocommerce
-
-<span class="cm"># 2 — a database for it to own</span>
-createdb mystore
-
-<span class="cm"># 3 — where it lives, and who may administer it</span>
-<span class="b">export</span> DATABASE_URL=postgres://localhost/mystore
-<span class="b">export</span> GOCOMMERCE_ADMIN_TOKEN=$(openssl rand -hex 32)
-<span class="b">export</span> GOCOMMERCE_ADMIN_EMAIL=you@example.com
-<span class="b">export</span> GOCOMMERCE_ADMIN_PASSWORD=<span class="s">'a password you choose'</span>
-
-<span class="cm"># 4 — migrations run on boot, then it serves</span>
-go run ./cmd/gocommerce serve</code></pre>
-      </div>
-
-      <div class="urls">
-        <div class="url">
-          <p class="url-what">Admin panel</p>
-          <p class="url-where"><code>localhost:8080</code></p>
-          <p class="url-note">Sign in with the email and password you just set.</p>
+        <div class="strip-item">
+          <h3>342 API operations</h3>
+          <p>GoCommerce &mdash; 238 in the core, 104 across modules, all in OpenAPI.</p>
         </div>
-        <div class="url">
-          <p class="url-what">API documentation</p>
-          <p class="url-where"><code>localhost:8080/docs</code></p>
-          <p class="url-note">The OpenAPI contract this build actually serves.</p>
+        <div class="strip-item">
+          <h3>44 modules</h3>
+          <p>GoCommerce &mdash; payments, fulfillment, messaging, search, migration.</p>
         </div>
-        <div class="url">
-          <p class="url-what">The catalog</p>
-          <p class="url-where"><code>localhost:8080/api/products</code></p>
-          <p class="url-note">Public and unauthenticated &mdash; the route a storefront calls.</p>
+        <div class="strip-item">
+          <h3>61 admin screens</h3>
+          <p>GoCommerce &mdash; the Svelte admin, compiled into the Go binary.</p>
+        </div>
+        <div class="strip-item">
+          <h3>1 dependency</h3>
+          <p>GoCommerce &mdash; <code>pgx/v5</code>, the whole non-indirect <code>require</code> block.</p>
+        </div>
+        <div class="strip-item">
+          <h3>6 backends</h3>
+          <p>Svelte Commerce &mdash; Medusa, Shopify, Saleor, Vendure, WooCommerce, Litekart.</p>
         </div>
       </div>
-
-      <p class="fineprint">
-        <code>./cmd/gocommerce</code> is the reference binary and installs every
-        module, which makes it useful for reading the API contract. A real store is
-        its own small <code>main()</code> that installs only what it needs &mdash;
-        that is <code>examples/store</code>.
-      </p>
     </div>
   </section>
 
-  <!-- ────────────────────────────────────── open source and community -->
-  <section id="opensource" class="section wrap" aria-labelledby="os-title">
-    <h2 id="os-title">Built in the open, pre-1.0</h2>
+  <!-- ─────────────────────────────────────────────────── repositories -->
+  <section id="repos" class="section wrap" aria-labelledby="repos-title">
+    <h2 id="repos-title">Both repositories, in the open</h2>
     <p class="section-lede">
-      Two repositories, both MIT, both under the same account. APIs may still
-      change while the architecture settles &mdash; that is the cost of arriving
-      early, and the reason this is the best moment to influence the project.
+      Two repositories under the same account, both MIT. Each number sits with
+      the project it belongs to, so neither borrows the other&rsquo;s history.
     </p>
 
     <div class="projects">
       <article class="project project-engine">
         <h3>GoCommerce</h3>
-        <p class="project-for">The commerce engine inside KitCommerce. Go, PostgreSQL, embedded admin.</p>
+        <p class="project-for">Ecommerce backend and admin. Go, PostgreSQL, embedded admin panel.</p>
         <dl class="facts">
           <div><dt>Language</dt><dd>Go 1.27</dd></div>
           <div><dt>Licence</dt><dd>MIT</dd></div>
@@ -734,7 +356,7 @@ go run ./cmd/gocommerce serve</code></pre>
 
       <article class="project project-store">
         <h3>Svelte Commerce</h3>
-        <p class="project-for">The storefront layer. SvelteKit, already headless across several backends.</p>
+        <p class="project-for">Ecommerce storefront. SvelteKit, headless across several backends.</p>
         <dl class="facts">
           <div><dt>Language</dt><dd>SvelteKit</dd></div>
           <div><dt>Licence</dt><dd>MIT</dd></div>
@@ -747,25 +369,63 @@ go run ./cmd/gocommerce serve</code></pre>
 
     <p class="fineprint">
       GoCommerce is new and its star count says so; Svelte Commerce has been
-      public for years. Each number sits with the project it belongs to, so
-      neither borrows the other&rsquo;s history. Read from the GitHub API on
-      <time datetime="2026-09-21">21 September 2026</time>.
+      public for years. Star and fork counts are read live from the GitHub API on
+      page load, and fall back to the values measured on
+      <time datetime="2026-09-21">21 September 2026</time> when the call is rate
+      limited.
     </p>
+  </section>
 
-    <div class="contrib">
-      <ul class="contrib-list">
-        <li><b>The Svelte Commerce connector</b> &mdash; the highest-value work on this page.</li>
-        <li><b>Behavioural events</b> &mdash; the piece the whole Growth roadmap waits on.</li>
-        <li><b>Payment providers</b> for regions the nine current modules do not reach.</li>
-        <li><b>Shipping carriers</b>, on the same pattern as the eleven that exist.</li>
-        <li><b>Storefront themes</b> on top of Svelte Commerce.</li>
-        <li><b>Benchmarks</b> &mdash; none are published, which is why this page claims nothing about speed.</li>
-      </ul>
-      <div class="contrib-cta">
-        <p>The engine carries <b>1,036 tests</b> and a documented contract for every route, so a pull request has something to prove itself against.</p>
-        <a class="button" href="https://github.com/itswadesh/gocommerce/issues" target="_blank" rel="noopener noreferrer">View open issues</a>
-        <a class="button secondary" href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Join the Discord</a>
+  <!-- ─────────────────────────────────────────────────── quick start -->
+  <section id="quick-start" class="section quickstart-section" aria-labelledby="qs-title">
+    <div class="wrap">
+      <h2 id="qs-title">Start with either one</h2>
+      <p class="section-lede">
+        There is no combined installer, and no signup. Pick the project that
+        solves the problem you actually have.
+      </p>
+
+      <div class="qs-split">
+        <div class="qs-path">
+          <h3>Start with GoCommerce</h3>
+          <p class="qs-need">Needs Go 1.27 and a PostgreSQL you can reach.</p>
+          <div class="code-block">
+            <div class="code-head">
+              <p>Backend + admin</p>
+              <button class="copy" data-copy="code-go">Copy</button>
+            </div>
+<pre id="code-go"><code>git clone https://github.com/itswadesh/gocommerce
+<span class="b">cd</span> gocommerce
+createdb mystore
+<span class="b">export</span> DATABASE_URL=postgres://localhost/mystore
+go run ./cmd/gocommerce serve</code></pre>
+          </div>
+          <a class="button secondary" href="/gocommerce/#quickstart">Full GoCommerce setup</a>
+        </div>
+
+        <div class="qs-path">
+          <h3>Start with Svelte Commerce</h3>
+          <p class="qs-need">Needs Node.js and a commerce backend to point at.</p>
+          <div class="code-block">
+            <div class="code-head">
+              <p>Storefront</p>
+              <button class="copy" data-copy="code-sv">Copy</button>
+            </div>
+<pre id="code-sv"><code>git clone https://github.com/itswadesh/svelte-commerce
+<span class="b">cd</span> svelte-commerce
+pnpm install
+<span class="cm"># point .env at your backend</span>
+pnpm dev</code></pre>
+          </div>
+          <a class="button secondary" href="/svelte-commerce/#quickstart">Full storefront setup</a>
+        </div>
       </div>
+
+      <p class="fineprint">
+        Running the two against each other is not yet a documented path, because
+        the connector is unpublished. When it lands it will be added here as a
+        third route rather than replacing these two.
+      </p>
     </div>
   </section>
 
@@ -774,7 +434,7 @@ go run ./cmd/gocommerce serve</code></pre>
        JavaScript disabled. An FAQ that needs a script to reveal its text is an
        FAQ a crawler and an answer engine both read as empty. -->
   <section id="faq" class="section wrap" aria-labelledby="faq-title">
-    <h2 id="faq-title">Questions people actually ask</h2>
+    <h2 id="faq-title">How the two projects relate</h2>
     <p class="section-lede">
       Direct answers, including the unflattering ones. If a question here has a
       bad answer, that is the answer.
@@ -782,65 +442,68 @@ go run ./cmd/gocommerce serve</code></pre>
 
     <div class="faq">
       <details>
-        <summary>Is this production-ready?</summary>
-        <p>It is pre-1.0 and the API may change before 1.0. The engine carries 1,036 tests and a documented contract for every route, and no store we know of is running it in production yet. Treat it as something to build on deliberately, not something to migrate a live business to this week.</p>
+        <summary>What is GoCommerce?</summary>
+        <p>GoCommerce is an open-source ecommerce backend and admin application built with Go. It provides commerce APIs, PostgreSQL persistence and an admin interface, and it is self-hosted under an MIT licence.</p>
       </details>
 
       <details>
-        <summary>Can I use Svelte Commerce as the storefront today?</summary>
-        <p>Not against GoCommerce yet. Svelte Commerce is headless across Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart; the GoCommerce connector is being written and is not published. Until it lands, GoCommerce serves a documented JSON API that any framework can call, and you would be writing that client yourself.</p>
+        <summary>What is Svelte Commerce?</summary>
+        <p>Svelte Commerce is an open-source ecommerce storefront built with Svelte. It is a headless storefront, which means it renders the shopping experience and calls a separate commerce backend for the data.</p>
       </details>
 
       <details>
-        <summary>What do I have to run in production?</summary>
-        <p>One Go binary and one PostgreSQL database. The Svelte admin is compiled into the binary, so there is no Node.js server, no Redis, no message broker and no second deployment to keep in step. Add infrastructure later if a real requirement asks for it.</p>
+        <summary>What is kitcommerce.store?</summary>
+        <p>kitcommerce.store is the website that presents GoCommerce and Svelte Commerce, two open-source ecommerce projects. It is not itself a product, a platform or a framework, and there is nothing called KitCommerce to install.</p>
       </details>
 
       <details>
-        <summary>Can I rebrand it and sell what I build?</summary>
-        <p>Yes. Both projects are MIT. Rename them, restyle the admin, cut what you do not need, and ship it under your own name and domain. Nothing phones home and there is no plan to outgrow.</p>
+        <summary>Do GoCommerce and Svelte Commerce require each other?</summary>
+        <p>No. Both projects can be used independently, but they can also be combined to build a complete ecommerce stack. GoCommerce runs with no Svelte storefront in front of it, and Svelte Commerce runs against backends that are not GoCommerce.</p>
       </details>
 
       <details>
-        <summary>How well does it work with AI coding agents?</summary>
-        <p>The repository is written for it: <code>AGENTS.md</code> holds 18 architectural rules for anyone changing the code, human or agent, and <code>skills/</code> holds 16 task guides so an agent loads the one matching its job instead of reading everything. There is one production dependency, so the graph an agent must understand is small, and 1,036 tests to catch a wrong edit. Separately, the MCP module lets an agent operate a running store through the same domain services a REST call uses &mdash; never the database directly.</p>
+        <summary>Can Svelte Commerce work with another ecommerce backend?</summary>
+        <p>Yes. Svelte Commerce is a headless storefront capable of integrating with compatible commerce backends. It supports Medusa, Shopify, Saleor, Vendure, WooCommerce and Litekart today.</p>
       </details>
 
       <details>
-        <summary>How fast is it?</summary>
-        <p>We have not published benchmarks, so we do not make a speed claim. Anything you read about this project&rsquo;s performance did not come from us. Benchmarking is on the contribution list.</p>
+        <summary>Can GoCommerce work with another frontend?</summary>
+        <p>Yes. GoCommerce exposes commerce backend functionality that can be consumed by compatible storefronts and applications. It serves 342 documented operations over REST, published as OpenAPI, so any framework that can call HTTP can drive it.</p>
       </details>
 
       <details>
-        <summary>Does it handle B2B, or marketplaces?</summary>
-        <p>Both have engine support. B2B pricing resolves by customer group and quantity through price lists. Marketplaces have vendors as first-class sellers with pending, approved and suspended states. Neither is as deep as a dedicated platform; read <code>core/pricing.go</code> and <code>core/vendors.go</code> before committing to one.</p>
+        <summary>Can I run the two together today?</summary>
+        <p>Not without writing the glue yourself. The connector that maps the GoCommerce API onto the Svelte Commerce data layer is in development and unpublished. Until it ships, pairing them means writing that client against the documented GoCommerce API.</p>
       </details>
 
       <details>
-        <summary>Is there a paid tier, a cloud, or an enterprise edition?</summary>
-        <p>No. There is no hosted offering, no paid tier and nothing to buy. It is MIT source you run yourself.</p>
+        <summary>Are both projects open source, and is there a paid tier?</summary>
+        <p>Both are MIT licensed. There is no hosted offering, no paid tier, no enterprise edition and nothing to buy. Rename either one, restyle it, cut what you do not need, and ship it under your own name.</p>
       </details>
 
       <details>
-        <summary>How do I migrate an existing catalogue?</summary>
-        <p>Shopify and Amazon import modules exist and match on the source platform&rsquo;s own product id, so re-running an import updates rather than duplicates. There is also an order importer that takes a <code>created_at</code>, fires no events and moves no stock, because loading history should not send two hundred confirmation emails.</p>
-      </details>
-
-      <details>
-        <summary>What is KitCommerce Growth, exactly?</summary>
-        <p>A name for the marketing and retention layer, which is partly built. Shipped: the event spine, abandoned-cart recovery, email and SMS providers, product feeds, reviews, wishlists and webhooks. Not built: behavioural events, unified customer profiles, segments, the automation builder, WhatsApp, retargeting, attribution and loyalty. The <a href="#growth">Growth section</a> marks every line individually.</p>
+        <summary>Are they production-ready?</summary>
+        <p>They differ. Svelte Commerce has been public for years and runs production stores. GoCommerce is pre-1.0, its API may change before 1.0, it carries 1,036 tests and a documented contract for every route, and no store we know of is running it in production yet.</p>
       </details>
     </div>
   </section>
 
   <!-- ─────────────────────────────────────────────────────── closing -->
   <section class="closing wrap">
-    <h2>Own the stack. Own the data. Own the customer journey.</h2>
-    <p>Go behind it. Svelte in front. Growth on top. Your infrastructure underneath.</p>
-    <div class="actions">
-      <a class="button" href="#quickstart">Start with KitCommerce</a>
-      <a class="button secondary" href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">Clone GoCommerce</a>
-      <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">Explore Svelte Commerce</a>
+    <h2>Choose where you want to start</h2>
+    <div class="doors">
+      <div class="door">
+        <p class="door-q">Building a storefront?</p>
+        <a class="button" href="/svelte-commerce/">Explore Svelte Commerce</a>
+      </div>
+      <div class="door">
+        <p class="door-q">Need a commerce backend and admin?</p>
+        <a class="button" href="/gocommerce/">Explore GoCommerce</a>
+      </div>
+      <div class="door">
+        <p class="door-q">Want the complete setup?</p>
+        <a class="button secondary" href="#together">See how they work together</a>
+      </div>
     </div>
   </section>
 
@@ -849,30 +512,31 @@ go run ./cmd/gocommerce serve</code></pre>
 <footer>
   <div class="wrap footer-grid">
     <div class="footer-brand">
-      <p class="wordmark-name">KitCommerce</p>
-      <p>The open-source commerce stack you can own. GoCommerce for the engine, Svelte Commerce for the storefront, growth automation on the same commerce data.</p>
-      <p class="footer-meta">MIT licensed &mdash; pre-1.0 &mdash; Go 1.27 &mdash; PostgreSQL</p>
+      <p class="wordmark-name">kitcommerce.store</p>
+      <p>The website presenting GoCommerce and Svelte Commerce &mdash; two independent open-source ecommerce projects, one for the backend and admin, one for the storefront.</p>
+      <p class="footer-meta">MIT licensed &mdash; Go &mdash; SvelteKit &mdash; PostgreSQL</p>
     </div>
 
-    <nav class="footer-col" aria-labelledby="f-kit">
-      <h2 id="f-kit">KitCommerce</h2>
-      <a href="#pillars">Overview</a>
-      <a href="#architecture">Architecture</a>
-      <a href="#growth">Growth</a>
-      <a href="#growth">Roadmap</a>
+    <nav class="footer-col" aria-labelledby="f-go">
+      <h2 id="f-go">GoCommerce</h2>
+      <a href="/gocommerce/">Overview</a>
+      <a href="/gocommerce/#modules">Modules</a>
+      <a href="/gocommerce/#quickstart">Quick start</a>
+      <a href="/gocommerce/#roadmap">Roadmap</a>
     </nav>
 
-    <nav class="footer-col" aria-labelledby="f-os">
-      <h2 id="f-os">Open source</h2>
-      <a href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">GoCommerce</a>
-      <a href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">Svelte Commerce</a>
-      <a href="https://github.com/itswadesh/gocommerce/issues" target="_blank" rel="noopener noreferrer">Contributing</a>
+    <nav class="footer-col" aria-labelledby="f-sv">
+      <h2 id="f-sv">Svelte Commerce</h2>
+      <a href="/svelte-commerce/">Overview</a>
+      <a href="/svelte-commerce/#backends">Backends</a>
+      <a href="/svelte-commerce/#quickstart">Quick start</a>
+      <a href="/svelte-commerce/#connector">Connector status</a>
     </nav>
 
     <nav class="footer-col" aria-labelledby="f-dev">
       <h2 id="f-dev">Developers</h2>
-      <a href="#quickstart">Quick start</a>
-      <a href="#modules">Modules</a>
+      <a href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">GoCommerce on GitHub</a>
+      <a href="https://github.com/itswadesh/svelte-commerce" target="_blank" rel="noopener noreferrer">Svelte Commerce on GitHub</a>
       <a href="https://github.com/itswadesh/gocommerce/tree/main/examples/store" target="_blank" rel="noopener noreferrer">Example store</a>
       <a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Discord</a>
     </nav>
@@ -886,6 +550,6 @@ go run ./cmd/gocommerce serve</code></pre>
 </footer>
 
 <div id="toast" role="status"></div>
-<script src="app.js" defer></script>
+<script src="/app.js" defer></script>
 </body>
 </html>

@@ -1,13 +1,14 @@
-# The brief's recommended project paths, made real rather than left to 404.
-# They resolve to the homepage sections instead of thin duplicate pages, so
-# there is one canonical copy of every claim.
-/gocommerce       /#gocommerce       302
-/svelte-commerce  /#svelte-commerce  302
-/growth           /#growth           302
-/architecture     /#architecture     302
-/quick-start      /#quickstart       302
-/docs             https://github.com/itswadesh/gocommerce#readme  302
-/roadmap          /#growth           302
+# /gocommerce/ and /svelte-commerce/ are real pages now, not anchors, so they
+# are deliberately absent from this file. A redirect rule matching either path
+# would shadow the page it is supposed to reach.
+#
+# 301 rather than 302: these aliases are permanent, and a temporary redirect
+# consolidates no signal on the destination.
+/architecture     /#architecture                                  301
+/quick-start      /#quick-start                                   301
+/growth           /gocommerce/#roadmap                            301
+/roadmap          /gocommerce/#roadmap                            301
+/docs             https://github.com/itswadesh/gocommerce#readme  301
 
 # Do not re-add a `/* /404 404` splat here. It was tried and does nothing on
 # this project: an unmatched path returns 404 with a zero-length body either
