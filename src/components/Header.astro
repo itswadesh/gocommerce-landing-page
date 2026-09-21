@@ -6,6 +6,10 @@
  * app.js adds only what <details> lacks: Escape closes, and so does a click
  * anywhere else. Nothing is hover-only.
  *
+ * Below 860px the same list becomes a drawer that slides in from the right;
+ * the drawer head and the scrim exist only there. With JavaScript off the
+ * list stays in flow, visible, and there is nothing to slide.
+ *
  * `current` marks the page you are on with aria-current on the item.
  */
 type Current = 'gocommerce' | 'svelte-commerce' | 'solutions' | 'develop' | 'architecture' | 'live-admin' | 'connector' | 'backends'
@@ -17,8 +21,9 @@ const inDevelop = ['develop', 'architecture', 'live-admin', 'connector', 'backen
 const developOpen = inDevelop.includes(current as (typeof inDevelop)[number])
 
 const solutions = [
+  { href: '/#sol-headless', label: 'Headless ecommerce', note: 'Any storefront, app or agent on one API' },
   { href: '/#sol-marketplace', label: 'Multi-vendor marketplace', note: 'Vendors as first-class sellers, with moderation states' },
-  { href: '/#sol-b2b', label: 'B2B pricing', note: 'Customer groups, price lists, quantity breaks' },
+  { href: '/#sol-b2b', label: 'B2B commerce', note: 'Customer groups, price lists, quantity breaks' },
   { href: '/#sol-d2c', label: 'Direct-to-consumer', note: 'The default store, selling with no modules installed' },
   { href: '/#sol-channels', label: 'Several storefronts, one catalogue', note: 'Channels with per-channel publishing' },
   { href: '/go-svelte-ecommerce/#when', label: 'Which project to start with', note: 'Backend, storefront, or both' },
@@ -46,8 +51,13 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       </svg>
       <span class="wordmark-name">kitcommerce<span class="wordmark-tld">.store</span></span>
     </a>
-    <button class="menu" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    <button class="menu" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="navlinks">Menu</button>
     <div id="navlinks" class="navlinks">
+      <div class="drawer-head">
+        <span class="wordmark-name">Menu</span>
+        <button class="drawer-close" type="button" aria-label="Close navigation">Close</button>
+      </div>
+
       <a href="/gocommerce/" aria-current={current === 'gocommerce' ? 'page' : undefined}>GoCommerce</a>
       <a href="/svelte-commerce/" aria-current={current === 'svelte-commerce' ? 'page' : undefined}>Svelte Commerce</a>
 
@@ -71,5 +81,6 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
       <a class="nav-git" href="https://github.com/itswadesh" {...ext} data-ev="github_nav_click">GitHub</a>
     </div>
+    <div class="scrim" aria-hidden="true"></div>
   </nav>
 </header>

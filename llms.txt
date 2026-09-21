@@ -28,6 +28,10 @@
 - Cart is wired on 23 of 26 connectors, checkout on 25, auth on 20.
 - No connector has been exercised against a live production instance of its platform.
 
+- Positioning: speed and open source. Highlights the site makes, each linked to its evidence: open source (MIT), open API (OpenAPI, 342 operations), free with no platform fees, enterprise-grade operations, scalable, robust (1,036 tests), fast (compiled Go, server-rendered Svelte), portable (one binary + PostgreSQL), 1-command deploy (Docker Compose), detachable (either project alone), headless, Discord community.
+- Solutions covered on the home page: headless ecommerce, multi-vendor marketplace, B2B pricing, direct-to-consumer, several storefronts on one catalogue.
+- Analytics: none load before the visitor consents; with no analytics ID configured at build, none load at all and no banner is shown. The site sets no cookie of its own.
+
 ## Pages
 
 - https://kitcommerce.store/ — both projects, a one-command Docker quick start, admin and storefront screenshots, capabilities, architecture and FAQ
@@ -36,6 +40,7 @@
 - https://kitcommerce.store/svelte-commerce/backends/ — all 26 connectors with measured coverage, cart/checkout/auth status and known gaps
 - https://kitcommerce.store/go-svelte-ecommerce/ — how the two projects relate, when to use each, side-by-side comparison
 - https://kitcommerce.store/gocommerce-svelte-commerce-connector/ — connector status: in development, not published
+- https://kitcommerce.store/privacy/ — what the site stores, which third parties it contacts, and what loads only after consent
 
 ## Entities
 

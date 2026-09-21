@@ -42,3 +42,19 @@
 
 /robots.txt
   Cache-Control: public, max-age=3600
+
+# The service worker decides whether the site updates, so it must be
+# revalidated on every check; the same for the manifest and the loader.
+/sw.js
+  Cache-Control: no-cache
+/manifest.webmanifest
+  Cache-Control: no-cache
+/app.js
+  Cache-Control: no-cache
+
+# Astro fingerprints everything under /_astro/, so a year and immutable is safe.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/icons/*
+  Cache-Control: public, max-age=604800

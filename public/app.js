@@ -36,6 +36,10 @@
     document.documentElement.classList.add('nav-open')
     lastFocus = document.activeElement
     var first = closeBtn || $('a', links)
+    // The drawer is visibility:hidden until the class applies; reading a
+    // layout property forces that before the focus call, which would
+    // otherwise silently fail on a still-hidden element.
+    void links.offsetWidth
     if (first) first.focus()
   }
 

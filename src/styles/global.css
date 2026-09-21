@@ -223,17 +223,51 @@ header {
 .navlinks .nav-git { font-family: var(--sans); font-size: .85rem; }
 
 .menu { display: none; color: var(--ink); background: none; border: var(--edge); border-radius: 0; padding: 7px 12px; font-size: .875rem; font-weight: 500; }
+/* Drawer furniture: exists only below 860px, where the block below turns it on. */
+.drawer-head { display: none; }
+.scrim { display: none; }
 
 @media (max-width: 860px) {
+  /* backdrop-filter would make the header the containing block for the fixed
+     drawer, so on narrow screens the header goes opaque instead. */
+  header { backdrop-filter: none; background: var(--paper); }
   .menu { display: block; }
+
   .navlinks {
-    display: none; position: absolute; left: 0; right: 0; top: 100%;
-    flex-direction: column; align-items: stretch; gap: 0;
-    background: var(--surface); border-bottom: var(--hairline); padding: 4px 24px 16px;
+    display: flex; flex-direction: column; align-items: stretch; gap: 0;
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 60;
+    width: min(86vw, 360px); padding: 0 22px 28px;
+    background: var(--paper); border-left: var(--edge);
+    overflow-y: auto; overscroll-behavior: contain;
+    transform: translateX(100%); visibility: hidden;
+    transition: transform .32s cubic-bezier(.2, .7, .2, 1), visibility 0s linear .32s;
   }
-  .navlinks.open { display: flex; }
-  .navlinks a { padding: 12px 0; border-bottom: var(--hairline); }
-  .navlinks a:last-child { border-bottom: 0; }
+  .navlinks.open { transform: none; visibility: visible; transition: transform .32s cubic-bezier(.2, .7, .2, 1), visibility 0s; }
+
+  .drawer-head { display: flex; align-items: center; justify-content: space-between; min-height: 62px; border-bottom: var(--hairline); margin-bottom: 4px; }
+  .drawer-close { color: var(--ink); background: none; border: var(--edge); border-radius: 0; padding: 7px 12px; font-size: .875rem; font-weight: 500; }
+
+  .navlinks > a { padding: 14px 0; border-bottom: var(--hairline); font-size: 1.0625rem; }
+  .navlinks > a:last-child { border-bottom: 0; }
+
+  /* the two menus become accordions inside the drawer */
+  .navmenu { border-bottom: var(--hairline); }
+  .navmenu > summary { display: flex; justify-content: space-between; padding: 14px 0; font-size: 1.0625rem; }
+  .navpanel, .navmenu-wide .navpanel { position: static; width: auto; min-width: 0; display: block; border: 0; padding: 0 0 10px; }
+  .navpanel a { padding: 9px 0 9px 14px; border-left: var(--hairline); }
+  .navpanel a:hover, .navpanel a:focus-visible { background: none; border-left-color: var(--ink); }
+
+  .scrim {
+    display: block; position: fixed; inset: 0; z-index: 55;
+    background: color-mix(in srgb, var(--ink) 42%, transparent);
+    opacity: 0; pointer-events: none; transition: opacity .32s ease;
+  }
+  html.nav-open .scrim { opacity: 1; pointer-events: auto; }
+  html.nav-open { overflow: hidden; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .navlinks, .navlinks.open, .scrim { transition: none; }
+  }
 }
 
 /* ───────────────────────────────────────────────────────── buttons */
@@ -1471,3 +1505,140 @@ header { view-transition-name: site-header; }
 /* the footer wordmark + one-line pitch sits above the columns; the social row
    goes between the columns and the base line */
 .footer-base { border-top: var(--hairline); margin-top: 10px; padding-top: 18px; }
+
+/* ══════════════════════════════════════════════════════ menus + drawer */
+
+/* Solutions and Develop are <details>: the summary reads as a nav link, the
+   panel drops from it. One border vocabulary — --edge for a floating panel,
+   --hairline between its rows — and no shadow, like every other surface. */
+.navmenu { position: relative; }
+.navmenu > summary {
+  list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+  font-size: .9375rem; color: var(--ink-2); user-select: none;
+}
+.navmenu > summary::-webkit-details-marker { display: none; }
+.navmenu > summary::after {
+  content: ""; width: 6px; height: 6px; flex: none;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg); transition: transform .18s ease;
+}
+.navmenu[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
+.navmenu > summary:hover, .navmenu[open] > summary, .navmenu > summary[aria-current] { color: var(--ink); }
+.navmenu > summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+/* Both menus sit in the right half of the bar, so panels hang from their
+   right edge and never leave a narrow viewport. */
+.navpanel {
+  list-style: none; margin: 0; padding: 6px;
+  position: absolute; top: calc(100% + 16px); right: -12px; z-index: 60;
+  min-width: 330px; background: var(--surface); border: var(--edge); box-shadow: var(--shadow);
+}
+.navmenu-wide .navpanel { width: 640px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 6px; }
+.navpanel a { display: block; padding: 10px 12px; text-decoration: none; }
+.navpanel a b { display: block; font-weight: 500; font-size: .9375rem; color: var(--ink); }
+.navpanel a span { display: block; margin-top: 2px; font-size: .8125rem; line-height: 1.45; color: var(--ink-3); }
+.navpanel a:hover, .navpanel a:focus-visible { background: var(--surface); }
+
+@media (prefers-reduced-motion: reduce) {
+  .navmenu > summary::after { transition: none; }
+}
+
+/* ═══════════════════════════════════════════════ consent + contact */
+
+.consent {
+  position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 70;
+  max-width: 540px; margin-inline: auto;
+  background: var(--paper); border: var(--frame); padding: 16px 18px 18px;
+}
+.consent p { font-size: .875rem; line-height: 1.55; color: var(--ink-2); }
+.consent b { color: var(--ink); }
+.consent-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.consent-actions .button { padding: 10px 14px; font-size: .875rem; }
+@media (min-width: 700px) { .consent { right: auto; margin: 0; } }
+/* A floating contact button and the banner both want the bottom edge; on a
+   phone the banner moves up out of its way. */
+.wa-fab ~ .consent { bottom: 78px; }
+@media (min-width: 700px) { .wa-fab ~ .consent { bottom: 16px; } }
+
+.linklike {
+  background: none; border: 0; padding: 0; margin: 0; font: inherit; cursor: pointer;
+  color: var(--ink-3); text-decoration: underline; text-underline-offset: .15em;
+}
+.linklike:hover { color: var(--ink); }
+
+/* The WhatsApp button. Fixed to the corner, the one green on the site, and
+   the one element allowed to sit over content because that is its job. The
+   label stays dark in both schemes: it sits on the green, not on the page. */
+.wa-fab {
+  position: fixed; right: 18px; bottom: 18px; z-index: 65;
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 12px 16px 12px 13px; text-decoration: none;
+  font: 500 .9375rem/1 var(--sans); color: #0f1a12;
+  background: #25d366; border: 1.5px solid #0f1a12;
+}
+.wa-fab svg { width: 20px; height: 20px; fill: currentColor; flex: none; }
+.wa-fab:hover { background: #1fbf5b; }
+.wa-fab:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+@media (max-width: 520px) {
+  .wa-fab { padding: 13px; }
+  .wa-fab span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+
+/* ═══════════════════════════════════════════════════ hero additions */
+
+/* A short line that names the section's subject, set in the mono at label
+   size with a leading rule. Sentence case, never tracked-out capitals. */
+.kicker { display: flex; align-items: center; gap: 10px; font: 400 .8125rem/1 var(--mono); color: var(--ink-3); margin-bottom: 14px; }
+.kicker::before { content: ""; width: 18px; height: 1px; background: currentColor; flex: none; }
+.hero-ledger .kicker { color: var(--go); margin-bottom: 18px; }
+
+.hero-stats { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 28px; }
+.hero-stats li { display: inline-flex; align-items: center; gap: 8px; font-size: .9375rem; color: var(--ink-2); }
+.hero-stats svg { width: 16px; height: 16px; color: var(--ink-3); flex: none; }
+.hero-stats b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.hero-actions { margin-top: 26px; }
+
+.stack-row { list-style: none; margin: 26px 0 0; padding: 16px 0 0; border-top: var(--hairline-dashed); display: flex; flex-wrap: wrap; gap: 12px 26px; }
+.stack-row li { display: inline-flex; align-items: center; gap: 9px; font-size: .875rem; color: var(--ink-2); }
+.stack-row img { width: 22px; height: 22px; flex: none; }
+.hero-ledger .plate { margin-top: 30px; }
+
+/* Twelve claims wrap into rows rather than squeezing into one; each is a link
+   to the section that substantiates it. */
+.proofstrip-12 .proofstrip-row { justify-content: center; gap: 10px 26px; padding-block: 15px; }
+.proofstrip-12 .proofstrip-row a { display: inline-flex; align-items: center; gap: 8px; color: inherit; text-decoration: none; padding: 4px 0; }
+.proofstrip-12 .proofstrip-row a:hover { color: var(--ink); }
+@media (max-width: 760px) { .proofstrip-12 .proofstrip-row { justify-content: flex-start; } }
+
+/* ═════════════════════════════════════════════ feature sections */
+
+/* Copy beside a diagram, flipping sides section by section so the eye is
+   carried down the page rather than down one column. */
+.feature { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.feature-flip .feature-copy { order: 2; }
+.feature-flip .feature-visual { order: 1; }
+.feature-copy { min-width: 0; }
+.feature-copy h2 { max-width: 22ch; }
+.feature-copy .tick { margin-top: 18px; }
+.feature-copy .actions { margin-top: 24px; }
+.feature-visual { margin: 0; min-width: 0; }
+@media (max-width: 860px) {
+  .feature { grid-template-columns: 1fr; gap: 28px; }
+  .feature-flip .feature-copy, .feature-flip .feature-visual { order: initial; }
+}
+
+/* ═══════════════════════════════════════════════════════ footer, five columns */
+
+.footer-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; padding-bottom: 34px; margin-bottom: 36px; border-bottom: var(--hairline); }
+.footer-cta-title { font-size: 1.375rem; font-weight: 600; letter-spacing: -.022em; line-height: 1.2; }
+.footer-cta p:not(.footer-cta-title) { margin-top: 6px; font-size: .9375rem; line-height: 1.55; color: var(--ink-2); max-width: 54ch; }
+
+.footer-grid-5 { grid-template-columns: repeat(5, 1fr); gap: 28px 24px; }
+@media (max-width: 960px) { .footer-grid-5 { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 620px) { .footer-grid-5 { grid-template-columns: 1fr 1fr; } }
+
+.footer-brand-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px 32px; margin-top: 40px; padding-top: 28px; border-top: var(--hairline); }
+.footer-brand-row .footer-brand { max-width: 34rem; }
+.footer-brand-row .footer-social { padding-block: 0; }
+.social img { width: 15px; height: 15px; }
