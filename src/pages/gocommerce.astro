@@ -253,28 +253,28 @@ const modules = [
     <h2 id="roadmap-title">Roadmap</h2>
     <p class="section-lede">What exists in the repository today, and what is designed but not built. Every line says which. Nothing below is a separate product — these are GoCommerce capabilities, shipped or planned.</p>
     <ul class="legend">
-      <li><span class="dot dot-ship"></span>Shipped — in the repository, tested, running</li>
-      <li><span class="dot dot-dev"></span>In development — being written now</li>
-      <li><span class="dot dot-plan"></span>Planned — designed, not built</li>
+      <li><span class="dot dot-ship" aria-hidden="true"></span><p>Shipped — in the repository, tested, running</p></li>
+      <li><span class="dot dot-dev" aria-hidden="true"></span><p>In development — being written now</p></li>
+      <li><span class="dot dot-plan" aria-hidden="true"></span><p>Planned — designed, not built</p></li>
     </ul>
     <div class="mkt">
       <ul class="growth-list">
-        <li><span class="dot dot-ship"></span><b>Commerce events</b> — 17 of them, written through a transactional outbox in the same transaction as the state change, so an event cannot be lost or invented.</li>
-        <li><span class="dot dot-ship"></span><b>Abandoned-cart recovery</b> — the engine records and announces <code>cart.abandoned</code>; the module owns the schedule, so the first sweep after install does not mail every stale basket at once.</li>
-        <li><span class="dot dot-ship"></span><b>Email and SMS</b> — Resend, SendGrid, Twilio, MSG91. The store owns the sending account.</li>
-        <li><span class="dot dot-ship"></span><b>Order notifications</b> — paid, shipped, delivered, refunded and returned, wired into delivery by the engine itself.</li>
-        <li><span class="dot dot-ship"></span><b>Klaviyo, newsletter, reviews, wishlists</b> — installable modules.</li>
-        <li><span class="dot dot-ship"></span><b>Product feeds, sitemaps, IndexNow</b> — discovery for Google and Meta.</li>
-        <li><span class="dot dot-ship"></span><b>Webhooks</b> — so anything not on this list can be built outside the engine today.</li>
-        <li><span class="dot dot-dev"></span><b>Svelte Commerce connector</b> — the client that maps this API onto the storefront’s data layer. The one piece actively being written.</li>
-        <li><span class="dot dot-plan"></span><b>Behavioural events</b> — product viewed, search performed, checkout started, payment failed. The engine emits order and catalog events only, so the intent half of a customer profile has no source yet.</li>
-        <li><span class="dot dot-plan"></span><b>Unified customer profile</b> — visits, searches, carts, orders and messages on one timeline.</li>
-        <li><span class="dot dot-plan"></span><b>Dynamic segments</b> — at risk, dormant, high value, computed rather than listed.</li>
-        <li><span class="dot dot-plan"></span><b>Automation builder</b> — trigger, condition, wait, action, measured against revenue.</li>
-        <li><span class="dot dot-plan"></span><b>Browse abandonment and personalisation</b> — both need the behavioural events above.</li>
-        <li><span class="dot dot-plan"></span><b>WhatsApp</b> — no WhatsApp module exists today.</li>
-        <li><span class="dot dot-plan"></span><b>Retargeting sync, attribution, loyalty</b> and next-best-action suggestions.</li>
-        <li><span class="dot dot-plan"></span><b>Benchmarks</b> — none are published, which is why this site claims nothing measured about speed.</li>
+        <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Commerce events</b> — 17 of them, written through a transactional outbox in the same transaction as the state change, so an event cannot be lost or invented.</p></li>
+        <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Abandoned-cart recovery</b> — the engine records and announces <code>cart.abandoned</code>; the module owns the schedule, so the first sweep after install does not mail every stale basket at once.</p></li>
+        <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Email and SMS</b> — Resend, SendGrid, Twilio, MSG91. The store owns the sending account.</p></li>
+        <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Order notifications</b> — paid, shipped, delivered, refunded and returned, wired into delivery by the engine itself.</p></li>
+        <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Klaviyo, newsletter, reviews, wishlists</b> — installable modules.</p></li>
+        <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Product feeds, sitemaps, IndexNow</b> — discovery for Google and Meta.</p></li>
+        <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Webhooks</b> — so anything not on this list can be built outside the engine today.</p></li>
+        <li><span class="dot dot-dev" aria-hidden="true"></span><p><b>Svelte Commerce connector</b> — the client that maps this API onto the storefront’s data layer. The one piece actively being written.</p></li>
+        <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Behavioural events</b> — product viewed, search performed, checkout started, payment failed. The engine emits order and catalog events only, so the intent half of a customer profile has no source yet.</p></li>
+        <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Unified customer profile</b> — visits, searches, carts, orders and messages on one timeline.</p></li>
+        <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Dynamic segments</b> — at risk, dormant, high value, computed rather than listed.</p></li>
+        <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Automation builder</b> — trigger, condition, wait, action, measured against revenue.</p></li>
+        <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Browse abandonment and personalisation</b> — both need the behavioural events above.</p></li>
+        <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>WhatsApp</b> — no WhatsApp module exists today.</p></li>
+        <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Retargeting sync, attribution, loyalty</b> and next-best-action suggestions.</p></li>
+        <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Benchmarks</b> — none are published, which is why this site claims nothing measured about speed.</p></li>
       </ul>
     </div>
     <p class="fineprint">Consent, frequency caps and quiet hours are part of that design rather than an afterthought: a messaging feature that cannot be told to stop is a liability, not a feature.</p>

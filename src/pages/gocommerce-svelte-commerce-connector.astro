@@ -77,7 +77,10 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <div class="mkt">
       <ul class="growth-list">
         {ledger.map((l) => (
-          <li><span class={`dot dot-${l.state}`} aria-hidden="true"></span><span class="vh">{l.state === 'ship' ? 'Done: ' : l.state === 'dev' ? 'In progress: ' : 'Planned: '}</span><b>{l.title}</b> — {l.body}</li>
+          <li>
+            <span class={`dot dot-${l.state}`} aria-hidden="true"></span>
+            <p><span class="vh">{l.state === 'ship' ? 'Done: ' : l.state === 'dev' ? 'In progress: ' : 'Planned: '}</span><b>{l.title}</b> — {l.body}</p>
+          </li>
         ))}
       </ul>
     </div>

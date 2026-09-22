@@ -406,13 +406,17 @@ header {
 .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; display: inline-block; }
 .dot-ship { background: var(--go-mark); }
 .dot-dev { background: var(--growth-mark); box-shadow: 0 0 0 2px color-mix(in srgb, var(--growth-mark) 30%, transparent); }
-.dot-plan { background: transparent; border: var(--edge); border-radius: var(--radius-card); }
+.dot-plan { background: transparent; border: 1.5px solid var(--ink-3); border-radius: 50%; }
 
 .legend { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: .8125rem; color: var(--ink-3); }
 .legend li { display: flex; align-items: center; gap: 8px; }
 
 .growth-list { list-style: none; margin: 20px 0 0; padding: 0; }
+/* Two grid items: the dot and one block of text. Anything else in the li —
+   a stray text node, a hidden label — becomes a third item and lands in the
+   9px column one word per line, which is exactly what happened once. */
 .growth-list li { display: grid; grid-template-columns: 9px 1fr; gap: 14px; align-items: start; padding: 14px 0; border-top: var(--hairline); font-size: .9375rem; color: var(--ink-2); }
+.growth-list li > p { margin: 0; min-width: 0; }
 .growth-list li:last-child { border-bottom: var(--hairline); }
 .growth-list .dot { margin-top: 7px; }
 .growth-list b { color: var(--ink); }
