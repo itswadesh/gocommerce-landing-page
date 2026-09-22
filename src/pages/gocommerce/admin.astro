@@ -1,0 +1,90 @@
+---
+/**
+ * Every screen in the GoCommerce admin, photographed from one seeded store.
+ *
+ * The captures come from a local instance filled by the engine's own
+ * scripts/seed-demo.ps1 with a fixed random seed — 64 products, 260 orders
+ * across 150 days, five locations — so the same store can be photographed
+ * again after a change. Every caption is the screen's own heading and first
+ * sentence, read from the panel at capture time, not written here. The list
+ * is the panel's navigation in the panel's order.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+import screens from '../../data/admin-screens.json'
+
+const path = '/gocommerce/admin/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const sections = [...new Set(screens.map((s) => s.section))].map((name) => ({
+  name,
+  id: 'sec-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+  items: screens.filter((s) => s.section === name),
+}))
+
+const graph = [
+  { '@type': 'CollectionPage', '@id': abs(path + '#page'), url: abs(path), name: 'The GoCommerce admin, every screen', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, inLanguage: 'en' },
+]
+
+const faq = [
+  { q: 'Are these real screenshots?', a: 'Yes. Each is a Playwright capture of the admin at 1440×900, in both colour schemes, from a GoCommerce instance run from the repository and filled by its own seed script. Nothing is mocked up, and the captions are the screens’ own headings and first sentences, read at capture time.' },
+  { q: 'Why does the data look invented?', a: 'Because it is: the seed script generates a fixed catalogue, customers and orders from a fixed random seed so the same store can be photographed twice. No real customer appears on any screen.' },
+  { q: 'Is every screen here?', a: `Every screen the panel’s own navigation lists when every module is installed — ${screens.length} in this capture — plus one order and one product opened from their lists. Drawers, dialogs and per-row editors are not photographed; the list screens show where they open from.` },
+  { q: 'Can I click around a live one?', a: 'The home page links a live instance at admin.kitcommerce.store. What it lets you do depends on how that instance is configured on the day; this page is the complete, stable tour.' },
+]
+---
+<Base
+  title="The GoCommerce Admin — Every Screen, Captured From a Seeded Store"
+  description={`All ${screens.length} screens of the GoCommerce admin, photographed from one seeded instance in light and dark: orders, products, inventory, customers, discounts, notifications, content, reports, plugins and settings. Captions are the screens’ own words.`}
+  path={path}
+  ogTitle="The GoCommerce admin, every screen"
+  ogDescription={`${screens.length} real screens from one seeded store, in both colour schemes, captioned in the panel’s own words.`}
+  ogImageAlt="Screens of the GoCommerce admin panel"
+  nav="develop"
+  crumbs={[{ name: 'GoCommerce', href: '/gocommerce/' }, { name: 'Admin', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <h1>Every screen in the admin</h1>
+    <p class="lede">{screens.length} screens from one seeded store — 64 products, 260 orders across 150 days, five locations — captured at 1440×900 in both colour schemes. Each caption is the screen’s own heading and first sentence, read from the panel as it was photographed.</p>
+    <nav class="jumps" aria-label="Sections">
+      {sections.map((s) => <a href={`#${s.id}`}>{s.name} <span>{s.items.length}</span></a>)}
+    </nav>
+  </section>
+
+  {sections.map((s, si) => (
+    <section id={s.id} class="section wrap" aria-labelledby={`${s.id}-title`}>
+      <h2 id={`${s.id}-title`}>{s.name} <span class="h-count">{s.items.length} {s.items.length === 1 ? 'screen' : 'screens'}</span></h2>
+      <div class="screens">
+        {s.items.map((sc, i) => (
+          <figure class="screen" id={`screen-${sc.slug}`}>
+            <div class="stage">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset={`/assets/admin/screens/${sc.slug}-dark.webp`}>
+                <img src={`/assets/admin/screens/${sc.slug}-light.webp`} width="1440" height="900" alt={`${sc.label}: ${sc.heading || sc.label}${sc.lede ? ' — ' + sc.lede : ''}`} loading={si === 0 && i === 0 ? undefined : 'lazy'} decoding="async">
+              </picture>
+            </div>
+            <figcaption>
+              <b>{sc.label}</b>
+              {sc.lede && <span>{sc.lede}</span>}
+              <a href={`/assets/admin/screens/${sc.slug}-light.webp`} target="_blank" rel="noopener noreferrer">Full size ↗</a>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  <Faq items={faq} title="About these captures" />
+
+  <section class="closing wrap">
+    <h2>The same admin, on your server, in one command</h2>
+    <p>It is compiled into the GoCommerce binary — no separate deployment, no second server.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="/gocommerce/">Explore GoCommerce</a>
+      <a class="button secondary" href="/integrations/">44 modules</a>
+    </div>
+  </section>
+</Base>

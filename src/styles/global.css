@@ -1714,3 +1714,19 @@ header { view-transition-name: site-header; }
 
 /* A count beside a heading: information, not an alert, so no badge. */
 .h-count { font: 400 .8125rem/1 var(--mono); color: var(--ink-3); margin-left: 12px; letter-spacing: 0; vertical-align: middle; }
+
+/* ═══════════════════════════════════════ the admin, every screen */
+
+.jumps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.jumps a { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border: var(--hairline); border-radius: var(--radius-ui); background: var(--surface); font-size: .875rem; color: var(--ink-2); text-decoration: none; }
+.jumps a:hover { border-color: var(--ink); color: var(--ink); }
+.jumps a span { font: 400 .75rem/1 var(--mono); color: var(--ink-3); }
+
+.screens { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 22px; margin-top: 24px; }
+.screen { margin: 0; min-width: 0; }
+.screen .stage { margin: 0; }
+.screen .stage img { display: block; width: 100%; height: auto; }
+.screen figcaption { margin-top: 10px; font-size: .875rem; line-height: 1.55; color: var(--ink-2); }
+.screen figcaption b { display: block; font-size: .9375rem; color: var(--ink); }
+.screen figcaption a { display: inline-block; margin-top: 4px; font-size: .8125rem; color: var(--ink-3); }
+@media (max-width: 760px) { .screens { grid-template-columns: 1fr; } }

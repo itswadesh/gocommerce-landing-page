@@ -13,8 +13,7 @@
 /roadmap          /gocommerce/#roadmap                            301
 /faq              /go-svelte-ecommerce/#faq                       301
 /modules          /gocommerce/#modules                            301
-/admin            /gocommerce/#admin                              301
-
+/admin            /gocommerce/admin/                              301
 # Shapes people guess at for the pages that do exist.
 /backends         /svelte-commerce/backends/                      301
 /connector        /gocommerce-svelte-commerce-connector/          301

@@ -1,0 +1,402 @@
+[
+  {
+    "slug": "dashboard",
+    "section": "Home",
+    "label": "Home",
+    "path": "/",
+    "heading": "Home",
+    "lede": "Welcome back, admin@example.com."
+  },
+  {
+    "slug": "orders",
+    "section": "Orders",
+    "label": "Orders",
+    "path": "/orders",
+    "heading": "Orders",
+    "lede": ""
+  },
+  {
+    "slug": "order",
+    "section": "Orders",
+    "label": "An order",
+    "path": "/orders/260",
+    "heading": "Orders",
+    "lede": ""
+  },
+  {
+    "slug": "carts",
+    "section": "Orders",
+    "label": "Abandoned carts",
+    "path": "/carts",
+    "heading": "Carts",
+    "lede": ""
+  },
+  {
+    "slug": "invoices",
+    "section": "Orders",
+    "label": "Invoices",
+    "path": "/invoices",
+    "heading": "Invoices",
+    "lede": ""
+  },
+  {
+    "slug": "payouts",
+    "section": "Orders",
+    "label": "Payouts",
+    "path": "/payouts",
+    "heading": "Orders",
+    "lede": "What each payment method charged over the window, what went back out through it, and what it is still owed. A sale here means the same as on Reports: an order whose stock has left the shelf."
+  },
+  {
+    "slug": "products",
+    "section": "Products",
+    "label": "Products",
+    "path": "/products",
+    "heading": "Products",
+    "lede": ""
+  },
+  {
+    "slug": "product",
+    "section": "Products",
+    "label": "A product",
+    "path": "/products/64",
+    "heading": "Products",
+    "lede": ""
+  },
+  {
+    "slug": "collections",
+    "section": "Products",
+    "label": "Collections",
+    "path": "/collections",
+    "heading": "Collections",
+    "lede": ""
+  },
+  {
+    "slug": "categories",
+    "section": "Products",
+    "label": "Categories",
+    "path": "/categories",
+    "heading": "Categories",
+    "lede": ""
+  },
+  {
+    "slug": "inventory",
+    "section": "Products",
+    "label": "Inventory",
+    "path": "/inventory",
+    "heading": "Inventory",
+    "lede": "Available is on hand minus what is reserved for orders in flight. Stock moves as a delta or an absolute count, never as a blind overwrite — so a sale that lands mid-edit cannot be lost. Without a location chosen, the thr"
+  },
+  {
+    "slug": "pricing",
+    "section": "Products",
+    "label": "Price lists",
+    "path": "/pricing",
+    "heading": "Price lists",
+    "lede": ""
+  },
+  {
+    "slug": "reviews",
+    "section": "Products",
+    "label": "Reviews",
+    "path": "/reviews",
+    "heading": "Reviews",
+    "lede": ""
+  },
+  {
+    "slug": "vendors",
+    "section": "Products",
+    "label": "Vendors",
+    "path": "/vendors",
+    "heading": "Vendors",
+    "lede": ""
+  },
+  {
+    "slug": "customers",
+    "section": "Customers",
+    "label": "Customers",
+    "path": "/customers",
+    "heading": "Customers",
+    "lede": "A cancelled order is still an order but not a sale, and money only counts once it has arrived — so the two figures rarely match."
+  },
+  {
+    "slug": "customer-groups",
+    "section": "Customers",
+    "label": "Groups",
+    "path": "/customers/groups",
+    "heading": "Customers",
+    "lede": "A shopper joins a group on their customer record; the price lists that aim at it are under Products."
+  },
+  {
+    "slug": "accounts",
+    "section": "Customers",
+    "label": "Accounts",
+    "path": "/accounts",
+    "heading": "Accounts",
+    "lede": ""
+  },
+  {
+    "slug": "contact",
+    "section": "Customers",
+    "label": "Contact inbox",
+    "path": "/contact",
+    "heading": "Contact",
+    "lede": ""
+  },
+  {
+    "slug": "newsletter",
+    "section": "Customers",
+    "label": "Newsletter",
+    "path": "/newsletter",
+    "heading": "Newsletter",
+    "lede": ""
+  },
+  {
+    "slug": "wishlists",
+    "section": "Customers",
+    "label": "Wishlists",
+    "path": "/wishlists",
+    "heading": "Customers",
+    "lede": ""
+  },
+  {
+    "slug": "discounts",
+    "section": "Discounts",
+    "label": "Discounts",
+    "path": "/discounts",
+    "heading": "Discounts",
+    "lede": ""
+  },
+  {
+    "slug": "notifications",
+    "section": "Notifications",
+    "label": "Notifications",
+    "path": "/notifications",
+    "heading": "Notification History",
+    "lede": ""
+  },
+  {
+    "slug": "notifications-email",
+    "section": "Notifications",
+    "label": "Setup Email",
+    "path": "/notifications/email",
+    "heading": "Notifications",
+    "lede": "Who carries the store's emails. Activate a provider and type its key; until one is active every message is written to the log and nobody receives it."
+  },
+  {
+    "slug": "notifications-sms",
+    "section": "Notifications",
+    "label": "Setup SMS",
+    "path": "/notifications/sms",
+    "heading": "Notifications",
+    "lede": "Who carries the store's texts. Activate a provider and type its key; until one is active every message is written to the log and nobody receives it."
+  },
+  {
+    "slug": "media",
+    "section": "Content",
+    "label": "Files",
+    "path": "/media",
+    "heading": "Media",
+    "lede": "Drag and drop images, videos, 3D models, and files"
+  },
+  {
+    "slug": "cms",
+    "section": "Content",
+    "label": "Pages",
+    "path": "/cms",
+    "heading": "Pages",
+    "lede": ""
+  },
+  {
+    "slug": "menus",
+    "section": "Content",
+    "label": "Menus",
+    "path": "/menus",
+    "heading": "Menus",
+    "lede": "Pick a menu on the left, or create one. A storefront reads a menu from /x/navigation/menus/<handle>."
+  },
+  {
+    "slug": "feeds",
+    "section": "Content",
+    "label": "Product feeds",
+    "path": "/feeds",
+    "heading": "Content",
+    "lede": "Both files are generated when they are fetched, from the catalogue as it stands at that moment. There is no build to schedule and nothing to regenerate."
+  },
+  {
+    "slug": "sitemap",
+    "section": "Content",
+    "label": "Sitemap",
+    "path": "/sitemap",
+    "heading": "Content",
+    "lede": "Read by fetching the files themselves, the way a crawler would. Each is generated at the moment it is asked for, so what is counted here is exactly what a crawler would have got a second ago."
+  },
+  {
+    "slug": "faq",
+    "section": "Content",
+    "label": "FAQ",
+    "path": "/faq",
+    "heading": "Content",
+    "lede": "The questions this shop is asked often, grouped into the sections you name and in the order you put them. A draft is invisible to shoppers. The storefront reads the published ones from /x/faq."
+  },
+  {
+    "slug": "reports",
+    "section": "Reports",
+    "label": "Reports",
+    "path": "/reports",
+    "heading": "Reports",
+    "lede": "Sales — what the store sold, by period, with its best sellers — is on the dashboard. This is for the questions only this shop has, written as SQL once and run by whoever needs the answer."
+  },
+  {
+    "slug": "jobs",
+    "section": "Jobs",
+    "label": "Jobs",
+    "path": "/jobs",
+    "heading": "Jobs",
+    "lede": "The full outbox, with every event's history, is under Settings › Event log."
+  },
+  {
+    "slug": "plugins",
+    "section": "Plugins",
+    "label": "Plugins",
+    "path": "/plugins",
+    "heading": "Plugins",
+    "lede": "A line across the top of every storefront page — a promotion, a notice, a shipping threshold."
+  },
+  {
+    "slug": "settings",
+    "section": "Settings",
+    "label": "Store",
+    "path": "/settings",
+    "heading": "Settings",
+    "lede": ""
+  },
+  {
+    "slug": "team",
+    "section": "Settings",
+    "label": "Team",
+    "path": "/settings/superusers",
+    "heading": "Settings",
+    "lede": ""
+  },
+  {
+    "slug": "account",
+    "section": "Settings",
+    "label": "Your account",
+    "path": "/settings/account",
+    "heading": "Settings",
+    "lede": ""
+  },
+  {
+    "slug": "payments",
+    "section": "Settings",
+    "label": "Payment methods",
+    "path": "/settings/payments",
+    "heading": "Settings",
+    "lede": "How shoppers pay. A gateway that is active and set up is offered at checkout; an idle one is listed here and nowhere else. Cash on delivery is built in."
+  },
+  {
+    "slug": "shipping",
+    "section": "Settings",
+    "label": "Shipping and delivery",
+    "path": "/shipping",
+    "heading": "Settings",
+    "lede": "The most specific zone wins: a zone naming a state beats one naming only its country, which beats the zone that names nowhere in particular."
+  },
+  {
+    "slug": "shipping-providers",
+    "section": "Settings",
+    "label": "Shipping providers",
+    "path": "/shipping/providers",
+    "heading": "Shipping",
+    "lede": "Who carries the parcels. An aggregator that is active and set up is offered on the ship dialog; an idle one is listed here and nowhere else. Manual fulfilment is built in."
+  },
+  {
+    "slug": "taxes",
+    "section": "Settings",
+    "label": "Taxes",
+    "path": "/taxes",
+    "heading": "Tax rates",
+    "lede": ""
+  },
+  {
+    "slug": "locations",
+    "section": "Settings",
+    "label": "Locations",
+    "path": "/locations",
+    "heading": "Locations",
+    "lede": ""
+  },
+  {
+    "slug": "channels",
+    "section": "Settings",
+    "label": "Channels",
+    "path": "/channels",
+    "heading": "Channels",
+    "lede": ""
+  },
+  {
+    "slug": "attributes",
+    "section": "Settings",
+    "label": "Attribute dictionary",
+    "path": "/settings/attributes",
+    "heading": "Settings",
+    "lede": ""
+  },
+  {
+    "slug": "diagnostics",
+    "section": "Settings",
+    "label": "Diagnostics",
+    "path": "/settings/diagnostics",
+    "heading": "Settings",
+    "lede": "Nothing has failed, but 3 checks of 15 are worth a look."
+  },
+  {
+    "slug": "events",
+    "section": "Settings",
+    "label": "Event log",
+    "path": "/settings/events",
+    "heading": "Settings",
+    "lede": ""
+  },
+  {
+    "slug": "api-keys",
+    "section": "Settings",
+    "label": "API keys",
+    "path": "/settings/api-keys",
+    "heading": "Settings",
+    "lede": "A key is held to its role exactly as a person is, so give it the smallest one that does the job. Owner includes making more keys."
+  },
+  {
+    "slug": "webhooks",
+    "section": "Settings",
+    "label": "Webhooks",
+    "path": "/settings/webhooks",
+    "heading": "Settings",
+    "lede": "Where this store POSTs the events an endpoint names. Each delivery is signed, and a failed one is retried on a backoff until it is delivered or given up on."
+  },
+  {
+    "slug": "audit",
+    "section": "Settings",
+    "label": "Audit trail",
+    "path": "/settings/audit",
+    "heading": "Settings",
+    "lede": ""
+  },
+  {
+    "slug": "export",
+    "section": "Settings",
+    "label": "Export",
+    "path": "/data",
+    "heading": "Settings",
+    "lede": ""
+  },
+  {
+    "slug": "import",
+    "section": "Settings",
+    "label": "Import",
+    "path": "/data/import",
+    "heading": "Settings",
+    "lede": "A dry run validates the whole file and rolls back, reporting what it would have done. Worth doing first, always."
+  }
+]

@@ -36,6 +36,7 @@
 
 - https://kitcommerce.store/ — both projects, a one-command Docker quick start, admin and storefront screenshots, capabilities, architecture and FAQ
 - https://kitcommerce.store/gocommerce/ — the backend and admin: capabilities, modules, admin screenshots, setup, roadmap
+- https://kitcommerce.store/gocommerce/admin/ — every screen of the admin, captured from one seeded store in light and dark, captioned in the panel’s own words
 - https://kitcommerce.store/svelte-commerce/ — the storefront: capabilities, screens, backend preview, setup
 - https://kitcommerce.store/svelte-commerce/backends/ — all 26 connectors with measured coverage, cart/checkout/auth status and known gaps
 - https://kitcommerce.store/go-svelte-ecommerce/ — how the two projects relate, when to use each, side-by-side comparison
