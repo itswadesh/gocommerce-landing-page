@@ -56,19 +56,22 @@ const faq = [
   {sections.map((s, si) => (
     <section id={s.id} class="section wrap" aria-labelledby={`${s.id}-title`}>
       <h2 id={`${s.id}-title`}>{s.name} <span class="h-count">{s.items.length} {s.items.length === 1 ? 'screen' : 'screens'}</span></h2>
+      {/* Each link is the lightbox trigger: app.js opens the full capture in
+          a <dialog> with previous/next; with JavaScript off it opens the file
+          itself, which is the same picture. */}
       <div class="screens">
         {s.items.map((sc, i) => (
           <figure class="screen" id={`screen-${sc.slug}`}>
-            <div class="stage">
+            <a class="stage stage-link" href={`/assets/admin/screens/${sc.slug}-light.webp`} data-gallery="admin" data-dark={`/assets/admin/screens/${sc.slug}-dark.webp`} data-title={sc.label} data-caption={sc.lede} data-index={si} aria-label={`Open ${sc.label} full size`}>
               <picture>
                 <source media="(prefers-color-scheme: dark)" srcset={`/assets/admin/screens/${sc.slug}-dark.webp`}>
                 <img src={`/assets/admin/screens/${sc.slug}-light.webp`} width="1440" height="900" alt={`${sc.label}: ${sc.heading || sc.label}${sc.lede ? ' — ' + sc.lede : ''}`} loading={si === 0 && i === 0 ? undefined : 'lazy'} decoding="async">
               </picture>
-            </div>
+            </a>
             <figcaption>
               <b>{sc.label}</b>
               {sc.lede && <span>{sc.lede}</span>}
-              <a href={`/assets/admin/screens/${sc.slug}-light.webp`} target="_blank" rel="noopener noreferrer">Full size ↗</a>
+              <a href={`/assets/admin/screens/${sc.slug}-light.webp`} target="_blank" rel="noopener noreferrer">Open the file ↗</a>
             </figcaption>
           </figure>
         ))}

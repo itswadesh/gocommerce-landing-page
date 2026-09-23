@@ -391,6 +391,89 @@
   //    measurement; it settles on the figure printed over it.
   playOnce($('.matrix'), 1200)
 
+  /* ──────────────────────────────────────────────────── lightbox */
+
+  // Screenshots open full size in a <dialog>, with previous and next. The
+  // triggers are ordinary links to the image files, so with this script
+  // blocked a click still shows the same picture. <dialog> supplies the
+  // modal behaviour — focus containment, Escape, the backdrop — and this adds
+  // only the arrows, the counter, and the choice of the dark capture when the
+  // reader's scheme is dark.
+  var shots = $$('a[data-gallery]')
+
+  if (shots.length && 'HTMLDialogElement' in window) {
+    var box = document.createElement('dialog')
+    box.className = 'lightbox'
+    box.setAttribute('aria-label', 'Screenshot, full size')
+    box.innerHTML =
+      '<figure class="lightbox-fig">' +
+        '<img alt="" decoding="async">' +
+        '<figcaption><b></b> <span></span></figcaption>' +
+      '</figure>' +
+      '<p class="lightbox-count"></p>' +
+      '<button type="button" class="lightbox-btn lightbox-prev" aria-label="Previous screenshot">&#8249;</button>' +
+      '<button type="button" class="lightbox-btn lightbox-next" aria-label="Next screenshot">&#8250;</button>' +
+      '<button type="button" class="lightbox-btn lightbox-close" aria-label="Close">&#215;</button>'
+    document.body.appendChild(box)
+
+    var boxImg = box.querySelector('img')
+    var boxTitle = box.querySelector('figcaption b')
+    var boxCap = box.querySelector('figcaption span')
+    var boxCount = box.querySelector('.lightbox-count')
+    var darkScheme = window.matchMedia('(prefers-color-scheme: dark)')
+    var current = -1
+
+    function srcOf (a) { return darkScheme.matches && a.dataset.dark ? a.dataset.dark : a.getAttribute('href') }
+
+    function preload (i) {
+      var a = shots[(i + shots.length) % shots.length]
+      var im = new Image()
+      im.src = srcOf(a)
+    }
+
+    function show (i) {
+      current = (i + shots.length) % shots.length
+      var a = shots[current]
+      var img = a.querySelector('img')
+      boxImg.src = srcOf(a)
+      boxImg.alt = img ? img.alt : ''
+      boxTitle.textContent = a.dataset.title || ''
+      boxCap.textContent = a.dataset.caption || ''
+      boxCount.textContent = (current + 1) + ' / ' + shots.length
+      preload(current + 1)
+      preload(current - 1)
+    }
+
+    shots.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        // A modified click means "open in a new tab"; let the link do that.
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return
+        e.preventDefault()
+        show(i)
+        if (!box.open) box.showModal()
+        box.querySelector('.lightbox-close').focus()
+      })
+    })
+
+    box.querySelector('.lightbox-prev').addEventListener('click', function () { show(current - 1) })
+    box.querySelector('.lightbox-next').addEventListener('click', function () { show(current + 1) })
+    box.querySelector('.lightbox-close').addEventListener('click', function () { box.close() })
+
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(current + 1) }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); show(current - 1) }
+    })
+
+    // A click on the backdrop — outside the figure and the buttons — closes.
+    box.addEventListener('click', function (e) { if (e.target === box) box.close() })
+
+    // Back to the picture you opened, which may not be the one you left on.
+    box.addEventListener('close', function () {
+      if (current >= 0) shots[current].focus()
+      boxImg.removeAttribute('src')
+    })
+  }
+
   /* ─────────────────────────────────────────────── service worker */
 
   // The build ships a precaching worker with skipWaiting and clientsClaim, so

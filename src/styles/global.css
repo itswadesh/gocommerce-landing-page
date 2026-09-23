@@ -1730,3 +1730,41 @@ header { view-transition-name: site-header; }
 .screen figcaption b { display: block; font-size: .9375rem; color: var(--ink); }
 .screen figcaption a { display: inline-block; margin-top: 4px; font-size: .8125rem; color: var(--ink-3); }
 @media (max-width: 760px) { .screens { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════════════════ lightbox */
+
+.stage-link { display: block; cursor: zoom-in; text-decoration: none; color: inherit; }
+.stage-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* The dialog is the whole viewport; the backdrop is the dark. Everything
+   inside is positioned against it, so the picture can take the room. */
+.lightbox { position: fixed; inset: 0; width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: #f4f6f1; }
+.lightbox::backdrop { background: rgba(10, 14, 12, .88); }
+.lightbox-fig { margin: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 56px 84px 28px; box-sizing: border-box; }
+.lightbox-fig img { display: block; max-width: 100%; max-height: calc(100vh - 150px); width: auto; height: auto; background: #fff; border: 1px solid rgba(255, 255, 255, .18); border-radius: var(--radius-card); }
+.lightbox-fig figcaption { max-width: 72ch; text-align: center; font-size: .9375rem; line-height: 1.5; color: rgba(244, 246, 241, .78); }
+.lightbox-fig figcaption b { color: #f4f6f1; }
+.lightbox-count { position: absolute; top: 18px; left: 22px; margin: 0; font: 400 .8125rem/1 var(--mono); color: rgba(244, 246, 241, .7); }
+
+.lightbox-btn {
+  position: absolute; width: 44px; height: 44px; padding: 0; border-radius: var(--radius-ui);
+  border: 1px solid rgba(255, 255, 255, .28); background: rgba(244, 246, 241, .1); color: #f4f6f1;
+  font: 400 1.75rem/1 var(--sans); cursor: pointer;
+}
+.lightbox-btn:hover { background: rgba(244, 246, 241, .22); }
+.lightbox-btn:focus-visible { outline: 2px solid #f4f6f1; outline-offset: 3px; }
+.lightbox-prev { left: 22px; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 22px; top: 50%; transform: translateY(-50%); }
+.lightbox-close { top: 14px; right: 22px; }
+
+@media (max-width: 700px) {
+  .lightbox-fig { padding: 56px 12px 84px; }
+  .lightbox-fig img { max-height: calc(100vh - 170px); }
+  .lightbox-fig figcaption { font-size: .875rem; }
+  .lightbox-prev, .lightbox-next { top: auto; bottom: 18px; transform: none; }
+  .lightbox-prev { left: 22px; }
+  .lightbox-next { right: 22px; }
+}
+
+/* While the dialog is open the page behind must not scroll with it. */
+html:has(dialog.lightbox[open]) { overflow: hidden; }
