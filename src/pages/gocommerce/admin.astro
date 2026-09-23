@@ -11,7 +11,12 @@
  */
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
-import screens from '../../data/admin-screens.json'
+import captured from '../../data/admin-screens.json'
+
+// Sections captured but not shown. The files and the manifest rows stay, so
+// taking a name out of this set brings a section back without a re-shoot.
+const hidden = new Set(['Plugins'])
+const screens = captured.filter((s) => !hidden.has(s.section))
 
 const path = '/gocommerce/admin/'
 const abs = (p: string) => new URL(p, Astro.site!).href
