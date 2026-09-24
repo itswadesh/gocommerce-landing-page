@@ -31,6 +31,9 @@ function git(args) {
 // appeared, so datePublished is withheld on a shallow clone rather than
 // guessed as the clone's oldest commit.
 const shallow = git(['rev-parse', '--is-shallow-repository']) === 'true'
+// A single-commit clone can date nothing: every file's "last commit" would
+// be the tip, which is the deploy date. Withhold rather than mislead.
+const depthOne = shallow && git(['rev-list', '--count', 'HEAD']) === '1'
 
 function sourceFor(p) {
   const clean = p.replace(/^\/+|\/+$/g, '')
@@ -49,7 +52,7 @@ export function pageDates(p) {
   const src = sourceFor(p)
   const today = new Date().toISOString().slice(0, 10)
   let out = { modified: today, published: undefined, exact: false }
-  if (src) {
+  if (src && !depthOne) {
     let latest = 0
     for (const f of [src, ...(EXTRA[p] || [])]) {
       const t = Date.parse(git(['log', '-1', '--format=%cI', '--', f]))

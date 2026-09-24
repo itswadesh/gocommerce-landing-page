@@ -3,17 +3,25 @@
 # Deploys run in Workers Builds on every push to main (repository
 # itswadesh/gocommerce-landing-page, deploy command `npx wrangler deploy`).
 # This file is what that command reads: build the site, then upload dist/.
-# There is no Worker script — every request is answered from the assets —
-# so `main` is deliberately absent.
+# One small Worker (src/worker.js) runs in front of the assets to put a
+# charset on HTML responses, which the asset server will not do on its own.
 
 name = "gocommerce-landing-page"
+main = "src/worker.js"
 compatibility_date = "2026-09-21"
 
 [build]
-command = "npm run build"
+# The build clone is shallow. Deepening it first lets each page carry the
+# date its source was last committed rather than the date of this deploy —
+# see src/lib/dates.mjs. Harmless when the clone is already complete.
+command = "node scripts/deepen.mjs && npm run build"
 
 [assets]
 directory = "./dist"
+binding = "ASSETS"
+# Every request passes through the Worker, which serves it from the assets
+# and adds the charset. Without this, matching assets bypass the script.
+run_worker_first = true
 # Astro emits /path/index.html and every canonical carries a trailing slash;
 # auto-trailing-slash serves /gocommerce/ from that file and redirects
 # /gocommerce to it, which is the behaviour the canonicals assume.
