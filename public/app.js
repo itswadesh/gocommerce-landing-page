@@ -112,6 +112,44 @@
     closeNav(true)
   })
 
+  /* ──────────────────────────────────────────────── colour scheme */
+
+  // The header's toggle overrides the system scheme; the choice is stored
+  // under kc-theme and applied before first paint by an inline script in the
+  // head. Screenshots pick their dark variant with a media query on <source>,
+  // which cannot see data-theme, so a forced scheme rewrites those queries to
+  // "all" or "not all" and back.
+  var THEME_KEY = 'kc-theme'
+  var systemDark = window.matchMedia('(prefers-color-scheme: dark)')
+
+  function isDark () {
+    var t = document.documentElement.getAttribute('data-theme')
+    return t ? t === 'dark' : systemDark.matches
+  }
+
+  function applyPictures () {
+    var forced = document.documentElement.getAttribute('data-theme')
+    $$('picture source').forEach(function (s) {
+      var original = s.getAttribute('data-media') || s.getAttribute('media') || ''
+      if (!/prefers-color-scheme/.test(original)) return
+      if (!s.hasAttribute('data-media')) s.setAttribute('data-media', original)
+      var wantsDark = /dark/.test(original)
+      s.setAttribute('media', !forced ? original : (forced === 'dark') === wantsDark ? 'all' : 'not all')
+    })
+  }
+
+  function setTheme (mode) {
+    if (mode) document.documentElement.setAttribute('data-theme', mode)
+    else document.documentElement.removeAttribute('data-theme')
+    try { mode ? localStorage.setItem(THEME_KEY, mode) : localStorage.removeItem(THEME_KEY) } catch (e) { /* stays for this page */ }
+    applyPictures()
+  }
+
+  $$('[data-theme-toggle]').forEach(function (btn) {
+    btn.addEventListener('click', function () { setTheme(isDark() ? 'light' : 'dark') })
+  })
+  applyPictures()
+
   /* ──────────────────────────────────────────── admin screenshots */
 
   var tablist = $('.tabs')
@@ -420,10 +458,9 @@
     var boxTitle = box.querySelector('figcaption b')
     var boxCap = box.querySelector('figcaption span')
     var boxCount = box.querySelector('.lightbox-count')
-    var darkScheme = window.matchMedia('(prefers-color-scheme: dark)')
     var current = -1
 
-    function srcOf (a) { return darkScheme.matches && a.dataset.dark ? a.dataset.dark : a.getAttribute('href') }
+    function srcOf (a) { return isDark() && a.dataset.dark ? a.dataset.dark : a.getAttribute('href') }
 
     function preload (i) {
       var a = shots[(i + shots.length) % shots.length]

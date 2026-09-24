@@ -35,8 +35,8 @@ const base = '/assets/admin/focus/'
   .product-shot { margin: 0; min-width: 0; }
   .browser-frame { max-width: var(--shot-width); border: 1px solid var(--rule-strong); border-radius: 8px; overflow: hidden; background: var(--surface); }
   .browser-bar { display: flex; align-items: center; gap: 12px; min-height: 38px; padding: 9px 12px; background: var(--bar); border-bottom: 1px solid var(--rule); font: 400 .75rem/1.4 var(--mono); color: var(--ink-2); }
-  .frame-dots { display: flex; gap: 4px; flex: none; }
-  .frame-dots i { width: 6px; height: 6px; border: 1px solid var(--ink-3); border-radius: 50%; }
+  .frame-dots { display: flex; gap: 5px; flex: none; }
+  .frame-dots i { width: 8px; height: 8px; background: var(--rule-strong); border-radius: 50%; }
   .capture-label { margin-left: auto; font: 400 .6875rem/1 var(--sans); white-space: nowrap; }
   .shot-link { display: block; }
   .shot-link:focus-visible { outline-offset: -3px; }
@@ -46,7 +46,8 @@ const base = '/assets/admin/focus/'
   figcaption a { flex: none; }
   .shot-caption-small { display: none; }
   @media (max-width: 900px) {
-    .browser-frame { max-width: var(--mobile-shot-width); margin-inline: auto; }
+    .browser-frame { max-width: min(100%, calc(var(--mobile-shot-width) * 1.3)); margin-inline: auto; }
+    figcaption { max-width: min(100%, calc(var(--mobile-shot-width) * 1.3)); margin-inline: auto; }
     .capture-label, .shot-caption-wide { display: none; }
     .shot-caption-small { display: inline; }
     figcaption { flex-direction: column; gap: 4px; }

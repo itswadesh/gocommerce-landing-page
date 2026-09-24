@@ -10,6 +10,7 @@
  * IDs set, nothing loads until the visitor grants consent — see app.js.
  */
 import '../styles/global.css'
+import '../styles/skin.css'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 import Breadcrumbs from '../components/Breadcrumbs.astro'
@@ -110,8 +111,11 @@ const robots = noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-ima
 <title>{title}</title>
 <meta name="description" content={description}>
 <meta name="robots" content={robots}>
-<meta name="theme-color" content="#f4f6f1" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#12160f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+{/* The reader's chosen theme, applied before first paint so a dark page never
+    flashes white. The choice lives in localStorage under kc-theme. */}
+<script is:inline>(function(){try{var t=localStorage.getItem('kc-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})()</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230f1720'/%3E%3Cg fill='%23ffffff'%3E%3Crect x='4' y='4' width='3.6' height='16' rx='1'/%3E%3Cpath d='M9.6 12 15.4 4h4.4l-5.8 8z'/%3E%3Cpath d='M9.6 12h4.4l5.8 8h-4.4z'/%3E%3C/g%3E%3C/svg%3E">
 {!noindex && <link rel="canonical" href={canonical}>}
 <meta property="og:type" content="website">
@@ -128,6 +132,8 @@ const robots = noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-ima
 <meta name="twitter:title" content={ogTitle}>
 <meta name="twitter:description" content={ogDescription}>
 <meta name="twitter:image" content={abs('/assets/og.png')}>
+<link rel="preload" href="/assets/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <script is:inline set:html={`window.KC_CONFIG=${JSON.stringify(cfg)}`} />

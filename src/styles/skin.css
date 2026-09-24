@@ -1,0 +1,323 @@
+/* The skin: the Folio-shaped surface over the site's own tokens.
+ *
+ * global.css keeps every component's structure; this file, loaded after it,
+ * decides how those components look now — white paper, ink text, hairline
+ * cards with 16px corners, a serif for the two display sizes, tracked mono
+ * eyebrows, one dark band to close a page. Nothing here changes what a page
+ * says; it changes the paper it is printed on.
+ */
+
+/* ── type ────────────────────────────────────────────────────────── */
+
+body { font-size: 1rem; line-height: 1.6; font-variant-numeric: normal; }
+h1, h2 { font-family: var(--serif); font-weight: 700; letter-spacing: -.014em; text-wrap: balance; }
+h1 { font-size: clamp(2.5rem, 5.6vw, 3.9rem); line-height: 1.02; }
+h2 { font-size: clamp(2rem, 3.9vw, 3rem); line-height: 1.06; letter-spacing: -.02em; }
+h3 { font-family: var(--sans); font-weight: 600; font-size: 1.0625rem; letter-spacing: -.005em; }
+.lede, .section-lede { color: var(--ink-2); text-wrap: pretty; }
+.section-lede { font-size: 1.0625rem; }
+.section { border-top: 0; padding-block: clamp(56px, 7vw, 104px); }
+.fineprint { color: var(--ink-3); max-width: 62ch; }
+code { font-family: var(--mono); }
+
+/* Eyebrows: the reference sets them small, mono and tracked. */
+.kicker { display: block; font: 500 .75rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 16px; }
+.kicker::before { display: none; }
+.h-count { text-transform: none; letter-spacing: 0; }
+
+/* ── header ──────────────────────────────────────────────────────── */
+
+header { background: color-mix(in srgb, var(--paper) 92%, transparent); border-bottom: var(--hairline); }
+.nav { min-height: 64px; gap: 20px; display: grid; grid-template-columns: 1fr auto 1fr; }
+.wordmark { margin-right: 0; }
+.navlinks { margin-inline: 0; justify-self: center; gap: 26px; }
+.navlinks a, .navmenu > summary { font-size: .9375rem; color: var(--ink-2); }
+.navlinks a:hover, .navmenu > summary:hover { color: var(--ink); }
+.navlinks a[aria-current="page"] { color: var(--ink); }
+.nav-actions { display: flex; align-items: center; justify-self: end; gap: 8px; }
+.nav-actions .button { padding: 8px 14px; font-size: .875rem; }
+.theme-toggle { width: 36px; height: 36px; border-radius: 999px; border: var(--hairline); background: transparent; color: var(--ink-2); display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+.theme-toggle:hover { color: var(--ink); border-color: var(--rule-strong); background: var(--surface); }
+.theme-toggle svg { width: 16px; height: 16px; }
+.theme-toggle .sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .sun { display: block; }
+  :root:not([data-theme="light"]) .theme-toggle .moon { display: none; }
+}
+/* Panels hang centred under their summary now that the links sit in the
+   middle of the bar, and never wider than the viewport allows. */
+.navpanel { border-radius: var(--radius-card); box-shadow: 0 12px 40px -12px rgba(23, 23, 23, .18); left: 50%; right: auto; transform: translateX(-50%); max-width: calc(100vw - 48px); }
+.navmenu-wide .navpanel { width: min(640px, calc(100vw - 48px)); }
+.navpanel a { border-radius: var(--radius-ui); }
+@media (max-width: 1100px) {
+  .nav-actions .nav-doc { display: none; }
+  /* Below this the wide panel cannot centre under its summary without
+     leaving the viewport, so it becomes a full-width shelf under the bar. */
+  .navmenu-wide .navpanel { position: fixed; left: 24px; right: 24px; top: 72px; width: auto; max-width: none; transform: none; }
+}
+@media (max-width: 1000px) { .nav { gap: 14px; } .navlinks { gap: 18px; } .nav-actions .button { display: none; } }
+@media (max-width: 860px) {
+  .navpanel, .navmenu-wide .navpanel { position: static; left: auto; right: auto; top: auto; transform: none; min-width: 0; max-width: none; width: auto; box-shadow: none; }
+  .navlinks { margin-inline: 0; }
+  .nav-actions .nav-doc, .nav-actions .button { display: none; }
+  .navlinks .drawer-cta { display: flex; gap: 8px; padding-top: 16px; }
+  .navlinks .drawer-cta .button { flex: 1; text-align: center; }
+}
+@media (min-width: 861px) { .drawer-cta { display: none; } }
+
+/* ── buttons, pills, chips ───────────────────────────────────────── */
+
+.button {
+  border-radius: var(--radius-ui); padding: 11px 18px; font-size: .9375rem; font-weight: 500;
+  border: 1px solid var(--ink); background: var(--ink); color: var(--paper);
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+.button:hover { opacity: 1; background: color-mix(in srgb, var(--ink) 86%, var(--paper)); border-color: color-mix(in srgb, var(--ink) 86%, var(--paper)); }
+.button.secondary { background: var(--paper); color: var(--ink); border-color: var(--rule-strong); }
+.button.secondary:hover { background: var(--surface); border-color: var(--ink-3); }
+.part-engine .button, .part-store .button { background: var(--ink); border-color: var(--ink); }
+.part-engine .button:hover, .part-store .button:hover { background: color-mix(in srgb, var(--ink) 86%, var(--paper)); border-color: color-mix(in srgb, var(--ink) 86%, var(--paper)); }
+.part .button.secondary, .part .button.secondary:hover { background: var(--paper); color: var(--ink); border-color: var(--rule-strong); }
+
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border: var(--hairline); border-radius: 999px; background: var(--paper); font-size: .8125rem; font-weight: 500; color: var(--ink-2); text-decoration: none; box-shadow: var(--shadow); }
+.pill:hover { border-color: var(--ink-3); color: var(--ink); }
+.pill svg { width: 12px; height: 12px; }
+.badge { border-radius: 999px; }
+
+/* ── hero ────────────────────────────────────────────────────────── */
+
+.hero-center { text-align: center; padding-block: clamp(48px, 7vw, 96px) 0; }
+.hero-center h1 { max-width: 17ch; margin-inline: auto; }
+.hero-center .lede { margin: 22px auto 0; max-width: 40rem; font-size: 1.125rem; }
+.hero-center .actions { justify-content: center; margin-top: 28px; }
+.hero-center .hero-stats { justify-content: center; margin-top: 22px; }
+.hero-center .hero-stats li { font-size: .875rem; color: var(--ink-3); }
+.hero-center .hero-stats b { color: var(--ink); }
+
+/* The product card on a soft wash, in place of the reference's photograph:
+   two of the tints, blurred into a band the card sits on. */
+.hero-wash { position: relative; margin-top: clamp(36px, 5vw, 64px); padding-bottom: clamp(24px, 4vw, 48px); }
+.hero-wash::before {
+  content: ""; position: absolute; left: -24px; right: -24px; top: 18%; bottom: 0; z-index: -1;
+  background: radial-gradient(60% 70% at 30% 60%, var(--tint-sky) 0%, transparent 70%), radial-gradient(55% 65% at 75% 55%, var(--tint-mint) 0%, transparent 70%), linear-gradient(180deg, transparent 0%, var(--surface) 62%, transparent 100%);
+  border-radius: var(--radius-device);
+}
+.product-card { margin: 0; border: var(--hairline); border-radius: var(--radius-device); overflow: hidden; background: var(--paper); box-shadow: 0 30px 80px -32px rgba(23, 23, 23, .28), 0 1px 2px rgba(23, 23, 23, .06); }
+.product-card .bar { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: var(--hairline); background: var(--surface); font: 400 .75rem/1.4 var(--mono); color: var(--ink-3); }
+.product-card .bar .dots { display: flex; gap: 5px; }
+.product-card .bar .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--rule-strong); }
+.product-card .bar .url { margin-left: 6px; padding: 4px 10px; border-radius: 999px; background: var(--paper); border: var(--hairline); }
+.product-card .bar .tag { margin-left: auto; font-family: var(--sans); font-size: .75rem; }
+.product-card img { display: block; width: 100%; height: auto; }
+@media (max-width: 700px) { .product-card .bar .tag { display: none; } .product-card .bar .url { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } }
+/* The wash bleeds into the gutter, so it must follow the gutter as it narrows. */
+@media (max-width: 540px) { .hero-wash::before { left: -18px; right: -18px; } }
+.product-card a { display: block; cursor: zoom-in; }
+
+/* ── logo strip ──────────────────────────────────────────────────── */
+
+.logostrip { padding-block: 40px 0; text-align: center; }
+.logostrip > p { font: 500 .75rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+.logostrip ul { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px 40px; }
+.logostrip li { display: inline-flex; align-items: center; gap: 10px; font: 500 1rem/1 var(--sans); color: var(--ink-2); }
+.logostrip img { width: 24px; height: 24px; }
+/* Wordmarks are wide: sized by their own ink box, they carry the same
+   optical weight as the square marks beside them. */
+.logostrip img[src$="/go.svg"] { width: 48px; height: 18px; }
+.intstrip img[src$="/adyen.svg"] { width: 56px; height: 18px; }
+.moddir img[src$="/adyen.svg"] { width: 34px; height: 11px; }
+
+/* ── section heads: eyebrow + serif left, lede right ─────────────── */
+
+.sec-head { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 16px 56px; align-items: end; }
+.sec-head h2 { max-width: 22ch; }
+.sec-head .section-lede { margin-top: 0; max-width: 34rem; padding-bottom: 8px; }
+@media (max-width: 860px) { .sec-head { grid-template-columns: 1fr; } .sec-head .section-lede { margin-top: 10px; padding-bottom: 0; } }
+
+/* ── cards: gapped, hairline, 16px ───────────────────────────────── */
+
+.solgrid, .evidence, .moddir, .outcome, .urls, .screens { gap: 16px; background: none; border: 0; border-radius: 0; overflow: visible; }
+.solgrid article, .evidence li, .moddir li, .outcome li, .urls .url { background: var(--paper); border: var(--hairline); border-radius: var(--radius-card); }
+.solgrid article, .evidence li, .tri-item, .urls .url, .outcome li, .moddir li { padding: var(--card-pad); }
+.solgrid article { gap: 12px; }
+.solgrid h3 { font-size: 1.125rem; }
+.solgrid ul { font-size: .9375rem; }
+.solgrid ul li::before { background: currentColor; opacity: .5; }
+.solgrid article > a { color: var(--ink); font-weight: 500; display: inline-flex; align-items: center; min-height: 44px; }
+.solgrid .sol-ic { width: 26px; height: 26px; }
+.evidence svg { color: var(--ink); }
+.capwall { gap: 10px; background: none; border: 0; }
+.capwall li { flex-direction: row; gap: 8px; border: 1px solid transparent; border-radius: 999px; background: var(--bar); padding: 10px 14px; justify-content: center; }
+.tri { gap: 16px; }
+.tri-item { border: var(--hairline); border-radius: var(--radius-card); background: var(--paper); }
+.tri-item .button { margin-top: 18px; }
+.duo-grid { gap: 16px; }
+.repo-card, .partner-card, .connector, .statement, .status-banner, .store-card, .flow, .arch { border-radius: var(--radius-card); }
+.arch-row { border-radius: var(--radius-ui); }
+.commerce-diagram { border-radius: var(--radius-card); }
+.feature-grid, .metrics, .backend-list li, .duo-card, .duo-side, .duo-figure, .int-group li { border-radius: var(--radius-card); }
+
+/* Tints: a card's colour is information — which family a thing belongs to. */
+.tint-sky { background: var(--tint-sky) !important; border-color: color-mix(in srgb, var(--ink) 10%, transparent) !important; }
+.tint-mint { background: var(--tint-mint) !important; border-color: color-mix(in srgb, var(--ink) 10%, transparent) !important; }
+.tint-lilac { background: var(--tint-lilac) !important; border-color: color-mix(in srgb, var(--ink) 10%, transparent) !important; }
+.tint-peach { background: var(--tint-peach) !important; border-color: color-mix(in srgb, var(--ink) 10%, transparent) !important; }
+.tint-sky .sol-ic, .tint-sky > a { color: var(--on-sky) !important; }
+.tint-mint .sol-ic, .tint-mint > a { color: var(--on-mint) !important; }
+.tint-lilac .sol-ic, .tint-lilac > a { color: var(--on-lilac) !important; }
+.tint-peach .sol-ic, .tint-peach > a { color: var(--on-peach) !important; }
+
+/* ── the two project cards ───────────────────────────────────────── */
+
+.plate { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; padding: 0; border: 0; background: none; box-shadow: none; }
+.plate-head { display: none; }
+.part { display: flex; flex-direction: column; gap: 14px; padding: 28px; border: var(--hairline); border-radius: var(--radius-card); background: var(--paper); }
+.part + .part { border-top: var(--hairline); }
+.part-engine { background: var(--tint-sky); border-color: color-mix(in srgb, var(--ink) 10%, transparent); }
+.part-store { background: var(--tint-peach); border-color: color-mix(in srgb, var(--ink) 10%, transparent); }
+/* A repository path is case-sensitive, so it is never uppercased. */
+.part-id { font: 500 .8125rem/1 var(--mono); letter-spacing: .02em; }
+.part { text-align: left; align-items: flex-start; }
+.part .part-cta.actions { justify-content: flex-start; }
+.part-engine .part-id { color: var(--on-sky); }
+.part-store .part-id { color: var(--on-peach); }
+.part-name { font-family: var(--serif); font-weight: 700; font-size: 1.75rem; letter-spacing: -.01em; }
+.part-name a { border-bottom: 0; text-decoration: none; }
+.part-name a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.part-role { margin-top: 0; }
+.part-figures { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 20px; margin-top: 4px; }
+.part-figures li { display: flex; align-items: baseline; gap: 7px; white-space: normal; color: var(--ink-2); }
+.part-figures b { color: var(--ink); text-align: left; }
+.part-cta.actions { margin-top: auto; padding-top: 8px; }
+@media (max-width: 860px) { .plate { grid-template-columns: 1fr; } }
+
+/* ── tabs and stages ─────────────────────────────────────────────── */
+
+.tabs { border-bottom: 0; gap: 6px; margin-top: 28px; }
+.tabs button { border: var(--hairline); border-radius: 999px; padding: 8px 14px; background: var(--paper); color: var(--ink-2); font-size: .9375rem; }
+.tabs button:hover { color: var(--ink); border-color: var(--rule-strong); }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); font-weight: 500; }
+.stage, .browser-frame, .store-browser { border-radius: var(--radius-card); }
+.panel { margin-top: 18px; }
+.product-shot .browser-frame { border-color: var(--rule); }
+
+/* ── FAQ in two columns ──────────────────────────────────────────── */
+
+.faq { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; align-items: start; margin-top: 32px; }
+.faq { border-top: 0; }
+.faq details { border-top: var(--hairline); border-bottom: 0; }
+.faq details:nth-last-child(-n+2) { border-bottom: var(--hairline); }
+@media (max-width: 860px) { .faq details:nth-last-child(-n+2) { border-bottom: 0; } .faq details:last-child { border-bottom: var(--hairline); } }
+.faq summary { font-size: 1rem; }
+@media (max-width: 860px) { .faq { grid-template-columns: 1fr; } }
+
+/* ── the closing band: one dark moment per page ──────────────────── */
+
+.closing {
+  --paper: #fafafa; --ink: #171717;
+  width: auto; max-width: 1072px; margin: 8px auto 72px; padding: clamp(44px, 6vw, 80px) clamp(24px, 5vw, 64px);
+  border: 0; border-radius: var(--radius-device); background: var(--ink); color: var(--paper); text-align: center;
+}
+.closing h2 { color: inherit; max-width: 22ch; margin-inline: auto; font-size: clamp(2.25rem, 4.5vw, 3.4rem); line-height: 1.04; }
+.closing p { color: color-mix(in srgb, var(--paper) 72%, transparent); max-width: 40rem; margin-inline: auto; }
+.closing .actions { justify-content: center; }
+.closing .button { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.closing .button:hover { background: color-mix(in srgb, var(--paper) 88%, var(--ink)); border-color: color-mix(in srgb, var(--paper) 88%, var(--ink)); }
+.closing .button.secondary { background: transparent; color: var(--paper); border-color: color-mix(in srgb, var(--paper) 40%, transparent); }
+.closing .button.secondary:hover { border-color: var(--paper); background: transparent; }
+@media (max-width: 1168px) { .closing { margin-inline: 24px; } }
+
+/* ── surfaces that used to be bands ──────────────────────────────── */
+
+.onecmd-section, .admin-section, .ownership-section, .intstrip-section, .proofstrip, .marquee-section { background: transparent; border: 0; }
+.intstrip-section { padding-block: clamp(40px, 5vw, 64px); }
+.code-block, .terminal { border-color: #2a2a2a; }
+footer { background: var(--paper); border-top: var(--hairline); }
+.footer-col h2 { font: 500 .6875rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 12px; }
+.footer-brand .wordmark-name { font-family: var(--sans); }
+
+/* Reference-page details ported from the retired home-visuals.css. */
+.real-store { display: block; padding: 0; border: 0; background: none; box-shadow: none; }
+.storefront-desktop { margin: 0; }
+.store-browser { overflow: hidden; border: var(--hairline); background: var(--surface); }
+.store-browser-bar { display: flex; align-items: center; gap: 12px; min-height: 38px; padding: 9px 12px; background: var(--surface); border-bottom: var(--hairline); font: 400 .75rem/1.4 var(--mono); color: var(--ink-2); }
+.store-browser-bar .dots { display: flex; gap: 5px; flex: none; }
+.store-browser-bar .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--rule-strong); }
+.store-browser-bar span:last-child { margin-left: auto; font: 400 .6875rem/1.4 var(--sans); }
+.store-browser img { width: 100%; height: auto; display: block; }
+.storefront-desktop figcaption { margin-top: 10px; font-size: .8125rem; color: var(--ink-2); }
+.real-store .store-meta { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: 20px; }
+.real-store .store-meta .button { flex: none; margin: 0; }
+.real-store .store-meta p:not(.store-domain) { margin-top: 6px; }
+@media (max-width: 600px) { .real-store .store-meta { display: block; } .real-store .store-meta .button { margin-top: 16px; } .store-browser-bar span:last-child { display: none; } }
+
+/* ── after the design review ─────────────────────────────────────── */
+
+.agentflow li { border-color: transparent; background: var(--bar); }
+/* One nav item was still set smaller than its siblings. */
+.navlinks .nav-git { font-size: inherit; }
+/* Eyebrow first: copy tops the diagram instead of floating beside it. */
+.feature { align-items: start; }
+/* Page chrome stays achromatic; colour is for the tint pairs. */
+.url-where code { color: var(--ink); }
+.store-domain { color: var(--ink-3); }
+.dot-ship { background: var(--on-mint); }
+.dot-dev { background: var(--on-peach); box-shadow: 0 0 0 2px color-mix(in srgb, var(--on-peach) 30%, transparent); }
+/* The integrations row is a labelled, centred strip like "Built with". */
+.intstrip-section { text-align: center; }
+.intstrip-section .kicker { margin-bottom: 0; }
+.intstrip { justify-content: center; padding: 0; margin-top: 24px; }
+.intstrip-more { margin-left: 0; }
+.admin-section .actions { margin-top: 24px; }
+.ownership-section .fineprint { color: var(--ink-2); margin-top: 28px; max-width: 54ch; }
+/* Four identical cards share one baseline for their lists. */
+.solgrid h3 { min-height: 2.6em; }
+
+/* Brand marks are single-colour SVGs drawn in black; in the dark theme
+   they invert to white, and the one light capture dims a step. */
+:root[data-theme="dark"] :is(img[src^="/assets/brands/"], img[src="/assets/go.svg"], img[src="/assets/svelte.svg"], img[src="/assets/postgresql.svg"], img[src="/assets/docker.svg"]) { filter: invert(1); }
+:root[data-theme="dark"] .store-browser img { filter: brightness(.82); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) :is(img[src^="/assets/brands/"], img[src="/assets/go.svg"], img[src="/assets/svelte.svg"], img[src="/assets/postgresql.svg"], img[src="/assets/docker.svg"]) { filter: invert(1); }
+  :root:not([data-theme="light"]) .store-browser img { filter: brightness(.82); }
+}
+
+/* Phones: an opaque bar (the blur is off there), 44px targets, wrapped
+   commands, a fade where the terminal still scrolls, denser list cards. */
+@media (max-width: 860px) {
+  header { background: var(--paper); }
+  .menu, .theme-toggle { min-height: 44px; }
+  .theme-toggle { width: 44px; height: 44px; }
+  .tabs { gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; padding-bottom: 4px; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tabs button { min-height: 44px; padding-inline: 16px; flex: none; scroll-snap-align: start; }
+}
+@media (max-width: 600px) {
+  .code-block pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .term { white-space: pre-wrap; overflow-wrap: anywhere; padding-inline: 14px; font-size: .75rem; }
+}
+@media (max-width: 540px) {
+  .hero-center .lede { font-size: 1.0625rem; }
+  .hero-center .hero-stats { flex-direction: column; align-items: start; width: fit-content; margin-inline: auto; gap: 8px; }
+  .admin-section .actions .button { flex: 1 1 100%; text-align: center; }
+  .outcome, .urls, .evidence { gap: 10px; }
+  @media (min-width: 461px) { .outcome { grid-template-columns: 1fr 1fr; } }
+  .outcome li, .urls .url, .evidence li { padding: 14px 16px; }
+}
+
+/* The two projects' accents speak the tint vocabulary: engine = sky,
+   store = peach, growth = lilac — in both themes, since the on-* pairs
+   already switch. Icons that merely decorate a card stay grey. */
+:root, :root[data-theme="dark"] { --go: var(--on-sky); --svelte: var(--on-peach); --growth: var(--on-lilac); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --go: var(--on-sky); --svelte: var(--on-peach); --growth: var(--on-lilac); } }
+.ownwall svg, .outcome svg, .proofstrip-row svg, .hfacts svg { color: var(--ink-2); }
+.nowrap { white-space: nowrap; }
+
+/* A head and the grid it introduces are one pair: the reference gives that
+   gap about the height of the heading itself. Scoped to real head-to-body
+   adjacency so a subhead that deliberately hugs its list keeps hugging it. */
+.sec-head + .solgrid, .sec-head + .evidence, .sec-head + .tri, .sec-head + .capwall,
+.sec-head + .plate, .sec-head + .faq, .sec-head + .ownwall, .sec-head + .duo-grid,
+h2 + .capwall, h2 + .moddir, h2 + .screens { margin-top: 44px; }

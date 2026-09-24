@@ -5,12 +5,17 @@
  * sees. details/summary, so every answer is in the DOM with JavaScript off.
  */
 import type { FaqItem } from '../layouts/Base.astro'
-interface Props { items: FaqItem[]; title: string; lede?: string; id?: string }
-const { items, title, lede, id = 'faq' } = Astro.props
+interface Props { items: FaqItem[]; title: string; lede?: string; id?: string; kicker?: string }
+const { items, title, lede, id = 'faq', kicker = 'FAQ' } = Astro.props
 ---
 <section id={id} class="section wrap" aria-labelledby={`${id}-title`}>
-  <h2 id={`${id}-title`}>{title}</h2>
-  {lede && <p class="section-lede">{lede}</p>}
+  <div class="sec-head">
+    <div>
+      <p class="kicker">{kicker}</p>
+      <h2 id={`${id}-title`}>{title}</h2>
+    </div>
+    {lede && <p class="section-lede">{lede}</p>}
+  </div>
   <div class="faq">
     {items.map((f) => (
       <details>

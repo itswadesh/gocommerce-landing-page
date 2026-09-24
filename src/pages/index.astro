@@ -4,13 +4,17 @@
  * it, I can run it quickly, I control it, my agents can work with it. Every
  * section is a screenshot, a number or a diagram with a door to the page
  * that explains it; the explaining happens on those pages, not here.
+ *
+ * The composition follows the reference the site was redesigned against: a
+ * centred hero over one large product card, a logo strip, sections headed
+ * by an eyebrow and a serif title with the lede alongside, hairline cards,
+ * and one dark band to close.
  */
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
 import ProductShot from '../components/ProductShot.astro'
 import CommerceDiagram from '../components/CommerceDiagram.astro'
 import demoAccount from '../data/demo.json'
-import '../styles/home-visuals.css'
 
 const path = '/'
 const site = Astro.site!
@@ -33,12 +37,12 @@ async function repoStats(repo: string, fallback: { stars: number; forks: number 
 const sv = await repoStats('itswadesh/svelte-commerce', { stars: 1813, forks: 335 })
 const n = (x: number) => x.toLocaleString('en')
 
-// The live demo. The read-only demo account lives in src/data/demo.json —
-// public by design, since it is printed on this page — and the build
-// environment can override or blank it. The admin link carries the
-// credentials in the URL fragment, never sent to the server, so never in an
-// access log or a Referer, and the admin's sign-in form prefills from it.
-// With no account, the link is the plain sign-in screen and says so.
+// The live demo. The demo account lives in src/data/demo.json — public by
+// design, since it is printed on this page — and the build environment can
+// override or blank it. The admin link carries the credentials in the URL
+// fragment, never sent to the server, so never in an access log or a
+// Referer, and the admin's sign-in form prefills from it. With no account,
+// the link is the plain sign-in screen and says so.
 const admin = 'https://admin.kitcommerce.store/'
 const demoEmail = import.meta.env.PUBLIC_DEMO_EMAIL ?? demoAccount.email ?? ''
 const demoPassword = import.meta.env.PUBLIC_DEMO_PASSWORD ?? demoAccount.password ?? ''
@@ -104,10 +108,10 @@ const screens = [
 const strip = [['Stripe', 'stripe'], ['Razorpay', 'razorpay'], ['Adyen', 'adyen'], ['Shiprocket'], ['Delhivery'], ['Twilio', 'twilio'], ['SendGrid', 'sendgrid'], ['Meilisearch', 'meilisearch']]
 
 const solutions = [
-  { id: 'sol-marketplace', href: '/solutions/marketplace/', icon: 'i-users', title: 'Multi-vendor marketplace', cta: 'Explore marketplace →', points: ['Vendor accounts', 'Vendor offers', 'Moderation states', 'Commission recorded per vendor'] },
-  { id: 'sol-b2b', href: '/solutions/b2b/', icon: 'i-tag', title: 'B2B commerce', cta: 'Explore B2B →', points: ['Customer groups', 'Price lists', 'Quantity breaks', 'Scoped API keys'] },
-  { id: 'sol-d2c', href: '/solutions/d2c/', icon: 'i-bag', title: 'Direct-to-consumer', cta: 'Explore D2C →', points: ['The default store', 'Cash on delivery built in', 'Manual fulfillment built in', 'Svelte Commerce in front'] },
-  { id: 'sol-channels', href: '/solutions/multi-store/', icon: 'i-store', title: 'Multi-store', cta: 'Explore multi-store →', points: ['Channels', 'Per-channel publishing', 'Per-channel price lists', 'One default channel'] },
+  { id: 'sol-marketplace', href: '/solutions/marketplace/', icon: 'i-users', tint: 'tint-sky', title: 'Multi-vendor marketplace', cta: 'Explore marketplace →', points: ['Vendor accounts', 'Vendor offers', 'Moderation states', 'Commission recorded per vendor'] },
+  { id: 'sol-b2b', href: '/solutions/b2b/', icon: 'i-tag', tint: 'tint-mint', title: 'B2B commerce', cta: 'Explore B2B →', points: ['Customer groups', 'Price lists', 'Quantity breaks', 'Scoped API keys'] },
+  { id: 'sol-d2c', href: '/solutions/d2c/', icon: 'i-bag', tint: 'tint-peach', title: 'Direct-to-consumer', cta: 'Explore D2C →', points: ['The default store', 'Cash on delivery built in', 'Manual fulfillment built in', 'Svelte Commerce in front'] },
+  { id: 'sol-channels', href: '/solutions/multi-store/', icon: 'i-store', tint: 'tint-lilac', title: 'Multi-store', cta: 'Explore multi-store →', points: ['Channels', 'Per-channel publishing', 'Per-channel price lists', 'One default channel'] },
 ]
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
 ---
@@ -121,74 +125,67 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   faq={faq}
 >
   <Fragment slot="head">
-    {/* One preload per hero variant, each gated by the media query that
-        selects it, so every reader's actual LCP image is discovered early
-        and nobody downloads the other three. */}
-    <link rel="preload" as="image" href="/assets/admin/focus/hero-light.webp" media="(min-width: 901px) and (prefers-color-scheme: light)">
-    <link rel="preload" as="image" href="/assets/admin/focus/hero-dark.webp" media="(min-width: 901px) and (prefers-color-scheme: dark)">
-    <link rel="preload" as="image" href="/assets/admin/focus/hero-mobile-light.webp" media="(max-width: 900px) and (prefers-color-scheme: light)">
-    <link rel="preload" as="image" href="/assets/admin/focus/hero-mobile-dark.webp" media="(max-width: 900px) and (prefers-color-scheme: dark)">
+    {/* The hero's product card is the largest image on the page; one preload
+        per scheme so the right one is discovered with the HTML. */}
+    <link rel="preload" as="image" href="/assets/admin/dashboard-light.webp" media="(prefers-color-scheme: light)">
+    <link rel="preload" as="image" href="/assets/admin/dashboard-dark.webp" media="(prefers-color-scheme: dark)">
   </Fragment>
 
   {/* ══════════════════════════════════════════════ 1 — hero */}
-  <section class="hero-ledger wrap">
-    <p class="kicker">Open Source</p>
+  <section class="hero-center wrap">
+    <a class="pill" href="#ownership">Open source · MIT licensed <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
     <h1>Fast ecommerce.<br>Yours to host.</h1>
-
-    {/* The numbers, each attributed. Stars belong to Svelte Commerce and say
-        so; GitHub publishes no download count for a repository without
-        releases, so the second figure is forks, which it does. */}
-    <ul class="hero-stats" aria-label="By the numbers">
-      <li><svg aria-hidden="true"><use href="#i-git"/></svg><b data-gh="sv-stars">{n(sv.stars)}</b><span>GitHub stars, Svelte Commerce</span></li>
-      <li><svg aria-hidden="true"><use href="#i-source"/></svg><b data-gh="sv-forks">{n(sv.forks)}</b><span>forks on GitHub</span></li>
-      <li><svg aria-hidden="true"><use href="#i-plug"/></svg><b>26</b><span>commerce backends connected</span></li>
-    </ul>
-
     <p class="lede">
       Open source, and built to be quick: a backend that runs as one compiled
       process on one database, and a storefront that sends finished HTML
       instead of a bundle to boot. MIT licensed, hosted by you, no platform
       fees — up on your own server with a single command.
     </p>
-
     <div class="actions hero-actions">
       <a class="button" href="#one-command" data-ev="quickstart_click">Deploy in minutes</a>
       <a class="button secondary" href={adminHref} {...ext} data-ev="live_admin_click">{adminLabel}</a>
-      <a class="button secondary" href="https://github.com/itswadesh/gocommerce#readme" {...ext}>Documentation</a>
     </div>
-
-    <ul class="stack-row" aria-label="Built with">
-      {stack.map((s) => <li><img src={s.src} width="26" height="26" alt="" loading="lazy"><span>{s.name}</span></li>)}
+    {/* The numbers, each attributed. Stars belong to Svelte Commerce and say
+        so; GitHub publishes no download count for a repository without
+        releases, so the second figure is forks, which it does. */}
+    <ul class="hero-stats" aria-label="By the numbers">
+      <li><b data-gh="sv-stars">{n(sv.stars)}</b><span>GitHub stars, Svelte Commerce</span></li>
+      <li><b data-gh="sv-forks">{n(sv.forks)}</b><span>forks</span></li>
+      <li><b>26</b><span>commerce backends connected</span></li>
     </ul>
 
-    {/* The software, before the argument: a focused crop of the real admin in
-        a browser frame, and the real storefront in a phone. Both are lossless
-        crops of the checked-in captures (scripts/crop-product-screenshots.mjs),
-        each linking to its full screenshot. */}
-    <div class="product-composite">
-      <div class="hero-admin">
-        <ProductShot name="hero" original="dashboard" label="GoCommerce / Backend + Admin" alt="GoCommerce dashboard detail from the seeded demo store: revenue, orders, products and customers for the last thirty days." mobileAlt="Revenue detail from the seeded GoCommerce store." caption="GoCommerce — backend + admin, seeded demo data" width={590} height={312} mobileWidth={282} mobileHeight={92} eager priority />
-      </div>
-      <figure class="storefront-phone">
-        <div class="phone-frame">
-          <p class="phone-bar">arialshop.com</p>
-          <a href="/assets/admin/storefront-mobile.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full Arialshop mobile screenshot in a new tab"><img src="/assets/admin/focus/storefront-hero.webp" width="560" height="814" alt="The Arialshop mobile storefront: jewellery categories and a pendant promotion." decoding="async"></a>
-        </div>
-        <figcaption>Svelte Commerce — storefront, a production store</figcaption>
+    <div class="hero-wash">
+      <figure class="product-card">
+        <div class="bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">admin.kitcommerce.store</span><span class="tag">GoCommerce admin · seeded demo data</span></div>
+        <a href="/assets/admin/dashboard-light.webp" {...ext} aria-label="Open the full admin dashboard screenshot in a new tab">
+          <picture>
+            <source media="(prefers-color-scheme: dark)" srcset="/assets/admin/dashboard-dark.webp">
+            <img src="/assets/admin/dashboard-light.webp" width="1440" height="900" alt="The GoCommerce admin dashboard: net sales for the last thirty days, order, product and customer counts, a daily sales chart and a best-sellers table." decoding="async" fetchpriority="high">
+          </picture>
+        </a>
       </figure>
     </div>
-    <p class="composite-note">Separate product captures. The GoCommerce ↔ Svelte Commerce connector is <a href="/gocommerce-svelte-commerce-connector/">in development</a>.</p>
+  </section>
 
-    {/* ═══════════════════════════════════ 2 — the two projects */}
+  <section class="logostrip wrap" aria-labelledby="built-title">
+    <p id="built-title">Built with</p>
+    <ul>{stack.map((s) => <li><img src={s.src} width="24" height="24" alt="" loading="lazy"><span>{s.name}</span></li>)}</ul>
+  </section>
+
+  {/* ═══════════════════════════════════ 2 — the two projects */}
+  <section id="projects" class="section wrap" aria-labelledby="projects-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Two projects</p>
+        <h2 id="projects-title">A backend and a storefront. Either one alone.</h2>
+      </div>
+      <p class="section-lede">GoCommerce is the engine and its admin; Svelte Commerce is the shop a customer sees. Both MIT, both self-hosted, and neither requires the other.</p>
+    </div>
     <div class="plate">
-      <p class="plate-head">Two projects <span>Both MIT licensed. Either works without the other.</span></p>
-
       <div class="part part-engine">
         <p class="part-id">itswadesh/gocommerce</p>
-        <div>
-          <p class="part-name"><a href="/gocommerce/" data-ev="gocommerce_explore">GoCommerce</a></p>
-          <p class="part-role">Headless Go backend + Svelte admin. One binary, one dependency, PostgreSQL.</p>
-        </div>
+        <p class="part-name"><a href="/gocommerce/" data-ev="gocommerce_explore">GoCommerce</a></p>
+        <p class="part-role">Headless Go backend + Svelte admin. One binary, one dependency, PostgreSQL.</p>
         <ul class="part-figures">
           <li><b>44</b> modules</li>
           <li><b>342</b> API operations</li>
@@ -201,13 +198,10 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
           <a class="button secondary" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_gocommerce_click">GitHub</a>
         </div>
       </div>
-
       <div class="part part-store">
         <p class="part-id">itswadesh/svelte-commerce</p>
-        <div>
-          <p class="part-name"><a href="/svelte-commerce/" data-ev="sveltecommerce_explore">Svelte Commerce</a></p>
-          <p class="part-role">Headless Svelte/SvelteKit storefront. Server-rendered, 26 backends.</p>
-        </div>
+        <p class="part-name"><a href="/svelte-commerce/" data-ev="sveltecommerce_explore">Svelte Commerce</a></p>
+        <p class="part-role">Headless Svelte/SvelteKit storefront. Server-rendered, 26 backends.</p>
         <ul class="part-figures">
           <li><b>26</b> backends</li>
           <li><b>43</b> service surface</li>
@@ -222,27 +216,16 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     </div>
   </section>
 
-  {/* Seven facts, each linking to the section that substantiates it. */}
-  <section class="proofstrip proofstrip-12" aria-label="At a glance">
-    <ul class="wrap proofstrip-row">
-      <li><a href="#ownership"><svg aria-hidden="true"><use href="#i-source"/></svg>Open source</a></li>
-      <li><a href="#ownership"><svg aria-hidden="true"><use href="#i-check"/></svg>MIT licensed</a></li>
-      <li><a href="#headless"><svg aria-hidden="true"><use href="#i-plug"/></svg>Headless</a></li>
-      <li><a href="#headless"><svg aria-hidden="true"><use href="#i-braces"/></svg>OpenAPI</a></li>
-      <li><a href="#ownership"><svg aria-hidden="true"><use href="#i-server"/></svg>Self-hosted</a></li>
-      <li><a href="#one-command"><svg aria-hidden="true"><use href="#i-terminal"/></svg>1-command deploy</a></li>
-      <li><a href="#headless"><svg aria-hidden="true"><use href="#i-git"/></svg>Detachable storefront</a></li>
-    </ul>
-  </section>
-
   {/* ══════════════════════════════════════ 3 — one command */}
   <section id="one-command" class="section onecmd-section" aria-labelledby="onecmd-title">
     <div class="wrap">
-      <h2 id="onecmd-title">Start on your own server in minutes</h2>
-      <p class="section-lede">
-        Three services, one command. This compose file is served from this
-        domain and was run end to end before it was published here.
-      </p>
+      <div class="sec-head">
+        <div>
+          <p class="kicker">One command</p>
+          <h2 id="onecmd-title">Start on your own server in minutes</h2>
+        </div>
+        <p class="section-lede">Three services, one command. This compose file is served from this domain and was run end to end before it was published here.</p>
+      </div>
 
       <div class="onecmd-grid">
         <div class="code-block">
@@ -287,26 +270,26 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   {/* ═══════════════════════════════ 4 — see the software: admin */}
   <section id="live-admin" class="section admin-section" aria-labelledby="live-admin-title">
     <div class="wrap">
-      <h2 id="live-admin-title">See the admin before you install</h2>
-      {demo ? (
-        <p class="section-lede">
-          A GoCommerce instance runs at <code>admin.kitcommerce.store</code> as a
-          public demo: the link opens the sign-in screen with the demo account
-          filled in — press Login and look around. It is a real store you can
-          change; every email address and phone number in it is masked, and
-          the team, its keys and its roles are frozen.
-        </p>
-      ) : (
-        <p class="section-lede">
-          A GoCommerce instance runs at <code>admin.kitcommerce.store</code>. It
-          opens a sign-in screen — there is no demo account yet — so the
-          screenshots are the preview.
-        </p>
-      )}
-
-      <div class="actions">
-        <a class="button secondary" href={adminHref} {...ext} data-ev="live_admin_click">{demo ? 'Open live demo' : 'Open admin sign-in'}</a>
-        <a class="button secondary" href="/gocommerce/admin/" data-ev="gocommerce_explore">Every screen, captured</a>
+      <div class="sec-head">
+        <div>
+          <p class="kicker">The admin</p>
+          <h2 id="live-admin-title">See the admin before you install</h2>
+        </div>
+        {demo ? (
+          <p class="section-lede">
+            A GoCommerce instance runs at <code>admin.kitcommerce.store</code> as a
+            public demo: the link opens the sign-in screen with the demo account
+            filled in — press Login and look around. It is a real store you can
+            change; every email address and phone number in it is masked, and
+            the team, its keys and its roles are frozen.
+          </p>
+        ) : (
+          <p class="section-lede">
+            A GoCommerce instance runs at <code>admin.kitcommerce.store</code>. It
+            opens a sign-in screen — there is no demo account yet — so the
+            screenshots are the preview.
+          </p>
+        )}
       </div>
 
       <div class="tabs" role="tablist" aria-label="Admin screens">
@@ -321,17 +304,27 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         </div>
       ))}
 
+      <div class="actions">
+        <a class="button" href={adminHref} {...ext} data-ev="live_admin_click">{demo ? 'Open live demo' : 'Open admin sign-in'}</a>
+        <a class="button secondary" href="/gocommerce/admin/" data-ev="gocommerce_explore">Every screen, captured</a>
+      </div>
       <p class="fineprint">Screenshots from a seeded instance: 64 products, 260 orders across 150 days. Every screen is one of the 61 in the admin.</p>
     </div>
   </section>
 
   {/* ═══════════════════════════ 4 — see the software: a real store */}
   <section id="live-stores" class="section wrap" aria-labelledby="stores-title">
-    <h2 id="stores-title">See it running in the real world</h2>
+    <div class="sec-head">
+      <div>
+        <p class="kicker">In production</p>
+        <h2 id="stores-title">See it running in the real world</h2>
+      </div>
+      <p class="section-lede">One store, because one is what can be pointed at honestly — a jewellery business running its shop on Svelte Commerce.</p>
+    </div>
     <div class="store-card real-store">
       <figure class="storefront-desktop">
         <div class="store-browser">
-          <p class="store-browser-bar"><span aria-hidden="true">○ ○ ○</span> arialshop.com <span>Desktop storefront</span></p>
+          <p class="store-browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span> arialshop.com <span>Desktop storefront</span></p>
           <a href="/assets/admin/storefront-home.webp" {...ext} aria-label="Open full Arialshop desktop screenshot in a new tab">
             <picture>
               <source media="(max-width: 600px)" srcset="/assets/admin/storefront-mobile.webp" width="780" height="1688">
@@ -350,8 +343,13 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
   {/* ══════════════════════════════════ 5 — built for real operations */}
   <section id="operations" class="section wrap" aria-labelledby="ops-title">
-    <h2 id="ops-title">Built for real operations</h2>
-    <p class="section-lede">Built from years of real ecommerce workflows — not as a minimal demo stack.</p>
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Maturity</p>
+        <h2 id="ops-title">Built for real operations</h2>
+      </div>
+      <p class="section-lede">Built from years of real ecommerce workflows — not as a minimal demo stack. Each of these is a thing in the code, not an adjective.</p>
+    </div>
     <ul class="evidence">
       <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>52 granular rights</b><span>Read and write gated separately, per resource, for the admin and the API alike.</span></li>
       <li><svg aria-hidden="true"><use href="#i-braces"/></svg><b>Scoped API keys</b><span>A key carries a role, a prefix for the log line, a last-used time and a revocation.</span></li>
@@ -363,7 +361,12 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   </section>
 
   <section id="capabilities" class="section wrap" aria-labelledby="cap-title">
-    <h2 id="cap-title">Core capabilities</h2>
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Core capabilities</p>
+        <h2 id="cap-title">Everything a store needs, in the core</h2>
+      </div>
+    </div>
     <ul class="capwall">
       <li><svg aria-hidden="true"><use href="#i-package"/></svg>Products</li>
       <li><svg aria-hidden="true"><use href="#i-tag"/></svg>Variants</li>
@@ -384,23 +387,18 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     </ul>
   </section>
 
-  <section id="integrations" class="intstrip-section" aria-labelledby="int-title">
-    <div class="wrap">
-      <h2 id="int-title" class="vh">Integrations</h2>
-      <ul class="intstrip">
-        {strip.map(([name, mark]) => <li>{mark && <img src={`/assets/brands/${mark}.svg`} width="22" height="22" alt="" loading="lazy">}{name}</li>)}
-        <li class="intstrip-more"><a href="/integrations/">44 modules →</a></li>
-      </ul>
-    </div>
-  </section>
-
   {/* ══════════════════════════════════════════ 6 — solutions */}
   <section id="solutions" class="section wrap" aria-labelledby="sol-title">
-    <h2 id="sol-title">Four shapes of store</h2>
-    <p class="section-lede">Each is a set of records in one engine, and each page names the file that does the work.</p>
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Solutions</p>
+        <h2 id="sol-title">Four shapes of store</h2>
+      </div>
+      <p class="section-lede">Each is a set of records in one engine, and each page names the file that does the work.</p>
+    </div>
     <div class="solgrid">
       {solutions.map((s) => (
-        <article id={s.id}>
+        <article id={s.id} class={s.tint}>
           <svg class="sol-ic" aria-hidden="true"><use href={`#${s.icon}`}/></svg>
           <h3>{s.title}</h3>
           <ul>{s.points.map((p) => <li>{p}</li>)}</ul>
@@ -413,6 +411,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   {/* ═════════════════════════════════ 7 — headless architecture */}
   <section id="headless" class="section wrap feature" aria-labelledby="headless-title">
     <div class="feature-copy">
+      <p class="kicker">Headless</p>
       <h2 id="headless-title">The storefront is yours. The backend is an API.</h2>
       <ul class="hfacts">
         <li><svg aria-hidden="true"><use href="#i-braces"/></svg><span><b>342</b> REST operations</span></li>
@@ -432,7 +431,13 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
   {/* ═══════════════════════════════ 8 — why go + sveltekit + postgres */}
   <section id="why-stack" class="section wrap" aria-labelledby="why-title">
-    <h2 id="why-title">Why Go + SvelteKit + PostgreSQL</h2>
+    <div class="sec-head">
+      <div>
+        <p class="kicker">The stack</p>
+        <h2 id="why-title">Why Go + SvelteKit + PostgreSQL</h2>
+      </div>
+      <p class="section-lede">Three well-understood tools, each chosen for one property: a single binary, HTML on the first response, a database you can inspect.</p>
+    </div>
     <div class="tri">
       <div class="tri-item tri-engine">
         <img class="why-logo" src="/assets/go.svg" width="26" height="26" alt="" loading="lazy">
@@ -469,8 +474,13 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
   {/* ═══════════════════════════════════════ 9 — agent friendly */}
   <section id="agents" class="section wrap" aria-labelledby="agents-title">
-    <h2 id="agents-title">Built for developers — and their coding agents</h2>
-    <p class="section-lede">The repository is written to be read by a machine as well as a person. Claude, Codex, Cursor and Antigravity all pick up the same files; none of this implies a partnership with any of them.</p>
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Coding agents</p>
+        <h2 id="agents-title">Built for developers — and their coding agents</h2>
+      </div>
+      <p class="section-lede">The repository is written to be read by a machine as well as a person. Claude, Codex, Cursor and Antigravity all pick up the same files; none of this implies a partnership with any of them.</p>
+    </div>
     <div class="tri">
       <div class="tri-item">
         <h3>Instructions are explicit</h3>
@@ -502,11 +512,26 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     </ol>
   </section>
 
+  <section id="integrations" class="intstrip-section" aria-labelledby="int-title">
+    <div class="wrap">
+      <h2 id="int-title" class="kicker">Integrations</h2>
+      <ul class="intstrip">
+        {strip.map(([name, mark]) => <li>{mark && <img src={`/assets/brands/${mark}.svg`} width="22" height="22" alt="" loading="lazy">}{name}</li>)}
+        <li class="intstrip-more"><a href="/integrations/">44 modules →</a></li>
+      </ul>
+    </div>
+  </section>
+
   {/* ══════════════════════════════════════ 10 — open source */}
   <section id="ownership" class="section ownership-section" aria-labelledby="own-title">
     <div class="wrap">
-      <h2 id="own-title">Open source. Self-hosted. No platform fees.</h2>
-      <p class="section-lede">The software is free. Hosting and third-party services still cost money.</p>
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Ownership</p>
+          <h2 id="own-title">Open source. <span class="nowrap">Self-hosted.</span> No platform fees.</h2>
+        </div>
+        <p class="section-lede">The software is free. Hosting and third-party services still cost money.</p>
+      </div>
       <ul class="ownwall">
         <li><svg aria-hidden="true"><use href="#i-source"/></svg>MIT licensed</li>
         <li><svg aria-hidden="true"><use href="#i-server"/></svg>Your infrastructure</li>
@@ -522,29 +547,13 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   <Faq items={faq} title="Questions" />
 
   {/* ══════════════════════════════════════ 12 — start building */}
-  <section id="start" class="section wrap" aria-labelledby="start-title">
-    <h2 id="start-title">Start building</h2>
-    <div class="duo-grid">
-      <article class="repo-card">
-        <p class="repo-path">itswadesh/gocommerce</p>
-        <h3>GoCommerce</h3>
-        <p class="repo-role">Backend + admin</p>
-        <ul class="duo-caps"><li>Go</li><li>PostgreSQL</li><li>Svelte</li><li>OpenAPI</li></ul>
-        <div class="actions">
-          <a class="button" href="#one-command" data-ev="quickstart_click">Deploy in minutes</a>
-          <a class="button secondary" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_gocommerce_click">GitHub</a>
-        </div>
-      </article>
-      <article class="repo-card">
-        <p class="repo-path">itswadesh/svelte-commerce</p>
-        <h3>Svelte Commerce</h3>
-        <p class="repo-role">Storefront</p>
-        <ul class="duo-caps"><li>Svelte</li><li>SvelteKit</li><li>Headless</li><li>26 backends</li></ul>
-        <div class="actions">
-          <a class="button" href="/svelte-commerce/#quickstart" data-ev="quickstart_click">Quick start</a>
-          <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_sveltecommerce_click">GitHub</a>
-        </div>
-      </article>
+  <section id="start" class="closing wrap" aria-labelledby="start-title">
+    <h2 id="start-title">A store on your own server, in one command</h2>
+    <p>PostgreSQL, the API with its admin, and a proxy on port 80.</p>
+    <div class="actions">
+      <a class="button" href="#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_gocommerce_click">GoCommerce on GitHub</a>
+      <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_sveltecommerce_click">Svelte Commerce on GitHub</a>
     </div>
   </section>
 </Base>
