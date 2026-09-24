@@ -128,6 +128,7 @@ header { background: color-mix(in srgb, var(--paper) 92%, transparent); border-b
 .logostrip img[src$="/go.svg"] { width: 48px; height: 18px; }
 .intstrip img[src$="/adyen.svg"] { width: 56px; height: 18px; }
 .moddir img[src$="/adyen.svg"] { width: 34px; height: 11px; }
+.why-logo[src$="/go.svg"] { width: 52px; height: 20px; }
 
 /* ── section heads: eyebrow + serif left, lede right ─────────────── */
 
