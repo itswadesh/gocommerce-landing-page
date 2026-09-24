@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config'
 import sitemap from '@astrojs/sitemap'
 import AstroPWA from '@vite-pwa/astro'
+import { pageDates } from './src/lib/dates.mjs'
 
 // One canonical host, declared once. The sitemap, every canonical, every
 // og:url and every BreadcrumbList item derive from it — a domain change is a
@@ -20,11 +21,16 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // Honest lastmod: only pages whose source changed get a new date, and
-      // that is handled by the deploy rather than stamped with the build time.
-      // The 404 and the privacy page's siblings are all real; only the 404
-      // is noindex and must not be advertised.
+      // Honest lastmod: the date a page's source or data was last committed,
+      // from git, never the build time — see src/lib/dates.mjs. The 404 is
+      // noindex and must not be advertised.
       filter: (page) => !page.endsWith('/404/'),
+      serialize: (item) => {
+        const p = new URL(item.url).pathname
+        const d = pageDates(p)
+        if (d.exact) item.lastmod = d.modified
+        return item
+      },
     }),
     AstroPWA({
       // A precaching worker that takes over as soon as it installs. app.js

@@ -9,6 +9,10 @@
  * terms of service, so none are listed. The word "partner" appears once, for
  * the one relationship that is one.
  */
+interface Props { updated?: string }
+const { updated } = Astro.props
+const updatedText = updated ? new Date(updated + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) : ''
+
 const wa = import.meta.env.PUBLIC_WHATSAPP ?? ''
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
@@ -114,6 +118,7 @@ const cols = [
 
   <div class="wrap footer-base">
     <p>Built by <a href="https://github.com/itswadesh" {...ext}>itswadesh</a>.</p>
+    {updated && <p class="footer-updated">This page updated <time datetime={updated}>{updatedText}</time></p>}
     <a class="partner" href="https://www.cloudflare.com" {...ext}><span>Hosting partner</span><img src="/assets/cloudflare.svg" width="20" height="20" alt="" loading="lazy"><span class="partner-name">Cloudflare</span></a>
     <button type="button" class="linklike" data-consent="reopen" hidden>Analytics preferences</button>
     <a href="#main">Back to top</a>

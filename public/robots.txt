@@ -6,7 +6,8 @@
 #
 # The named agents below are all permitted anyway by `User-agent: *`. They are
 # listed so the decision is on the record — a later reader can see that live
-# retrieval and training access were chosen, not overlooked.
+# retrieval and training access were chosen, not overlooked. Each block names
+# what the agent actually does, because two of them are commonly misfiled.
 
 User-agent: *
 Allow: /
@@ -18,10 +19,7 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: Google-Extended
-Allow: /
-
-User-agent: Applebot-Extended
+User-agent: Claude-SearchBot
 Allow: /
 
 # User-triggered fetch — somebody pasted a link and asked about it.
@@ -31,9 +29,15 @@ Allow: /
 User-agent: Perplexity-User
 Allow: /
 
+User-agent: Claude-User
+Allow: /
+
 # Training crawlers. Allowed: the source is MIT and the prose is documentation
 # for it, so a model that has read this is a model that can answer questions
-# about the project correctly.
+# about the project correctly. Google-Extended and Applebot-Extended belong
+# here, not above: they govern training for Gemini and Apple Intelligence
+# only, and have no effect on Google AI Overviews or Siri, which use the
+# ordinary Googlebot and Applebot.
 User-agent: GPTBot
 Allow: /
 
@@ -43,4 +47,10 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://kitcommerce.store/sitemap.xml
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://kitcommerce.store/sitemap-index.xml

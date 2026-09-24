@@ -14,6 +14,7 @@ import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 import Breadcrumbs from '../components/Breadcrumbs.astro'
 import Consent from '../components/Consent.astro'
+import { pageDates } from '../lib/dates.mjs'
 
 export interface Crumb { name: string; href: string }
 export interface FaqItem { q: string; a: string }
@@ -68,6 +69,7 @@ const org = {
   '@id': abs('/#org'),
   name: 'KitCommerce',
   url: abs('/'),
+  logo: abs('/assets/icons/icon-512.png'),
   description: 'The website presenting GoCommerce and Svelte Commerce, two independent open-source ecommerce projects.',
   sameAs: [
     'https://github.com/itswadesh/gocommerce',
@@ -81,7 +83,16 @@ const breadcrumbList = {
   '@type': 'BreadcrumbList',
   itemListElement: trail.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: abs(c.href) })),
 }
-const jsonld = { '@context': 'https://schema.org', '@graph': [org, website, ...graph, breadcrumbList] }
+// Dates from git: the page node carries when its source was last committed,
+// the footer says the same in words, the sitemap says it in lastmod. A page
+// that defines no WebPage node of its own gets one here so the date has
+// somewhere to live.
+const dates = pageDates(path)
+const stamp = dates.exact ? { dateModified: dates.modified, ...(dates.published ? { datePublished: dates.published } : {}) } : {}
+const isPage = (n: Record<string, unknown>) => n['@type'] === 'WebPage' || n['@type'] === 'CollectionPage'
+const dated = graph.map((n) => (isPage(n) ? { ...n, ...stamp } : n))
+const ownPage = graph.some(isPage) ? [] : [{ '@type': 'WebPage', '@id': canonical + '#page', url: canonical, name: title, isPartOf: { '@id': abs('/#site') }, inLanguage: 'en', ...stamp }]
+const jsonld = { '@context': 'https://schema.org', '@graph': [org, website, ...dated, ...ownPage, breadcrumbList] }
 const faqld = faq.length
   ? { '@context': 'https://schema.org', '@type': 'FAQPage', '@id': canonical + '#faq', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }
   : null
@@ -162,7 +173,7 @@ const robots = noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-ima
   <slot />
 </main>
 
-<Footer />
+<Footer updated={dates.exact ? dates.modified : undefined} />
 
 {wa && (
   <a class="wa-fab" href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" data-ev="whatsapp_click">

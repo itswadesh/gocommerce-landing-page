@@ -47,8 +47,8 @@ const adminHref = demo || admin
 const adminLabel = demo ? 'Live demo' : 'Open admin'
 
 const graph = [
-  { '@type': 'SoftwareApplication', '@id': abs('/gocommerce/#app'), name: 'GoCommerce', url: abs('/gocommerce/'), applicationCategory: ['DeveloperApplication', 'BusinessApplication'], applicationSubCategory: 'Headless ecommerce backend', operatingSystem: 'Cross-platform', runtimePlatform: 'Go 1.27', softwareRequirements: 'Docker, or Go 1.27 and PostgreSQL', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, description: 'A headless open-source ecommerce backend built with Go, with a Svelte admin compiled into the same binary. Catalog, carts, checkout, orders, payments, inventory and fulfillment over a documented REST API.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
-  { '@type': 'SoftwareApplication', '@id': abs('/svelte-commerce/#app'), name: 'Svelte Commerce', url: abs('/svelte-commerce/'), applicationCategory: ['DeveloperApplication', 'BusinessApplication'], applicationSubCategory: 'Headless ecommerce storefront', operatingSystem: 'Cross-platform', runtimePlatform: 'SvelteKit', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, description: 'A headless open-source ecommerce storefront built with SvelteKit, running against 26 commerce backends through connector packages.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
+  { '@type': 'SoftwareApplication', '@id': abs('/gocommerce/#app'), name: 'GoCommerce', url: abs('/gocommerce/'), applicationCategory: 'DeveloperApplication', applicationSubCategory: 'Headless ecommerce backend', operatingSystem: 'Cross-platform', runtimePlatform: 'Go 1.27', softwareRequirements: 'Docker, or Go 1.27 and PostgreSQL', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, description: 'A headless open-source ecommerce backend built with Go, with a Svelte admin compiled into the same binary. Catalog, carts, checkout, orders, payments, inventory and fulfillment over a documented REST API.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
+  { '@type': 'SoftwareApplication', '@id': abs('/svelte-commerce/#app'), name: 'Svelte Commerce', url: abs('/svelte-commerce/'), applicationCategory: 'DeveloperApplication', applicationSubCategory: 'Headless ecommerce storefront', operatingSystem: 'Cross-platform', runtimePlatform: 'SvelteKit', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, description: 'A headless open-source ecommerce storefront built with SvelteKit, running against 26 commerce backends through connector packages.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
 ]
 
 const faq = [
@@ -121,7 +121,13 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   faq={faq}
 >
   <Fragment slot="head">
+    {/* One preload per hero variant, each gated by the media query that
+        selects it, so every reader's actual LCP image is discovered early
+        and nobody downloads the other three. */}
     <link rel="preload" as="image" href="/assets/admin/focus/hero-light.webp" media="(min-width: 901px) and (prefers-color-scheme: light)">
+    <link rel="preload" as="image" href="/assets/admin/focus/hero-dark.webp" media="(min-width: 901px) and (prefers-color-scheme: dark)">
+    <link rel="preload" as="image" href="/assets/admin/focus/hero-mobile-light.webp" media="(max-width: 900px) and (prefers-color-scheme: light)">
+    <link rel="preload" as="image" href="/assets/admin/focus/hero-mobile-dark.webp" media="(max-width: 900px) and (prefers-color-scheme: dark)">
   </Fragment>
 
   {/* ══════════════════════════════════════════════ 1 — hero */}
@@ -166,7 +172,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <figure class="storefront-phone">
         <div class="phone-frame">
           <p class="phone-bar">arialshop.com</p>
-          <a href="/assets/admin/storefront-mobile.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full Arialshop mobile screenshot in a new tab"><img src="/assets/admin/focus/storefront-hero.webp" width="780" height="1134" alt="The Arialshop mobile storefront: jewellery categories and a pendant promotion." decoding="async"></a>
+          <a href="/assets/admin/storefront-mobile.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full Arialshop mobile screenshot in a new tab"><img src="/assets/admin/focus/storefront-hero.webp" width="560" height="814" alt="The Arialshop mobile storefront: jewellery categories and a pendant promotion." decoding="async"></a>
         </div>
         <figcaption>Svelte Commerce — storefront, a production store</figcaption>
       </figure>

@@ -33,11 +33,14 @@ for (const [name, crop] of Object.entries(crops)) {
 }
 // Keep the storefront header and hero; discard blank desktop space and the
 // next section on the phone. Full original viewport captures stay available.
-for (const [source, name, width, height] of [
-  ['storefront-home', 'storefront-desktop', 1440, 764],
-  ['storefront-mobile', 'storefront-hero', 780, 1134],
+// The phone crop is displayed at 280 CSS pixels wide, so it is downscaled to
+// 560 (2× for high-density screens) and encoded lossy: still the real
+// capture, never upscaled, and a quarter of the bytes on the page's LCP path.
+for (const [source, name, width, height, fit] of [
+  ['storefront-home', 'storefront-desktop', 1440, 764, null],
+  ['storefront-mobile', 'storefront-hero', 780, 1134, 560],
 ]) {
-  await sharp(fileURLToPath(new URL(`${source}.webp`, root)))
-    .extract({ left: 0, top: 0, width, height }).webp({ lossless: true })
-    .toFile(fileURLToPath(new URL(`focus/${name}.webp`, root)))
+  let img = sharp(fileURLToPath(new URL(`${source}.webp`, root))).extract({ left: 0, top: 0, width, height })
+  img = fit ? img.resize({ width: fit }).webp({ quality: 82 }) : img.webp({ lossless: true })
+  await img.toFile(fileURLToPath(new URL(`focus/${name}.webp`, root)))
 }
