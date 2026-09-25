@@ -1,0 +1,60 @@
+{
+  "slug": "fulfill-veeqo",
+  "name": "Veeqo",
+  "category": "Shipping",
+  "title": "Veeqo Shipment Sync for GoCommerce — Open-Source Module",
+  "description": "Record a GoCommerce shipment against its Veeqo order so Veeqo’s stock follows: the API key, carrier id, how the allocation is found, and the limits.",
+  "ogTitle": "Veeqo shipment sync for GoCommerce",
+  "ogDescription": "Tells Veeqo a parcel went out. Buys no label, on purpose. Read from the module’s source.",
+  "h1": "Veeqo shipment sync for GoCommerce",
+  "lede": "A Go package that tells Veeqo a parcel went out. It finds the matching Veeqo order and its allocation and records a shipment with your tracking number. It buys no label — on purpose.",
+  "what": [
+    "The module registers “veeqo” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider veeqo and the tracking number of a parcel that has already gone out.",
+    "Veeqo is a warehouse and inventory system, not a carrier, and the package describes the direction the data flows: a store that uses Veeqo already has its orders there, and what Veeqo lacks is the fact that a parcel went out — so this module pushes that fact back. GoCommerce stays the system of record; Veeqo learns what happened, it does not decide it.",
+    "It deliberately does not buy the label. Doing so through Veeqo needs a rate quote first, fields copied out of a chosen quote and a carrier fixed to Amazon’s shipping, and the purchase answers with a label URL and a tracking URL but no tracking number — the one thing the engine needs. A store that wants Veeqo to buy labels does it in Veeqo and lets this module record the result."
+  ],
+  "configLede": "Only the API key is required. Set it in Config from your own main(), or leave Config empty and type it under Settings › Shipping providers.",
+  "config": [
+    { "field": "APIKey", "panel": "API key", "env": "VEEQO_API_KEY", "required": true, "note": "A Veeqo API key, sent as the x-api-key header." },
+    { "field": "CarrierID", "panel": "Carrier ID", "required": false, "note": "Veeqo’s numeric id for the carrier that took the parcel. 3, Veeqo’s “Other”, by default; meta carrier_id overrides it for one parcel." },
+    { "field": "NotifyCustomer", "panel": "Let Veeqo email the customer", "required": false, "note": "Off by default: the engine already notifies on order.shipped, and two emails about one parcel, as the code puts it, is how a shop looks disorganised." },
+    { "field": "UpdateRemoteOrder", "panel": "Push the shipment to the sales channel", "required": false, "note": "Off by default, because this store is that channel — and a round trip back into the engine is the loop nobody wants." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.veeqo.com, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Have the order in Veeqo", "t": "The module expects the order to exist in Veeqo already, under the same order number and allocated to a warehouse. How it gets there is outside this module." },
+    { "b": "Install the module", "t": "Import it and pass veeqo.New to gocommerce.New, as below — or run the reference binary with -carriers, which installs every carrier module idle." },
+    { "b": "Give it the key", "t": "In Config, or under Settings › Shipping providers, with a carrier id if the store always ships with one carrier. A value typed into the panel counts on the next shipment." },
+    { "b": "Record the parcel", "t": "POST /api/admin/create-fulfillment with the provider veeqo and the tracking number. For an order with several allocations, pass meta allocation_id and order_id together." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tveeqo \"github.com/misiki/gocommerce/ext/fulfill-veeqo\"\n)\n\napp, err := gocommerce.New(cfg,\n\tveeqo.New(veeqo.Config{APIKey: os.Getenv(\"VEEQO_API_KEY\")}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty veeqo.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "A tracking number is required", "t": "The module records a parcel that has gone out, so a ship request without a tracking number is refused rather than sent to Veeqo empty." },
+    { "b": "Found by exact number", "t": "Without meta, it searches Veeqo for the order number. Veeqo’s search is fuzzy — GC-100 also finds GC-1001 — so only an exact match counts." },
+    { "b": "Refuses rather than guesses", "t": "No match, several matches, no allocation, or several allocations each give a specific error saying what to pass. A parcel is never recorded against a warehouse the module picked by chance." },
+    { "b": "The operator’s number wins", "t": "The tracking number stored is the one the operator gave, not Veeqo’s echo of it: if the two ever differ, what actually went out is the truth." },
+    { "b": "Carrier from Veeqo’s name", "t": "The carrier code is read from what Veeqo calls the carrier, then from the ship request’s own carrier, so a store that set a real carrier id gets a tracking link." },
+    { "b": "No double emails, no loop", "t": "Veeqo’s own customer email and its push to the sales channel are both off unless switched on, so one parcel means one message and no round trip." }
+  ],
+  "limits": [
+    { "b": "Does not create Veeqo orders", "t": "Nothing here sends a GoCommerce order to Veeqo. If the order is not already in Veeqo under the same number, the shipment is refused." },
+    { "b": "Buys no label", "t": "The label is bought somewhere else — in Veeqo, or with another carrier module — and this module records the result." },
+    { "b": "Pass both ids, or neither", "t": "Meta allocation_id is used directly only when order_id comes with it. Passed alone, the module still searches, and an order with several allocations is then refused." },
+    { "b": "Nothing flows back", "t": "Stock levels, cancellations and delivery events stay in Veeqo; the module writes to Veeqo and reads nothing into GoCommerce but the carrier’s name." },
+    { "b": "One page of search results", "t": "The search reads 25 results. An order number that fuzzily matches more orders than that may be missed — pass the ids instead." }
+  ],
+  "tested": true,
+  "testCount": 7,
+  "apiOps": 0,
+  "vendorUrl": "https://www.veeqo.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Does Veeqo get the order from GoCommerce?", "a": "Not through this module. It assumes Veeqo already holds the order under the same number, as it would for a sales channel Veeqo pulls from, and only tells Veeqo that the parcel went out." },
+    { "q": "What if the order has several allocations?", "a": "The module refuses to guess which warehouse sent the parcel. Pass meta allocation_id and order_id together on the ship request, and it records the shipment against exactly those." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -carriers flag installs every carrier module with an empty Config. Switch Veeqo on under Settings › Shipping providers and paste the API key there." },
+    { "q": "Is this a Veeqo partnership?", "a": "No. The module calls Veeqo’s public API with a key you supply. Veeqo does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

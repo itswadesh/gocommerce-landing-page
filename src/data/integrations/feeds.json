@@ -1,0 +1,58 @@
+{
+  "slug": "feeds",
+  "name": "Product feeds",
+  "category": "Marketing",
+  "title": "Google Merchant Center and Meta Feeds for GoCommerce",
+  "description": "Publish a GoCommerce catalogue as a Google Merchant Center RSS feed and a Meta catalogue CSV: one item per variant, built live from the catalogue.",
+  "ogTitle": "Google Merchant Center and Meta feeds for GoCommerce",
+  "ogDescription": "Two feed URLs, one item per variant, built from the live catalogue on every fetch.",
+  "h1": "Google Merchant Center and Meta feeds for GoCommerce",
+  "lede": "A Go package that publishes the catalogue in the shapes advertising platforms read: Google Merchant Center’s RSS feed at /x/feeds/google.xml and Meta’s catalogue CSV at /x/feeds/meta.csv. One item per variant, built from the live catalogue on each request. One setting is required — where the storefront lives.",
+  "what": [
+    "In the package’s own words, a feed is “the storefront’s products, one item per variant, with the fields those platforms require and nothing they do not: an id, a title, a price in the store’s currency, a link to the product page, a picture, availability, a brand, and the group that ties a product’s variants together.”",
+    "Both feeds are generated on request from the live catalogue, so a platform that fetches daily sees yesterday’s prices only for a day. There is no build to schedule; a response may be cached for 15 minutes. Each item carries the SKU as its id and MPN, the barcode as its GTIN, the category path as the Google product category, and the weight where the variant has one.",
+    "The storefront’s address is a setting, because the engine does not know where its storefront lives. Product links are built from it and a path pattern; pictures the store holds itself are given the request’s own host, so the platform can fetch them. The admin’s Feeds screen counts what the feed holds and the items missing a picture, a brand or an identifier — what the platforms most often reject."
+  ],
+  "configLede": "One setting is required: the storefront URL. Set it in Config — the reference binary’s -feeds flag reads it from STOREFRONT_URL — or on the Plugins screen, which wins.",
+  "config": [
+    { "field": "StorefrontURL", "panel": "Storefront URL", "env": "STOREFRONT_URL", "required": true, "note": "Where product pages live, without a path: https://shop.example. Until it is set, both feeds answer 409 and say what to set." },
+    { "field": "ProductPath", "panel": "Product page path", "required": false, "note": "The product page’s path with {slug} in it, /products/{slug} by default. Set it on the Plugins screen: the panel field’s default stands in front of Config, so Config.ProductPath is never read." },
+    { "field": "Brand", "panel": "Brand when a product has no vendor", "required": false, "note": "The brand an item names when its product has no vendor." },
+    { "field": "google_product_category", "panel": "Default Google product category", "required": false, "note": "Used when a product has no category of its own. Panel only; there is no Config field for it." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass feeds.New to gocommerce.New, as below, or start the reference binary with -feeds and STOREFRONT_URL set." },
+    { "b": "Say where the storefront is", "t": "With a storefront URL in Config the plugin starts switched on. Otherwise enable Product feeds on the Plugins screen and set it there, with the product path if yours is not /products/{slug}." },
+    { "b": "Read the Feeds screen", "t": "It counts items, products and stock, and the items missing a picture, a brand or an identifier. Fix those before a platform rejects them." },
+    { "b": "Give the platforms the URLs", "t": "https://your-api-host/x/feeds/google.xml for Merchant Center and /x/feeds/meta.csv for Meta’s catalogue, each fetched on the platform’s own schedule." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/feeds\"\n)\n\napp, err := gocommerce.New(cfg, feeds.New(feeds.Config{\n\tStorefrontURL: os.Getenv(\"STOREFRONT_URL\"),\n}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc has no example of its own; this is how the reference binary’s -feeds flag and examples/store/main.go install it. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "One item per variant", "t": "Every active variant of every active product becomes an item. Variants of one product share an item group id; a variant with its own label gets it in the title and ?variant=<SKU> on the link." },
+    { "b": "Prices in minor units, written out", "t": "Prices are written in the store’s currency with the right number of decimals — none for yen, three for dinar. A compare-at price above the price makes the price the sale price." },
+    { "b": "Availability from stock", "t": "An item is in stock when its variant can sell one. Meta’s quantity column carries the available count, or 999 for a variant that does not track inventory." },
+    { "b": "Off is a 404, unset is a 409", "t": "With the plugin off, both feed URLs answer 404. On but without a storefront URL, they answer 409 and name the setting, rather than serving links to nowhere." },
+    { "b": "A status that goes and looks", "t": "GET /api/admin/x/feeds/status walks the same catalogue the feeds do and counts items, in and out of stock, and what is missing — so the screen and the feed cannot disagree." },
+    { "b": "No tables", "t": "The module keeps no state of its own. Every fetch reads the catalogue; nothing is stored between them." }
+  ],
+  "limits": [
+    { "b": "Base price, all channels", "t": "Items carry each variant’s base price. Price lists are not applied, and every active product is listed whatever channels it is published to." },
+    { "b": "Always new", "t": "Every item’s condition is new. There is no field for used or refurbished stock." },
+    { "b": "Built on every fetch", "t": "Each request walks the whole active catalogue. For a large catalogue that is real work per fetch, softened only by the 15-minute cache header." },
+    { "b": "Public URLs", "t": "The feeds are open to anyone who knows the address: prices, stock counts and SKUs for the whole active catalogue." },
+    { "b": "Config.ProductPath is ignored", "t": "The panel’s product-path field has a default of its own, and the module reads the panel first — so a path set only in Config never takes effect. Set it on the Plugins screen." },
+    { "b": "Two formats", "t": "Google Merchant Center’s RSS and Meta’s CSV. Other platforms that read one of those formats may take them; no other format is produced." }
+  ],
+  "tested": true,
+  "testCount": 3,
+  "apiOps": 3,
+  "trademark": "Google Merchant Center and Meta are trademarks of their owners; this module publishes feeds in their documented formats and implies no endorsement.",
+  "faq": [
+    { "q": "What are the feed URLs?", "a": "GET /x/feeds/google.xml for Google Merchant Center and GET /x/feeds/meta.csv for Meta’s catalogue, both on the host that serves your GoCommerce API. They answer only while the plugin is switched on and a storefront URL is set." },
+    { "q": "How fresh are the prices?", "a": "As fresh as the fetch. Nothing is pre-built: each request reads the live catalogue, and the response may be cached for 15 minutes. A platform that fetches daily is at most a day behind." },
+    { "q": "Why was an item rejected for a missing identifier?", "a": "Google takes a GTIN, or a brand and an MPN together. The feed sends the SKU as the MPN, so the item at risk is one with no barcode and no brand — a product with no vendor, in a store with no default brand set. The Feeds screen counts them." },
+    { "q": "Does it upload anything to Google or Meta?", "a": "No. It serves two URLs; the platforms fetch them on their own schedule. There are no Google or Meta credentials to configure, and none are stored." }
+  ]
+}

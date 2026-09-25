@@ -19,13 +19,15 @@ const abs = (p: string) => new URL(p, Astro.site!).href
 const compares = Object.values(import.meta.glob<Comparison>('../data/compare/*.json', { eager: true, import: 'default' })).sort((a, b) => a.label.localeCompare(b.label))
 const features = Object.values(import.meta.glob<FeaturePage>('../data/features/*.json', { eager: true, import: 'default' }))
 const posts = await getCollection('blog')
+const backends = Object.values(import.meta.glob<{ slug: string; name: string }>('../data/backends/*.json', { eager: true, import: 'default' })).sort((a, b) => a.name.localeCompare(b.name))
+const integrations = Object.values(import.meta.glob<{ slug: string; name: string }>('../data/integrations/*.json', { eager: true, import: 'default' })).sort((a, b) => a.name.localeCompare(b.name))
 
 const groups: { name: string; links: { href: string; label: string }[] }[] = [
   { name: 'Main pages', links: [
     { href: '/', label: 'Home' },
     { href: '/gocommerce/', label: 'GoCommerce' },
     { href: '/gocommerce/admin/', label: 'The admin, every screen' },
-    { href: '/integrations/', label: 'Modules and integrations' },
+    { href: '/gocommerce/mcp/', label: 'MCP server' },
     { href: '/go-svelte-ecommerce/', label: 'Architecture' },
     { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status' },
     { href: '/pricing/', label: 'Pricing' },
@@ -41,6 +43,8 @@ const groups: { name: string; links: { href: string; label: string }[] }[] = [
     { href: '/svelte-commerce/themes/', label: 'Themes' },
     { href: '/live-projects/', label: 'Live projects' },
   ] },
+  { name: 'Storefront backends', links: backends.map((b) => ({ href: `/svelte-commerce/backends/${b.slug}/`, label: b.name })) },
+  { name: 'Integrations', links: [{ href: '/integrations/', label: 'All 44 modules' }, ...integrations.map((m) => ({ href: `/integrations/${m.slug}/`, label: m.name }))] },
   { name: 'Solutions', links: [
     { href: '/solutions/', label: 'All solutions' },
     { href: '/solutions/marketplace/', label: 'Multi-vendor marketplace' },

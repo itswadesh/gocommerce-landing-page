@@ -1,0 +1,65 @@
+{
+  "slug": "fulfill-shipstation",
+  "name": "ShipStation",
+  "category": "Shipping",
+  "title": "ShipStation Labels for GoCommerce — Open-Source Module",
+  "description": "Buy ShipStation V2 labels from a GoCommerce order: the API key, service code, ship-from address, how units convert, and what the module does not do.",
+  "ogTitle": "ShipStation labels for GoCommerce",
+  "ogDescription": "A label from a described parcel on ShipStation’s V2 API, with no order pushed into ShipStation. Read from the source.",
+  "h1": "ShipStation labels for GoCommerce",
+  "lede": "A Go package that buys a label through ShipStation’s V2 API when an operator ships an order, and gives the engine back a tracking number and a label to print. The order stays in GoCommerce; nothing is pushed into ShipStation first.",
+  "what": [
+    "The module registers “shipstation” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider shipstation — the engine keeps the order’s state and its events, and the module only talks to ShipStation.",
+    "It speaks the newer V2 API at api.shipstation.com, with a single API-Key header, and buys a label from a shipment described in the request with one POST /v2/labels. The package explains why not the older ssapi, which is organised around orders pushed into ShipStation first: that would make ShipStation a second place an order exists, and a second place it can change.",
+    "In the admin it describes itself as “Multi-carrier labels through ShipStation’s V2 API, on the service you name.” It uses Go’s standard library and no SDK."
+  ],
+  "configLede": "Four things are required: the API key, a default service code, and a ship-from address line and country. Set them in Config from your own main(), or leave Config empty and fill them in under Settings › Shipping providers.",
+  "config": [
+    { "field": "APIKey", "panel": "API key", "env": "SHIPSTATION_API_KEY", "required": true, "note": "A ShipStation V2 API key, sent as the API-Key header." },
+    { "field": "ServiceCode", "panel": "Service code", "required": true, "note": "The default service — usps_priority_mail, ups_ground and the rest. Meta service_code overrides it for one parcel." },
+    { "field": "From.AddressLine1", "panel": "From: address line 1", "required": true, "note": "Where parcels are sent from. The order knows where it is going, never where it came from, so this is configuration." },
+    { "field": "From.CountryCode", "panel": "From: country (ISO 2)", "required": true, "note": "The ship-from country, as two letters." },
+    { "field": "From.Name, From.Phone, From.CityLocality, From.StateProvince, From.PostalCode", "panel": "From: name, phone, city, state, postal code", "required": false, "note": "The rest of the ship-from address." },
+    { "field": "From.CompanyName, From.AddressLine2, From.Residential", "required": false, "note": "Go only. Residential is ShipStation’s address_residential_indicator; left alone, the carrier decides." },
+    { "field": "DefaultWeightGrams", "panel": "Default weight (grams)", "required": false, "note": "Per unit, for a parcel holding a variant with no weight recorded. 500 by default." },
+    { "field": "DefaultLengthMM, DefaultWidthMM, DefaultHeightMM", "required": false, "note": "The box sent when the engine has no unambiguous size, which is any parcel holding more than one unit. 150 × 150 × 100 mm by default. Go only." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.shipstation.com, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Get a V2 API key", "t": "In ShipStation, create a key for the V2 API and note the service code to buy by default. A key and secret for the older ssapi will not work here." },
+    { "b": "Install the module", "t": "Import it and pass shipstation.New to gocommerce.New, as below — or run the reference binary with -carriers, which installs every carrier module idle." },
+    { "b": "Fill in the settings", "t": "Key, service code and ship-from address, in Config or under Settings › Shipping providers. A value typed into the panel counts on the next shipment, with no restart." },
+    { "b": "Ship an order", "t": "POST /api/admin/create-fulfillment with the order id and the provider shipstation. The engine records the tracking number and label URL and moves the order to shipped, or to partial." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tshipstation \"github.com/misiki/gocommerce/ext/fulfill-shipstation\"\n)\n\napp, err := gocommerce.New(cfg,\n\tshipstation.New(shipstation.Config{\n\t\tAPIKey:      os.Getenv(\"SHIPSTATION_API_KEY\"),\n\t\tServiceCode: \"usps_priority_mail\",\n\t\tFrom: shipstation.Address{\n\t\t\tName: \"Acme\", AddressLine1: \"215 Clayton St\",\n\t\t\tCityLocality: \"San Francisco\", StateProvince: \"CA\",\n\t\t\tPostalCode: \"94117\", CountryCode: \"US\", Phone: \"+15553334444\",\n\t\t},\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty shipstation.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "A label from a described parcel", "t": "POST /v2/labels carries the service code, the ship-from and ship-to addresses and one package. The answer is a tracking number and a label download; the module keeps the PDF link, or the generic link, or the PNG." },
+    { "b": "No tracking number, no shipment", "t": "A label that comes back without a tracking number is an error, not a shipment, so the order is never moved to shipped on a parcel nobody can trace." },
+    { "b": "Centimetres, keeping the tenth", "t": "ShipStation takes grams, which the engine stores, and centimetres, which it does not. Sides are divided by ten and sent as decimals — 305 mm is 30.5 cm, not 30 — because, as the package puts it, rounding down is how a parcel gets refused at the counter for being over its band." },
+    { "b": "A unique id per parcel", "t": "Each label carries external_shipment_id: the order number on a first shipment, with -2, -3 appended for later parcels against the same order, so ShipStation never sees a repeat." },
+    { "b": "Per-parcel overrides", "t": "Meta on the ship request can name a different service_code, or a carrier_id, for one parcel." },
+    { "b": "Carrier worked out", "t": "The carrier code comes from what ShipStation reports, or from the service code — USPS (Stamps.com and Endicia labels too, since USPS carries them), FedEx, UPS, DHL, Canada Post, Australia Post — so the tracking number gets the right link." }
+  ],
+  "limits": [
+    { "b": "No rate shopping", "t": "The service is a setting or a meta override. The module never asks ShipStation for rates or picks one for you." },
+    { "b": "No tracking updates", "t": "No webhook and no stored state: delivery events in ShipStation do not reach the order. Marking it delivered is still the operator’s job." },
+    { "b": "No void call", "t": "There is no call to cancel a label. Deleting the fulfillment in GoCommerce does not touch the label in ShipStation." },
+    { "b": "V2 keys only", "t": "Credentials for the older ssapi — a key and a secret over HTTP Basic — do not work; the module speaks only the V2 API." },
+    { "b": "No customs declaration", "t": "The request carries no customs items, so a cross-border parcel that needs a declaration is not covered by the module as written." },
+    { "b": "A guessed box for several items", "t": "For anything but a single unit, the size sent is the configured default, not a measurement. The engine does not pack cartons." }
+  ],
+  "tested": true,
+  "testCount": 7,
+  "apiOps": 0,
+  "vendorUrl": "https://www.shipstation.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Does it push orders into ShipStation?", "a": "No, deliberately. The package keeps GoCommerce as the system of record and buys a label from a shipment described in the request, so the order never exists in two places that could disagree." },
+    { "q": "Which API key do I need?", "a": "A V2 API key, sent as the API-Key header. The older ShipStation API at ssapi.shipstation.com, with a key and secret over HTTP Basic, is not what this module speaks." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -carriers flag installs every carrier module with an empty Config. Switch ShipStation on under Settings › Shipping providers and fill in the key, service code and ship-from address there." },
+    { "q": "Is this a ShipStation partnership?", "a": "No. The module calls ShipStation’s public API with a key you supply. ShipStation does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

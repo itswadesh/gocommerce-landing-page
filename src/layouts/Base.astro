@@ -110,6 +110,12 @@ const wa = import.meta.env.PUBLIC_WHATSAPP ?? ''
 const ogSlug = path === '/' ? 'home' : path.replace(/^\/+|\/+$/g, '').replace(/\//g, '--')
 const ogImage = existsSync(join(process.cwd(), 'public', 'og', ogSlug + '.jpg')) ? '/og/' + ogSlug + '.jpg' : '/assets/og.png'
 
+// The page as Markdown, written next to it at build time by
+// scripts/markdown-alternates.mjs (/gocommerce/ → /gocommerce.md, / → /index.md).
+// The Worker sends the same URL as a Link header; this tag is for readers of
+// the HTML that ignore headers.
+const mdTwin = path === '/' ? '/index.md' : path.replace(/\/$/, '') + '.md'
+
 const robots = noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1'
 ---
 <!doctype html>
@@ -146,6 +152,7 @@ const robots = noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-ima
 <link rel="preload" href="/assets/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="alternate" type="application/rss+xml" title="kitcommerce.store blog" href="/rss.xml">
+{!noindex && <link rel="alternate" type="text/markdown" href={mdTwin}>}
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <script is:inline set:html={`window.KC_CONFIG=${JSON.stringify(cfg)}`} />
 <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonld)} />

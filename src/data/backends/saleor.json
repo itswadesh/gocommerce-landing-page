@@ -1,0 +1,117 @@
+{
+  "slug": "saleor",
+  "name": "Saleor",
+  "title": "Saleor SvelteKit Storefront — Svelte Commerce Connector",
+  "description": "Svelte Commerce on Saleor’s GraphQL API: setup, env and Saleor settings. 28 of 43 services wired, but cart, checkout and sign-in are not: it cannot sell yet.",
+  "lede": "The Saleor connector talks to Saleor’s GraphQL API from a single environment variable. Its guide describes cart, checkout and sign-in as Saleor-native, but the coverage script counts none of the three as wired, so for now it cannot sell.",
+  "verdict": "Cannot sell yet. The coverage script counts cart, checkout and sign-in as not wired — along with orders, categories, coupons, search, addresses, pages and payment methods — and CONNECTORS.md says this connector predates the current wiring pass. Its own guide adds that the card gateways throw “not implemented”.",
+  "quickStart": [
+    {
+      "text": "get the storefront",
+      "cmd": "git clone https://github.com/itswadesh/svelte-commerce\ncd svelte-commerce"
+    },
+    {
+      "text": "one connector at a time: remove the two the storefront ships with, add this one",
+      "cmd": "npm uninstall @misiki/litekart-connector @misiki/vendure-connector\nnpm i @misiki/saleor-connector"
+    },
+    {
+      "text": "point it at your Saleor GraphQL endpoint",
+      "cmd": "echo PUBLIC_SALEOR_API_URL=https://your-store.saleor.cloud/graphql/ >> .env"
+    },
+    {
+      "text": "run it",
+      "cmd": "npm run dev"
+    }
+  ],
+  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
+  "env": [
+    {
+      "name": "PUBLIC_SALEOR_API_URL",
+      "required": true,
+      "note": "The full Saleor GraphQL endpoint, such as `https://your-store.saleor.cloud/graphql/` — the endpoint, not just the host."
+    },
+    {
+      "name": "PUBLIC_CONNECTOR",
+      "required": false,
+      "note": "Only when more than one connector is installed: `@misiki/saleor-connector` names the one this build runs on."
+    }
+  ],
+  "envNote": "The Litekart trio is not used in Saleor mode; `/health` reports ready when `PUBLIC_SALEOR_API_URL` is set and the Saleor connector is active.",
+  "backendSettings": [
+    "Turn off email confirmation for user registration.",
+    "Set `isPhoneMandatory` to `false`.",
+    "Allow unpaid orders in the order settings.",
+    "Allow unpaid orders in the channel settings too.",
+    "Allow the storefront’s origin in CORS: the browser calls `PUBLIC_SALEOR_API_URL` directly."
+  ],
+  "howItWorks": [
+    "At boot, `init` in both hooks (through `src/lib/core/connectors/init.ts`) writes `PUBLIC_SALEOR_API_URL` onto the connector’s `BaseService.SALEOR_API_URL`. The server hook covers server rendering; the client hook covers the browser, which must reach the public Saleor URL in production.",
+    "By the guide’s account, cart, shipping rates, payment-method listing and cash-on-delivery checkout are Saleor-native GraphQL; categories map to Saleor categories; and the profile page delegates to Saleor’s `me` and `accountUpdate`. `checkoutComplete` requires an email on the checkout, so the static store config defaults `isEmailMandatory` to `true`.",
+    "Store identity, menus and plugin toggles are static — `default-store.json` under the default export of `kitcommerce.config.ts`. CMS pages are the connector’s own static placeholders. Any other Litekart REST path is never requested: list reads resolve empty, single-record reads and writes throw. From connector 1.0.4 the store lookup it once inherited from Litekart is answered by the connector itself.",
+    "The coverage script and the guide disagree. The script counts a service as wired only if it reaches the connector’s own HTTP layer, and it does not count auth, cart, checkout, order, category, coupon, search, address, user, page or payment-method. CONNECTORS.md names Medusa and Saleor as the next candidates for the source-verification sweep."
+  ],
+  "limitations": [
+    "Sign-in (auth): not wired — the coverage script does not count it, though the guide describes email sign-in as native GraphQL.",
+    "Cart: not wired — the coverage script does not count it, though the guide describes the cart as Saleor-native.",
+    "Checkout: not wired — the coverage script does not count it, though the guide describes cash-on-delivery checkout as Saleor-native.",
+    "Orders: not wired.",
+    "Categories: not wired.",
+    "Coupons: not wired.",
+    "Search: not wired.",
+    "Saved addresses: not wired.",
+    "User accounts: not wired.",
+    "CMS pages: not wired — CMS-style pages show the connector’s placeholder content.",
+    "Payment-method listing: not wired.",
+    "The card gateways — Razorpay, Stripe, PhonePe, PayPal, Cashfree, Affirm — throw “not implemented” in this connector.",
+    "No OTP sign-in: `getOtp` throws.",
+    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
+    "If the Saleor catalogue has no matching products, product grids render their empty or loading states; the pages still work.",
+    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden in Saleor mode without firing requests."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Boot fails with “PUBLIC_SALEOR_API_URL is set, but it configures a different backend than the one this build runs on”",
+      "fix": "The variable is set while a different connector is installed. Install `@misiki/saleor-connector`, or remove the variable if you meant to run another backend. With more than one connector installed, set `PUBLIC_CONNECTOR='@misiki/saleor-connector'`."
+    },
+    {
+      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
+      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/saleor-connector'`."
+    },
+    {
+      "problem": "`[saleor] no native implementation for get /api/...` in the console",
+      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Saleor has no such feature; if it has one, implement it in the connector’s matching service."
+    },
+    {
+      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
+      "fix": "A Litekart REST path was requested from outside the connector, so neither its guard nor `blockRestFallbacks` saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
+    },
+    {
+      "problem": "The store is called “Test”, or shows the wrong branding",
+      "fix": "Set identity overrides — `name`, `logo`, `favicon`, `currencyCode` and the rest — in the default export of `kitcommerce.config.ts`."
+    },
+    {
+      "problem": "Sign-in or cart works in dev but not when deployed",
+      "fix": "Almost always CORS: allow the deployed storefront’s origin on the Saleor API."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Can I sell on Saleor with Svelte Commerce today?",
+      "a": "Not yet. The coverage script counts cart, checkout and sign-in as not wired, CONNECTORS.md says the Saleor connector predates the current wiring pass, and its own guide says the card gateways throw “not implemented”."
+    },
+    {
+      "q": "Why does the guide describe a working checkout when the table says it is not wired?",
+      "a": "The guide describes what the connector calls; the coverage script counts a service only when it reaches the connector’s own HTTP layer, and does not count cart, checkout or auth. CONNECTORS.md lists Saleor as a next candidate for the source-verification sweep that would settle it."
+    },
+    {
+      "q": "Which Saleor settings does Svelte Commerce need?",
+      "a": "Email confirmation for registration turned off, `isPhoneMandatory` set to `false`, unpaid orders allowed in both the order settings and the channel settings, and the storefront’s origin allowed in CORS."
+    },
+    {
+      "q": "What goes in PUBLIC_SALEOR_API_URL?",
+      "a": "The full GraphQL endpoint, such as `https://your-store.saleor.cloud/graphql/` — not only the host. It is the one variable the Saleor connector needs."
+    }
+  ],
+  "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/SALEOR.md",
+  "read": "2026-09-25"
+}

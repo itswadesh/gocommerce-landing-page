@@ -5,8 +5,8 @@
   "label": "KitCommerce vs Shopify",
   "group": "Shopify",
   "summary": "A hosted platform you rent against two MIT projects you run: fees per order, code ownership, and what each asks of you.",
-  "title": "KitCommerce vs Shopify — GoCommerce and Svelte Commerce Compared With Shopify",
-  "description": "Shopify compared with GoCommerce and Svelte Commerce, the open-source backend and storefront this site presents: platform fees per order, hosting, code ownership, checkout, apps and payments — with where Shopify is the better choice.",
+  "title": "KitCommerce vs Shopify: Fees, Ownership, Trade-offs",
+  "description": "Shopify vs GoCommerce and Svelte Commerce: platform fees per order, hosting, code ownership, apps and payments — and where Shopify is the better choice.",
   "ogTitle": "KitCommerce vs Shopify",
   "ogDescription": "Rent a hosted platform, or run two MIT projects yourself. Fees, ownership and trade-offs, sourced.",
   "h1": "Shopify rents you a store. GoCommerce gives you one.",
@@ -60,7 +60,7 @@
     [
       "Payments",
       "Shopify Payments in 40 countries and regions; third-party providers elsewhere, with the fee above.",
-      "Razorpay, Stripe, Adyen, Paddle, HyperSwitch and four more as modules; cash on delivery built in."
+      "Razorpay, Stripe, Adyen, Paddle, Hyperswitch and four more as modules; cash on delivery built in."
     ],
     [
       "Storefront",

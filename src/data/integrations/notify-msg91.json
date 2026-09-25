@@ -1,0 +1,61 @@
+{
+  "slug": "notify-msg91",
+  "name": "MSG91",
+  "category": "Messaging",
+  "title": "MSG91 Order SMS for GoCommerce — Open-Source Module",
+  "description": "Text shoppers about their GoCommerce orders through MSG91’s DLT-approved flow templates: the auth key, a template per event, and what the module leaves out.",
+  "ogTitle": "MSG91 order SMS for GoCommerce",
+  "ogDescription": "DLT templates, not free text: a template id per order event. Read from the module’s source.",
+  "h1": "MSG91 order SMS for GoCommerce",
+  "lede": "A Go package that sends GoCommerce’s order notifications as SMS through MSG91. India requires SMS wording to be registered as a DLT template, so the module sends a template id and its variables — the words live in your MSG91 account, not in the store.",
+  "what": [
+    "The module registers as the store’s SMS backend. When an order event has a phone number on it — placed, paid, shipped, delivered, cancelled, refunded — the engine hands the module the event and a set of flat values, and the module posts them to MSG91’s flow API under the template id you gave that event. An event with no template is not sent, which the package doc calls the usual case, since most stores text about shipping and nothing else.",
+    "The design follows from Indian regulation, and the package doc says so: SMS content has to be pre-registered as a DLT template, so this module sends a template id and its variables rather than free text — the wording lives in your MSG91 account, which is where the regulator expects to find it. The engine’s own SMS wording is therefore not what this module sends.",
+    "The key and the template ids come from Config or from the admin, under Notifications › Setup SMS. Installed with neither, the module is idle and the settings say so."
+  ],
+  "configLede": "One setting is required: the auth key. Template ids decide which events are texted at all. Set them in Config from your own main(), or under Notifications › Setup SMS in the admin, where each order event has its own field.",
+  "config": [
+    { "field": "AuthKey", "panel": "Auth key", "env": "MSG91_AUTH_KEY", "required": true, "note": "The MSG91 authentication key, sent as the authkey header. Needed in Config or the panel before anything is sent." },
+    { "field": "Templates", "panel": "Order placed, Payment received, Order shipped, Order delivered, Order cancelled, Refund issued — template ID", "required": false, "note": "A DLT-approved flow template id per event. In Config, a map from event name to id; in the panel, one field for each of the six order events. An event left empty sends nothing." },
+    { "field": "DefaultCountryCode", "panel": "Default country code", "required": false, "note": "Prefixed to a ten-digit number that lacks it; MSG91 needs the country code. The panel’s default is 91 — see the limits below for what that means for Config." },
+    { "field": "BaseURL", "required": false, "note": "Overrides https://control.msg91.com, for tests. Go only; not in the panel." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 15 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Register the templates", "t": "In MSG91, get a DLT-approved flow template for each message you want to send — most stores start with shipping — and note each id, and the auth key." },
+    { "b": "Install the module", "t": "Import it and pass msg91.New to gocommerce.New, as below — or run the reference binary with -msg91, which reads MSG91_AUTH_KEY." },
+    { "b": "Map events to templates", "t": "Under Notifications › Setup SMS, or in Config’s Templates map, give each event its template id. An event left empty sends nothing." },
+    { "b": "Name the variables", "t": "Each message carries the order’s values — order_number, customer_name, tracking, items_summary and more — as template variables. Use those names in the template." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tmsg91 \"github.com/misiki/gocommerce/ext/notify-msg91\"\n)\n\napp, err := gocommerce.New(cfg,\n\tmsg91.New(msg91.Config{\n\t\tAuthKey: os.Getenv(\"MSG91_AUTH_KEY\"),\n\t\tTemplates: map[string]string{\n\t\t\tgocommerce.EventOrderShipped: \"65a1b2c3d4e5f6\",\n\t\t},\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config and the template id is a placeholder. gocommerce.EventOrderShipped is the event named order.shipped.",
+  "howItWorks": [
+    { "b": "One flow call per message", "t": "Each SMS is one POST to MSG91’s /api/v5/flow/ with the template id and one recipient, whose fields are the number plus every value the engine sent with the event." },
+    { "b": "Values, not wording", "t": "The engine sends flat data — order number, status, totals in minor units, tracking, a one-line items summary — never rendered copy. The words are the DLT template’s." },
+    { "b": "Only what has a template", "t": "An event with no template id is skipped, not failed. So is every message while the module is switched off or has no key." },
+    { "b": "The number, normalised", "t": "Everything but digits is stripped. A ten-digit number without the country code gets it prefixed; one that already starts with it is left alone." },
+    { "b": "Rejections are not retried", "t": "MSG91 can answer 200 with type error. That, and any 4xx other than 429, is logged and dropped — a rejected message would only be rejected again." },
+    { "b": "Every message on record", "t": "The engine logs each notification and whether the module reported it sent. Keys and template ids are read on every message, so a change in the panel counts for the next one." }
+  ],
+  "limits": [
+    { "b": "Order events only", "t": "The engine texts about order events and nothing else, and the cart-recovery module sends its reminders by email — so an abandoned basket is never texted." },
+    { "b": "Config’s country code is shadowed", "t": "The panel’s country code defaults to 91 and is read before Config, so Config.DefaultCountryCode never takes effect. A store outside India changes it under Setup SMS." },
+    { "b": "A retry can resend the email", "t": "A 429 or server error from MSG91 goes back to the engine, whose outbox redelivers the whole event — every subscriber runs again, the order’s email included." },
+    { "b": "One test", "t": "A single test covers idle, panel set-up, one send, the number and a skipped event. MSG91’s error answers — type error, 4xx, 429 — are not exercised by it." },
+    { "b": "A refusal is logged as sent", "t": "The module cannot register or check a DLT template. When MSG91 refuses a message, the refusal goes to the process log, but the engine’s notification log records the message as sent." },
+    { "b": "SMS only", "t": "It registers on the SMS channel. MSG91’s email, WhatsApp and voice products are not used." }
+  ],
+  "tested": true,
+  "testCount": 1,
+  "apiOps": 0,
+  "vendorUrl": "https://msg91.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Why does it send template ids instead of the message?", "a": "Because India requires SMS content to be registered as a DLT template before it is sent. The package doc puts it plainly: the wording lives in your MSG91 account, which is where the regulator expects to find it, and the module sends a template id and its variables." },
+    { "q": "Which variables can a template use?", "a": "The flat values the engine sends with every order notification: order_id, order_number, order_status, payment_status, payment_method, currency, total_minor, item_count, customer_name, customer_email and items_summary — plus tracking and the parcel’s own summary on a shipment, a reason on a cancellation, and the amounts on a refund. Totals are in minor units: paise, for rupees." },
+    { "q": "Should I use MSG91 or Twilio?", "a": "The reference binary’s own comment answers it: Twilio works anywhere, because its wording is the store’s own; MSG91 needs every message registered with a carrier first, which is the right module in India and a week of waiting everywhere else." },
+    { "q": "Does it text about abandoned carts?", "a": "No. The engine notifies about order events only, and deliberately: chasing an abandoned basket is a marketing decision with opt-out obligations. That is left to the cart-recovery module, which writes by email." },
+    { "q": "Is MSG91 a partner?", "a": "No. The module calls MSG91’s API with a key you supply. MSG91 does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

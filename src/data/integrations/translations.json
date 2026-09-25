@@ -1,0 +1,55 @@
+{
+  "slug": "translations",
+  "name": "Translations",
+  "category": "Platform",
+  "title": "Multi-Language Catalogues for GoCommerce — Translations",
+  "description": "Serve GoCommerce product titles, descriptions and SEO fields in the shopper’s language: the translations module, the store’s languages, what stays untranslated.",
+  "ogTitle": "Translated product copy for GoCommerce",
+  "ogDescription": "Titles, descriptions and SEO fields per language, behind the engine’s own translator port.",
+  "h1": "Translated product copy for GoCommerce",
+  "lede": "A Go package that serves catalogue content in the language a shopper asked for. The engine already negotiates the language and has a port for overrides; this module is the table behind that port — product titles, descriptions and the two SEO fields, per language, written through three admin routes.",
+  "what": [
+    "In the package’s words, the engine already had every part of this except the words. Config.Languages declares what a store serves, each request is negotiated down to one of them, and every public product read asks a translator port for overrides. Before this module nothing implemented that port, so a store configured for English and French negotiated French correctly and was then handed the English title.",
+    "It translates four product fields: title, description, seo_title and seo_description. A field with no translation keeps the product’s stored text — half a translation is common, and an English description beats an empty one.",
+    "A regional tag falls back to its language: a row stored for fr serves a shopper asking for fr-CA, and a row stored for fr-CA wins over it. Lookups are batched, one query for a page of products rather than one per product."
+  ],
+  "configLede": "The module has no settings of its own — translations.New() takes none. Whether it does anything is decided by the engine’s language list, set in gocommerce.Config.",
+  "config": [
+    { "field": "Languages", "required": true, "note": "The engine’s setting, not the module’s: the tags the store serves. The module has nothing to serve until there is a language besides the default." },
+    { "field": "DefaultLanguage", "required": false, "note": "The language the catalogue itself is written in, en unless set. A request in the default language skips the translator entirely." }
+  ],
+  "setup": [
+    { "b": "Declare the languages", "t": "Set Languages in gocommerce.Config — en, fr and de in the package’s example — with the catalogue’s own language as the default." },
+    { "b": "Install the module", "t": "Pass translations.New() to gocommerce.New in your own main(), as below. Neither the reference binary nor examples/store installs it." },
+    { "b": "Write translations", "t": "PUT /api/admin/x/translations/product/{id}/{language} with fields for title, description, seo_title or seo_description. An unknown field is refused; an empty one is dropped." },
+    { "b": "Ask in a language", "t": "The storefront sends ?lang=fr or an Accept-Language header on product reads, and gets French where it exists and the stored text where it does not." }
+  ],
+  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/translations\"\n)\n\napp, err := gocommerce.New(gocommerce.Config{\n\t// DBURL, Addr and the rest of your Config, then:\n\tLanguages: []string{\"en\", \"fr\", \"de\"},\n}, translations.New())",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; the first language listed is the default unless DefaultLanguage says otherwise.",
+  "howItWorks": [
+    { "b": "Behind the engine’s port", "t": "The module registers as the engine’s one Translator. Every public product read — the listing, a single product, a category’s or a collection’s products — asks it for overrides in the negotiated language." },
+    { "b": "One query per page", "t": "A page of fifty products is one lookup, not fifty: the port is batched, and the exact tag and its primary language are fetched together." },
+    { "b": "Failure falls back", "t": "If a lookup fails, the engine logs it and serves the stored text rather than failing the request — a shopper would rather read the default language than an error page." },
+    { "b": "An allow-list of fields", "t": "Only title, description, seo_title and seo_description are accepted, and anything else is refused with the list of what is. A typo is an error, not a row that silently never applies." },
+    { "b": "Empty means absent", "t": "Blank fields are dropped, and a write that empties every field deletes the row — so a product never claims a language it has no text in." },
+    { "b": "Catalogue rights", "t": "Reading translations needs catalog.read and writing them catalog.write. In the package’s words, somebody trusted to rewrite the English title is trusted to write the French." }
+  ],
+  "limits": [
+    { "b": "Products only", "t": "Category and collection names are not translated — the engine has no hook for them — so a French catalogue still shows its navigation in the default language. Variants are refused too." },
+    { "b": "No admin screen", "t": "Translations are written through the admin API. The admin has no screen for them yet." },
+    { "b": "No flag, no quick start", "t": "Neither the reference binary nor examples/store installs it. Using it means a main() of your own." },
+    { "b": "Any tag is stored", "t": "The API accepts any language tag, but only the languages in Config.Languages are ever served; a translation into an undeclared one is stored and never read." },
+    { "b": "Not in search or feeds", "t": "The Meilisearch index and the product feeds carry the stored text. Translated copy reaches the storefront’s product reads and nothing else." },
+    { "b": "Nothing automatic", "t": "It stores and serves text somebody wrote. There is no machine translation." }
+  ],
+  "tested": true,
+  "testCount": 9,
+  "apiOps": 3,
+  "faq": [
+    { "q": "How does the store pick a language?", "a": "An explicit ?lang= wins, then Accept-Language in the client’s order of preference, then the default. Only languages in Config.Languages are considered, and a ?lang= the store does not serve falls back to the default." },
+    { "q": "What exactly is translated?", "a": "Four product fields: title, description, seo_title and seo_description. Anything without a translation keeps the product’s stored text." },
+    { "q": "Are category names translated?", "a": "No. The engine applies translations to products only, so category and collection names — and so the navigation — stay in the default language. The package says so rather than leaving it to be discovered." },
+    { "q": "Is there a screen for entering translations?", "a": "Not yet. They are written with PUT /api/admin/x/translations/product/{id}/{language} and read back with GET /api/admin/x/translations/product/{id}, using an admin token or a signed-in operator with the catalogue rights." }
+  ]
+}

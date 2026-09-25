@@ -1,0 +1,59 @@
+{
+  "slug": "payments-helcim",
+  "name": "Helcim",
+  "category": "Payments",
+  "title": "Helcim Payments for GoCommerce — Open-Source Module",
+  "description": "Take card payments through Helcim’s HelcimPay.js in a GoCommerce store: API token, verifier token, webhook URL, refunds, and what the module leaves out.",
+  "ogTitle": "Helcim payments for GoCommerce",
+  "ogDescription": "HelcimPay.js in the page, and a webhook that is checked against the transaction before anything settles.",
+  "h1": "Helcim payments for GoCommerce",
+  "lede": "A Go package that opens a HelcimPay.js checkout session and marks the GoCommerce order paid only after reading the transaction back from Helcim — because Helcim’s webhook carries an id and a type, and nothing else.",
+  "what": [
+    "The module registers “helcim” as a payment method. At checkout it asks Helcim for a HelcimPay.js session — a purchase for the order’s total, with the order number as the invoice number — and answers with a client_action intent carrying the checkout token. The storefront loads Helcim’s script and opens the payment modal; that, the package says, is the one thing the module cannot do for it.",
+    "Helcim then calls POST /api/checkout/helcim/webhook. After verifying the signature, the module reads the transaction back from Helcim’s Card Transactions API, finds the order by its invoice number, and marks it paid only if it is an approved purchase for exactly the order’s amount and currency. A declined purchase marks the payment failed.",
+    "In the admin it describes itself as “Card payments through Helcim’s HelcimPay.js, with the verified webhook marking orders paid.” Helcim’s API takes decimal amounts; the package notes that Helcim settles in CAD and USD, both with two decimal places, so converting from the engine’s minor units is an exact division."
+  ],
+  "configLede": "Two settings are required: the API token and the webhook verifier token. Set them in Config from your own main(), or leave Config empty and fill them in under Settings › Payment methods.",
+  "config": [
+    { "field": "APIToken", "panel": "API token", "env": "HELCIM_API_TOKEN", "required": true, "note": "A Helcim API access token, sent as the api-token header. Not sent to the storefront." },
+    { "field": "VerifierToken", "panel": "Webhook verifier token", "env": "HELCIM_VERIFIER_TOKEN", "required": true, "note": "Base64, as Helcim shows it; the key webhook signatures are checked with. Required because, as the code puts it, without it any caller could mark orders paid." },
+    { "field": "ServerIP", "panel": "Server IP for refunds", "required": false, "note": "Helcim wants an ipAddress on every payment call, and a refund has no shopper, so this is the server’s. Defaults to 127.0.0.1." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.helcim.com/v2, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Add the webhook", "t": "In Helcim, point the webhook at https://your-api-host/api/checkout/helcim/webhook and copy its verifier token." },
+    { "b": "Install and configure", "t": "Pass helcim.New to gocommerce.New as below, or run the reference binary with -gateways and fill in Settings › Payment methods." },
+    { "b": "Load HelcimPay.js", "t": "On the storefront, load Helcim’s script. POST /api/checkout/helcim answers with a client_action intent whose checkout_token opens the modal via appendHelcimPayIframe." },
+    { "b": "Let the webhook settle it", "t": "When the shopper pays, Helcim’s cardTransaction webhook arrives, the module reads the transaction back, and the engine marks the order paid." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\thelcim \"github.com/misiki/gocommerce/ext/payments-helcim\"\n)\n\napp, err := gocommerce.New(cfg,\n\thelcim.New(helcim.Config{\n\t\tAPIToken:      os.Getenv(\"HELCIM_API_TOKEN\"),\n\t\tVerifierToken: os.Getenv(\"HELCIM_VERIFIER_TOKEN\"),\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty helcim.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "Three signed headers", "t": "webhook-id, webhook-timestamp and webhook-signature: an HMAC-SHA256 over the id, the timestamp and the body, keyed on the decoded verifier token. Any v1 signature may match during a rotation; a timestamp more than five minutes off is refused." },
+    { "b": "The body proves nothing", "t": "Helcim’s webhook is an id and a type, so the module fetches the transaction before deciding anything. If that read fails, the claim is released and the webhook answers 500 for Helcim to retry." },
+    { "b": "Amount and currency must match", "t": "A transaction whose amount or currency differs from the order it names is logged as an error and not settled — left for an operator who can see both sides." },
+    { "b": "Only purchases settle", "t": "Preauths, verifies and refunds coming back round are acknowledged and change nothing, as are transactions whose invoice number names no order here — a terminal sale, say." },
+    { "b": "Each event once", "t": "Claims are keyed on event type plus id in the module’s own table. A redelivery is answered 200 and changes nothing." },
+    { "b": "Idempotent refunds", "t": "A refund posts to Helcim against the transaction id the webhook recorded, with an idempotency key built from the order and the amount, so a retried refund is the same request. Anything but APPROVED is an error." }
+  ],
+  "limits": [
+    { "b": "The storefront loads the script", "t": "There is no page to redirect to. A storefront that does not load HelcimPay.js cannot take a payment through this module." },
+    { "b": "CAD and USD", "t": "The conversion assumes two decimal places, which the package says covers the currencies Helcim settles in." },
+    { "b": "Mismatches wait for a person", "t": "A transaction for a different amount or currency is acknowledged and not settled. The order stays unpaid until an operator looks." },
+    { "b": "Refunds need the transaction", "t": "The refund goes against the transaction id the webhook recorded. An order without one has nothing to refund against, and the module says so." },
+    { "b": "Dashboard refunds are not applied", "t": "A refund made in Helcim reaches the webhook as a non-purchase transaction and does not change the GoCommerce order." }
+  ],
+  "tested": true,
+  "testCount": 9,
+  "apiOps": 0,
+  "vendorUrl": "https://www.helcim.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Why does the module call Helcim back on every webhook?", "a": "Because the webhook body is two fields, an id and a type — no amount, no invoice, no status. The package calls the second call not optional: a notification that says only that a transaction happened cannot settle an order on its own." },
+    { "q": "Does the shopper leave the storefront?", "a": "No. HelcimPay.js opens a modal in the page, so the module answers checkout with a checkout token rather than a redirect. The storefront has to load Helcim’s script to use it." },
+    { "q": "Which currencies work?", "a": "The package notes that Helcim settles in CAD and USD, and converts amounts on that basis — an exact division by 100. The store’s single settlement currency should be one of the two." },
+    { "q": "Is this a Helcim partnership?", "a": "No. The module calls Helcim’s public API with tokens you supply. Helcim does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

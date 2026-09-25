@@ -1,0 +1,58 @@
+{
+  "slug": "fulfill-indiapost",
+  "name": "India Post",
+  "category": "Shipping",
+  "title": "India Post Shipments for GoCommerce — Open-Source Module",
+  "description": "Record India Post consignments on GoCommerce orders, with the S10 number checked before the order ships — and why this module books nothing itself.",
+  "ogTitle": "India Post consignments for GoCommerce",
+  "ogDescription": "Records the counter booking and refuses a number India Post did not issue. Read from the source.",
+  "h1": "India Post consignments for GoCommerce",
+  "lede": "A Go package that records a parcel you booked at the post office counter or in the Department of Posts’ portal, and refuses a consignment number India Post did not issue. It books nothing, and its own documentation says so.",
+  "what": [
+    "Registering the module adds “india-post” as a fulfillment provider. An operator ships the usual way — the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"india-post\" and the consignment number from the receipt — and the module checks the number, records the carrier as India Post and hands the shipment to the engine.",
+    "The package doc is candid about why it stops there. Every other fulfillment module calls an API and gets a waybill back; India Post has no such API that a store can sign up for. The Department of Posts integrates bulk customers one at a time, under an agreement, with no public sandbox and no documented request body — so a module that claimed to book a shipment would be guessing at somebody else’s contract.",
+    "What it does instead is the part that can be done correctly: take the number, check that it is an India Post article number before the order is marked shipped — which catches the transposed digit that would otherwise surface a week later as a customer with a dead link — and record the carrier, so the number is never attributed to anyone else."
+  ],
+  "configLede": "One setting, and nothing required. Because it needs no credentials, the module starts switched on as soon as it is installed; the setting lives in Config or under Settings › Shipping providers.",
+  "config": [
+    { "field": "AcceptAnyNumber", "panel": "Accept any consignment number", "required": false, "note": "Turns off the S10 check, for an India Post product that numbers differently. Off by default: the number must be a 13-character S10 barcode." }
+  ],
+  "setup": [
+    { "b": "Book at the counter", "t": "Hand the parcel over at a post office, or book it in the Department of Posts’ own portal, and keep the consignment number from the receipt." },
+    { "b": "Install the module", "t": "Import it and pass indiapost.New to gocommerce.New, as below — or run the reference binary with -carriers. It needs no keys, so it starts switched on." },
+    { "b": "Record the parcel", "t": "Choose India Post in the admin’s ship dialog and type the number, or POST /api/admin/create-fulfillment with \"provider\": \"india-post\" and the tracking number." },
+    { "b": "Let the check work", "t": "A number that is not an S10 article number — EE123456789IN for Speed Post — is refused, and the order stays unshipped until the right one is entered." }
+  ],
+  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\tindiapost \"github.com/misiki/gocommerce/ext/fulfill-indiapost\"\n)\n\napp, err := gocommerce.New(cfg, indiapost.New(indiapost.Config{}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. An empty Config is the normal case.",
+  "howItWorks": [
+    { "b": "Cleaned, then checked", "t": "Spaces, hyphens and lower case are stripped from what was typed, then the number is matched against the UPU S10 pattern India Post issues under: two letters, nine digits, IN." },
+    { "b": "Refused before it ships", "t": "A missing number, or one that fails the check, is an error returned before the engine records anything, so the order is not marked shipped." },
+    { "b": "The carrier is stated", "t": "The shipment is recorded with the carrier india-post rather than leaving the engine to work it out from the number." },
+    { "b": "The engine’s own rule", "t": "The S10 pattern is the one the engine’s carrier detection uses to recognise an India Post number, so a number this module accepts is one the engine will recognise too." },
+    { "b": "Speed Post and the rest", "t": "EE… for Speed Post, RX… for registered and CX… for business parcels all fit the pattern. A product outside S10 needs AcceptAnyNumber." },
+    { "b": "No calls, no tables", "t": "The module makes no network calls and keeps no state of its own. It logs each consignment it records; the engine stores the shipment." }
+  ],
+  "limits": [
+    { "b": "It books nothing", "t": "No label, no waybill, no pickup. The booking is made at the counter or in the Department of Posts’ portal; this module records it." },
+    { "b": "No tracking updates", "t": "No webhook and no polling. Marking an order delivered is a separate step, in the admin or through the API." },
+    { "b": "Shape, not existence", "t": "The check confirms a number looks like one India Post issues. It cannot confirm that the article was actually booked." },
+    { "b": "Unchecked with AcceptAnyNumber", "t": "With the check off, any number is recorded as typed, cleaned of spaces and hyphens. The typo it exists to catch is caught no longer." },
+    { "b": "Better than manual, narrowly", "t": "The package doc’s own verdict: it is better than the built-in manual provider only in that it refuses a number India Post did not issue." },
+    { "b": "An agreement needs its own module", "t": "A store with a Department of Posts integration agreement should, the doc says, write a module against the endpoints in that agreement." }
+  ],
+  "tested": true,
+  "testCount": 6,
+  "apiOps": 0,
+  "vendorUrl": "https://www.indiapost.gov.in",
+  "vendorType": "Organization",
+  "trademark": "India Post is named here only to identify the carrier; this module calls no India Post system and implies no endorsement.",
+  "faq": [
+    { "q": "Why does it not book shipments like the other carrier modules?", "a": "Because there is nothing public to book against. The package doc explains that India Post has no API a store can sign up for: the Department of Posts integrates bulk customers one at a time, and the endpoint, credentials and payload are issued under that agreement rather than published." },
+    { "q": "What does a valid consignment number look like?", "a": "Thirteen characters on the UPU S10 standard: two letters, nine digits and IN — EE123456789IN for Speed Post, RX… for registered, CX… for business parcels. Spaces, hyphens and lower case are cleaned up before the check." },
+    { "q": "My product’s number does not match. What now?", "a": "Switch on Accept any consignment number (AcceptAnyNumber in Config). The number is then recorded as typed, cleaned of spaces and hyphens, without the check." },
+    { "q": "Does it need credentials?", "a": "None. Its one setting is optional, so it starts switched on as soon as it is installed, and it makes no network calls." },
+    { "q": "Is India Post involved?", "a": "No. The module calls no India Post system and records numbers you type. India Post does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

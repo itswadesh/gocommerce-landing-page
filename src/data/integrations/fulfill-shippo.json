@@ -1,0 +1,67 @@
+{
+  "slug": "fulfill-shippo",
+  "name": "Shippo",
+  "category": "Shipping",
+  "title": "Shippo Shipping Labels for GoCommerce — Open-Source Module",
+  "description": "Buy Shippo labels from a GoCommerce order in one call: API token, carrier account, service level, ship-from address, and what the module leaves out.",
+  "ogTitle": "Shippo shipping labels for GoCommerce",
+  "ogDescription": "One synchronous label purchase on the carrier account and service you name. Read from the module’s source.",
+  "h1": "Shippo shipping labels for GoCommerce",
+  "lede": "A Go package that buys a label through Shippo when an operator ships an order, and hands the engine the tracking number and the label URL. One call, on a carrier account and service level you choose — no rate shopping, by design.",
+  "what": [
+    "The module registers “shippo” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider shippo — the engine still owns the order’s state and its events, and the module only talks to Shippo.",
+    "It buys the label with Shippo’s instant transaction: the shipment, the carrier account and the service level go in one synchronous POST /transactions, and the answer is a tracking number and a label URL, or an error. The package explains why it skips Shippo’s usual shipment, rates, buy sequence: rate shopping is a decision about price and delivery date that belongs to whoever is packing the parcel, and picking the cheapest automatically would quietly put somebody’s express order on a slower service.",
+    "In the admin it describes itself as “Multi-carrier labels through Shippo: an instant purchase on the carrier account and service you name.” It speaks Shippo’s REST API over Go’s standard library, pinned to API version 2018-02-08, with no SDK."
+  ],
+  "configLede": "Five things are required before it counts as set up: the API token, the carrier account, a default service level, and a ship-from street and country. Set them in Config from your own main(), or leave Config empty and fill them in under Settings › Shipping providers.",
+  "config": [
+    { "field": "APIKey", "panel": "API token", "env": "SHIPPO_API_KEY", "required": true, "note": "A Shippo API token, live or test, sent as ShippoToken in the Authorization header." },
+    { "field": "CarrierAccount", "panel": "Carrier account", "env": "SHIPPO_CARRIER_ACCOUNT", "required": true, "note": "The object id of the carrier account the label is bought from. An instant purchase has to name the account being charged; meta carrier_account overrides it for one parcel." },
+    { "field": "ServicelevelToken", "panel": "Service level", "required": true, "note": "The default service — usps_priority, ups_ground and the rest. Meta servicelevel_token overrides it for one parcel." },
+    { "field": "From.Street1", "panel": "From: street", "required": true, "note": "Where parcels are sent from. The order knows where it is going, never where it came from, so this is configuration." },
+    { "field": "From.Country", "panel": "From: country (ISO 2)", "required": true, "note": "The ship-from country, as two letters." },
+    { "field": "From.Name, From.City, From.State, From.Zip, From.Phone", "panel": "From: name, city, state, ZIP, phone", "required": false, "note": "The rest of the ship-from address." },
+    { "field": "From.Company, From.Street2, From.Email", "required": false, "note": "Also part of the ship-from address, settable in Go only; not in the panel." },
+    { "field": "LabelFileType", "panel": "Label format", "required": false, "note": "PDF_4x6, PNG, ZPLII and the rest. Empty leaves the Shippo account’s own default." },
+    { "field": "DefaultWeightGrams", "panel": "Default weight (grams)", "required": false, "note": "Per unit, for a parcel holding a variant with no weight recorded. 500 by default; a fully weighed catalogue never reaches it." },
+    { "field": "DefaultLengthMM, DefaultWidthMM, DefaultHeightMM", "required": false, "note": "The box sent when the engine has no unambiguous size, which is any parcel holding more than one unit. 150 × 150 × 100 mm by default. Go only." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.goshippo.com, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Pick an account and a service", "t": "In Shippo, note the object id of the carrier account to buy from and the service level token to use by default, and create an API token — live or test." },
+    { "b": "Install the module", "t": "Import it and pass shippo.New to gocommerce.New, as below — or run the reference binary with -carriers, which installs every carrier module idle." },
+    { "b": "Fill in the settings", "t": "Token, carrier account, service level and ship-from address, in Config or under Settings › Shipping providers. A value typed into the panel counts on the next shipment, with no restart." },
+    { "b": "Ship an order", "t": "POST /api/admin/create-fulfillment with the order id and the provider shippo. The engine records the tracking number and label URL and moves the order to shipped, or to partial." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tshippo \"github.com/misiki/gocommerce/ext/fulfill-shippo\"\n)\n\napp, err := gocommerce.New(cfg,\n\tshippo.New(shippo.Config{\n\t\tAPIKey:            os.Getenv(\"SHIPPO_API_KEY\"),\n\t\tCarrierAccount:    os.Getenv(\"SHIPPO_CARRIER_ACCOUNT\"),\n\t\tServicelevelToken: \"usps_priority\",\n\t\tFrom: shippo.Address{\n\t\t\tName: \"Acme\", Street1: \"215 Clayton St\", City: \"San Francisco\",\n\t\t\tState: \"CA\", Zip: \"94117\", Country: \"US\", Phone: \"+15553334444\",\n\t\t},\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty shippo.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "One synchronous purchase", "t": "The label is bought with async set to false, so Shippo answers with the result rather than QUEUED. An asynchronous purchase would leave the engine holding a shipment with no tracking number — the half-booked state an operator cannot act on." },
+    { "b": "A 200 is not a label", "t": "Shippo can answer 200 or 201 with status ERROR and the reason in its messages. The module checks the status and the tracking number, so a refused purchase is an error the operator sees, never an order moved to shipped." },
+    { "b": "The parcel the engine measured", "t": "Weight comes from the variants when every line has one, otherwise from the default per unit. Sizes come from the engine only for a single unit of a single variant, else the configured box. Grams and millimetres go to Shippo unconverted, so nothing is rounded." },
+    { "b": "Per-parcel overrides", "t": "Meta on the ship request can name a different servicelevel_token or carrier_account for one parcel — which is where an operator who compared rates elsewhere passes the one they chose." },
+    { "b": "Carrier read from the service", "t": "The carrier code comes from the service level’s prefix — USPS, UPS, FedEx, DHL, Aramex, Canada Post, Australia Post — so the tracking number gets the right link. Anything else is left for the engine to work out from the number." },
+    { "b": "Settings without a restart", "t": "Before each shipment the panel’s values are laid over Config. With nothing in Config the module installs idle; with the required fields in Config it starts switched on." }
+  ],
+  "limits": [
+    { "b": "No rate shopping", "t": "One carrier account and one service level, from settings or meta. The module never asks Shippo for rates or picks the cheapest." },
+    { "b": "No tracking updates", "t": "The module keeps no state and registers no webhook. Scans and delivery events in Shippo do not reach the order; marking it delivered is still the operator’s job." },
+    { "b": "No void call", "t": "There is no call to cancel a label. Deleting the fulfillment in GoCommerce does not touch the label or its postage in Shippo." },
+    { "b": "One box per label", "t": "Each fulfillment buys one label for one parcel. A shipment in three boxes is three fulfillments." },
+    { "b": "No customs declaration", "t": "The request carries no customs items, so a cross-border parcel that needs a declaration is not covered by the module as written." },
+    { "b": "A guessed box for several items", "t": "For anything but a single unit, the size sent is the configured default, not a measurement. The engine does not pack cartons, and says so." }
+  ],
+  "tested": true,
+  "testCount": 8,
+  "apiOps": 0,
+  "vendorUrl": "https://goshippo.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Can an operator choose the service per order?", "a": "Yes. The ship request’s meta takes servicelevel_token and carrier_account, and either overrides the configured default for that one parcel. Comparing rates happens elsewhere; the module buys what it is told." },
+    { "q": "Where does the label come from?", "a": "Shippo hosts it. The label URL in Shippo’s answer is stored on the shipment beside the tracking number, in the format the Label format setting names or, when that is empty, your Shippo account’s default." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -carriers flag installs every carrier module with an empty Config. Switch Shippo on under Settings › Shipping providers and fill in the token, carrier account, service level and ship-from address there." },
+    { "q": "Is this a Shippo partnership?", "a": "No. The module calls Shippo’s public API with a token you supply. Shippo does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

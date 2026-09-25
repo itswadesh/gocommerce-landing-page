@@ -1,0 +1,364 @@
+---
+/**
+ * The MCP module, described from its source and nothing else: ext/mcp/mcp.go,
+ * ext/mcp/tools.go, ext/mcp/openapi.json, the module's tests and
+ * examples/store/main.go, read from a clone of itswadesh/gocommerce on
+ * 2026-09-25. Tool names, rights, paths and the constructor are copied, not
+ * paraphrased. The repository documents no configuration for any particular
+ * AI client, so the client section is labelled as an example throughout.
+ *
+ * Two facts that are easy to get wrong: the rights on the module's two routes
+ * are agent.dispatch and agent.read (older docs in the repository still say
+ * store.operate), and the reference binary ./cmd/gocommerce — the one the
+ * Docker image builds — does not install ext/mcp at all.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+import { pageDates } from '../../lib/dates.mjs'
+
+const path = '/gocommerce/mcp/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const title = 'GoCommerce MCP Server: Let an AI Agent Run Your Store'
+const description = 'An open-source ecommerce MCP server: 19 tools that let an AI agent read and run a GoCommerce store through its own domain services, with an audit trail.'
+
+const dates = pageDates(path)
+const graph = [
+  {
+    '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: title, description,
+    isPartOf: { '@id': abs('/#site') }, mainEntity: { '@id': abs(path + '#article') }, inLanguage: 'en',
+  },
+  {
+    '@type': 'TechArticle', '@id': abs(path + '#article'),
+    headline: 'GoCommerce MCP server: let an AI agent run your store',
+    description,
+    about: { '@id': abs('/gocommerce/#app') },
+    author: { '@id': abs('/#org') },
+    publisher: { '@id': abs('/#org') },
+    mainEntityOfPage: { '@id': abs(path + '#page') },
+    keywords: 'MCP server, Model Context Protocol, ecommerce MCP server, open source, AI agents, GoCommerce',
+    inLanguage: 'en',
+    ...(dates.exact ? { dateModified: dates.modified } : {}),
+    ...(dates.exact && dates.published ? { datePublished: dates.published } : {}),
+  },
+]
+
+// [name, what it does (HTML), right] — names and rights exactly as in
+// ext/mcp/tools.go. "none" is store_info, which names no right.
+const readTools: [string, string, string][] = [
+  ['store_info', 'The store’s currency and languages, the payment methods and fulfilment providers installed, and the engine version.', 'none'],
+  ['store_health', 'The same diagnostics <code>gocommerce doctor</code> runs — database, migrations, admin access, the event outbox, stock reservations, carts, catalogue, the API contract — each <em>ok</em>, <em>warn</em> or <em>fail</em> with a hint.', 'store.operate'],
+  ['list_products', 'Products, filtered by a search term or by status (draft, active, archived), as summaries with their variants.', 'catalog.read'],
+  ['get_product', 'One product with all its variants and stock levels.', 'catalog.read'],
+  ['list_low_stock_variants', 'Sellable variants at or below a threshold (default 5), across the whole store or at one location.', 'inventory.read'],
+  ['list_orders', 'Orders, newest first, filtered by status, payment status or email. Each summary carries the amount already refunded.', 'orders.read'],
+  ['get_order', 'One order in full, with its lines and shipments. The shopper’s order access token is blanked.', 'orders.read'],
+  ['list_customers', 'People who have ordered, newest first, with what each has spent.', 'customers.read'],
+  ['sales_report', 'Sales grouped by day, week or month, in minor units of the store’s currency, which the result names.', 'reports.read'],
+]
+
+const changeTools: [string, string, string][] = [
+  ['update_variant_inventory', 'Move a variant’s stock by a delta, or set it outright for a stock take, with a reason written to the stock ledger. Stock cannot go below what open orders have reserved.', 'inventory.write'],
+  ['mark_order_paid', 'Record that an order has been paid — how cash on delivery is settled. This also confirms the order for shipping.', 'orders.write'],
+  ['cancel_order', 'Cancel an order and return its stock. A shipped order cannot be cancelled; that is a return.', 'orders.write'],
+  ['create_fulfillment', 'Ship a confirmed order, in whole or in part, with a tracking number. The provider defaults to manual.', 'orders.fulfill'],
+  ['mark_order_delivered', 'Record that a shipped order reached the customer.', 'orders.write'],
+  ['create_product', 'Create a product, draft by default. Given a price and opening stock, it gets a single default variant.', 'catalog.write'],
+  ['update_product', 'Change a product’s title, description, status, vendor or tags. Only the fields sent are touched.', 'catalog.write'],
+  ['set_variant_price', 'Set one variant’s price in minor units, with an optional was-price. A decimal is refused, not rounded.', 'catalog.write'],
+  ['create_discount', 'Create a discount code: a percentage in basis points or a fixed amount, for the whole order or scoped to products, collections or categories.', 'discounts.write'],
+  ['refund_order', 'Refund an order, fully or in part. The payment method must be able to refund — cash on delivery cannot.', 'orders.refund'],
+]
+
+// The module's own end-to-end test, TestScriptedAgentFlow in ext/mcp/mcp_test.go.
+const session: [string, string][] = [
+  ['store_info', 'The agent orients itself: the store reports its currency.'],
+  ['list_orders', 'It finds a confirmed cash-on-delivery order a shopper placed the ordinary way.'],
+  ['mark_order_paid', 'It records the cash as collected.'],
+  ['create_fulfillment', 'It ships the order with a tracking number.'],
+  ['mark_order_delivered', 'It marks the order delivered. The order now reads delivered and paid.'],
+  ['update_variant_inventory', 'It receives 40 units of the variant that sold.'],
+]
+
+const registerCode = `<span class="k">import</span> (
+	<span class="s">"github.com/misiki/gocommerce/core"</span>
+	<span class="s">"github.com/misiki/gocommerce/ext/mcp"</span>
+)
+
+modules := []gocommerce.<span class="t">Module</span>{
+	<span class="cm">// The store as tools for an AI agent, at /api/admin/x/mcp. The admin</span>
+	<span class="cm">// token is the agent's credential, and every change it makes is</span>
+	<span class="cm">// recorded in an audit table.</span>
+	mcp.<span class="f">New</span>(mcp.<span class="t">Config</span>{ServerName: <span class="s">"example-store"</span>}),
+}`
+
+const stdioCode = `m := mcp.<span class="f">New</span>(mcp.<span class="t">Config</span>{ServerName: <span class="s">"my-store"</span>, ReadOnly: <span class="k">true</span>})
+
+app, err := gocommerce.<span class="f">New</span>(cfg, m) <span class="cm">// cfg as in examples/store</span>
+<span class="k">if</span> err != <span class="k">nil</span> {
+	log.<span class="f">Fatal</span>(err)
+}
+
+<span class="cm">// "my-store mcp" speaks MCP on stdin and stdout; anything else serves HTTP.</span>
+<span class="k">if</span> <span class="f">len</span>(os.Args) &gt; 1 &amp;&amp; os.Args[1] == <span class="s">"mcp"</span> {
+	<span class="k">if</span> err := mcp.<span class="f">ServeStdio</span>(app, m); err != <span class="k">nil</span> {
+		log.<span class="f">Fatal</span>(err)
+	}
+	<span class="k">return</span>
+}
+<span class="k">if</span> err := app.<span class="f">ListenAndServe</span>(); err != <span class="k">nil</span> {
+	log.<span class="f">Fatal</span>(err)
+}`
+
+const clientCode = `{
+  <span class="s">"mcpServers"</span>: {
+    <span class="s">"my-store"</span>: {
+      <span class="s">"command"</span>: <span class="s">"/usr/local/bin/my-store"</span>,
+      <span class="s">"args"</span>: [<span class="s">"mcp"</span>],
+      <span class="s">"env"</span>: {
+        <span class="s">"DATABASE_URL"</span>: <span class="s">"postgres://localhost/mystore"</span>
+      }
+    }
+  }
+}`
+
+const curlCode = `curl -s https://shop.example.com/api/admin/x/mcp \\
+  -H <span class="s">"Authorization: Bearer $GOCOMMERCE_ADMIN_TOKEN"</span> \\
+  -H <span class="s">"Content-Type: application/json"</span> \\
+  -d <span class="s">'{"jsonrpc":"2.0","id":1,"method":"tools/list"}'</span>`
+
+const faq = [
+  { q: 'Is GoCommerce’s MCP server open source?', a: 'Yes. It is the mcp module in the GoCommerce repository, under ext/mcp, MIT licensed like the rest. It is not a separate package or a hosted service: you import it into your store’s main() and it is compiled into the same binary. It speaks JSON-RPC with Go’s standard library rather than an MCP SDK, so installing it adds no dependency.' },
+  { q: 'Can an AI agent break my store through it?', a: 'It can do what the tools on offer allow, and no more. Every tool calls the domain service its REST route calls, so the engine’s rules hold: stock cannot drop below what open orders reserve, a shipped order cannot be cancelled, cash on delivery cannot be refunded, and a price sent as a decimal is refused. What an agent can still do is make a legitimate change you did not want — cancel the wrong order, say. That is what ReadOnly and the audit trail are for.' },
+  { q: 'How do I limit what the agent can do?', a: 'Three ways, from blunt to fine. ReadOnly: true withholds all ten tools that change anything. Over stdio there is no token, so ReadOnly is the only limit — whoever can start the process gets every tool offered. Over HTTP, the static admin token carries every right, while a panel session token is limited by that operator’s role: give a role agent.dispatch plus only the rights you want, such as catalog.read and orders.read, and the other tools are refused per call.' },
+  { q: 'Which AI clients work with it?', a: 'Any MCP client that can launch a command and talk over stdin and stdout, or send JSON-RPC over HTTP with a bearer header. The GoCommerce repository does not document a configuration for any particular client, so the configuration on this page is a labelled example rather than a tested recipe. The module implements MCP revision 2024-11-05 and offers tools only, no resources or prompts.' },
+  { q: 'Can shoppers’ AI agents buy from my store through it?', a: 'No. The MCP module is the operator’s door: it sits behind admin authentication and its tools run the store, not shop in it. GoCommerce also implements none of the agentic commerce protocols — ACP, UCP or AP2. A buying agent can use the same public catalogue, cart and checkout routes a storefront uses, and building that entry point is up to you.' },
+  { q: 'Does the one-command Docker stack include it?', a: 'No. The Docker image builds the reference binary, ./cmd/gocommerce, which does not install the mcp module, so that stack has no MCP endpoint. Install the module in your own main(), as examples/store does, and build that.' },
+]
+---
+<Base
+  title={title}
+  description={description}
+  path={path}
+  ogTitle="Let an AI agent run your store"
+  ogDescription="GoCommerce’s MCP module: 19 tools over the store’s own services, per-tool rights, a read-only mode and an audit of every change."
+  ogImageAlt="The GoCommerce MCP server"
+  nav="gocommerce"
+  crumbs={[{ name: 'GoCommerce', href: '/gocommerce/' }, { name: 'MCP server', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">GoCommerce MCP server</p>
+    <h1>Let an AI agent run your store</h1>
+    <p class="lede">GoCommerce’s <code>mcp</code> module is an open-source ecommerce MCP server, compiled into the store’s own binary. It gives an AI agent 19 tools — nine that read the store and ten that change it — and every one calls the same domain service the REST API calls. There is no SQL tool, no second copy of the rules, and a record of every change the agent makes.</p>
+    <ul class="head-facts">
+      <li><b>19</b> tools</li>
+      <li><b>10</b> that change state</li>
+      <li><b>2</b> transports: HTTP and stdio</li>
+      <li><b>0</b> SQL tools</li>
+    </ul>
+  </section>
+
+  <section id="what" class="section wrap" aria-labelledby="what-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">What it is</p>
+        <h2 id="what-title">An MCP server that is part of the store</h2>
+      </div>
+      <p class="section-lede">The Model Context Protocol (MCP) is an open standard, built on JSON-RPC 2.0, through which an AI application discovers the tools a server offers and calls them.</p>
+    </div>
+    <div class="statement">
+      <p class="statement-lead">The agent gets tools, not a database connection.</p>
+      <p>Each tool is a thin wrapper over one service method: <code>mark_order_paid</code> is the payment service’s <code>MarkPaid</code>, <code>cancel_order</code> is the order service’s <code>Cancel</code>, <code>update_variant_inventory</code> is the stock service’s <code>Adjust</code> or <code>SetOnHand</code>. So an agent cannot reach a state a person could not, and cannot skip a rule by coming in through a different door. There is one place an order becomes paid, whether a person, an application or an agent asked.</p>
+      <p>The module speaks JSON-RPC with Go’s standard library rather than an MCP SDK, so it adds no dependency to the binary. It implements MCP revision 2024-11-05 and offers tools only — no MCP resources or prompts.</p>
+      <p class="statement-note">It works for whoever runs the store: the credential is the store’s admin credential. It is not a way for a shopper’s agent to buy — see <a href="#limits">what it does not do</a>.</p>
+    </div>
+  </section>
+
+  <section id="tools" class="section wrap" aria-labelledby="tools-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">The tools</p>
+        <h2 id="tools-title">Nine that read, ten that change</h2>
+      </div>
+      <p class="section-lede">Names exactly as an agent sees them in <code>tools/list</code>. Each tool names the right its REST equivalent requires. The ten that change state are marked <code>Mutates</code> in the source: withheld under <code>ReadOnly</code>, and written to the audit table whenever they are called.</p>
+    </div>
+    <div class="tbl-scroll">
+      <table class="reltable vs">
+        <caption>Read — 9 tools, offered in every mode, not audited</caption>
+        <thead>
+          <tr><th scope="col">Tool</th><th scope="col">What it returns</th><th scope="col">Right</th></tr>
+        </thead>
+        <tbody>
+          {readTools.map(([name, what, right]) => (
+            <tr><th scope="row"><code>{name}</code></th><td set:html={what} /><td>{right === 'none' ? 'none' : <code>{right}</code>}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl-scroll">
+      <table class="reltable vs">
+        <caption>Change — 10 tools marked Mutates: withheld under ReadOnly, every call audited</caption>
+        <thead>
+          <tr><th scope="col">Tool</th><th scope="col">What it does</th><th scope="col">Right</th></tr>
+        </thead>
+        <tbody>
+          {changeTools.map(([name, what, right]) => (
+            <tr><th scope="row"><code>{name}</code></th><td set:html={what} /><td><code>{right}</code></td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="fineprint">Money crosses this boundary as whole minor units — 1999 is 19.99. <code>set_variant_price</code> refuses a decimal rather than truncating it, because an agent sending 19.99 where 1999 was meant would otherwise price the variant at nineteen cents without a word. A tool that fails for a domain reason — “that order is already shipped” — returns the reason as its result, so the agent can act on it. List tools return summaries; the single-record tools return the record.</p>
+  </section>
+
+  <section id="session" class="section wrap" aria-labelledby="session-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">In practice</p>
+        <h2 id="session-title">A session, as the module’s own test runs it</h2>
+      </div>
+      <p class="section-lede">The module carries 20 tests of its own. One plays an agent end to end against a real PostgreSQL: a shopper places a cash-on-delivery order, and the agent takes it from there.</p>
+    </div>
+    <div class="tbl-scroll">
+      <table class="reltable vs">
+        <caption>TestScriptedAgentFlow, in <code>ext/mcp/mcp_test.go</code></caption>
+        <thead>
+          <tr><th scope="col">Tool called</th><th scope="col">What happens</th></tr>
+        </thead>
+        <tbody>
+          {session.map(([name, what]) => (
+            <tr><th scope="row"><code>{name}</code></th><td>{what}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="fineprint">The test then counts the audit table: four rows, one for each of the four tools that changed something, readable through the audit route. The two reads left no trace, by design.</p>
+  </section>
+
+  <section id="access" class="section wrap" aria-labelledby="access-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Access</p>
+        <h2 id="access-title">The admin credential, narrowed per tool</h2>
+      </div>
+      <p class="section-lede">The module writes no authentication of its own. It is mounted through the engine’s admin routing, so the agent meets every check an admin route has — and one more, per tool.</p>
+    </div>
+    <ul class="evidence">
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>The admin token is the credential</b><span>The HTTP endpoint takes the store’s admin token as <code>Authorization: Bearer</code>. Without it the call is refused with 401 before the body is read.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-users"/></svg><b>Two rights for the module itself</b><span><code>agent.dispatch</code> to call tools, <code>agent.read</code> to read what an agent did. By default only the owner role holds them; a staff or manager session gets 403.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Rights checked per tool</b><span>Each tool names the right its REST route needs — <code>orders.refund</code> for a refund, <code>inventory.write</code> for stock. A signed-in operator without it gets a JSON-RPC error naming the right, and nothing changes.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-zap"/></svg><b><code>ReadOnly</code> withholds the ten</b><span>With <code>ReadOnly: true</code> the mutating tools are not offered at all — absent from <code>tools/list</code>, not merely refused. Every tool reports MCP’s <code>readOnlyHint</code> either way.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-db"/></svg><b>Every change is audited</b><span>Each call to a mutating tool writes a row to <code>mcp_audit</code> — the tool, its arguments verbatim, the outcome and the time — including a call refused for want of a right. Reads are not recorded.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-server"/></svg><b>Readable in the admin</b><span>The trail is served at <code>GET /api/admin/x/mcp/audit</code>, newest first, and shown in the admin under Settings → Agent activity.</span></li>
+    </ul>
+    <p class="fineprint">The static admin token and stdio carry no operator, so they hold every right — as the static token does on every other admin route. For them, <code>ReadOnly</code> is the limit that applies.</p>
+  </section>
+
+  <section id="transports" class="section wrap" aria-labelledby="transports-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Transports</p>
+        <h2 id="transports-title">Over HTTP, or as a subprocess</h2>
+      </div>
+      <p class="section-lede">One dispatcher, the same tools and the same audit either way. Which transport a binary serves is decided in its <code>main()</code>, not by the module.</p>
+    </div>
+    <div class="tri">
+      <div class="tri-item tri-engine">
+        <h3>HTTP: <code>POST /api/admin/x/mcp</code></h3>
+        <p>One JSON-RPC 2.0 message per POST, answered with one JSON reply. A failed call still comes back as HTTP 200, with the error in the body; a notification is answered 202 with no body. 401 and 403 arrive in the engine’s ordinary error envelope.</p>
+      </div>
+      <div class="tri-item tri-engine">
+        <h3>stdio: <code>mcp.ServeStdio(app, m)</code></h3>
+        <p>For a desktop agent that launches the store as a subprocess: one JSON-RPC message per line on stdin, replies on stdout. You call it from <code>main()</code> in place of <code>ListenAndServe</code>. There is no token on this path — whoever can start the process with the database URL gets every tool offered.</p>
+      </div>
+      <div class="tri-item">
+        <h3>More tools: <code>Config.Tools</code></h3>
+        <p>Other modules, or your own code, can add tools, wired into <code>main()</code> by hand. There is no discovery, and none of the bundled modules contributes a tool today. The repository’s rule for a new tool is that it wraps a service method.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="install" class="section wrap" aria-labelledby="install-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Install</p>
+        <h2 id="install-title">One entry in your store’s <code>main()</code></h2>
+      </div>
+      <p class="section-lede">Every GoCommerce module is a Go package you import. This one is <code>ext/mcp</code>; installing it is one entry in the modules slice, and its migration creates the audit table on the next boot.</p>
+    </div>
+    <div class="code-block">
+      <div class="code-head"><p>Registering the module</p><button class="copy" data-copy="code-mcp-register">Copy</button></div>
+      <pre id="code-mcp-register"><code set:html={registerCode} /></pre>
+      <p class="code-note">From <code>examples/store/main.go</code>. <code>mcp.Config</code> has three fields: <code>ServerName</code>, reported to the agent (default <code>gocommerce</code>); <code>ReadOnly</code>; and <code>Tools</code>. The Go module path is still <code>github.com/misiki/gocommerce</code>; only the repository moved.</p>
+    </div>
+    <div class="code-block">
+      <div class="code-head"><p>Example: serving stdio as well as HTTP</p><button class="copy" data-copy="code-mcp-stdio">Copy</button></div>
+      <pre id="code-mcp-stdio"><code set:html={stdioCode} /></pre>
+      <p class="code-note">An example, not from the repository — the <code>mcp</code> argument is this example’s choice, not a flag GoCommerce defines. <code>ServeStdio</code> needs the module registered first, which <code>gocommerce.New</code> does. Stdout carries the protocol, so logs belong elsewhere; GoCommerce’s default logger writes to stderr.</p>
+    </div>
+    <p class="fineprint">The one-command Docker stack builds the reference binary, <code>./cmd/gocommerce</code>, which does not install this module. To use it, build your own <code>main()</code> the way <a href="https://github.com/itswadesh/gocommerce/blob/main/examples/store/main.go" target="_blank" rel="noopener noreferrer"><code>examples/store</code></a> does.</p>
+  </section>
+
+  <section id="connect" class="section wrap" aria-labelledby="connect-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Clients</p>
+        <h2 id="connect-title">Pointing an AI client at it</h2>
+      </div>
+      <p class="section-lede">The GoCommerce repository does not document a configuration for any particular client, so what follows is an example, not a tested recipe. Any MCP client that can launch a command, or send JSON-RPC over HTTP with a header, has what it needs.</p>
+    </div>
+    <div class="code-block">
+      <div class="code-head"><p>Example: a desktop client launching the store over stdio</p><button class="copy" data-copy="code-mcp-client">Copy</button></div>
+      <pre id="code-mcp-client"><code set:html={clientCode} /></pre>
+      <p class="code-note">An example, not from the GoCommerce repository. This <code>mcpServers</code> shape is the one Claude Desktop (<code>claude_desktop_config.json</code>), Cursor (<code>.cursor/mcp.json</code>) and Claude Code (<code>.mcp.json</code>) read; check your client’s own documentation for where the file lives. Pass whatever your <code>main()</code> reads from the environment.</p>
+    </div>
+    <div class="code-block">
+      <div class="code-head"><p>Checking the HTTP endpoint by hand</p><button class="copy" data-copy="code-mcp-curl">Copy</button></div>
+      <pre id="code-mcp-curl"><code set:html={curlCode} /></pre>
+      <p class="code-note">The reply lists every tool on offer, each with its JSON Schema and <code>readOnlyHint</code>. An HTTP-capable MCP client takes the same URL and the same bearer header. The module answers each POST with a single JSON reply and implements revision 2024-11-05, so confirm your client accepts that before you rely on it.</p>
+    </div>
+  </section>
+
+  <section id="limits" class="section wrap" aria-labelledby="limits-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Limits</p>
+        <h2 id="limits-title">What it does not do</h2>
+      </div>
+      <p class="section-lede">Stated plainly, so nobody discovers them in production.</p>
+    </div>
+    <div class="tri">
+      <div class="tri-item">
+        <h3>No SQL tool</h3>
+        <p>There is no “run this query” tool and no direct table access, and the repository’s rules for AI agents say to keep it that way. An agent asked how the store is doing gets <code>sales_report</code> and <code>store_health</code>, not a database prompt.</p>
+      </div>
+      <div class="tri-item">
+        <h3>Not a shopper’s buying agent</h3>
+        <p>It is the operator’s door, behind admin authentication. A shopper’s AI assistant cannot browse or buy through it. A buying agent can use the public catalogue, cart and checkout routes a storefront uses — that entry point is yours to build.</p>
+      </div>
+      <div class="tri-item">
+        <h3>No ACP, UCP or AP2</h3>
+        <p>GoCommerce implements none of the agentic commerce protocols — the Agentic Commerce Protocol, the Universal Commerce Protocol or the Agent Payments Protocol — so no agent can check out of a GoCommerce store through them. <a href="/blog/agentic-commerce-open-stack/">More on that</a>.</p>
+      </div>
+    </div>
+    <div class="statement">
+      <p class="statement-lead">No store we know of runs GoCommerce in production yet.</p>
+      <p>The module’s tests run against a real database, among the engine’s over 1,000, but tests are not production mileage. Start an agent on <code>ReadOnly</code>, read what it asks for, and widen it when the audit trail gives you reason to.</p>
+      <p class="statement-note">There is no hosted version and no support contract. You run it; help comes from the <a href="https://github.com/itswadesh/gocommerce/issues" target="_blank" rel="noopener noreferrer">issue tracker</a> and the <a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions about the MCP server" />
+
+  <section class="closing wrap">
+    <h2>Give an agent the read tools first</h2>
+    <p>Install the module with <code>ReadOnly</code> on, ask the agent what is running low and what sold last week, and read the audit before you hand it the ten tools that change things.</p>
+    <div class="actions">
+      <a class="button" href="https://github.com/itswadesh/gocommerce/tree/main/ext/mcp" target="_blank" rel="noopener noreferrer" data-ev="github_gocommerce_click">Read ext/mcp on GitHub</a>
+      <a class="button secondary" href="/gocommerce/" data-ev="gocommerce_explore">Explore GoCommerce</a>
+      <a class="button secondary" href="/vibe-coding-commerce/">Vibe-coding commerce</a>
+    </div>
+  </section>
+</Base>

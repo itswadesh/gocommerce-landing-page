@@ -5,8 +5,8 @@
   "label": "KitCommerce vs Magento",
   "group": "Open-source platforms",
   "summary": "A PHP platform with a long server stack and a licence priced on your sales, against one Go binary and a database.",
-  "title": "KitCommerce vs Magento — GoCommerce and Svelte Commerce Compared With Magento Open Source and Adobe Commerce",
-  "description": "Magento Open Source and Adobe Commerce compared with GoCommerce and Svelte Commerce: Adobe’s tested server stack against one Go binary, a licence priced on sales, B2B, APIs, payments in India and a Svelte Commerce storefront for Magento — with where Magento is the better choice.",
+  "title": "KitCommerce vs Magento & Adobe Commerce: Stack, Licence, B2B",
+  "description": "Magento and Adobe Commerce vs GoCommerce and Svelte Commerce: the server stack, a licence priced on sales, B2B, APIs, Indian payments — and where Magento wins.",
   "ogTitle": "KitCommerce vs Magento",
   "ogDescription": "Magento’s stack and Adobe’s sales-based licence, or one Go binary and PostgreSQL. Trade-offs, sourced.",
   "h1": "Magento does more, and asks for more to run it.",
@@ -70,7 +70,7 @@
     [
       "Payments in India",
       "Razorpay publishes a Magento 2 extension.",
-      "Razorpay, Stripe, Adyen, HyperSwitch and five more as modules; cash on delivery is the core’s default."
+      "Razorpay, Stripe, Adyen, Hyperswitch and five more as modules; cash on delivery is the core’s default."
     ],
     [
       "Storefront",

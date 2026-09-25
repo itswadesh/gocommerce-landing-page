@@ -1,0 +1,62 @@
+{
+  "slug": "payments-razorpay",
+  "name": "Razorpay",
+  "category": "Payments",
+  "title": "Razorpay Payments for GoCommerce — Open-Source Module",
+  "description": "Take cards, UPI and netbanking through Razorpay in a GoCommerce store: the three keys, the webhook URL, refunds, and what the module does not do yet.",
+  "ogTitle": "Razorpay payments for GoCommerce",
+  "ogDescription": "Three keys, one webhook URL, signed and idempotent. Read from the module’s source.",
+  "h1": "Razorpay payments for GoCommerce",
+  "lede": "A Go package that creates a Razorpay order at checkout and marks the GoCommerce order paid when Razorpay’s signed webhook says the payment was captured. Three keys to set, one webhook URL to register — and, unlike every other payment module in the repository, no tests yet.",
+  "what": [
+    "The module registers “razorpay” as a payment method. At checkout it creates a Razorpay order for the order’s total, in minor units and the store’s currency, and hands the storefront what Razorpay’s checkout needs: the Razorpay order id, the key id, the amount and the currency.",
+    "Razorpay then calls POST /api/checkout/razorpay/webhook, a route the engine owns. The module checks the signature, and on payment.captured asks the engine to mark the order paid; on payment.failed, to mark the payment failed. It never writes to an order itself — the engine makes the transition and records the event, as it does for every provider.",
+    "In the admin it describes itself as “Cards, UPI and netbanking through Razorpay, India, with its signed webhook marking orders paid.” It speaks Razorpay’s REST API over Go’s standard library: in the package’s own words, an order is one JSON POST and a webhook is one HMAC, so the SDK would add a dependency without adding capability."
+  ],
+  "configLede": "Three settings are required: the API key pair and the webhook secret. Set them in Config from your own main(), or leave Config empty and type them under Settings › Payment methods in the admin.",
+  "config": [
+    { "field": "KeyID", "panel": "Key ID", "env": "RAZORPAY_KEY_ID", "required": true, "note": "The API key id. It is also handed to the storefront at checkout, because Razorpay’s checkout needs it." },
+    { "field": "KeySecret", "panel": "Key secret", "env": "RAZORPAY_KEY_SECRET", "required": true, "note": "The API key secret, sent with the key id as HTTP basic auth. Not sent to the storefront." },
+    { "field": "WebhookSecret", "panel": "Webhook secret", "env": "RAZORPAY_WEBHOOK_SECRET", "required": true, "note": "Verifies the X-Razorpay-Signature header. Required because, as the code puts it, without it any caller could mark orders paid." },
+    { "field": "Hosted", "panel": "Use the hosted checkout page", "required": false, "note": "Answers checkout with a redirect intent for Razorpay’s hosted page instead of data for the in-page widget. Off by default." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.razorpay.com, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Register the webhook", "t": "In Razorpay, point a webhook at https://your-api-host/api/checkout/razorpay/webhook for the payment.captured and payment.failed events, and keep its secret." },
+    { "b": "Install the module", "t": "Import it and pass razorpay.New to gocommerce.New, as below — or run the reference binary with -gateways, which installs every payment module idle." },
+    { "b": "Give it the keys", "t": "Key ID, key secret and webhook secret, in Config or under Settings › Payment methods. A key typed into the panel counts on the next request, with no restart." },
+    { "b": "Take a payment", "t": "POST /api/checkout/razorpay answers with the order and a client_action intent carrying razorpay_order_id and key_id for Razorpay’s checkout. The webhook marks it paid." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\trazorpay \"github.com/misiki/gocommerce/ext/payments-razorpay\"\n)\n\napp, err := gocommerce.New(cfg,\n\trazorpay.New(razorpay.Config{\n\t\tKeyID:         os.Getenv(\"RAZORPAY_KEY_ID\"),\n\t\tKeySecret:     os.Getenv(\"RAZORPAY_KEY_SECRET\"),\n\t\tWebhookSecret: os.Getenv(\"RAZORPAY_WEBHOOK_SECRET\"),\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty razorpay.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "One route, owned by the engine", "t": "Razorpay calls POST /api/checkout/razorpay/webhook. The engine hands the module the request body untouched, because the signature is over the exact bytes Razorpay sent." },
+    { "b": "Signed, or refused", "t": "The body’s HMAC-SHA256 is compared with X-Razorpay-Signature in constant time. A missing or wrong signature is refused with a 400; until the module is switched on and configured, every webhook is refused with a 503." },
+    { "b": "Each fact once", "t": "Razorpay sends no per-delivery event id, so the module keys each event on its name plus the payment id and claims it with INSERT … ON CONFLICT DO NOTHING in its own table. A repeated capture is answered 200 and changes nothing." },
+    { "b": "A failed update is retried", "t": "If marking the order paid fails, the module releases its claim on the event and answers 500, so Razorpay’s retry finds work to do rather than a record saying it was handled." },
+    { "b": "Refunds keep Razorpay’s id", "t": "A refund from the admin posts to Razorpay against the captured payment, for the amount asked, and the refund id Razorpay answers with is recorded on the refund row — the id somebody reconciles against a bank statement." },
+    { "b": "Settings without a restart", "t": "Before each use the panel’s values are laid over Config. A store with nothing in Config installs the module idle; one with all three keys in Config starts with it switched on." }
+  ],
+  "limits": [
+    { "b": "No tests", "t": "The package has no _test.go file. Every other payment module in the repository ships with one, so read razorpay.go before an order depends on it." },
+    { "b": "Captured payments only", "t": "Only payment.captured marks an order paid. A payment that is authorised but never captured leaves the order unpaid; when Razorpay captures is a setting on Razorpay’s side." },
+    { "b": "Refunds need the webhook first", "t": "A refund looks up the payment id the payment.captured webhook recorded. If that webhook never arrived, the refund is refused with “no captured payment recorded for this order”." },
+    { "b": "Dashboard refunds are not read", "t": "Events other than payment.captured and payment.failed are acknowledged and ignored, so a refund made in Razorpay’s dashboard does not appear on the GoCommerce order." },
+    { "b": "Hosted mode returns no URL", "t": "With Hosted on, the intent is a redirect carrying the Razorpay order id, the key id and your return URL as callback_url. There is no page URL in it; the storefront still sends the shopper to Razorpay itself." },
+    { "b": "The store’s one currency", "t": "The total goes to Razorpay in the store’s single settlement currency, unconverted. Which currencies Razorpay accepts is Razorpay’s decision, not the module’s." }
+  ],
+  "tested": false,
+  "testCount": 0,
+  "apiOps": 0,
+  "vendorUrl": "https://razorpay.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Does it take UPI?", "a": "The module creates a Razorpay order and leaves the choice of method to Razorpay’s checkout, so the shopper is offered what your Razorpay account offers — the module’s own description names cards, UPI and netbanking. There is no per-method code in the module." },
+    { "q": "What is the webhook URL?", "a": "It is fixed by the engine: POST /api/checkout/razorpay/webhook on the host that serves your GoCommerce API. Subscribe it to payment.captured and payment.failed; any other event is acknowledged and ignored." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -gateways flag installs every payment module with an empty Config. Switch Razorpay on under Settings › Payment methods and type the three keys there. Your own main() is the route when you want the keys to come from the environment instead." },
+    { "q": "Why no Razorpay SDK?", "a": "The package doc answers it: an order is one JSON POST and a webhook is one HMAC, so the SDK would add a dependency without adding capability. GoCommerce has one production dependency, and its modules add none." },
+    { "q": "Is this a Razorpay partnership?", "a": "No. The module calls Razorpay’s public API with keys you supply. Razorpay does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

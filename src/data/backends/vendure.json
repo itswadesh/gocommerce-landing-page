@@ -1,0 +1,101 @@
+{
+  "slug": "vendure",
+  "name": "Vendure",
+  "title": "Vendure SvelteKit Storefront — Svelte Commerce Connector",
+  "description": "Svelte Commerce on Vendure’s GraphQL Shop API: 39 of 43 services wired, with cart, checkout and sign-in. Setup, environment, Vendure settings and fixes.",
+  "lede": "Vendure’s GraphQL Shop API covers almost the whole storefront surface, which puts this connector level with Litekart as the most complete of the 26. Products, cart, checkout, sign-in, orders and addresses come live from Vendure; store identity and CMS-style content come from the storefront’s own config.",
+  "verdict": "As complete as any connector here: 39 of 43 services, with cart, checkout and sign-in wired. What the connector does not implement for Vendure yet — wishlist, reviews, coupons, CMS pages, several currencies, multi-vendor — renders an empty state rather than an error.",
+  "quickStart": [
+    {
+      "text": "get the storefront",
+      "cmd": "git clone https://github.com/itswadesh/svelte-commerce\ncd svelte-commerce"
+    },
+    {
+      "text": "swap the stock connector for Vendure’s",
+      "cmd": "npm uninstall @misiki/litekart-connector\nnpm i @misiki/vendure-connector"
+    },
+    {
+      "text": "point it at your Vendure server",
+      "cmd": "echo PUBLIC_VENDURE_API_URL=http://localhost:3000 >> .env"
+    },
+    {
+      "text": "run it",
+      "cmd": "npm run dev"
+    }
+  ],
+  "quickStartNote": "The GraphQL endpoint is resolved as `<PUBLIC_VENDURE_API_URL>/shop-api`, so give the server’s base URL, not the endpoint.",
+  "env": [
+    {
+      "name": "PUBLIC_VENDURE_API_URL",
+      "required": true,
+      "note": "Base URL of the Vendure server. GraphQL calls go to `<this URL>/shop-api`."
+    },
+    {
+      "name": "PUBLIC_CONNECTOR",
+      "required": false,
+      "note": "Only when more than one connector is installed: `@misiki/vendure-connector` names the one this build runs on."
+    }
+  ],
+  "envNote": "The Litekart trio — `PUBLIC_LITEKART_API_URL`, `PUBLIC_LITEKART_STORE_ID`, `PUBLIC_LITEKART_DOMAIN` — is not needed in Vendure mode; `/health` reports ready as soon as `PUBLIC_VENDURE_API_URL` is set.",
+  "backendSettings": [
+    "Set `authOptions.requireVerification` to `false`.",
+    "Allow the storefront’s origin in Vendure’s CORS settings, with credentials. The browser calls `PUBLIC_VENDURE_API_URL` directly and the connector sends `credentials: 'include'`, so `Access-Control-Allow-Origin` must echo the exact origin — not `*` — and `Access-Control-Allow-Credentials` must be `true`."
+  ],
+  "howItWorks": [
+    "At boot, `init` in both `src/hooks.server.ts` and `src/hooks.client.ts` reads `PUBLIC_VENDURE_API_URL` and hands it to the connector’s `setBaseUrl()`. Both hooks matter: the server hook covers server rendering, the client hook covers the browser, which must reach the public Vendure URL in production.",
+    "Products, categories (Vendure collections), search, cart, checkout, payment methods, orders, sign-in, profile and addresses all go to Vendure’s Shop API. Checkout attaches the customer before payment — an order cannot reach ArrangingPayment without one — and carries Vendure’s order code out as the order number.",
+    "Store identity, menus and plugin toggles come from `src/lib/core/connectors/default-store.json` merged under the default export of `kitcommerce.config.ts`; until you override it, the store is called “Test”. CMS pages and the blog resolve empty. From connector 2.0.39 the REST paths it once inherited from Litekart are answered by the connector itself.",
+    "Two defaults in that static config shape what shoppers see. The search icon in the navigation is hidden (`plugins.search.active` is `false`, because autocomplete is Litekart’s Meilisearch), though Vendure’s own search still powers the `/products` page. And sign-in offers email and password only (`loginType` is `EMAIL`): Vendure has no OTP, while email sign-in, sign-up, sign-out and password reset are native GraphQL."
+  ],
+  "limitations": [
+    "CONNECTORS.md records no known gaps for Vendure; the Vendure guide itself lists what is not implemented yet: wishlist, reviews, coupons, several currencies and regions, Meilisearch faceted search, CMS content and multi-vendor.",
+    "Legal and CMS pages render their layout with empty content.",
+    "Wishlist shows an empty state, and toggling it says “Wishlist is not available on this store”; the cart’s coupon drawer lists none.",
+    "No OTP sign-in: `getOtp` throws.",
+    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
+    "If the Vendure catalogue has no matching products, product grids render their empty or loading states; the pages still work.",
+    "The Conversational Shopping assistant is Litekart-only; its widget detects the connector and stays hidden without firing requests."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Boot fails with “PUBLIC_VENDURE_API_URL is set, but it configures a different backend than the one this build runs on”",
+      "fix": "The variable is set while a different connector is installed — the stock Litekart one, say. Install `@misiki/vendure-connector`, or remove the variable if you meant to run Litekart. With more than one connector installed, set `PUBLIC_CONNECTOR='@misiki/vendure-connector'`."
+    },
+    {
+      "problem": "`[vendure] no native implementation for get /api/...` in the console",
+      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Vendure has no such feature; if it has one, implement it in the connector’s matching service."
+    },
+    {
+      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
+      "fix": "A Litekart REST path was requested from outside the connector, so neither its guard nor `blockRestFallbacks` saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
+    },
+    {
+      "problem": "The store is called “Test”, or shows the wrong branding",
+      "fix": "Set identity overrides — `name`, `logo`, `favicon`, `currencyCode` and the rest — in the default export of `kitcommerce.config.ts`."
+    },
+    {
+      "problem": "Sign-in or cart works in dev but not when deployed",
+      "fix": "Almost always Vendure’s CORS: allow the deployed storefront’s origin with credentials, as described under the Vendure settings above."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Can I run a Vendure store on Svelte Commerce today?",
+      "a": "It is the most complete option besides Litekart: 39 of 43 services, with cart, checkout and sign-in wired against Vendure’s GraphQL Shop API. What the connector does not implement for Vendure yet — wishlist, reviews, coupons, CMS pages, multi-vendor — shows an empty state. Like every connector, it has not been run against a live production Vendure store."
+    },
+    {
+      "q": "Which Vendure settings does Svelte Commerce need?",
+      "a": "Two. Set `authOptions.requireVerification` to `false`, and allow the storefront’s origin in CORS with credentials — the exact origin, not `*`, with `Access-Control-Allow-Credentials` set to `true`."
+    },
+    {
+      "q": "Why does sign-in work locally but not once deployed?",
+      "a": "Because the browser calls Vendure directly with credentials, and Vendure’s CORS settings must name the deployed storefront’s origin. Add it, with credentials allowed."
+    },
+    {
+      "q": "Does Svelte Commerce use Vendure’s search?",
+      "a": "Yes, on the `/products` catalogue page. The search icon in the navigation is hidden by default, because that autocomplete is Litekart’s Meilisearch, which Vendure does not have."
+    }
+  ],
+  "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/VENDURE.md",
+  "read": "2026-09-25"
+}

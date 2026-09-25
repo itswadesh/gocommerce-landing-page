@@ -1,0 +1,62 @@
+{
+  "slug": "fulfill-shippit",
+  "name": "Shippit",
+  "category": "Shipping",
+  "title": "Shippit Shipping for GoCommerce — Open-Source Module",
+  "description": "Book Shippit deliveries from a GoCommerce order: API key, service band, authority to leave, kilograms and metres, the seven-day label link, and the limits.",
+  "ogTitle": "Shippit shipping for GoCommerce",
+  "ogDescription": "Pick a service band and Shippit picks the courier. Read from the module’s source.",
+  "h1": "Shippit shipping for GoCommerce",
+  "lede": "A Go package that books an order with Shippit when an operator ships it, then fetches the label. You pick a service band; Shippit picks the courier, and the module records whichever one took the parcel.",
+  "what": [
+    "The module registers “shippit” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider shippit — the engine keeps the order’s state and its events, and the module only talks to Shippit.",
+    "Shippit books and labels in two calls: POST /orders comes back with a tracking number, and GET /orders/{tracking}/label with a pre-signed URL to print. The booking is what matters — once it succeeds, in the package’s words, the parcel is Shippit’s problem — so a label that cannot be fetched is logged and the shipment still stands.",
+    "In the admin it describes itself as “Shippit’s carrier allocation, Australia and New Zealand: pick a service band and Shippit picks the courier.” The band is standard, express, priority, or plain_label for a store that books its own carrier and only wants the paperwork. No SDK: REST over Go’s standard library."
+  ],
+  "configLede": "Two settings are required: the API key and a default service band. Set them in Config from your own main(), or leave Config empty and fill them in under Settings › Shipping providers.",
+  "config": [
+    { "field": "APIKey", "panel": "API key", "env": "SHIPPIT_API_KEY", "required": true, "note": "A Shippit API key, sent as a bearer token. Staging takes a different key." },
+    { "field": "CourierType", "panel": "Service band", "required": true, "note": "standard, express, priority or plain_label. Meta courier_type overrides it for one parcel." },
+    { "field": "AuthorityToLeave", "panel": "Authority to leave", "required": false, "note": "Whether a courier may leave the parcel at the door when nobody answers. Off by default: it is the shopper’s call, and a storefront that asks passes the answer per shipment with meta authority_to_leave." },
+    { "field": "DefaultWeightGrams", "panel": "Default weight (grams)", "required": false, "note": "Per unit, for a parcel holding a variant with no weight recorded. 500 by default." },
+    { "field": "DefaultLengthMM, DefaultWidthMM, DefaultHeightMM", "required": false, "note": "The box sent when the engine has no unambiguous size, which is any parcel holding more than one unit. 150 × 150 × 100 mm by default. Go only." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://app.shippit.com/api/3. Staging is https://app.staging.shippit.com/api/3, with its own key." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Get an API key", "t": "In Shippit, create an API key — a staging key if you are trying it against Shippit’s staging host — and decide the service band to book by default." },
+    { "b": "Install the module", "t": "Import it and pass shippit.New to gocommerce.New, as below — or run the reference binary with -carriers, which installs every carrier module idle." },
+    { "b": "Fill in the settings", "t": "Key and service band, in Config or under Settings › Shipping providers, and authority to leave if the store’s default is yes. A value typed into the panel counts on the next shipment." },
+    { "b": "Ship an order", "t": "POST /api/admin/create-fulfillment with the order id and the provider shippit. The engine records the tracking number and label URL and moves the order to shipped, or to partial." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tshippit \"github.com/misiki/gocommerce/ext/fulfill-shippit\"\n)\n\napp, err := gocommerce.New(cfg,\n\tshippit.New(shippit.Config{\n\t\tAPIKey:      os.Getenv(\"SHIPPIT_API_KEY\"),\n\t\tCourierType: \"standard\",\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty shippit.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "Book, then fetch the label", "t": "The booking gives the tracking number; the label comes from a second call. A booking with no tracking number is an error. A label that cannot be fetched is logged, and the shipment is recorded without one." },
+    { "b": "A seven-day label link", "t": "Shippit’s label URL is pre-signed and expires after seven days. It is stored as it comes; the package says a store that needs it later fetches it again from Shippit rather than expecting the engine to hold a live link." },
+    { "b": "Kilograms and metres", "t": "Shippit reads kilograms and metres, so grams and millimetres are both divided by a thousand. A typical parcel’s sides are numbers below one — 0.305, not 30.5 — which the package calls worth reading twice." },
+    { "b": "One parcel, whatever is in it", "t": "The booking says one parcel. The engine has already resolved the lines, and telling Shippit three would book three boxes." },
+    { "b": "Per-parcel options", "t": "Meta can override courier_type, pass the shopper’s authority_to_leave, add delivery_instructions, or name a carrier with courier_allocation for a parcel already promised to one." },
+    { "b": "Carrier from the allocation", "t": "The carrier code is read from the courier Shippit allocated — eParcel and StarTrack track as Australia Post; FedEx, DHL, TNT, Aramex and UPS are recognised — so the tracking number gets the right link." }
+  ],
+  "limits": [
+    { "b": "No tracking updates", "t": "No webhook and no stored state: delivery events in Shippit do not reach the order. Marking it delivered is still the operator’s job." },
+    { "b": "No cancel call", "t": "There is no call to cancel a booking. Deleting the fulfillment in GoCommerce does not touch the order in Shippit." },
+    { "b": "The label link expires", "t": "After seven days the stored label URL no longer works; the label has to be fetched again from Shippit." },
+    { "b": "A missing label is only logged", "t": "If the label fetch fails, the shipment is recorded with no label URL and the failure is in the application log; the label then has to be printed from Shippit." },
+    { "b": "No contents sent", "t": "The booking carries the parcel’s weight and size, the address and the order number — not the items in it or their values." },
+    { "b": "A guessed box for several items", "t": "For anything but a single unit, the size sent is the configured default, not a measurement. The engine does not pack cartons." }
+  ],
+  "tested": true,
+  "testCount": 9,
+  "apiOps": 0,
+  "vendorUrl": "https://www.shippit.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Can I choose the courier?", "a": "Shippit chooses within the service band by default. For a parcel an operator has already promised to one carrier, meta courier_allocation names it, and meta courier_type changes the band for that parcel." },
+    { "q": "Why are my parcel’s sides smaller than one?", "a": "Because Shippit reads metres. The engine keeps millimetres and the module divides by a thousand, so a 305 mm box goes as 0.305. Weight goes the same way, grams to kilograms." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -carriers flag installs every carrier module with an empty Config. Switch Shippit on under Settings › Shipping providers and fill in the key and service band there." },
+    { "q": "Is this a Shippit partnership?", "a": "No. The module calls Shippit’s public API with a key you supply. Shippit does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

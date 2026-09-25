@@ -1,0 +1,63 @@
+{
+  "slug": "search-meilisearch",
+  "name": "Meilisearch",
+  "category": "Search",
+  "title": "Meilisearch Search for GoCommerce — Open-Source Module",
+  "description": "Typo-tolerant product search for a GoCommerce store: a worker keeps a Meilisearch index in step with the catalogue, and the store proxies the searches.",
+  "ogTitle": "Meilisearch product search for GoCommerce",
+  "ogDescription": "A sync worker, a rebuild button and a search route that needs no key. Read from the module’s source.",
+  "h1": "Meilisearch product search for GoCommerce",
+  "lede": "A Go package that keeps a Meilisearch index of the catalogue and answers storefront searches from it. A worker pushes what changed every 30 seconds, an operator can rebuild the index from the admin, and the storefront searches through the store without holding a key of its own.",
+  "what": [
+    "In the package’s own words it is “the sync and the door”: a worker walks the catalogue and pushes what changed, an operator can ask for a full rebuild, and the storefront searches through the store rather than holding a key — though the search-only key is published for a storefront that wants to talk to Meilisearch directly.",
+    "Each active product becomes one document: title, plain-text description, vendor, product type, tags, category, picture, SKUs, option values, the cheapest and dearest active variant, whether anything is in stock, and when it last changed. On a full sync the module creates the index if it is missing and sets what is searched, filtered and sorted on.",
+    "It talks to Meilisearch over Go’s standard library — indexing is one POST of a JSON array, searching one POST of a query — and it is configured from the Plugins screen, or from Config for a store that prefers environment variables. Where both say something, the screen wins."
+  ],
+  "configLede": "Two settings are required: where Meilisearch is, and a key that may write to it. Set them in Config, hand them to the reference binary’s -meilisearch flag through the environment, or type them on the Plugins screen.",
+  "config": [
+    { "field": "Host", "panel": "Meilisearch URL", "env": "MEILI_HOST", "required": true, "note": "The Meilisearch address — http://127.0.0.1:7700, or a cloud address. Marked public, so the panel’s value is handed to the storefront through GET /api/plugins." },
+    { "field": "APIKey", "panel": "API key", "env": "MEILI_API_KEY", "required": true, "note": "A key allowed to write the index: the master key on a laptop, an admin key in production. The package doc’s example reads it from MEILI_MASTER_KEY; the reference binary reads MEILI_API_KEY." },
+    { "field": "SearchKey", "panel": "Search-only key", "env": "MEILI_SEARCH_KEY", "required": false, "note": "A search-only key the storefront may hold. The store’s own search route uses it when set, and the API key when not." },
+    { "field": "Index", "panel": "Index name", "required": false, "note": "The index to write and search, products by default. Set it on the Plugins screen: the panel field’s own default stands in front of Config, so Config.Index is never read." },
+    { "field": "Poll", "required": false, "note": "How often the worker looks for changed products: 30 seconds when zero, and a negative value turns the worker off for a store that calls Sync itself. Go only." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only." }
+  ],
+  "setup": [
+    { "b": "Run Meilisearch", "t": "Beside your database, or as a hosted instance. Note its URL and a key that may write indexes, and a search-only key if the storefront will query it directly." },
+    { "b": "Install the module", "t": "Pass meilisearch.New to gocommerce.New, as below — or start the reference binary with -meilisearch, which reads MEILI_HOST, MEILI_API_KEY and MEILI_SEARCH_KEY." },
+    { "b": "Switch it on", "t": "With a host and key in Config it starts switched on. Otherwise enable Meilisearch on the Plugins screen and fill in the URL and key there." },
+    { "b": "Search", "t": "The first poll is a full sync. The storefront calls GET /x/meilisearch/search?q=… with optional limit, offset, filter and sort, and gets Meilisearch’s hits back." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tmeilisearch \"github.com/misiki/gocommerce/ext/search-meilisearch\"\n)\n\napp, err := gocommerce.New(cfg, meilisearch.New(meilisearch.Config{\n\tHost:      os.Getenv(\"MEILI_HOST\"),\n\tAPIKey:    os.Getenv(\"MEILI_API_KEY\"),\n\tSearchKey: os.Getenv(\"MEILI_SEARCH_KEY\"),\n}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s example with its imports, using the variable names the reference binary reads — the doc itself reads the write key from MEILI_MASTER_KEY. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "A worker, not a hook", "t": "Every 30 seconds the worker sends the products whose updated_at is newer than the last sync. The first poll after start, and every twentieth after that, is a full pass that also removes what the catalogue no longer holds." },
+    { "b": "Archived means removed", "t": "A product that is no longer active is deleted from the index on the next pass, so a draft or archived product stops appearing in results without a rebuild." },
+    { "b": "Rebuild from the admin", "t": "POST /api/admin/x/meilisearch/reindex runs a full sync on demand. GET /api/admin/x/meilisearch/status reports whether the index is on, configured and in step, with counts and the last error." },
+    { "b": "A search route with no key", "t": "GET /x/meilisearch/search takes q, limit (up to 100, 20 by default), offset, filter and sort, queries with the search-only key or the API key, and returns hits, total and processing time. It answers 404 while search is off." },
+    { "b": "Index settings, set for you", "t": "A full sync creates the index with id as its primary key and sets searchable attributes (title first, then SKUs, vendor, type, tags, category, options, description), filters and sorts on price, stock, category and the rest." },
+    { "b": "One sync at a time", "t": "A sync asked for while another runs in the same process is refused with “a sync is already running” — the reindex route answers 409 — rather than overlapping it." }
+  ],
+  "limits": [
+    { "b": "Variant edits wait for a full pass", "t": "The incremental pass picks products by their own updated_at, and a price or stock change is written to the variant, not the product. It reaches the index at the next full pass — ten minutes at the defaults — or on a manual rebuild." },
+    { "b": "Sending is not indexing", "t": "Meilisearch applies document writes as background tasks. The module sends them and does not wait for those tasks, so the indexed count on the status route is a count of documents sent." },
+    { "b": "State lives in the process", "t": "The last sync time and the counts are held in memory: a restart forgets them, and its first poll is a full sync. Several instances each run a worker and push the same documents." },
+    { "b": "The default language only", "t": "Documents hold the catalogue’s stored copy. Text from the translations module is not indexed, so a French shopper searches the default language." },
+    { "b": "Config values are not published", "t": "Host and search key reach the storefront through GET /api/plugins only when typed into the panel. Values set in Config are used by the store but not handed out." },
+    { "b": "Config.Index is ignored", "t": "The panel’s index field has a default of its own, and the module reads the panel first — so an index name set only in Config never takes effect. Name the index on the Plugins screen." },
+    { "b": "Five query parameters", "t": "The search route passes q, limit, offset, filter and sort, and nothing else — facet counts and highlighting mean querying Meilisearch directly with the search-only key." }
+  ],
+  "tested": true,
+  "testCount": 2,
+  "apiOps": 3,
+  "vendorUrl": "https://www.meilisearch.com",
+  "vendorType": "SoftwareApplication",
+  "faq": [
+    { "q": "Does the storefront need a Meilisearch key?", "a": "No. GET /x/meilisearch/search sends the query through the store, using the search-only key or, when there is none, the API key. A storefront that would rather query Meilisearch directly can use the search-only key, which the Plugins screen publishes when it is typed there." },
+    { "q": "How quickly does a change show up in search?", "a": "A change to a product itself goes out on the next poll, 30 seconds by default. A change to a variant’s price or stock waits for the next full pass — every twentieth poll, ten minutes at the defaults — or for a rebuild from the admin." },
+    { "q": "What does a store without it get?", "a": "GET /api/products?q= in the core matches a substring of a product’s title or description: no typo tolerance, no ranking, no filters beyond the listing’s own. This module is what adds a search engine; leave it out and none of its code is in your binary." },
+    { "q": "Does Svelte Commerce search through it?", "a": "Not yet. Svelte Commerce’s GoCommerce connector, version 0.1.0, covers catalogue, cart, checkout and order lookup, not a search index. A storefront you write against the API can call the search route directly." },
+    { "q": "Is this a Meilisearch partnership?", "a": "No. The module calls Meilisearch’s public API on an instance you run or rent. Meilisearch does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

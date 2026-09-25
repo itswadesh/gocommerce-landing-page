@@ -1,0 +1,63 @@
+{
+  "slug": "notify-resend",
+  "name": "Resend",
+  "category": "Messaging",
+  "title": "Resend Email for GoCommerce — Open-Source Module",
+  "description": "Send GoCommerce order emails through Resend with one setting, an API key: the default sender, where the wording lives, what gets logged, and the limits.",
+  "ogTitle": "Resend email for GoCommerce",
+  "ogDescription": "One setting and the store’s emails go out. Read from the module’s source.",
+  "h1": "Resend email for GoCommerce",
+  "lede": "A Go package that sends a GoCommerce store’s emails — order confirmations, shipping notices, password resets — through Resend. An API key is the only required setting; until a domain is verified, mail goes from Resend’s onboarding address.",
+  "what": [
+    "The module registers a notifier on the engine’s email channel. When the engine has something to tell a shopper — an order placed, paid, shipped, delivered, cancelled, refunded or returned — it hands the module the event and flat data such as order_number, items_summary and tracking, and the module sends one plain-text email through Resend’s POST /emails.",
+    "The package calls it the email provider a store should reach for first, and shapes it so that is one field. Resend lets any account send from onboarding@resend.dev without verifying a domain, so a store with nothing but a key sends from there — which, in the package’s words, is what makes the first order confirmation arrive on the day the store is set up rather than the week the DNS is finished.",
+    "The wording is not the module’s. It asks the engine’s notification templates for the subject and body at send time, so what an operator edits under Notifications › Setup Email is what goes out. And whatever happens — sent, rejected, or never attempted for want of a key — the message is written to the log."
+  ],
+  "configLede": "Only the API key is required; everything else has a default that still sends. Set it in Config from your own main(), or leave Config empty and type it under Notifications › Setup Email.",
+  "config": [
+    { "field": "APIKey", "panel": "API key", "env": "RESEND_API_KEY", "required": true, "note": "A Resend API key. The one setting with no default, because it belongs to the store rather than the engine." },
+    { "field": "From", "panel": "From address", "env": "RESEND_FROM", "required": false, "note": "A sender on a domain Resend has verified; onboarding@resend.dev when empty. Watch this one: the panel field defaults to that address and is read before Config, so a From set only in Config or RESEND_FROM is ignored until it is typed into the panel too." },
+    { "field": "FromName", "panel": "From name", "env": "RESEND_FROM_NAME", "required": false, "note": "The name beside the address in the inbox." },
+    { "field": "ReplyTo", "panel": "Reply-to address", "required": false, "note": "Where a shopper’s reply lands; empty means the from address." },
+    { "field": "Subjects", "required": false, "note": "Overrides the engine’s subject for an event, keyed by event name, for a store that keeps its wording in code. Checked when the store boots; a subject edited in the panel wins. Go only." },
+    { "field": "Bodies", "required": false, "note": "The same, for the plain-text body. Go only." },
+    { "field": "BaseURL", "required": false, "note": "Overrides https://api.resend.com, for tests. Go only." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 15 seconds. Go only." }
+  ],
+  "setup": [
+    { "b": "Create an API key", "t": "In Resend. Verifying a sending domain can wait: until it is done, mail goes from onboarding@resend.dev, Resend’s address for accounts without one." },
+    { "b": "Install the module", "t": "Import it and pass resend.New to gocommerce.New, as below — or run the reference binary with -resend, which reads RESEND_API_KEY, RESEND_FROM and RESEND_FROM_NAME." },
+    { "b": "Switch it on", "t": "A key in Config starts it switched on. Otherwise switch it on under Notifications › Setup Email and paste the key there; it counts on the next message, with no restart." },
+    { "b": "Edit the wording", "t": "Subjects and bodies are the engine’s templates, edited under Notifications › Setup Email. Place an order and the confirmation goes out." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tresend \"github.com/misiki/gocommerce/ext/notify-resend\"\n)\n\napp, err := gocommerce.New(cfg,\n\tresend.New(resend.Config{APIKey: os.Getenv(\"RESEND_API_KEY\")}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty resend.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "The engine’s words", "t": "Subject and body come from the engine’s templates at send time — the panel’s edit if there is one, Config’s Subjects and Bodies if not, the engine’s default otherwise — rendered with Go’s text/template over the event’s flat data." },
+    { "b": "Every message written down", "t": "Sent, with the id Resend filed it under; rejected, with Resend’s reason; or not attempted because there is no key. A store cannot look healthy for months while nobody receives anything." },
+    { "b": "Rejections settle, outages retry", "t": "A 4xx other than 429 is logged and settled: a bad address will be rejected again. Unreachable, 429 or 5xx is returned as an error, and the engine retries the notification with backoff." },
+    { "b": "Overrides checked at boot", "t": "A Subjects or Bodies template that does not parse stops the store booting, rather than failing on the first sale." },
+    { "b": "Only events with wording", "t": "An event with no email template is skipped, not an error, so another module can add events this one has never heard of." },
+    { "b": "Settings without a restart", "t": "The panel’s values are read on every send. The engine keeps a row per message in its notification log, and an operator can resend one from there." }
+  ],
+  "limits": [
+    { "b": "Config’s From is shadowed", "t": "The panel’s From field defaults to onboarding@resend.dev and is read before Config, so a sender set only in code or RESEND_FROM is not used — type it into the panel. For the same reason the sent line’s default_sender flag reads false even when mail goes from the onboarding address." },
+    { "b": "Plain text only", "t": "Each email is sent as text. There is no HTML body and no attachment." },
+    { "b": "Amounts in minor units", "t": "The engine hands templates totals in minor units — 49900, not 499.00 — and a store that wants them formatted edits the template." },
+    { "b": "Two backends, two emails", "t": "Every configured email backend gets every message. With Resend and SendGrid both switched on, a shopper gets two; and a retry after one fails re-sends through both." },
+    { "b": "Refusals count as sent", "t": "A message Resend refuses returns no error, so the engine’s notification log records it as sent. The refusal is only in the application log." },
+    { "b": "No bounce tracking", "t": "The module registers no webhook. Bounces, complaints and opens stay in Resend." }
+  ],
+  "tested": true,
+  "testCount": 5,
+  "apiOps": 0,
+  "vendorUrl": "https://resend.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Do I need a verified domain first?", "a": "No. With only an API key, mail goes from onboarding@resend.dev, which Resend lets any account use. Verify a domain when there is one and type the new address into the From field in the panel." },
+    { "q": "Where do I change what the emails say?", "a": "Under Notifications › Setup Email, where the engine’s templates are edited. A store that keeps its wording in code can pass Subjects and Bodies in Config instead; an edit in the panel wins over both." },
+    { "q": "Why Resend rather than SendGrid?", "a": "The reference binary’s own comment puts Resend first because it works with one setting: a key and nothing else sends. SendGrid needs a verified sender before anything goes out. Both modules send the same engine templates." },
+    { "q": "Is this a Resend partnership?", "a": "No. The module calls Resend’s public API with a key you supply. Resend does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

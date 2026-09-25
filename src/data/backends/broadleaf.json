@@ -1,0 +1,133 @@
+{
+  "slug": "broadleaf",
+  "name": "Broadleaf",
+  "title": "Broadleaf SvelteKit Storefront — Svelte Commerce Connector",
+  "description": "Svelte Commerce on Broadleaf Microservices: 28 of 43 services wired, with cart, checkout and sign-in. Setup, environment variables, limits and fixes.",
+  "lede": "The Broadleaf connector targets Broadleaf Microservices — 41 OpenAPI 3.0.3 documents — not the legacy 5.x/6.x monolith, which publishes no versioned REST contract. Cart, checkout and sign-in are wired, and CONNECTORS.md records no gaps.",
+  "verdict": "Cart, checkout and sign-in are wired, with no gaps recorded. One question is open with Broadleaf: its published `CartPricing` schema has no cart total, though its demo gateway returns one, so a deployment that follows the spec to the letter would show a total of zero.",
+  "quickStart": [
+    {
+      "text": "get the storefront",
+      "cmd": "git clone https://github.com/itswadesh/svelte-commerce\ncd svelte-commerce"
+    },
+    {
+      "text": "one connector at a time: remove the two the storefront ships with, add this one",
+      "cmd": "npm uninstall @misiki/litekart-connector @misiki/vendure-connector\nnpm i @misiki/broadleaf-connector"
+    },
+    {
+      "text": "point it at your Broadleaf gateway",
+      "cmd": "echo PUBLIC_BROADLEAF_API_URL=https://your-store.example.com >> .env"
+    },
+    {
+      "text": "run it",
+      "cmd": "npm run dev"
+    }
+  ],
+  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
+  "env": [
+    {
+      "name": "PUBLIC_BROADLEAF_API_URL",
+      "required": true,
+      "note": "Base URL of your Broadleaf Microservices gateway. Boot fails, naming this variable, if it is missing."
+    },
+    {
+      "name": "PUBLIC_BROADLEAF_API_KEY",
+      "required": false,
+      "note": "OAuth client ID. With the secret, the connector requests a client-credentials token, which menu, customer and ratings calls need; catalogue browsing does not."
+    },
+    {
+      "name": "PUBLIC_BROADLEAF_API_SECRET",
+      "required": false,
+      "note": "OAuth client secret, sent with the ID as HTTP Basic to `/oauth/token`. See the limitations before setting it."
+    },
+    {
+      "name": "PUBLIC_BROADLEAF_ACCESS_TOKEN",
+      "required": false,
+      "note": "A bearer token to use instead; when one is set, the connector skips the client-credentials request."
+    },
+    {
+      "name": "PUBLIC_BROADLEAF_STORE_ID",
+      "required": false,
+      "note": "Sent as Broadleaf’s `applicationId`."
+    },
+    {
+      "name": "PUBLIC_BROADLEAF_CHANNEL_ID",
+      "required": false,
+      "note": "Sent as Broadleaf’s `tenantId`."
+    },
+    {
+      "name": "PUBLIC_CONNECTOR",
+      "required": false,
+      "note": "Only when more than one connector is installed: `@misiki/broadleaf-connector` names the one this build runs on."
+    }
+  ],
+  "envNote": "`init.ts` hands the connector every `PUBLIC_BROADLEAF_*` variable that is set, camel-cased: `PUBLIC_BROADLEAF_STORE_ID` arrives as `storeId`. The guide also lists `PUBLIC_BROADLEAF_ACCESS_KEY`; the connector’s source does not read it.",
+  "backendSettings": [
+    "Run Broadleaf Microservices. The connector is wired against its OpenAPI documents; the 5.x/6.x monolith publishes no versioned REST contract to wire against.",
+    "Create an OAuth client for the storefront if you want menus, customer and ratings calls: they need an application token, while catalogue browsing is anonymous.",
+    "Let the storefront’s origin make cross-origin requests to Broadleaf (CORS): in production the browser calls `PUBLIC_BROADLEAF_API_URL` directly, not only the server."
+  ],
+  "howItWorks": [
+    "The connector speaks Broadleaf Microservices’ REST APIs, as described by 41 OpenAPI 3.0.3 documents, and not the 5.x/6.x monolith. It takes a client-credentials token when it has an OAuth client ID and secret, and sends `tenantId` and `applicationId` from the channel and store variables.",
+    "Installing the package is the whole switch. `vite.config.ts` resolves whichever `@misiki/*-connector` is installed, and `src/lib/core/connectors/init.ts` hands it every `PUBLIC_BROADLEAF_*` variable that is set, camel-cased, at boot — in the server hook for server rendering and in the client hook for the browser, which must reach the same URL in production.",
+    "There is no Litekart API behind the storefront here, so store identity — name, logo, currency, menus, plugin toggles, theme colours — comes from `src/lib/core/connectors/default-store.json` merged under the default export of `kitcommerce.config.ts`. Until you override it, the store is called “Test”. Any Litekart REST path the connector still inherits is answered from that local data, or resolved empty, rather than requested."
+  ],
+  "limitations": [
+    "No gaps are recorded for Broadleaf in CONNECTORS.md.",
+    "An open question on cart totals: Broadleaf’s published `CartPricing` schema has no `total`, `adjustmentsTotal` or `feesTotal`, but the demo gateway returns them. A deployment that follows the spec strictly would render a cart total of zero.",
+    "If you set `PUBLIC_BROADLEAF_API_SECRET`, the OAuth client secret reaches every visitor: SvelteKit sends `PUBLIC_` variables to the browser.",
+    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
+    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden when another connector is active."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Boot fails with “the broadleaf connector is active but PUBLIC_BROADLEAF_API_URL is not set”",
+      "fix": "Add `PUBLIC_BROADLEAF_API_URL` to `.env`. A production Node build and Docker read `PUBLIC_*` from the process environment rather than `.env`, so set it on your deploy platform too."
+    },
+    {
+      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
+      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/broadleaf-connector'`."
+    },
+    {
+      "problem": "Boot fails with “PUBLIC_…_API_URL is set, but it configures a different backend than the one this build runs on”",
+      "fix": "Another backend’s variable is still set, usually left over from the one you switched from. Remove it, or install that backend’s connector. `PUBLIC_LITEKART_API_URL` is exempt: it only points the dev proxy."
+    },
+    {
+      "problem": "The store is called “Test”, or shows the wrong name and logo",
+      "fix": "Store identity is static on this backend. Set `name`, `logo`, `currencyCode` and the rest in the default export of `kitcommerce.config.ts`; `src/lib/core/connectors/default-store.json` lists every field."
+    },
+    {
+      "problem": "`[broadleaf] no native implementation for get /api/...` in the console",
+      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Broadleaf has no such feature; if it has one, the fix belongs in the connector’s matching service."
+    },
+    {
+      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
+      "fix": "A Litekart REST path was requested from outside the connector, so its guard never saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
+    },
+    {
+      "problem": "The build fails on `@misiki/litekart-connector`",
+      "fix": "`@misiki/kitcommerce-core` declares it as a peer, and `vite.config.ts` redirects that specifier to whichever connector is installed. Make sure exactly one `@misiki/*-connector` is listed in `package.json`."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Can I run a Broadleaf store on Svelte Commerce today?",
+      "a": "Cart, checkout and sign-in are wired against Broadleaf Microservices and no gaps are recorded, so it is one of the more complete connectors. Check your cart totals first: Broadleaf’s published schema omits them, and a gateway that follows it strictly would show zero."
+    },
+    {
+      "q": "How do I switch Svelte Commerce to Broadleaf?",
+      "a": "Remove the connectors the storefront ships with, install `@misiki/broadleaf-connector`, set `PUBLIC_BROADLEAF_API_URL` in `.env` and start the dev server. `vite.config.ts` resolves whichever connector is installed, so no file in the storefront changes."
+    },
+    {
+      "q": "Does the connector work with Broadleaf 5.x or 6.x?",
+      "a": "No. It targets Broadleaf Microservices, described by 41 OpenAPI 3.0.3 documents. The 5.x/6.x monolith publishes no versioned REST contract, so there was nothing to wire against."
+    },
+    {
+      "q": "Has the Broadleaf connector been run against a real Broadleaf store?",
+      "a": "Not against a live production instance — no Svelte Commerce connector has been. It was written by reading Broadleaf’s authoritative API source, and the Svelte Commerce maintainers ask Broadleaf’s own maintainers for a sandbox to run it against."
+    }
+  ],
+  "openQuestion": "`CartPricing` in the published schema has no `total`, `adjustmentsTotal` or `feesTotal`, but the demo gateway returns them. Which is authoritative?",
+  "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/BROADLEAF.md",
+  "read": "2026-09-25"
+}

@@ -17,6 +17,8 @@ const blog = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
+    /** The <title> when `title` runs past 60 characters; the h1 keeps `title`. */
+    seoTitle: z.string().max(60).optional(),
     description: z.string(),
     author: z.string().default('itswadesh'),
     tags: z.array(z.string()).optional(),

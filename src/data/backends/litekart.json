@@ -1,0 +1,99 @@
+{
+  "slug": "litekart",
+  "name": "Litekart",
+  "title": "Litekart SvelteKit Storefront — Svelte Commerce Connector",
+  "description": "Svelte Commerce on Litekart, its stock backend and the reference connector: 39 of 43 services wired, cart, checkout and sign-in included. Setup and fixes.",
+  "lede": "Litekart is the backend Svelte Commerce ships with, and the reference implementation every other connector is written against. A fresh clone already runs on it: the example environment points at Litekart’s public demo API.",
+  "verdict": "The most complete connector, and the default: 39 of 43 services, with cart, checkout and sign-in wired. It is the only backend whose API serves the whole storefront — CMS pages, blog, menus, search autocomplete, wishlist, coupons and the shopping assistant.",
+  "quickStart": [
+    {
+      "text": "get the storefront",
+      "cmd": "git clone https://github.com/itswadesh/svelte-commerce\ncd svelte-commerce"
+    },
+    {
+      "text": "install: the Litekart connector is already in package.json",
+      "cmd": "npm install"
+    },
+    {
+      "text": "use the example env, which points at the public demo API",
+      "cmd": "cp .env.example .env"
+    },
+    {
+      "text": "run it",
+      "cmd": "npm run dev"
+    }
+  ],
+  "quickStartNote": "Nothing to swap. A fresh clone lists both `@misiki/litekart-connector` and `@misiki/vendure-connector`; with Litekart’s installed, the build prefers it.",
+  "env": [
+    {
+      "name": "PUBLIC_LITEKART_API_URL",
+      "required": true,
+      "note": "Base URL of the Litekart API, such as `https://api.litekart.in`. In dev, Vite also proxies `/api` here, falling back to `localhost:7000`."
+    },
+    {
+      "name": "PUBLIC_LITEKART_DOMAIN",
+      "required": true,
+      "note": "The store’s domain, such as `arialshop.com`. Used to look up the store when no `litekart_store_id` cookie is present."
+    },
+    {
+      "name": "PUBLIC_LITEKART_STORE_ID",
+      "required": true,
+      "note": "Needed in production. Serves this store directly, skipping the domain lookup; `src/hooks.server.ts` writes it to the `litekart_store_id` cookie."
+    }
+  ],
+  "envNote": "`/health` returns 503 and names whatever is missing; on Litekart it requires all three. Litekart’s connector reads and checks this trio itself — it is the one backend `init.ts` leaves alone.",
+  "backendSettings": [
+    "Nothing to switch in the storefront: `package.json` ships `@misiki/litekart-connector`, and `kitcommerce.config.ts` names no backend.",
+    "Store details — name, logo, currency, menus, plugin toggles and theme CSS variables — come live from the Litekart API (`/api/stores/public-details`), so the default export of `kitcommerce.config.ts` is normally left empty.",
+    "Choose the theme in the Litekart admin. The API serves that theme’s content, layout and CSS, and `store.theme` wins over `PUBLIC_STOREFRONT_THEME`; `src/lib/theme/index.ts` has the full order of precedence."
+  ],
+  "howItWorks": [
+    "Litekart is the REST API the other 25 connectors inherit their paths from. `kitcommerce.config.ts` exports its services from `src/lib/core/connectors/active`, which on Litekart is a plain re-export of `@misiki/litekart-connector` — the one backend that needs no service overrides.",
+    "The active backend is named by a `connectorName` marker — `litekart` here — and that is what `/health`, `init` and the shopping assistant read to know which backend is running.",
+    "Because the API is authoritative for the store record, the static `src/lib/core/connectors/default-store.json` that other backends fall back on is never read in Litekart mode."
+  ],
+  "limitations": [
+    "CONNECTORS.md records no known gaps — it lists Litekart as the reference implementation — but the coverage script counts 39 of the 43 services as wired, not all 43.",
+    "The features only Litekart serves — CMS pages, blog, menus, Meilisearch autocomplete, wishlist, coupons and the Conversational Shopping assistant — fall back to static theme content, or disappear, if you later move to another backend.",
+    "A production Node build and Docker read `PUBLIC_*` from the process environment, not from `.env`: all three variables have to be set on the deploy platform."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "“Unable to retrieve hostname from URL”",
+      "fix": "Neither `PUBLIC_LITEKART_DOMAIN` nor a resolvable request hostname was available. Set the domain explicitly."
+    },
+    {
+      "problem": "`/health` returns 503",
+      "fix": "The response names the missing variables. In production all three Litekart variables are required."
+    },
+    {
+      "problem": "The wrong store is served",
+      "fix": "A stale `litekart_store_id` cookie. Setting `PUBLIC_LITEKART_STORE_ID` overwrites it on the next request."
+    },
+    {
+      "problem": "Docker or production shows API errors that dev did not",
+      "fix": "The Node server reads `PUBLIC_*` from the process environment, not from `.env`. Set them on your deploy platform; `docker-compose.yml` shows where."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Do I need to install anything to run Svelte Commerce on Litekart?",
+      "a": "No. Litekart is the stock backend: `package.json` already lists `@misiki/litekart-connector`, and the example environment points at Litekart’s public demo API, so copying `.env.example` to `.env` and starting the dev server gives you a working store."
+    },
+    {
+      "q": "Why is Litekart the most complete backend?",
+      "a": "It is the reference implementation. Every other connector copies its method names and shapes, and Litekart’s API is the only one that serves the whole storefront — CMS pages, blog, menus, search autocomplete, wishlist, coupons and the shopping assistant included."
+    },
+    {
+      "q": "Do real stores run Svelte Commerce on Litekart?",
+      "a": "Yes. The stores on this site’s live projects page run Svelte Commerce as their storefront, most of them backed by the Litekart API. None of them runs GoCommerce."
+    },
+    {
+      "q": "What does Svelte Commerce need from Litekart in production?",
+      "a": "Three variables — `PUBLIC_LITEKART_API_URL`, `PUBLIC_LITEKART_DOMAIN` and `PUBLIC_LITEKART_STORE_ID` — set in the server’s process environment rather than `.env`. `/health` returns 503 and names any that are missing."
+    }
+  ],
+  "caveatExtra": "Litekart is the one backend with public evidence beside it: the stores on the live projects page run Svelte Commerce against the Litekart API. This site has not checked which version of the connector each of them uses.",
+  "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/LITEKART.md",
+  "read": "2026-09-25"
+}

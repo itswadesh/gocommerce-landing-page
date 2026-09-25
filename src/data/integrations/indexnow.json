@@ -1,0 +1,63 @@
+{
+  "slug": "indexnow",
+  "name": "IndexNow",
+  "category": "Marketing",
+  "title": "IndexNow for GoCommerce — Ping Search Engines on Change",
+  "description": "Tell Bing, Yandex, Seznam and Naver the moment a GoCommerce product or collection changes, over IndexNow: the setup, the key file, and why Google is not in it.",
+  "ogTitle": "IndexNow for GoCommerce",
+  "ogDescription": "Changed product and collection pages, batched and submitted to IndexNow. Read from the module’s source.",
+  "h1": "IndexNow for GoCommerce",
+  "lede": "A Go package that tells search engines a page changed, the moment it does. When a product or collection changes, its storefront URL is batched for 30 seconds and submitted to IndexNow, which Bing, Yandex, Seznam and Naver read. Google does not take part.",
+  "what": [
+    "In the package’s own words: “IndexNow is a ping and nothing more. One POST carrying the URLs that changed, and Bing, Yandex, Seznam and Naver fetch them rather than waiting to crawl. There is no account, no console and no verification round trip: a key file on the site is the verification.”",
+    "The module listens for products created, updated and deleted, and collections updated. It builds each page’s storefront URL from the storefront address and a path pattern, and when a product’s slug changes it submits the old address too — so a search engine looks at the 404 and drops it, rather than keeping a dead URL until it happens to recrawl.",
+    "The key file has to answer at the root of the storefront, because IndexNow trusts a key only for URLs in its own folder and below — and in a headless store the storefront is not this server. So the engine keeps the key and the storefront serves it: as a static file, or by proxying GET /x/indexnow/key."
+  ],
+  "configLede": "One setting is required, the storefront URL, and it lives on the Plugins screen only; Config holds nothing but test and proxy overrides. The plugin starts switched off — enable it there.",
+  "config": [
+    { "field": "storefront_url", "panel": "Storefront URL", "required": true, "note": "Where the pages actually are, and so the host the key file must answer on. Panel only." },
+    { "field": "key", "panel": "Key", "required": false, "note": "Left empty, one is generated on first use — 32 hex characters. Anything from 8 to 128 letters, digits and dashes." },
+    { "field": "product_path", "panel": "Product page path", "required": false, "note": "The product page’s path, /products/{slug} by default." },
+    { "field": "collection_path", "panel": "Collection page path", "required": false, "note": "The collection page’s path, /collections/{slug} by default." },
+    { "field": "Window", "required": false, "note": "How long URLs collect before one submission goes: 30 seconds by default. Go only." },
+    { "field": "Endpoint", "required": false, "note": "Overrides https://api.indexnow.org/indexnow, for tests. Go only." },
+    { "field": "HTTP", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 15 seconds — for tests, or a store behind a proxy. Go only." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass indexnow.New() to gocommerce.New in your own main(), as below. The reference binary has no flag for it; examples/store/main.go installs it." },
+    { "b": "Switch it on", "t": "Enable IndexNow on the Plugins screen and set the storefront URL — and the product and collection paths, if yours differ." },
+    { "b": "Serve the key", "t": "POST /api/admin/x/indexnow/key mints a key and says what to serve: <key>.txt at the storefront’s root, holding the key with no trailing newline — or a route proxying /x/indexnow/key." },
+    { "b": "Check it", "t": "GET /api/admin/x/indexnow/check fetches the file from the storefront, compares it byte for byte, and names the problem — a 404, a wrong key, a stray newline — before anything is submitted." }
+  ],
+  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/indexnow\"\n)\n\n// Nothing to configure here: the storefront URL is a plugin\n// setting, and the storefront serves the key file.\napp, err := gocommerce.New(cfg, indexnow.New())",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports. cfg is your gocommerce.Config; indexnow.New also accepts an optional indexnow.Config.",
+  "howItWorks": [
+    { "b": "Batched on purpose", "t": "An operator repricing a range edits thirty products in two minutes. URLs collect for 30 seconds and go as one submission, and a product saved four times is submitted once." },
+    { "b": "One endpoint for all", "t": "Submissions go to api.indexnow.org, which forwards to every participating engine, rather than to each engine separately — the practice the shared endpoint exists to stop." },
+    { "b": "Only this host’s URLs", "t": "IndexNow refuses a batch that mixes hosts, so a URL not on the storefront’s host is dropped before sending rather than losing the rest. At most 10,000 URLs go in one request." },
+    { "b": "A byte-for-byte check", "t": "The check compares the storefront’s file with the key exactly, because a trailing newline looks right in a browser and is refused by IndexNow — the commonest way, the package says, this setup goes wrong." },
+    { "b": "Submit, exported", "t": "The module’s Submit method is exported, so a host can send pages the module does not know about — a CMS page, a hand-built landing page — without reimplementing the protocol." },
+    { "b": "No tables", "t": "The key lives in the plugin’s settings and nothing about submissions is stored. What was submitted and when is, in the package’s words, a question the search engine answers." }
+  ],
+  "limits": [
+    { "b": "No Google", "t": "Google does not take part in IndexNow. A store that wants Google to know sooner still needs Search Console and a sitemap." },
+    { "b": "Products and collections only", "t": "Content pages, the home page and category pages are not submitted, unless your own code calls Submit for them." },
+    { "b": "Fire and forget", "t": "A failed submission is logged and dropped, not retried. URLs waiting in the 30-second window are held in memory, so a restart inside it loses them." },
+    { "b": "The key file is yours to serve", "t": "The engine cannot put the key on the storefront’s host. Until the storefront answers with it, IndexNow refuses the submissions." },
+    { "b": "Off until switched on", "t": "Installing the module does not enable it, and with no storefront URL set it submits nothing." },
+    { "b": "The panel’s hint is wrong", "t": "The Storefront URL field’s help says the key file is served from the engine. It is not: as the package doc explains, the storefront serves it." }
+  ],
+  "tested": true,
+  "testCount": 9,
+  "apiOps": 0,
+  "vendorUrl": "https://www.indexnow.org",
+  "vendorType": "CreativeWork",
+  "trademark": "Bing, Yandex, Seznam and Naver are trademarks of their owners; this module submits URLs to the shared IndexNow endpoint and implies no endorsement by any of them.",
+  "faq": [
+    { "q": "Does this tell Google?", "a": "No. Google does not take part in IndexNow, and the module says so rather than pretending otherwise. For Google, Search Console and a sitemap are still the route — the sitemaps module serves one." },
+    { "q": "Where does the key file go?", "a": "At the root of the storefront’s host: https://shop.example/<key>.txt, holding the key and nothing else — no trailing newline. The engine cannot serve it there in a headless store, so the storefront does, as a static file or by proxying GET /x/indexnow/key." },
+    { "q": "What gets submitted?", "a": "A product’s page when it is created, updated or deleted — and its old address too, when its slug changed — and a collection’s page when it is updated. Everything that changed in a 30-second window goes in one submission." },
+    { "q": "Does it need an account with the search engines?", "a": "No. IndexNow has no account and no console: the key file on the storefront is the whole of the verification." }
+  ]
+}

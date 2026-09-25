@@ -19,7 +19,7 @@ const faq = [
   { q: 'How well does it work with AI coding agents?', a: 'The repository is written for it: AGENTS.md holds 18 architectural rules for anyone changing the code, human or agent, and skills/ holds 16 task guides so an agent loads the one matching its job instead of reading everything. There is one production dependency, so the graph an agent must understand is small, and 1,036 tests to catch a wrong edit. Separately, the MCP module lets an agent operate a running store through the same domain services a REST call uses — never the database directly.' },
   { q: 'How fast is it?', a: 'No benchmark figures are published, so this page does not quote one. Architecturally: a single compiled binary, one production dependency, the API and admin in one process, no runtime plugin loading, and integer arithmetic for money. Benchmarking is on the contribution list.' },
   { q: 'Does it handle B2B, or marketplaces?', a: 'Both have engine support. B2B pricing resolves by customer group and quantity through price lists. Marketplaces have vendors as first-class sellers with pending, approved and suspended states. Neither is as deep as a dedicated platform; read core/pricing.go and core/vendors.go before committing to one.' },
-  { q: 'How do I migrate an existing catalogue?', a: 'Shopify and Amazon import modules exist and match on the source platform’s own product id, so re-running an import updates rather than duplicates. There is also an order importer that takes a created_at, fires no events and moves no stock, because loading history should not send two hundred confirmation emails.' },
+  { q: 'How do I migrate an existing catalogue?', a: 'The import-shopify module brings a whole Shopify catalogue across and matches on Shopify’s own product id, so re-running it updates rather than duplicates (titles, descriptions, status and tags; not variants, prices or stock). An Amazon importer exists for single listings and creates a new product each time. There is also an order importer that takes a created_at, fires no events unless asked and moves no stock, because loading history should not send two hundred confirmation emails.' },
   { q: 'Is there a paid tier, a cloud, or an enterprise edition?', a: 'No. There is no hosted offering, no paid tier and nothing to buy. It is MIT source you run yourself.' },
 ]
 
@@ -82,8 +82,8 @@ const screens = [
 ]
 
 const modules = [
-  ['mod-pay', 'Payments', 9, ['Stripe', 'Razorpay', 'Adyen', 'Paddle', 'HyperSwitch', 'Lemon Squeezy', 'Helcim', 'Creem', 'RevenueCat']],
-  ['mod-ful', 'Fulfillment', 11, ['Shiprocket', 'Delhivery', 'Shippo', 'ShipStation', 'EasyShip', 'Shippit', 'USPS', 'India Post', 'NimbusPost', 'Onfleet', 'Veeqo']],
+  ['mod-pay', 'Payments', 9, ['Stripe', 'Razorpay', 'Adyen', 'Paddle', 'Hyperswitch', 'Lemon Squeezy', 'Helcim', 'Creem', 'RevenueCat']],
+  ['mod-ful', 'Fulfillment', 11, ['Shiprocket', 'Delhivery', 'Shippo', 'ShipStation', 'Easyship', 'Shippit', 'USPS', 'India Post', 'NimbusPost', 'Onfleet', 'Veeqo']],
   ['mod-msg', 'Email and SMS', 4, ['Resend', 'SendGrid', 'Twilio', 'MSG91']],
   ['mod-grow', 'Retention', 6, ['Cart recovery', 'Klaviyo', 'Newsletter', 'Reviews', 'Wishlist', 'Product feeds']],
   ['mod-com', 'Commerce and content', 12, ['CMS', 'Identity', 'Navigation', 'Search (Meilisearch)', 'Sitemaps', 'Translations', 'Invoices', 'Webhooks', 'Contact', 'FAQ', 'IndexNow', 'MCP']],
@@ -92,7 +92,7 @@ const modules = [
 ---
 <Base
   title="GoCommerce — Open Source Ecommerce Backend + Admin in Go"
-  description="GoCommerce is an open-source ecommerce backend and admin built with Go: commerce APIs, PostgreSQL, an embedded Svelte admin, 44 modules and 342 documented operations. Self-hosted, MIT licensed."
+  description="An open-source ecommerce backend and admin in Go: commerce APIs, PostgreSQL, an embedded Svelte admin, 44 modules, 342 documented operations. Self-hosted, MIT."
   path={path}
   ogTitle="GoCommerce — Ecommerce Backend + Admin in Go"
   ogDescription="A standalone open-source ecommerce backend: commerce APIs, PostgreSQL, an admin compiled into the binary. One dependency, one database."
@@ -249,7 +249,7 @@ const modules = [
         <div class="url"><p class="url-what">API documentation</p><p class="url-where"><code>localhost:8080/docs</code></p><p class="url-note">The OpenAPI contract this build actually serves.</p></div>
         <div class="url"><p class="url-what">The catalog</p><p class="url-where"><code>localhost:8080/api/products</code></p><p class="url-note">Public and unauthenticated — the route a storefront calls.</p></div>
       </div>
-      <p class="fineprint"><code>./cmd/gocommerce</code> is the reference binary and installs every module, which makes it useful for reading the API contract. A real store is its own small <code>main()</code> that installs only what it needs — that is <code>examples/store</code>.</p>
+      <p class="fineprint"><code>./cmd/gocommerce</code> is the reference binary and installs 39 of the 44 modules — all but cart-recovery, import-shopify, indexnow, mcp and translations — which makes it useful for reading the API contract. A real store is its own small <code>main()</code> that installs only what it needs — that is <code>examples/store</code>.</p>
     </div>
   </section>
 

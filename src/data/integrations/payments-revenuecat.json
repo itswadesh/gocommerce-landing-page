@@ -1,0 +1,59 @@
+{
+  "slug": "payments-revenuecat",
+  "name": "RevenueCat",
+  "category": "Payments",
+  "title": "RevenueCat Web Billing for GoCommerce — Open-Source Module",
+  "description": "Sell digital goods through a RevenueCat Web Purchase Link from a GoCommerce store: link token, webhook, price matching, and why refunds are not supported.",
+  "ogTitle": "RevenueCat Web Billing for GoCommerce",
+  "ogDescription": "A purchase link per order, settled only when RevenueCat’s charge matches the order total. Digital goods only.",
+  "h1": "RevenueCat Web Billing for GoCommerce",
+  "lede": "A Go package that builds a RevenueCat Web Purchase Link for each order and marks the GoCommerce order paid when RevenueCat’s webhook reports a purchase matching the order total to the minor unit. For digital goods only, and with no refunds through GoCommerce.",
+  "what": [
+    "The module registers “revenuecat” as a payment method. At checkout it makes no API call at all: it builds the purchase link — your link token, then the order number as RevenueCat’s app user id, with the shopper’s email and the currency as query parameters — and answers with a redirect intent carrying it. A storefront can preselect a package by sending package_id in the checkout’s payment data.",
+    "RevenueCat then calls POST /api/checkout/revenuecat/webhook. The module checks the Authorization header, and the HMAC signature too when one is configured. On INITIAL_PURCHASE or NON_RENEWING_PURCHASE it finds the order by its number and marks it paid — but only if what RevenueCat charged equals the order’s total and currency.",
+    "The package is candid about the fit. RevenueCat sells a product from its own catalogue at its own price, so the store does not set the price at checkout; RevenueCat does. And, citing RevenueCat’s documentation, Web Billing does not collect a shipping address, does not support B2B sales and is not available to merchants in India. This provider is for downloads, licences and memberships."
+  ],
+  "configLede": "Two settings are required: the Web Purchase Link token and the exact Authorization header RevenueCat is configured to send. Set them in Config from your own main(), or under Settings › Payment methods.",
+  "config": [
+    { "field": "LinkToken", "panel": "Web Purchase Link token", "env": "REVENUECAT_LINK_TOKEN", "required": true, "note": "The path segment in https://pay.rev.cat/<token>." },
+    { "field": "WebhookAuthorization", "panel": "Webhook Authorization header", "env": "REVENUECAT_WEBHOOK_AUTHORIZATION", "required": true, "note": "Exactly what RevenueCat sends in the Authorization header, compared in constant time. Required because, as the code puts it, without it any caller could mark orders paid." },
+    { "field": "SigningSecret", "panel": "Webhook signing secret", "required": false, "note": "Adds HMAC verification when the webhook has signing switched on in RevenueCat. The package calls it worth it: the header alone is a bearer secret every delivery repeats." },
+    { "field": "BaseURL", "panel": "Purchase link host", "required": false, "note": "Overrides https://pay.rev.cat, for tests. Empty for production." }
+  ],
+  "setup": [
+    { "b": "Match the price", "t": "In RevenueCat, the product’s price must equal the order total — so leave GoCommerce’s tax rates empty, as for a merchant of record." },
+    { "b": "Configure the webhook", "t": "Point RevenueCat’s webhook at https://your-api-host/api/checkout/revenuecat/webhook, set its Authorization header, and switch signing on." },
+    { "b": "Install and configure", "t": "Pass revenuecat.New to gocommerce.New as below, or run the reference binary with -gateways and fill in Settings › Payment methods." },
+    { "b": "Take a payment", "t": "POST /api/checkout/revenuecat answers with a redirect intent whose url is the purchase link. A matching purchase event marks the order paid." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\trevenuecat \"github.com/misiki/gocommerce/ext/payments-revenuecat\"\n)\n\napp, err := gocommerce.New(cfg,\n\trevenuecat.New(revenuecat.Config{\n\t\tLinkToken:            os.Getenv(\"REVENUECAT_LINK_TOKEN\"),\n\t\tWebhookAuthorization: os.Getenv(\"REVENUECAT_WEBHOOK_AUTHORIZATION\"),\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. Add SigningSecret when the webhook has signing on.",
+  "howItWorks": [
+    { "b": "No API call at checkout", "t": "The purchase link is a URL the module builds from the link token, the order number, the email and the currency. RevenueCat hears about the order only when the shopper pays." },
+    { "b": "Two layers of verification", "t": "The Authorization header must match exactly, in constant time. With a signing secret set, X-RevenueCat-Webhook-Signature must also verify: t=…,v1=…, an HMAC-SHA256 over the timestamp and the body, within five minutes." },
+    { "b": "The price is checked", "t": "RevenueCat reports the price as a decimal. The module converts it to minor units — zero- and three-decimal currencies such as JPY and KWD included — and settles only on an exact match with the order’s total and currency." },
+    { "b": "Each event once", "t": "Claims are keyed on RevenueCat’s event id. A redelivery is answered 200; a TEST event from the dashboard is acknowledged and nothing else." },
+    { "b": "A failed update is retried", "t": "If marking the order paid fails, the claim is released and the webhook answers 500, so RevenueCat’s retry finds work to do." },
+    { "b": "Warnings where they help", "t": "An order with a shipping address logs a warning at checkout, because Web Billing will not carry it. A CANCELLATION logs that the order still reads as paid." }
+  ],
+  "limits": [
+    { "b": "No refunds", "t": "RevenueCat has no API to refund a Web Billing purchase, so the module does not claim the capability. A refund from the admin is answered 409 — the payment method does not support refunds. Refund in RevenueCat or the underlying processor." },
+    { "b": "The price is RevenueCat’s", "t": "The link carries no amount. If the product’s price and the order total differ by one minor unit, the order is not settled and the mismatch is logged for an operator." },
+    { "b": "Digital goods only", "t": "Per the package, Web Billing collects no shipping address and does not support B2B sales. A store that ships parcels should use another provider." },
+    { "b": "Not for merchants in India", "t": "The package cites RevenueCat’s documentation: Web Billing is not available to merchants in India." },
+    { "b": "One customer per order", "t": "The order number is the app user id, so each order is a new RevenueCat customer. A project that also sells subscriptions to the same people would need to alias them in RevenueCat; the module does not." },
+    { "b": "Cancellations are only logged", "t": "A CANCELLATION — how RevenueCat reports a refund — is logged, and the GoCommerce order keeps reading as paid." }
+  ],
+  "tested": true,
+  "testCount": 10,
+  "apiOps": 0,
+  "vendorUrl": "https://www.revenuecat.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Can I refund a RevenueCat order from GoCommerce?", "a": "No. RevenueCat has no API for refunding a Web Billing purchase, so the module does not implement refunds — for the same reason cash on delivery does not. The engine answers a refund with 409. Refund in RevenueCat’s dashboard or the underlying processor." },
+    { "q": "Why must the product price equal the order total?", "a": "A purchase link carries no amount; RevenueCat charges the price configured on its product. The module compares what was charged with the order total, in minor units and currency, and settles only when they agree. In practice that means GoCommerce’s tax rates stay empty." },
+    { "q": "Can I sell physical goods with it?", "a": "The package says not to. Citing RevenueCat’s documentation, Web Billing collects no shipping address, does not support B2B sales and is not available to merchants in India. It is for downloads, licences and memberships." },
+    { "q": "Is this a RevenueCat partnership?", "a": "No. The module builds RevenueCat’s public purchase links and reads its webhooks with credentials you supply. RevenueCat does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

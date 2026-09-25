@@ -1,0 +1,66 @@
+{
+  "slug": "fulfill-delhivery",
+  "name": "Delhivery",
+  "category": "Shipping",
+  "title": "Delhivery Shipping for GoCommerce — Open-Source Module",
+  "description": "Manifest parcels with Delhivery from a GoCommerce order: the API token, pickup warehouse, GSTIN, COD amounts, units, and what the module leaves out.",
+  "ogTitle": "Delhivery shipping for GoCommerce",
+  "ogDescription": "A parcel manifested with Delhivery and its waybill as the tracking number. Read from the source.",
+  "h1": "Delhivery shipping for GoCommerce",
+  "lede": "A Go package that manifests a parcel with Delhivery and takes the waybill Delhivery assigns, from the engine’s own fulfillment call. An API token, a registered warehouse and a seller name are what it needs.",
+  "what": [
+    "Registering the module adds “delhivery” as a fulfillment provider. An operator ships the usual way — the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"delhivery\" — and the module manifests the parcel with Delhivery and returns the waybill as the tracking number, with the carrier recorded as Delhivery. The engine stores the shipment and moves the order on; the module only talks to Delhivery.",
+    "In the admin it describes itself as “Manifests parcels with Delhivery and takes the waybill it assigns.” It sends the parcel’s own lines, weight, size and value — the engine has already worked out what goes in this box — plus the seller details printed on the label.",
+    "Delhivery’s manifestation endpoint is not a JSON API: it takes a form whose data field holds the whole payload as a JSON string. The package doc records that sending JSON as the body returns a bare 400 with no explanation, which is why this module encodes twice and looks unlike its neighbours."
+  ],
+  "configLede": "Three settings are required: the API token, the pickup warehouse’s nickname and the seller name. Set them in Config from your own main(), or leave Config empty and fill them in under Settings › Shipping providers.",
+  "config": [
+    { "field": "Token", "panel": "API token", "env": "DELHIVERY_TOKEN", "required": true, "note": "Sent as Authorization: Token <token>. The staging host takes a different token from production." },
+    { "field": "PickupLocation", "panel": "Pickup location", "required": true, "note": "The warehouse nickname registered with Delhivery, matched case-sensitively on their side." },
+    { "field": "SellerName", "panel": "Seller name", "required": true, "note": "Printed on the label. Required because, in the code’s words, an unnamed seller is a parcel nobody can return." },
+    { "field": "SellerAddress", "panel": "Seller address", "required": false, "note": "Printed on the label." },
+    { "field": "SellerGSTIN", "panel": "Seller GSTIN", "required": false, "note": "Sent as seller_gst_tin when set. Optional here, because whether Delhivery requires it depends on what the store sells." },
+    { "field": "HSNCode", "panel": "HSN code", "required": false, "note": "Sent with every parcel when set. One code for the whole store." },
+    { "field": "DefaultWeightGrams", "panel": "Default weight (grams)", "required": false, "note": "Per unit, for a parcel the engine could not weigh. 500 g when unset." },
+    { "field": "DefaultLengthCM, DefaultWidthCM, DefaultHeightCM", "required": false, "note": "The box used for any parcel of more than one unit, where the engine has no single size. 15 × 15 × 10 cm when unset. Go only." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Defaults to production, https://track.delhivery.com. Staging is https://staging-express.delhivery.com." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Register the warehouse", "t": "In Delhivery, register the pickup warehouse and note its nickname exactly — it is matched case-sensitively — and copy the API token." },
+    { "b": "Install the module", "t": "Import it and pass delhivery.New to gocommerce.New, as below — or run the reference binary with -carriers, which installs every carrier module idle." },
+    { "b": "Configure it", "t": "Token, pickup location and seller name, in Config or under Settings › Shipping providers. Add the GSTIN and HSN code if your goods need them." },
+    { "b": "Ship an order", "t": "Choose Delhivery in the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"delhivery\". The waybill becomes the tracking number." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tdelhivery \"github.com/misiki/gocommerce/ext/fulfill-delhivery\"\n)\n\napp, err := gocommerce.New(cfg,\n\tdelhivery.New(delhivery.Config{\n\t\tToken:          os.Getenv(\"DELHIVERY_TOKEN\"),\n\t\tPickupLocation: \"Primary\",\n\t\tSellerName:     \"Acme Retail\",\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty delhivery.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "A form with JSON inside", "t": "The manifest is posted to /api/cmu/create.json as a URL-encoded form, format=json and data= holding the payload — the shape that endpoint accepts." },
+    { "b": "A refusal is a failure", "t": "Delhivery can answer 200 with a refusal inside. A package without a waybill is treated as refused and Delhivery’s remarks are returned, so the engine does not move the order to shipped." },
+    { "b": "COD is this parcel’s value", "t": "An unpaid order is booked COD with cod_amount set to the value of what is in this parcel; a paid order is booked Prepaid and collects nothing." },
+    { "b": "Grams and centimetres", "t": "Weight goes in grams and the sides in centimetres, kept to the tenth. The engine’s measured weight is used only when every line was weighed; otherwise the default per unit." },
+    { "b": "A new id per parcel", "t": "Delhivery rejects a duplicate order id, so the first parcel goes as the order number and later ones as number-2, number-3 and so on." },
+    { "b": "Pre-pulled waybills", "t": "A waybill passed in the request’s meta is sent with the manifest — in the code’s words, how a store prints labels ahead of manifesting them." }
+  ],
+  "limits": [
+    { "b": "No label URL", "t": "The module returns the waybill and the carrier, not a label. Labels come from Delhivery’s own tools." },
+    { "b": "No tracking updates", "t": "Nothing comes back after manifesting: no webhook, no polling. Marking an order delivered is a separate step, in the admin or through the API." },
+    { "b": "No rates, pickups or cancellation", "t": "It quotes no rates and books no pickup, and deleting a fulfillment in GoCommerce does not cancel the manifest in Delhivery." },
+    { "b": "The units are an assumption", "t": "The package doc says Delhivery’s documentation does not state its units; grams and centimetres are what working integrations send. A store that finds otherwise should say so." },
+    { "b": "One HSN code for the store", "t": "HSNCode is a single setting sent with every parcel. A catalogue with goods under several codes cannot vary it per product." },
+    { "b": "Rupees only, in practice", "t": "Amounts are minor units divided by 100. The code notes that is exact for INR, the only currency Delhivery settles cash on delivery in." }
+  ],
+  "tested": true,
+  "testCount": 8,
+  "apiOps": 0,
+  "vendorUrl": "https://www.delhivery.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Does it need a GSTIN?", "a": "Not to be installed. The module sends seller_gst_tin and hsn_code only when they are set, because — as its own comment puts it — whether they are mandatory depends on what the store sells, and Delhivery is the one entitled to refuse." },
+    { "q": "Can I test against Delhivery’s staging?", "a": "Yes. Set BaseURL to https://staging-express.delhivery.com and use a staging token; the two hosts take different tokens. Left empty, BaseURL is production." },
+    { "q": "Why does a shipment fail with a reason from Delhivery?", "a": "Because Delhivery refused it. It can answer HTTP 200 with a refusal per package, and the module reports that package’s remarks rather than letting the engine mark the order shipped. Fix what the remark names and ship again." },
+    { "q": "Does the order update when the parcel is delivered?", "a": "No. The module manifests and returns; it has no webhook and polls nothing. Mark the order delivered from the admin or with POST /api/admin/orders/{id}/deliver." },
+    { "q": "Is Delhivery a partner?", "a": "No. The module calls Delhivery’s API with a token you supply. Delhivery does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

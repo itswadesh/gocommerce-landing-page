@@ -1,0 +1,67 @@
+{
+  "slug": "fulfill-easyship",
+  "name": "Easyship",
+  "category": "Shipping",
+  "title": "Easyship Shipping for GoCommerce — Open-Source Module",
+  "description": "Book Easyship shipments with the label in one call from a GoCommerce order: token, courier service, ship-from address, units, customs items and limits.",
+  "ogTitle": "Easyship shipping for GoCommerce",
+  "ogDescription": "A shipment and its label in one call, with the parcel’s contents declared for customs. Read from the source.",
+  "h1": "Easyship shipping for GoCommerce",
+  "lede": "A Go package that creates an Easyship shipment and buys its label in the same call when an operator ships an order. It declares the parcel’s contents for customs and hands the engine a tracking number and the label — or a precise error.",
+  "what": [
+    "The module registers “easyship” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider easyship — the engine keeps the order’s state and its events, and the module only talks to Easyship.",
+    "It sends buy_label with the shipment, so one call either produces a tracking number or fails. The package gives the reason: the engine has no state for a shipment that exists but cannot be tracked, and inventing one would make “booked” and “half booked” look identical on the order. The courier service is a configured choice for the same reason the Shippo module gives — picking the cheapest rate automatically would quietly put somebody’s express order on a slow service.",
+    "In the admin it describes itself as “Cross-border labels and customs paperwork through Easyship, booked on a courier service you choose.” The API version is pinned to 2024-09, and there is no SDK."
+  ],
+  "configLede": "Four things are required: the access token, a default courier service, and a ship-from address line and country. Set them in Config from your own main(), or leave Config empty and fill them in under Settings › Shipping providers.",
+  "config": [
+    { "field": "Token", "panel": "Access token", "env": "EASYSHIP_TOKEN", "required": true, "note": "An Easyship API access token, sent as a bearer. It needs the public.shipment:write and public.label:write scopes." },
+    { "field": "CourierServiceID", "panel": "Courier service ID", "env": "EASYSHIP_COURIER_SERVICE_ID", "required": true, "note": "The courier service to book by default. Meta courier_service_id overrides it for one parcel." },
+    { "field": "From.Line1", "panel": "From: address line 1", "required": true, "note": "Where parcels are sent from. The order knows where it is going, never where it came from, so this is configuration." },
+    { "field": "From.CountryAlpha2", "panel": "From: country (ISO 2)", "required": true, "note": "The ship-from country, as two letters: SG, US, IN." },
+    { "field": "From.Line2, From.City, From.State, From.PostalCode, From.ContactName, From.ContactPhone", "panel": "From: line 2, city, state, postal code, contact name, contact phone", "required": false, "note": "The rest of the ship-from address." },
+    { "field": "From.ContactEmail, From.CompanyName", "required": false, "note": "Also sent with the origin address, settable in Go only; not in the panel." },
+    { "field": "Incoterms", "panel": "Incoterms", "required": false, "note": "Who pays duty on a cross-border parcel: DDU, the recipient, or DDP, the store. Empty leaves Easyship’s own default." },
+    { "field": "Imperial", "panel": "Account uses pounds and inches", "required": false, "note": "Set it when the Easyship account reads pounds and inches. Get it wrong and every parcel is declared at about 2.2 times the wrong weight." },
+    { "field": "DefaultWeightGrams", "panel": "Default weight (grams)", "required": false, "note": "Per unit, for a parcel holding a variant with no weight recorded. 500 by default." },
+    { "field": "DefaultLengthMM, DefaultWidthMM, DefaultHeightMM", "required": false, "note": "The box sent when the engine has no unambiguous size, which is any parcel holding more than one unit. 150 × 150 × 100 mm by default. Go only." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://public-api.easyship.com, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 45 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Get a token and a courier", "t": "In Easyship, create an access token with the public.shipment:write and public.label:write scopes, and note the id of the courier service to book by default." },
+    { "b": "Install the module", "t": "Import it and pass easyship.New to gocommerce.New, as below — or run the reference binary with -carriers, which installs every carrier module idle." },
+    { "b": "Fill in the settings", "t": "Token, courier service and ship-from address in Config or under Settings › Shipping providers — and tick the pounds-and-inches box if that is what your Easyship account reads." },
+    { "b": "Ship an order", "t": "POST /api/admin/create-fulfillment with the order id and the provider easyship. The engine records the tracking number and label URL and moves the order to shipped, or to partial." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\teasyship \"github.com/misiki/gocommerce/ext/fulfill-easyship\"\n)\n\napp, err := gocommerce.New(cfg,\n\teasyship.New(easyship.Config{\n\t\tToken:            os.Getenv(\"EASYSHIP_TOKEN\"),\n\t\tCourierServiceID: os.Getenv(\"EASYSHIP_COURIER_SERVICE_ID\"),\n\t\tFrom: easyship.Address{\n\t\t\tContactName: \"Acme\", Line1: \"Kennedy Town\", City: \"Hong Kong\",\n\t\t\tPostalCode: \"0000\", CountryAlpha2: \"HK\",\n\t\t\tContactPhone: \"+852-3008-5678\", ContactEmail: \"ship@acme.test\",\n\t\t},\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty easyship.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "One call, with the label", "t": "The shipment, the courier service and buy_label go to Easyship together. A shipment that comes back with no tracking number is an error that names the Easyship shipment id and says to cancel it in Easyship before retrying." },
+    { "b": "Customs from what is in the box", "t": "Each line in this parcel goes as a customs item — title, SKU, quantity, and the unit price as declared value in the line’s currency. The weight is sent once, for the whole parcel, because the engine knows it per parcel, not per line." },
+    { "b": "The units the account reads", "t": "Metric by default: grams to kilograms, millimetres to centimetres. With Imperial set, pounds and inches instead. Conversions round half up, the direction that over-declares rather than under-declares a parcel." },
+    { "b": "The label, not the paperwork", "t": "Of the documents Easyship issues, the module stores the one in the label category as the shipment’s label URL. Commercial invoices and packing slips stay in Easyship." },
+    { "b": "The order, named", "t": "The order number and its creation time go to Easyship as order_data, under the platform name gocommerce, so the shipment can be found from the store’s own number." },
+    { "b": "Carrier worked out", "t": "The carrier code is read from the courier Easyship reports — USPS, FedEx, UPS, DHL, Aramex, Delhivery, Royal Mail — so the tracking number gets the right link. Anything else is left for the engine to work out from the number." }
+  ],
+  "limits": [
+    { "b": "No rate shopping", "t": "One courier service, from settings or meta. The module never asks Easyship for rates or picks the cheapest." },
+    { "b": "No tracking updates", "t": "No webhook and no stored state: delivery events in Easyship do not reach the order. Marking it delivered is still the operator’s job." },
+    { "b": "No cancel call", "t": "A half-booked shipment has to be cancelled in Easyship by hand, and deleting the fulfillment in GoCommerce does not touch it." },
+    { "b": "Customs values assume two decimals", "t": "The declared value is the unit price in minor units divided by 100. For a currency with no minor unit, such as the yen, that declares a hundredth of the price." },
+    { "b": "Thin customs items", "t": "Items carry title, SKU, quantity and value only — no HS code and no country of origin, although the package comment lists origin country among them." },
+    { "b": "A guessed box for several items", "t": "For anything but a single unit, the size sent is the configured default, not a measurement. The engine does not pack cartons." }
+  ],
+  "tested": true,
+  "testCount": 8,
+  "apiOps": 0,
+  "vendorUrl": "https://www.easyship.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Does it choose the cheapest courier?", "a": "No. The courier service is a setting, and meta courier_service_id changes it for one parcel. The package argues that picking by price automatically would quietly put an express order on a slow service." },
+    { "q": "My Easyship account uses pounds. What changes?", "a": "Switch on Imperial — “Account uses pounds and inches” in the panel. The module then converts grams to pounds and millimetres to inches; left off, it sends kilograms and centimetres, and a pound-reading account would take every parcel as about 2.2 times the wrong weight." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -carriers flag installs every carrier module with an empty Config. Switch Easyship on under Settings › Shipping providers and fill in the token, courier service and ship-from address there." },
+    { "q": "Is this an Easyship partnership?", "a": "No. The module calls Easyship’s public API with a token you supply. Easyship does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

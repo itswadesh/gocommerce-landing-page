@@ -1,0 +1,129 @@
+{
+  "slug": "virto-commerce",
+  "name": "Virto Commerce",
+  "title": "Virto Commerce SvelteKit Storefront — Svelte Commerce",
+  "description": "Svelte Commerce on Virto Commerce’s GraphQL API: 28 of 43 services wired, with cart, checkout and sign-in, no gaps recorded. Setup, environment and fixes.",
+  "lede": "Targeting Virto Commerce meant choosing which of its API generations to wire against; the connector speaks its GraphQL API. Cart, checkout and sign-in are wired, and CONNECTORS.md records no gaps.",
+  "verdict": "Cart, checkout and sign-in are wired, and no gaps are recorded. Orders are placed through the payment methods the Virto store itself exposes; a gateway the store has not configured is refused with a message saying so.",
+  "quickStart": [
+    {
+      "text": "get the storefront",
+      "cmd": "git clone https://github.com/itswadesh/svelte-commerce\ncd svelte-commerce"
+    },
+    {
+      "text": "one connector at a time: remove the two the storefront ships with, add this one",
+      "cmd": "npm uninstall @misiki/litekart-connector @misiki/vendure-connector\nnpm i @misiki/virto-connector"
+    },
+    {
+      "text": "point it at your Virto Commerce platform",
+      "cmd": "echo PUBLIC_VIRTO_COMMERCE_API_URL=https://your-store.example.com >> .env"
+    },
+    {
+      "text": "run it",
+      "cmd": "npm run dev"
+    }
+  ],
+  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
+  "env": [
+    {
+      "name": "PUBLIC_VIRTO_COMMERCE_API_URL",
+      "required": true,
+      "note": "Base URL of your Virto Commerce platform. Boot fails, naming this variable, if it is missing."
+    },
+    {
+      "name": "PUBLIC_VIRTO_COMMERCE_STORE_ID",
+      "required": false,
+      "note": "The Virto store the storefront serves."
+    },
+    {
+      "name": "PUBLIC_VIRTO_COMMERCE_CULTURE_NAME",
+      "required": false,
+      "note": "Such as `en-US`. Passed on nearly every catalogue, cart and order query; read once from the store if unset."
+    },
+    {
+      "name": "PUBLIC_VIRTO_COMMERCE_CURRENCY_CODE",
+      "required": false,
+      "note": "Such as `USD`. Passed on every priced query; read once from the store if unset."
+    },
+    {
+      "name": "PUBLIC_VIRTO_COMMERCE_CATALOG_ID",
+      "required": false,
+      "note": "Needed to filter products by category; read once from the store if unset."
+    },
+    {
+      "name": "PUBLIC_VIRTO_COMMERCE_ACCESS_TOKEN",
+      "required": false,
+      "note": "An access token to start from, sent in the `Authorization` header."
+    },
+    {
+      "name": "PUBLIC_CONNECTOR",
+      "required": false,
+      "note": "Only when more than one connector is installed: `@misiki/virto-connector` names the one this build runs on."
+    }
+  ],
+  "envNote": "`init.ts` hands the connector every `PUBLIC_VIRTO_COMMERCE_*` variable that is set, camel-cased — the prefix follows the product, not the package, which is `virto-connector`. The guide also lists `PUBLIC_VIRTO_COMMERCE_API_KEY`, `PUBLIC_VIRTO_COMMERCE_API_SECRET`, `PUBLIC_VIRTO_COMMERCE_ACCESS_KEY` and `PUBLIC_VIRTO_COMMERCE_CHANNEL_ID`; the connector’s source does not read them.",
+  "backendSettings": [
+    "Configure the payment methods you want shoppers to use on the Virto store itself: the connector places orders through `cart.availablePaymentMethods`, and refuses a gateway the store does not offer.",
+    "Let the storefront’s origin make cross-origin requests to Virto Commerce (CORS): in production the browser calls `PUBLIC_VIRTO_COMMERCE_API_URL` directly, not only the server."
+  ],
+  "howItWorks": [
+    "The connector speaks Virto Commerce’s GraphQL API, which wants culture, currency and catalogue as explicit arguments on most operations. Whatever you leave unset is read once from the store’s own record and remembered. Checkout places the order with a payment method the store exposes, matched by name — or, for cash on delivery, by a manual payment method.",
+    "Installing the package is the whole switch. `vite.config.ts` resolves whichever `@misiki/*-connector` is installed, and `src/lib/core/connectors/init.ts` hands it every `PUBLIC_VIRTO_COMMERCE_*` variable that is set, camel-cased, at boot — in the server hook for server rendering and in the client hook for the browser, which must reach the same URL in production.",
+    "There is no Litekart API behind the storefront here, so store identity — name, logo, currency, menus, plugin toggles, theme colours — comes from `src/lib/core/connectors/default-store.json` merged under the default export of `kitcommerce.config.ts`. Until you override it, the store is called “Test”. Any Litekart REST path the connector still inherits is answered from that local data, or resolved empty, rather than requested."
+  ],
+  "limitations": [
+    "No gaps are recorded for Virto Commerce in CONNECTORS.md.",
+    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
+    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden when another connector is active."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Boot fails with “the virto connector is active but PUBLIC_VIRTO_COMMERCE_API_URL is not set”",
+      "fix": "Add `PUBLIC_VIRTO_COMMERCE_API_URL` to `.env`. A production Node build and Docker read `PUBLIC_*` from the process environment rather than `.env`, so set it on your deploy platform too."
+    },
+    {
+      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
+      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/virto-connector'`."
+    },
+    {
+      "problem": "Boot fails with “PUBLIC_…_API_URL is set, but it configures a different backend than the one this build runs on”",
+      "fix": "Another backend’s variable is still set, usually left over from the one you switched from. Remove it, or install that backend’s connector. `PUBLIC_LITEKART_API_URL` is exempt: it only points the dev proxy."
+    },
+    {
+      "problem": "The store is called “Test”, or shows the wrong name and logo",
+      "fix": "Store identity is static on this backend. Set `name`, `logo`, `currencyCode` and the rest in the default export of `kitcommerce.config.ts`; `src/lib/core/connectors/default-store.json` lists every field."
+    },
+    {
+      "problem": "`[virto] no native implementation for get /api/...` in the console",
+      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Virto Commerce has no such feature; if it has one, the fix belongs in the connector’s matching service."
+    },
+    {
+      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
+      "fix": "A Litekart REST path was requested from outside the connector, so its guard never saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
+    },
+    {
+      "problem": "The build fails on `@misiki/litekart-connector`",
+      "fix": "`@misiki/kitcommerce-core` declares it as a peer, and `vite.config.ts` redirects that specifier to whichever connector is installed. Make sure exactly one `@misiki/*-connector` is listed in `package.json`."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Can I run a Virto Commerce store on Svelte Commerce today?",
+      "a": "Cart, checkout and sign-in are wired against Virto’s GraphQL API and no gaps are recorded. Orders go through the payment methods your Virto store exposes. Like every connector, it has not been run against a live production Virto store."
+    },
+    {
+      "q": "How do I switch Svelte Commerce to Virto Commerce?",
+      "a": "Remove the connectors the storefront ships with, install `@misiki/virto-connector`, set `PUBLIC_VIRTO_COMMERCE_API_URL` in `.env` and start the dev server. `vite.config.ts` resolves whichever connector is installed, so no file in the storefront changes."
+    },
+    {
+      "q": "Which payment methods can shoppers use on Virto Commerce?",
+      "a": "The ones your Virto store exposes through `cart.availablePaymentMethods`. Cash on delivery maps to a manual payment method; a gateway the store has not configured is refused with a message saying so, rather than faked."
+    },
+    {
+      "q": "Has the Virto Commerce connector been run against a real Virto Commerce store?",
+      "a": "Not against a live production instance — no Svelte Commerce connector has been. It was written by reading Virto Commerce’s authoritative API source, and the Svelte Commerce maintainers ask Virto Commerce’s own maintainers for a sandbox to run it against."
+    }
+  ],
+  "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/VIRTO-COMMERCE.md",
+  "read": "2026-09-25"
+}

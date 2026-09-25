@@ -1,0 +1,62 @@
+{
+  "slug": "payments-adyen",
+  "name": "Adyen",
+  "category": "Payments",
+  "title": "Adyen Payments for GoCommerce — Open-Source Module",
+  "description": "Take card and local payments through Adyen payment links in a GoCommerce store: API key, HMAC key, endpoint, refunds, and what the module leaves out.",
+  "ogTitle": "Adyen payments for GoCommerce",
+  "ogDescription": "Payment links, HMAC-verified notifications, refunds by PSP reference. Read from the module’s source.",
+  "h1": "Adyen payments for GoCommerce",
+  "lede": "A Go package that sends the shopper to an Adyen payment link and marks the GoCommerce order paid when Adyen’s HMAC-signed AUTHORISATION notification arrives — not before. Four required settings, one of which, the endpoint, deliberately has no default.",
+  "what": [
+    "The module registers “adyen” as a payment method. At checkout it creates an Adyen payment link for the order’s total, in minor units, with the order number as Adyen’s merchant reference, and answers with a redirect intent carrying the link’s URL.",
+    "Adyen then calls POST /api/checkout/adyen/webhook with a batch of notifications. Every item’s signature is checked before any of them is acted on; a successful AUTHORISATION marks the order paid and a refused one marks the payment failed. The package is plain about why it waits: Adyen answers a payment or a refund with “received” and says what happened in a later notification, so notifications are the source of truth and no API response is treated as settlement.",
+    "In the admin it describes itself as “Card and local payments through Adyen’s Checkout API, with the HMAC-signed notification marking orders paid.” It chooses payment links over Drop-in on purpose: Drop-in is a better checkout, the package says, but it needs Adyen’s JavaScript, a /sessions call and a client key on the storefront, and a module cannot dictate the storefront."
+  ],
+  "configLede": "Four settings are required: the API key, the merchant account, the webhook’s HMAC key and the Checkout API endpoint. Set them in Config from your own main(), or leave Config empty and fill them in under Settings › Payment methods.",
+  "config": [
+    { "field": "APIKey", "panel": "API key", "env": "ADYEN_API_KEY", "required": true, "note": "An API credential’s key, sent as the X-API-Key header. Not sent to the storefront." },
+    { "field": "MerchantAccount", "panel": "Merchant account", "env": "ADYEN_MERCHANT_ACCOUNT", "required": true, "note": "The account every payment link and refund is created against." },
+    { "field": "HMACKey", "panel": "Webhook HMAC key", "env": "ADYEN_HMAC_KEY", "required": true, "note": "The hex key generated for the webhook in Adyen’s Customer Area. Required because, as the code puts it, without it any caller could mark orders paid." },
+    { "field": "BaseURL", "panel": "Checkout API base URL", "required": true, "note": "The endpoint including its version segment: https://checkout-test.adyen.com/v71 for test, your own merchant-prefixed host for live. No default." },
+    { "field": "ReturnURL", "panel": "Return URL", "required": false, "note": "Where the shopper lands after paying, when the checkout request did not send a return_url of its own." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Set up the webhook", "t": "In Adyen’s Customer Area, point a webhook at https://your-api-host/api/checkout/adyen/webhook and generate its HMAC key." },
+    { "b": "Choose the endpoint", "t": "Test is https://checkout-test.adyen.com/v71. Live is your own prefixed host, https://{prefix}-checkout-live.adyenpayments.com/checkout/v71 — the module will not guess it." },
+    { "b": "Install and configure", "t": "Pass adyen.New to gocommerce.New as below, or run the reference binary with -gateways and fill in all four settings under Settings › Payment methods." },
+    { "b": "Take a payment", "t": "POST /api/checkout/adyen answers with a redirect intent whose url is the payment link. The AUTHORISATION notification marks the order paid." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tadyen \"github.com/misiki/gocommerce/ext/payments-adyen\"\n)\n\napp, err := gocommerce.New(cfg,\n\tadyen.New(adyen.Config{\n\t\tAPIKey:          os.Getenv(\"ADYEN_API_KEY\"),\n\t\tMerchantAccount: os.Getenv(\"ADYEN_MERCHANT_ACCOUNT\"),\n\t\tHMACKey:         os.Getenv(\"ADYEN_HMAC_KEY\"),\n\t\tBaseURL:         \"https://checkout-test.adyen.com/v71\",\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. The test endpoint is written in because Adyen’s live URL carries your own prefix.",
+  "howItWorks": [
+    { "b": "Payment links, not Drop-in", "t": "Checkout creates a link with POST /paymentLinks: the amount in minor units, the order number as reference, and the shopper’s email and two-letter country when the order has them. The storefront only redirects." },
+    { "b": "Every item verified first", "t": "Adyen signs eight fields of each notification item — PSP reference, original reference, merchant account, merchant reference, amount, currency, event code and success — with the HMAC in additionalData. One forged item rejects the whole batch." },
+    { "b": "Only signed fields pick the order", "t": "The order is found from merchantReference, which the HMAC covers, not from the metadata Adyen echoes back, which it does not. A valid signature for one payment cannot settle somebody else’s order." },
+    { "b": "Each event once", "t": "Claims are keyed on event code plus PSP reference in the module’s own table, so a retry is a duplicate and two different events about one payment stay distinct. The handler answers [accepted], which is what stops Adyen retrying." },
+    { "b": "A failed update is retried", "t": "If the engine cannot apply a notification, the claim is released and the webhook answers 500, so Adyen’s retry finds work to do." },
+    { "b": "Refunds by PSP reference", "t": "A refund posts to Adyen against the PSP reference the AUTHORISATION recorded, for the amount asked, and keeps the reference Adyen returns. A later REFUND notification that failed is logged as an error for an operator to reconcile." }
+  ],
+  "limits": [
+    { "b": "No default endpoint", "t": "Until BaseURL is set, the module does not count as configured. The package chose that over a test default that would turn a misconfigured live store into one taking pretend money." },
+    { "b": "Redirect only", "t": "No Drop-in or Components. A store that wants Adyen’s in-page checkout builds it on its storefront; this module only creates payment links." },
+    { "b": "Paid on authorisation", "t": "A successful AUTHORISATION marks the order paid. The module sends no capture and reads no CAPTURE event; if your account captures manually, that happens in Adyen." },
+    { "b": "Refunds wait for the notification", "t": "The refund is issued against the PSP reference the AUTHORISATION notification wrote. Before that arrives, the order has nothing to refund against." },
+    { "b": "Chargebacks are only logged", "t": "CHARGEBACK, NOTIFICATION_OF_CHARGEBACK and SECOND_CHARGEBACK are logged as warnings. The engine has no chargeback state, so the order does not change." },
+    { "b": "Failed refunds are not undone", "t": "A REFUND notification with success=false, after the engine recorded the refund, is logged and nothing more. The two sets of books need a person to reconcile them." }
+  ],
+  "tested": true,
+  "testCount": 8,
+  "apiOps": 0,
+  "vendorUrl": "https://www.adyen.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Why does the module have no default endpoint?", "a": "Adyen’s live Checkout endpoint is prefixed with your own merchant identifier, so there is no live URL the package could know. It chose no default over a test default: a store that has not said which environment it means does not come up taking pretend money." },
+    { "q": "What is the webhook URL?", "a": "POST /api/checkout/adyen/webhook on the host that serves your GoCommerce API. The module answers [accepted] once every item in a batch is verified and applied." },
+    { "q": "Can the shopper pay without leaving the storefront?", "a": "Not through this module. It creates payment links and the storefront redirects to them. Adyen’s Drop-in needs its JavaScript, a /sessions call and a client key on the storefront, which the package leaves for a store to build." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -gateways flag installs every payment module with an empty Config. Switch Adyen on under Settings › Payment methods and fill in the four settings, the endpoint included." },
+    { "q": "Is this an Adyen partnership?", "a": "No. The module calls Adyen’s public Checkout API with credentials you supply. Adyen does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

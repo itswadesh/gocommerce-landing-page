@@ -16,6 +16,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import worker from '../src/worker.js'
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = path.join(ROOT, 'dist')
@@ -159,6 +160,72 @@ for (const page of pages) {
   }
 }
 
+// ── 7. every indexable page has its Markdown twin, and no twin is empty
+//
+// The Worker advertises a twin on every page in a Link header, deriving the
+// URL from the path because it cannot cheaply check a file exists;
+// scripts/markdown-alternates.mjs writes the files. The rule therefore lives
+// in two places, and this is where they must agree: the Worker is asked what
+// it would advertise, against a stand-in for the asset server, and the file
+// it names must be in the build. A Link to a missing twin sends every answer
+// engine that follows it to the 404 page.
+//
+// A twin with no body is worse than none: a reader that fetched it has been
+// told the page says nothing. And a twin whose page is gone, or noindex, is
+// served forever with a canonical pointing at nothing.
+const assetsAnswering = (type) => ({
+  fetch: async () => new Response('', { status: 200, headers: { 'content-type': type } }),
+})
+const ask = (urlPath, type) => worker.fetch(new Request(SITE + urlPath), { ASSETS: assetsAnswering(type) })
+
+const indexable = new Map() // URL path → canonical, for every page that should have a twin
+for (const page of pages) {
+  if (!page.endsWith('index.html')) continue // 404.html has no directory URL
+  const html = read(page)
+  if (/name="robots"[^>]*noindex/i.test(html)) continue
+  indexable.set('/' + page.replace(/index\.html$/, ''), (html.match(/<link rel="canonical" href="([^"]+)"/) || [])[1])
+}
+
+let twins = 0
+for (const [urlPath, canonical] of indexable) {
+  const link = (await ask(urlPath, 'text/html')).headers.get('link') || ''
+  const twin = (link.match(/<([^>]+)>;\s*rel="alternate";\s*type="text\/markdown"/) || [])[1]
+  if (!twin) { fail(`${urlPath}: the Worker advertises no Markdown twin for it`); continue }
+  const file = path.join(DIST, twin.replace(/^\//, ''))
+  if (!fs.existsSync(file)) {
+    fail(`${urlPath}: the Worker advertises ${twin}, which is not in the build — did scripts/markdown-alternates.mjs run?`)
+    continue
+  }
+  const md = fs.readFileSync(file, 'utf8')
+  twins++
+  if (!md.trim()) continue // reported once, below, with every other .md
+  const split = md.indexOf('\n---\n')
+  if (!md.startsWith('# ') || split < 0) fail(`${twin}: no "# title … ---" front block`)
+  else if (!md.slice(split + 5).trim()) fail(`${twin}: the front block and nothing else — the page's content did not convert`)
+  if (canonical && !md.includes(canonical)) fail(`${twin}: does not name its page's canonical, ${canonical}`)
+}
+
+function mdUnder(dir, base = '') {
+  const out = []
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const rel = base ? `${base}/${e.name}` : e.name
+    if (e.isDirectory()) out.push(...mdUnder(path.join(dir, e.name), rel))
+    else if (e.name.endsWith('.md')) out.push(rel)
+  }
+  return out
+}
+for (const rel of mdUnder(DIST)) {
+  const twin = '/' + rel
+  if (!fs.readFileSync(path.join(DIST, rel), 'utf8').trim()) fail(`${twin}: empty`)
+  const res = await ask(twin, 'text/markdown')
+  const page = ((res.headers.get('link') || '').match(/<([^>]+)>;\s*rel="canonical"/) || [])[1]
+  if (!/^text\/markdown;\s*charset=utf-8$/i.test(res.headers.get('content-type') || '')) {
+    fail(`${twin}: the Worker would not serve it as text/markdown; charset=utf-8`)
+  }
+  if (!page) fail(`${twin}: the Worker gives it no canonical`)
+  else if (!indexable.has(page.replace(SITE, ''))) fail(`${twin}: its canonical ${page} is not an indexable page in this build — a stale twin`)
+}
+
 if (problems.length) {
   console.error(`\n${problems.length} problem(s) in the build:`)
   for (const p of problems) console.error('  ' + p)
@@ -166,6 +233,6 @@ if (problems.length) {
 }
 
 console.log(
-  `Build is sound: ${pages.length} page(s), ${listed} sitemap URL(s), ` +
+  `Build is sound: ${pages.length} page(s), ${listed} sitemap URL(s), ${twins} Markdown twin(s), ` +
     `canonicals agree, internal links resolve, root files present.`,
 )

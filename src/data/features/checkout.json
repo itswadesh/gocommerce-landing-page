@@ -3,7 +3,7 @@
   "name": "Checkout",
   "summary": "One idempotent call that never charges a changed price, guest checkout for good, and nine gateways beside cash on delivery.",
   "title": "Checkout API — GoCommerce’s Idempotent, Guest-First Checkout",
-  "description": "GoCommerce checkout, checked against the code: one idempotent call that returns 409 instead of charging a changed price, permanent guest checkout, nine payment gateways plus cash on delivery, and what is not built yet.",
+  "description": "GoCommerce checkout: one idempotent call that returns 409 rather than charge a changed price, permanent guest checkout, nine gateways plus cash on delivery.",
   "ogTitle": "GoCommerce checkout, feature by feature",
   "ogDescription": "One idempotent call, guest checkout for good, nine gateways plus cash on delivery — and what is not built yet.",
   "kicker": "Features · Checkout",
@@ -28,7 +28,7 @@
     {
       "name": "Payments",
       "tiles": [
-        { "title": "Nine gateway modules", "status": "yes", "text": "Stripe, Razorpay, Adyen, Paddle, Lemon Squeezy, Creem, HyperSwitch, Helcim and RevenueCat, each configured from the admin’s payment methods screen.", "source": "ext/payments-*/" },
+        { "title": "Nine gateway modules", "status": "yes", "text": "Stripe, Razorpay, Adyen, Paddle, Lemon Squeezy, Creem, Hyperswitch, Helcim and RevenueCat, each configured from the admin’s payment methods screen.", "source": "ext/payments-*/" },
         { "title": "Cash on delivery by default", "status": "yes", "text": "The built-in cod method confirms the order and takes stock off the shelf at once; payment stays pending until an operator marks it paid.", "source": "core/payments.go · codProvider" },
         { "title": "Several gateways side by side", "status": "yes", "text": "Any number of providers run at once, each at its own checkout route with a webhook route the core owns. Writing your own is a two-method interface.", "source": "core/ports.go · PaymentProvider" }
       ]
@@ -76,7 +76,7 @@
   "faq": [
     { "q": "What happens if a price changes while someone is checking out?", "a": "The checkout call answers 409 with the line that changed and its current price, and no order is charged. The client shows the new figure and the shopper decides. The engine never reprices an order silently." },
     { "q": "Can shoppers buy without an account?", "a": "Always. Guest checkout is a permanent guarantee in the core: an order needs an email, and the access token returned at checkout reads it back. Accounts are the identity module, added when you want them." },
-    { "q": "Which payment gateways work in India?", "a": "Razorpay is a module, and cash on delivery is built in and on by default. HyperSwitch and Stripe are also modules; whether a gateway serves your business is between you and it." },
+    { "q": "Which payment gateways work in India?", "a": "Razorpay is a module, and cash on delivery is built in and on by default. Hyperswitch and Stripe are also modules; whether a gateway serves your business is between you and it." },
     { "q": "Can a cash-on-delivery order be refunded?", "a": "Not through the engine — the cod method has no refund call, so the API answers 409. The money goes back however you collected it, outside GoCommerce. Gateway orders refund through their gateway." },
     { "q": "Does it calculate tax automatically?", "a": "From your own rate table: flat rates by country, state and product category, applied at checkout and recorded per line. There is no connection to a tax service yet." }
   ]

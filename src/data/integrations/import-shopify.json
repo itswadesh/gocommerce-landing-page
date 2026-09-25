@@ -1,0 +1,60 @@
+{
+  "slug": "import-shopify",
+  "name": "Shopify import",
+  "category": "Migration",
+  "title": "Shopify to GoCommerce Catalogue Import — Open-Source Module",
+  "description": "Import a whole Shopify catalogue into GoCommerce over the Admin API — products, variants, options, pictures and stock. Running it again updates, not copies.",
+  "ogTitle": "Import a Shopify catalogue into GoCommerce",
+  "ogDescription": "Products, variants, options, pictures and stock over Shopify’s Admin API, matched on Shopify’s own id.",
+  "h1": "Import a Shopify catalogue into GoCommerce",
+  "lede": "A Go package that brings a Shopify catalogue across over Shopify’s Admin API: products with their variants, options, pictures and stock, one product at a time, with a progress bar in the admin. Every product remembers its Shopify id, so running it again updates what it imported rather than making copies.",
+  "what": [
+    "In the package’s own words, registering it adds an “Import from Shopify” drawer to the admin’s products page and three admin routes. An operator puts the shop’s domain and an Admin API access token into the plugin’s settings once, presses the button, and watches a progress bar walk the catalogue.",
+    "It is for the Shopify store that still exists. The engine already reads Shopify’s product CSV, which remains the tool for a file somebody was sent; this module reads the API instead, so products arrive with their variants, options, pictures and inventory attached rather than flattened into rows.",
+    "Credentials are a custom app in the Shopify admin with the read_products scope. Its access token goes in the plugin’s settings as a secret and is never handed back out. There is no OAuth: as the package puts it, a store importing its own catalogue once is not a public app."
+  ],
+  "configLede": "Two settings, both required, both typed on the Plugins screen. The module takes no Config at all — examples/store/main.go explains that a migrating merchant fills them in once on a screen rather than being handed an environment variable for a server they may not have.",
+  "config": [
+    { "field": "shop", "panel": "Shop domain", "required": true, "note": "The admin domain, acme.myshopify.com — not the storefront’s own. The module forgives https://, a path, a trailing slash, and a bare acme." },
+    { "field": "access_token", "panel": "Admin API access token", "required": true, "note": "From a custom app in Shopify’s Settings → Apps → Develop apps, with read_products. Stored as a secret and never returned." }
+  ],
+  "setup": [
+    { "b": "Create a custom app", "t": "In the Shopify admin, a custom app with the read_products scope. Copy its Admin API access token." },
+    { "b": "Install the module", "t": "Pass shopify.New() to gocommerce.New in your own main(), as below. The reference binary has no flag for it; examples/store/main.go installs it." },
+    { "b": "Enter the credentials", "t": "Shop domain and token on the Plugins screen, under Import from Shopify. POST /api/admin/x/import-shopify/check confirms them — shop name, currency, product count — before anything is written." },
+    { "b": "Import", "t": "Press Import on the products page, or POST /api/admin/x/import-shopify/jobs. The job runs in the background, and GET …/jobs/{id} reports created, updated, failed and warnings." }
+  ],
+  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\tshopify \"github.com/misiki/gocommerce/ext/import-shopify\"\n)\n\n// No Config: the shop domain and the access token are plugin\n// settings, typed in once on the Plugins screen.\napp, err := gocommerce.New(cfg, shopify.New())",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "Matched on Shopify’s id", "t": "Each product records metadata.shopify.id. A second run finds the row by that id — not by handle, which changes when a product is renamed — and updates it. The handle is a fallback only for rows that predate the module." },
+    { "b": "Every page, politely", "t": "The walk follows Shopify’s Link-header cursors to the end rather than counting pages, waits out a 429 for its Retry-After, and slows down when the call-limit header says the bucket is nearly full." },
+    { "b": "One product at a time", "t": "Each product commits on its own, so an import that dies halfway has half the catalogue in, and re-running finishes the job. One bad product is a warning on the job, not a stopped import." },
+    { "b": "Money read exactly", "t": "Shopify sends prices as decimal strings. They are read as two integers, never as a float, with the store currency’s own number of decimals — a yen store is not divided by a hundred." },
+    { "b": "Stock that means what it said", "t": "A variant Shopify does not track arrives untracked rather than as zero stock, a negative count arrives as zero, and continue-selling is kept. Shopify’s placeholder “Default Title” option is dropped." },
+    { "b": "Pictures linked, not downloaded", "t": "Images go into the media library by their Shopify URL, with their alt text, in the product’s own order; a picture the library already holds by that URL is reused." }
+  ],
+  "limits": [
+    { "b": "Products only", "t": "Collections, customers, orders, discounts and pages are not read. Past orders come through the core’s Shopify-format CSV import, which moves no stock and fires no events unless asked." },
+    { "b": "A re-run updates the copy, not the variants", "t": "A second run updates title, description, status, vendor, type and tags. Variants, prices, stock and pictures are not reconciled, so a price changed in Shopify after the first import stays as it was." },
+    { "b": "Prices at face value", "t": "Amounts are taken in the store’s own currency. A shop priced in another currency is imported digit for digit, unconverted — the credential check shows the shop’s currency, so look first." },
+    { "b": "Pictures stay on Shopify’s servers", "t": "They are linked by URL, not copied, so they are only as lasting as those URLs. Variant-specific pictures are not attached to their variants." },
+    { "b": "One stock figure per variant", "t": "Each variant’s inventory quantity arrives as a single on-hand number. Stock per Shopify location is not carried over." },
+    { "b": "API version pinned to 2024-10", "t": "The package pins Shopify’s Admin API version rather than tracking the latest, and by its own note Shopify retires each version after a year. Moving the pin is a deliberate edit to shopify.go." },
+    { "b": "An interrupted job still says running", "t": "Imports run in the background. A restart mid-import leaves that job marked running; starting another updates what arrived and adds the rest." }
+  ],
+  "tested": true,
+  "testCount": 14,
+  "apiOps": 4,
+  "vendorUrl": "https://www.shopify.com",
+  "vendorType": "Organization",
+  "vendorName": "Shopify",
+  "faq": [
+    { "q": "Does it import orders and customers?", "a": "No — products only. Order history comes through the core’s Shopify-format CSV import, from the admin’s Import screen or POST /api/admin/import/orders; it takes Shopify’s own orders export, moves no stock and fires no events unless asked. Customers need no import of their own: in GoCommerce a customer is a reading of the orders." },
+    { "q": "Can I run it twice?", "a": "Yes, and it is meant to be. Products are matched on their Shopify id, so a second run updates title, description, status, vendor, type and tags and creates only what is new. It does not touch the variants, prices or stock of products it imported before." },
+    { "q": "What does it need from Shopify?", "a": "A custom app with the read_products scope, and its Admin API access token. No OAuth and no public app. The token is stored as a secret in the plugin’s settings and is never returned by the API." },
+    { "q": "Will my old product URLs still work?", "a": "Shopify’s handle becomes the product’s slug, which is what makes a redirect from the old /products/<handle> address possible. Whether the new storefront uses the same path is the storefront’s decision." },
+    { "q": "Is there an importer for WooCommerce or Magento?", "a": "No. Moving from another platform means a script against GoCommerce’s documented API, or the core’s product CSV import in GoCommerce’s own layout." }
+  ]
+}

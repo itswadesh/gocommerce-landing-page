@@ -176,28 +176,31 @@ panel or to any image the page shows on arrival.
 
 ## Hosting
 
-Cloudflare **Workers** (static assets) serves `kitcommerce.store`. The Worker
-config is not in this repository. **A push does not deploy** unless Workers
-Builds is connected — on 21 September 2026 the live site was found one deploy
-behind `main` — so after every push, compare the live homepage byte size to
-local before trusting what you see.
+Cloudflare **Workers** (static assets) serves `kitcommerce.store`, configured by
+`wrangler.toml` in this repository. Workers Builds deploys every push to `main`
+(`node scripts/deepen.mjs && npm run build`, then `npx wrangler deploy`); the
+new pages are usually live about a minute later.
 `9aed8449d5c60c850c662366e3d64c9a.txt` is the IndexNow key and must stay at the
 site root, byte-exact, no trailing newline.
 
-`_redirects` carries path aliases as 301s. The five real pages are deliberately
-**absent** from it — a redirect rule matching one would shadow the page it
-points at.
+`src/worker.js` runs in front of the assets. It puts a charset on HTML, turns
+the asset server’s trailing-slash 307 into a permanent 308, serves the
+Markdown twins as `text/markdown`, and names each page’s twin in a
+`Link: rel="alternate"` header. The twins (`/gocommerce.md` for `/gocommerce/`,
+`/index.md` for `/`) are written after the build by
+`scripts/markdown-alternates.mjs`.
 
-An unmatched path still returns 404 with a **zero-length body** in production.
-That is Workers Static Assets’ `not_found_handling`, which defaults to `"none"`
-(an empty 404). Set it to `"404-page"` in the Worker config and `/404.html` is
-served for unmatched paths with a 404 status. `serve.cjs` already behaves that
-way, so the local preview is currently stricter than production.
+`_redirects` carries path aliases as 301s, with and without the trailing
+slash. Real pages are deliberately **absent** from it — a redirect rule
+matching one would shadow the page it points at. An unmatched path serves
+`/404.html` with a 404 status (`not_found_handling = "404-page"`).
 
-`admin.kitcommerce.store` is a deployed GoCommerce instance. It is **not**
-publicly explorable — every admin endpoint returns 401 — so the site does not
-link to it or advertise a live demo. Adding that CTA needs a read-only demo
-account first.
+Social cards in `public/og/` are rendered with Chrome and committed, because
+the build machine has none: after a build that changes a page title, run
+`npm run og` and commit the images.
+
+`admin.kitcommerce.store` is a deployed GoCommerce instance with a public demo
+account (`src/data/demo.json`); keep that account read-only on the server.
 
 ## Verifying a change
 

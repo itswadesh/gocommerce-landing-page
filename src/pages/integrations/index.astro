@@ -23,7 +23,7 @@ const marks: Record<string, string> = {
   'notify-resend': 'resend', 'notify-sendgrid': 'sendgrid', 'notify-twilio': 'twilio', 'search-meilisearch': 'meilisearch',
 }
 const names: Record<string, string> = {
-  'payments-stripe': 'Stripe', 'payments-razorpay': 'Razorpay', 'payments-adyen': 'Adyen', 'payments-paddle': 'Paddle', 'payments-hyperswitch': 'HyperSwitch', 'payments-lemonsqueezy': 'Lemon Squeezy', 'payments-helcim': 'Helcim', 'payments-creem': 'Creem', 'payments-revenuecat': 'RevenueCat',
+  'payments-stripe': 'Stripe', 'payments-razorpay': 'Razorpay', 'payments-adyen': 'Adyen', 'payments-paddle': 'Paddle', 'payments-hyperswitch': 'Hyperswitch', 'payments-lemonsqueezy': 'Lemon Squeezy', 'payments-helcim': 'Helcim', 'payments-creem': 'Creem', 'payments-revenuecat': 'RevenueCat',
   'fulfill-shiprocket': 'Shiprocket', 'fulfill-delhivery': 'Delhivery', 'fulfill-shippo': 'Shippo', 'fulfill-shipstation': 'ShipStation', 'fulfill-easyship': 'Easyship', 'fulfill-shippit': 'Shippit', 'fulfill-usps': 'USPS', 'fulfill-indiapost': 'India Post', 'fulfill-nimbuspost': 'NimbusPost', 'fulfill-onfleet': 'Onfleet', 'fulfill-veeqo': 'Veeqo',
   'notify-resend': 'Resend', 'notify-sendgrid': 'SendGrid', 'notify-twilio': 'Twilio', 'notify-msg91': 'MSG91',
   'cart-recovery': 'Cart recovery', 'klaviyo': 'Klaviyo', 'newsletter': 'Newsletter', 'reviews': 'Reviews', 'wishlist': 'Wishlist', 'feeds': 'Product feeds',
@@ -59,10 +59,12 @@ const faq = [
   { q: 'Are these partnerships or endorsements?', a: 'No. A module speaks to a provider’s public API. None of the providers listed endorses GoCommerce, and the only partner of this website is the one named at the bottom of the page: Cloudflare hosts it.' },
   { q: 'Is there a module I need that is not here?', a: 'Then it does not exist yet. Modules follow one pattern — read any of the payment or fulfillment packages as the template — and a new one does not change the core.' },
 ]
+// Modules with a page of their own at /integrations/<dir>/ (one data file each).
+const pages = new Set(Object.keys(import.meta.glob('../../data/integrations/*.json')).map((p) => p.split('/').pop()!.replace('.json', '')))
 ---
 <Base
-  title="GoCommerce Modules and Integrations — All 44, In Their Own Words"
-  description="Every module in the GoCommerce repository: 9 payment providers, 11 fulfillment carriers, 4 email and SMS senders, retention, content, search, MCP and migration importers. Each described by its own package doc, extracted at build time."
+  title="GoCommerce Integrations: All 44 Modules, In Their Own Words"
+  description="All 44 GoCommerce modules: 9 payment providers, 11 fulfillment carriers, 4 email and SMS senders, retention, content, search, MCP and migration importers."
   path={path}
   ogTitle="44 GoCommerce modules, in their own words"
   ogDescription="Payments, fulfillment, messaging, retention, content, search, MCP and migration — every module described by its own package doc."
@@ -86,7 +88,7 @@ const faq = [
         {g.items.map((m) => (
           <li>
             {marks[m.dir] ? <img src={`/assets/brands/${marks[m.dir]}.svg`} width="17" height="17" alt="" loading="lazy"> : <svg aria-hidden="true"><use href="#i-package"/></svg>}
-            <b>{names[m.dir] ?? m.dir}</b>
+            <b>{pages.has(m.dir) ? <a href={`/integrations/${m.dir}/`}>{names[m.dir] ?? m.dir}</a> : (names[m.dir] ?? m.dir)}</b>
             <span>{m.doc} <code>ext/{m.dir}</code></span>
           </li>
         ))}

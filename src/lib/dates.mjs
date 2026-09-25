@@ -16,7 +16,7 @@ const ROOT = process.cwd()
 // Pages whose content is a data file as much as a template: a re-extraction
 // of the module docs or a re-shoot of the admin changes the page.
 const EXTRA = {
-  '/integrations/': ['src/data/modules.json'],
+  '/integrations/': ['src/data/modules.json', 'src/data/integrations'],
   '/gocommerce/admin/': ['src/data/admin-screens.json'],
   '/svelte-commerce/backends/': ['src/data/connectors.json'],
   // The blog index changes when any post does.
@@ -46,6 +46,8 @@ const ENTRIES = [
   [/^compare\/([a-z0-9-]+)$/, (slug) => `src/data/compare/${slug}.json`],
   [/^blog\/([a-z0-9-]+)$/, (slug) => `src/content/blog/${slug}.md`],
   [/^features\/([a-z0-9-]+)$/, (slug) => `src/data/features/${slug}.json`],
+  [/^integrations\/([a-z0-9-]+)$/, (slug) => `src/data/integrations/${slug}.json`],
+  [/^svelte-commerce\/backends\/([a-z0-9-]+)$/, (slug) => `src/data/backends/${slug}.json`],
 ]
 
 function sourceFor(p) {

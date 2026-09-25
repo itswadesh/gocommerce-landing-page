@@ -48,6 +48,69 @@
 - https://kitcommerce.store/solutions/multi-store/ — several storefronts on one catalogue: channels, per-channel publishing and pricing
 - https://kitcommerce.store/integrations/ — all 44 GoCommerce modules by category, each a directory under ext/, and the one hosting partner
 - https://kitcommerce.store/privacy/ — what the site stores, which third parties it contacts, and what loads only after consent
+- https://kitcommerce.store/gocommerce/mcp/ — the GoCommerce MCP server: 19 tools, rights, read-only mode, HTTP and stdio transports, how to connect an agent
+- https://kitcommerce.store/blog/choosing-a-backend-for-a-sveltekit-storefront/ — the 26 Svelte Commerce connectors ranked by measured coverage, with cart, checkout and sign-in status
+- https://kitcommerce.store/svelte-commerce/backends/bagisto/ — Svelte Commerce on Bagisto: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/broadleaf/ — Svelte Commerce on Broadleaf: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/commercetools/ — Svelte Commerce on commercetools: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/cs-cart/ — Svelte Commerce on CS-Cart: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/django-oscar/ — Svelte Commerce on Django Oscar: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/evershop/ — Svelte Commerce on EverShop: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/litekart/ — Svelte Commerce on Litekart: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/magento/ — Svelte Commerce on Magento: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/medusa/ — Svelte Commerce on Medusa: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/nopcommerce/ — Svelte Commerce on nopCommerce: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/opencart/ — Svelte Commerce on OpenCart: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/orocommerce/ — Svelte Commerce on OroCommerce: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/prestashop/ — Svelte Commerce on PrestaShop: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/saleor/ — Svelte Commerce on Saleor: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/sharetribe/ — Svelte Commerce on Sharetribe: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/shopify/ — Svelte Commerce on Shopify: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/shopware/ — Svelte Commerce on Shopware: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/shuup/ — Svelte Commerce on Shuup: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/spree/ — Svelte Commerce on Spree: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/spryker/ — Svelte Commerce on Spryker: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/swell/ — Svelte Commerce on Swell: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/sylius/ — Svelte Commerce on Sylius: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/vendure/ — Svelte Commerce on Vendure: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/virto-commerce/ — Svelte Commerce on Virto Commerce: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/woocommerce/ — Svelte Commerce on WooCommerce: setup, environment variables, coverage and limits
+- https://kitcommerce.store/svelte-commerce/backends/x-cart/ — Svelte Commerce on X-Cart: setup, environment variables, coverage and limits
+- https://kitcommerce.store/integrations/payments-adyen/ — Adyen module for GoCommerce: Take card and local payments through Adyen payment links in a GoCommerce store: API key, HMAC key, endpoint, refunds, and what the module le
+- https://kitcommerce.store/integrations/payments-creem/ — Creem module for GoCommerce: Sell through Creem as merchant of record from a GoCommerce store: the placeholder product, keys, webhook URL, full-only refunds and the modu
+- https://kitcommerce.store/integrations/fulfill-delhivery/ — Delhivery module for GoCommerce: Manifest parcels with Delhivery from a GoCommerce order: the API token, pickup warehouse, GSTIN, COD amounts, units, and what the module lea
+- https://kitcommerce.store/integrations/fulfill-easyship/ — Easyship module for GoCommerce: Book Easyship shipments with the label in one call from a GoCommerce order: token, courier service, ship-from address, units, customs items 
+- https://kitcommerce.store/integrations/payments-helcim/ — Helcim module for GoCommerce: Take card payments through Helcim’s HelcimPay.js in a GoCommerce store: API token, verifier token, webhook URL, refunds, and what the module
+- https://kitcommerce.store/integrations/payments-hyperswitch/ — Hyperswitch module for GoCommerce: Route payments through Hyperswitch, the open-source payments router, from a GoCommerce store: keys, payment links, webhook URL, refunds and 
+- https://kitcommerce.store/integrations/identity/ — Identity module for GoCommerce: Add shopper accounts to a GoCommerce store: sign-up, sign-in, saved addresses, password reset and order history by claim. Guest checkout kee
+- https://kitcommerce.store/integrations/indexnow/ — IndexNow module for GoCommerce: Tell Bing, Yandex, Seznam and Naver the moment a GoCommerce product or collection changes, over IndexNow: the setup, the key file, and why G
+- https://kitcommerce.store/integrations/fulfill-indiapost/ — India Post module for GoCommerce: Record India Post consignments on GoCommerce orders, with the S10 number checked before the order ships — and why this module books nothing 
+- https://kitcommerce.store/integrations/invoices/ — Invoices module for GoCommerce: Issue a gapless, numbered invoice for every paid GoCommerce order: seller details, GSTIN or VAT number, the number format, and what the docu
+- https://kitcommerce.store/integrations/klaviyo/ — Klaviyo module for GoCommerce: Send a GoCommerce store’s orders and abandoned carts to Klaviyo as events, under the metric names Klaviyo’s flows know. The key, the delays,
+- https://kitcommerce.store/integrations/payments-lemonsqueezy/ — Lemon Squeezy module for GoCommerce: Sell through Lemon Squeezy as merchant of record from a GoCommerce store: the placeholder variant, four settings, webhook URL, refunds and l
+- https://kitcommerce.store/integrations/mcp/ — MCP module for GoCommerce: Let an AI agent operate a GoCommerce store over the Model Context Protocol: 19 tools, admin auth, per-tool rights, a read-only mode and an a
+- https://kitcommerce.store/integrations/search-meilisearch/ — Meilisearch module for GoCommerce: Typo-tolerant product search for a GoCommerce store: a worker keeps a Meilisearch index in step with the catalogue, and the store proxies th
+- https://kitcommerce.store/integrations/notify-msg91/ — MSG91 module for GoCommerce: Text shoppers about their GoCommerce orders through MSG91’s DLT-approved flow templates: the auth key, a template per event, and what the mo
+- https://kitcommerce.store/integrations/fulfill-nimbuspost/ — NimbusPost module for GoCommerce: Book shipments across NimbusPost’s couriers from a GoCommerce order: login, warehouse, courier choice, COD, labels, and what the module leav
+- https://kitcommerce.store/integrations/fulfill-onfleet/ — Onfleet module for GoCommerce: Turn a GoCommerce shipment into an Onfleet delivery task for your own drivers: the API key, auto-assign, cash-to-collect notes, and what it 
+- https://kitcommerce.store/integrations/payments-paddle/ — Paddle module for GoCommerce: Sell through Paddle Billing as merchant of record from a GoCommerce store: API key, notification secret, sandbox, refunds, and why tax rates
+- https://kitcommerce.store/integrations/feeds/ — Product feeds module for GoCommerce: Publish a GoCommerce catalogue as a Google Merchant Center RSS feed and a Meta catalogue CSV: one item per variant, built live from the cata
+- https://kitcommerce.store/integrations/payments-razorpay/ — Razorpay module for GoCommerce: Take cards, UPI and netbanking through Razorpay in a GoCommerce store: the three keys, the webhook URL, refunds, and what the module does no
+- https://kitcommerce.store/integrations/notify-resend/ — Resend module for GoCommerce: Send GoCommerce order emails through Resend with one setting, an API key: the default sender, where the wording lives, what gets logged, and
+- https://kitcommerce.store/integrations/payments-revenuecat/ — RevenueCat module for GoCommerce: Sell digital goods through a RevenueCat Web Purchase Link from a GoCommerce store: link token, webhook, price matching, and why refunds are 
+- https://kitcommerce.store/integrations/notify-sendgrid/ — SendGrid module for GoCommerce: Send GoCommerce order emails through SendGrid’s v3 API: the API key and verified sender, where the wording lives, retries, and what the modu
+- https://kitcommerce.store/integrations/fulfill-shippit/ — Shippit module for GoCommerce: Book Shippit deliveries from a GoCommerce order: API key, service band, authority to leave, kilograms and metres, the seven-day label link, 
+- https://kitcommerce.store/integrations/fulfill-shippo/ — Shippo module for GoCommerce: Buy Shippo labels from a GoCommerce order in one call: API token, carrier account, service level, ship-from address, and what the module lea
+- https://kitcommerce.store/integrations/fulfill-shiprocket/ — Shiprocket module for GoCommerce: Book Shiprocket shipments and waybills from a GoCommerce order: the API user, pickup location, parcel weights, COD, and what the module leav
+- https://kitcommerce.store/integrations/fulfill-shipstation/ — ShipStation module for GoCommerce: Buy ShipStation V2 labels from a GoCommerce order: the API key, service code, ship-from address, how units convert, and what the module does
+- https://kitcommerce.store/integrations/import-shopify/ — Shopify import module for GoCommerce: Import a whole Shopify catalogue into GoCommerce over the Admin API — products, variants, options, pictures and stock. Running it again upda
+- https://kitcommerce.store/integrations/sitemaps/ — Sitemaps module for GoCommerce: Publish a storefront sitemap from the live GoCommerce catalogue: products, collections and CMS pages, the storefront URL and paths, and the 
+- https://kitcommerce.store/integrations/payments-stripe/ — Stripe module for GoCommerce: Take cards and wallets through Stripe PaymentIntents in a GoCommerce store: two keys, the webhook URL, refunds, and what the module does not
+- https://kitcommerce.store/integrations/translations/ — Translations module for GoCommerce: Serve GoCommerce product titles, descriptions and SEO fields in the shopper’s language: the translations module, the store’s languages, what
+- https://kitcommerce.store/integrations/notify-twilio/ — Twilio module for GoCommerce: Text shoppers about GoCommerce orders through Twilio: account SID, auth token, a from number or messaging service, the engine’s wording, and
+- https://kitcommerce.store/integrations/fulfill-usps/ — USPS module for GoCommerce: Buy USPS labels directly from a GoCommerce order: the OAuth app, CRID, MID and payment account, mail class, the stored PDF label, and what i
+- https://kitcommerce.store/integrations/fulfill-veeqo/ — Veeqo module for GoCommerce: Record a GoCommerce shipment against its Veeqo order so Veeqo’s stock follows: the API key, carrier id, how the allocation is found, and the
+- https://kitcommerce.store/integrations/webhooks/ — Webhooks module for GoCommerce: Send a GoCommerce store’s events to any server: register a URL and the events it wants, and each is POSTed signed, retried with backoff and 
 - https://kitcommerce.store/about/ — who runs the site and builds both projects (Swadesh Behera), how the site checks its claims, and the trademark note
 - https://kitcommerce.store/sitemap/ — every page, grouped by section; /sitemap.xml is the same map for search engines
 - https://kitcommerce.store/contact/ — how to reach the team: Discord and GitHub for questions, WhatsApp for custom builds, hello@kitcommerce.store for security reports and privacy requests
@@ -84,6 +147,10 @@
 - https://kitcommerce.store/compare/kitcommerce-vs-medusa/ — KitCommerce vs Medusa: Engine against engine: Medusa’s TypeScript framework on PostgreSQL and Redis against one Go binary and PostgreSQL — licence, APIs, hosting and maturity
 - https://kitcommerce.store/compare/kitcommerce-vs-saleor/ — KitCommerce vs Saleor: Engine against engine: Saleor’s mature Python and GraphQL platform against one Go binary with a REST API — maturity, what you run, cost and agent commerce
 - https://kitcommerce.store/compare/kitcommerce-vs-vendure/ — KitCommerce vs Vendure: Engine against engine, and the strongest storefront path on this site: keep Vendure and put Svelte Commerce in front, or run GoCommerce instead
+
+## Markdown versions
+
+- Every page has a Markdown version at its address without the trailing slash, plus `.md`: https://kitcommerce.store/gocommerce.md for /gocommerce/, https://kitcommerce.store/index.md for the home page. Each page names it in a `Link: rel="alternate"; type="text/markdown"` header and a matching <link> tag, and each Markdown file names its HTML page as canonical.
 
 ## Entities
 

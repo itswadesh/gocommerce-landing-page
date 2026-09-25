@@ -1,0 +1,121 @@
+{
+  "slug": "medusa",
+  "name": "Medusa",
+  "title": "Medusa SvelteKit Storefront — Svelte Commerce Connector",
+  "description": "Svelte Commerce on Medusa’s Store API: setup, environment and settings. 31 of 43 services wired, but cart and sign-in are not, so it cannot sell yet.",
+  "lede": "The Medusa connector reaches Medusa’s Store API with a publishable key and a region. Its guide describes cart, checkout and sign-in as Medusa-native, but the coverage script does not count cart or sign-in as wired — and until that is settled, it cannot sell.",
+  "verdict": "Cannot sell yet. The coverage script counts cart and sign-in — and products, categories and search — as not wired, and CONNECTORS.md says this connector predates the current wiring pass and has not had the source-verification sweep the others have. Even by its own guide, only cash on delivery completes: the card gateways still post to Litekart endpoints.",
+  "quickStart": [
+    {
+      "text": "get the storefront",
+      "cmd": "git clone https://github.com/itswadesh/svelte-commerce\ncd svelte-commerce"
+    },
+    {
+      "text": "one connector at a time: remove the two the storefront ships with, add this one",
+      "cmd": "npm uninstall @misiki/litekart-connector @misiki/vendure-connector\nnpm i @misiki/medusa-connector"
+    },
+    {
+      "text": "point it at your Medusa server",
+      "cmd": "echo PUBLIC_MEDUSA_API_URL=http://localhost:9000 >> .env\necho PUBLIC_MEDUSA_PUBLISHABLE_API_KEY=pk_... >> .env\necho PUBLIC_MEDUSA_REGION_ID=reg_... >> .env"
+    },
+    {
+      "text": "run it",
+      "cmd": "npm run dev"
+    }
+  ],
+  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
+  "env": [
+    {
+      "name": "PUBLIC_MEDUSA_API_URL",
+      "required": true,
+      "note": "Base URL of the Medusa server’s Store API."
+    },
+    {
+      "name": "PUBLIC_MEDUSA_PUBLISHABLE_API_KEY",
+      "required": true,
+      "note": "A publishable API key created in the Medusa admin. Publishable keys are meant to be used from a browser."
+    },
+    {
+      "name": "PUBLIC_MEDUSA_REGION_ID",
+      "required": true,
+      "note": "The region ID (`reg_…`) used for pricing, currency and availability."
+    },
+    {
+      "name": "PUBLIC_CONNECTOR",
+      "required": false,
+      "note": "Only when more than one connector is installed: `@misiki/medusa-connector` names the one this build runs on."
+    }
+  ],
+  "envNote": "Boot checks only `PUBLIC_MEDUSA_API_URL`, but the guide marks all three as required. The Litekart trio is not used in Medusa mode.",
+  "backendSettings": [
+    "Create a publishable API key in the Medusa admin and set it as `PUBLIC_MEDUSA_PUBLISHABLE_API_KEY`.",
+    "Add the storefront’s origin to Medusa’s Store CORS configuration."
+  ],
+  "howItWorks": [
+    "At boot, `init` in both hooks (through `src/lib/core/connectors/init.ts`) writes the three `PUBLIC_MEDUSA_*` values onto the connector’s `BaseService` — `BASE_URL`, `PUBLISHABLE_KEY` and `REGION_ID`. The server hook covers server rendering; the client hook covers the browser, which must reach the public Medusa URL in production.",
+    "By the guide’s account, cart, shipping rates and payment-method listing are Medusa-native; sign-in, sign-up, sign-out and password reset go through the Medusa SDK; categories map to Medusa product categories; and the profile page delegates to Medusa’s `getMe` and `updateProfile`. Medusa needs an email on the cart to complete an order, so the static store config defaults `isEmailMandatory` to `true`.",
+    "Store identity, menus and plugin toggles are static — `default-store.json` under the default export of `kitcommerce.config.ts` — and CMS pages and the blog resolve empty. From connector 2.1.6 the REST paths it once inherited from Litekart are answered by the connector itself.",
+    "The coverage script and the guide disagree. The script counts a service as wired only if it reaches the connector’s own HTTP layer, and it does not count cart, auth, product, category, search, address, user or payment-method. CONNECTORS.md names Medusa and Saleor as the next candidates for the source-verification sweep."
+  ],
+  "limitations": [
+    "Sign-in (auth): not wired — the coverage script does not count it, though the guide describes email sign-in as native.",
+    "Cart: not wired — the coverage script does not count it, though the guide describes the cart as Medusa-native.",
+    "Products: not wired.",
+    "Categories: not wired.",
+    "Search: not wired.",
+    "Saved addresses: not wired.",
+    "User accounts: not wired.",
+    "Payment-method listing: not wired.",
+    "The card gateways in this connector — Razorpay, Stripe, PhonePe, PayPal, Cashfree, Affirm — still post to Litekart `/api/checkout/*` endpoints and will not work without a Litekart API. Only cash on delivery completes through Medusa.",
+    "OTP sign-in is a mock: `getOtp` reports success without sending anything.",
+    "Legal and CMS pages render their layout with empty content; the wishlist and the cart’s coupon drawer show empty states.",
+    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
+    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden in Medusa mode without firing requests."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Boot fails with “PUBLIC_MEDUSA_API_URL is set, but it configures a different backend than the one this build runs on”",
+      "fix": "The variable is set while a different connector is installed. Install `@misiki/medusa-connector`, or remove the variable if you meant to run another backend. With more than one connector installed, set `PUBLIC_CONNECTOR='@misiki/medusa-connector'`."
+    },
+    {
+      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
+      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/medusa-connector'`."
+    },
+    {
+      "problem": "`[medusa] no native implementation for get /api/...` in the console",
+      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Medusa has no such feature; if it has one, implement it in the connector’s matching service."
+    },
+    {
+      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
+      "fix": "A Litekart REST path was requested from outside the connector, so neither its guard nor `blockRestFallbacks` saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
+    },
+    {
+      "problem": "The store is called “Test”, or shows the wrong branding",
+      "fix": "Set identity overrides — `name`, `logo`, `favicon`, `currencyCode` and the rest — in the default export of `kitcommerce.config.ts`."
+    },
+    {
+      "problem": "Sign-in or cart works in dev but not when deployed",
+      "fix": "Check the publishable API key, and that the deployed storefront’s origin is in Medusa’s Store CORS configuration."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Can I sell on Medusa with Svelte Commerce today?",
+      "a": "Not yet. The coverage script counts the cart and sign-in as not wired, and CONNECTORS.md says the Medusa connector predates the current wiring pass. By its own guide, only cash on delivery completes; the card gateways still post to Litekart endpoints."
+    },
+    {
+      "q": "Why does the guide say the cart works when the coverage table says it does not?",
+      "a": "They measure different things. The guide describes what the connector calls; the coverage script counts a service only when it reaches the connector’s own HTTP layer, and does not count cart, auth, products, categories or search. CONNECTORS.md lists Medusa as a next candidate for the source-verification sweep that would settle it."
+    },
+    {
+      "q": "What does Medusa need configured for Svelte Commerce?",
+      "a": "A publishable API key created in the Medusa admin, a region ID for pricing and currency, and the storefront’s origin in Medusa’s Store CORS configuration."
+    },
+    {
+      "q": "Which payment methods work with Medusa?",
+      "a": "Cash on delivery completes through the Medusa SDK. The card gateways in this connector — Razorpay, Stripe, PhonePe, PayPal, Cashfree, Affirm — still post to Litekart endpoints and do not work without a Litekart API."
+    }
+  ],
+  "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/MEDUSA.md",
+  "read": "2026-09-25"
+}

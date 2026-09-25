@@ -1,0 +1,63 @@
+{
+  "slug": "fulfill-shiprocket",
+  "name": "Shiprocket",
+  "category": "Shipping",
+  "title": "Shiprocket Shipping for GoCommerce — Open-Source Module",
+  "description": "Book Shiprocket shipments and waybills from a GoCommerce order: the API user, pickup location, parcel weights, COD, and what the module leaves out.",
+  "ogTitle": "Shiprocket shipping for GoCommerce",
+  "ogDescription": "An order in Shiprocket, a waybill and a label, from the engine’s own ship call. Read from the source.",
+  "h1": "Shiprocket shipping for GoCommerce",
+  "lede": "A Go package that books a parcel with Shiprocket, has a waybill assigned and asks for a label — all from the engine’s own fulfillment call. An API user, a pickup location and your variants’ weights are what it needs.",
+  "what": [
+    "Registering the module adds “shiprocket” as a fulfillment provider. An operator ships the usual way — the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"shiprocket\" — and the module creates the order in Shiprocket, has a waybill assigned and asks for a label. The engine then stores the shipment, moves the order to shipped or partial, and writes the event; the module only talks to Shiprocket.",
+    "In the admin it describes itself as “Books shipments and waybills through Shiprocket, India’s aggregator: one login across its couriers.” Shiprocket assigns the courier unless the request names one.",
+    "What is declared is what is in the box. The engine works out which lines go in this parcel before the module is called, so the items, the declared value and whether the courier collects cash are this parcel’s, not the whole order’s."
+  ],
+  "configLede": "Three settings are required: the API user’s email and password, and the pickup location’s nickname. Set them in Config from your own main(), or leave Config empty and fill them in under Settings › Shipping providers.",
+  "config": [
+    { "field": "Email", "panel": "API user email", "env": "SHIPROCKET_EMAIL", "required": true, "note": "The login of the Shiprocket API user — the panel’s own note says the API user’s, not the account owner’s." },
+    { "field": "Password", "panel": "API user password", "env": "SHIPROCKET_PASSWORD", "required": true, "note": "Exchanged for a bearer token, which the module caches for nine days; Shiprocket’s tokens last ten." },
+    { "field": "PickupLocation", "panel": "Pickup location", "required": true, "note": "The nickname of the pickup address registered in Shiprocket. The package’s example uses “Primary”." },
+    { "field": "DefaultWeightKg", "panel": "Default weight (kg)", "required": false, "note": "Per unit, for a parcel holding a variant with no weight recorded. 0.5 kg when unset; a fully weighed catalogue never reaches it." },
+    { "field": "DefaultLengthCm, DefaultBreadthCm, DefaultHeightCm", "required": false, "note": "The box used when the engine has no single size — any parcel of more than one unit. 15 × 15 × 10 cm when unset. Go only." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://apiv2.shiprocket.in, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Create an API user", "t": "In Shiprocket, set up the API user the module will log in as, and note the nickname of the pickup address it should collect from." },
+    { "b": "Install the module", "t": "Import it and pass shiprocket.New to gocommerce.New, as below — or run the reference binary with -carriers, which installs every carrier module idle." },
+    { "b": "Configure it", "t": "Email, password and pickup location, in Config or under Settings › Shipping providers. Record weights on your variants; the default is only a fallback." },
+    { "b": "Ship an order", "t": "Choose Shiprocket in the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"shiprocket\". The waybill becomes the tracking number." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tshiprocket \"github.com/misiki/gocommerce/ext/fulfill-shiprocket\"\n)\n\napp, err := gocommerce.New(cfg,\n\tshiprocket.New(shiprocket.Config{\n\t\tEmail:          os.Getenv(\"SHIPROCKET_EMAIL\"),\n\t\tPassword:       os.Getenv(\"SHIPROCKET_PASSWORD\"),\n\t\tPickupLocation: \"Primary\",\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty shiprocket.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "Three calls per parcel", "t": "Create an ad hoc order in Shiprocket, assign a waybill, then generate a label. The waybill is returned as the shipment’s tracking number and the label URL is stored with it." },
+    { "b": "Outside the transaction", "t": "The carrier call runs before the engine opens its transaction, so a slow minute at Shiprocket never holds a lock on the orders table. The engine re-checks the order afterwards." },
+    { "b": "COD or prepaid, from the order", "t": "An order whose payment status is paid is booked as Prepaid; anything else as COD. Getting it wrong, the code notes, means a courier who does not ask for money or one who asks a customer who has paid." },
+    { "b": "Measured weight first", "t": "Three sources, in order: a figure passed in the request’s meta, the weight the engine summed from the variants — used only when every line was weighed — and the default per unit." },
+    { "b": "A new id per parcel", "t": "Shiprocket rejects a duplicate order id, so the first parcel goes as the order number and later ones as number-2, number-3 and so on." },
+    { "b": "Token cached, dropped on 401", "t": "The API user logs in once and the token is reused for nine days. A 401 clears it, so the next call logs in afresh." }
+  ],
+  "limits": [
+    { "b": "Half-booked parcels need a hand", "t": "If Shiprocket creates the order but assigns no waybill, the call fails and names the shipment id. The engine records nothing, so finish or cancel that shipment in Shiprocket before retrying." },
+    { "b": "No tracking updates", "t": "Nothing comes back after booking: no webhook, no polling. Marking an order delivered is a separate step, in the admin or through the API." },
+    { "b": "No rates, no cancellation", "t": "The module quotes no shipping rates, and deleting a fulfillment in GoCommerce does not cancel it in Shiprocket." },
+    { "b": "Courier and box size need the API", "t": "The admin’s ship dialog sends the provider, tracking and lines. A courier_id, or a box’s length, breadth, height and weight, go in the request’s meta, which only an API call sends." },
+    { "b": "Two-decimal money", "t": "Prices are sent as minor units divided by 100 — right for rupees, wrong for a currency with none or three decimals." },
+    { "b": "The label is best effort", "t": "If Shiprocket cannot generate a label, the shipment is still recorded, without a label URL. Print it from Shiprocket’s dashboard instead." }
+  ],
+  "tested": true,
+  "testCount": 5,
+  "apiOps": 0,
+  "vendorUrl": "https://www.shiprocket.in",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Who chooses the courier?", "a": "Shiprocket, unless you do. Without a courier_id in the request’s meta the module asks Shiprocket to assign a waybill and Shiprocket picks; with one, it asks for that courier. The admin’s ship dialog sends no meta, so naming a courier is an API call." },
+    { "q": "Which credentials does it need?", "a": "An API user’s email and password — the module’s own note says the API user’s login, not the account owner’s — and the nickname of a pickup location registered in Shiprocket." },
+    { "q": "What about cash-on-delivery orders?", "a": "An order not marked paid is booked as COD, so the courier collects; a paid one is booked as Prepaid. Cash on delivery is GoCommerce’s default payment method, so an order taken without a gateway ships as COD." },
+    { "q": "Does the order update when the parcel arrives?", "a": "No. The module books and returns; it has no webhook and polls nothing. Mark the order delivered from the admin or with POST /api/admin/orders/{id}/deliver." },
+    { "q": "Is Shiprocket a partner?", "a": "No. The module calls Shiprocket’s public API with credentials you supply. Shiprocket does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

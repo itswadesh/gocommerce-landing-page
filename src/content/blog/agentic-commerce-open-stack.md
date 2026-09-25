@@ -1,5 +1,6 @@
 ---
 title: "The API is the storefront now: agentic commerce on an open stack"
+seoTitle: "Agentic Commerce on an Open Stack: GoCommerce and MCP"
 description: "Agents are a new door into a store. What GoCommerce and Svelte Commerce give an agent today, what they do not, and why an open engine matters more now."
 author: itswadesh
 tags: ["agentic commerce", "MCP", "GoCommerce", "Svelte Commerce"]

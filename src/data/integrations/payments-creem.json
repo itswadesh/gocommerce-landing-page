@@ -1,0 +1,61 @@
+{
+  "slug": "payments-creem",
+  "name": "Creem",
+  "category": "Payments",
+  "title": "Creem Payments for GoCommerce — Open-Source Module",
+  "description": "Sell through Creem as merchant of record from a GoCommerce store: the placeholder product, keys, webhook URL, full-only refunds and the module’s limits.",
+  "ogTitle": "Creem payments for GoCommerce",
+  "ogDescription": "Hosted checkouts against one placeholder product, and refunds that are whole or not at all.",
+  "h1": "Creem payments for GoCommerce",
+  "lede": "A Go package that creates a Creem checkout at the order’s price and marks the GoCommerce order paid when a signed checkout.completed event says it was paid. Creem refunds in full only, and the module refuses a partial refund rather than send one.",
+  "what": [
+    "The module registers “creem” as a payment method. At checkout it creates a Creem checkout against a placeholder product you name, overrides its price with the order’s total in minor units, and answers with a redirect intent carrying the checkout URL. The order id also goes as Creem’s request_id, so a row in Creem’s dashboard can be tied to the store without opening the payload.",
+    "Creem then calls POST /api/checkout/creem/webhook. The module verifies the creem-signature header and, when checkout.completed arrives with the order paid, asks the engine to mark the GoCommerce order paid. It records Creem’s transaction id at the same moment, because a refund needs it and it cannot be known any earlier.",
+    "In the admin it describes itself as “Checkouts through Creem as merchant of record, each created against one placeholder one-time product. Creem refunds in full only, so a partial refund has to be made in its dashboard.” As with Paddle and Lemon Squeezy, Creem works out the tax, so GoCommerce’s tax rates should stay empty."
+  ],
+  "configLede": "Three settings are required: the API key, the webhook’s signing secret, and the placeholder product every checkout is created against. Set them in Config from your own main(), or under Settings › Payment methods.",
+  "config": [
+    { "field": "APIKey", "panel": "API key", "env": "CREEM_API_KEY", "required": true, "note": "From the developers section of Creem’s dashboard, sent as the x-api-key header. Not sent to the storefront." },
+    { "field": "WebhookSecret", "panel": "Webhook signing secret", "env": "CREEM_WEBHOOK_SECRET", "required": true, "note": "Verifies the creem-signature header. Required because, as the code puts it, without it any caller could mark orders paid." },
+    { "field": "ProductID", "panel": "Placeholder product ID", "env": "CREEM_PRODUCT_ID", "required": true, "note": "A one-time product every checkout is created against; its price is overridden per order. Creem refuses a custom price on a subscription product." },
+    { "field": "SuccessURL", "panel": "Where to send the shopper afterwards", "required": false, "note": "Where Creem sends the shopper after paying. Empty shows Creem’s own confirmation." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Empty for production, https://api.creem.io; https://test-api.creem.io for the sandbox." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Create the placeholder", "t": "In Creem, create one one-time product — any name, any price — and note its id. A subscription product will not take a custom price." },
+    { "b": "Add the webhook", "t": "Point a webhook at https://your-api-host/api/checkout/creem/webhook and keep its signing secret. checkout.completed is the event that settles an order." },
+    { "b": "Install and configure", "t": "Pass creem.New to gocommerce.New as below, or run the reference binary with -gateways and fill in Settings › Payment methods. For the sandbox, set BaseURL to https://test-api.creem.io." },
+    { "b": "Take a payment", "t": "POST /api/checkout/creem answers with a redirect intent whose url is Creem’s checkout. A paid checkout.completed marks the order paid." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tcreem \"github.com/misiki/gocommerce/ext/payments-creem\"\n)\n\napp, err := gocommerce.New(cfg,\n\tcreem.New(creem.Config{\n\t\tAPIKey:        os.Getenv(\"CREEM_API_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"CREEM_WEBHOOK_SECRET\"),\n\t\tProductID:     os.Getenv(\"CREEM_PRODUCT_ID\"),\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. The sandbox host is exported as creem.TestBaseURL for BaseURL.",
+  "howItWorks": [
+    { "b": "Amounts checked first", "t": "Creem takes a custom price from 100 to 99,999,999 minor units. The module checks the order total against that before calling, so an operator reads what is wrong with the order rather than an error about a field nobody filled in." },
+    { "b": "Signed, without a timestamp", "t": "creem-signature is a hex HMAC-SHA256 of the raw body, compared in constant time. With no timestamp in it, the claim table is what bounds a replay." },
+    { "b": "Each event once", "t": "Creem sends its own event id and the claim is that id. An event without one is refused with a 400 rather than guessed at; a redelivery is answered 200 and changes nothing." },
+    { "b": "Only paid settles", "t": "checkout.completed with an order status other than paid is acknowledged and changes nothing. If marking the order paid fails, the claim is released and the webhook answers 500 for Creem to retry." },
+    { "b": "Whole refunds, from the admin", "t": "A refund from the admin posts the recorded transaction id to Creem’s refunds endpoint, which returns the full remaining amount. A pending answer is accepted: the engine has recorded the refund, and Creem settles it later." },
+    { "b": "Dashboard events reach the log", "t": "refund.created and dispute.created from Creem’s side are logged with the order they concern, so the store is not the last to know." }
+  ],
+  "limits": [
+    { "b": "All or nothing refunds", "t": "Creem’s refund endpoint takes no amount, so a request for less than the whole order is refused, with a message pointing at Creem’s dashboard. Partial refunds are made there." },
+    { "b": "Refunds need the webhook first", "t": "The transaction id arrives with checkout.completed. Before it, a refund is refused: no transaction recorded for this order yet." },
+    { "b": "A one-time placeholder product", "t": "One product in Creem is required, and it must be a one-time product; Creem refuses a custom price on a subscription." },
+    { "b": "Price limits", "t": "Orders under 100 or over 99,999,999 in minor units are refused before Creem is called." },
+    { "b": "No currency is sent", "t": "The checkout carries custom_price in minor units and no currency code. Check that Creem charges in the currency your store settles in." },
+    { "b": "No failure path", "t": "The module never marks a payment failed, and dashboard refunds and disputes are only logged. An abandoned checkout leaves the order unpaid." }
+  ],
+  "tested": true,
+  "testCount": 12,
+  "apiOps": 0,
+  "vendorUrl": "https://www.creem.io",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Can I make a partial refund?", "a": "Not from GoCommerce. Creem’s refund endpoint refunds the full remaining amount and takes no amount from the caller, so the module refuses anything less than the whole order rather than send it. The package’s reason: an operator asking for a small goodwill refund must not see Creem return the whole order. Make partial refunds in Creem’s dashboard." },
+    { "q": "Why does it need a placeholder product?", "a": "Creem sells items from its own catalogue, so a checkout must name a product that already exists there. The module overrides that product’s price with the order total, so one one-time product serves every order." },
+    { "q": "How do I use Creem’s sandbox?", "a": "Set BaseURL to https://test-api.creem.io and use a test key. The package made the sandbox a separate host rather than a flag, so a test key cannot be pointed at production by forgetting to unset something." },
+    { "q": "Is this a Creem partnership?", "a": "No. The module calls Creem’s public API with keys you supply. Creem does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

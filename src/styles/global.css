@@ -1996,3 +1996,13 @@ html:has(dialog.lightbox[open]) { overflow: hidden; }
 .prose table { width: 100%; min-width: 30rem; border-collapse: collapse; font-size: .9375rem; }
 .prose th, .prose td { text-align: left; padding: 10px 16px 10px 0; border-bottom: var(--hairline); }
 .prose thead th { font-weight: 500; border-bottom: var(--edge); }
+
+/* Developer-first integration: the request walkthrough beside what backs it. */
+.devint { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; margin-top: 34px; align-items: start; }
+@media (max-width: 900px) { .devint { grid-template-columns: minmax(0, 1fr); } }
+.devint .code-block pre { white-space: pre; overflow-x: auto; }
+.devint-facts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.devint-facts li { display: flex; flex-direction: column; gap: 4px; padding: 14px 0; border-top: var(--hairline); }
+.devint-facts li:first-child { border-top: 0; padding-top: 0; }
+.devint-facts b { font-size: .9375rem; }
+.devint-facts span { font-size: .875rem; line-height: 1.55; }

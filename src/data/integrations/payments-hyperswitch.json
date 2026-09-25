@@ -1,0 +1,63 @@
+{
+  "slug": "payments-hyperswitch",
+  "name": "Hyperswitch",
+  "category": "Payments",
+  "title": "Hyperswitch Payments for GoCommerce — Open-Source Module",
+  "description": "Route payments through Hyperswitch, the open-source payments router, from a GoCommerce store: keys, payment links, webhook URL, refunds and limits.",
+  "ogTitle": "Hyperswitch payments for GoCommerce",
+  "ogDescription": "Payment links through an open-source payments router, with a SHA-512-signed webhook. Read from the module’s source.",
+  "h1": "Hyperswitch payments for GoCommerce",
+  "lede": "A Go package that creates a Hyperswitch payment link at checkout and marks the GoCommerce order paid when Hyperswitch’s signed webhook says the payment succeeded. Which gateway takes the money is Hyperswitch’s routing decision, not the module’s.",
+  "what": [
+    "The module registers “hyperswitch” as a payment method. At checkout it creates a payment with payment_link switched on, for the order’s total in minor units, and answers with a redirect intent carrying the hosted link. The client secret comes along too, for a storefront that would rather mount Hyperswitch’s own SDK.",
+    "The package is clear about what Hyperswitch is: not a gateway but a router in front of gateways — Stripe, Adyen, Checkout.com, a local acquirer — chosen by rules in the Hyperswitch dashboard. Connector choice, retries and 3DS behaviour are configuration over there, and the module does not second-guess them. The engine still owns the order: Hyperswitch says money arrived, and the engine decides what that does.",
+    "In the admin it describes itself as “Payment links through Hyperswitch, the open-source payments router, with its signed webhook marking orders paid.” It talks to Hyperswitch’s hosted API by default, or to your own router when BaseURL points at it."
+  ],
+  "configLede": "Two settings are required: the merchant API key and the business profile’s payment response hash key. A return URL is needed as well, in Config or on each checkout. Set them in Config from your own main(), or under Settings › Payment methods.",
+  "config": [
+    { "field": "APIKey", "panel": "API key", "env": "HYPERSWITCH_API_KEY", "required": true, "note": "The merchant API key, sent as the api-key header. Not sent to the storefront." },
+    { "field": "ResponseHashKey", "panel": "Payment response hash key", "env": "HYPERSWITCH_RESPONSE_HASH_KEY", "required": true, "note": "The business profile’s key, which signs outgoing webhooks. Required because, as the code puts it, without it any caller could mark orders paid." },
+    { "field": "ProfileID", "panel": "Profile ID", "required": false, "note": "The business profile to charge against. Only needed when the merchant has more than one; then leaving it empty is a 400 at the first checkout." },
+    { "field": "ReturnURL", "panel": "Return URL", "required": false, "note": "Where the shopper lands after paying, when the checkout did not send return_url. Hyperswitch requires one of the two for a payment link." },
+    { "field": "SessionExpirySeconds", "panel": "Link expiry (seconds)", "required": false, "note": "How long the hosted link stays payable. Zero leaves Hyperswitch’s own default." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Defaults to https://api.hyperswitch.io. The sandbox is https://sandbox.hyperswitch.io; a self-hosted router is its own address." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Prepare the profile", "t": "On the Hyperswitch business profile, make sure payment links are enabled, point the webhook at https://your-api-host/api/checkout/hyperswitch/webhook, and note the response hash key." },
+    { "b": "Install the module", "t": "Import it and pass hyperswitch.New to gocommerce.New, as below — or run the reference binary with -gateways, which installs every payment module idle." },
+    { "b": "Configure it", "t": "API key, hash key and a return URL, in Config or under Settings › Payment methods. Point BaseURL at the sandbox while testing." },
+    { "b": "Take a payment", "t": "POST /api/checkout/hyperswitch answers with a redirect intent whose url is the payment link. The payment_succeeded webhook marks the order paid." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\thyperswitch \"github.com/misiki/gocommerce/ext/payments-hyperswitch\"\n)\n\napp, err := gocommerce.New(cfg,\n\thyperswitch.New(hyperswitch.Config{\n\t\tAPIKey:          os.Getenv(\"HYPERSWITCH_API_KEY\"),\n\t\tResponseHashKey: os.Getenv(\"HYPERSWITCH_RESPONSE_HASH_KEY\"),\n\t\tBaseURL:         \"https://sandbox.hyperswitch.io\",\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. It points at the sandbox; drop BaseURL for Hyperswitch’s hosted API, or set it to your own router.",
+  "howItWorks": [
+    { "b": "Signed with SHA-512", "t": "X-Webhook-Signature-512 is checked as a hex HMAC-SHA512 of the raw body, keyed on the response hash key, in constant time. The module does not fall back to the weaker 256-bit header the router can also send." },
+    { "b": "Each event once", "t": "Claims are keyed on Hyperswitch’s event_id, which is stable across retries; routers that send none fall back to event type plus payment id. A repeat is answered 200 and changes nothing." },
+    { "b": "Succeeded or failed", "t": "payment_succeeded and payment_captured mark the order paid. payment_failed, payment_cancelled and payment_expired mark the payment failed, with Hyperswitch’s reason." },
+    { "b": "A failed update is retried", "t": "If the engine cannot apply an event, the claim is released and the webhook answers 500, so the retry finds work to do." },
+    { "b": "Instant refunds", "t": "A refund posts to /refunds as an instant refund for the amount asked, so it either refunds or fails now, and the refund id is recorded. A scheduled refund would answer “accepted” and could still be declined later." },
+    { "b": "Reconcilable by order number", "t": "The order number goes as merchant_order_reference_id — what an operator searches for in the dashboard. Extra data from the storefront travels in metadata under client_… keys, so it cannot overwrite the order id." }
+  ],
+  "limits": [
+    { "b": "A return URL is required", "t": "Hyperswitch will not create a payment link without one. With neither Config.ReturnURL nor a return_url on the checkout, the module refuses to start the payment." },
+    { "b": "Replays are bounded by the claim", "t": "The signature carries no timestamp, so a captured delivery stays valid for ever. The idempotency claim is the only thing stopping it applying twice." },
+    { "b": "Links, not the SDK", "t": "The default is a redirect to the hosted link. A storefront that wants Hyperswitch’s web SDK gets the client_secret in the intent and builds that itself." },
+    { "b": "Dashboard refunds are only logged", "t": "refund_succeeded is logged, not applied. A refund started in the Hyperswitch dashboard does not change the GoCommerce order." },
+    { "b": "No routing settings here", "t": "Which connector takes a payment, retries and 3DS are set in Hyperswitch. The module has no settings for them, by design." },
+    { "b": "No test switch", "t": "There is no sandbox flag. In Hyperswitch the environment is the host you talk to, so it is BaseURL." }
+  ],
+  "tested": true,
+  "testCount": 8,
+  "apiOps": 0,
+  "vendorUrl": "https://hyperswitch.io",
+  "vendorType": "SoftwareApplication",
+  "faq": [
+    { "q": "Is Hyperswitch a payment gateway?", "a": "Not in the package’s words: it is a router in front of gateways, and which one takes a payment is decided by rules in the Hyperswitch dashboard. The module sends the payment to Hyperswitch and lets the router choose." },
+    { "q": "Can I point it at a self-hosted Hyperswitch?", "a": "Yes. BaseURL defaults to Hyperswitch’s hosted API; set it to your own router’s address, or to https://sandbox.hyperswitch.io for the sandbox." },
+    { "q": "What is the webhook URL?", "a": "POST /api/checkout/hyperswitch/webhook on the host that serves your GoCommerce API — a route the engine owns. The module verifies the X-Webhook-Signature-512 header on every delivery." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -gateways flag installs every payment module with an empty Config. Switch Hyperswitch on under Settings › Payment methods and fill in the key, the hash key and a return URL there." },
+    { "q": "Is this a Hyperswitch partnership?", "a": "No. The module calls Hyperswitch’s public API with keys you supply. Hyperswitch does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

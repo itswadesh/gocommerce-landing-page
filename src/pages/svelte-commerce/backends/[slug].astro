@@ -1,0 +1,224 @@
+---
+/**
+ * One page per Svelte Commerce backend, from src/data/backends/<slug>.json.
+ * The data file is the guide for that backend, summarised and checked against
+ * the connector's source; this template only decides where each part sits, so
+ * twenty-six backends cannot drift into twenty-six layouts.
+ *
+ * Coverage is deliberately not in the data file. The wired/total count, the
+ * package and version, the cart/checkout/auth states and the gaps are read
+ * from connectors.json, joined on name — the same file the matrix on
+ * /svelte-commerce/backends/ renders — so the two pages cannot disagree.
+ *
+ * Every page answers "can I run a store on this?" first, in `verdict`, and
+ * carries the caveat that no connector has been exercised against a live
+ * production instance of its platform. A backend page that read like an
+ * advert for a connector that cannot take an order would be worse than none.
+ */
+import Base from '../../../layouts/Base.astro'
+import Faq from '../../../components/Faq.astro'
+import data from '../../../data/connectors.json'
+import { pageDates } from '../../../lib/dates.mjs'
+import type { Backend } from '../../../data/backends/_schema'
+import type { Comparison } from '../../../data/compare/_schema'
+
+type State = 'wired' | 'unsupported' | 'unwired'
+interface Connector { name: string; url: string; pkg: string; version: string; wired: number; total: number; cart: State; checkout: State; auth: State; gaps: string }
+
+export function getStaticPaths() {
+  const files = import.meta.glob<Backend>('../../../data/backends/*.json', { eager: true, import: 'default' })
+  return Object.values(files).map((b) => ({ params: { slug: b.slug }, props: { b } }))
+}
+
+const { b } = Astro.props as { b: Backend }
+const c = (data.connectors as Connector[]).find((x) => x.name === b.name)
+if (!c) throw new Error(`src/data/backends/${b.slug}.json names "${b.name}", which is not in connectors.json`)
+
+const path = `/svelte-commerce/backends/${b.slug}/`
+const abs = (p: string) => new URL(p, Astro.site!).href
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+const fmt = (iso: string) => new Date(iso + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+const docFile = b.docUrl.split('/').pop()!
+const connectorsDoc = 'https://github.com/itswadesh/svelte-commerce/blob/main/docs/CONNECTORS.md'
+
+// Prose in the data file marks code with backticks. Escaped first, so nothing
+// in a data file can inject markup; the FAQ gets the same text without them,
+// because FAQPage JSON-LD is plain text.
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+const inline = (s: string) => s.split('`').map((part, i) => (i % 2 ? `<code>${esc(part)}</code>` : esc(part))).join('')
+const plain = (s: string) => s.replace(/`/g, '')
+const faq = b.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }))
+
+// The quick start, as one block to copy: each step a shell comment, then its
+// commands. Same markup as the GoCommerce page's code blocks.
+const hl = (line: string) => (line.startsWith('#') ? `<span class="cm">${esc(line)}</span>` : esc(line).replace(/^(cd|cp|echo)\b/, '<span class="b">$1</span>'))
+const quickStart = typeof b.quickStart === 'string'
+  ? b.quickStart.split('\n').map(hl).join('\n')
+  : b.quickStart.map((s, i) => [`<span class="cm"># ${i + 1} — ${esc(s.text)}</span>`, ...(s.cmd ? s.cmd.split('\n').map(hl) : [])].join('\n')).join('\n\n')
+
+// Three states, three shapes — the matrix's legend, in words.
+const STATE: Record<State, { cls: string; glyph: string; label: string; say: string }> = {
+  wired: { cls: 'ok', glyph: '●', label: 'wired', say: `Wired: issues a real request to ${b.name}.` },
+  unsupported: { cls: 'no', glyph: '✕', label: 'no endpoint on the platform', say: `No endpoint on ${b.name}: it throws NotSupportedError rather than pretend.` },
+  unwired: { cls: 'pending', glyph: '○', label: 'not yet wired', say: 'Not yet wired, by the coverage script’s measure.' },
+}
+const mark = (s: State) => STATE[s] ?? STATE.unwired
+const core: [string, State][] = [['Cart', c.cart], ['Checkout', c.checkout], ['Sign-in (auth)', c.auth]]
+const reference = c.gaps === 'reference implementation'
+const gaps = c.gaps && !reference ? c.gaps.split(',').map((g) => g.trim()) : []
+
+// Any comparison of this platform with GoCommerce, the head-to-head first.
+const primary = `kitcommerce-vs-${b.slug}`
+const comparisons = Object.values(import.meta.glob<Comparison>('../../../data/compare/*.json', { eager: true, import: 'default' }))
+  .filter((x) => x.slug === primary || x.platform === b.name)
+  .sort((x, y) => Number(y.slug === primary) - Number(x.slug === primary) || x.slug.localeCompare(y.slug))
+
+const dates = pageDates(path)
+const stamp = dates.exact ? { dateModified: dates.modified, ...(dates.published ? { datePublished: dates.published } : {}) } : {}
+const graph = [
+  {
+    '@type': 'TechArticle', '@id': abs(path + '#article'), headline: b.title, description: b.description, url: abs(path),
+    mainEntityOfPage: { '@id': abs(path + '#page') }, inLanguage: 'en', author: { '@id': abs('/#org') }, publisher: { '@id': abs('/#org') },
+    isBasedOn: b.docUrl,
+    about: [
+      { '@id': abs('/svelte-commerce/#app') },
+      { '@type': 'SoftwareApplication', name: b.name, url: c.url, applicationCategory: 'BusinessApplication' },
+    ],
+    ...stamp,
+  },
+]
+---
+<Base
+  title={b.title}
+  description={b.description}
+  path={path}
+  nav="backends"
+  crumbs={[{ name: 'Svelte Commerce', href: '/svelte-commerce/' }, { name: 'Backends', href: '/svelte-commerce/backends/' }, { name: b.name, href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Svelte Commerce × {b.name}</p>
+    <h1>Svelte Commerce on {b.name}</h1>
+    <p class="lede" set:html={inline(b.lede)} />
+    <ul class="head-facts">
+      <li><b>{c.wired}/{c.total}</b> services wired</li>
+      <li><b>{c.pkg}</b> {c.version}</li>
+      {core.map(([label, s]) => <li><b>{label}</b> {mark(s).label}</li>)}
+    </ul>
+  </section>
+
+  <section id="coverage" class="section wrap" aria-labelledby="coverage-title">
+    <h2 id="coverage-title">What works on {b.name} today</h2>
+    <div class="statement">
+      <p class="statement-lead" set:html={inline(b.verdict)} />
+    </div>
+    <div class="tri">
+      {core.map(([label, s]) => (
+        <div class="tri-item">
+          <h3><span class={`mk ${mark(s).cls}`} aria-hidden="true">{mark(s).glyph}</span>{label}</h3>
+          <p>{mark(s).say}</p>
+        </div>
+      ))}
+    </div>
+    <p class="section-lede"><b>Known gaps:</b> {gaps.length
+      ? gaps.map((g, i) => <>{i > 0 && ', '}<code>{g.replace(/ \(.*\)$/, '')}</code>{g.match(/ \(.*\)$/)?.[0]}</>)
+      : reference ? `none — ${b.name} is the reference implementation every other connector is written against.` : 'none recorded.'}{gaps.length > 0 && ' — each is explained under Limitations below.'}</p>
+    <p class="fineprint">{c.wired} of {c.total} services wired, read from <a href={connectorsDoc} {...ext}>CONNECTORS.md</a> on <time datetime={data._read}>{fmt(data._read)}</time>, where the package version is recorded too; npm may carry a newer patch. {data._measured}{!reference && ` ${data._placeholders}`}</p>
+  </section>
+
+  <section id="quickstart" class="section wrap" aria-labelledby="qs-title">
+    <h2 id="qs-title">Quick start</h2>
+    <p class="section-lede">From nothing to a Svelte Commerce storefront reading {b.name}. You need Node.js and a {b.name} to point it at; the storefront holds no data of its own.</p>
+    <div class="code-block">
+      <div class="code-head"><p>Clone it, choose the connector, point it at {b.name}</p><button class="copy" data-copy="code-quickstart">Copy</button></div>
+      <pre id="code-quickstart"><code set:html={quickStart} /></pre>
+      {b.quickStartNote && <p class="code-note" set:html={inline(b.quickStartNote)} />}
+    </div>
+  </section>
+
+  <section id="env" class="section wrap" aria-labelledby="env-title">
+    <h2 id="env-title">Environment variables</h2>
+    <div class="tbl-scroll">
+      <table class="reltable vs">
+        <caption>What Svelte Commerce reads to reach {b.name}</caption>
+        <thead>
+          <tr><th scope="col">Variable</th><th scope="col">Required</th><th scope="col">What it does</th></tr>
+        </thead>
+        <tbody>
+          {b.env.map((e) => (
+            <tr><th scope="row"><code>{e.name}</code></th><td>{e.required ? 'Yes' : 'No'}</td><td set:html={inline(e.note)} /></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    {b.envNote && <p class="fineprint" set:html={inline(b.envNote)} />}
+    <p class="fineprint">Every variable here begins <code>PUBLIC_</code>, and SvelteKit sends <code>PUBLIC_</code> variables to the browser: treat each value you set as published.</p>
+  </section>
+
+  <section id="settings" class="section wrap" aria-labelledby="settings-title">
+    <h2 id="settings-title">What to set up on {b.name}</h2>
+    <ul class="tick">{b.backendSettings.map((s) => <li set:html={inline(s)} />)}</ul>
+  </section>
+
+  <section id="how" class="section wrap" aria-labelledby="how-title">
+    <h2 id="how-title">How the integration works</h2>
+    {b.howItWorks.map((p) => <p class="section-lede" set:html={inline(p)} />)}
+  </section>
+
+  <section id="limitations" class="section wrap" aria-labelledby="limits-title">
+    <h2 id="limits-title">Limitations</h2>
+    <ul class="tick">{b.limitations.map((l) => <li set:html={inline(l)} />)}</ul>
+  </section>
+
+  <section id="troubleshooting" class="section wrap" aria-labelledby="ts-title">
+    <h2 id="ts-title">Troubleshooting</h2>
+    <div class="tbl-scroll">
+      <table class="reltable vs">
+        <caption>Errors you may meet running Svelte Commerce on {b.name}, and what fixes them</caption>
+        <thead>
+          <tr><th scope="col">When you see</th><th scope="col">What to do</th></tr>
+        </thead>
+        <tbody>
+          {b.troubleshooting.map((t) => (
+            <tr><th scope="row" set:html={inline(t.problem)} /><td set:html={inline(t.fix)} /></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="caveat" class="section wrap" aria-labelledby="caveat-title">
+    <h2 id="caveat-title">Before you rely on it</h2>
+    <div class="connector">
+      <div class="connector-head"><h3>The one caveat that matters</h3><p class="badge">Read this before choosing</p></div>
+      <p>Every connector was written by reading its platform’s authoritative source — an OpenAPI spec, a RAML file, a router registration or the controller source — rather than by running against a store. <b>No connector has been exercised against a live production instance of its platform.</b></p>
+      {b.caveatExtra && <p set:html={inline(b.caveatExtra)} />}
+      {b.openQuestion && <p>An open question for {b.name}’s maintainers: <span set:html={inline(b.openQuestion)} /></p>}
+      <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce/discussions/new/choose" {...ext}>Offer a sandbox or a correction</a>
+    </div>
+  </section>
+
+  <Faq items={faq} title={`Questions about Svelte Commerce on ${b.name}`} />
+
+  <section class="section wrap vs-sources" aria-labelledby="sources-title">
+    <h2 id="sources-title" class="vs-sources-title">Sources</h2>
+    <p class="fineprint">This page summarises {docFile} in the Svelte Commerce repository and the {b.name} connector’s source, read on <time datetime={b.read}>{fmt(b.read)}</time>, and the coverage in CONNECTORS.md, read on <time datetime={data._read}>{fmt(data._read)}</time>. Where they disagree with this page, they are right and this page is out of date. {b.name} is a trademark of its owner, named here only to describe compatibility; no endorsement or affiliation is implied — see <a href="/about/#trademarks">trademarks</a>.</p>
+    <ul class="vs-source-list">
+      <li><a href={b.docUrl} {...ext}>{docFile} — the full guide for {b.name}</a></li>
+      <li><a href={connectorsDoc} {...ext}>CONNECTORS.md — coverage for all 26 connectors</a></li>
+      <li><a href={`https://www.npmjs.com/package/${c.pkg}`} {...ext}>{c.pkg} on npm</a></li>
+      <li><a href={c.url} {...ext}>{b.name}</a></li>
+    </ul>
+  </section>
+
+  <section class="closing wrap">
+    <h2>Read the whole guide</h2>
+    <p>The storefront is the same on every backend; the connector is what changes. {docFile} has the {b.name} setup in full, beside the connector’s source.</p>
+    <div class="actions">
+      <a class="button" href={b.docUrl} {...ext}>The {b.name} guide on GitHub</a>
+      <a class="button secondary" href="/svelte-commerce/backends/">All 26 backends</a>
+      {comparisons.map((x) => <a class="button secondary" href={`/compare/${x.slug}/`}>{x.label}</a>)}
+    </div>
+  </section>
+</Base>

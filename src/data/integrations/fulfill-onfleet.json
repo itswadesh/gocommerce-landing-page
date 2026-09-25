@@ -1,0 +1,60 @@
+{
+  "slug": "fulfill-onfleet",
+  "name": "Onfleet",
+  "category": "Shipping",
+  "title": "Onfleet Local Delivery for GoCommerce — Open-Source Module",
+  "description": "Turn a GoCommerce shipment into an Onfleet delivery task for your own drivers: the API key, auto-assign, cash-to-collect notes, and what it leaves out.",
+  "ogTitle": "Onfleet local delivery for GoCommerce",
+  "ogDescription": "Every shipment becomes a delivery task for the store’s own drivers. Read from the module’s source.",
+  "h1": "Onfleet local delivery for GoCommerce",
+  "lede": "A Go package that turns a shipment into an Onfleet task for the store’s own drivers. Not a carrier: no label, no waybill — a delivery task with the order on it, and a note to collect money when the order is unpaid.",
+  "what": [
+    "The module registers “onfleet” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider onfleet — the engine keeps the order’s state and its events, and the module only talks to Onfleet.",
+    "The package is plain about what Onfleet is not: it carries nothing. It dispatches a task to the store’s own drivers, so the tracking number recorded is Onfleet’s shortId — what finds the task in the dashboard — the carrier is “onfleet”, and there is no label, because a driver going to an address does not need one. It suits same-day and local delivery and, in the package’s words, it is the wrong module for anything that goes in the post.",
+    "In the admin it describes itself as “Dispatches your own drivers through Onfleet: every shipment becomes a delivery task.” One setting is required, the API key. No SDK: REST over Go’s standard library."
+  ],
+  "configLede": "Only the API key is required. Set it in Config from your own main(), or leave Config empty and type it under Settings › Shipping providers.",
+  "config": [
+    { "field": "APIKey", "panel": "API key", "env": "ONFLEET_API_KEY", "required": true, "note": "An Onfleet API key, sent as the username of HTTP Basic auth with an empty password — which is how Onfleet authenticates." },
+    { "field": "AutoAssign", "panel": "Auto-assign a driver", "required": false, "note": "Asks Onfleet to pick a driver, by distance, as the task is created. Off by default: assigning somebody’s next two hours is a decision." },
+    { "field": "TeamID", "panel": "Team ID", "required": false, "note": "Scopes auto-assignment to one team. Only meaningful with AutoAssign." },
+    { "field": "ServiceTimeMinutes", "panel": "Service time (minutes)", "required": false, "note": "How long the driver is expected at the door. Zero leaves Onfleet’s own default." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://onfleet.com/api/v2, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Get an API key", "t": "From Onfleet’s dashboard, under API & Webhooks, as the plugin’s own help text says." },
+    { "b": "Install the module", "t": "Import it and pass onfleet.New to gocommerce.New, as below — or run the reference binary with -carriers, which installs every carrier module idle." },
+    { "b": "Decide on assignment", "t": "Leave auto-assign off to dispatch by hand in Onfleet, or switch it on, optionally for one team. Settings live in Config or under Settings › Shipping providers." },
+    { "b": "Ship an order", "t": "POST /api/admin/create-fulfillment with the order id and the provider onfleet. The task’s shortId is recorded as the tracking number; meta notes adds a line for the driver." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tonfleet \"github.com/misiki/gocommerce/ext/fulfill-onfleet\"\n)\n\napp, err := gocommerce.New(cfg,\n\tonfleet.New(onfleet.Config{APIKey: os.Getenv(\"ONFLEET_API_KEY\")}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty onfleet.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "An address in parts", "t": "The engine holds the address as parts, so the module sends them as parts — street, apartment, city, state, postcode, country. Onfleet’s house-number field is left out rather than guessed, since “Flat 2, 14 High Street” has two numbers in it." },
+    { "b": "What the driver reads", "t": "The task notes say “Order” and its number, then what is in this parcel, one entry per line with its quantity. Meta notes adds a further line." },
+    { "b": "Collect, at the top", "t": "When the order is unpaid, the notes begin with COLLECT, the currency and the amount — because the driver is the one who will be asked for money, or will forget to ask." },
+    { "b": "Found by the store’s own ids", "t": "The task carries order_number, order_id and the unit count as metadata visible to the store and its drivers, not to the recipient." },
+    { "b": "The recipient’s link is Onfleet’s", "t": "Onfleet texts the recipient its own tracking link. The module logs that URL rather than storing it, and the engine has no tracking URL for the onfleet carrier on purpose: a link built from the task id would not resolve." },
+    { "b": "Settings without a restart", "t": "Before each shipment the panel’s values are laid over Config. With nothing in Config the module installs idle; with a key in Config it starts switched on." }
+  ],
+  "limits": [
+    { "b": "Not for the post", "t": "No label, no waybill and no carrier: the module is for the store’s own drivers, and nothing else." },
+    { "b": "No task updates", "t": "No webhook: a task completed or failed in Onfleet does not mark the order delivered. That is still the operator’s job." },
+    { "b": "Collect means the whole order", "t": "The COLLECT line is the order’s total, even on a parcel carrying part of it, and it is written with two decimals — wrong for a currency without them." },
+    { "b": "No cancel call", "t": "There is no call to delete a task. Deleting the fulfillment in GoCommerce leaves the task in Onfleet." },
+    { "b": "Assignment by distance only", "t": "Auto-assign asks Onfleet for its distance mode. Any other assignment rule is set up by hand in Onfleet, with auto-assign off." }
+  ],
+  "tested": true,
+  "testCount": 8,
+  "apiOps": 0,
+  "vendorUrl": "https://onfleet.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "What does the customer see?", "a": "Whatever Onfleet sends them: it texts the recipient its own tracking link. The store’s own order.shipped message still goes out through whichever notifier is installed, with the task’s shortId as the tracking number." },
+    { "q": "Does it handle cash on delivery?", "a": "It tells the driver. When the order is not paid, the task notes open with COLLECT, the currency and the order total. Marking the order paid afterwards is done in GoCommerce, as for any cash-on-delivery order." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -carriers flag installs every carrier module with an empty Config. Switch Onfleet on under Settings › Shipping providers and paste the API key there." },
+    { "q": "Is this an Onfleet partnership?", "a": "No. The module calls Onfleet’s public API with a key you supply. Onfleet does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

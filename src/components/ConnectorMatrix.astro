@@ -22,6 +22,8 @@ const MARK: Record<State, { cls: string; glyph: string; label: string }> = {
   unwired: { cls: 'pending', glyph: '○', label: 'not yet wired' },
 }
 const Mark = (s: State) => MARK[s] ?? MARK.unwired
+// The page for each connector lives at /svelte-commerce/backends/<slug>/.
+const slug = (name: string) => name.toLowerCase().replace(/[ .]+/g, '-')
 ---
 <p class="tbl-note">
   Read from <code>{data._source}</code> on <time datetime={data._read}>{data._read}</time>. {data._measured}
@@ -45,7 +47,7 @@ const Mark = (s: State) => MARK[s] ?? MARK.unwired
         const pct = Math.round((c.wired / c.total) * 100)
         return (
           <tr>
-            <th scope="row"><a href={c.url} target="_blank" rel="noopener noreferrer">{c.name}</a></th>
+            <th scope="row"><a href={`/svelte-commerce/backends/${slug(c.name)}/`}>{c.name}</a> <a class="ext-mark" href={c.url} target="_blank" rel="noopener noreferrer" aria-label={`${c.name} website`}>↗</a></th>
             <td class="cov"><span class="bar" style={`--pct:${pct}%`}><span class="num">{c.wired}/{c.total}</span></span></td>
             {([c.cart, c.checkout, c.auth] as State[]).map((s) => (
               <td class={`mark ${Mark(s).cls}`}><span aria-hidden="true">{Mark(s).glyph}</span><span class="vh">{Mark(s).label}</span></td>

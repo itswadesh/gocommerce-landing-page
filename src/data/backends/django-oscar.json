@@ -1,0 +1,130 @@
+{
+  "slug": "django-oscar",
+  "name": "Django Oscar",
+  "title": "Django Oscar SvelteKit Storefront — Svelte Commerce",
+  "description": "Svelte Commerce on Django Oscar through django-oscar-api: 15 of 43 services wired, with cart, checkout and sign-in; nine gaps, search among them.",
+  "lede": "The Django Oscar connector is wired against django-oscar-api, a separate package from Oscar core that must be installed and routed on your instance. Cart, checkout and sign-in are wired; search is among nine recorded gaps.",
+  "verdict": "Cart, checkout and sign-in are wired; coupons, reviews, search, CMS pages, payment-method listing, currencies, states, wishlist and vendors are not. Without search, shoppers find products only by browsing.",
+  "quickStart": [
+    {
+      "text": "get the storefront",
+      "cmd": "git clone https://github.com/itswadesh/svelte-commerce\ncd svelte-commerce"
+    },
+    {
+      "text": "one connector at a time: remove the two the storefront ships with, add this one",
+      "cmd": "npm uninstall @misiki/litekart-connector @misiki/vendure-connector\nnpm i @misiki/oscar-connector"
+    },
+    {
+      "text": "point it at your Oscar site",
+      "cmd": "echo PUBLIC_DJANGO_OSCAR_API_URL=https://your-store.example.com >> .env"
+    },
+    {
+      "text": "run it",
+      "cmd": "npm run dev"
+    }
+  ],
+  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
+  "env": [
+    {
+      "name": "PUBLIC_DJANGO_OSCAR_API_URL",
+      "required": true,
+      "note": "Base URL of your Oscar site, with django-oscar-api routed. Boot fails, naming this variable, if it is missing."
+    },
+    {
+      "name": "PUBLIC_DJANGO_OSCAR_API_KEY",
+      "required": false,
+      "note": "HTTP Basic username, for stores that authenticate that way. By default the connector uses django-oscar-api’s `Session-Id` header session. See the limitations."
+    },
+    {
+      "name": "PUBLIC_DJANGO_OSCAR_API_SECRET",
+      "required": false,
+      "note": "HTTP Basic password, with the username above."
+    },
+    {
+      "name": "PUBLIC_DJANGO_OSCAR_ACCESS_TOKEN",
+      "required": false,
+      "note": "Sent as `Authorization: Token <key>` — only useful if your store wired up DRF token authentication itself; django-oscar-api does not ship it."
+    },
+    {
+      "name": "PUBLIC_CONNECTOR",
+      "required": false,
+      "note": "Only when more than one connector is installed: `@misiki/oscar-connector` names the one this build runs on."
+    }
+  ],
+  "envNote": "The package is `oscar-connector`, but the variables follow the product: `PUBLIC_DJANGO_OSCAR_*`. `init.ts` hands the connector every one that is set, camel-cased. The guide also lists `PUBLIC_DJANGO_OSCAR_ACCESS_KEY`, `PUBLIC_DJANGO_OSCAR_STORE_ID` and `PUBLIC_DJANGO_OSCAR_CHANNEL_ID`; the connector’s source does not read them.",
+  "backendSettings": [
+    "Install django-oscar-api and route it on your instance: it is a separate package from Oscar core, and the connector talks to nothing else.",
+    "Let the storefront’s origin make cross-origin requests to Django Oscar (CORS): in production the browser calls `PUBLIC_DJANGO_OSCAR_API_URL` directly, not only the server."
+  ],
+  "howItWorks": [
+    "The connector speaks django-oscar-api, not Oscar core. By default it keeps the shopper’s session in django-oscar-api’s `Session-Id` header, which needs no CSRF token; HTTP Basic works too, and there is no bearer scheme at all — django-oscar-api ignores `Authorization: Bearer`. The route documentation its authors were given was dead, so it was written from the package’s source.",
+    "Installing the package is the whole switch. `vite.config.ts` resolves whichever `@misiki/*-connector` is installed, and `src/lib/core/connectors/init.ts` hands it every `PUBLIC_DJANGO_OSCAR_*` variable that is set, camel-cased, at boot — in the server hook for server rendering and in the client hook for the browser, which must reach the same URL in production.",
+    "There is no Litekart API behind the storefront here, so store identity — name, logo, currency, menus, plugin toggles, theme colours — comes from `src/lib/core/connectors/default-store.json` merged under the default export of `kitcommerce.config.ts`. Until you override it, the store is called “Test”. Any Litekart REST path the connector still inherits is answered from that local data, or resolved empty, rather than requested."
+  ],
+  "limitations": [
+    "Coupons: not wired.",
+    "Reviews: not wired.",
+    "Search: not wired.",
+    "CMS pages: not wired — legal and CMS pages render their layout with empty content.",
+    "Payment-method listing: not wired.",
+    "Currencies: not wired.",
+    "States and regions: not wired.",
+    "Wishlist: not wired.",
+    "Vendors: not wired.",
+    "Pages that depend on a service that is not wired render their empty state rather than failing.",
+    "If you set `PUBLIC_DJANGO_OSCAR_API_KEY` and `PUBLIC_DJANGO_OSCAR_API_SECRET` for HTTP Basic, that username and password reach every visitor: SvelteKit sends `PUBLIC_` variables to the browser.",
+    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
+    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden when another connector is active."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Boot fails with “the oscar connector is active but PUBLIC_DJANGO_OSCAR_API_URL is not set”",
+      "fix": "Add `PUBLIC_DJANGO_OSCAR_API_URL` to `.env`. A production Node build and Docker read `PUBLIC_*` from the process environment rather than `.env`, so set it on your deploy platform too."
+    },
+    {
+      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
+      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/oscar-connector'`."
+    },
+    {
+      "problem": "Boot fails with “PUBLIC_…_API_URL is set, but it configures a different backend than the one this build runs on”",
+      "fix": "Another backend’s variable is still set, usually left over from the one you switched from. Remove it, or install that backend’s connector. `PUBLIC_LITEKART_API_URL` is exempt: it only points the dev proxy."
+    },
+    {
+      "problem": "The store is called “Test”, or shows the wrong name and logo",
+      "fix": "Store identity is static on this backend. Set `name`, `logo`, `currencyCode` and the rest in the default export of `kitcommerce.config.ts`; `src/lib/core/connectors/default-store.json` lists every field."
+    },
+    {
+      "problem": "`[oscar] no native implementation for get /api/...` in the console",
+      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Django Oscar has no such feature; if it has one, the fix belongs in the connector’s matching service."
+    },
+    {
+      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
+      "fix": "A Litekart REST path was requested from outside the connector, so its guard never saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
+    },
+    {
+      "problem": "The build fails on `@misiki/litekart-connector`",
+      "fix": "`@misiki/kitcommerce-core` declares it as a peer, and `vite.config.ts` redirects that specifier to whichever connector is installed. Make sure exactly one `@misiki/*-connector` is listed in `package.json`."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Can I run a Django Oscar store on Svelte Commerce today?",
+      "a": "Cart, checkout and sign-in are wired through django-oscar-api. Nine services are not, search among them. Like every connector, it has not been run against a live production Oscar store."
+    },
+    {
+      "q": "How do I switch Svelte Commerce to Django Oscar?",
+      "a": "Remove the connectors the storefront ships with, install `@misiki/oscar-connector`, set `PUBLIC_DJANGO_OSCAR_API_URL` in `.env` and start the dev server. `vite.config.ts` resolves whichever connector is installed, so no file in the storefront changes."
+    },
+    {
+      "q": "Does Django Oscar need anything extra installed?",
+      "a": "Yes: django-oscar-api, a separate package from Oscar core, installed and routed on your instance. The connector talks to it and to nothing else."
+    },
+    {
+      "q": "Has the Django Oscar connector been run against a real Django Oscar store?",
+      "a": "Not against a live production instance — no Svelte Commerce connector has been. It was written by reading Django Oscar’s authoritative API source, and the Svelte Commerce maintainers ask Django Oscar’s own maintainers for a sandbox to run it against."
+    }
+  ],
+  "openQuestion": "Is a headless storefront a supported use case for django-oscar-api? Worth stating either way in its docs.",
+  "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/DJANGO-OSCAR.md",
+  "read": "2026-09-25"
+}

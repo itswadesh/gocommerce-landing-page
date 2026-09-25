@@ -3,7 +3,7 @@
   "name": "Operations",
   "summary": "Order timelines and edits, stock across locations with a ledger that reconciles, twelve ways to ship, and an audit of who changed what.",
   "title": "Order Management — GoCommerce Operations, Feature by Feature",
-  "description": "What running a store on GoCommerce looks like, checked against the code: order timelines and edits, multi-location stock with a movement ledger, multi-parcel shipping across 12 carrier options, refunds, returns, roles and audit — and what is not built yet.",
+  "description": "Running a store on GoCommerce: order timelines and edits, multi-location stock with a movement ledger, multi-parcel shipping, refunds, returns, roles, audit.",
   "ogTitle": "GoCommerce operations, feature by feature",
   "ogDescription": "Order timelines and edits, stock across locations, 12 ways to ship, audit — and what is not built yet.",
   "kicker": "Features · Operations",

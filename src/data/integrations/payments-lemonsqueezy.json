@@ -1,0 +1,61 @@
+{
+  "slug": "payments-lemonsqueezy",
+  "name": "Lemon Squeezy",
+  "category": "Payments",
+  "title": "Lemon Squeezy Payments for GoCommerce — Open-Source Module",
+  "description": "Sell through Lemon Squeezy as merchant of record from a GoCommerce store: the placeholder variant, four settings, webhook URL, refunds and limits.",
+  "ogTitle": "Lemon Squeezy payments for GoCommerce",
+  "ogDescription": "Hosted checkouts at the order’s price, against one placeholder variant. Read from the module’s source.",
+  "h1": "Lemon Squeezy payments for GoCommerce",
+  "lede": "A Go package that creates a Lemon Squeezy checkout at the order’s price and marks the GoCommerce order paid when a signed order_created webhook says it was paid. It needs one placeholder product in Lemon Squeezy — the one setup step Paddle does not.",
+  "what": [
+    "The module registers “lemonsqueezy” as a payment method. At checkout it creates a Lemon Squeezy checkout against a store and a variant you name, replaces the variant’s price with the order’s total in minor units, and answers with a redirect intent carrying the checkout URL.",
+    "Lemon Squeezy then calls POST /api/checkout/lemonsqueezy/webhook. The module verifies X-Signature and, when order_created arrives with the status paid, asks the engine to mark the order paid, recording Lemon Squeezy’s own order id — the one a refund is later issued against.",
+    "Why the placeholder: Lemon Squeezy sells items from its own catalogue, so a checkout must name a variant that already exists there. You create one product — any name, any price, never shown to a shopper — and every order becomes that variant at the order’s own price. Like Paddle, Lemon Squeezy is the merchant of record and works out the tax itself."
+  ],
+  "configLede": "Four settings are required: the API key, the webhook’s signing secret, and the store and placeholder variant every checkout is created against. Set them in Config from your own main(), or under Settings › Payment methods.",
+  "config": [
+    { "field": "APIKey", "panel": "API key", "env": "LEMONSQUEEZY_API_KEY", "required": true, "note": "Sent as a bearer token. Not sent to the storefront." },
+    { "field": "WebhookSecret", "panel": "Webhook signing secret", "env": "LEMONSQUEEZY_WEBHOOK_SECRET", "required": true, "note": "Verifies the X-Signature header. Required because, as the code puts it, without it any caller could mark orders paid." },
+    { "field": "StoreID", "panel": "Store ID", "env": "LEMONSQUEEZY_STORE_ID", "required": true, "note": "The Lemon Squeezy store every checkout is created in." },
+    { "field": "VariantID", "panel": "Placeholder variant ID", "env": "LEMONSQUEEZY_VARIANT_ID", "required": true, "note": "The catalogue item every checkout is created against; its price is replaced by the order total." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.lemonsqueezy.com, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Create the placeholder", "t": "In Lemon Squeezy, create one product with any name and price, and note the store id and its variant id. Shoppers never see it." },
+    { "b": "Add the webhook", "t": "Point a webhook at https://your-api-host/api/checkout/lemonsqueezy/webhook for order_created, and keep its signing secret." },
+    { "b": "Install and configure", "t": "Pass lemonsqueezy.New to gocommerce.New as below, or run the reference binary with -gateways and fill in Settings › Payment methods. Leave GoCommerce’s tax rates empty." },
+    { "b": "Take a payment", "t": "POST /api/checkout/lemonsqueezy answers with a redirect intent whose url is the hosted checkout. A paid order_created marks the order paid." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tlemonsqueezy \"github.com/misiki/gocommerce/ext/payments-lemonsqueezy\"\n)\n\napp, err := gocommerce.New(cfg,\n\tlemonsqueezy.New(lemonsqueezy.Config{\n\t\tAPIKey:        os.Getenv(\"LEMONSQUEEZY_API_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"LEMONSQUEEZY_WEBHOOK_SECRET\"),\n\t\tStoreID:       os.Getenv(\"LEMONSQUEEZY_STORE_ID\"),\n\t\tVariantID:     os.Getenv(\"LEMONSQUEEZY_VARIANT_ID\"),\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty lemonsqueezy.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "JSON:API, as required", "t": "Requests go as application/vnd.api+json, which Lemon Squeezy insists on — the package notes that plain JSON is refused with a confusing 415." },
+    { "b": "Signed, without a timestamp", "t": "X-Signature is a hex HMAC-SHA256 of the raw body, compared in constant time. With no timestamp in it, the idempotency claim is what stops a captured delivery applying twice." },
+    { "b": "Each event once", "t": "Lemon Squeezy sends no event id, so claims are keyed on the event name plus the object id. A retry is a duplicate; two different events about one order stay distinct." },
+    { "b": "Only paid settles", "t": "order_created with any status other than paid is acknowledged and changes nothing, so a sale still being collected, or refused, is not marked paid." },
+    { "b": "Refunds against the order", "t": "A refund posts to Lemon Squeezy’s refund endpoint for its order id, for the amount asked, and keeps the id it answers with on the refund row." },
+    { "b": "A failed update is retried", "t": "If marking the order paid fails, the claim is released and the webhook answers 500, so the retry finds work to do." }
+  ],
+  "limits": [
+    { "b": "A placeholder is required", "t": "Without StoreID and VariantID the module stays unconfigured, and a wrong variant surfaces as an error from Lemon Squeezy at the first checkout." },
+    { "b": "No currency is sent", "t": "The checkout carries the total as custom_price in minor units and no currency code. Check that the Lemon Squeezy store charges in the currency your store settles in." },
+    { "b": "Tax is Lemon Squeezy’s", "t": "Leave GoCommerce’s tax rates empty. The module does not check, and configuring both charges tax twice." },
+    { "b": "No failure path", "t": "The module never marks a payment failed. A checkout that is abandoned or declined leaves the order unpaid." },
+    { "b": "Refunds follow the webhook", "t": "A refund goes against the Lemon Squeezy order id that only the paid order_created webhook records." },
+    { "b": "Dashboard refunds are only logged", "t": "order_refunded is logged, not applied. A refund made in Lemon Squeezy does not change the GoCommerce order." }
+  ],
+  "tested": true,
+  "testCount": 7,
+  "apiOps": 0,
+  "vendorUrl": "https://www.lemonsqueezy.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Why does it need a placeholder product?", "a": "Lemon Squeezy sells items from its own catalogue, so a checkout must name a store and a variant that already exist there. The module overrides that variant’s price with the order total, so one placeholder serves every order. The package states it up front because the alternative is discovering it from an error at the first real checkout." },
+    { "q": "Should I keep GoCommerce’s tax rates?", "a": "No. Lemon Squeezy is the merchant of record and works out the tax on the sale itself. Leave GoCommerce’s rates empty so the total it sends is what the shopper pays." },
+    { "q": "What is the webhook URL?", "a": "POST /api/checkout/lemonsqueezy/webhook on the host that serves your GoCommerce API. order_created settles a paid order; order_refunded is logged; anything else is acknowledged." },
+    { "q": "Is this a Lemon Squeezy partnership?", "a": "No. The module calls Lemon Squeezy’s public API with keys you supply. Lemon Squeezy does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

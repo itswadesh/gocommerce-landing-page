@@ -1,0 +1,60 @@
+{
+  "slug": "notify-twilio",
+  "name": "Twilio",
+  "category": "Messaging",
+  "title": "Twilio SMS for GoCommerce — Open-Source Module",
+  "description": "Text shoppers about GoCommerce orders through Twilio: account SID, auth token, a from number or messaging service, the engine’s wording, and the limits.",
+  "ogTitle": "Twilio SMS for GoCommerce",
+  "ogDescription": "Order texts in the store’s own words, with nothing to register first. Read from the module’s source.",
+  "h1": "Twilio SMS for GoCommerce",
+  "lede": "A Go package that texts shoppers about their orders through Twilio’s REST API. The words are the store’s own — the engine’s SMS templates, edited in the admin — so nothing has to be registered with a carrier before a message goes out.",
+  "what": [
+    "The module registers a notifier on the engine’s SMS channel. When an order carrying a phone number is placed, shipped, delivered or cancelled, the engine hands it the event and its data; the module renders the engine’s SMS template for that event and posts it to Twilio’s Messages API.",
+    "The package calls it the plain-text counterpart to the MSG91 module. MSG91 sends DLT flow templates, because India requires SMS wording to be registered with the carrier first; Twilio sends free text, so an operator can change the words on the Setup SMS screen without asking anybody for approval. That, the package says, is the whole difference between the two.",
+    "A message is addressed either from a Twilio number the store owns or through a messaging service that owns several. Twilio rejects a request carrying both, so the service wins when it is set. No SDK: Twilio’s API is form posts with basic auth, which Go’s standard library does without help."
+  ],
+  "configLede": "The account SID and auth token are required, and so is one way to address a message: a from number or a messaging service. Set them in Config from your own main(), or leave Config empty and fill them in under Notifications › Setup SMS.",
+  "config": [
+    { "field": "AccountSID", "panel": "Account SID", "env": "TWILIO_ACCOUNT_SID", "required": true, "note": "The AC… identifier from the Twilio console." },
+    { "field": "AuthToken", "panel": "Auth token", "env": "TWILIO_AUTH_TOKEN", "required": true, "note": "The account’s auth token, or an API key secret. Sent with the SID as HTTP basic auth." },
+    { "field": "From", "panel": "From number", "env": "TWILIO_FROM", "required": false, "note": "A Twilio number the store owns, in international form: +15550000000. This or a messaging service is required." },
+    { "field": "MessagingServiceSID", "panel": "Messaging service SID", "env": "TWILIO_MESSAGING_SERVICE_SID", "required": false, "note": "The MG… identifier of a messaging service, used instead of the from number and winning over it when both are set." },
+    { "field": "BaseURL", "required": false, "note": "Overrides https://api.twilio.com. Tests set it; in the code’s words, nothing else should. Go only." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 15 seconds. Go only." }
+  ],
+  "setup": [
+    { "b": "Get the credentials", "t": "From the Twilio console: the account SID, the auth token, and either a number the store owns or a messaging service." },
+    { "b": "Install the module", "t": "Import it and pass twilio.New to gocommerce.New, as below — or run the reference binary with -twilio, which reads the four TWILIO_ variables shown." },
+    { "b": "Fill in the settings", "t": "In Config — a SID and token there start it switched on — or under Notifications › Setup SMS. A value typed into the panel counts on the next message, with no restart." },
+    { "b": "Edit the wording", "t": "The texts for order placed, shipped, delivered and cancelled are the engine’s templates, edited on the Setup SMS screen." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\ttwilio \"github.com/misiki/gocommerce/ext/notify-twilio\"\n)\n\napp, err := gocommerce.New(cfg,\n\ttwilio.New(twilio.Config{\n\t\tAccountSID:          os.Getenv(\"TWILIO_ACCOUNT_SID\"),\n\t\tAuthToken:           os.Getenv(\"TWILIO_AUTH_TOKEN\"),\n\t\tFrom:                os.Getenv(\"TWILIO_FROM\"),\n\t\tMessagingServiceSID: os.Getenv(\"TWILIO_MESSAGING_SERVICE_SID\"),\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc has no example of its own; this is how the reference binary’s -twilio flag constructs the module, with imports added. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "The engine’s words", "t": "The body is the engine’s SMS template for the event — the panel’s edit if there is one, the default otherwise — rendered with Go’s text/template. There are no wording overrides in Config." },
+    { "b": "Number or service, never both", "t": "When a messaging service is set, the request carries MessagingServiceSid and no From; otherwise it carries the from number. Twilio refuses a request with both." },
+    { "b": "Configured means it can send", "t": "An account with no from number and no messaging service does not count as configured, so the Notifications screen cannot show a working channel that silently drops every text." },
+    { "b": "Refusals settle, outages retry", "t": "A 429 or 5xx is returned as an error and the engine retries the notification with backoff. Any other refusal is logged with Twilio’s code and more_info link, and settled." },
+    { "b": "Every text written down", "t": "Sent, with Twilio’s message SID and status; or not attempted because the module is not configured, with the event and the recipient." },
+    { "b": "Empty texts are skipped", "t": "An event with no SMS template, or a template that renders to nothing, sends nothing and is not an error." }
+  ],
+  "limits": [
+    { "b": "Four events", "t": "The engine has SMS wording for order placed, shipped, delivered and cancelled. Payment received and refunds have no SMS template, so they send no text." },
+    { "b": "Numbers go as entered", "t": "The shopper’s phone is sent to Twilio exactly as the order holds it. Twilio expects international form, so collect numbers with their country code." },
+    { "b": "Refusals count as sent", "t": "A text Twilio refuses returns no error, so the engine’s notification log records it as sent. The refusal is only in the application log." },
+    { "b": "No delivery receipts", "t": "No status callback is registered, so a text Twilio accepts and later fails to deliver is not reported back." },
+    { "b": "Not the India module", "t": "The package’s own comparison: India requires SMS wording to be registered first, which is what the MSG91 module sends. This one sends free text." }
+  ],
+  "tested": true,
+  "testCount": 6,
+  "apiOps": 0,
+  "vendorUrl": "https://www.twilio.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Twilio or MSG91?", "a": "The package answers it: MSG91 sends pre-registered DLT templates, which India requires, and Twilio sends free text in the store’s own words. The reference binary’s comment calls MSG91 the right module in India and a week of waiting everywhere else." },
+    { "q": "Can I change what the texts say?", "a": "Yes, on the Setup SMS screen under Notifications. The wording is the engine’s SMS templates, rendered at send time; there is nothing to register with Twilio first." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -twilio flag installs it, reading TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM and TWILIO_MESSAGING_SERVICE_SID, and the panel can hold the same settings." },
+    { "q": "Is this a Twilio partnership?", "a": "No. The module calls Twilio’s public API with credentials you supply. Twilio does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

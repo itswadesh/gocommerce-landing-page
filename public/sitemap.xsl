@@ -28,6 +28,7 @@
       <xsl:when test="$key = 'storefront'">Storefront</xsl:when>
       <xsl:when test="$key = 'compare'">Comparisons</xsl:when>
       <xsl:when test="$key = 'blog'">Blog</xsl:when>
+      <xsl:when test="$key = 'integrations'">Integrations</xsl:when>
       <xsl:otherwise><xsl:value-of select="$key"/></xsl:otherwise>
     </xsl:choose>
   </xsl:template>

@@ -1,0 +1,73 @@
+{
+  "slug": "fulfill-usps",
+  "name": "USPS",
+  "category": "Shipping",
+  "title": "USPS Shipping Labels for GoCommerce — Open-Source Module",
+  "description": "Buy USPS labels directly from a GoCommerce order: the OAuth app, CRID, MID and payment account, mail class, the stored PDF label, and what is left out.",
+  "ogTitle": "USPS labels for GoCommerce",
+  "ogDescription": "Labels bought straight from the USPS APIs, stored and served to print. Read from the module’s source.",
+  "h1": "USPS labels for GoCommerce",
+  "lede": "A Go package that buys a label straight from the United States Postal Service’s APIs when an operator ships an order — no aggregator in between. USPS does not host the label, so the module keeps the PDF and serves it from one admin route.",
+  "what": [
+    "The module registers “usps” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider usps — the engine keeps the order’s state and its events, and the module only talks to USPS.",
+    "USPS needs two credentials to buy one label, and the package walks through the three calls: an OAuth client-credentials token, a payment authorisation tied to the CRID, MID and Enterprise Payment System account that will be charged, and the label itself. Both tokens are cached, so a hundred labels cost a hundred and two calls rather than three hundred.",
+    "The label comes back inline, as a base64 PDF. Rather than put a quarter of a megabyte into every order response, the module stores the bytes in its own table and serves them at GET /api/admin/x/fulfill-usps/labels/{tracking} — the one API operation it adds, open only to an operator with orders.read, because a label carries the buyer’s name and address."
+  ],
+  "configLede": "Eight settings are required: the developer application’s client id and secret, the CRID, MID and payment account from the Business Customer Gateway, a default mail class, and a ship-from street address and ZIP code. Set them in Config, or fill them in under Settings › Shipping providers.",
+  "config": [
+    { "field": "ClientID", "panel": "Client ID", "env": "USPS_CLIENT_ID", "required": true, "note": "The consumer key of a USPS developer application." },
+    { "field": "ClientSecret", "panel": "Client secret", "env": "USPS_CLIENT_SECRET", "required": true, "note": "Its consumer secret. With the client id it mints the OAuth bearer token every USPS API takes." },
+    { "field": "CRID", "panel": "CRID", "env": "USPS_CRID", "required": true, "note": "From the Business Customer Gateway. With the MID and the account number it mints the payment authorisation that label creation needs." },
+    { "field": "MID", "panel": "MID", "env": "USPS_MID", "required": true, "note": "The mailer id, from the Business Customer Gateway." },
+    { "field": "AccountNumber", "panel": "Payment account number", "env": "USPS_EPS_ACCOUNT", "required": true, "note": "The payment account charged for postage." },
+    { "field": "ManifestMID", "panel": "Manifest MID", "required": false, "note": "The MID that manifests the shipment. Defaults to the MID, which is right for a store with one mailer id." },
+    { "field": "AccountType", "panel": "Account type", "required": false, "note": "EPS, the Enterprise Payment System, by default — in the code’s words, the only one most stores have." },
+    { "field": "MailClass", "panel": "Mail class", "required": true, "note": "The default service: USPS_GROUND_ADVANTAGE, PRIORITY_MAIL, PRIORITY_MAIL_EXPRESS and the rest. Meta mail_class overrides it for one parcel." },
+    { "field": "RateIndicator", "panel": "Rate indicator", "required": false, "note": "The rate band. SP, single piece, by default; meta rate_indicator overrides it for one parcel." },
+    { "field": "ProcessingCategory", "panel": "Processing category", "required": false, "note": "MACHINABLE by default; IRREGULAR, NON_MACHINABLE, LETTERS and FLATS are the others." },
+    { "field": "From.StreetAddress", "panel": "From: street address", "required": true, "note": "Where parcels are posted from." },
+    { "field": "From.ZIPCode", "panel": "From: ZIP code", "required": true, "note": "The ship-from ZIP code." },
+    { "field": "From.SecondaryAddress, From.City, From.State, From.Firm", "panel": "From: unit, suite; city; state; firm", "required": false, "note": "The rest of the ship-from address." },
+    { "field": "From.FirstName, From.LastName, From.ZIPPlus4, From.Phone", "required": false, "note": "Also part of the ship-from address, settable in Go only; the package doc’s example sets FirstName." },
+    { "field": "DefaultWeightGrams", "panel": "Default weight (grams)", "required": false, "note": "Per unit, for a parcel holding a variant with no weight recorded. 500 by default." },
+    { "field": "DefaultLengthMM, DefaultWidthMM, DefaultHeightMM", "required": false, "note": "The box sent when the engine has no unambiguous size, which is any parcel holding more than one unit. 230 × 150 × 50 mm by default. Go only." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://apis.usps.com, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 45 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Get the credentials", "t": "A USPS developer application gives the client id and secret; the Business Customer Gateway gives the CRID, the MID and the Enterprise Payment System account that pays for postage." },
+    { "b": "Install the module", "t": "Import it and pass usps.New to gocommerce.New, as below — or run the reference binary with -carriers, which installs every carrier module idle." },
+    { "b": "Fill in the settings", "t": "Credentials, mail class and ship-from address, in Config or under Settings › Shipping providers. A value typed into the panel counts on the next shipment, with no restart." },
+    { "b": "Ship and print", "t": "POST /api/admin/create-fulfillment with the order id and the provider usps. The shipment’s label URL points at /api/admin/x/fulfill-usps/labels/{tracking}, which serves the PDF." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tusps \"github.com/misiki/gocommerce/ext/fulfill-usps\"\n)\n\napp, err := gocommerce.New(cfg,\n\tusps.New(usps.Config{\n\t\tClientID:      os.Getenv(\"USPS_CLIENT_ID\"),\n\t\tClientSecret:  os.Getenv(\"USPS_CLIENT_SECRET\"),\n\t\tCRID:          os.Getenv(\"USPS_CRID\"),\n\t\tMID:           os.Getenv(\"USPS_MID\"),\n\t\tAccountNumber: os.Getenv(\"USPS_EPS_ACCOUNT\"),\n\t\tFrom: usps.Address{\n\t\t\tFirstName: \"Acme\", StreetAddress: \"4120 Bingham Ave\",\n\t\t\tCity: \"St. Louis\", State: \"MO\", ZIPCode: \"63116\",\n\t\t},\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. It sets no MailClass, which is required, so as written the module installs idle until a mail class is typed into the panel.",
+  "howItWorks": [
+    { "b": "Two tokens, cached", "t": "The bearer token is kept until a minute before it expires; the payment authorisation for four hours, half the eight USPS gives it. A 401 drops both, so the next attempt mints a fresh pair rather than retrying a dead one." },
+    { "b": "The label, stored and served", "t": "The base64 PDF is decoded and kept in the module’s own table, keyed by tracking number, and served inline for printing to an operator who can read orders — nobody else." },
+    { "b": "Postage is never lost to a missing PDF", "t": "If the label image cannot be decoded or stored, the shipment still stands with its tracking number and the failure is logged. Refusing it would leave postage paid for and an order the engine says is unshipped." },
+    { "b": "Rounded up, not down", "t": "Weight goes to USPS in pounds and sides in inches, both rounded up to the hundredth. A parcel declared lighter than it is comes back with postage due; one a hundredth heavier costs a cent." },
+    { "b": "ZIP+4 split", "t": "A ZIP+4 typed as one string — 94117-1234, or nine digits — is split into the two fields USPS takes, because it rejects the joined form in ZIPCode." },
+    { "b": "Settings without a restart", "t": "Before each shipment the panel’s values are laid over Config. With nothing in Config the module installs idle; with every required field in Config it starts switched on." }
+  ],
+  "limits": [
+    { "b": "Domestic addresses only", "t": "The label request carries no country and no customs form, so as written it is for parcels within the United States." },
+    { "b": "4×6 PDF labels only", "t": "The image type and size are fixed in the code; there is no setting for ZPL or another size." },
+    { "b": "An EPS account is needed", "t": "Label creation is paid through the payment authorisation, so a store without a CRID, MID and payment account from the Business Customer Gateway cannot buy a label with this module." },
+    { "b": "No tracking updates", "t": "No webhook: scans and delivery events at USPS do not reach the order. Marking it delivered is still the operator’s job." },
+    { "b": "No cancel call", "t": "There is no call to cancel a label. Deleting the fulfillment in GoCommerce does not touch the label or its postage at USPS." },
+    { "b": "A guessed box for several items", "t": "For anything but a single unit, the size sent is the configured default, not a measurement. The engine does not pack cartons." }
+  ],
+  "tested": true,
+  "testCount": 9,
+  "apiOps": 1,
+  "vendorUrl": "https://www.usps.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Where is the label kept?", "a": "In the module’s own table in your PostgreSQL database, as PDF bytes keyed by tracking number. GET /api/admin/x/fulfill-usps/labels/{tracking} serves it to an operator with orders.read, and to nobody else. It is the only fulfillment module with a route of its own, because USPS is the only carrier here that does not host its labels." },
+    { "q": "Why does it need so many credentials?", "a": "Because USPS asks for two tokens to buy one label: an OAuth token from the developer application, and a payment authorisation naming the CRID, MID and payment account that pay. Without the second, the package notes, every label call answers 401 with a perfectly valid bearer token." },
+    { "q": "Can it ship abroad?", "a": "Not as written. The label request has no destination country and no customs form, so it is for US domestic parcels." },
+    { "q": "Is this a USPS partnership?", "a": "No. The module calls the public USPS APIs with credentials you supply. USPS does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

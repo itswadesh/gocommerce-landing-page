@@ -1,0 +1,58 @@
+{
+  "slug": "identity",
+  "name": "Identity",
+  "category": "Platform",
+  "title": "Shopper Accounts for GoCommerce — Identity Module",
+  "description": "Add shopper accounts to a GoCommerce store: sign-up, sign-in, saved addresses, password reset and order history by claim. Guest checkout keeps working.",
+  "ogTitle": "Shopper accounts for GoCommerce",
+  "ogDescription": "Sign-in, an address book, password reset and order history, in a module’s own tables. Guest checkout untouched.",
+  "h1": "Shopper accounts for GoCommerce",
+  "lede": "A Go package that adds shopper accounts to a store whose core has none: registration, sign-in, a saved address book, password reset and an order history. Guest checkout is untouched — an account is somewhere to keep addresses and find orders again, not a gate in front of buying.",
+  "what": [
+    "The package calls itself the module the design anticipated: “core carries no customer concept and never will, so accounts live here, in their own tables, reached through their own routes.” A shopper with an account still checks out with a cart token and an email.",
+    "Everything mounts under /x/identity/. A session is a bearer token issued by register, login and password reset — the same shape as an operator’s session. An account holds an email, a name and a phone, an address book with at most one default, and the orders it has claimed.",
+    "Order history is by claim, not by email. An order joins an account when the client presents the order’s own access token, which only whoever placed the order holds. In the package’s words, matching on email alone would let anyone register an address they do not own and read that person’s purchases."
+  ],
+  "configLede": "Nothing is required. The setting worth making is the reset link: without it the reset email carries a code to paste instead of a link. There is no panel card; the reference binary’s -identity flag reads the link from the environment.",
+  "config": [
+    { "field": "SessionTTL", "required": false, "note": "How long a sign-in lasts without a refresh. 30 days by default — in the package’s words, a shop, not a bank." },
+    { "field": "ResetTTL", "required": false, "note": "How long a password-reset token stays valid. An hour by default." },
+    { "field": "ResetURL", "env": "GOCOMMERCE_IDENTITY_RESET_URL", "required": false, "note": "The storefront page a reset email links to, with {token} where the token goes. Configured rather than taken from the request, because a URL a client can choose is a URL a phisher can choose." },
+    { "field": "Notifier", "required": false, "note": "Overrides how the reset email is delivered. Left nil, it goes to the engine’s own email notifiers — the ones the order emails use." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass identity.New to gocommerce.New, as below, or start the reference binary with -identity. It adds five tables of its own and writes none of the core’s." },
+    { "b": "Install an email sender", "t": "The reset email goes through the store’s email notifier, Resend or SendGrid, with wording an operator can edit. With neither installed, it is written to the log and the shopper receives nothing." },
+    { "b": "Wire the storefront", "t": "Register and sign in at /x/identity/register and /x/identity/login, then send Authorization: Bearer <token> to /x/identity/me and the address and order routes. /x/identity/refresh extends a session." },
+    { "b": "Claim orders after checkout", "t": "Checkout stays guest-shaped. After an order is placed, the storefront posts its number and access token to /x/identity/me/orders to put it in the account’s history." }
+  ],
+  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/identity\"\n)\n\napp, err := gocommerce.New(cfg, identity.New(identity.Config{\n\tResetURL: \"https://shop.example.com/auth/reset-password?token={token}\",\n}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "Passwords, standard library only", "t": "PBKDF2-HMAC-SHA256 with 600,000 iterations and a 16-byte salt, the construction the engine uses for operators. Each hash records its iteration count, so raising it never breaks an old password. Eight characters at least." },
+    { "b": "Tokens stored hashed", "t": "Session and reset tokens are 32 random bytes, and only their hashes are stored. Changing or resetting a password ends every other session and issues a fresh one." },
+    { "b": "The same answer either way", "t": "A wrong email and a wrong password get the same error in the same time — a dummy hash is computed for an address with no account. Asking for a reset says nothing about whether the address has one." },
+    { "b": "Guessing slows down", "t": "After five failed sign-ins for an email, or from an address, each further attempt waits: 30 seconds, doubling to 15 minutes, forgotten after an hour. A successful sign-in clears it." },
+    { "b": "Orders by claim", "t": "POST /x/identity/me/orders with the order’s number and token links it, and the first account to prove an order keeps it. An order deleted later is simply skipped when the history is read." },
+    { "b": "In the admin", "t": "The Accounts screen lists who signed up; reading it needs accounts.read, which managers and staff hold by default. Deleting an account, with its sessions, addresses and order links, needs accounts.erase as well." }
+  ],
+  "limits": [
+    { "b": "No email verification", "t": "An account is created for any address typed in, and nothing confirms the shopper owns it. Order history is safe from this because it goes by claim, not by email." },
+    { "b": "Passwords only", "t": "No social sign-in, no one-time codes by SMS or email, and no two-factor authentication." },
+    { "b": "One address slows everyone", "t": "The throttle reads the connection’s address, not X-Forwarded-For. Behind a reverse proxy — Caddy, in the Docker quick start — every shopper shares one, so five failed sign-ins in a row slow sign-in for all of them." },
+    { "b": "The throttle is per process", "t": "Failed attempts are counted in memory. Several instances each keep their own count, and a restart forgets it." },
+    { "b": "Sign-up says an address is taken", "t": "Registering an email that already has an account answers 409 and says so, and password-reset requests are not rate-limited — each one sends an email." },
+    { "b": "Orders are not claimed for you", "t": "Nothing links an order placed while signed in to the account. The storefront has to post the claim after checkout, or the order stays out of the history." }
+  ],
+  "tested": true,
+  "testCount": 12,
+  "apiOps": 20,
+  "faq": [
+    { "q": "Does it replace guest checkout?", "a": "No. Checkout keeps taking an email and a cart token whether or not the shopper is signed in. The account adds saved addresses and a history of the orders the shopper has claimed." },
+    { "q": "How is a signed-in shopper’s order added to their history?", "a": "By claim. Checkout returns an access token for the order, and the storefront posts the order number and that token to /x/identity/me/orders. Only whoever placed the order holds the token, so nobody can claim someone else’s purchases by registering their email." },
+    { "q": "Where does the password-reset email come from?", "a": "From the store’s own email notifier — the Resend or SendGrid module — using a template an operator can reword in the admin. It links to Config.ResetURL with the token filled in, or carries the token as a code when no URL is set." },
+    { "q": "Can an operator see or delete accounts?", "a": "Yes. The admin’s Accounts screen lists them for anyone with accounts.read. Deleting one — with its sessions, address book and order links, but not the orders themselves — needs accounts.erase, which no role but the owner holds until it is granted." },
+    { "q": "Does Svelte Commerce use these accounts?", "a": "Not yet. Svelte Commerce’s GoCommerce connector, version 0.1.0, covers catalogue, cart, checkout and order lookup, not customer accounts. A storefront you write can call these routes directly." }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "slug": "invoices",
+  "name": "Invoices",
+  "category": "Platform",
+  "title": "Numbered Invoices for GoCommerce — Open-Source Module",
+  "description": "Issue a gapless, numbered invoice for every paid GoCommerce order: seller details, GSTIN or VAT number, the number format, and what the document leaves out.",
+  "ogTitle": "Numbered invoices for GoCommerce",
+  "ogDescription": "A gapless invoice number the moment an order is paid, with a snapshot of the order. Read from the source.",
+  "h1": "Numbered invoices for GoCommerce",
+  "lede": "A Go package that issues an invoice, with its own gapless number, the moment an order is paid — and keeps a snapshot of the order as it was. The seller’s name, address and tax id are its settings, set in code.",
+  "what": [
+    "The module listens for order.paid and issues an invoice for that order: a number from its own per-year sequence, the order’s total and currency, and a snapshot of the whole order as it stood. The admin gets an Invoices screen and a link from each order; the API gets two read-only routes.",
+    "The package doc explains why it is a module at all: an order is what a shopper asked for, while an invoice is an accounting document with its own gapless sequence and its own retention rules. Keeping them apart is why this is a module and not a column on the order.",
+    "It needs no third party and talks to nothing outside the store. It prints a tax id beside the seller — a GSTIN, a VAT number, whatever applies — and serves the invoice as a page to print or as JSON."
+  ],
+  "configLede": "One setting is required: the seller’s name. All five are Config fields — this module has no settings in the admin’s panel — so they are set in your own main(), or through the reference binary’s -invoices flag and its three environment variables.",
+  "config": [
+    { "field": "SellerName", "env": "INVOICES_SELLER_NAME", "required": true, "note": "Heads the document. Without it the module refuses to register and the store does not start; the reference binary falls back to “This store”." },
+    { "field": "SellerAddress", "env": "INVOICES_SELLER_ADDRESS", "required": false, "note": "Printed under the seller’s name. The code’s comment calls it required, but only the name is checked." },
+    { "field": "TaxID", "env": "INVOICES_TAX_ID", "required": false, "note": "Printed beside the seller, for jurisdictions that need it — a GSTIN, a VAT number, whatever applies." },
+    { "field": "NumberFormat", "required": false, "note": "Builds the number from {year} and {seq}; {seq:05} pads to five digits. Defaults to INV-{year}-{seq:05}." },
+    { "field": "Footer", "required": false, "note": "Printed at the bottom of every invoice." }
+  ],
+  "setup": [
+    { "b": "Choose the number format", "t": "The default is INV-{year}-{seq:05}, which gives INV-2026-00001. Settle yours before the first invoice; the count restarts at 1 each calendar year." },
+    { "b": "Install the module", "t": "Import it and pass invoices.New to gocommerce.New with at least SellerName, as below — or run the reference binary with -invoices and the INVOICES_ variables." },
+    { "b": "Take a payment", "t": "Every order that reaches paid gets its invoice. On start-up, paid orders that have none are caught up." },
+    { "b": "Print or fetch it", "t": "Open it from the order or the Invoices screen in the admin, or GET /api/admin/x/invoices/{orderId} — HTML to print, or JSON with Accept: application/json." }
+  ],
+  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/invoices\"\n)\n\napp, err := gocommerce.New(cfg,\n\tinvoices.New(invoices.Config{\n\t\tSellerName:   \"Example Ltd\",\n\t\tNumberFormat: \"INV-{year}-{seq:05}\",\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. Add SellerAddress, TaxID and Footer the same way.",
+  "howItWorks": [
+    { "b": "Issued on payment, once", "t": "The module subscribes to order.paid. Event delivery is at least once, so a unique constraint on the order id turns a repeated event into a no-op rather than a second invoice." },
+    { "b": "Gapless, per year", "t": "The number comes from a counter row per year, taken under a lock inside the transaction that writes the invoice. A rollback gives the number back, which a PostgreSQL sequence would not." },
+    { "b": "Your format", "t": "NumberFormat expands {year} — the UTC calendar year — and {seq}, with {seq:05} padding to five digits. Two deliveries at once queue for the counter rather than share a number." },
+    { "b": "A snapshot of the order", "t": "The order is stored as JSON as it stood when the invoice was issued, so later edits to the order do not change the invoice’s lines or totals." },
+    { "b": "Nothing missed at start-up", "t": "When the store starts, the module looks for paid orders with no invoice and issues them — the safety net under at-least-once delivery." },
+    { "b": "HTML or JSON, behind a right", "t": "The invoice route answers with a printable page, or JSON when asked. Reading needs the invoices.read right, which the manager and staff roles hold by default." }
+  ],
+  "limits": [
+    { "b": "No tax line", "t": "The order’s tax is in the snapshot, but the printed invoice shows subtotal, shipping, discount and total only. With tax-exclusive prices, the lines shown do not add up to the total." },
+    { "b": "Amounts in minor units", "t": "The page prints every amount as a whole number of minor units — INR 123450 for ₹1,234.50 — and says so at its foot." },
+    { "b": "Seller details are read live", "t": "The seller block comes from Config when an invoice is viewed, not from the snapshot. Change the address and every past invoice shows the new one." },
+    { "b": "No PDF, no email", "t": "The invoice is an HTML page to print or JSON to process. The module renders no PDF and does not send the invoice to the shopper." },
+    { "b": "No credit notes", "t": "A refund issues nothing and changes nothing: the module listens for order.paid only." },
+    { "b": "500 at a time on start-up", "t": "The start-up catch-up issues invoices for at most 500 paid orders. A larger backlog is cleared over several restarts." }
+  ],
+  "tested": true,
+  "testCount": 10,
+  "apiOps": 2,
+  "faq": [
+    { "q": "Is it a GST invoice?", "a": "It prints your GSTIN if you set TaxID, and nothing more GST-specific: no HSN or SAC codes, no place of supply, no CGST, SGST or IGST lines — and, as it stands, no tax line at all. Whether a document meets your invoicing rules is a question for your accountant; the template in invoices.go is where to change it." },
+    { "q": "When does a cash-on-delivery order get its invoice?", "a": "When it is marked paid, because the module listens for order.paid. A cash-on-delivery order has no invoice until an operator records the payment." },
+    { "q": "Can the numbering have gaps?", "a": "Not from this module. The counter is taken under a row lock inside the transaction that writes the invoice, so a failed write gives its number back. The count restarts at 1 each calendar year, in UTC." },
+    { "q": "Does the shopper receive the invoice?", "a": "Not from this module. It issues the invoice, stores it and serves it to the admin and the API; sending it to the shopper is not in the code." },
+    { "q": "Why is an invoice not just a field on the order?", "a": "The package doc answers it: an order is what a shopper asked for, while an invoice is an accounting document with its own gapless sequence and its own retention rules. Keeping them apart is why this is a module." }
+  ]
+}

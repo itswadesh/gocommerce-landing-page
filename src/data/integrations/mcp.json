@@ -1,0 +1,60 @@
+{
+  "slug": "mcp",
+  "name": "MCP",
+  "category": "Platform",
+  "title": "MCP Server for GoCommerce — Store Tools for AI Agents",
+  "description": "Let an AI agent operate a GoCommerce store over the Model Context Protocol: 19 tools, admin auth, per-tool rights, a read-only mode and an audit log.",
+  "ogTitle": "An MCP server for GoCommerce",
+  "ogDescription": "Nineteen tools on the same domain services as REST, with rights checked per call and every change audited.",
+  "h1": "An MCP server for GoCommerce",
+  "lede": "A Go package that exposes a GoCommerce store to AI agents over the Model Context Protocol. Nineteen tools, each calling the same domain service a REST request would — so an agent can do what an operator can, under the same rules, and every change it makes is written to an audit table.",
+  "what": [
+    "In the package’s own words: “The agent never gets database access. Every tool calls the same domain service a REST request would, so there is one state machine and one place where an order becomes paid — whether a human, an application or an agent asked for it.”",
+    "It mounts one endpoint, POST /api/admin/x/mcp, behind the store’s admin authentication, and speaks JSON-RPC 2.0 — initialize, tools/list, tools/call and ping — at MCP revision 2024-11-05. For a desktop agent that launches the store as a subprocess, mcp.ServeStdio runs the same server over stdin and stdout.",
+    "Nine tools read: store_info, store_health, list_products, get_product, list_low_stock_variants, list_orders, get_order, list_customers and sales_report. Ten change things: update_variant_inventory, mark_order_paid, cancel_order, create_fulfillment, mark_order_delivered, create_product, update_product, set_variant_price, create_discount and refund_order."
+  ],
+  "configLede": "Nothing is required. The endpoint is authenticated by the store’s own admin credentials, so these settings decide what an agent may do; they live in Config only, with no panel card and no environment variable.",
+  "config": [
+    { "field": "ServerName", "required": false, "note": "The name reported to the agent during initialize. Defaults to gocommerce." },
+    { "field": "ReadOnly", "required": false, "note": "Withholds all ten mutating tools. The package suggests it “while you are still deciding how much you trust the agent on the other end.”" },
+    { "field": "Tools", "required": false, "note": "Extra tools — name, description, JSON Schema for the arguments, the rights they need, whether they mutate — wired explicitly in main(). There is no discovery, and two tools with one name stop the store starting." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass mcp.New to gocommerce.New in your own main(), as below. The reference binary has no flag for it; examples/store/main.go installs it." },
+    { "b": "Choose a credential", "t": "The endpoint takes what the admin API takes. A static admin token carries every right; a signed-in operator needs agent.dispatch, which only the owner role holds until it is granted." },
+    { "b": "Point the agent at it", "t": "An HTTP client posts JSON-RPC to /api/admin/x/mcp with the credential as a bearer token. A desktop agent over stdio needs mcp.ServeStdio(app, m) called in place of ListenAndServe." },
+    { "b": "Read what it did", "t": "Every mutating call, including one refused for want of a right, is recorded. GET /api/admin/x/mcp/audit lists them, and the admin’s Agent activity screen shows the same list." }
+  ],
+  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/mcp\"\n)\n\napp, err := gocommerce.New(cfg, mcp.New(mcp.Config{\n\tServerName: \"example-store\",\n\t// The ten mutating tools stay hidden until you switch this off.\n\tReadOnly: true,\n}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s example with the server name examples/store/main.go gives it, and ReadOnly switched on as a cautious start. cfg is your gocommerce.Config; the endpoint is then POST /api/admin/x/mcp.",
+  "howItWorks": [
+    { "b": "The same services as REST", "t": "Each tool calls the domain service its REST route calls, so an agent cannot reach a state a person could not, and cannot skip a rule by coming in through a different door." },
+    { "b": "Rights, per tool", "t": "One route dispatches every tool, so each tool names the rights its REST equivalent needs — orders.refund for refund_order, catalog.write for set_variant_price — and they are checked against the signed-in operator on every call." },
+    { "b": "Errors an agent can use", "t": "A tool that fails returns its error as content with isError set: “that order is already shipped” is an answer. A call refused for want of a right comes back as a JSON-RPC error instead." },
+    { "b": "An audit table", "t": "The module owns one table, mcp_audit: the tool, its arguments, ok or error, and when. Every mutating call is written, including a refused one. The right to read it, agent.read, is separate from the right to act." },
+    { "b": "Read-only, visibly", "t": "tools/list marks each tool with readOnlyHint, an annotation from a later MCP revision that older clients ignore. Under ReadOnly the mutating tools are not listed at all." },
+    { "b": "Stdio for desktop agents", "t": "mcp.ServeStdio reads one JSON-RPC message per line from stdin and answers on stdout. It runs with the bootstrap credential, so every tool the Config allows is available." }
+  ],
+  "limits": [
+    { "b": "No flag, no quick start", "t": "Neither the Docker quick start nor the reference binary installs it. Using it means a main() of your own." },
+    { "b": "Tools only", "t": "The server advertises revision 2024-11-05 and answers initialize, ping, tools/list and tools/call. Resources, prompts and change notifications are not implemented." },
+    { "b": "Plain POST, one message at a time", "t": "Each request is one POST answered with one JSON body. There is no server-sent event stream, no session id and no batching, so a client that needs any of those will not connect." },
+    { "b": "The static token is not narrowed", "t": "An agent holding the static admin token has every right, and the per-tool checks do not apply to it. ReadOnly is the one switch that holds such an agent back." },
+    { "b": "Reads leave no trail", "t": "Only mutating calls reach mcp_audit. What an agent read — customers, orders, sales — is not recorded by the module." },
+    { "b": "No tools from other modules yet", "t": "Config.Tools takes extra tools, but no other module in the repository ships any today. Each one you want exposed is one you write." }
+  ],
+  "tested": true,
+  "testCount": 20,
+  "apiOps": 2,
+  "vendorUrl": "https://modelcontextprotocol.io",
+  "vendorType": "CreativeWork",
+  "vendorName": "Model Context Protocol",
+  "trademark": "",
+  "faq": [
+    { "q": "Which agents can use it?", "a": "Any MCP client that sends JSON-RPC over HTTP POST with a bearer token, or one that launches a program and talks over stdio — the second needs a main() that calls mcp.ServeStdio. The repository’s tests drive it with a scripted agent, not with a particular product." },
+    { "q": "Can the agent touch the database?", "a": "No. No tool runs SQL or holds a database handle; each calls a domain service, the same one a REST route calls. The only table the module writes is its own audit log." },
+    { "q": "How do I stop an agent refunding orders?", "a": "Run it with ReadOnly, which withholds every mutating tool, or give the agent a signed-in operator whose role lacks orders.refund — refund_order checks that right on every call. A static admin token ignores roles, so it is the wrong credential for a limited agent." },
+    { "q": "Does this mean agents can shop at the store?", "a": "No. This MCP server is for operating the store — catalogue, stock, orders, refunds. GoCommerce has no support for agentic commerce protocols such as ACP, UCP or AP2, which are about agents buying." }
+  ]
+}

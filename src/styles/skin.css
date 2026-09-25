@@ -405,3 +405,5 @@ h2 + .capwall, h2 + .moddir, h2 + .screens { margin-top: 44px; }
 .footer-tm { color: var(--ink-3); }
 .footer-tm a { color: var(--ink-3); }
 .prose td { color: var(--ink-2); }
+.devint-facts span { color: var(--ink-2); }
+.ext-mark { margin-left: 4px; font-size: .8125em; color: var(--ink-3); text-decoration: none; }

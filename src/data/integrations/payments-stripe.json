@@ -1,0 +1,59 @@
+{
+  "slug": "payments-stripe",
+  "name": "Stripe",
+  "category": "Payments",
+  "title": "Stripe Payments for GoCommerce — Open-Source Module",
+  "description": "Take cards and wallets through Stripe PaymentIntents in a GoCommerce store: two keys, the webhook URL, refunds, and what the module does not do.",
+  "ogTitle": "Stripe payments for GoCommerce",
+  "ogDescription": "Two keys, one webhook URL, signed, timed and idempotent. Read from the module’s source.",
+  "h1": "Stripe payments for GoCommerce",
+  "lede": "A Go package that creates a Stripe PaymentIntent at checkout and marks the GoCommerce order paid when Stripe’s signed webhook says the payment succeeded. Two keys to set, one webhook URL to register, and no Stripe SDK in your build.",
+  "what": [
+    "The module registers “stripe” as a payment method. At checkout — after the order is written, so a slow answer from Stripe never holds a database lock — it creates a PaymentIntent for the order’s total, in minor units, with automatic payment methods switched on, and hands the storefront the client secret to confirm it with.",
+    "Stripe then calls POST /api/checkout/stripe/webhook, a route the engine owns and hands to the module with the body untouched. On payment_intent.succeeded the module asks the engine to mark the order paid; on payment_intent.payment_failed, to mark the payment failed. The engine makes the transition and records the event — the module never writes to an order.",
+    "In the admin it describes itself as “Cards and wallets through Stripe PaymentIntents, with the signed webhook marking orders paid.” It speaks Stripe’s REST API over Go’s standard library rather than stripe-go: creating a PaymentIntent is one form POST and verifying a webhook is one HMAC, so, in the package’s words, the SDK would buy little and would put its whole dependency tree into every store that installs it."
+  ],
+  "configLede": "Two settings are required: the secret key and the webhook endpoint’s signing secret. Set them in Config from your own main(), or leave Config empty and type them under Settings › Payment methods in the admin.",
+  "config": [
+    { "field": "SecretKey", "panel": "Secret key", "env": "STRIPE_SECRET_KEY", "required": true, "note": "The secret API key — the panel’s hint reads sk_live_… or sk_test_…, so the key decides the mode. Sent as a bearer token; not sent to the storefront." },
+    { "field": "WebhookSecret", "panel": "Webhook signing secret", "env": "STRIPE_WEBHOOK_SECRET", "required": true, "note": "The endpoint’s whsec_… secret, used to verify the Stripe-Signature header. Required because, as the code puts it, without it any caller could mark orders paid." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.stripe.com, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Register the webhook", "t": "In Stripe, add an endpoint at https://your-api-host/api/checkout/stripe/webhook for payment_intent.succeeded and payment_intent.payment_failed, and copy its signing secret." },
+    { "b": "Install the module", "t": "Import it and pass stripe.New to gocommerce.New, as below — or run the reference binary with -gateways, which installs every payment module idle." },
+    { "b": "Give it the keys", "t": "Secret key and webhook signing secret, in Config or under Settings › Payment methods. A key typed into the panel counts on the next request, with no restart." },
+    { "b": "Take a payment", "t": "POST /api/checkout/stripe answers with the order and a client_action intent carrying the client_secret. The storefront confirms the payment with it; the webhook marks the order paid." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tstripe \"github.com/misiki/gocommerce/ext/payments-stripe\"\n)\n\napp, err := gocommerce.New(cfg,\n\tstripe.New(stripe.Config{\n\t\tSecretKey:     os.Getenv(\"STRIPE_SECRET_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"STRIPE_WEBHOOK_SECRET\"),\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. examples/store/main.go installs it only when STRIPE_SECRET_KEY is set, and then insists on the webhook secret.",
+  "howItWorks": [
+    { "b": "One route, owned by the engine", "t": "Stripe calls POST /api/checkout/stripe/webhook. The engine hands the module the request body untouched, because the signature is over the exact bytes Stripe sent." },
+    { "b": "Signed and timed", "t": "Stripe-Signature’s t=…,v1=… is checked as an HMAC-SHA256 over the timestamp, a dot and the body, in constant time. A timestamp more than five minutes from now is refused as a replay, as is a missing or wrong signature (400)." },
+    { "b": "Each event once", "t": "The module claims Stripe’s event id with INSERT … ON CONFLICT DO NOTHING in its own table — atomic even across several instances. A redelivered event is answered 200 and changes nothing." },
+    { "b": "A failed update is retried", "t": "If marking the order paid fails, the module releases its claim and answers 500, so Stripe’s retry finds work to do rather than a record saying it was handled." },
+    { "b": "Refunds keep Stripe’s id", "t": "A refund from the admin posts to Stripe’s refunds endpoint against the order’s PaymentIntent, for the amount asked. The refund id is recorded on the refund row; a refund Stripe marks failed comes back as an error, id included." },
+    { "b": "Metadata that cannot collide", "t": "The order id and number travel in the PaymentIntent’s metadata. Extra data the storefront sends at checkout goes in under client_… keys, so it cannot overwrite what the webhook reads. The order’s email is passed as receipt_email." }
+  ],
+  "limits": [
+    { "b": "Two event types", "t": "Only payment_intent.succeeded and payment_intent.payment_failed change an order. Every other event is acknowledged; charge.refunded is logged and nothing more." },
+    { "b": "Dashboard refunds are not applied", "t": "A refund made in Stripe’s dashboard is logged, and the GoCommerce order does not change. Refund from the admin if the order and Stripe are to agree." },
+    { "b": "No disputes", "t": "Disputes and chargebacks are not handled. Their events are acknowledged and ignored, so the order keeps reading as paid." },
+    { "b": "The storefront confirms", "t": "The module returns a client secret, not a page. Collecting card details and confirming the PaymentIntent is the storefront’s job." },
+    { "b": "The store’s one currency", "t": "The PaymentIntent is created in the store’s single settlement currency, unconverted. Which currencies and methods are offered is decided in Stripe." }
+  ],
+  "tested": true,
+  "testCount": 6,
+  "apiOps": 0,
+  "vendorUrl": "https://stripe.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "What is the webhook URL?", "a": "POST /api/checkout/stripe/webhook on the host that serves your GoCommerce API — a route the engine owns, so the module mounts nothing itself. Subscribe it to payment_intent.succeeded and payment_intent.payment_failed; other events are acknowledged." },
+    { "q": "Which payment methods does it offer?", "a": "The PaymentIntent is created with automatic_payment_methods enabled, so Stripe decides which methods to offer from your own Stripe settings. The module has no per-method code." },
+    { "q": "How do I test it?", "a": "Give it a test-mode secret key and the signing secret of a test-mode endpoint. The key decides the mode; the module has no separate sandbox switch." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -gateways flag installs every payment module with an empty Config. Switch Stripe on under Settings › Payment methods and type both keys there. Your own main() is the route when the keys should come from the environment." },
+    { "q": "Is this a Stripe partnership?", "a": "No. The module calls Stripe’s public API with keys you supply. Stripe does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

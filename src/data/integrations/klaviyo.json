@@ -1,0 +1,61 @@
+{
+  "slug": "klaviyo",
+  "name": "Klaviyo",
+  "category": "Marketing",
+  "title": "Klaviyo for GoCommerce — Order and Cart Events Module",
+  "description": "Send a GoCommerce store’s orders and abandoned carts to Klaviyo as events, under the metric names Klaviyo’s flows know. The key, the delays, the limits.",
+  "ogTitle": "Klaviyo events from GoCommerce",
+  "ogDescription": "Placed Order, Fulfilled Order, Started Checkout and the rest, from a store’s own events. Read from the source.",
+  "h1": "Klaviyo events from GoCommerce",
+  "lede": "A Go package that tells Klaviyo what happens in the store, so its flows — abandoned cart, post-purchase, win-back — have something to run on. Placed, fulfilled, cancelled and refunded orders, each product ordered, and abandoned carts become events on the shopper’s Klaviyo profile. One key is required.",
+  "what": [
+    "The package sends orders and abandoned carts “under the metric names Klaviyo’s own Shopify integration uses … so a flow built against those names works unchanged.” In the code that is order.created as Placed Order, with one Ordered Product per line; order.shipped as Fulfilled Order; order.cancelled as Cancelled Order; order.refunded as Refunded Order; and cart.abandoned as Started Checkout.",
+    "Each event carries the order number, status, payment status, currency, the lines with SKU, variant, quantity and prices, the tracking number where there is one, and a value in major units — the refunded amount, for a refund. The shopper’s profile is keyed on their email, with their name and phone when the order has them.",
+    "It posts to Klaviyo’s events API over Go’s standard library, one POST per event at API revision 2024-10-15. Delivery is best effort on purpose: a call that fails twice is logged and counted, never returned to the engine — a failed subscriber would make the engine re-run the whole event, re-issuing invoices and re-sending notifications for one marketing ping."
+  ],
+  "configLede": "One setting is required: a private API key. Set it in Config — the reference binary’s -klaviyo flag reads KLAVIYO_PRIVATE_KEY — or on the Plugins screen, which wins.",
+  "config": [
+    { "field": "PrivateKey", "panel": "Private API key", "env": "KLAVIYO_PRIVATE_KEY", "required": true, "note": "A pk_… key with events:write and profiles:write. With it in Config the plugin starts switched on." },
+    { "field": "PublicKey", "panel": "Public API key", "env": "KLAVIYO_PUBLIC_KEY", "required": false, "note": "The six-character key Klaviyo’s onsite tracking and signup forms use. Only the panel’s value reaches the storefront, through GET /api/plugins; Config.PublicKey is not read in this version." },
+    { "field": "track_carts", "panel": "Send abandoned carts as Started Checkout", "required": false, "note": "On by default. Panel only; there is no Config field for it." },
+    { "field": "BaseURL", "required": false, "note": "Overrides https://a.klaviyo.com, for tests. Go only." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 8 seconds. Go only." }
+  ],
+  "setup": [
+    { "b": "Create a private key", "t": "In Klaviyo, a private API key with events:write and profiles:write. Note the six-character public key too, if the storefront will run Klaviyo’s tracking." },
+    { "b": "Install the module", "t": "Pass klaviyo.New to gocommerce.New, as below, or start the reference binary with -klaviyo and KLAVIYO_PRIVATE_KEY set." },
+    { "b": "Switch it on", "t": "A private key in Config switches it on. Otherwise enable Klaviyo on the Plugins screen and paste the key there — and the public key, if the storefront needs it." },
+    { "b": "Build flows on the metrics", "t": "The six metrics arrive as orders and carts do. GET /api/admin/x/klaviyo/status shows whether it is on, how many events were sent and failed, and the last error." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/klaviyo\"\n)\n\napp, err := gocommerce.New(cfg, klaviyo.New(klaviyo.Config{\n\tPrivateKey: os.Getenv(\"KLAVIYO_PRIVATE_KEY\"),\n}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc has no example of its own; this is the reference binary’s, without the public key, which Config does not publish — type that on the Plugins screen. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "Subscribed, not polled", "t": "The module subscribes to order.* and cart.abandoned on the engine’s event bus and sends as events are dispatched. Order events it has no metric for — edits, returns, reversals — are ignored." },
+    { "b": "De-duplicated by Klaviyo", "t": "Each event’s unique_id is the engine’s event id, plus the SKU for Ordered Product, so when the engine redelivers an event Klaviyo treats it as the one it already has." },
+    { "b": "Two tries, then a count", "t": "A failed POST is tried once more after a second. A second failure is logged, counted on the status route and dropped — never returned to the engine." },
+    { "b": "Values in major units", "t": "The engine holds minor units and Klaviyo wants 19.99, not 1999. The module converts with the currency’s own decimals — none for yen, three for dinar." },
+    { "b": "An email or nothing", "t": "An order or cart without an email is skipped, because the profile is keyed on it. Emails are lower-cased, and a name is split at its last space into first and last." },
+    { "b": "The public key, for the storefront", "t": "The panel’s public key is marked public, so a storefront can read it from GET /api/plugins and load Klaviyo’s onsite tracking and signup forms." }
+  ],
+  "limits": [
+    { "b": "Abandoned carts arrive late", "t": "The engine marks a cart abandoned when it expires — 30 days after it was last changed, by default (Config.CartTTL). Started Checkout waits for that, so a timely abandoned-cart flow needs a shorter CartTTL." },
+    { "b": "Placed means created", "t": "Placed Order fires when the order is created, before it is paid — cash-on-delivery orders included. Paid, delivered, edited and returned orders send no event." },
+    { "b": "Best effort", "t": "An event that fails twice is dropped, not queued for later. The sent and failed counts live in memory and reset on restart." },
+    { "b": "No history, no consent", "t": "Only events from the moment it is switched on; nothing is backfilled. It posts events and does not subscribe anyone to email or SMS marketing." },
+    { "b": "The cart token leaves the store", "t": "Started Checkout carries the cart’s token as CartToken, for a recovery link. The engine treats that token as a credential for the basket, and it now sits in Klaviyo too." },
+    { "b": "Config.PublicKey is not read", "t": "Only a public key typed on the Plugins screen reaches the storefront. The reference binary reads KLAVIYO_PUBLIC_KEY into Config, where nothing uses it." }
+  ],
+  "tested": true,
+  "testCount": 2,
+  "apiOps": 1,
+  "vendorUrl": "https://www.klaviyo.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Which Klaviyo metrics does it send?", "a": "Placed Order when an order is created, with one Ordered Product per line; Fulfilled Order when it ships; Cancelled Order; Refunded Order, valued at the amount refunded; and Started Checkout when a cart is abandoned, if cart tracking is on." },
+    { "q": "Why has my abandoned-cart flow not fired?", "a": "A cart counts as abandoned only when it expires, which by default is 30 days after it was last changed, and only a cart with an email address is sent. Shorten the engine’s CartTTL if the flow should start sooner." },
+    { "q": "Does it manage lists or consent?", "a": "No. It creates and updates profiles only as part of events — email, name, phone. Lists, segments and marketing consent stay in Klaviyo and on the storefront." },
+    { "q": "What happens if Klaviyo is unreachable?", "a": "Each event is tried twice, a second apart. Then it is dropped, logged and counted, and the status route shows the last error. The order itself is unaffected." },
+    { "q": "Is this a Klaviyo partnership?", "a": "No. The module calls Klaviyo’s public API with a key you supply. Klaviyo does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

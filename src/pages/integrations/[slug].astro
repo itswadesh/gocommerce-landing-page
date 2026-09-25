@@ -1,0 +1,188 @@
+---
+/**
+ * One page per module that has a real setup story, one data file each in
+ * src/data/integrations/. The data file is the page: read from the module's
+ * package doc, its Config struct, the plugin fields it registers and its
+ * tests. This template only decides where each fact sits, so a dozen module
+ * pages cannot drift into a dozen layouts.
+ *
+ * Every page carries its limits and its test count in plain view. A module
+ * page that only lists what a module does reads as a claim about everything
+ * it does not do, and a module with no tests says "no tests" at the top.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+import { pageDates } from '../../lib/dates.mjs'
+import type { Integration } from '../../data/integrations/_schema'
+
+export function getStaticPaths() {
+  const files = import.meta.glob<Integration>('../../data/integrations/*.json', { eager: true, import: 'default' })
+  return Object.values(files).map((i) => ({ params: { slug: i.slug }, props: { i } }))
+}
+
+const { i } = Astro.props as { i: Integration }
+const path = `/integrations/${i.slug}/`
+const abs = (p: string) => new URL(p, Astro.site!).href
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+const source = `https://github.com/itswadesh/gocommerce/tree/main/ext/${i.slug}`
+const importPath = `github.com/misiki/gocommerce/ext/${i.slug}`
+
+// The same dates the layout puts on the WebPage node, so the article and the
+// page it is the main entity of cannot disagree about when they changed.
+const dates = pageDates(path)
+const stamp = dates.exact ? { dateModified: dates.modified, ...(dates.published ? { datePublished: dates.published } : {}) } : {}
+
+const vendorName = i.vendorName ?? i.name
+const vendor = i.vendorUrl ? [{ '@type': i.vendorType ?? 'Organization', name: vendorName, url: i.vendorUrl }] : []
+
+const graph = [
+  {
+    '@type': 'TechArticle', '@id': abs(path + '#article'), headline: i.h1, name: i.title, description: i.description,
+    url: abs(path), mainEntityOfPage: { '@id': abs(path + '#page') }, isPartOf: { '@id': abs('/#site') },
+    publisher: { '@id': abs('/#org') }, inLanguage: 'en', isBasedOn: source,
+    about: [{ '@id': abs('/gocommerce/#app') }, ...vendor],
+    ...stamp,
+  },
+]
+
+// A trademark sentence for every page that names a third party, in the same
+// words each time; a page can replace it (two owners, or a format rather than
+// an API) or suppress it with an empty string.
+const trademark = i.trademark ?? (i.vendorUrl ? `${vendorName} is a trademark of its owner; this module talks to its public API and implies no endorsement.` : '')
+
+// A small Go highlighter, so the data files hold plain code and the markup
+// matches the site's other code blocks: strings, comments, keywords, calls
+// and composite-literal types. One pass, left to right, so a keyword inside a
+// string stays part of the string.
+const KEYWORDS = new Set(['import', 'package', 'func', 'return', 'if', 'else', 'for', 'range', 'var', 'const', 'nil', 'true', 'false', 'defer', 'go', 'type', 'struct', 'map'])
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+function highlight(src: string): string {
+  const re = /("(?:[^"\\\n]|\\.)*"|`[^`]*`)|(\/\/[^\n]*)|([A-Za-z_][A-Za-z0-9_]*)|([\s\S])/g
+  let out = ''
+  let m: RegExpExecArray | null
+  while ((m = re.exec(src))) {
+    const [tok, str, comment, ident] = m
+    if (str) out += `<span class="s">${esc(str)}</span>`
+    else if (comment) out += `<span class="cm">${esc(comment)}</span>`
+    else if (ident) {
+      const next = src[re.lastIndex]
+      if (KEYWORDS.has(ident)) out += `<span class="k">${ident}</span>`
+      else if (next === '(') out += `<span class="f">${ident}</span>`
+      else if (next === '{' && /^[A-Z]/.test(ident)) out += `<span class="t">${ident}</span>`
+      else out += ident
+    } else out += esc(tok)
+  }
+  return out
+}
+const code = highlight(i.code)
+const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`
+---
+<Base
+  title={i.title}
+  description={i.description}
+  path={path}
+  ogTitle={i.ogTitle}
+  ogDescription={i.ogDescription}
+  nav="develop"
+  crumbs={[{ name: 'Integrations', href: '/integrations/' }, { name: i.name, href: path }]}
+  graph={graph}
+  faq={i.faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">{i.category}</p>
+    <h1>{i.h1}</h1>
+    <p class="lede">{i.lede}</p>
+    <ul class="head-facts">
+      <li><b>{i.category}</b> module</li>
+      <li><b>{i.config.length}</b> {i.config.length === 1 ? 'setting' : 'settings'}</li>
+      {i.tested ? <li><b>{i.testCount}</b> {i.testCount === 1 ? 'test' : 'tests'}</li> : <li><b>no</b> tests</li>}
+      {i.apiOps > 0 && <li><b>{i.apiOps}</b> API {i.apiOps === 1 ? 'operation' : 'operations'}</li>}
+      <li><b>ext/{i.slug}</b></li>
+    </ul>
+  </section>
+
+  <section id="what" class="section wrap" aria-labelledby="what-title">
+    <h2 id="what-title">What it does</h2>
+    <div class="statement">
+      {i.what.map((p, n) => <p class={n === 0 ? 'statement-lead' : undefined}>{p}</p>)}
+    </div>
+  </section>
+
+  <section id="configuration" class="section wrap" aria-labelledby="config-title">
+    <h2 id="config-title">Configuration</h2>
+    <p class="section-lede">{i.configLede}</p>
+    <div class="tbl-scroll">
+      <table class="reltable vs">
+        <caption>{i.name} module settings — {plural(i.config.length, 'setting', 'settings')}, {i.config.filter((c) => c.required).length} required</caption>
+        <thead>
+          <tr><th scope="col">Setting</th><th scope="col">Environment variable</th><th scope="col">Required</th><th scope="col">What it does</th></tr>
+        </thead>
+        <tbody>
+          {i.config.map((c) => (
+            <tr>
+              <th scope="row"><code>{c.field}</code>{c.panel && <><br />{c.panel}</>}</th>
+              <td>{c.env ? <code>{c.env}</code> : '—'}</td>
+              <td>{c.required ? 'Yes' : 'No'}</td>
+              <td>{c.note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="fineprint">The module reads its Config struct, not the environment. The variable names are the ones the package’s own example or the reference binary uses; in your own <code>main()</code> you choose where each value comes from. Where a setting has a panel label, the admin’s settings drawer can hold it too, and a value typed there wins over Config.</p>
+  </section>
+
+  <section id="setup" class="section wrap" aria-labelledby="setup-title">
+    <h2 id="setup-title">Setting it up</h2>
+    <ol class="steps4">
+      {i.setup.map((s) => <li><b>{s.b}</b><span>{s.t}</span></li>)}
+    </ol>
+    <div class="code-block">
+      <div class="code-head"><p><svg class="ic" aria-hidden="true"><use href="#i-braces"/></svg>{i.codeTitle}</p><button class="copy" data-copy="code-setup">Copy</button></div>
+      <pre id="code-setup"><code set:html={code} /></pre>
+      <p class="code-note">{i.codeNote} Import path <code>{importPath}</code>.</p>
+    </div>
+  </section>
+
+  <section id="how" class="section wrap" aria-labelledby="how-title">
+    <h2 id="how-title">How it works</h2>
+    <ul class="feat-grid">
+      {i.howItWorks.map((h) => (
+        <li class="feat">
+          <p class="feat-head"><b>{h.b}</b></p>
+          <p class="feat-text">{h.t}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="limits" class="section wrap" aria-labelledby="limits-title">
+    <h2 id="limits-title">What it does not do</h2>
+    <p class="section-lede">Read these before an order depends on it. No store is known to run GoCommerce in production yet, so these come from the code, not from anyone’s experience.</p>
+    <ul class="notyet">
+      {i.limits.map((l) => <li><b>{l.b}</b><span>{l.t}</span></li>)}
+    </ul>
+  </section>
+
+  <Faq items={i.faq} title={`Questions about the ${i.name} module`} />
+
+  <section class="section wrap vs-sources" aria-labelledby="source-title">
+    <h2 id="source-title" class="vs-sources-title">Source</h2>
+    <p class="fineprint">Everything on this page is read from <a href={source} {...ext}><code>ext/{i.slug}</code></a> in the GoCommerce repository, MIT licensed. When this page and the code disagree, the code is right and this page is out of date.{trademark && <> {trademark} See <a href="/about/#trademarks">trademarks</a>.</>}</p>
+    <ul class="vs-source-list">
+      <li><a href={source} {...ext}>ext/{i.slug} on GitHub</a></li>
+      {i.vendorUrl && <li><a href={i.vendorUrl} {...ext}>{vendorName}</a></li>}
+      <li><a href="/integrations/">All GoCommerce modules</a></li>
+    </ul>
+  </section>
+
+  <section class="closing wrap">
+    <h2>Try it against a store of your own</h2>
+    <p>The one-command stack gives you GoCommerce’s API and admin on your own machine in minutes. Add this module to it and try it on test orders before a real one depends on it.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href={source} {...ext}>Read the module</a>
+      <a class="button secondary" href="/integrations/">All integrations</a>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,132 @@
+{
+  "slug": "shopify",
+  "name": "Shopify",
+  "title": "Shopify SvelteKit Storefront — Svelte Commerce Connector",
+  "description": "Svelte Commerce on Shopify: 16 of 27 services wired, with cart, checkout and sign-in — but it needs a /proxy/shopify/ route the storefront does not ship.",
+  "lede": "The Shopify connector is scored out of 27, not 43: several storefront services have no equivalent in the Shopify API surface it targets. Cart, checkout and sign-in are wired — but every request goes through a proxy route you have to write.",
+  "verdict": "Cart, checkout and sign-in are wired, but it does not run as installed. The connector sends every request to a `/proxy/shopify/` route on the storefront’s own server, with the Shopify request path encoded in it, and Svelte Commerce ships no such route — only one for Bagisto. Until you write it, nothing reaches Shopify.",
+  "quickStart": [
+    {
+      "text": "get the storefront",
+      "cmd": "git clone https://github.com/itswadesh/svelte-commerce\ncd svelte-commerce"
+    },
+    {
+      "text": "one connector at a time: remove the two the storefront ships with, add this one",
+      "cmd": "npm uninstall @misiki/litekart-connector @misiki/vendure-connector\nnpm i @misiki/shopify-connector"
+    },
+    {
+      "text": "point it at your Shopify store",
+      "cmd": "echo PUBLIC_SHOPIFY_API_URL=your-store.myshopify.com >> .env\necho PUBLIC_SHOPIFY_ACCESS_TOKEN=shpat_... >> .env\necho PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=... >> .env"
+    },
+    {
+      "text": "run it",
+      "cmd": "npm run dev"
+    }
+  ],
+  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both. This starts the storefront, but read the limitations: the connector needs a `/proxy/shopify/` route that the storefront does not ship.",
+  "env": [
+    {
+      "name": "PUBLIC_SHOPIFY_API_URL",
+      "required": true,
+      "note": "Your store’s `myshopify.com` domain. Shopify is keyed on a domain rather than a URL, so any `https://` you include is stripped. Boot fails, naming this variable, if it is missing."
+    },
+    {
+      "name": "PUBLIC_SHOPIFY_ACCESS_TOKEN",
+      "required": false,
+      "note": "The guide’s example is an Admin API access token, `shpat_…`. Handed to the connector at boot — and to every visitor’s browser; see the limitations."
+    },
+    {
+      "name": "PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN",
+      "required": false,
+      "note": "A Storefront API access token, handed over the same way."
+    },
+    {
+      "name": "PUBLIC_SHOPIFY_PROXY_URL",
+      "required": false,
+      "note": "Read at boot and stored by the connector, for stores fronted by a proxy. In 1.1.0 and 1.1.1 the request path is fixed at `/proxy/shopify/`, so setting it changes nothing yet."
+    },
+    {
+      "name": "PUBLIC_CONNECTOR",
+      "required": false,
+      "note": "Only when more than one connector is installed: `@misiki/shopify-connector` names the one this build runs on."
+    }
+  ],
+  "envNote": "Shopify is one of four backends `init.ts` configures by hand rather than by forwarding every `PUBLIC_SHOPIFY_*` variable: it passes the domain, the two tokens and the proxy URL to `setShopifyCredentials`, in that order.",
+  "backendSettings": [
+    "Create the access tokens in Shopify: an Admin API token (the guide’s `shpat_…`) and a Storefront API token.",
+    "Write a server route at `/proxy/shopify/[...path]` in the storefront. The connector base32-encodes the Shopify request path into the route’s path and says which API it wants in an `X-Shopify-Api-Type` header — `admin` or `storefront` — but attaches no token itself; the route has to add the right one and forward the request. The storefront’s `/proxy/bagisto/` route is the nearest pattern to copy."
+  ],
+  "howItWorks": [
+    "Shopify is keyed on a store domain rather than a URL. At boot, `init.ts` strips any `https://` from `PUBLIC_SHOPIFY_API_URL` and passes the domain, the Admin and Storefront tokens and the proxy URL to the connector’s `setShopifyCredentials`, in both the server and the client hook.",
+    "The connector sends every call — Admin API or Storefront API — to `/proxy/shopify/<base32-encoded path>` on the storefront’s own origin, marked `X-Shopify-Api-Type: admin` or `storefront`. It never sends a token itself: the proxy is expected to. Svelte Commerce ships a proxy route of this kind for Bagisto, not for Shopify.",
+    "There is no Litekart API behind the storefront here, so store identity — name, logo, currency, menus, plugin toggles, theme colours — comes from `src/lib/core/connectors/default-store.json` merged under the default export of `kitcommerce.config.ts`. Until you override it, the store is called “Test”. Any Litekart REST path the connector still inherits is answered from that local data, or resolved empty, rather than requested."
+  ],
+  "limitations": [
+    "Nothing reaches Shopify until you add a `/proxy/shopify/` server route: the connector sends every request there, and the storefront does not ship one.",
+    "Scored out of 27 rather than 43: several storefront services have no equivalent in the Shopify API surface this connector targets.",
+    "Reviews: not wired.",
+    "Wishlist: not wired.",
+    "Vendors: not wired.",
+    "CMS pages: not wired — legal and CMS pages render their layout with empty content.",
+    "Profile: not wired.",
+    "Countries: not wired.",
+    "Pages that depend on a service that is not wired render their empty state rather than failing.",
+    "The guide puts an Admin API token (`shpat_…`) in `PUBLIC_SHOPIFY_ACCESS_TOKEN`. SvelteKit sends `PUBLIC_` variables to the browser, so every visitor could read it and call Shopify’s Admin API with it. A server route is the place for that token, not a `PUBLIC_` variable.",
+    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
+    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden when another connector is active."
+  ],
+  "troubleshooting": [
+    {
+      "problem": "Every call fails with a 404 on `/proxy/shopify/…`",
+      "fix": "The storefront has no Shopify proxy route. Add a server route at `/proxy/shopify/[...path]` that decodes the base32 path, adds the Admin or Storefront token according to `X-Shopify-Api-Type`, and forwards the request to Shopify."
+    },
+    {
+      "problem": "Boot fails with “the shopify connector is active but PUBLIC_SHOPIFY_API_URL is not set”",
+      "fix": "Add `PUBLIC_SHOPIFY_API_URL` to `.env`. A production Node build and Docker read `PUBLIC_*` from the process environment rather than `.env`, so set it on your deploy platform too."
+    },
+    {
+      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
+      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/shopify-connector'`."
+    },
+    {
+      "problem": "Boot fails with “PUBLIC_…_API_URL is set, but it configures a different backend than the one this build runs on”",
+      "fix": "Another backend’s variable is still set, usually left over from the one you switched from. Remove it, or install that backend’s connector. `PUBLIC_LITEKART_API_URL` is exempt: it only points the dev proxy."
+    },
+    {
+      "problem": "The store is called “Test”, or shows the wrong name and logo",
+      "fix": "Store identity is static on this backend. Set `name`, `logo`, `currencyCode` and the rest in the default export of `kitcommerce.config.ts`; `src/lib/core/connectors/default-store.json` lists every field."
+    },
+    {
+      "problem": "`[shopify] no native implementation for get /api/...` in the console",
+      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Shopify has no such feature; if it has one, the fix belongs in the connector’s matching service."
+    },
+    {
+      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
+      "fix": "A Litekart REST path was requested from outside the connector, so its guard never saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
+    },
+    {
+      "problem": "The build fails on `@misiki/litekart-connector`",
+      "fix": "`@misiki/kitcommerce-core` declares it as a peer, and `vite.config.ts` redirects that specifier to whichever connector is installed. Make sure exactly one `@misiki/*-connector` is listed in `package.json`."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Can I run a Shopify store on Svelte Commerce today?",
+      "a": "Not as installed. Cart, checkout and sign-in are wired, but the connector sends every request to a `/proxy/shopify/` route on the storefront’s server, and Svelte Commerce does not ship one. Writing that route — and keeping the Admin token in it, out of `PUBLIC_` variables — is the missing step."
+    },
+    {
+      "q": "How do I switch Svelte Commerce to Shopify?",
+      "a": "Remove the connectors the storefront ships with, install `@misiki/shopify-connector`, set `PUBLIC_SHOPIFY_API_URL` in `.env` and start the dev server. `vite.config.ts` resolves whichever connector is installed, so no file in the storefront changes."
+    },
+    {
+      "q": "Why is Shopify scored out of 27 instead of 43?",
+      "a": "Several of the storefront’s 43 services have no equivalent in the Shopify API surface the connector targets, so they are not counted. Of the 27 that are, 16 are wired; reviews, wishlist, vendors, CMS pages, profile and countries are the gaps."
+    },
+    {
+      "q": "Has the Shopify connector been run against a real Shopify store?",
+      "a": "Not against a live production instance — no Svelte Commerce connector has been. It was written by reading Shopify’s authoritative API source, and the Svelte Commerce maintainers ask Shopify’s own maintainers for a sandbox to run it against."
+    }
+  ],
+  "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/SHOPIFY.md",
+  "read": "2026-09-25"
+}

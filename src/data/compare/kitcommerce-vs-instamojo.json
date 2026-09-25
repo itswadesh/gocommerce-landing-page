@@ -5,8 +5,8 @@
   "label": "KitCommerce vs Instamojo",
   "group": "Indian SaaS builders",
   "summary": "A payments company’s store builder, free to start with the gateway built in at a fee per payment — against GoCommerce and a gateway of your own choosing.",
-  "title": "KitCommerce vs Instamojo — GoCommerce and Svelte Commerce Compared With Instamojo’s Online Store",
-  "description": "Instamojo’s online store compared with GoCommerce and Svelte Commerce: INR plans, Instamojo’s fee per payment with its gateway built in, what that comes to against Razorpay, cash on delivery, shipping, customisation — and who each one suits.",
+  "title": "KitCommerce vs Instamojo: Store Plans and Payment Fees",
+  "description": "Instamojo’s store vs GoCommerce and Svelte Commerce: INR plans, its fee per payment against Razorpay, cash on delivery, shipping — and who each one suits.",
   "ogTitle": "KitCommerce vs Instamojo",
   "ogDescription": "A free store with payments built in, at a fee per payment — or your own backend and your own gateway. Sourced.",
   "h1": "Instamojo sells payments and gives you a store. GoCommerce is the store, and you pick the payments.",
@@ -62,7 +62,7 @@
     { "q": "What does Instamojo charge per sale?", "a": "Instamojo’s online store charges 5% + ₹3 per payment on Lite and Starter, and 2% + ₹3 on the Growth plan billed yearly, each plus GST. Its pricing page says the payment gateway comes integrated with no additional charges, so that fee covers payment processing." },
     { "q": "How much are Instamojo’s store plans?", "a": "Lite is ₹0 a year, Starter ₹6,999 a year, and Growth ₹14,999 a year or ₹2,999 a month; a store built for you by Instamojo’s team is priced on request. GST is charged on top of those prices." },
     { "q": "Is GoCommerce cheaper than Instamojo?", "a": "Against Lite and Starter, once prepaid sales grow: Razorpay lists 2% + GST, against Instamojo’s 5% + ₹3. Against Growth billed yearly, barely — the difference is ₹3 a payment plus the plan, and a server can cost more than that. Choose GoCommerce for ownership and depth, not to save on fees." },
-    { "q": "Can I use Razorpay with GoCommerce?", "a": "Yes, through the payments-razorpay module, which calls Razorpay’s API directly. Eight other payment modules — Stripe, Adyen and HyperSwitch among them — are there if you choose differently, and cash on delivery needs none." },
+    { "q": "Can I use Razorpay with GoCommerce?", "a": "Yes, through the payments-razorpay module, which calls Razorpay’s API directly. Eight other payment modules — Stripe, Adyen and Hyperswitch among them — are there if you choose differently, and cash on delivery needs none." },
     { "q": "Can Svelte Commerce be the storefront for an Instamojo store?", "a": "No. Instamojo is not among the 26 backends Svelte Commerce connects to. Paired with GoCommerce, Svelte Commerce reaches it through an early connector, 0.1.0, covering catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet." }
   ],
   "sources": [

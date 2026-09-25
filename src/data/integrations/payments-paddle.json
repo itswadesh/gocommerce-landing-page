@@ -1,0 +1,61 @@
+{
+  "slug": "payments-paddle",
+  "name": "Paddle",
+  "category": "Payments",
+  "title": "Paddle Payments for GoCommerce — Open-Source Module",
+  "description": "Sell through Paddle Billing as merchant of record from a GoCommerce store: API key, notification secret, sandbox, refunds, and why tax rates stay empty.",
+  "ogTitle": "Paddle payments for GoCommerce",
+  "ogDescription": "Paddle Billing as merchant of record: one transaction per order, signed notifications, refunds as adjustments.",
+  "h1": "Paddle payments for GoCommerce",
+  "lede": "A Go package that creates a Paddle Billing transaction at checkout, sends the shopper to Paddle’s checkout, and marks the GoCommerce order paid when a signed transaction.completed notification arrives. Paddle is the merchant of record, and that changes how you set up tax.",
+  "what": [
+    "The module registers “paddle” as a payment method. At checkout it creates a Paddle transaction with one ad-hoc line — “Order” and the order number, at the order’s total — and answers with a redirect intent carrying the transaction’s checkout URL.",
+    "Paddle then calls POST /api/checkout/paddle/webhook. The module verifies the Paddle-Signature header; transaction.completed asks the engine to mark the order paid, and transaction.payment_failed to mark the payment failed. transaction.paid is deliberately not enough: the package notes that it fires first and can still be reversed.",
+    "The package’s central point is that Paddle sells to the shopper, not the store, and decides the tax on the sale itself. A store on Paddle should leave GoCommerce’s tax rates empty and let the total it sends be the price the shopper pays; configuring both charges tax twice. That is documented rather than enforced, because the engine cannot tell which of the two a store intends."
+  ],
+  "configLede": "Two settings are required: the API key and the notification destination’s signing secret. Set them in Config from your own main(), or leave Config empty and fill them in under Settings › Payment methods.",
+  "config": [
+    { "field": "APIKey", "panel": "API key", "env": "PADDLE_API_KEY", "required": true, "note": "Sent as a bearer token. It needs transaction.write to create a transaction and adjustment.write to refund one." },
+    { "field": "WebhookSecret", "panel": "Notification signing secret", "env": "PADDLE_NOTIFICATION_SECRET", "required": true, "note": "Verifies the Paddle-Signature header. Required because, as the code puts it, without it any caller could mark orders paid." },
+    { "field": "Sandbox", "panel": "Sandbox", "required": false, "note": "Points the module at sandbox-api.paddle.com. Paddle issues separate keys for the two, so this is a deliberate flag rather than something read from the key." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides both hosts, for tests." },
+    { "field": "WebhookTolerance", "required": false, "note": "How old a signed notification may be. Five minutes by default; Paddle’s own SDK helpers default to five seconds. Go only." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Add a notification destination", "t": "In Paddle, send notifications to https://your-api-host/api/checkout/paddle/webhook — transaction.completed and transaction.payment_failed at least — and keep its secret." },
+    { "b": "Empty the tax rates", "t": "Paddle works out the tax. Leave GoCommerce’s tax rates empty so the order total is the price the shopper pays." },
+    { "b": "Install and configure", "t": "Pass paddle.New to gocommerce.New as below, or run the reference binary with -gateways and fill in Settings › Payment methods. Tick Sandbox while testing." },
+    { "b": "Take a payment", "t": "POST /api/checkout/paddle answers with a redirect intent whose url is Paddle’s checkout. transaction.completed marks the order paid." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tpaddle \"github.com/misiki/gocommerce/ext/payments-paddle\"\n)\n\napp, err := gocommerce.New(cfg,\n\tpaddle.New(paddle.Config{\n\t\tAPIKey:        os.Getenv(\"PADDLE_API_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"PADDLE_NOTIFICATION_SECRET\"),\n\t\tSandbox:       true,\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. It points at the sandbox; drop Sandbox for live keys.",
+  "howItWorks": [
+    { "b": "Signed and timed", "t": "Paddle-Signature’s ts=…;h1=… is checked as an HMAC-SHA256 over the timestamp, a colon and the raw body. Several h1 values pass during a secret rotation; a timestamp outside the tolerance, early or late, is refused." },
+    { "b": "Each event once", "t": "Claims are keyed on Paddle’s event_id with INSERT … ON CONFLICT DO NOTHING, atomic across instances. A redelivery is answered 200 and changes nothing." },
+    { "b": "A failed update is retried", "t": "If marking the order paid fails, the claim is released and the webhook answers 500, so Paddle’s retry finds work to do." },
+    { "b": "One line per order", "t": "Paddle’s items belong to its own catalogue, so the module sends one ad-hoc line carrying the order total rather than mirroring the order into Paddle products. The order keeps the breakdown." },
+    { "b": "Refunds as adjustments", "t": "A refund reads the transaction back to find its line, then creates a refund adjustment for exactly the amount asked — always typed partial, so Paddle cannot turn a partial refund into a full one. The adjustment id is recorded; a rejected one comes back as an error." },
+    { "b": "Amounts as strings", "t": "Amounts go to Paddle as integer strings in minor units, never as floats, so nothing picks up a rounding error on the way through JSON." }
+  ],
+  "limits": [
+    { "b": "Tax is Paddle’s", "t": "Leave GoCommerce’s tax rates empty. The module does not check, and a store that configures both charges tax twice." },
+    { "b": "One line, one tax category", "t": "Every order is sent as a single line with Paddle’s standard tax category, whatever the products in it are." },
+    { "b": "Needs a checkout URL", "t": "A transaction that comes back without one is refused, with a note to check that the Paddle account has an approved default payment link." },
+    { "b": "Adjustments are only logged", "t": "adjustment.created and adjustment.updated are logged, not applied. A refund made in Paddle’s dashboard does not change the GoCommerce order." },
+    { "b": "Orders, not subscriptions", "t": "The module sells an order once. Events for anything this store did not start, such as a renewal billed in Paddle, are acknowledged and ignored." }
+  ],
+  "tested": true,
+  "testCount": 7,
+  "apiOps": 0,
+  "vendorUrl": "https://www.paddle.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Why should GoCommerce’s tax rates be empty?", "a": "Because Paddle is the merchant of record: it sells to the shopper and adds the tax it decides on. If GoCommerce has already added tax to the total, the shopper pays it twice. The package documents this rather than zeroing tax itself, because it cannot know what a store intends." },
+    { "q": "How do I test against Paddle’s sandbox?", "a": "Switch on Sandbox and use sandbox keys. Paddle issues separate keys for sandbox and live, so the module takes an explicit flag instead of guessing from the key." },
+    { "q": "Why does it wait for transaction.completed?", "a": "The package explains that transaction.paid fires first and can still be reversed, so settling on it would mark orders paid that Paddle has not finished collecting. transaction.completed is the event that means the money arrived." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -gateways flag installs every payment module with an empty Config. Switch Paddle on under Settings › Payment methods and fill in the key, the secret and the sandbox flag there." },
+    { "q": "Is this a Paddle partnership?", "a": "No. The module calls Paddle’s public API with keys you supply. Paddle does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

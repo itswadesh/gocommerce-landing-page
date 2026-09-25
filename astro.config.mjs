@@ -40,6 +40,7 @@ export default defineConfig({
         storefront: (item) => (['svelte-commerce', 'live-projects'].includes(section(item)) ? item : undefined),
         compare: (item) => (section(item) === 'compare' ? item : undefined),
         blog: (item) => (section(item) === 'blog' ? item : undefined),
+        integrations: (item) => (section(item) === 'integrations' ? item : undefined),
       },
       serialize: (item) => {
         const p = new URL(item.url).pathname

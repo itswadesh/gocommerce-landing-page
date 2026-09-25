@@ -84,6 +84,23 @@ const termOut = `<span data-line style="--i:0"><span class="tp">$</span> docker 
 <span data-line style="--i:5"><span class="tp">$</span> curl -s -o /dev/null -w <span class="tstr">"%{http_code}"</span> localhost</span>
 <span data-line style="--i:6"><span class="tok">200</span><span class="term-caret"></span></span>`
 
+// The walkthrough from the GoCommerce README, pointed at the one-command stack
+// (Caddy on port 80). A backslash before a newline would be swallowed by the
+// template literal, hence the doubled ones.
+const integrateCode = `<span class="cm"># 1 — the catalogue: public, no key</span>
+curl localhost/api/products
+
+<span class="cm"># 2 — open a cart and add a variant</span>
+CART=$(curl -sX POST localhost/api/carts | jq -r .data.id)
+curl -X POST localhost/api/carts/$CART/line-items \\
+  -d <span class="s">'{"variant_id":2,"quantity":2}'</span>
+
+<span class="cm"># 3 — check out; the same key again returns the same order</span>
+curl -X POST localhost/api/checkout/cod -H <span class="s">'Idempotency-Key: demo-1'</span> \\
+  -d <span class="s">'{"cart_id":"'</span>$CART<span class="s">'","email":"buyer@example.com",
+       "address":{"line1":"1 High St","city":"Town",
+                  "postal_code":"12345","country":"US"}}'</span>`
+
 const stack = [
   { src: '/assets/go.svg', name: 'Go' },
   { src: '/assets/svelte.svg', name: 'Svelte' },
@@ -140,8 +157,8 @@ const livePreview = live.stores.filter((s) => s.scores).slice(0, 3)
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
 ---
 <Base
-  title="Open Source Enterprise Ecommerce Platform | GoCommerce & Svelte Commerce"
-  description="Enterprise-grade, open-source ecommerce you self-host and white-label: GoCommerce compiles to one Go binary with one dependency; Svelte Commerce renders on the server. MIT licensed, free for life, one Docker command to run."
+  title="KitCommerce — Open-Source Go & Svelte Enterprise Ecommerce"
+  description="Self-hosted, white-label, open-source ecommerce: GoCommerce is one Go binary with one dependency; Svelte Commerce renders on the server. MIT, free for life."
   path={path}
   ogTitle="Open source enterprise ecommerce platform"
   ogDescription="GoCommerce for backend and admin. Svelte Commerce for the storefront. Self-hosted, white-label, MIT, free for life."
@@ -402,6 +419,39 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
           <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_sveltecommerce_click">GitHub</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  {/* ══════════════════════════════ 8b — developer-first integration */}
+  <section id="integrate" class="section wrap" aria-labelledby="integrate-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Integrate</p>
+        <h2 id="integrate-title">Developer-first integration</h2>
+      </div>
+      <p class="section-lede">From catalogue to placed order in three requests, against the one-command stack. The same calls the GoCommerce README documents — no SDK, no API key for the storefront routes.</p>
+    </div>
+    <div class="devint">
+      <div class="code-block">
+        <div class="code-head">
+          <p><svg class="ic" aria-hidden="true"><use href="#i-terminal"/></svg>Cart to order, over HTTP</p>
+          <button class="copy" data-copy="code-integrate" data-ev="integrate_copy">Copy</button>
+        </div>
+        <pre id="code-integrate"><code set:html={integrateCode} /></pre>
+        <p class="code-note">Every route is in <a href="https://github.com/itswadesh/gocommerce/blob/main/core/openapi.json" {...ext}>core/openapi.json</a> and served live at <code>/docs</code>.</p>
+      </div>
+      <ul class="devint-facts">
+        <li><b>342 operations, one contract</b><span>238 in the core and 104 from modules, all in OpenAPI 3.0.3. The admin uses the same API a storefront does.</span></li>
+        <li><b>Signed webhooks</b><span>Every event POSTed with an <code>X-GoCommerce-Signature</code> HMAC-SHA256, retried up to 12 times with backoff, each delivery logged.</span></li>
+        <li><b>No SDK to wait for</b><span>Anything that speaks JSON over HTTP is a client — or generate one in your language from the spec.</span></li>
+        <li><b>Safe to retry</b><span>Send an <code>Idempotency-Key</code> and a repeated checkout returns the same order; a changed price answers 409 instead of charging.</span></li>
+        <li><b>Agents too</b><span>The <a href="/gocommerce/mcp/">MCP server</a> gives an AI agent 19 tools over the same services and rights.</span></li>
+      </ul>
+    </div>
+    <div class="actions">
+      <a class="button secondary" href="/features/development/">Developer features</a>
+      <a class="button secondary" href="/integrations/">44 modules</a>
+      <a class="button secondary" href="/gocommerce/mcp/">MCP server</a>
     </div>
   </section>
 

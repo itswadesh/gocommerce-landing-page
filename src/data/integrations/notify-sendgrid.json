@@ -1,0 +1,63 @@
+{
+  "slug": "notify-sendgrid",
+  "name": "SendGrid",
+  "category": "Messaging",
+  "title": "SendGrid Email for GoCommerce — Open-Source Module",
+  "description": "Send GoCommerce order emails through SendGrid’s v3 API: the API key and verified sender, where the wording lives, retries, and what the module leaves out.",
+  "ogTitle": "SendGrid email for GoCommerce",
+  "ogDescription": "The store’s emails through SendGrid, in the engine’s own wording. Read from the module’s source.",
+  "h1": "SendGrid email for GoCommerce",
+  "lede": "A Go package that sends a GoCommerce store’s emails through SendGrid’s v3 API. Two settings are required — an API key and a verified sender — and the wording is the engine’s, edited in the admin.",
+  "what": [
+    "The module registers a notifier on the engine’s email channel. When the engine has something to tell a shopper — an order placed, paid, shipped, delivered, cancelled, refunded or returned — it hands the module the event and its flat data, and the module sends one plain-text email through POST /v3/mail/send.",
+    "Installed with nothing configured, the module is idle. The package notes that the engine keeps writing every message to the log until an operator fills in Notifications › Setup Email, and that the settings screen and the doctor say so.",
+    "The wording, in the package’s words, is not the module’s at all: it asks the engine’s notification templates for the effective subject and body at send time, so what the operator edits in the panel is what goes out. No SDK — sending one email is a single JSON POST."
+  ],
+  "configLede": "Two settings are required: the API key and the from address. Set them in Config from your own main(), or leave Config empty and fill them in under Notifications › Setup Email.",
+  "config": [
+    { "field": "APIKey", "panel": "API key", "env": "SENDGRID_API_KEY", "required": true, "note": "A SendGrid API key with Mail Send permission." },
+    { "field": "From", "panel": "From address", "env": "SENDGRID_FROM", "required": true, "note": "A sender SendGrid has verified. There is no default: without it, nothing sends." },
+    { "field": "FromName", "panel": "From name", "env": "SENDGRID_FROM_NAME", "required": false, "note": "The name beside the address in the inbox." },
+    { "field": "ReplyTo", "panel": "Reply-to address", "required": false, "note": "Where a shopper’s reply lands; empty means the from address." },
+    { "field": "Subjects", "required": false, "note": "Overrides the engine’s subject line for an event, keyed by event name, for a store that keeps its wording in code. Checked when the store boots; a subject edited in the panel wins. Go only." },
+    { "field": "Bodies", "required": false, "note": "The same, for the plain-text body. Go only." },
+    { "field": "BaseURL", "required": false, "note": "Overrides https://api.sendgrid.com, for tests. Go only." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 15 seconds. Go only." }
+  ],
+  "setup": [
+    { "b": "Create a key and a sender", "t": "In SendGrid: an API key with Mail Send permission, and a sender address SendGrid has verified." },
+    { "b": "Install the module", "t": "Import it and pass sendgrid.New to gocommerce.New, as below — or run the reference binary with -sendgrid, which reads SENDGRID_API_KEY, SENDGRID_FROM and SENDGRID_FROM_NAME." },
+    { "b": "Give it both", "t": "Key and sender in Config, which starts it switched on, or under Notifications › Setup Email. A value typed into the panel counts on the next message, with no restart." },
+    { "b": "Edit the wording", "t": "Subjects and bodies are the engine’s templates, edited under Notifications › Setup Email. Place an order and the confirmation goes out." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tsendgrid \"github.com/misiki/gocommerce/ext/notify-sendgrid\"\n)\n\napp, err := gocommerce.New(cfg,\n\tsendgrid.New(sendgrid.Config{\n\t\tAPIKey: os.Getenv(\"SENDGRID_API_KEY\"),\n\t\tFrom:   \"orders@example.com\",\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty sendgrid.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "The engine’s words", "t": "Subject and body come from the engine’s templates at send time — the panel’s edit if there is one, Config’s Subjects and Bodies if not, the engine’s default otherwise — rendered with Go’s text/template over the event’s flat data." },
+    { "b": "Idle until complete", "t": "Without both a key and a sender the module does not count as configured. The engine skips it, and the message goes to the log instead." },
+    { "b": "Rejections settle, outages retry", "t": "A 4xx other than 429 is logged and settled: a bad address will be rejected again. Unreachable, 429 or 5xx is returned as an error, and the engine retries the notification with backoff." },
+    { "b": "Overrides checked at boot", "t": "A Subjects or Bodies template that does not parse stops the store booting, rather than failing on the first sale." },
+    { "b": "Only events with wording", "t": "An event with no email template is skipped, not an error, so another module can add events this one has never heard of." },
+    { "b": "Settings without a restart", "t": "The panel’s values are read on every send and win over Config. The engine keeps a row per message in its notification log, and an operator can resend one from there." }
+  ],
+  "limits": [
+    { "b": "Plain text only", "t": "Each email is sent as text/plain. There is no HTML body, no attachment and no SendGrid dynamic template." },
+    { "b": "Amounts in minor units", "t": "The engine hands templates totals in minor units — 49900, not 499.00 — and a store that wants them formatted edits the template." },
+    { "b": "Two backends, two emails", "t": "Every configured email backend gets every message. With SendGrid and Resend both switched on, a shopper gets two; and a retry after one fails re-sends through both." },
+    { "b": "Refusals count as sent", "t": "A message SendGrid refuses returns no error, so the engine’s notification log records it as sent. The refusal is only in the application log." },
+    { "b": "No successful-send log line", "t": "Unlike the Resend module, a message SendGrid accepts leaves no line in the application log; the engine’s notification log is the record." },
+    { "b": "No bounce tracking", "t": "The module registers no webhook. Bounces, complaints and opens stay in SendGrid." }
+  ],
+  "tested": true,
+  "testCount": 5,
+  "apiOps": 0,
+  "vendorUrl": "https://sendgrid.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Why are two settings required?", "a": "SendGrid sends only from a sender it has verified, so there is no address the module could fall back on. Until both the key and the from address are set, the module is idle and messages go to the log." },
+    { "q": "Where do I change what the emails say?", "a": "Under Notifications › Setup Email, where the engine’s templates are edited. A store that keeps its wording in code can pass Subjects and Bodies in Config instead; an edit in the panel wins over both." },
+    { "q": "Can I use it without writing Go?", "a": "Yes. The reference binary’s -sendgrid flag installs it, reading SENDGRID_API_KEY, SENDGRID_FROM and SENDGRID_FROM_NAME, and the panel can hold the same settings." },
+    { "q": "Is this a SendGrid partnership?", "a": "No. The module calls SendGrid’s public API with a key you supply. SendGrid does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

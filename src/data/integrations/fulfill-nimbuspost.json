@@ -1,0 +1,65 @@
+{
+  "slug": "fulfill-nimbuspost",
+  "name": "NimbusPost",
+  "category": "Shipping",
+  "title": "NimbusPost Shipping for GoCommerce — Open-Source Module",
+  "description": "Book shipments across NimbusPost’s couriers from a GoCommerce order: login, warehouse, courier choice, COD, labels, and what the module leaves out.",
+  "ogTitle": "NimbusPost shipping for GoCommerce",
+  "ogDescription": "One login, the courier NimbusPost picks, its waybill and a label. Read from the source.",
+  "h1": "NimbusPost shipping for GoCommerce",
+  "lede": "A Go package that books a parcel through NimbusPost, which hands it to a courier — Delhivery, XpressBees, Blue Dart and the rest — and returns that courier’s waybill and a label. An account login and a registered warehouse are what it needs.",
+  "what": [
+    "Registering the module adds “nimbuspost” as a fulfillment provider. An operator ships the usual way — the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"nimbuspost\" — and the module books the parcel, returning the waybill as the tracking number along with NimbusPost’s label URL. The engine stores the shipment and moves the order on; the module only talks to NimbusPost.",
+    "NimbusPost is an aggregator, not a carrier, and the package doc is careful about what follows. The shipment comes back naming whichever courier took it, so the carrier on the GoCommerce shipment is read from the response rather than assumed, and the tracking number belongs to that courier, not to NimbusPost.",
+    "In the admin it describes itself as “NimbusPost’s courier aggregation, India: one login books across the couriers it holds.”"
+  ],
+  "configLede": "Three settings are required: the account’s email and password, and the warehouse name. Set them in Config from your own main(), or leave Config empty and fill them in under Settings › Shipping providers.",
+  "config": [
+    { "field": "Email", "panel": "Account email", "env": "NIMBUSPOST_EMAIL", "required": true, "note": "The NimbusPost login. The API has no long-lived key, only a login that mints a token." },
+    { "field": "Password", "panel": "Account password", "env": "NIMBUSPOST_PASSWORD", "required": true, "note": "Exchanged for a token, which the module reuses for a day." },
+    { "field": "WarehouseName", "panel": "Warehouse name", "required": true, "note": "The pickup warehouse registered with NimbusPost, matched exactly. The package’s example uses “Primary”." },
+    { "field": "PickupName, PickupAddress, PickupCity, PickupState, PickupPincode, PickupPhone", "panel": "Pickup: name, address, city, state, pincode, phone", "required": false, "note": "The pickup address sent with each shipment. NimbusPost finds the warehouse by name; these are what gets printed, and left empty they lean on what the dashboard holds." },
+    { "field": "AutoPickup", "panel": "Raise the pickup request while booking", "required": false, "note": "Has NimbusPost raise the pickup with the courier as part of booking. Off by default — in the code’s words, scheduling a van is a decision about somebody’s afternoon." },
+    { "field": "DefaultWeightGrams", "panel": "Default weight (grams)", "required": false, "note": "Per unit, for a parcel the engine could not weigh. 500 g when unset." },
+    { "field": "DefaultLengthCM, DefaultBreadthCM, DefaultHeightCM", "required": false, "note": "The box used for any parcel of more than one unit, where the engine has no single size. 15 × 15 × 10 cm when unset. Go only." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.nimbuspost.com/v1, for tests. Empty for production." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Register the warehouse", "t": "In NimbusPost, register the pickup warehouse and note its name exactly, along with the account login the module will use." },
+    { "b": "Install the module", "t": "Import it and pass nimbuspost.New to gocommerce.New, as below — or run the reference binary with -carriers, which installs every carrier module idle." },
+    { "b": "Configure it", "t": "Email, password and warehouse name, in Config or under Settings › Shipping providers. Decide whether booking should also raise the pickup." },
+    { "b": "Ship an order", "t": "Choose NimbusPost in the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"nimbuspost\". The courier’s waybill becomes the tracking number." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tnimbuspost \"github.com/misiki/gocommerce/ext/fulfill-nimbuspost\"\n)\n\napp, err := gocommerce.New(cfg,\n\tnimbuspost.New(nimbuspost.Config{\n\t\tEmail:         os.Getenv(\"NIMBUSPOST_EMAIL\"),\n\t\tPassword:      os.Getenv(\"NIMBUSPOST_PASSWORD\"),\n\t\tWarehouseName: \"Primary\",\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty nimbuspost.Config the module installs idle and waits for the panel.",
+  "howItWorks": [
+    { "b": "One booking call", "t": "The parcel goes to NimbusPost’s shipments endpoint with the consignee, the pickup, this parcel’s items, weight and size. The answer carries the waybill, the courier’s name and a label URL." },
+    { "b": "status: false is a refusal", "t": "NimbusPost can answer HTTP 200 with \"status\": false. Every response is checked for the flag before anything is believed, so a refusal never reads as a shipped order." },
+    { "b": "The courier, not the aggregator", "t": "The courier’s name is mapped to one of the engine’s carrier codes — Delhivery, XpressBees, Blue Dart, Ecom Express, DTDC, Shadowfax, Ekart, Amazon Shipping, India Post, DHL, FedEx — so the number gets the right tracking link." },
+    { "b": "COD or prepaid, from the order", "t": "An unpaid order is booked cod and a paid one prepaid, with the order amount set to the value of what is in this parcel." },
+    { "b": "Measured weight first", "t": "Weight in grams, sides in centimetres. The engine’s summed weight is used only when every line was weighed; otherwise the default per unit. A courier_id in the request’s meta asks for that courier." },
+    { "b": "A token a day, an id per parcel", "t": "The login’s token is reused for 24 hours and cleared on a 401. NimbusPost rejects a duplicate order number, so later parcels on one order go as number-2, number-3." }
+  ],
+  "limits": [
+    { "b": "A booking without a waybill", "t": "If NimbusPost creates the shipment but assigns no waybill, the call fails with the code’s own instruction: cancel it in NimbusPost before retrying." },
+    { "b": "No tracking updates", "t": "Nothing comes back after booking: no webhook, no polling. Marking an order delivered is a separate step, in the admin or through the API." },
+    { "b": "No rates, no cancellation", "t": "The module quotes no rates, and deleting a fulfillment in GoCommerce does not cancel the shipment in NimbusPost." },
+    { "b": "Courier choice needs the API", "t": "The admin’s ship dialog sends no meta, so asking for a particular courier_id is an API call." },
+    { "b": "A password, not a key", "t": "NimbusPost’s API has no long-lived key, so the module has to hold the account’s email and password to log in with." },
+    { "b": "Two-decimal money", "t": "Prices and the order amount are minor units divided by 100 — right for rupees, wrong for a currency with none or three decimals." }
+  ],
+  "tested": true,
+  "testCount": 9,
+  "apiOps": 0,
+  "vendorUrl": "https://nimbuspost.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Which courier carries the parcel?", "a": "Whichever NimbusPost assigns, unless a courier_id in the request’s meta asks for one. The module reads the courier’s name from the response and records it as the carrier, so the tracking number is that courier’s." },
+    { "q": "Does it book the pickup too?", "a": "Only if you ask. AutoPickup, off by default, has NimbusPost raise the pickup request with the courier as part of booking." },
+    { "q": "Does it return a label?", "a": "When NimbusPost sends one. The label URL in the booking response is stored on the shipment, next to the waybill." },
+    { "q": "Does the order update when the parcel is delivered?", "a": "No. The module books and returns; it has no webhook and polls nothing. Mark the order delivered from the admin or with POST /api/admin/orders/{id}/deliver." },
+    { "q": "Is NimbusPost a partner?", "a": "No. The module calls NimbusPost’s API with a login you supply. NimbusPost does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "slug": "sitemaps",
+  "name": "Sitemaps",
+  "category": "Marketing",
+  "title": "XML Sitemaps for GoCommerce — Open-Source Module",
+  "description": "Publish a storefront sitemap from the live GoCommerce catalogue: products, collections and CMS pages, the storefront URL and paths, and the 50,000-URL limit.",
+  "ogTitle": "Storefront sitemaps for GoCommerce",
+  "ogDescription": "Products, collections and pages from the live catalogue, with the day each last changed. Read from the source.",
+  "h1": "Storefront sitemaps for GoCommerce",
+  "lede": "A Go package that publishes the storefront’s sitemap from the live catalogue — every active product and collection, and every published page when the cms module is installed. It needs one setting: where the storefront lives.",
+  "what": [
+    "The module serves a sitemap index at /x/sitemaps/sitemap.xml and the files it points at: products.xml, collections.xml and, with the cms module installed, pages.xml. Every URL carries the day the thing it names last changed.",
+    "The engine does not know where its storefront lives, so, as the package doc puts it, the address is a setting — and so are the paths, because storefronts differ on whether a product lives at /products/{slug} or /p/{slug}. A storefront serves /sitemap.xml by proxying or redirecting to the index.",
+    "The files are generated on request from the live catalogue and cacheable for an hour. Each carries a stylesheet instruction, so a person who opens one in a browser sees a table of what is listed rather than raw XML; crawlers ignore it."
+  ],
+  "configLede": "One setting is required: the storefront’s URL. With it in Config the module starts switched on; otherwise switch it on and fill it in on the Plugins screen, which wins where both say something.",
+  "config": [
+    { "field": "StorefrontURL", "panel": "Storefront URL", "env": "STOREFRONT_URL", "required": true, "note": "Where the pages live, e.g. https://shop.example. Until it is set the sitemap answers 409 and says so; while the plugin is off, 404." },
+    { "field": "ProductPath", "panel": "Product page path", "required": false, "note": "The product page’s path with {slug} in it. Defaults to /products/{slug}; set it on the Plugins screen — see the limits." },
+    { "field": "CollectionPath", "panel": "Collection page path", "required": false, "note": "The collection page’s path. Defaults to /collections/{slug}." },
+    { "field": "PagePath", "panel": "Content page path", "required": false, "note": "The content page’s path, used when the cms module is installed. Defaults to /pages/{slug}." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Import it and pass sitemaps.New to gocommerce.New, as below — or run the reference binary with -sitemaps, which reads STOREFRONT_URL." },
+    { "b": "Set the storefront and paths", "t": "The storefront URL, and the product, collection and page paths if your storefront’s differ from the defaults, on the Plugins screen." },
+    { "b": "Point /sitemap.xml at it", "t": "Have the storefront proxy or redirect /sitemap.xml to /x/sitemaps/sitemap.xml — and /x/sitemaps/ too, since the index links to the files there." },
+    { "b": "Check it, then submit it", "t": "Open the index in a browser: the stylesheet shows what is listed. Then submit the storefront’s /sitemap.xml to the search engines." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/sitemaps\"\n)\n\napp, err := gocommerce.New(cfg,\n\tsitemaps.New(sitemaps.Config{StorefrontURL: os.Getenv(\"STOREFRONT_URL\")}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "As the repository’s examples/store/main.go wires it, with its imports; cfg is your gocommerce.Config. The package doc itself has no example.",
+  "howItWorks": [
+    { "b": "An index and three files", "t": "sitemap.xml lists products.xml and collections.xml, and pages.xml when the cms module is installed. All five routes are public and documented in the module’s OpenAPI file." },
+    { "b": "Live, not stored", "t": "Each file is built on request from active products, active collections and published pages, read 500 at a time, and sent with Cache-Control: public, max-age=3600." },
+    { "b": "Last changed, by the day", "t": "Every URL carries lastmod — the day it last changed, in UTC — and a change frequency: weekly for products and collections, monthly for content pages." },
+    { "b": "Readable in a browser", "t": "Each file points at a stylesheet the module serves beside it, so the first click after switching it on answers whether it worked." },
+    { "b": "Links from the request’s host", "t": "The index’s links use the host the request came to, honouring X-Forwarded-Host and X-Forwarded-Proto, so behind a proxy they carry the storefront’s address." },
+    { "b": "Off means 404", "t": "Switched off, every file is a 404. Switched on without a storefront URL, a 409 that names the setting to fill in." }
+  ],
+  "limits": [
+    { "b": "50,000 URLs per file", "t": "The package doc names it: a sitemap file holds 50,000 URLs, and a catalogue past that needs the products file split, which this does not do yet." },
+    { "b": "Paths in Config are shadowed", "t": "The panel’s path fields have defaults, read before Config, so ProductPath, CollectionPath and PagePath in Config never take effect. Set the paths on the Plugins screen." },
+    { "b": "No categories", "t": "Products, collections and content pages only. Category pages are not listed." },
+    { "b": "No images or languages", "t": "Each entry is a location, a date and a frequency: no image entries, and no alternates for other languages." },
+    { "b": "The proxy is yours", "t": "The files are served by GoCommerce under /x/sitemaps/. The storefront has to proxy or redirect its /sitemap.xml; the module cannot answer at the storefront’s address." },
+    { "b": "No change pings", "t": "It tells no search engine that something changed. That is the indexnow module’s job." }
+  ],
+  "tested": true,
+  "testCount": 4,
+  "apiOps": 5,
+  "vendorUrl": "https://www.sitemaps.org/protocol.html",
+  "vendorType": "CreativeWork",
+  "vendorName": "Sitemaps XML protocol",
+  "trademark": "",
+  "faq": [
+    { "q": "Why is the sitemap served by the API and not the storefront?", "a": "Because the catalogue lives there. The engine builds the files from live data; the storefront serves /sitemap.xml by proxying or redirecting to /x/sitemaps/sitemap.xml, as the package doc describes." },
+    { "q": "My product pages are at /p/{slug}. What do I change?", "a": "The product page path, on the Plugins screen. Set it there rather than in Config: the panel’s default of /products/{slug} is read first, so a path in Config is never used." },
+    { "q": "Does it list content pages?", "a": "When the cms module is installed. The index then includes pages.xml, with every published page; without the cms module, pages.xml answers 404 and the index leaves it out." },
+    { "q": "How fresh is it?", "a": "As fresh as the catalogue: every file is built on request, and marked cacheable for an hour." },
+    { "q": "Does it need Svelte Commerce?", "a": "No. Any storefront that can proxy or redirect /sitemap.xml can use it; the paths are settings precisely because storefronts differ." }
+  ]
+}
