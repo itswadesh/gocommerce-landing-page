@@ -1,0 +1,83 @@
+---
+/**
+ * One features page per file in src/data/features/. Every tile is a thing
+ * the GoCommerce code does, checked against the repository with the file
+ * named under it; a tile marked "Partial" says in its own words what is
+ * missing. What GoCommerce does not do at all is listed at the foot, by name,
+ * because a feature page that only lists presences reads as a claim about
+ * the absences too.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+import type { FeaturePage } from '../../data/features/_schema'
+
+export function getStaticPaths() {
+  const files = import.meta.glob<FeaturePage>('../../data/features/*.json', { eager: true, import: 'default' })
+  return Object.values(files).map((f) => ({ params: { slug: f.slug }, props: { f } }))
+}
+
+const { f } = Astro.props as { f: FeaturePage }
+const path = `/features/${f.slug}/`
+const abs = (p: string) => new URL(p, Astro.site!).href
+const id = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: f.title, isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, inLanguage: 'en' },
+]
+---
+<Base
+  title={f.title}
+  description={f.description}
+  path={path}
+  ogTitle={f.ogTitle}
+  ogDescription={f.ogDescription}
+  nav="solutions"
+  crumbs={[{ name: 'Features', href: '/features/' }, { name: f.name, href: path }]}
+  graph={graph}
+  faq={f.faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">{f.kicker}</p>
+    <h1>{f.h1}</h1>
+    <p class="lede">{f.lede}</p>
+    <ul class="head-facts">
+      {f.facts.map((x) => <li><b>{x.b}</b> {x.t}</li>)}
+    </ul>
+  </section>
+
+  {f.groups.map((g) => (
+    <section id={id(g.name)} class="section wrap" aria-labelledby={`${id(g.name)}-title`}>
+      <h2 id={`${id(g.name)}-title`}>{g.name}</h2>
+      {g.lede && <p class="section-lede">{g.lede}</p>}
+      <ul class="feat-grid">
+        {g.tiles.map((t) => (
+          <li class={t.status === 'partial' ? 'feat feat-partial' : 'feat'}>
+            <p class="feat-head"><b>{t.title}</b>{t.status === 'partial' && <span class="feat-chip">Partial</span>}</p>
+            <p class="feat-text">{t.text}</p>
+            {t.source && <p class="feat-src"><code>{t.source}</code></p>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <section id="not-yet" class="section wrap" aria-labelledby="not-yet-title">
+    <h2 id="not-yet-title">Not in GoCommerce yet</h2>
+    <p class="section-lede">{f.notYetLede}</p>
+    <ul class="notyet">
+      {f.notYet.map((n) => <li><b>{n.name}</b><span>{n.why}</span></li>)}
+    </ul>
+  </section>
+
+  <Faq items={f.faq} title={`Questions about ${f.name.toLowerCase()}`} />
+
+  <section class="closing wrap">
+    <h2>Read the code behind every tile</h2>
+    <p>Each file named on this page is in the GoCommerce repository, MIT licensed. Run it and check.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">GoCommerce on GitHub</a>
+      <a class="button secondary" href="/features/">All features</a>
+    </div>
+  </section>
+</Base>

@@ -259,7 +259,7 @@
 
   // The IDs arrive from the build in window.KC_CONFIG. With none set this whole
   // block is inert: no banner, no request, no cookie. With any set, the banner
-  // shows once and nothing is requested until "Allow analytics" is clicked.
+  // shows once and nothing is requested until "Accept analytics" is clicked.
   // The choice is the one thing stored, as {state, at}, under kc-consent.
   var cfg = window.KC_CONFIG || {}
   var configured = !!(cfg.ga4 || cfg.clarity || cfg.segment || cfg.reo)

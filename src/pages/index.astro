@@ -1,20 +1,24 @@
 ---
 /**
- * The homepage proves, in order: this is real, this is mature, I can inspect
- * it, I can run it quickly, I control it, my agents can work with it. Every
- * section is a screenshot, a number or a diagram with a door to the page
- * that explains it; the explaining happens on those pages, not here.
+ * The homepage follows litekart.in's order, which the owner asked for: see
+ * the product, see the proof, see why it is built the way it is, see what a
+ * merchant runs, what a developer gets, the whole feature list, the stores
+ * already live, and how to start. Every number on it is one this site can
+ * check — the audit and performance claims on that page are replaced by
+ * measured Lighthouse scores on /live-projects/, and by nothing where there
+ * is nothing to measure.
  *
- * The composition follows the reference the site was redesigned against: a
- * centred hero over one large product card, a logo strip, sections headed
- * by an eyebrow and a serif title with the lede alongside, hairline cards,
- * and one dark band to close.
+ * The composition is still the reference the site was redesigned against: a
+ * centred hero over one large product card, sections headed by an eyebrow and
+ * a serif title with the lede alongside, hairline cards, one dark closing band.
  */
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
 import ProductShot from '../components/ProductShot.astro'
-import CommerceDiagram from '../components/CommerceDiagram.astro'
+import Illustration from '../components/Illustration.astro'
 import demoAccount from '../data/demo.json'
+import live from '../data/live-projects.json'
+import themes from '../data/themes.json'
 
 const path = '/'
 const site = Astro.site!
@@ -34,7 +38,7 @@ async function repoStats(repo: string, fallback: { stars: number; forks: number 
     return { stars: typeof j.stargazers_count === 'number' ? j.stargazers_count : fallback.stars, forks: typeof j.forks_count === 'number' ? j.forks_count : fallback.forks }
   } catch { return fallback }
 }
-const sv = await repoStats('itswadesh/svelte-commerce', { stars: 1813, forks: 335 })
+const sv = await repoStats('itswadesh/svelte-commerce', { stars: 1815, forks: 336 })
 const n = (x: number) => x.toLocaleString('en')
 
 // The live demo. The demo account lives in src/data/demo.json — public by
@@ -60,9 +64,9 @@ const faq = [
   { q: 'What is Svelte Commerce?', a: 'Svelte Commerce is an open-source headless ecommerce storefront built with Svelte and SvelteKit. It reaches a commerce backend through a connector package, and 26 connectors exist today.' },
   { q: 'Is KitCommerce a product?', a: 'No. kitcommerce.store is the website presenting GoCommerce and Svelte Commerce. They are independent projects, and there is nothing called KitCommerce to install.' },
   { q: 'Can I self-host them?', a: 'Yes. Both projects are MIT licensed and designed to run on your own infrastructure: GoCommerce is one binary and one PostgreSQL, Svelte Commerce is a Node server. The compose file on this site runs the backend, its admin and a proxy on port 80 in one command.' },
-  { q: 'Is there a platform fee?', a: 'No. No fee is charged for running the software and there is no hosted tier to graduate to. Your own servers, domains and third-party services still cost what they cost — the software is free, hosting is not.' },
-  { q: 'Can either project be used independently?', a: 'Yes, and that is the default. GoCommerce serves any client that speaks HTTP, so any storefront framework can drive it. Svelte Commerce runs against 26 commerce backends including Medusa, Vendure, Shopify, Saleor and WooCommerce. Neither requires the other.' },
-  { q: 'Can GoCommerce and Svelte Commerce work together?', a: 'Not with an installable package yet. The direct connector between them is in development and unpublished, so pairing them today means writing that client yourself against the documented GoCommerce API. The connector page tracks exactly what exists.' },
+  { q: 'Is there a platform fee or a paid plan?', a: 'No. There is one plan and it is free, for life: no fee on your orders and no hosted tier to graduate to. Your own servers, domains and third-party services still cost what they cost — the software is free, hosting is not.' },
+  { q: 'Can I white-label it?', a: 'Yes. Both projects are MIT, so you can rename them, restyle the storefront and the admin, and ship them under your own brand for yourself or for clients. Keeping the copyright notice in the source is the only condition.' },
+  { q: 'Can GoCommerce and Svelte Commerce work together?', a: 'Through an early connector: @misiki/gocommerce-connector 0.1.0 lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Customer accounts and a search index are not covered yet. Either project also works alone: GoCommerce with any HTTP client, Svelte Commerce with 26 other backends.' },
   { q: 'How do I get started?', a: 'Download docker-compose.yml and env.example from this site, set your secrets in .env, then run docker compose up -d. The admin answers on http://localhost/, the OpenAPI docs on /docs and the catalogue on /api/products. Everything deeper — your own PostgreSQL, modules, the storefront profile — is in the GoCommerce README.' },
 ]
 
@@ -70,7 +74,7 @@ const faq = [
 // strings here and rendered with set:html.
 const composeCmd = `curl -O https://kitcommerce.store/docker-compose.yml
 curl -o .env https://kitcommerce.store/env.example
-<span class="cm"># edit .env — it refuses to start on placeholder secrets</span>
+<span class="cm"># edit .env — it will not start while a required secret is unset</span>
 docker compose up -d`
 const termOut = `<span data-line style="--i:0"><span class="tp">$</span> docker compose up -d</span>
 <span data-line style="--i:1"> <span class="tok">✔</span> Container postgres-1    <span class="tdim">Healthy</span></span>
@@ -113,14 +117,34 @@ const solutions = [
   { id: 'sol-d2c', href: '/solutions/d2c/', icon: 'i-bag', tint: 'tint-peach', title: 'Direct-to-consumer', cta: 'Explore D2C →', points: ['The default store', 'Cash on delivery built in', 'Manual fulfillment built in', 'Svelte Commerce in front'] },
   { id: 'sol-channels', href: '/solutions/multi-store/', icon: 'i-store', tint: 'tint-lilac', title: 'Multi-store', cta: 'Explore multi-store →', points: ['Channels', 'Per-channel publishing', 'Per-channel price lists', 'One default channel'] },
 ]
+
+// The whole feature list, grouped the way litekart.in groups its own. Every
+// line is a thing in the GoCommerce code or a module in ext/, checked tile by
+// tile for /features/ — nothing here is a roadmap item.
+const featureGroups = [
+  { name: 'Catalogue', items: ['Products and variants', 'Attributes from Shopify’s taxonomy', 'Categories and collections', 'Custom metadata on 15 tables'] },
+  { name: 'Search and discovery', items: ['Filtering and sorting in the engine', 'Meilisearch module', 'Sitemaps and IndexNow modules', 'Google Merchant and Meta feeds'] },
+  { name: 'Cart and checkout', items: ['Guest carts and checkout', 'Idempotent, never-repricing checkout', 'Discount codes', 'Abandoned-cart recovery'] },
+  { name: 'Orders and fulfilment', items: ['Order timeline and edits', 'Shipping in parcels, 12 carrier options', 'Returns with per-line restock', 'Invoices, picking sheets, packing slips'] },
+  { name: 'Payments', items: ['Nine gateway modules', 'Cash on delivery built in', 'Refunds through the gateway', 'Payouts by payment method'] },
+  { name: 'Customers and B2B', items: ['Shopper accounts (identity module)', 'Customer groups and price lists', 'Quantity breaks', 'Reviews and wishlists'] },
+  { name: 'Marketplace and multi-store', items: ['Vendors, moderated, with their own logins', 'Channels with their own price lists', 'Roles and scoped API keys', 'Stock across locations'] },
+  { name: 'Content and messaging', items: ['CMS pages, menus and FAQ', 'Newsletter and Klaviyo', 'Email: Resend, SendGrid', 'SMS: Twilio, MSG91'] },
+  { name: 'Infrastructure', items: ['One Go binary and PostgreSQL', '342 operations in OpenAPI', 'Signed webhooks, events never lost', 'gocommerce doctor and an MCP server'] },
+]
+
+// Rendered only when a number is configured; never a placeholder.
+const wa = import.meta.env.PUBLIC_WHATSAPP ?? ''
+const liveCount = live.stores.length
+const livePreview = live.stores.filter((s) => s.scores).slice(0, 3)
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
 ---
 <Base
   title="Open Source Enterprise Ecommerce Platform | GoCommerce & Svelte Commerce"
-  description="Fast, open-source ecommerce you host yourself. GoCommerce compiles to one Go binary with one dependency; Svelte Commerce renders on the server. MIT licensed, no platform fees, one Docker command to run."
+  description="Enterprise-grade, open-source ecommerce you self-host and white-label: GoCommerce compiles to one Go binary with one dependency; Svelte Commerce renders on the server. MIT licensed, free for life, one Docker command to run."
   path={path}
   ogTitle="Open source enterprise ecommerce platform"
-  ogDescription="GoCommerce for backend and admin. Svelte Commerce for the storefront. One compiled binary, one dependency, MIT, no platform fees."
+  ogDescription="GoCommerce for backend and admin. Svelte Commerce for the storefront. Self-hosted, white-label, MIT, free for life."
   graph={graph}
   faq={faq}
 >
@@ -133,14 +157,24 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
   {/* ══════════════════════════════════════════════ 1 — hero */}
   <section class="hero-center wrap">
-    <a class="pill" href="#ownership">Open source · MIT licensed <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+    <a class="pill" href="/pricing/">Open source · MIT licensed · Free for life <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
     <h1>Fast ecommerce.<br>Yours to host.</h1>
+    {/* Enterprise-grade, scalable, fast, open source, self-hosted, white-label,
+        tested, working — each word carried by the fact beside it rather than
+        asserted on its own. "Error free" is said the only way software can
+        honestly say it: as the test suite that stands behind the API. */}
     <p class="lede">
-      Open source, and built to be quick: a backend that runs as one compiled
-      process on one database, and a storefront that sends finished HTML
-      instead of a bundle to boot. MIT licensed, hosted by you, no platform
-      fees — up on your own server with a single command.
+      Enterprise-grade, open-source ecommerce you self-host and white-label,
+      fast by design and built to scale: one compiled Go binary on PostgreSQL,
+      a server-rendered storefront, over 1,000 tests and a documented contract
+      for every route. It just works — up on your own server with a single
+      command, under your own brand, MIT licensed, no platform fees.
     </p>
+    <ul class="hero-checks" aria-label="In short">
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg>Free to self-host</li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg>Built for developers</li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg>Yours to white-label</li>
+    </ul>
     <div class="actions hero-actions">
       <a class="button" href="#one-command" data-ev="quickstart_click">Deploy in minutes</a>
       <a class="button secondary" href={adminHref} {...ext} data-ev="live_admin_click">{adminLabel}</a>
@@ -153,6 +187,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <li><b data-gh="sv-forks">{n(sv.forks)}</b><span>forks</span></li>
       <li><b>26</b><span>commerce backends connected</span></li>
     </ul>
+    <p class="hero-own">Own your code. Own your infrastructure. Own your customer data.</p>
 
     <div class="hero-wash">
       <figure class="product-card">
@@ -172,14 +207,168 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <ul>{stack.map((s) => <li><img src={s.src} width="24" height="24" alt="" loading="lazy"><span>{s.name}</span></li>)}</ul>
   </section>
 
-  {/* ═══════════════════════════════════ 2 — the two projects */}
+  {/* ══════════════════════════════ 2 — see it before you deploy */}
+  <section id="live-admin" class="section admin-section" aria-labelledby="live-admin-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">A look inside</p>
+          <h2 id="live-admin-title">See it before you deploy it</h2>
+        </div>
+        {demo ? (
+          <p class="section-lede">
+            A GoCommerce instance runs at <code>admin.kitcommerce.store</code> as a
+            public demo: the link opens the sign-in screen with the demo account
+            filled in — press Login and look around. It is a real store you can
+            change; every email address and phone number in it is masked, and
+            the team, its keys and its roles are frozen.
+          </p>
+        ) : (
+          <p class="section-lede">
+            A GoCommerce instance runs at <code>admin.kitcommerce.store</code>. It
+            opens a sign-in screen — there is no demo account yet — so the
+            screenshots are the preview.
+          </p>
+        )}
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Admin screens">
+        {screens.map((s, i) => (
+          <button role="tab" id={`tab-${s.key}`} aria-controls={`panel-${s.key}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? undefined : -1}><svg class="ic" aria-hidden="true"><use href={`#${s.icon}`}/></svg>{s.label}</button>
+        ))}
+      </div>
+
+      {screens.map((s, i) => (
+        <div class="panel" role="tabpanel" id={`panel-${s.key}`} aria-labelledby={`tab-${s.key}`} hidden={i !== 0}>
+          <ProductShot name={s.key} label={`GoCommerce / ${s.label}`} alt={s.alt} mobileAlt={s.mobileAlt} caption={s.caption} width={s.w} height={s.h} mobileWidth={s.mw} mobileHeight={s.mh} eager={i === 0} />
+        </div>
+      ))}
+
+      <div class="actions">
+        <a class="button" href={adminHref} {...ext} data-ev="live_admin_click">{demo ? 'Open live demo' : 'Open admin sign-in'}</a>
+        <a class="button secondary" href="/gocommerce/admin/" data-ev="gocommerce_explore">Every screen, captured</a>
+      </div>
+      <p class="fineprint">Screenshots from a seeded instance: 64 products, 260 orders across 150 days. Every screen is one of the 61 in the admin.</p>
+    </div>
+  </section>
+
+  {/* ══════════════════════════════════════════ 3 — proof strip */}
+  <section class="proofbar wrap" aria-label="What is in the box">
+    <ul>
+      <li><b>61</b><span>admin screens</span></li>
+      <li><b>342</b><span>documented API operations</span></li>
+      <li><b>44</b><span>modules</span></li>
+      <li><b>{themes.length}</b><span>storefront themes</span></li>
+      <li><b>{liveCount}</b><span>live stores</span></li>
+    </ul>
+  </section>
+
+  {/* ════════════════════════════════ 4 — how it's built (illustrations) */}
+  <section id="how-built" class="section wrap" aria-labelledby="how-built-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Why teams pick it</p>
+        <h2 id="how-built-title">Self-hosted. Scalable. Fast.</h2>
+      </div>
+      <p class="section-lede">Four mechanisms the GoCommerce docs describe, drawn with the names from the code. No timings or benchmark figures — none are published.</p>
+    </div>
+    <div class="illus-grid">
+      <Illustration kind="scalable" />
+      <div id="headless"><Illustration kind="headless" /></div>
+      <Illustration kind="modular" />
+      <Illustration kind="fast" />
+    </div>
+    <div class="actions">
+      <a class="button secondary" href="/go-svelte-ecommerce/" data-ev="architecture_click">See the full architecture</a>
+      <a class="button secondary" href="/features/development/">Developer features</a>
+    </div>
+  </section>
+
+  {/* ═══════════════════════════════════════ 5 — the storefront */}
+  <section id="live-stores" class="section wrap" aria-labelledby="stores-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Sell</p>
+        <h2 id="stores-title">A storefront buyers don’t wait for</h2>
+      </div>
+      <p class="section-lede">Svelte Commerce renders every page on the server, so a shopper and a crawler both receive the page itself, not a bundle to boot. {themes.length} live themes to start from; this one is a jewellery business selling on it today.</p>
+    </div>
+    <div class="store-card real-store">
+      <figure class="storefront-desktop">
+        <div class="store-browser">
+          <p class="store-browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span> arialshop.com <span>Desktop storefront</span></p>
+          <a href="/assets/admin/storefront-home.webp" {...ext} aria-label="Open full Arialshop desktop screenshot in a new tab">
+            <picture>
+              <source media="(max-width: 600px)" srcset="/assets/admin/storefront-mobile.webp" width="780" height="1688">
+              <img src="/assets/admin/focus/storefront-desktop.webp" width="1440" height="764" alt="The Arialshop desktop storefront: a jewellery hero image with a shop call to action and category navigation." loading="lazy" decoding="async">
+            </picture>
+          </a>
+        </div>
+        <figcaption>Real storefront capture · <a href="/assets/admin/storefront-home.webp" {...ext}>Full desktop screenshot ↗</a></figcaption>
+      </figure>
+      <div class="store-meta">
+        <div><h3>Arialshop</h3><p class="store-domain">arialshop.com</p><p>A real production jewellery storefront running on Svelte Commerce — lab-grown diamond rings, with variants, sizing and checkout.</p></div>
+        <a class="button secondary" href="https://arialshop.com" {...ext} data-ev="live_store_click">Visit store</a>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="button secondary" href="/svelte-commerce/themes/">Browse {themes.length} themes</a>
+      <a class="button secondary" href="/svelte-commerce/">Explore Svelte Commerce</a>
+    </div>
+  </section>
+
+  {/* ══════════════════════════════════ 6 — run the business */}
+  <section id="operations" class="section wrap" aria-labelledby="ops-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Manage</p>
+        <h2 id="ops-title">Run the business from one admin</h2>
+      </div>
+      <p class="section-lede">Orders, stock, customers, refunds and staff, from the 61-screen admin compiled into the GoCommerce binary. Each of these is a thing in the code, not an adjective.</p>
+    </div>
+    <ul class="evidence">
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>Rights, per resource</b><span>48 core rights, read and write gated separately, plus those modules add — for the admin and the API alike.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-braces"/></svg><b>Scoped API keys</b><span>A key carries a role, a prefix for the log line, a last-used time and a revocation.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-bag"/></svg><b>Order timeline and edits</b><span>Every change on the record; edit lines and stock moves with them.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-warehouse"/></svg><b>Multi-location inventory</b><span>Stock on hand per location, reserved separately, every movement on a ledger.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-card"/></svg><b>9 payment modules</b><span>Money as integer minor units, never a float.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-return"/></svg><b>Idempotent writes</b><span>Repeat a checkout request safely; a changed price answers 409 instead of charging.</span></li>
+    </ul>
+    <div class="actions">
+      <a class="button secondary" href="/features/operations/">Operations features</a>
+      <a class="button secondary" href="/features/checkout/">Checkout features</a>
+    </div>
+  </section>
+
+  {/* ══════════════════════════════ 7 — from one store to a platform */}
+  <section id="solutions" class="section wrap" aria-labelledby="sol-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Scale</p>
+        <h2 id="sol-title">From one store to a platform</h2>
+      </div>
+      <p class="section-lede">A marketplace, a wholesale catalogue and several storefronts run on the same engine, without replatforming. Each is a set of records, and each page names the file that does the work.</p>
+    </div>
+    <div class="solgrid">
+      {solutions.map((s) => (
+        <article id={s.id} class={s.tint}>
+          <svg class="sol-ic" aria-hidden="true"><use href={`#${s.icon}`}/></svg>
+          <h3>{s.title}</h3>
+          <ul>{s.points.map((p) => <li>{p}</li>)}</ul>
+          <a href={s.href} data-ev="solution_click">{s.cta}</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {/* ═══════════════════════════════ 8 — a codebase developers want */}
   <section id="projects" class="section wrap" aria-labelledby="projects-title">
     <div class="sec-head">
       <div>
-        <p class="kicker">Two projects</p>
-        <h2 id="projects-title">A backend and a storefront. Either one alone.</h2>
+        <p class="kicker">Build</p>
+        <h2 id="projects-title">A codebase developers actually want</h2>
       </div>
-      <p class="section-lede">GoCommerce is the engine and its admin; Svelte Commerce is the shop a customer sees. Both MIT, both self-hosted, and neither requires the other.</p>
+      <p class="section-lede">A Go engine with its admin embedded, and a SvelteKit storefront — two MIT repositories, either one usable alone, with a documented API between them.</p>
     </div>
     <div class="plate">
       <div class="part part-engine">
@@ -189,7 +378,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <ul class="part-figures">
           <li><b>44</b> modules</li>
           <li><b>342</b> API operations</li>
-          <li><b>1,036</b> tests</li>
+          <li><b>1,000+</b> tests</li>
           <li><b>61</b> admin screens</li>
         </ul>
         <div class="part-cta actions">
@@ -204,7 +393,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <p class="part-role">Headless Svelte/SvelteKit storefront. Server-rendered, 26 backends.</p>
         <ul class="part-figures">
           <li><b>26</b> backends</li>
-          <li><b>43</b> service surface</li>
+          <li><b>{themes.length}</b> themes</li>
           <li><b data-gh="sv-stars">{n(sv.stars)}</b> stars</li>
           <li><b data-gh="sv-forks">{n(sv.forks)}</b> forks</li>
         </ul>
@@ -216,7 +405,46 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     </div>
   </section>
 
-  {/* ══════════════════════════════════════ 3 — one command */}
+  <section id="agents" class="section wrap" aria-labelledby="agents-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Coding agents</p>
+        <h2 id="agents-title">Built for developers — and their coding agents</h2>
+      </div>
+      <p class="section-lede">The repository is written to be read by a machine as well as a person. Claude, Codex, Cursor and Antigravity all pick up the same files; none of this implies a partnership with any of them.</p>
+    </div>
+    <div class="tri">
+      <div class="tri-item">
+        <h3>Instructions are explicit</h3>
+        <ul class="tick">
+          <li><code>AGENTS.md</code></li>
+          <li>14 architecture rules, 4 notes for agents</li>
+          <li>15 task guides in <code>skills/</code></li>
+        </ul>
+      </div>
+      <div class="tri-item">
+        <h3>Changes are testable</h3>
+        <ul class="tick">
+          <li>Over 1,000 tests</li>
+          <li>Modular packages</li>
+          <li>Predictable service boundaries</li>
+        </ul>
+      </div>
+      <div class="tri-item">
+        <h3>Runtime agents are supported</h3>
+        <ul class="tick">
+          <li>MCP module, 19 tools</li>
+          <li>Same domain services as REST</li>
+          <li>Read-only mode</li>
+        </ul>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="button secondary" href="/vibe-coding-commerce/">Vibe-code the storefront, not the engine</a>
+    </div>
+  </section>
+
+  {/* ══════════════════════════════════════ 9 — download and run */}
   <section id="one-command" class="section onecmd-section" aria-labelledby="onecmd-title">
     <div class="wrap">
       <div class="sec-head">
@@ -258,263 +486,42 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       </div>
 
       <p class="fineprint">
-        <b>Svelte Commerce is behind a profile:</b> <code>docker compose --profile storefront up -d</code>
-        adds it on port 3000. It renders, but cannot read from GoCommerce until the
-        connector ships, so it is not in the default set —
-        <a href="/gocommerce-svelte-commerce-connector/">see the connector status</a>.
+        <b>The storefront is separate:</b> this stack does not pair Svelte Commerce
+        with GoCommerce. To do that, install the early GoCommerce connector
+        (<code>@misiki/gocommerce-connector</code>, 0.1.0) in a Svelte Commerce checkout
+        and point it at this stack — it covers catalogue, cart, checkout and order lookup,
+        not customer accounts or search. <a href="/gocommerce-svelte-commerce-connector/">See the connector status</a>.
         GoCommerce builds from source on first run, because no image is published yet.
       </p>
     </div>
   </section>
 
-  {/* ═══════════════════════════════ 4 — see the software: admin */}
-  <section id="live-admin" class="section admin-section" aria-labelledby="live-admin-title">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <p class="kicker">The admin</p>
-          <h2 id="live-admin-title">See the admin before you install</h2>
-        </div>
-        {demo ? (
-          <p class="section-lede">
-            A GoCommerce instance runs at <code>admin.kitcommerce.store</code> as a
-            public demo: the link opens the sign-in screen with the demo account
-            filled in — press Login and look around. It is a real store you can
-            change; every email address and phone number in it is masked, and
-            the team, its keys and its roles are frozen.
-          </p>
-        ) : (
-          <p class="section-lede">
-            A GoCommerce instance runs at <code>admin.kitcommerce.store</code>. It
-            opens a sign-in screen — there is no demo account yet — so the
-            screenshots are the preview.
-          </p>
-        )}
-      </div>
-
-      <div class="tabs" role="tablist" aria-label="Admin screens">
-        {screens.map((s, i) => (
-          <button role="tab" id={`tab-${s.key}`} aria-controls={`panel-${s.key}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? undefined : -1}><svg class="ic" aria-hidden="true"><use href={`#${s.icon}`}/></svg>{s.label}</button>
-        ))}
-      </div>
-
-      {screens.map((s, i) => (
-        <div class="panel" role="tabpanel" id={`panel-${s.key}`} aria-labelledby={`tab-${s.key}`} hidden={i !== 0}>
-          <ProductShot name={s.key} label={`GoCommerce / ${s.label}`} alt={s.alt} mobileAlt={s.mobileAlt} caption={s.caption} width={s.w} height={s.h} mobileWidth={s.mw} mobileHeight={s.mh} eager={i === 0} />
-        </div>
-      ))}
-
-      <div class="actions">
-        <a class="button" href={adminHref} {...ext} data-ev="live_admin_click">{demo ? 'Open live demo' : 'Open admin sign-in'}</a>
-        <a class="button secondary" href="/gocommerce/admin/" data-ev="gocommerce_explore">Every screen, captured</a>
-      </div>
-      <p class="fineprint">Screenshots from a seeded instance: 64 products, 260 orders across 150 days. Every screen is one of the 61 in the admin.</p>
-    </div>
-  </section>
-
-  {/* ═══════════════════════════ 4 — see the software: a real store */}
-  <section id="live-stores" class="section wrap" aria-labelledby="stores-title">
-    <div class="sec-head">
-      <div>
-        <p class="kicker">In production</p>
-        <h2 id="stores-title">See it running in the real world</h2>
-      </div>
-      <p class="section-lede">One store, because one is what can be pointed at honestly — a jewellery business running its shop on Svelte Commerce.</p>
-    </div>
-    <div class="store-card real-store">
-      <figure class="storefront-desktop">
-        <div class="store-browser">
-          <p class="store-browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span> arialshop.com <span>Desktop storefront</span></p>
-          <a href="/assets/admin/storefront-home.webp" {...ext} aria-label="Open full Arialshop desktop screenshot in a new tab">
-            <picture>
-              <source media="(max-width: 600px)" srcset="/assets/admin/storefront-mobile.webp" width="780" height="1688">
-              <img src="/assets/admin/focus/storefront-desktop.webp" width="1440" height="764" alt="The Arialshop desktop storefront: a jewellery hero image with a shop call to action and category navigation." loading="lazy" decoding="async">
-            </picture>
-          </a>
-        </div>
-        <figcaption>Real storefront capture · <a href="/assets/admin/storefront-home.webp" {...ext}>Full desktop screenshot ↗</a></figcaption>
-      </figure>
-      <div class="store-meta">
-        <div><h3>Arialshop</h3><p class="store-domain">arialshop.com</p><p>A real production jewellery storefront running on Svelte Commerce — lab-grown diamond rings, with variants, sizing and checkout.</p></div>
-        <a class="button secondary" href="https://arialshop.com" {...ext} data-ev="live_store_click">Visit store</a>
-      </div>
-    </div>
-  </section>
-
-  {/* ══════════════════════════════════ 5 — built for real operations */}
-  <section id="operations" class="section wrap" aria-labelledby="ops-title">
-    <div class="sec-head">
-      <div>
-        <p class="kicker">Maturity</p>
-        <h2 id="ops-title">Built for real operations</h2>
-      </div>
-      <p class="section-lede">Built from years of real ecommerce workflows — not as a minimal demo stack. Each of these is a thing in the code, not an adjective.</p>
-    </div>
-    <ul class="evidence">
-      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>52 granular rights</b><span>Read and write gated separately, per resource, for the admin and the API alike.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-braces"/></svg><b>Scoped API keys</b><span>A key carries a role, a prefix for the log line, a last-used time and a revocation.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-bag"/></svg><b>Separate payment and fulfillment state</b><span>Two facts about an order, tracked as two facts.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-warehouse"/></svg><b>Multi-location inventory</b><span>Stock on hand per location, reserved separately from available.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-card"/></svg><b>9 payment modules</b><span>Money as integer minor units, never a float.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-return"/></svg><b>Idempotent writes</b><span>Repeat a checkout request safely; the order importer fires no events and moves no stock.</span></li>
-    </ul>
-  </section>
-
+  {/* ═══════════════════════════════════ 10 — the full feature list */}
   <section id="capabilities" class="section wrap" aria-labelledby="cap-title">
     <div class="sec-head">
       <div>
-        <p class="kicker">Core capabilities</p>
-        <h2 id="cap-title">Everything a store needs, in the core</h2>
+        <p class="kicker">Everything in the box</p>
+        <h2 id="cap-title">The full feature list, nothing sold separately</h2>
       </div>
+      <p class="section-lede">No plugin store, no per-feature pricing. Every line below ships in the two MIT repositories — in the GoCommerce core or as a module you import.</p>
     </div>
-    <ul class="capwall">
-      <li><svg aria-hidden="true"><use href="#i-package"/></svg>Products</li>
-      <li><svg aria-hidden="true"><use href="#i-tag"/></svg>Variants</li>
-      <li><svg aria-hidden="true"><use href="#i-bag"/></svg>Orders</li>
-      <li><svg aria-hidden="true"><use href="#i-users"/></svg>Customers</li>
-      <li><svg aria-hidden="true"><use href="#i-warehouse"/></svg>Inventory</li>
-      <li><svg aria-hidden="true"><use href="#i-card"/></svg>Payments</li>
-      <li><svg aria-hidden="true"><use href="#i-truck"/></svg>Shipping</li>
-      <li><svg aria-hidden="true"><use href="#i-return"/></svg>Returns</li>
-      <li><svg aria-hidden="true"><use href="#i-search"/></svg>Search</li>
-      <li><svg aria-hidden="true"><use href="#i-coin"/></svg>Discounts</li>
-      <li><svg aria-hidden="true"><use href="#i-store"/></svg>Channels</li>
-      <li><svg aria-hidden="true"><use href="#i-shield"/></svg>Auth</li>
-      <li><svg aria-hidden="true"><use href="#i-braces"/></svg>REST API</li>
-      <li><svg aria-hidden="true"><use href="#i-webhook"/></svg>Webhooks</li>
-      <li><svg aria-hidden="true"><use href="#i-db"/></svg>Migrations</li>
-      <li><svg aria-hidden="true"><use href="#i-server"/></svg>Admin</li>
-    </ul>
-  </section>
-
-  {/* ══════════════════════════════════════════ 6 — solutions */}
-  <section id="solutions" class="section wrap" aria-labelledby="sol-title">
-    <div class="sec-head">
-      <div>
-        <p class="kicker">Solutions</p>
-        <h2 id="sol-title">Four shapes of store</h2>
-      </div>
-      <p class="section-lede">Each is a set of records in one engine, and each page names the file that does the work.</p>
-    </div>
-    <div class="solgrid">
-      {solutions.map((s) => (
-        <article id={s.id} class={s.tint}>
-          <svg class="sol-ic" aria-hidden="true"><use href={`#${s.icon}`}/></svg>
-          <h3>{s.title}</h3>
-          <ul>{s.points.map((p) => <li>{p}</li>)}</ul>
-          <a href={s.href} data-ev="solution_click">{s.cta}</a>
-        </article>
+    <div class="featlist">
+      {featureGroups.map((g) => (
+        <div class="featlist-group">
+          <h3>{g.name}</h3>
+          <ul class="tick">{g.items.map((i) => <li>{i}</li>)}</ul>
+        </div>
       ))}
     </div>
-  </section>
-
-  {/* ═════════════════════════════════ 7 — headless architecture */}
-  <section id="headless" class="section wrap feature" aria-labelledby="headless-title">
-    <div class="feature-copy">
-      <p class="kicker">Headless</p>
-      <h2 id="headless-title">The storefront is yours. The backend is an API.</h2>
-      <ul class="hfacts">
-        <li><svg aria-hidden="true"><use href="#i-braces"/></svg><span><b>342</b> REST operations</span></li>
-        <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>OpenAPI documented</span></li>
-        <li><svg aria-hidden="true"><use href="#i-plug"/></svg><span>Any HTTP client can drive GoCommerce</span></li>
-        <li><svg aria-hidden="true"><use href="#i-git"/></svg><span>Storefront and backend deploy independently</span></li>
-      </ul>
-      <p class="status-line status-inline"><span class="dot dot-dev" aria-hidden="true"></span><b>GoCommerce ↔ Svelte Commerce connector: in development.</b>&nbsp;<a href="/gocommerce-svelte-commerce-connector/">Status</a></p>
-      <div class="actions">
-        <a class="button" href="/go-svelte-ecommerce/" data-ev="architecture_click">See full architecture →</a>
-      </div>
-    </div>
-    <div class="feature-visual">
-      <CommerceDiagram kind="headless" />
+    <div class="actions">
+      <a class="button secondary" href="/features/">Every feature, checked against the code</a>
     </div>
   </section>
 
-  {/* ═══════════════════════════════ 8 — why go + sveltekit + postgres */}
-  <section id="why-stack" class="section wrap" aria-labelledby="why-title">
-    <div class="sec-head">
-      <div>
-        <p class="kicker">The stack</p>
-        <h2 id="why-title">Why Go + SvelteKit + PostgreSQL</h2>
-      </div>
-      <p class="section-lede">Three well-understood tools, each chosen for one property: a single binary, HTML on the first response, a database you can inspect.</p>
-    </div>
-    <div class="tri">
-      <div class="tri-item tri-engine">
-        <img class="why-logo" src="/assets/go.svg" width="26" height="26" alt="" loading="lazy">
-        <h3>Go</h3>
-        <ul class="tick">
-          <li>Single compiled binary</li>
-          <li>Low deployment complexity</li>
-          <li>Strong concurrency</li>
-          <li>Simple operational footprint</li>
-        </ul>
-      </div>
-      <div class="tri-item tri-store">
-        <img class="why-logo" src="/assets/svelte.svg" width="26" height="26" alt="" loading="lazy">
-        <h3>SvelteKit</h3>
-        <ul class="tick">
-          <li>Server-rendered storefront</li>
-          <li>HTML on first response</li>
-          <li>Small client footprint</li>
-          <li>Flexible frontend architecture</li>
-        </ul>
-      </div>
-      <div class="tri-item">
-        <img class="why-logo" src="/assets/postgresql.svg" width="26" height="26" alt="" loading="lazy">
-        <h3>PostgreSQL</h3>
-        <ul class="tick">
-          <li>Reliable relational database</li>
-          <li>Direct pgx access</li>
-          <li>No mandatory cache tier</li>
-          <li>Portable, inspectable schema</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  {/* ═══════════════════════════════════════ 9 — agent friendly */}
-  <section id="agents" class="section wrap" aria-labelledby="agents-title">
-    <div class="sec-head">
-      <div>
-        <p class="kicker">Coding agents</p>
-        <h2 id="agents-title">Built for developers — and their coding agents</h2>
-      </div>
-      <p class="section-lede">The repository is written to be read by a machine as well as a person. Claude, Codex, Cursor and Antigravity all pick up the same files; none of this implies a partnership with any of them.</p>
-    </div>
-    <div class="tri">
-      <div class="tri-item">
-        <h3>Instructions are explicit</h3>
-        <ul class="tick">
-          <li><code>AGENTS.md</code></li>
-          <li>18 architecture rules</li>
-          <li>16 task-specific skills</li>
-        </ul>
-      </div>
-      <div class="tri-item">
-        <h3>Changes are testable</h3>
-        <ul class="tick">
-          <li>1,036 tests</li>
-          <li>Modular packages</li>
-          <li>Predictable service boundaries</li>
-        </ul>
-      </div>
-      <div class="tri-item">
-        <h3>Runtime agents are supported</h3>
-        <ul class="tick">
-          <li>MCP module</li>
-          <li>Same domain services as REST</li>
-          <li>Read-only mode</li>
-        </ul>
-      </div>
-    </div>
-    <ol class="agentflow">
-      <li>Clone</li><li>Read <code>AGENTS.md</code></li><li>Modify a module</li><li><code>docker compose up</code></li><li>Tests catch it</li><li>Deploy</li>
-    </ol>
-  </section>
-
+  {/* ═══════════════════════════════════════ 11 — works with */}
   <section id="integrations" class="intstrip-section" aria-labelledby="int-title">
     <div class="wrap">
-      <h2 id="int-title" class="kicker">Integrations</h2>
+      <h2 id="int-title" class="kicker">Works with what you already run</h2>
       <ul class="intstrip">
         {strip.map(([name, mark]) => <li>{mark && <img src={`/assets/brands/${mark}.svg`} width="22" height="22" alt="" loading="lazy">}{name}</li>)}
         <li class="intstrip-more"><a href="/integrations/">44 modules →</a></li>
@@ -522,31 +529,105 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     </div>
   </section>
 
-  {/* ══════════════════════════════════════ 10 — open source */}
+  {/* ═══════════════════════════════════════ 12 — how teams work */}
+  <section id="how" class="section wrap" aria-labelledby="how-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">How it goes</p>
+        <h2 id="how-title">From download to your first order</h2>
+      </div>
+    </div>
+    <ol class="steps4">
+      <li><b>Download and run</b><span>One command brings up PostgreSQL, the API with its admin, and a proxy on port 80.</span><a href="#one-command">The command</a></li>
+      <li><b>Configure your store</b><span>Catalogue, payment methods, shipping zones, tax rates and staff — all from the admin.</span><a href="/features/operations/">What the admin does</a></li>
+      <li><b>Customise it</b><span>Import the modules you need, change the storefront’s Svelte components, and let a coding agent read <code>AGENTS.md</code> first.</span><a href="/integrations/">44 modules</a></li>
+      <li><b>Launch on your infrastructure</b><span>Your server, your domain, your PostgreSQL backups — and your brand on all of it.</span><a href="/open-source/">Open source</a></li>
+    </ol>
+  </section>
+
+  {/* ═══════════════════════════════ 13 — see what teams are building */}
+  <section id="built" class="section wrap" aria-labelledby="built-title-2">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">In production</p>
+        <h2 id="built-title-2">See what stores are running</h2>
+      </div>
+      <p class="section-lede">{liveCount} live stores run Svelte Commerce today, each with the Lighthouse scores it actually got on {new Date(live.measured + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}. None runs GoCommerce yet.</p>
+    </div>
+    <ul class="live-grid live-grid-3">
+      {livePreview.map((s) => (
+        <li class="live-card">
+          <img src={s.image} width="1200" height="800" alt={`${s.name} on a laptop and a phone`} loading="lazy" decoding="async">
+          <div class="live-body">
+            <h3><a href={s.url} {...ext} data-ev="live_store_click">{s.name}</a></h3>
+            <p class="live-host">{new URL(s.url).host}</p>
+            <p>{s.desc}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <div class="actions">
+      <a class="button secondary" href="/live-projects/">All {liveCount} live stores, with scores</a>
+    </div>
+  </section>
+
+  {/* ══════════════════════════════════════ 14 — keep the freedom */}
   <section id="ownership" class="section ownership-section" aria-labelledby="own-title">
     <div class="wrap">
       <div class="sec-head">
         <div>
           <p class="kicker">Ownership</p>
-          <h2 id="own-title">Open source. <span class="nowrap">Self-hosted.</span> No platform fees.</h2>
+          <h2 id="own-title">Keep the freedom of self-hosting</h2>
         </div>
-        <p class="section-lede">The software is free. Hosting and third-party services still cost money.</p>
+        <p class="section-lede">One plan, and it is free, for life. The software costs nothing; hosting and third-party services still cost what they cost.</p>
       </div>
       <ul class="ownwall">
         <li><svg aria-hidden="true"><use href="#i-source"/></svg>MIT licensed</li>
         <li><svg aria-hidden="true"><use href="#i-server"/></svg>Your infrastructure</li>
         <li><svg aria-hidden="true"><use href="#i-db"/></svg>Your database</li>
-        <li><svg aria-hidden="true"><use href="#i-git"/></svg>Fork freely</li>
-        <li><svg aria-hidden="true"><use href="#i-shield"/></svg>No mandatory hosted tier</li>
-        <li><svg aria-hidden="true"><use href="#i-coin"/></svg>No platform fee</li>
+        <li><svg aria-hidden="true"><use href="#i-git"/></svg>Fork and white-label</li>
+        <li><svg aria-hidden="true"><use href="#i-shield"/></svg>No hosted tier to outgrow</li>
+        <li><svg aria-hidden="true"><use href="#i-coin"/></svg>0% of your sales</li>
       </ul>
-      <p class="fineprint">Looking for a self-hosted, open-source alternative to hosted ecommerce platforms? Use the backend, storefront or both without giving up control of your infrastructure.</p>
+      <div class="actions">
+        <a class="button secondary" href="/pricing/">Pricing: free, for life</a>
+        <a class="button secondary" href="/compare/">Compare with Shopify and others</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ═════════════════════════════════════ 15 — build with us */}
+  <section id="build-with-us" class="section wrap" aria-labelledby="bwu-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Get going</p>
+        <h2 id="bwu-title">Download it. Build with us.</h2>
+      </div>
+    </div>
+    <div class="tri">
+      <div class="tri-item tri-engine">
+        <h3>Download and build</h3>
+        <p>Both repositories are public and MIT. Clone them, run them, change anything.</p>
+        <a class="button" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_gocommerce_click">Get the source</a>
+      </div>
+      <div class="tri-item tri-store">
+        <h3>Ask the community</h3>
+        <p>Questions go in public, where the people who build both projects answer them.</p>
+        <a class="button secondary" href="https://discord.gg/GgdAeccwDR" {...ext} data-ev="discord_click">Join the Discord</a>
+      </div>
+      <div class="tri-item">
+        <h3>Have it built for you</h3>
+        <p>The team behind both projects takes on custom builds — themes, integrations, whole stores. Tell them what you need.</p>
+        {wa
+          ? <a class="button secondary" href={`https://wa.me/${wa}?text=${encodeURIComponent('Hi! I’d like to discuss a custom build on GoCommerce and Svelte Commerce.')}`} {...ext} data-ev="whatsapp_click">Talk to the team on WhatsApp</a>
+          : <a class="button secondary" href="/contact/">Talk to the team</a>}
+      </div>
     </div>
   </section>
 
   <Faq items={faq} title="Questions" />
 
-  {/* ══════════════════════════════════════ 12 — start building */}
+  {/* ══════════════════════════════════════ 16 — start building */}
   <section id="start" class="closing wrap" aria-labelledby="start-title">
     <h2 id="start-title">A store on your own server, in one command</h2>
     <p>PostgreSQL, the API with its admin, and a proxy on port 80.</p>

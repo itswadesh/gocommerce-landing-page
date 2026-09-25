@@ -12,7 +12,7 @@
  *
  * `current` marks the page you are on with aria-current on the item.
  */
-type Current = 'gocommerce' | 'svelte-commerce' | 'solutions' | 'develop' | 'architecture' | 'live-admin' | 'connector' | 'backends'
+type Current = 'gocommerce' | 'svelte-commerce' | 'solutions' | 'develop' | 'architecture' | 'live-admin' | 'connector' | 'backends' | 'pricing'
 interface Props { current?: Current }
 const { current } = Astro.props
 
@@ -27,6 +27,8 @@ const solutions = [
   { href: '/solutions/multi-store/', label: 'Multi-store', note: 'Several storefronts, one catalogue, channels' },
   { href: '/#headless', label: 'Headless ecommerce', note: 'Any storefront, app or agent on one API' },
   { href: '/solutions/', label: 'All solutions', note: 'Which shape of store fits, and what does the work' },
+  { href: '/features/', label: 'Features', note: 'Checkout, operations, development — checked in the code' },
+  { href: '/live-projects/', label: 'Live projects', note: 'Stores running Svelte Commerce, with Lighthouse scores' },
   { href: '/go-svelte-ecommerce/#when', label: 'Which project to start with', note: 'Backend, storefront, or both' },
 ]
 const develop = [
@@ -37,8 +39,11 @@ const develop = [
   { href: '/integrations/', label: '44 modules', note: 'Payments, shipping, messaging, migration' },
   { href: '/svelte-commerce/backends/', label: '26 backend integrations', note: 'Measured coverage, per connector' },
   { href: '/go-svelte-ecommerce/', label: 'Architecture', note: 'How the two projects fit' },
-  { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status', note: 'In development, not published' },
+  { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status', note: 'Early (0.1.0): what works, what does not' },
   { href: '/#agents', label: 'Coding agents', note: 'AGENTS.md, skills, MCP' },
+  { href: '/vibe-coding-commerce/', label: 'Vibe-coding commerce', note: 'Point AI tools at the storefront, not the engine' },
+  { href: '/open-source/', label: 'Open source', note: 'Both repositories, the community, the licence' },
+  { href: '/blog/', label: 'Blog', note: 'Notes from the people building it' },
   { href: 'https://github.com/itswadesh/gocommerce#readme', label: 'GoCommerce docs', note: 'README and OpenAPI', external: true },
 ]
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
@@ -81,6 +86,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         </ul>
       </details>
 
+      <a href="/pricing/" aria-current={current === 'pricing' ? 'page' : undefined}>Pricing</a>
       <a class="nav-git" href="https://github.com/itswadesh" {...ext} data-ev="github_nav_click">GitHub</a>
 
       {/* In the drawer only: the two actions the header shows at full width. */}

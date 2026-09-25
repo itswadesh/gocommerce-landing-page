@@ -1,0 +1,226 @@
+{
+  "slug": "kitcommerce-vs-magento",
+  "platform": "Magento",
+  "platformUrl": "https://business.adobe.com/products/commerce/magento/open-source.html",
+  "label": "KitCommerce vs Magento",
+  "group": "Open-source platforms",
+  "summary": "A PHP platform with a long server stack and a licence priced on your sales, against one Go binary and a database.",
+  "title": "KitCommerce vs Magento — GoCommerce and Svelte Commerce Compared With Magento Open Source and Adobe Commerce",
+  "description": "Magento Open Source and Adobe Commerce compared with GoCommerce and Svelte Commerce: Adobe’s tested server stack against one Go binary, a licence priced on sales, B2B, APIs, payments in India and a Svelte Commerce storefront for Magento — with where Magento is the better choice.",
+  "ogTitle": "KitCommerce vs Magento",
+  "ogDescription": "Magento’s stack and Adobe’s sales-based licence, or one Go binary and PostgreSQL. Trade-offs, sourced.",
+  "h1": "Magento does more, and asks for more to run it.",
+  "lede": "Magento Open Source is free PHP software that Adobe tests against a long stack — a database, OpenSearch, a message queue, a cache and a proxy. Adobe Commerce is the licensed edition, quoted rather than priced, at a tier set by what you sell. GoCommerce is one Go binary and a PostgreSQL database under MIT, and Svelte Commerce is a SvelteKit storefront that can already front a Magento store. Magento has far more built, B2B above all; GoCommerce has far less to run.",
+  "facts": [
+    {
+      "b": "₹0",
+      "t": "licence for Magento Open Source and for GoCommerce alike"
+    },
+    {
+      "b": "GMV",
+      "t": "and average order value set the tier Adobe Commerce is licensed at"
+    },
+    {
+      "b": "26/43",
+      "t": "Svelte Commerce services wired for Magento, shopper sign-in included"
+    }
+  ],
+  "glanceLede": "Magento’s side is checked against Adobe’s product pages, its product descriptions, Experience League and its developer documentation, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site and their repositories.",
+  "rows": [
+    [
+      "What it is",
+      "Magento Open Source, free PHP software, and Adobe Commerce, the licensed edition — on your own servers, on Adobe’s managed cloud, or as a cloud service.",
+      "Two MIT projects: a Go backend with its admin compiled in, and a separate SvelteKit storefront."
+    ],
+    [
+      "Licence and price",
+      "Open Source is free under OSL 3.0. Adobe Commerce has no list price: Adobe quotes it, and licenses it at a pricing level of gross merchandise value and average order value tiers, or an order limit.",
+      "MIT, both projects. No paid edition and no pricing tier."
+    ],
+    [
+      "What you run",
+      "For 2.4.9, Adobe tests PHP 8.5, MySQL 8.4 or MariaDB 12.3, OpenSearch 3 and Composer 2.10, with RabbitMQ 4.3, Valkey 9, Varnish 8 and nginx 1.30 in the same stack. Linux only: Windows and macOS are not supported.",
+      "One Go binary and one PostgreSQL database. No PHP runtime, no Redis and no message broker required."
+    ],
+    [
+      "Search",
+      "OpenSearch 3 in the tested stack; Adobe’s hosted Live Search service is another option.",
+      "An optional Meilisearch module keeps an index and answers storefront searches."
+    ],
+    [
+      "B2B",
+      "Adobe Commerce’s B2B extension: company accounts, shared catalogues, negotiable quotes, purchase-order approvals, requisition lists and pay on account.",
+      "Customer groups, price lists, quantity breaks and scoped API keys in the core. No quotes or approval workflow."
+    ],
+    [
+      "Several stores",
+      "Store views; Adobe Commerce on-premises includes up to 15 in its base package, with more sold in packs of 15.",
+      "Channels, with per-channel publishing and price lists. Channels scope publishing and price, not orders."
+    ],
+    [
+      "API",
+      "One REST framework across Open Source and every Adobe Commerce edition, for administrators, customers and guest shoppers.",
+      "342 documented REST operations, published as OpenAPI — the same API the admin uses."
+    ],
+    [
+      "Extensions",
+      "A marketplace of third-party extensions and connectors.",
+      "44 MIT modules, compiled in when imported. No marketplace."
+    ],
+    [
+      "Payments in India",
+      "Razorpay publishes a Magento 2 extension.",
+      "Razorpay, Stripe, Adyen, HyperSwitch and five more as modules; cash on delivery is the core’s default."
+    ],
+    [
+      "Storefront",
+      "Magento’s own storefront, or a headless one over its APIs.",
+      "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes. It can front Magento today; its GoCommerce connector is early, at 0.1.0 — catalogue, cart, checkout and order lookup, not yet customer accounts or search."
+    ],
+    [
+      "Upgrades",
+      "Each release line has a support end date: 31 May 2028 for 2.4.8, 31 May 2029 for 2.4.9.",
+      "No support term. It is MIT source: you upgrade when you choose, and nobody owes you a patch."
+    ],
+    [
+      "Help when it breaks",
+      "Adobe’s 24x7 support with Adobe Commerce’s cloud editions; community forums for Open Source.",
+      "GitHub issues, discussions and Discord. No support contract."
+    ]
+  ],
+  "cost": {
+    "title": "What each side costs",
+    "lede": "Magento Open Source and GoCommerce are both free to license. The difference is the stack each asks you to run, and what Adobe charges once you want its edition.",
+    "caption": "What you pay for, Magento against GoCommerce and Svelte Commerce",
+    "head": [
+      "Cost",
+      "Magento Open Source / Adobe Commerce",
+      "GoCommerce + Svelte Commerce"
+    ],
+    "rows": [
+      [
+        "Licence",
+        "Open Source: nothing. Adobe Commerce: a quote, at a tier set by GMV and AOV or an order limit",
+        "Nothing"
+      ],
+      [
+        "Hosting",
+        "Open Source and on-premises: Linux servers for PHP, the database, OpenSearch and the services around them. Adobe’s cloud editions include hosting",
+        "A server and a PostgreSQL database, from a small VPS upward"
+      ],
+      [
+        "More store views",
+        "Adobe Commerce on-premises: 15 included, then packs of 15",
+        "Channels, at no charge"
+      ],
+      [
+        "Extensions",
+        "Priced by each vendor on the marketplace",
+        "None to buy — 44 MIT modules"
+      ],
+      [
+        "Support",
+        "Adobe’s, with Adobe Commerce’s cloud editions",
+        "None sold"
+      ],
+      [
+        "People",
+        "Magento developers: PHP, Composer and the services above",
+        "A developer to deploy it, and Go to extend it"
+      ]
+    ],
+    "note": "Adobe publishes no price for Adobe Commerce; its pricing page asks you to request one. Its product descriptions define the pricing level: gross merchandise value is every order through your sites in a contract year, less shipping, taxes and financing charges, converted to US dollars at the year’s end."
+  },
+  "themWhen": [
+    "You need negotiable quotes, purchase-order approvals and company credit now, and can license Adobe Commerce.",
+    "You run many brands, languages and store views, with a team that already knows Magento.",
+    "You want a vendor contract, 24x7 support and a hosted edition from Adobe.",
+    "Your catalogue and integrations already live in Magento, and they work."
+  ],
+  "usWhen": [
+    "Magento’s stack — PHP, a database, OpenSearch, and the queue, cache and proxy around them — is more than your store needs.",
+    "You want a licence that does not grow with your sales.",
+    "Price lists, customer groups and quantity breaks cover your B2B, without quotes.",
+    "You want to keep Magento’s backend for now and replace only the storefront with SvelteKit."
+  ],
+  "takeOnExtra": [
+    "No negotiable quotes or purchase-order approvals: GoCommerce’s B2B is customer groups, price lists and quantity breaks, and Adobe Commerce’s B2B extension goes much further."
+  ],
+  "move": {
+    "title": "Moving from Magento, or keeping it",
+    "paras": [
+      "Two paths, and the second keeps Magento.",
+      "Move the backend: GoCommerce has no Magento importer — its import modules cover Shopify and Amazon only — so a move is a script that reads Magento’s REST API and writes to GoCommerce’s documented one, or a CSV in GoCommerce’s own column layout for its product import. Decide first where Magento’s product types beyond simple and configurable will land.",
+      "Or keep Magento and change only the storefront: Svelte Commerce’s Magento connector wires 26 of its 43 services — cart, checkout and shopper sign-in among them. Reviews and wishlists are the gaps, and like every Svelte Commerce connector it has not yet run against a live production store."
+    ]
+  },
+  "faq": [
+    {
+      "q": "How much does Adobe Commerce cost?",
+      "a": "Adobe does not publish a price. Its pricing page asks you to request one, and its product descriptions license Adobe Commerce at a pricing level — tiers of gross merchandise value and average order value, or an order limit — named in the sales order. The licence is tied to what you sell."
+    },
+    {
+      "q": "Is Magento Open Source free?",
+      "a": "Yes. It is free under the Open Software License 3.0, as GoCommerce and Svelte Commerce are free under MIT. The costs are the servers for its stack and the people who know it."
+    },
+    {
+      "q": "What does Magento need to run, compared with GoCommerce?",
+      "a": "For 2.4.9, Adobe tests PHP 8.5, MySQL 8.4 or MariaDB 12.3, OpenSearch 3 and Composer 2.10, with RabbitMQ, Valkey, Varnish and nginx in the same stack, on Linux only. GoCommerce is one Go binary and one PostgreSQL database."
+    },
+    {
+      "q": "Does GoCommerce have Magento’s B2B features?",
+      "a": "Some of them. GoCommerce has customer groups, price lists, quantity breaks and scoped API keys, but no quotes or approval workflow. Adobe Commerce’s B2B extension adds those, with company accounts, requisition lists and pay on account."
+    },
+    {
+      "q": "Can Svelte Commerce run on Magento?",
+      "a": "Yes. Its Magento connector wires 26 of 43 services, with cart, checkout and shopper sign-in among them. Reviews and wishlists are not wired yet, and no Svelte Commerce connector has been run against a live production store."
+    },
+    {
+      "q": "How do I move from Magento to GoCommerce?",
+      "a": "By script. GoCommerce imports from Shopify and Amazon only; for Magento you read its REST API and write to GoCommerce’s REST API, published as OpenAPI, or import products from a CSV in GoCommerce’s own layout."
+    }
+  ],
+  "sources": [
+    {
+      "label": "Adobe Commerce pricing and packaging",
+      "url": "https://business.adobe.com/products/commerce/pricing.html"
+    },
+    {
+      "label": "Adobe product description — Adobe Commerce On-premise Software",
+      "url": "https://helpx.adobe.com/legal/product-descriptions/adobe-commerce-on-premise-software.html"
+    },
+    {
+      "label": "Adobe product description — Adobe Commerce as a Cloud Service",
+      "url": "https://helpx.adobe.com/legal/product-descriptions/adobe-commerce-cloud-service.html"
+    },
+    {
+      "label": "Magento Open Source",
+      "url": "https://business.adobe.com/products/commerce/magento/open-source.html"
+    },
+    {
+      "label": "Experience League — Adobe Commerce system requirements",
+      "url": "https://experienceleague.adobe.com/en/docs/commerce-operations/installation-guide/system-requirements"
+    },
+    {
+      "label": "Experience League — Adobe Commerce released versions",
+      "url": "https://experienceleague.adobe.com/en/docs/commerce-operations/release/versions"
+    },
+    {
+      "label": "Experience League — Introduction to Adobe Commerce B2B",
+      "url": "https://experienceleague.adobe.com/en/docs/commerce-admin/b2b/introduction"
+    },
+    {
+      "label": "Adobe Developer — REST API overview",
+      "url": "https://developer.adobe.com/commerce/webapi/rest/"
+    },
+    {
+      "label": "Magento 2 licence (GitHub)",
+      "url": "https://github.com/magento/magento2/blob/2.4-develop/LICENSE.txt"
+    },
+    {
+      "label": "Razorpay — Magento plugin documentation",
+      "url": "https://razorpay.com/docs/payments/payment-gateway/ecommerce-plugins/magento/"
+    }
+  ],
+  "checked": "2026-09-25"
+}

@@ -1,0 +1,105 @@
+{
+  "measured": "2026-09-25",
+  "lighthouse": "13.5.0",
+  "stores": [
+    {
+      "name": "JewelWeSell",
+      "url": "https://jewelwesell.com/",
+      "image": "/assets/live/jewelwesell.webp",
+      "desc": "Fine jewellery and custom designs — diamond rings and necklaces, sold manufacturer-direct.",
+      "stack": "SvelteKit storefront (Svelte Commerce) on the Litekart API",
+      "scores": {
+        "performance": 45,
+        "accessibility": 97,
+        "bestPractices": 100,
+        "seo": 100
+      }
+    },
+    {
+      "name": "Jewels On Fire",
+      "url": "https://jewelsonfire.com/",
+      "image": "/assets/live/jewelsonfire.webp",
+      "desc": "Earrings, pendants, bracelets and rings, and custom pieces made to order, shipping in the US.",
+      "stack": "SvelteKit storefront (Svelte Commerce) on the Litekart API",
+      "scores": {
+        "performance": 72,
+        "accessibility": 97,
+        "bestPractices": 100,
+        "seo": 100
+      }
+    },
+    {
+      "name": "Varni Jewels",
+      "url": "https://varnijewels.com/",
+      "image": "/assets/live/varnijewels.webp",
+      "desc": "Jewellery with custom orders, casting, loose stones and engraving.",
+      "stack": "SvelteKit storefront (Svelte Commerce) on the Litekart API",
+      "scores": {
+        "performance": 48,
+        "accessibility": 92,
+        "bestPractices": 92,
+        "seo": 100
+      }
+    },
+    {
+      "name": "Ice Heist",
+      "url": "https://iceheist.varnijewels.com/",
+      "image": "/assets/live/iceheist.webp",
+      "desc": "Made-to-order pieces in certified moissanite and lab-grown diamonds.",
+      "stack": "SvelteKit storefront (Svelte Commerce) on the Litekart API",
+      "scores": {
+        "performance": 66,
+        "accessibility": 97,
+        "bestPractices": 100,
+        "seo": 100
+      }
+    },
+    {
+      "name": "Diamond City Jewellers",
+      "url": "https://diamondcitymi.varnijewels.com/",
+      "image": "/assets/live/diamondcitymi.webp",
+      "desc": "A long-established family jeweller’s online store.",
+      "stack": "SvelteKit storefront (Svelte Commerce) on the Litekart API",
+      "scores": {
+        "performance": 41,
+        "accessibility": 86,
+        "bestPractices": 96,
+        "seo": 92
+      }
+    },
+    {
+      "name": "Moisny",
+      "url": "https://moisny.com/",
+      "image": "/assets/live/moisny.webp",
+      "desc": "A jewellery storefront.",
+      "stack": "SvelteKit storefront (Svelte Commerce) on the Litekart API",
+      "scores": {
+        "performance": 60,
+        "accessibility": 91,
+        "bestPractices": 100,
+        "seo": 92
+      }
+    },
+    {
+      "name": "Aladdin Jewelry",
+      "url": "https://alladin2.varnijewels.com/",
+      "image": "/assets/live/aladdin.webp",
+      "desc": "A jewellery manufacturer in New York’s diamond district.",
+      "stack": "SvelteKit storefront (Svelte Commerce) on the Litekart API",
+      "scores": null
+    },
+    {
+      "name": "Arialshop",
+      "url": "https://arialshop.com/",
+      "image": "/assets/admin/focus/storefront-desktop.webp",
+      "desc": "Lab-grown diamond engagement rings, with variants, sizing and checkout.",
+      "stack": "SvelteKit storefront (Svelte Commerce)",
+      "scores": {
+        "performance": 63,
+        "accessibility": 89,
+        "bestPractices": 96,
+        "seo": 92
+      }
+    }
+  ]
+}

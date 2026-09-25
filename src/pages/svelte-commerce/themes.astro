@@ -1,0 +1,90 @@
+---
+/**
+ * The theme gallery: every demo storefront from Litekart's gallery that was
+ * answering when the list was taken. Litekart numbers its gallery to 100;
+ * 21 of those returned 404 on 25 September 2026 and are left out rather than
+ * linked to a dead page. The taglines are each demo's own <title>, with the
+ * store name taken off so the list describes the design, not the shop.
+ *
+ * Re-check the list with a HEAD request per URL before adding numbers back.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+import themes from '../../data/themes.json'
+
+const path = '/svelte-commerce/themes/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+const pad = (n: number) => String(n).padStart(2, '0')
+const host = (u: string) => new URL(u).host
+
+const graph = [
+  {
+    '@type': 'CollectionPage', '@id': abs(path + '#page'), url: abs(path), name: 'Svelte Commerce storefront themes', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/svelte-commerce/#app') }, inLanguage: 'en',
+    mainEntity: { '@type': 'ItemList', numberOfItems: themes.length, itemListElement: themes.map((t, i) => ({ '@type': 'ListItem', position: i + 1, url: t.url, name: `Theme ${pad(t.n)} — ${t.tagline}` })) },
+  },
+]
+
+const faq = [
+  { q: 'Are the themes free?', a: 'Yes. Every demo runs Svelte Commerce, which is MIT licensed. There is nothing to buy and nothing to unlock: clone the storefront and change it.' },
+  { q: 'How do I install one?', a: 'There is no one-click install, because a Svelte Commerce theme is not a theme file. It is the storefront’s own Svelte components, styled. Start from the repository, run it against your backend, and edit the templates until it looks the way the demo you picked does.' },
+  { q: 'Can I use them with GoCommerce?', a: 'Partly. An early connector, @misiki/gocommerce-connector 0.1.0, lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Customer accounts and search are not covered yet, and any theme section the connector does not support — a blog, reels, a wishlist — says so with an error rather than rendering empty.' },
+  { q: 'Why are nearly all of them jewellery stores?', a: 'Because that is what the demos were built for: 78 of the 79 sell jewellery, most of them diamonds, and one sells everyday essentials. The storefront itself is not jewellery-specific — the catalogue, cart and checkout are the same for any product.' },
+  { q: 'Can someone build a custom theme for me?', a: 'Ask on Discord. The storefront is MIT, so any Svelte developer can build one; the people who make Svelte Commerce also take custom work through Litekart.' },
+]
+---
+<Base
+  title="Svelte Commerce Themes — 79 Live Storefront Demos, Free and MIT Licensed"
+  description="79 live demo storefronts built on Svelte Commerce, the open-source SvelteKit storefront. Open any one in a new tab, then clone the MIT-licensed storefront and make it yours."
+  path={path}
+  ogTitle="79 live Svelte Commerce storefronts"
+  ogDescription="Every theme is a real, running storefront. Open one, then make it yours — MIT licensed."
+  nav="svelte-commerce"
+  crumbs={[{ name: 'Svelte Commerce', href: '/svelte-commerce/' }, { name: 'Themes', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Svelte Commerce themes</p>
+    <h1>{themes.length} storefronts, running now</h1>
+    <p class="lede">Every theme below is a live Svelte Commerce storefront. Open one in a new tab and click around — it is the real thing, not a screenshot. Then clone the storefront and make it yours: it is MIT licensed, so there is nothing to unlock and no one to ask.</p>
+    <ul class="head-facts">
+      <li><b>{themes.length}</b> live demo stores</li>
+      <li><b>MIT</b> licensed</li>
+      <li><b>₹0</b> to use any of them</li>
+    </ul>
+    <div class="actions">
+      <a class="button" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_click">Download the storefront</a>
+      <a class="button secondary" href="/svelte-commerce/#quickstart">Svelte Commerce quick start</a>
+    </div>
+  </section>
+
+  <section id="gallery" class="section wrap" aria-labelledby="gallery-title">
+    <h2 id="gallery-title">The gallery</h2>
+    <p class="section-lede">Each opens in a new tab. The line under each number is the demo store’s own description of itself.</p>
+    <ul class="theme-grid">
+      {themes.map((t) => (
+        <li>
+          <a href={t.url} {...ext}>
+            <span class="theme-n">Theme {pad(t.n)}</span>
+            <span class="theme-tag">{t.tagline}</span>
+            <span class="theme-host">{host(t.url)}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="fineprint">Litekart’s gallery numbers its demos to 100. The {100 - themes.length} that did not answer when this list was checked, on 25 September 2026, are left out rather than linked to a dead page — which is why the numbers skip.</p>
+  </section>
+
+  <Faq items={faq} title="Questions about the themes" />
+
+  <section class="closing wrap">
+    <h2>Pick one, then make it yours</h2>
+    <p>The storefront behind every demo is on GitHub, MIT licensed, and runs against 26 commerce backends.</p>
+    <div class="actions">
+      <a class="button" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_click">Download the storefront</a>
+      <a class="button secondary" href="/svelte-commerce/backends/">26 backends it runs on</a>
+      <a class="button secondary" href="https://discord.gg/GgdAeccwDR" {...ext}>Ask for a custom theme</a>
+    </div>
+  </section>
+</Base>

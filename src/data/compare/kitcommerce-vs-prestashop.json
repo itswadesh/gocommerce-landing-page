@@ -1,0 +1,91 @@
+{
+  "slug": "kitcommerce-vs-prestashop",
+  "platform": "PrestaShop",
+  "platformUrl": "https://prestashop.com",
+  "label": "KitCommerce vs PrestaShop",
+  "group": "Open-source platforms",
+  "summary": "A PHP store with modules sold per store and a hosted offer, against one Go binary with nothing to buy.",
+  "title": "KitCommerce vs PrestaShop — GoCommerce and Svelte Commerce Compared With PrestaShop",
+  "description": "PrestaShop compared with GoCommerce and Svelte Commerce: the free Classic download and the Hosted offer, modules bought per store with yearly support, PHP requirements, payments in India, APIs and a Svelte Commerce storefront for PrestaShop — with where PrestaShop is the better choice.",
+  "ogTitle": "KitCommerce vs PrestaShop",
+  "ogDescription": "Modules bought per store, or MIT modules compiled in. Editions, costs and a storefront path, sourced.",
+  "h1": "PrestaShop sells modules by the store. GoCommerce has none to sell.",
+  "lede": "PrestaShop is a PHP store application — front office, back office and modules — free to download as Classic, or run for you as Hosted from €24 a month. Its Addons marketplace sells modules with a licence for one store and a year of the developer’s support, then a monthly support fee billed yearly. GoCommerce is one Go binary and PostgreSQL under MIT, and Svelte Commerce is a SvelteKit storefront that can already front a PrestaShop store.",
+  "facts": [
+    { "b": "€24", "t": "a month, billed yearly, for PrestaShop Hosted; the Classic download is free" },
+    { "b": "€209.99", "t": "for One Page Checkout PS on Addons, then €5 a month for support" },
+    { "b": "24/43", "t": "Svelte Commerce services wired for PrestaShop, cart and checkout among them" }
+  ],
+  "glanceLede": "PrestaShop’s side is checked against prestashop.com, the PrestaShop 9 developer documentation, PrestaShop Addons and its GitHub repository, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site and their repositories.",
+  "rows": [
+    ["What it is", "A PHP store application — front office, back office and modules — from PrestaShop SA and its community.", "Two MIT projects: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
+    ["Licence", "Core under OSL 3.0; modules under AFL 3.0.", "MIT, both projects."],
+    ["Editions", "Classic, a free download you host; Hosted, €24 a month billed yearly or €29 month to month, built on PrestaShop 8 with 50 GB of hosting through Gandi.", "Self-host only. No hosted offering and no paid tier."],
+    ["What you run", "PrestaShop 9.1: PHP 8.1 to 8.5, with 8.5 recommended; MySQL 5.7+ or MariaDB 10.2+; Apache 2.4 or Nginx; a PHP memory_limit of 512M. Windows is not actively supported.", "One Go binary and one PostgreSQL database. No PHP runtime, no Redis, no message broker required."],
+    ["Modules", "PrestaShop Addons, where a module is a lifetime licence for one store plus a year of its developer’s support, then a monthly support fee billed yearly.", "44 MIT modules, compiled in when imported. Nothing per store, nothing to renew."],
+    ["Marketplace", "Third-party modules, such as Marketplace Builder at €167.99, then €4 a month for support from the second year.", "In the core: vendors move through pending, approved and suspended, and sell through vendor offers. Commission is recorded, not settled."],
+    ["Payments in India", "Hosted bundles PrestaShop Checkout, built with PayPal. Razorpay documents a module for PrestaShop 1.6, 1.7, 8.0 and 8.1 — not yet 9.", "Razorpay, Stripe, Adyen, HyperSwitch and five more as modules; cash on delivery is the core’s default."],
+    ["API", "The Webservice, a CRUD API over the shop’s data; PrestaShop 9 adds an Admin API built on API Platform 3 and authorised with OAuth2.", "342 documented REST operations, published as OpenAPI — the same API the admin uses."],
+    ["Several stores", "Multishop, with each Addons module stating whether it is compatible.", "Channels, with per-channel publishing and price lists. Channels scope publishing and price, not orders."],
+    ["Storefront", "Themes inside the application, with more sold on Addons.", "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes. It can front PrestaShop today; its GoCommerce connector is early, at 0.1.0 — catalogue, cart, checkout and order lookup, not yet customer accounts or search."],
+    ["Help when it breaks", "Hosted: PrestaShop’s team six days a week by email, chat or phone. Classic: the community, and each module’s developer under Business Care.", "GitHub issues, discussions and Discord. No support contract."]
+  ],
+  "cost": {
+    "title": "What each side costs",
+    "lede": "PrestaShop Classic and GoCommerce are both free. PrestaShop’s costs arrive as modules, each bought for one store with support to renew, or as the Hosted subscription; GoCommerce’s arrive as a server and a developer.",
+    "caption": "What you pay for, PrestaShop against GoCommerce and Svelte Commerce",
+    "head": ["Cost", "PrestaShop", "GoCommerce + Svelte Commerce"],
+    "rows": [
+      ["Software", "Classic: nothing. Hosted: €290 a year, or €29 a month without commitment", "Nothing"],
+      ["Modules", "Bought per store — €167.99 for Marketplace Builder, €209.99 for One Page Checkout PS", "None to buy — 44 MIT modules"],
+      ["Module support", "Business Care: first year included, then €4 or €5 a month per module, billed yearly and renewed automatically", "None sold"],
+      ["Hosting", "Classic: yours. Hosted: 50 GB through Gandi, included", "A server and a PostgreSQL database, from a small VPS upward"],
+      ["People", "A PHP developer for modules and upgrades", "A developer to deploy it, and Go to extend it"]
+    ],
+    "note": "Addons prices are in euros, excluding tax, on the day checked; Addons also lists US dollars and pounds, not rupees. Business Care renews each year unless it is cancelled from your PrestaShop Marketplace account."
+  },
+  "themWhen": [
+    "You sell mainly in Europe and want Hosted’s automatic VAT calculation and GDPR guidance handled for you.",
+    "You want a complete store application — themes, back office, modules — without writing a storefront.",
+    "The modules you need already exist on Addons, and your agency works in PrestaShop.",
+    "You want an optional hosted edition from the company that makes the software."
+  ],
+  "usWhen": [
+    "You sell in India and want Razorpay, Shiprocket, Delhivery and India Post as MIT modules, not per-store purchases.",
+    "You would rather run one binary and PostgreSQL than PHP, MySQL and a web server.",
+    "You want vendors and B2B price lists in the core, with no module support to renew.",
+    "You want to keep PrestaShop’s back office for now and put a SvelteKit storefront in front of it."
+  ],
+  "takeOnExtra": [
+    "Svelte Commerce on PrestaShop has no shopper sign-in, reviews, wishlists or payment-method listing yet — 24 of 43 services are wired.",
+    "No module comes with its developer’s support. An Addons module includes a year of it; a GoCommerce module includes none."
+  ],
+  "move": {
+    "title": "Moving from PrestaShop, or keeping it",
+    "paras": [
+      "Two paths, and the second keeps PrestaShop.",
+      "Move the backend: GoCommerce has no PrestaShop importer — its import modules cover Shopify and Amazon only — so a move is a script that reads PrestaShop’s Webservice, or the Admin API on PrestaShop 9, and writes to GoCommerce’s documented REST API. GoCommerce’s core also imports products, orders and inventory from CSV in its own column layout, if a spreadsheet is the easier middle step.",
+      "Or keep PrestaShop and change only the storefront: Svelte Commerce’s PrestaShop connector wires 24 of its 43 services, cart and checkout among them. Shopper sign-in, reviews, wishlists and payment-method listing are not wired, so a storefront with customer accounts needs sign-in written first. Like every Svelte Commerce connector, it has not yet run against a live production store."
+    ]
+  },
+  "faq": [
+    { "q": "Is PrestaShop free?", "a": "PrestaShop Classic is: a free download, with the core under OSL 3.0 and modules under AFL 3.0. PrestaShop Hosted costs €24 a month billed yearly, or €29 month to month. Modules on Addons are sold per store — €167.99 and €209.99 for the two checked here." },
+    { "q": "What is Business Care on PrestaShop Addons?", "a": "The support subscription that comes with an Addons module. The first year is included; after that it is €4 or €5 a month for the modules checked here, billed yearly and renewed automatically unless you cancel. The module licence itself is lifetime, for one store." },
+    { "q": "Does Razorpay work with PrestaShop 9?", "a": "Razorpay’s documentation lists its PrestaShop module for 1.6, 1.7, 8.0 and 8.1. PrestaShop 9 is not on that list, so check with Razorpay before upgrading. GoCommerce has a Razorpay payments module in its own repository." },
+    { "q": "Can Svelte Commerce run on PrestaShop?", "a": "Yes, partly. Its PrestaShop connector wires 24 of 43 services, cart and checkout included. Shopper sign-in, reviews, wishlists and payment-method listing are not wired yet, and no Svelte Commerce connector has been run against a live production store." },
+    { "q": "What does PrestaShop 9 need to run?", "a": "For 9.1: PHP 8.1 to 8.5, with 8.5 recommended; MySQL 5.7 or MariaDB 10.2 at least; Apache 2.4 or Nginx; and a PHP memory_limit of at least 512M. GoCommerce needs one Go binary and one PostgreSQL database." },
+    { "q": "How do I move from PrestaShop to GoCommerce?", "a": "By script. GoCommerce imports from Shopify and Amazon only; for PrestaShop you read its Webservice or Admin API and write to GoCommerce’s REST API, published as OpenAPI." }
+  ],
+  "sources": [
+    { "label": "PrestaShop offers — Classic and Hosted", "url": "https://prestashop.com/prestashop-offers/" },
+    { "label": "PrestaShop Hosted offer", "url": "https://prestashop.com/prestashop-offers/hosted/" },
+    { "label": "PrestaShop 9 — system requirements", "url": "https://devdocs.prestashop-project.org/9/basics/installation/system-requirements/" },
+    { "label": "PrestaShop 9 — Webservice API", "url": "https://devdocs.prestashop-project.org/9/webservice/" },
+    { "label": "PrestaShop 9 — Admin API", "url": "https://devdocs.prestashop-project.org/9/admin-api/" },
+    { "label": "PrestaShop licence (GitHub, release 9.1.5)", "url": "https://github.com/PrestaShop/PrestaShop/blob/9.1.5/LICENSE.md" },
+    { "label": "PrestaShop Addons — One Page Checkout PS", "url": "https://addons.prestashop.com/en/express-checkout-process/8503-one-page-checkout-ps-the-definitive-checkout.html" },
+    { "label": "PrestaShop Addons — Marketplace Builder", "url": "https://addons.prestashop.com/en/marketplace-builder/32443-marketplace-builder-multi-vendor-multi-seller.html" },
+    { "label": "Razorpay — PrestaShop plugin documentation", "url": "https://razorpay.com/docs/payments/payment-gateway/ecommerce-plugins/prestashop/" }
+  ],
+  "checked": "2026-09-25"
+}

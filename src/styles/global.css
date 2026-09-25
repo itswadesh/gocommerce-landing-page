@@ -1589,16 +1589,19 @@ header { view-transition-name: site-header; }
 
 /* ═══════════════════════════════════════════════ consent + contact */
 
+/* The Litekart shape: a card floating over the bottom edge, centred, text
+   beside the two buttons from 640px up and above them below it. */
 .consent {
   position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 70;
-  max-width: 540px; margin-inline: auto;
-  background: var(--paper); border: var(--frame); padding: 16px 18px 18px; border-radius: var(--radius-card);
+  max-width: 48rem; margin-inline: auto;
+  display: flex; flex-direction: column; gap: 12px;
+  background: var(--paper); border: var(--frame); padding: 16px; border-radius: var(--radius-card);
 }
-.consent p { font-size: .875rem; line-height: 1.55; color: var(--ink-2); }
-.consent b { color: var(--ink); }
-.consent-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.consent-actions .button { padding: 10px 14px; font-size: .875rem; }
-@media (min-width: 700px) { .consent { right: auto; margin: 0; } }
+@media (min-width: 640px) { .consent { flex-direction: row; align-items: center; gap: 20px; padding: 20px; } }
+.consent p { font-size: .875rem; line-height: 1.6; color: var(--ink-2); }
+.consent p a { color: var(--ink); font-weight: 500; }
+.consent-actions { display: flex; flex-shrink: 0; gap: 8px; }
+.consent-actions .button { padding: 9px 16px; font-size: .875rem; }
 /* A floating contact button and the banner both want the bottom edge; on a
    phone the banner moves up out of its way. */
 .wa-fab ~ .consent { bottom: 78px; }
@@ -1682,6 +1685,13 @@ header { view-transition-name: site-header; }
 .footer-grid-5 { grid-template-columns: repeat(5, 1fr); gap: 28px 24px; }
 @media (max-width: 960px) { .footer-grid-5 { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 620px) { .footer-grid-5 { grid-template-columns: 1fr 1fr; } }
+
+/* Seven columns do not fit one row at a readable size, so they take two:
+   four over three, then three, then two. */
+.footer-grid-7 { grid-template-columns: repeat(4, 1fr); gap: 36px 24px; }
+@media (max-width: 960px) { .footer-grid-7 { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 620px) { .footer-grid-7 { grid-template-columns: 1fr 1fr; } }
+.footer-col a:has(.new-badge) { display: inline-flex; align-items: center; gap: 8px; }
 
 .footer-brand-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px 32px; margin-top: 40px; padding-top: 28px; border-top: var(--hairline); }
 .footer-brand-row .footer-brand { max-width: 34rem; }
@@ -1796,3 +1806,165 @@ header { view-transition-name: site-header; }
 
 /* While the dialog is open the page behind must not scroll with it. */
 html:has(dialog.lightbox[open]) { overflow: hidden; }
+
+/* ═══════════════════════════════════════════════ comparisons (/compare/) */
+
+/* The hub's cards: the solgrid's hairline grid, each whole card one link. */
+.vs-grid { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: var(--hairline); border-radius: var(--radius-card); overflow: hidden; }
+.vs-grid li { background: var(--surface); min-width: 0; }
+.vs-grid a { display: flex; flex-direction: column; gap: 8px; height: 100%; padding: 22px; text-decoration: none; color: inherit; }
+.vs-card-label { font-size: 1.0625rem; font-weight: 600; letter-spacing: -.015em; color: var(--ink); }
+.vs-card-summary { font-size: .875rem; line-height: 1.55; color: var(--ink-2); }
+@media (max-width: 960px) { .vs-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .vs-grid { grid-template-columns: 1fr; } }
+
+/* A comparison page's own parts. */
+.vs-meaning { margin-top: 18px; }
+.vs-sources { padding-block: 0 clamp(40px, 5vw, 64px); }
+.vs-sources-title { font-size: 1rem; }
+.vs-source-list { margin: 14px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: .875rem; }
+
+/* ═══════════════════════════════════════════ themes (/svelte-commerce/themes/) */
+
+.theme-grid { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: var(--hairline); border-radius: var(--radius-card); overflow: hidden; }
+.theme-grid li { background: var(--surface); min-width: 0; }
+.theme-grid a { display: flex; flex-direction: column; gap: 6px; height: 100%; padding: 18px 20px; text-decoration: none; color: inherit; }
+.theme-n { font-size: 1rem; font-weight: 600; letter-spacing: -.01em; color: var(--ink); }
+.theme-tag { font-size: .875rem; line-height: 1.5; color: var(--ink-2); }
+.theme-host { margin-top: auto; padding-top: 6px; font: 400 .75rem/1.4 var(--mono); color: var(--ink-3); overflow-wrap: anywhere; }
+@media (max-width: 960px) { .theme-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 720px) { .theme-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 440px) { .theme-grid { grid-template-columns: 1fr; } }
+.page-head .actions { margin-top: 26px; }
+
+/* ═══════════════════════════════════════════════════════ pricing (/pricing/) */
+
+/* One word, as large as the column allows: the whole page is its footnote. */
+.price-hero { padding-block: clamp(32px, 5vw, 64px) clamp(28px, 4vw, 44px); }
+.price-free { font-size: clamp(5.5rem, 22vw, 15rem); line-height: .82; letter-spacing: -.06em; margin-top: 10px; }
+.price-life { margin-top: 14px; font-size: clamp(1.5rem, 4vw, 2.25rem); font-weight: 600; letter-spacing: -.02em; }
+.price-hero .lede { margin-top: 18px; max-width: 44rem; }
+.price-hero .actions { margin-top: 26px; }
+
+/* ═══════════════════════════════════════════════════════════ blog (/blog/) */
+
+/* The index: one ruled row per post, like a contents page. */
+.post-list { list-style: none; margin: 0 0 clamp(56px, 7vw, 96px); padding: 0; border-top: var(--hairline); }
+.post-list > li { padding-block: clamp(24px, 3vw, 32px); border-bottom: var(--hairline); }
+.post-list h2 { max-width: 32ch; }
+.post-list p { margin-top: 10px; max-width: 46rem; }
+.post-list .byline { margin-top: 12px; }
+
+/* A post: Markdown in one reading column that keeps the page's left edge,
+   under the breadcrumb like every page head, at a 42rem measure. Spacing is
+   set between siblings, so whatever Markdown emits lands at the right
+   distance without a class of its own. The reset is zero-specificity and
+   comes first, so the sibling rule after it wins. */
+.prose { padding-block: clamp(26px, 4vw, 46px) clamp(56px, 7vw, 96px); }
+.prose :where(ul, ol, blockquote, pre, figure) { margin: 0; }
+.prose > * { max-width: 42rem; }
+.prose > * + * { margin-top: 1.15em; }
+.post-head { padding-bottom: clamp(24px, 3vw, 32px); border-bottom: var(--hairline); }
+.post-head h1 { max-width: 22ch; }
+.byline { margin-top: 18px; }
+.prose > .post-head + * { margin-top: clamp(28px, 4vw, 40px); }
+.prose > h2 { margin-top: 2.2em; }
+.prose > h3 { margin-top: 1.8em; }
+.prose > :is(h2, h3) + * { margin-top: .65em; }
+.prose :is(ul, ol) { padding-left: 1.35em; }
+.prose li + li, .prose li > :is(ul, ol) { margin-top: .45em; }
+.prose blockquote { padding-left: 20px; border-left: var(--rail); }
+.prose blockquote > * + * { margin-top: .8em; }
+.prose > pre { padding: 18px 20px; overflow-x: auto; border-radius: var(--radius-card); font: 400 .8125rem/1.75 var(--mono); tab-size: 2; }
+.prose > .code-block, .prose > .code-block + * { margin-top: 1.8em; }
+.prose hr { margin-block: 2.6em; border: 0; border-top: var(--hairline); }
+.prose img { border-radius: var(--radius-card); }
+
+/* ═══════════════════════════════════════════ live projects (/live-projects/) */
+
+.live-grid { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+@media (max-width: 760px) { .live-grid { grid-template-columns: 1fr; } }
+.live-card { display: flex; flex-direction: column; min-width: 0; border: var(--hairline); border-radius: var(--radius-card); overflow: hidden; background: var(--surface); }
+.live-card img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-bottom: var(--hairline); }
+.live-body { display: flex; flex-direction: column; gap: 8px; padding: 20px 22px 22px; flex: 1; }
+.live-body h3 { font-size: 1.125rem; }
+.live-host { font: 400 .75rem/1.4 var(--mono); }
+.live-body p { font-size: .9375rem; line-height: 1.55; }
+.live-stack { font-size: .8125rem !important; }
+.live-scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: auto 0 0; padding-top: 12px; }
+@media (max-width: 420px) { .live-scores { grid-template-columns: 1fr 1fr; } }
+.live-scores .score { display: flex; flex-direction: column-reverse; align-items: center; gap: 4px; padding: 10px 4px; border-radius: 10px; text-align: center; }
+.live-scores dt { font-size: .6875rem; line-height: 1.25; }
+.live-scores dd { margin: 0; font-size: 1.375rem; font-weight: 600; line-height: 1; }
+
+/* ═══════════════════════════════════════════════════ features (/features/) */
+
+.feat-grid { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: var(--hairline); border-radius: var(--radius-card); overflow: hidden; }
+@media (max-width: 960px) { .feat-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .feat-grid { grid-template-columns: 1fr; } }
+.feat { background: var(--surface); padding: 20px 22px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.feat-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.feat-head b { font-size: 1rem; }
+.feat-text { font-size: .875rem; line-height: 1.55; }
+.feat-src { margin-top: auto; padding-top: 6px; }
+.feat-src code { font-size: .75rem; overflow-wrap: anywhere; }
+.notyet { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 28px; }
+@media (max-width: 860px) { .notyet { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .notyet { grid-template-columns: 1fr; } }
+.notyet li { display: flex; flex-direction: column; gap: 3px; padding-top: 12px; border-top: var(--hairline); }
+.notyet b { font-size: .9375rem; }
+.notyet span { font-size: .875rem; line-height: 1.5; }
+
+/* The four illustrations on the home page, two by two. */
+.illus-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.sec-head + .illus-grid { margin-top: 44px; }
+@media (max-width: 860px) { .illus-grid { grid-template-columns: 1fr; gap: 16px; } }
+
+/* ═══════════════════════════════════════ home, in litekart.in's order */
+
+/* Hero: three short checks and the ownership line, centred under the lede. */
+.hero-checks { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; }
+.hero-checks li { display: inline-flex; align-items: center; gap: 7px; font-size: .9375rem; }
+.hero-checks svg { width: 15px; height: 15px; flex: none; }
+.hero-own { margin-top: 14px; font-size: .9375rem; }
+
+/* The proof bar: five figures in one ruled row, wrapping on phones. */
+.proofbar { padding-block: clamp(28px, 4vw, 44px); }
+.proofbar ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); border-block: var(--hairline); }
+.proofbar li { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 20px 8px; text-align: center; }
+.proofbar li + li { border-left: var(--hairline); }
+.proofbar b { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1; font-variant-numeric: tabular-nums; }
+.proofbar span { font-size: .8125rem; }
+@media (max-width: 720px) { .proofbar ul { grid-template-columns: repeat(3, 1fr); } .proofbar li:nth-child(4) { border-left: 0; } .proofbar li:nth-child(n + 4) { border-top: var(--hairline); } }
+@media (max-width: 420px) { .proofbar ul { grid-template-columns: 1fr 1fr; } .proofbar li { border-left: 0 !important; border-top: var(--hairline); } .proofbar li:nth-child(-n + 2) { border-top: 0; } .proofbar li:nth-child(even) { border-left: var(--hairline) !important; } }
+
+/* Buttons under a section's grid. */
+.section > .actions, .section .wrap > .actions:last-child { margin-top: 28px; }
+
+/* The full feature list: nine groups in a three-column grid. */
+.featlist { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 32px; margin-top: 34px; }
+@media (max-width: 860px) { .featlist { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .featlist { grid-template-columns: 1fr; } }
+.featlist-group { border-top: var(--edge); padding-top: 16px; }
+.featlist-group h3 { font-size: 1rem; }
+.featlist-group .tick { margin-top: 10px; }
+
+/* Four steps, numbered by the list itself. */
+.steps4 { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: step; }
+@media (max-width: 960px) { .steps4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .steps4 { grid-template-columns: 1fr; } }
+.steps4 li { counter-increment: step; display: flex; flex-direction: column; gap: 8px; padding-top: 16px; border-top: var(--edge); }
+.steps4 li::before { content: counter(step, decimal-leading-zero); font: 500 .75rem/1 var(--mono); letter-spacing: .12em; }
+.steps4 b { font-size: 1.0625rem; }
+.steps4 span { font-size: .9375rem; line-height: 1.55; }
+.steps4 a { margin-top: auto; font-size: .875rem; font-weight: 500; }
+
+/* Three live stores on the home page. */
+.live-grid-3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 960px) { .live-grid-3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .live-grid-3 { grid-template-columns: 1fr; } }
+.tri-item > .button:last-child { margin-top: 18px; align-self: flex-start; }
+
+/* Contact: button rows inside the three-card row. */
+.contact-actions { margin-top: 16px; }
+.contact-actions .button { padding: 9px 14px; font-size: .875rem; }

@@ -30,3 +30,21 @@
 /d2c               /solutions/d2c/                                  301
 /multi-store       /solutions/multi-store/                          301
 /plugins           /integrations/                                   301
+
+# The same aliases with a trailing slash, which people type as often. Without
+# these, /architecture/ was a 404 while /architecture redirected.
+/architecture/     /go-svelte-ecommerce/                           301
+/quick-start/      /gocommerce/#quickstart                         301
+/growth/           /gocommerce/#roadmap                            301
+/roadmap/          /gocommerce/#roadmap                            301
+/faq/              /go-svelte-ecommerce/#faq                       301
+/modules/          /gocommerce/#modules                            301
+/admin/            /gocommerce/admin/                              301
+/backends/         /svelte-commerce/backends/                      301
+/connector/        /gocommerce-svelte-commerce-connector/          301
+/docs/             https://github.com/itswadesh/gocommerce#readme  301
+/marketplace/      /solutions/marketplace/                         301
+/multi-store/      /solutions/multi-store/                         301
+/plugins/          /integrations/                                  301
+/themes            /svelte-commerce/themes/                        301
+/themes/           /svelte-commerce/themes/                        301

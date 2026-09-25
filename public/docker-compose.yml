@@ -17,10 +17,15 @@
 #
 #   docker compose --profile storefront up -d
 #
-# and serves on port 3000 — but it cannot read from GoCommerce yet, because the
-# connector that would let it is unpublished. Until that ships, the storefront
-# boots, renders, and loads no products from this stack. It is here so the
-# service definition exists and is tested, not because the pair works today.
+# and serves on port 3000 — but it does not read from this stack as it stands.
+# The GoCommerce connector for Svelte Commerce, @misiki/gocommerce-connector,
+# is published but early (0.1.0), and it is not in this image: Svelte Commerce
+# ships with its Litekart and Vendure connectors. To pair them, install the
+# GoCommerce connector in a Svelte Commerce checkout in their place and point it
+# at this stack with PUBLIC_GOCOMMERCE_API_URL=http://gocommerce:8080. It
+# covers catalogue, cart, checkout and order lookup, not customer accounts or
+# search, and no store is known to run the pair in production. The service is
+# here so its definition exists, not because the pair works from this file.
 # See https://kitcommerce.store/gocommerce-svelte-commerce-connector/
 #
 # GoCommerce builds from source rather than pulling a published image, because
@@ -82,8 +87,8 @@ services:
     image: itswadesh/svelte-commerce
     restart: unless-stopped
     environment:
-      # Set to the GoCommerce connector once it is published. Until then this
-      # storefront has no backend in this stack to talk to.
+      # Chooses among the connectors installed in the image. The GoCommerce
+      # connector is not one of them — see the note at the top of this file.
       PUBLIC_CONNECTOR: ${PUBLIC_CONNECTOR:-}
     ports:
       - "${STOREFRONT_PORT:-3000}:3000"

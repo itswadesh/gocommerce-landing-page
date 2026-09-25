@@ -17,7 +17,7 @@ const graph = [
 const faq = [
   { q: 'What is a channel?', a: 'A named storefront over the one catalogue: a code, a name, an active flag and a count of the products published to it. Exactly one channel is the default — enforced by a partial unique index — and a request that names no channel is served from it, which is why a store that never creates a second channel never notices the feature.' },
   { q: 'What differs between channels?', a: 'Two things: which products are published to each, set per product with a list of channel ids, and which price lists apply, since a price list can be limited to one channel. Orders, customers and inventory are not partitioned by channel; a second storefront sells from the same stock.' },
-  { q: 'How does a storefront pick its channel?', a: 'By naming it on the request. Any HTTP client can, so two Svelte Commerce instances, a Next.js site and a native app can each be a channel of the same backend. The admin sees all of them.' },
+  { q: 'How does a storefront pick its channel?', a: 'By naming it on the request. Any HTTP client can, so a Next.js site and a native app can each be a channel of the same backend, and the admin sees all of them. Svelte Commerce’s early GoCommerce connector, 0.1.0, does not send a channel, so a Svelte Commerce storefront on it is served from the default one.' },
   { q: 'Can I run separate brands from one install?', a: 'Separate catalogues per brand, yes — publish each product to its brand’s channel and price it per channel. Separate merchants with separate staff and separate books, no: that is one store with one admin, one set of rights and one ledger.' },
   { q: 'Is this multi-tenant?', a: 'No. Channels are storefronts of one merchant. Several merchants selling on one store is the marketplace shape, and several unrelated stores is several installs.' },
 ]
@@ -79,7 +79,7 @@ const faq = [
     <div class="tri">
       <div class="tri-item"><h3>Not multi-tenant</h3><p>Channels belong to one merchant. Unrelated stores are separate installs, each one binary and one database.</p></div>
       <div class="tri-item"><h3>No per-channel staff or ledger</h3><p>Rights, customers, orders and payouts are store-wide. A channel is a shop window, not a subsidiary.</p></div>
-      <div class="tri-item"><h3>The storefront side is yours</h3><p>A channel is named on the request, so a second storefront is a second client of the API — Svelte Commerce once its <a href="/gocommerce-svelte-commerce-connector/">connector</a> ships, anything HTTP today.</p></div>
+      <div class="tri-item"><h3>The storefront side is yours</h3><p>A channel is named on the request, so a second storefront is a second client of the API — anything HTTP. Svelte Commerce’s <a href="/gocommerce-svelte-commerce-connector/">early connector</a> (0.1.0) does not send a channel, so it is served from the default one.</p></div>
     </div>
   </section>
 

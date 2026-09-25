@@ -1,0 +1,95 @@
+{
+  "slug": "kitcommerce-vs-vendure",
+  "platform": "Vendure",
+  "platformUrl": "https://vendure.io",
+  "label": "KitCommerce vs Vendure",
+  "group": "Headless open source",
+  "summary": "Engine against engine, and the strongest storefront path on this site: keep Vendure and put Svelte Commerce in front, or run GoCommerce instead.",
+  "title": "KitCommerce vs Vendure — GoCommerce and Svelte Commerce Compared With Vendure",
+  "description": "Vendure compared with GoCommerce and Svelte Commerce: TypeScript, NestJS and GraphQL against one Go binary and REST, GPLv3 against MIT, B2B, hosting and agent tooling — and why Svelte Commerce on Vendure is the strongest path of any comparison here.",
+  "ogTitle": "KitCommerce vs Vendure",
+  "ogDescription": "Keep Vendure and front it with Svelte Commerce, or run GoCommerce instead. Licences, stacks and trade-offs, sourced.",
+  "h1": "Vendure is the backend Svelte Commerce fronts most completely.",
+  "lede": "Vendure is a headless commerce framework in TypeScript on NestJS, spoken through GraphQL, free under GPLv3 and sold as a commercial B2B platform. GoCommerce is a headless engine in Go — one binary with its admin compiled in, one PostgreSQL database, a REST API — under MIT. Svelte Commerce, the SvelteKit storefront, connects to Vendure as completely as to any backend it supports. If you run Vendure today, the usual answer is to keep it.",
+  "facts": [
+    { "b": "39/43", "t": "Svelte Commerce services wired for Vendure — cart, checkout and sign-in included" },
+    { "b": "GPLv3", "t": "Vendure Core’s licence, with a commercial licence on offer" },
+    { "b": "8,400+", "t": "GitHub stars on Vendure" }
+  ],
+  "glanceLede": "Vendure’s side is checked against its own site, pricing page, documentation and repository, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site.",
+  "rows": [
+    ["What it is", "A headless commerce framework: one NestJS application holding catalogue, pricing, orders, customers and channels, with a React dashboard.", "A headless Go backend with its admin compiled into the same binary; Svelte Commerce is a separate SvelteKit storefront."],
+    ["Licence", "Vendure Core is GPLv3, with an exception that lets plugins carry their own licence; Vendure GmbH also sells a commercial licence.", "MIT, both projects."],
+    ["Language", "TypeScript on Node.js v20, v22 or v24.", "Go, compiled to one binary with one production dependency, the PostgreSQL driver."],
+    ["What production runs", "Two Node.js processes from one codebase — a server and a worker — on PostgreSQL, MySQL or MariaDB. The job queue and cache can live in the database; Redis is an option for both.", "One binary and one PostgreSQL database. No Node.js server, no Redis, no separate worker process."],
+    ["API", "GraphQL: a Shop API and an Admin API, both extensible and introspectable, with codegen for typed clients.", "REST: 342 documented operations, published as OpenAPI, the same API the admin uses."],
+    ["Extending it", "Plugins as NestJS modules, strategies that swap default behaviour, custom fields and entities, typed events and jobs.", "44 modules, each compiled in only when imported. Anything else is Go you write."],
+    ["Admin", "The Vendure Dashboard, extended with your own pages, blocks and widgets.", "61 Svelte admin screens compiled into the binary."],
+    ["Marketplace", "Sellers and channels in the core, and an example multi-vendor plugin that Vendure marks as educational, not production-ready.", "Vendors in the core, moving through pending, approved and suspended; commission recorded per vendor but not settled."],
+    ["B2B", "Company accounts, quotes, approvals, credit limits, contract pricing and single sign-on come with Vendure Platform, the commercial subscription.", "Customer groups, price lists, quantity breaks and scoped API keys in the MIT core. No quotes or approvals."],
+    ["Agent tooling", "New projects get an AGENTS.md and non-interactive CLI scaffolding for agents; the earlier official MCP server is marked unmaintained.", "An MCP module with 19 tools that act on a running store; an AGENTS.md of 18 rules and 16 task guides in the repository."],
+    ["Hosting and price", "Self-host Core for nothing. Vendure Platform is a flat annual subscription, quoted per project; Vendure Cloud is in a paid design-partner programme.", "Self-host only. No hosted offering and no paid tier."],
+    ["Track record", "Customer stories from Hans Kohler, Flowtech, SKYdeals and Munch, which Vendure says runs over 10,000 payment transactions a day at peak.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
+  ],
+  "cost": {
+    "title": "What each side costs",
+    "lede": "The open-source cores cost nothing on either side. Vendure’s commercial platform, which carries its B2B features, is quoted rather than listed; GoCommerce has no commercial tier at all.",
+    "caption": "What you pay for, Vendure against GoCommerce and Svelte Commerce",
+    "head": ["Cost", "Vendure", "GoCommerce + Svelte Commerce"],
+    "rows": [
+      ["Core software", "Nothing — Vendure Core under GPLv3", "Nothing — MIT"],
+      ["Commercial platform", "Vendure Platform: a flat annual subscription, quoted per project, with no fee on sales, orders or users", "None exists"],
+      ["B2B accounts, quotes, approvals", "Included in Vendure Platform", "Not available; price lists, groups and quantity breaks are in the core"],
+      ["Managed hosting", "Vendure Cloud, in a paid design-partner programme; priced by environments and resources", "None offered"],
+      ["Self-hosted infrastructure", "A server process, a worker process and a SQL database; Redis optional", "One binary and PostgreSQL"]
+    ],
+    "note": "Vendure publishes no list prices for Platform or Cloud; both are quoted. Formal Cloud SLAs begin at general availability, according to Vendure’s Cloud page."
+  },
+  "themWhen": [
+    "You already run Vendure. Keep it, and put Svelte Commerce in front if you want a SvelteKit storefront.",
+    "You need company accounts, quotes and approvals now, with Vendure under contract to support them — that is Vendure Platform.",
+    "Your team works in TypeScript and NestJS and wants GraphQL.",
+    "You want named production customers and a company behind the code."
+  ],
+  "usWhen": [
+    "You want MIT rather than GPLv3 or a commercial agreement.",
+    "You want one binary and PostgreSQL rather than a server and a worker process.",
+    "You want marketplace vendors and B2B price lists in open-source core, rather than an example plugin or a subscription.",
+    "You would rather speak REST described by OpenAPI than GraphQL."
+  ],
+  "takeOnExtra": [
+    "No importer from Vendure: GoCommerce imports from Shopify and Amazon only, so moving means a script against both APIs.",
+    "No company accounts, quotes or approvals — Vendure Platform has them, for a subscription."
+  ],
+  "move": {
+    "title": "Keep Vendure, and use Svelte Commerce",
+    "paras": [
+      "Of every comparison on this site, this one has the strongest path that needs no migration.",
+      "Svelte Commerce’s Vendure connector wires 39 of its 43 services, with cart, checkout and sign-in all wired — level with Litekart as the most complete of its 26 connectors, because Vendure’s GraphQL Shop API covers almost the whole surface. Keep Vendure as the backend and the SvelteKit storefront, with its 79 live demo themes, sits in front of it.",
+      "One caution: no Svelte Commerce connector has yet been run against a live production instance of its platform, Vendure’s included, so test against a copy of your own store before launch.",
+      "Moving the backend to GoCommerce instead is a script, not an import: GoCommerce’s import modules cover Shopify and Amazon only, so you read Vendure’s Admin API and write to GoCommerce’s REST API."
+    ]
+  },
+  "faq": [
+    { "q": "Should I replace Vendure with GoCommerce?", "a": "Usually not. If Vendure works for you, keep it — and if you want a SvelteKit storefront, Svelte Commerce’s Vendure connector is one of its two most complete. GoCommerce suits a new store that wants MIT, one Go binary and REST — bearing in mind that no store we know of runs it in production yet." },
+    { "q": "Is Vendure open source?", "a": "Yes. Vendure Core is GPLv3, with an exception that lets plugins be licensed separately, and Vendure GmbH offers a commercial licence as an alternative. Vendure Platform, its B2B product, is commercial. GoCommerce and Svelte Commerce are MIT." },
+    { "q": "How complete is Svelte Commerce on Vendure?", "a": "39 of 43 services are wired, with cart, checkout and sign-in all wired — level with Litekart as the most complete connector. Coverage is traced by a script on the backends page; like every connector, it has not been run against a live production store." },
+    { "q": "What does Vendure cost?", "a": "Vendure Core costs nothing. Vendure Platform is a flat annual subscription with no fee on sales, quoted per project, and Vendure Cloud, open now as a paid design-partner programme, is priced by the environments and resources you run. Neither has a published list price." },
+    { "q": "What does each need to run?", "a": "Vendure runs two Node.js processes, a server and a worker, on PostgreSQL, MySQL or MariaDB, with Redis optional for the job queue and cache. GoCommerce runs as one binary on one PostgreSQL database." }
+  ],
+  "sources": [
+    { "label": "Vendure — home page", "url": "https://vendure.io/" },
+    { "label": "Vendure — pricing", "url": "https://vendure.io/pricing" },
+    { "label": "Vendure — Vendure Core", "url": "https://vendure.io/core" },
+    { "label": "Vendure — Vendure Cloud", "url": "https://vendure.io/cloud" },
+    { "label": "Vendure on GitHub — LICENSE.md", "url": "https://github.com/vendurehq/vendure/blob/master/LICENSE.md" },
+    { "label": "Vendure on GitHub (stars, releases)", "url": "https://github.com/vendurehq/vendure" },
+    { "label": "Vendure docs — installation", "url": "https://docs.vendure.io/current/core/getting-started/installation" },
+    { "label": "Vendure docs — worker and job queue", "url": "https://docs.vendure.io/current/core/developer-guide/worker-job-queue" },
+    { "label": "Vendure docs — horizontal scaling", "url": "https://docs.vendure.io/current/core/deployment/horizontal-scaling" },
+    { "label": "Vendure docs — multi-vendor marketplaces", "url": "https://docs.vendure.io/current/core/how-to/multi-vendor-marketplaces" },
+    { "label": "Vendure docs — AI-assisted development", "url": "https://docs.vendure.io/current/core/developer-guide/ai-assisted-development" },
+    { "label": "Vendure MCP server on GitHub (marked unmaintained)", "url": "https://github.com/vendurehq/mcp" }
+  ],
+  "checked": "2026-09-25"
+}

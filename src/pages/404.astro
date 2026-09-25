@@ -1,14 +1,14 @@
 ---
 /**
  * The 404 is noindex but its links are followed — it is how a crawler that
- * arrives on a dead inbound link finds the live site. It lists every page,
- * because there are only six.
+ * arrives on a dead inbound link finds the live site. It lists the main
+ * pages by section; the footer below carries the rest.
  */
 import Base from '../layouts/Base.astro'
 ---
 <Base
   title="Page not found — kitcommerce.store"
-  description="That page is not here. Every page on kitcommerce.store is listed."
+  description="That page is not here. The main pages on kitcommerce.store are listed."
   path="/404/"
   noindex
 >
@@ -17,7 +17,7 @@ import Base from '../layouts/Base.astro'
     <h1>That page is not here</h1>
     <p class="lede">
       The link may be from an older version of this site, or it may simply be
-      wrong. Every page on this site is listed below.
+      wrong. The main pages are listed below, and the footer has the rest.
     </p>
 
     <ul class="notfound-links">
@@ -27,6 +27,12 @@ import Base from '../layouts/Base.astro'
       <li><a href="/svelte-commerce/backends/">Backend integrations</a> — all 26 connectors and their coverage</li>
       <li><a href="/go-svelte-ecommerce/">Architecture</a> — how the two fit together</li>
       <li><a href="/gocommerce-svelte-commerce-connector/">Connector status</a> — what is and is not wired</li>
+      <li><a href="/features/">Features</a> — checkout, operations and development, checked in the code</li>
+      <li><a href="/solutions/">Solutions</a> — marketplace, B2B, direct-to-consumer, multi-store</li>
+      <li><a href="/pricing/">Pricing</a> — free, for life</li>
+      <li><a href="/compare/">Compare</a> — against Shopify, WooCommerce, Bagisto and the rest</li>
+      <li><a href="/svelte-commerce/themes/">Themes</a> and <a href="/live-projects/">live projects</a> — storefronts running now</li>
+      <li><a href="/open-source/">Open source</a>, <a href="/vibe-coding-commerce/">vibe-coding commerce</a> and the <a href="/blog/">blog</a></li>
     </ul>
 
     <div class="actions">

@@ -1,0 +1,81 @@
+{
+  "slug": "shopify-india-vs-kitcommerce",
+  "platform": "Shopify",
+  "platformUrl": "https://www.shopify.com/in",
+  "label": "Shopify India vs KitCommerce",
+  "group": "Shopify",
+  "summary": "What an Indian store actually pays Shopify: rupee plans, no Shopify Payments, and a cut of every prepaid order — worked out plan by plan.",
+  "title": "Shopify India vs KitCommerce — Rupee Plans, Transaction Fees and GST Compared With GoCommerce",
+  "description": "Shopify’s Indian plans against GoCommerce and Svelte Commerce: INR prices, the fee every Indian store pays because Shopify Payments is not offered in India, which plan is cheapest at your sales, GST on Shopify’s bill, cash on delivery, Razorpay and Indian couriers.",
+  "ogTitle": "Shopify India vs KitCommerce",
+  "ogDescription": "No Shopify Payments in India means a fee on every prepaid order. What that costs by plan, against running GoCommerce yourself.",
+  "h1": "In India, Shopify charges a plan and a cut of every prepaid order.",
+  "lede": "Shopify Payments is not offered in India, so an Indian store takes online payments through a third-party gateway such as Razorpay — and Shopify adds its own fee of 2%, 1% or 0.6% of each of those orders, by plan, on top of what the gateway charges. GoCommerce talks to Razorpay directly, and the gateway’s charge is the only one.",
+  "facts": [
+    { "b": "₹1,499–₹22,680", "t": "a month for Basic to Advanced in India, billed yearly" },
+    { "b": "2% · 1% · 0.6%", "t": "Shopify’s cut of each prepaid order on Basic, Grow and Advanced" },
+    { "b": "₹4.1 lakh", "t": "monthly prepaid sales above which Grow costs less than Basic" }
+  ],
+  "glanceLede": "Only what changes when the store is in India. Shopify’s side comes from its Indian price list and help centre, listed under Sources; ours from the GoCommerce modules named in each row.",
+  "rows": [
+    ["Plan price in rupees", "Basic ₹1,499, Grow ₹5,599 and Advanced ₹22,680 a month billed yearly; ₹1,994, ₹7,447 and ₹30,164 billed monthly.", "No plan. The software is MIT licensed and costs ₹0; the server is billed by whichever host you choose."],
+    ["Shopify’s fee on a prepaid order", "Basic 2%, Grow 1%, Advanced 0.6%, Plus 0.2% — worked out on the order total, tax and shipping included. Shopify Payments would waive it, and India does not have it.", "None. GoCommerce adds nothing to the cost of an order."],
+    ["Cash on delivery", "A manual payment method, and Shopify’s help centre says the fee does not apply to it.", "Built into the core: “cod” is the default payment method, with nothing to install."],
+    ["Razorpay", "Connected as a third-party provider: Razorpay’s own charge, then Shopify’s fee on the same order.", "The payments-razorpay module calls Razorpay’s API directly. Razorpay lists 2% + GST as its standard rate, UPI included, and that is the whole payment cost."],
+    ["Features tied to Shopify Payments", "Shopify’s plan table marks showing prices in local currencies and accepting local payment methods through Markets as requiring Shopify Payments.", "No feature waits on a particular gateway: price lists, discounts and channels behave the same whichever payment module you import."],
+    ["Indian couriers", "Shopify’s plan table lists live third-party shipping rates at checkout from Advanced upward.", "Shiprocket, Delhivery and NimbusPost modules book shipments. The India Post module records the consignment number from the counter receipt, because India Post publishes no booking API."],
+    ["Order SMS", "Pay-per-send SMS campaigns sit in every plan’s marketing tools.", "The MSG91 module texts customers when an order is placed, paid, shipped, delivered or cancelled, sent as DLT-registered templates as Indian rules require."],
+    ["GST on the platform’s bill", "Charged on Shopify’s fees to a store in India unless you register your GSTIN; GST on invoices issued before you do cannot be reversed.", "No platform bill to tax. Your host’s invoice carries whatever GST it charges."],
+    ["GST invoices for your orders", "Shopify says it does not create GST-compliant bills, and points to a local invoicing service or an App Store app.", "The invoices module gives every paid order a numbered invoice and prints your GSTIN, but shows no CGST, SGST or IGST split."],
+    ["Trying it", "3 days free, then ₹20 a month for the first 3 months on most plans.", "Free for as long as you like: the one-command Docker stack runs the API and admin on your own machine."],
+    ["Plus in India", "From ₹1,75,000 a month on a three-year term, plus 0.2% of every order a third-party gateway takes — which, here, is every prepaid one.", "The same software as any other GoCommerce store. The Shopify Plus comparison covers that side in full."]
+  ],
+  "cost": {
+    "title": "What Shopify costs an Indian store, plan by plan",
+    "lede": "Shopify’s fee falls as the plan price rises, so which plan is cheapest depends on how much you sell prepaid. These are Shopify’s own charges at four levels of monthly prepaid sales — before GST, and before your gateway’s charge, which both sides pay.",
+    "caption": "Shopify plan price (billed yearly) plus its third-party transaction fee, a month, by prepaid sales through Razorpay",
+    "head": ["Prepaid sales a month", "Basic", "Grow", "Advanced", "GoCommerce"],
+    "rows": [
+      ["₹1 lakh", "₹3,499", "₹6,599", "₹23,280", "₹0 + your server"],
+      ["₹5 lakh", "₹11,499", "₹10,599", "₹25,680", "₹0 + your server"],
+      ["₹25 lakh", "₹51,499", "₹30,599", "₹37,680", "₹0 + your server"],
+      ["₹50 lakh", "₹1,01,499", "₹55,599", "₹52,680", "₹0 + your server"]
+    ],
+    "note": "Each cell is the plan’s yearly-billed monthly price plus 2%, 1% or 0.6% of the prepaid order totals, from Shopify’s published figures. Grow overtakes Basic above ₹4.1 lakh a month; Advanced overtakes Grow only above about ₹42.7 lakh. Razorpay’s 2% + GST is paid on both sides and left out. Cash-on-delivery orders carry no Shopify fee, so a store that is mostly COD pays less than the table shows. GST on Shopify’s bill comes on top until you register your GSTIN."
+  },
+  "themWhen": [
+    "Most of your orders are cash on delivery. Shopify’s fee does not touch them, so what you pay is mostly the plan.",
+    "Your prepaid sales are modest — at ₹1 lakh a month, Basic’s plan and fee together come to ₹3,499.",
+    "Nobody on the team writes code, you need to be selling within days, and 24/7 support matters when something breaks.",
+    "You also sell in person: Shopify’s POS takes casual sales on every plan, with POS Pro at ₹7,000 a month per location."
+  ],
+  "usWhen": [
+    "Most of your revenue is prepaid — UPI and cards through Razorpay — so Shopify’s fee lands on nearly every rupee.",
+    "Prepaid sales have passed ₹25 lakh a month, where Shopify’s charges run from ₹30,599 on Grow to ₹51,499 on Basic.",
+    "You ship through Shiprocket, Delhivery or NimbusPost and send order SMS through MSG91 — each a GoCommerce module you compile in.",
+    "You want to decide in code how your store treats COD — limits, extra charges, confirmation before dispatch."
+  ],
+  "takeOnExtra": [
+    "GST invoicing is unfinished: the invoices module numbers every paid order’s invoice and prints your GSTIN, but has no HSN codes and no CGST, SGST or IGST lines.",
+    "India Post shipments are recorded, not booked — the module stores the consignment number you read off the receipt."
+  ],
+  "faq": [
+    { "q": "Is Shopify Payments available in India?", "a": "No. India is not on Shopify’s list of countries where Shopify Payments is supported, so an Indian store takes online payments through a third-party provider such as Razorpay, and Shopify charges its third-party transaction fee on those orders: 2%, 1% or 0.6% on Basic, Grow and Advanced, and 0.2% on Plus." },
+    { "q": "Does Shopify charge its fee on cash-on-delivery orders?", "a": "No. Shopify’s help centre lists manual payment methods — cash on delivery, bank deposits, draft orders marked as paid — among the payments the fee does not apply to, along with POS orders and PayPal Express Checkout. It does apply to store credit and gift card payments on stores created on or after 12 May 2025." },
+    { "q": "Does Shopify add GST to its bill?", "a": "Yes, for a store located in India, unless you give Shopify your GSTIN. Shopify’s help centre says the exemption applies only to invoices issued after you submit it, and GST already charged on earlier invoices cannot be reversed or refunded." },
+    { "q": "Which Shopify plan is cheapest for an Indian store?", "a": "It depends on prepaid sales. Adding the yearly-billed plan price to Shopify’s fee, Basic is cheapest below ₹4.1 lakh a month, Grow from there to about ₹42.7 lakh, and Advanced above that — before GST, and before the gateway’s own charge." },
+    { "q": "What does GoCommerce use for payments and shipping in India?", "a": "Razorpay through the payments-razorpay module, and cash on delivery in the core. Shipments are booked through the Shiprocket, Delhivery and NimbusPost modules, and the India Post module records consignment numbers. Order SMS go out through MSG91 as DLT-registered templates. Each module is compiled in only if you import it." },
+    { "q": "Does GoCommerce produce GST invoices?", "a": "Partly. The invoices module gives every paid order a numbered invoice in a gapless sequence and prints your GSTIN, but it shows no tax breakdown — no HSN codes, no CGST, SGST or IGST. Shopify says it does not create GST-compliant bills either, and points merchants to an invoicing app or service." }
+  ],
+  "sources": [
+    { "label": "Shopify pricing, India (plans in INR)", "url": "https://www.shopify.com/in/pricing" },
+    { "label": "Shopify pricing — third-party transaction fees by plan", "url": "https://www.shopify.com/pricing" },
+    { "label": "Shopify Plus pricing, India", "url": "https://www.shopify.com/in/plus/pricing" },
+    { "label": "Shopify Help Center — third-party transaction fees", "url": "https://help.shopify.com/en/manual/your-account/manage-billing/billing-charges/types-of-charges/third-party-charges/third-party-transaction-fees" },
+    { "label": "Shopify Help Center — Shopify Payments supported countries", "url": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries" },
+    { "label": "Shopify Help Center — GST on Shopify bills in India", "url": "https://help.shopify.com/en/manual/your-account/manage-billing/billing-charges/types-of-charges/taxes/billing-taxes-india-malaysia-singapore-thailand" },
+    { "label": "Shopify Help Center — GST in India FAQ", "url": "https://help.shopify.com/en/manual/taxes/india-gst" },
+    { "label": "Razorpay pricing", "url": "https://razorpay.com/pricing/" }
+  ],
+  "checked": "2026-09-25"
+}

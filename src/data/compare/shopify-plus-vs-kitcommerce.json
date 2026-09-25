@@ -1,0 +1,94 @@
+{
+  "slug": "shopify-plus-vs-kitcommerce",
+  "platform": "Shopify Plus",
+  "platformUrl": "https://www.shopify.com/plus",
+  "label": "Shopify Plus vs KitCommerce",
+  "group": "Shopify",
+  "summary": "Enterprise Shopify against running your own: term contracts, revenue-linked fees, API budgets, B2B and checkout control — and where Plus is simply further ahead.",
+  "title": "Shopify Plus vs KitCommerce — Enterprise Pricing, API Limits and B2B Compared With GoCommerce",
+  "description": "Shopify Plus compared with GoCommerce and Svelte Commerce: term pricing in INR, the variable platform fee, 0.2% on third-party gateways, expansion stores, API rate limits, B2B, checkout extensibility and Functions — and why Plus is the safer choice for most large brands today.",
+  "ogTitle": "Shopify Plus vs KitCommerce",
+  "ogDescription": "Plus sells scale on a contract with an API budget. GoCommerce gives you the source and no ceiling but your own server. Sourced.",
+  "h1": "Shopify Plus is a contract. GoCommerce is a codebase.",
+  "lede": "Plus is Shopify’s enterprise plan: a one- or three-year term, a platform fee that can become a share of revenue, higher API limits and the parts of checkout lower plans cannot touch. GoCommerce is MIT source you deploy — no term, no revenue share, no limit but your own hardware — and, so far, no production store to show for it at any scale.",
+  "facts": [
+    { "b": "₹1,75,000", "t": "a month for Plus in India on a three-year term; ₹1,90,000 on one year" },
+    { "b": "1,000", "t": "GraphQL Admin API points a second per app on Plus, against 100 on standard plans" },
+    { "b": "10", "t": "stores in the Plus fee; each one after that ₹23,000 a month" }
+  ],
+  "glanceLede": "Plus is measured against its own pricing page and developer documentation, linked at the foot of this page. GoCommerce’s side is what the code does today, including what it does not do.",
+  "rows": [
+    ["Contract and platform fee", "A one- or three-year term, cancellable when it ends: from ₹1,75,000 a month on three years or ₹1,90,000 on one. More complex, higher-volume businesses move to a variable fee based on revenue and business model.", "No term and no fee. MIT licence, and nothing that rises with your revenue."],
+    ["Fee on third-party gateways", "0.2% of each transaction, for security and compliance costs. It is waived only with Shopify Payments as the primary gateway — not available in India, so every Indian Plus store pays it.", "None."],
+    ["Stores", "A main store and 9 expansion stores in the fee; each additional store ₹23,000 a month or a revenue share. One brand per contract.", "Channels: one GoCommerce database serves several storefronts, each with its own publishing and price lists, at no charge per store or per brand. Orders stay in one pool."],
+    ["API rate limits", "GraphQL Admin API: 1,000 cost points a second per app and store on Plus, against 100 on standard plans, 200 on Advanced and 2,000 for Commerce Components. No single query may cost more than 1,000 points.", "No limit in the software. The ceiling is the server and PostgreSQL you give it — sized by you, and not yet benchmarked by anyone."],
+    ["API surface", "The GraphQL Admin API — REST Admin has been legacy since October 2024 — plus the Storefront API, Functions and app extensions.", "342 documented REST operations, published as OpenAPI. API keys carry a role, so a partner’s key can read orders and not refund them."],
+    ["Checkout", "Checkout UI extensions for the information, shipping and payment steps are Plus-only, and checkout.liquid is no longer supported on those steps.", "The checkout is Go code in your repository. You change a step by changing the code — and own the testing that comes with it."],
+    ["Custom logic", "Shopify Functions run your own back-end logic inside Shopify; only Plus stores can use custom apps that contain them.", "No extension runtime to fit into: you change the domain code, or write a module that listens to its events."],
+    ["B2B", "Companies with several buyers and locations, customer-specific catalogues, quantity rules, volume pricing, payment terms, and orders submitted for review before approval. Unlimited B2B catalogues on Plus; three on other plans.", "Customer groups, price lists and quantity breaks in the core. No company accounts, payment terms, quotes or approvals."],
+    ["AI agents", "Shopping agents reach a store’s catalogue, cart and checkout through the Universal Commerce Protocol, served over MCP.", "The MCP module gives your own agent 19 store tools — products, stock, orders, refunds, discounts, reports — through the same services as the REST API. No UCP, ACP or AP2."],
+    ["Headless storefronts", "Up to 25 on Plus, against 1 on other plans, with Shopify’s React-based headless stack at no extra cost.", "Svelte Commerce, server-rendered SvelteKit — though its GoCommerce connector is early, at 0.1.0: catalogue, cart, checkout and order lookup, not yet customer accounts or search."],
+    ["Support and partners", "Priority 24/7 support, Plus Academy, Plus Certified apps, and systems integrators such as Accenture, Deloitte and IBM.", "The maintainers, through GitHub issues and Discord. No contract, no priority line, no integrator network."],
+    ["Proven at scale", "Shopify states 99.99% average uptime across the year’s biggest sales events, and a checkout load-tested past 10,000 checkouts a minute.", "Not yet. No store we know of runs GoCommerce in production, and there are no published benchmarks."]
+  ],
+  "cost": {
+    "title": "What Plus costs a brand in India",
+    "lede": "At Plus volumes the percentage matters as much as the platform fee. GoCommerce removes both, and replaces them with infrastructure and engineers that are not cheap either.",
+    "caption": "Recurring costs, Shopify Plus in India against GoCommerce and Svelte Commerce",
+    "head": ["Cost", "Shopify Plus", "GoCommerce + Svelte Commerce"],
+    "rows": [
+      ["Platform", "₹1,75,000 a month on a three-year term, ₹1,90,000 on one year, or a variable fee based on revenue", "₹0"],
+      ["Per transaction, third-party gateway", "0.2%", "None"],
+      ["Stores beyond ten", "₹23,000 a month each, or a revenue share", "None"],
+      ["Apps and partners", "Third-party apps, one-time theme purchases, and Plus Partners for custom development", "Nothing to buy; the development is yours to do or to hire"],
+      ["Infrastructure", "Included", "Servers and PostgreSQL sized for your peak day, and someone on call for them"]
+    ],
+    "note": "A worked example from Shopify’s published figures: ₹2 crore a month through a third-party gateway on a three-year term pays ₹1,75,000 plus 0.2% — ₹40,000 — which is ₹2,15,000 a month, or ₹25,80,000 a year, before GST and before the gateway’s own charge. A business Shopify moves to the variable fee pays whatever that contract says."
+  },
+  "themWhen": [
+    "You need certainty on your biggest sale day, and a published record at that scale matters more than owning the code.",
+    "You want a contract, priority 24/7 support, certified apps and systems integrators you can hire by name.",
+    "Your B2B needs company accounts, payment terms and quote approval — Shopify B2B has them and GoCommerce does not.",
+    "Your team would rather build on Shopify’s checkout, Functions and APIs than run a commerce backend of its own.",
+    "Shoppers’ AI agents matter to you: Shopify stores are reachable over UCP, and GoCommerce speaks none of the agentic commerce protocols."
+  ],
+  "usWhen": [
+    "At your volume, 0.2% of revenue plus the platform fee — or a revenue-based fee — costs more than the engineers you already employ.",
+    "You run several brands, and one brand per contract would mean several contracts.",
+    "Your integrations keep hitting throttles, and you would rather size a server than live within a per-app points budget.",
+    "You need checkout or pricing logic that no extension point reaches, and a team able to own it."
+  ],
+  "takeOnExtra": [
+    "At Plus scale you become the platform team: capacity planning, peak-day load tests, security patches and on-call are yours.",
+    "Nobody has load-tested GoCommerce in public. Benchmark it against your own peak before you commit a sale day to it."
+  ],
+  "move": {
+    "title": "Leaving Plus, if you do",
+    "paras": [
+      "Time it to your term, and expect some of it to be rebuilt.",
+      "Shopify says a one- or three-year Plus subscription can be cancelled when the term expires, so the migration plan starts from that date. GoCommerce’s import-shopify module brings the whole catalogue across, matching on Shopify’s product ids so it can be re-run up to the switch; an order importer loads history without sending emails or moving stock.",
+      "What does not come across is anything that lives in Shopify’s runtime: Functions, checkout extensions, B2B companies and catalogues. Those become GoCommerce code, price lists and customer groups — and payment terms and quote approval are features you would have to write."
+    ]
+  },
+  "faq": [
+    { "q": "How much does Shopify Plus cost in India?", "a": "Shopify’s Indian Plus page lists ₹1,75,000 a month on a three-year term and ₹1,90,000 a month on a one-year term for standard setups. More complex, higher-volume businesses move to a variable platform fee based on revenue and business model, set by Shopify’s sales team. On top of that, Shopify takes 0.2% of each transaction a third-party processor handles — in India, every one." },
+    { "q": "What are Shopify Plus’s API rate limits?", "a": "For the GraphQL Admin API, Shopify’s developer documentation gives Plus 1,000 cost points a second per app and store, against 100 on standard plans, 200 on Advanced and 2,000 for Commerce Components, and caps any single query at 1,000 points. The legacy REST Admin API allows 20 requests a second on Plus. GoCommerce has no rate limit in the software; its ceiling is the server and database you give it." },
+    { "q": "Does GoCommerce do B2B like Shopify Plus?", "a": "In part. GoCommerce has customer groups, price lists and quantity breaks in the core, and API keys scoped by role for partners’ systems. Shopify B2B goes further, with company accounts, payment terms, quantity rules and orders submitted for review — GoCommerce has no quote or approval workflow." },
+    { "q": "Can GoCommerce run several stores like Plus expansion stores?", "a": "Yes, through channels: one GoCommerce database serves several storefronts, each with its own published catalogue and price lists, and nothing is charged per store. Channels scope what is sold and at what price, not orders, which share one pool. Plus includes ten stores for one brand and charges ₹23,000 a month for each one after that." },
+    { "q": "Is GoCommerce ready to replace Shopify Plus?", "a": "Not for most Plus merchants today. It has over 1,000 tests and 342 documented operations, but no store we know of runs it in production, and nobody has published a benchmark. A brand leaving Plus for GoCommerce takes on a platform team’s job — worth it when the fees or the limits cost more than that team, and not before." }
+  ],
+  "sources": [
+    { "label": "Shopify Plus pricing, India", "url": "https://www.shopify.com/in/plus/pricing" },
+    { "label": "Shopify pricing, India — plan comparison", "url": "https://www.shopify.com/in/pricing" },
+    { "label": "Shopify B2B for enterprise, India", "url": "https://www.shopify.com/in/solutions/b2b/enterprise" },
+    { "label": "Shopify.dev — GraphQL Admin API rate limits", "url": "https://shopify.dev/docs/apps/build/apis/graphql-admin/rate-limits" },
+    { "label": "Shopify.dev — REST Admin API rate limits", "url": "https://shopify.dev/docs/api/admin-rest/usage/rate-limits" },
+    { "label": "Shopify.dev — API limits", "url": "https://shopify.dev/docs/api/usage/limits" },
+    { "label": "Shopify.dev — Checkout UI extensions", "url": "https://shopify.dev/docs/api/checkout-ui-extensions/latest" },
+    { "label": "Shopify.dev — Checkout apps and checkout.liquid", "url": "https://shopify.dev/docs/apps/build/checkout" },
+    { "label": "Shopify.dev — Shopify Functions", "url": "https://shopify.dev/docs/api/functions/latest" },
+    { "label": "Shopify.dev — Storefront MCP and UCP", "url": "https://shopify.dev/docs/apps/build/storefront-mcp" },
+    { "label": "Shopify Help Center — Shopify Payments supported countries", "url": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries" }
+  ],
+  "checked": "2026-09-25"
+}

@@ -1,0 +1,78 @@
+{
+  "slug": "kitcommerce-vs-storehippo",
+  "platform": "StoreHippo",
+  "platformUrl": "https://www.storehippo.com",
+  "label": "KitCommerce vs StoreHippo",
+  "group": "Indian SaaS builders",
+  "summary": "An Indian enterprise SaaS with B2B, multi-seller and hyperlocal built in, from ₹12,000 a month plus a fee on sales — against two MIT projects you run.",
+  "title": "KitCommerce vs StoreHippo — GoCommerce and Svelte Commerce Compared With StoreHippo",
+  "description": "StoreHippo compared with GoCommerce and Svelte Commerce: plan prices in INR, StoreHippo’s transaction fee, B2B, multi-seller and multi-store features, payment gateways, data export and hosting — with where StoreHippo is the better choice.",
+  "ogTitle": "KitCommerce vs StoreHippo",
+  "ogDescription": "A feature-rich Indian SaaS from ₹12,000 a month plus a fee on sales, or two MIT projects you run. Prices and trade-offs, sourced.",
+  "h1": "StoreHippo ships the features. GoCommerce ships the source.",
+  "lede": "StoreHippo is an Indian hosted platform aimed at larger businesses — B2B, multiple sellers, hyperlocal delivery and an Android app sit in its plans — priced from ₹12,000 a month plus a fee on sales. GoCommerce and Svelte Commerce are MIT projects you run: fewer features out of the box, no fee, and the code to add what is missing.",
+  "facts": [
+    { "b": "₹12,000", "t": "a month for StoreHippo Business, billed for 12 months" },
+    { "b": "1% · 0.5%", "t": "StoreHippo’s transaction fee per order on Business and Enterprise" },
+    { "b": "₹1,20,000", "t": "a month, where StoreHippo Platinum starts, on a one-year minimum" }
+  ],
+  "glanceLede": "StoreHippo’s side is taken from its pricing and feature pages, linked at the foot of this page; where its own pages disagree, we say so. Ours is what GoCommerce and Svelte Commerce do today.",
+  "rows": [
+    ["What it is", "A hosted platform, sold finished: StoreHippo describes it as needing no plugins, with its features built into the plans.", "Source you deploy: GoCommerce for the backend and admin, Svelte Commerce for the storefront, both MIT."],
+    ["Plans", "Business ₹12,000 and Enterprise ₹25,000 a month billed for 12 months, or ₹15,000 and ₹30,000 on 6-month billing; Platinum from ₹1,20,000 a month on a one-year minimum. Taxes extra.", "No plans. The software is ₹0; your server is the recurring cost."],
+    ["Fee on sales", "1% per order on Business and 0.5% on Enterprise, by the plan cards. The FAQ instead describes a charge on sales above each plan’s online sales limit, and does not state the limits.", "None."],
+    ["B2B", "From Enterprise. StoreHippo’s B2B page lists wholesale pricing with overrides, bulk orders, minimum order quantities and requests for quotation.", "Customer groups, price lists and quantity breaks in the core. No quotes or approvals."],
+    ["Multiple sellers", "Basic multi-seller on Enterprise; full multi-seller on Platinum.", "Vendors as first-class sellers — pending, approved, suspended — with their own offers. Commission is recorded per vendor, not settled."],
+    ["Multiple stores", "Basic multi-store on Enterprise; multistore on Platinum.", "Channels, each with its own publishing and price lists, served from one database. Orders are not split by channel."],
+    ["Payments", "More than 60 gateways; the FAQ names PayU, Paytm, CCAvenue and PayPal. Cash on delivery and offline payments supported, and several gateways at one checkout.", "Nine payment modules, Razorpay and Stripe among them; cash on delivery is the core’s default method."],
+    ["Shipping", "Integrated logistics: you ship from the dashboard and the courier partner collects.", "Shiprocket, Delhivery and NimbusPost modules book shipments; India Post consignments are recorded against the order."],
+    ["Developer access", "REST APIs with more than 100 endpoints; custom entities, a staging environment and scheduled functions on Platinum.", "342 documented REST operations as OpenAPI — and the source itself, down to the checkout."],
+    ["Mobile apps", "An Android app on Enterprise; Android and iOS on Platinum.", "None. The admin is a web app compiled into the GoCommerce binary."],
+    ["Leaving", "StoreHippo says most backend data — products, customers, orders — can be exported through its APIs and bulk exports.", "Nothing to export from: the data is rows in your own PostgreSQL."],
+    ["Cancelling", "Any time, with no refund for the rest of the paid period.", "No subscription to cancel."]
+  ],
+  "cost": {
+    "title": "StoreHippo’s bill against a server bill",
+    "lede": "On StoreHippo the plan is fixed and the fee grows with every order. On GoCommerce nothing grows with sales except the gateway’s charge, which both sides pay.",
+    "caption": "Monthly cost, StoreHippo Business and Enterprise against GoCommerce and Svelte Commerce, before taxes",
+    "head": ["Cost", "Business", "Enterprise", "GoCommerce + Svelte Commerce"],
+    "rows": [
+      ["Plan, 12-month billing", "₹12,000 a month", "₹25,000 a month", "₹0"],
+      ["Plan, 6-month billing", "₹15,000 a month", "₹30,000 a month", "₹0"],
+      ["Fee on sales", "1% per order", "0.5% per order", "None"],
+      ["At ₹10 lakh a month in sales", "₹22,000", "₹30,000", "₹0 + your server"],
+      ["At ₹50 lakh a month in sales", "₹62,000", "₹50,000", "₹0 + your server"],
+      ["People", "None to launch; StoreHippo helps with migration", "None to launch; StoreHippo helps with migration", "A developer to deploy, run and extend it"]
+    ],
+    "note": "Worked from StoreHippo’s plan cards on 12-month billing, which put the fee on every order; if a sales limit applies first, as its FAQ describes, the fee is lower than shown. Enterprise costs less than Business above ₹26 lakh a month. Your payment gateway’s charge is paid on both sides and left out. Platinum starts at ₹1,20,000 a month and its features may carry extra charges."
+  },
+  "themWhen": [
+    "You need B2B, multiple sellers, hyperlocal delivery and an Android app working this quarter, without a development team.",
+    "Wholesale buyers expect minimum order quantities and requests for quotation — StoreHippo lists both, and GoCommerce has no quote workflow.",
+    "You want an Indian vendor with an account manager, developer support and a staging environment, as Platinum offers.",
+    "Your team configures rather than codes, and a fixed monthly bill suits you better than running servers."
+  ],
+  "usWhen": [
+    "You want marketplace vendors, B2B price lists and several storefronts without a ₹25,000-a-month plan.",
+    "A fee of 0.5–1% of sales, on top of the gateway’s, adds up to more than your infrastructure.",
+    "You need to change what configuration does not reach — the checkout, pricing rules, the order flow.",
+    "You want your catalogue and orders in a database you query directly, not through an export."
+  ],
+  "takeOnExtra": [
+    "Marketplace commission is recorded per vendor but not settled — paying sellers is yours to build, or to do by hand.",
+    "No mobile app, for shoppers or for staff."
+  ],
+  "faq": [
+    { "q": "How much does StoreHippo cost?", "a": "StoreHippo’s pricing page lists Business at ₹12,000 a month and Enterprise at ₹25,000 a month billed for 12 months, or ₹15,000 and ₹30,000 on 6-month billing, and Platinum from ₹1,20,000 a month on a minimum one-year term. All plans are exclusive of taxes, and Platinum features may carry additional charges." },
+    { "q": "Does StoreHippo charge a transaction fee?", "a": "Its plan cards list 1% per order on Business and 0.5% on Enterprise. Its FAQ describes the charge differently: each plan has a limit on online sales, and a percentage or fixed charge applies to sales above it. The page does not give the limits. GoCommerce charges nothing per order." },
+    { "q": "Can I move my data out of StoreHippo?", "a": "StoreHippo says most backend data — products, customers, orders — can be exported through its APIs and bulk exports. GoCommerce has no StoreHippo importer, so moving in means a script against GoCommerce’s documented API." },
+    { "q": "Does GoCommerce have StoreHippo’s B2B and marketplace features?", "a": "Some of them. GoCommerce has customer groups, price lists and quantity breaks, marketplace vendors with approval states and their own offers, and channels for several storefronts. It has no quotes or approvals, and it records vendor commission without settling it." },
+    { "q": "Can Svelte Commerce be the storefront for a StoreHippo store?", "a": "No. StoreHippo is not among the 26 backends Svelte Commerce connects to, so the pairing on this page is GoCommerce with a storefront — Svelte Commerce through its early GoCommerce connector, 0.1.0, or one you write against the API." }
+  ],
+  "sources": [
+    { "label": "StoreHippo pricing (plans, fees and FAQ)", "url": "https://www.storehippo.com/en/pricing" },
+    { "label": "StoreHippo — payment gateways", "url": "https://www.storehippo.com/en/page/payment-gateway" },
+    { "label": "StoreHippo — B2B ecommerce", "url": "https://www.storehippo.com/en/page/b2b-ecommerce" }
+  ],
+  "checked": "2026-09-25"
+}

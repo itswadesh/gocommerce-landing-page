@@ -14,7 +14,7 @@ const faq = [
   { q: 'What is kitcommerce.store?', a: 'kitcommerce.store is the website that presents GoCommerce and Svelte Commerce, two open-source ecommerce projects. It is not itself a product, a platform or a framework, and there is nothing called KitCommerce to install.' },
   { q: 'Can Svelte Commerce work with another ecommerce backend?', a: 'Yes. Svelte Commerce is a headless storefront that reaches a backend through a connector package, and 26 connectors exist today — Litekart and Vendure are the most complete at 39 of 43 services. The storefront imports no connector by name, so switching backends is a package change rather than a rewrite.' },
   { q: 'Can GoCommerce work with another frontend?', a: 'Yes. GoCommerce exposes commerce backend functionality that any compatible storefront or application can consume. It serves 342 documented operations over REST, published as OpenAPI, so any framework that can call HTTP can drive it.' },
-  { q: 'Can I run the two together today?', a: 'Not without writing the glue yourself. The connector that maps the GoCommerce API onto the Svelte Commerce data layer is in development and unpublished. Until it ships, pairing them means writing that client against the documented GoCommerce API.' },
+  { q: 'Can I run the two together today?', a: 'Yes, through an early connector. @misiki/gocommerce-connector 0.1.0 is on npm and maps the GoCommerce API onto the Svelte Commerce data layer from a shelf to a placed order: catalogue, cart, checkout and order lookup. Customer accounts and a search index are not covered, and no store is known to run the pair in production.' },
   { q: 'Which should I start with?', a: 'Start with whichever solves the problem you actually have. If you need orders, inventory and an admin, start with GoCommerce. If you have a backend already and need a storefront, start with Svelte Commerce. Neither choice commits you to the other.' },
 ]
 
@@ -88,7 +88,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <div class="statement">
       <p class="statement-lead">GoCommerce and Svelte Commerce are independent open-source projects. Either can be used without the other.</p>
       <p>GoCommerce runs with no Svelte storefront in front of it, serving any client that speaks HTTP. Svelte Commerce runs against <a href="/svelte-commerce/backends/">26 commerce backends</a>, none of which is GoCommerce.</p>
-      <p class="statement-note">A direct connector between GoCommerce and Svelte Commerce is currently <b>in development</b>. Until it is published, running the two together means writing that client yourself. <a href="/gocommerce-svelte-commerce-connector/">See the connector status</a>.</p>
+      <p class="statement-note">A direct connector between GoCommerce and Svelte Commerce is published, and <b>early (0.1.0)</b>: catalogue, cart, checkout and order lookup work; customer accounts and a search index do not, and no store is known to run the pair in production. <a href="/gocommerce-svelte-commerce-connector/">See the connector status</a>.</p>
     </div>
   </section>
 
@@ -127,7 +127,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
           <li>one database you run</li>
           <li>a fully owned open-source stack</li>
           <li>no hosted control plane</li>
-          <li>and can write the connector today</li>
+          <li>and can build on an early connector</li>
         </ul>
         <a class="button secondary" href="/gocommerce-svelte-commerce-connector/">Connector status</a>
       </div>
@@ -150,11 +150,11 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
           <tr><th scope="row">Role</th><td>Backend + admin</td><td>Storefront</td></tr>
           <tr><th scope="row">Primary language</th><td>Go</td><td>Svelte / SvelteKit</td></tr>
           <tr><th scope="row">Can be used standalone</th><td>Yes</td><td>Yes</td></tr>
-          <tr><th scope="row">Can work together</th><td colspan="2">Yes — connector in development</td></tr>
+          <tr><th scope="row">Can work together</th><td colspan="2">Yes — early connector (0.1.0)</td></tr>
           <tr><th scope="row">Open source</th><td>MIT</td><td>MIT</td></tr>
           <tr><th scope="row">Maturity</th><td>1.0 — stable contract, no production mileage yet</td><td>Public for years, running production stores</td></tr>
           <tr><th scope="row">Runs against</th><td>PostgreSQL</td><td><a href="/svelte-commerce/backends/">26 commerce backends</a></td></tr>
-          <tr><th scope="row">One-command deploy</th><td><a href="/#one-command">Docker Compose, three services</a></td><td>Same compose file, <code>--profile storefront</code></td></tr>
+          <tr><th scope="row">One-command deploy</th><td><a href="/#one-command">Docker Compose, three services</a></td><td>Not yet — its image has no published tags, so it runs <a href="/svelte-commerce/#quickstart">from source</a></td></tr>
           <tr>
             <th scope="row">Repository</th>
             <td><a href="https://github.com/itswadesh/gocommerce" {...ext}><code>itswadesh/gocommerce</code></a></td>

@@ -1,0 +1,83 @@
+{
+  "slug": "checkout",
+  "name": "Checkout",
+  "summary": "One idempotent call that never charges a changed price, guest checkout for good, and nine gateways beside cash on delivery.",
+  "title": "Checkout API — GoCommerce’s Idempotent, Guest-First Checkout",
+  "description": "GoCommerce checkout, checked against the code: one idempotent call that returns 409 instead of charging a changed price, permanent guest checkout, nine payment gateways plus cash on delivery, and what is not built yet.",
+  "ogTitle": "GoCommerce checkout, feature by feature",
+  "ogDescription": "One idempotent call, guest checkout for good, nine gateways plus cash on delivery — and what is not built yet.",
+  "kicker": "Features · Checkout",
+  "h1": "A checkout that refuses to charge the wrong price",
+  "lede": "One call turns a cart into an order and tells the client how to pay. Retry it and you get the same order back; change a price underneath it and it answers 409 with the new figures instead of charging something the shopper never saw.",
+  "facts": [
+    { "b": "1", "t": "call from cart to order" },
+    { "b": "9", "t": "gateway modules, plus cash on delivery" },
+    { "b": "0", "t": "accounts a shopper needs" }
+  ],
+  "groups": [
+    {
+      "name": "The call that places the order",
+      "lede": "The four things this checkout does that a buyer never sees and an operator depends on.",
+      "tiles": [
+        { "title": "Single-call, idempotent checkout", "status": "yes", "text": "POST /api/checkout/{code} takes the cart, contact, address, shipping rate and payment data, creates the order and returns what the client must do to pay. An Idempotency-Key retry resumes the same order instead of making a second.", "source": "core/checkout.go" },
+        { "title": "No silent repricing", "status": "yes", "text": "A price that changed or stock that ran out returns 409 with per-line detail and the current values. The order is never charged at a figure the shopper did not see.", "source": "core/checkout.go · LineConflict" },
+        { "title": "Guest checkout, for good", "status": "yes", "text": "An order needs an email, not an account; its access token is the guest’s handle. With the identity module a shopper can later claim a guest order into an account by presenting that token.", "source": "core/orders.go · ext/identity" },
+        { "title": "Operator-placed orders", "status": "yes", "text": "Staff with orders.write place an order for a customer through the same checkout a shopper uses: the same stock reservation, numbering, discount checks and order.created event.", "source": "POST /api/admin/orders" }
+      ]
+    },
+    {
+      "name": "Payments",
+      "tiles": [
+        { "title": "Nine gateway modules", "status": "yes", "text": "Stripe, Razorpay, Adyen, Paddle, Lemon Squeezy, Creem, HyperSwitch, Helcim and RevenueCat, each configured from the admin’s payment methods screen.", "source": "ext/payments-*/" },
+        { "title": "Cash on delivery by default", "status": "yes", "text": "The built-in cod method confirms the order and takes stock off the shelf at once; payment stays pending until an operator marks it paid.", "source": "core/payments.go · codProvider" },
+        { "title": "Several gateways side by side", "status": "yes", "text": "Any number of providers run at once, each at its own checkout route with a webhook route the core owns. Writing your own is a two-method interface.", "source": "core/ports.go · PaymentProvider" }
+      ]
+    },
+    {
+      "name": "Customers and prices",
+      "tiles": [
+        { "title": "Order history for shoppers", "status": "yes", "text": "With the identity module, signed-in shoppers list and read their orders.", "source": "ext/identity" },
+        { "title": "Address book", "status": "partial", "text": "Signed-in shoppers keep labelled addresses with a default. Missing: separate billing and shipping addresses, and staff editing a customer’s book.", "source": "ext/identity" },
+        { "title": "Discount codes", "status": "partial", "text": "Percentage, fixed or free shipping; scoped to the order, products, collections or a category; with minimum spend, dates, usage limits and once-per-email. Missing: automatic discounts at checkout, more than one code per cart, buy-X-get-Y.", "source": "core/discounts.go" },
+        { "title": "Price lists", "status": "partial", "text": "A line’s price resolves by customer group, channel, date window, priority and quantity break. Missing: a hook for your own pricing logic, and overriding one line’s price by hand.", "source": "core/pricing.go" }
+      ]
+    },
+    {
+      "name": "Stock, tax and shipping",
+      "tiles": [
+        { "title": "Stock reservation", "status": "partial", "text": "Checkout reserves stock per location when the order is created and holds it until payment or until the unpaid-order window (24 hours by default) runs out. Missing: holding stock at the cart stage.", "source": "core/inventory.go · reserveStock" },
+        { "title": "Shipping in parts", "status": "partial", "text": "An order can ship in several parcels by line and quantity, each through any carrier module. Missing: several payments on one order.", "source": "core/fulfillment.go" },
+        { "title": "Stock allocation", "status": "partial", "text": "Each line is reserved at the first active location, by priority, that can cover it all. Missing: other strategies, and splitting one line across locations.", "source": "core/inventory.go · pickLocation" },
+        { "title": "Tax rates", "status": "partial", "text": "Flat rates by country, state and category, the most specific winning, prices tax-inclusive or not, each line’s tax recorded. Missing: tax classes apart from categories, and per-channel rates.", "source": "core/taxes.go" },
+        { "title": "Shipping zones and rates", "status": "partial", "text": "Zones by country and state, with named rates priced by basket subtotal (“free over 2,000”). Missing: weight-based rates and postal-code zones.", "source": "core/shipping.go" },
+        { "title": "Address checks", "status": "partial", "text": "Checkout requires line one, city, postal code and country. Missing: format rules and a validation hook.", "source": "core/types.go · Address.Validate" }
+      ]
+    },
+    {
+      "name": "Storefront",
+      "tiles": [
+        { "title": "A Svelte Commerce connector", "status": "partial", "text": "@misiki/gocommerce-connector 0.1.0, published on npm, covers catalogue, cart, shipping rates, checkout and order lookup. Missing: customer accounts and a search index.", "source": "connectors/svelte-commerce" },
+        { "title": "Several carts at once", "status": "partial", "text": "Carts are anonymous tokens, so a client can hold any number. Missing: carts owned by a customer account.", "source": "core/cart.go" }
+      ]
+    }
+  ],
+  "notYetLede": "Named here so nobody has to find out at launch. Each is absent from the code today.",
+  "notYet": [
+    { "name": "Recurring payments", "why": "No stored cards, subscriptions or off-session charges." },
+    { "name": "Split payments", "why": "An order carries exactly one payment provider." },
+    { "name": "Gift cards and store credit", "why": "No balance, issuing or redemption." },
+    { "name": "Multi-currency", "why": "A store settles in one currency; channels carry none." },
+    { "name": "Tax exemptions", "why": "No exempt flag on customers, groups or orders." },
+    { "name": "Tax or rate providers", "why": "No hook for Avalara-style tax or live carrier rates at checkout." },
+    { "name": "Click-and-collect", "why": "No pickup option at checkout." },
+    { "name": "Per-product quantity limits", "why": "A cart line is capped only by stock." },
+    { "name": "Reorder", "why": "Nothing turns a past order into a new cart." }
+  ],
+  "faq": [
+    { "q": "What happens if a price changes while someone is checking out?", "a": "The checkout call answers 409 with the line that changed and its current price, and no order is charged. The client shows the new figure and the shopper decides. The engine never reprices an order silently." },
+    { "q": "Can shoppers buy without an account?", "a": "Always. Guest checkout is a permanent guarantee in the core: an order needs an email, and the access token returned at checkout reads it back. Accounts are the identity module, added when you want them." },
+    { "q": "Which payment gateways work in India?", "a": "Razorpay is a module, and cash on delivery is built in and on by default. HyperSwitch and Stripe are also modules; whether a gateway serves your business is between you and it." },
+    { "q": "Can a cash-on-delivery order be refunded?", "a": "Not through the engine — the cod method has no refund call, so the API answers 409. The money goes back however you collected it, outside GoCommerce. Gateway orders refund through their gateway." },
+    { "q": "Does it calculate tax automatically?", "a": "From your own rate table: flat rates by country, state and product category, applied at checkout and recorded per line. There is no connection to a tax service yet." }
+  ]
+}

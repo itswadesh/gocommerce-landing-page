@@ -237,6 +237,13 @@ header { background: color-mix(in srgb, var(--paper) 92%, transparent); border-b
 .code-block, .terminal { border-color: #2a2a2a; }
 footer { background: var(--paper); border-top: var(--hairline); }
 .footer-col h2 { font: 500 .6875rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 12px; }
+/* The NEW chip beside a footer link: the mono eyebrow type, ink on paper
+   inverted, small enough to read as a flag rather than a button. */
+.new-badge { font: 600 .5625rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; padding: 3px 5px; border-radius: 4px; background: var(--ink); color: var(--paper); }
+
+/* The consent card, after Litekart's: a firmer hairline and a hard offset
+   shadow instead of the soft one, so it reads as sitting over the page. */
+.consent { border: 1.5px solid var(--rule-strong); border-radius: 12px; box-shadow: 3px 4px 0 color-mix(in srgb, var(--ink) 8%, transparent); }
 .footer-brand .wordmark-name { font-family: var(--sans); }
 
 /* Reference-page details ported from the retired home-visuals.css. */
@@ -322,3 +329,71 @@ footer { background: var(--paper); border-top: var(--hairline); }
 .sec-head + .solgrid, .sec-head + .evidence, .sec-head + .tri, .sec-head + .capwall,
 .sec-head + .plate, .sec-head + .faq, .sec-head + .ownwall, .sec-head + .duo-grid,
 h2 + .capwall, h2 + .moddir, h2 + .screens { margin-top: 44px; }
+
+/* ── comparisons ─────────────────────────────────────────────────── */
+
+/* The relation tables colour column two Go blue and column three Svelte
+   orange. On a comparison, column two is the other platform, so both
+   headings go back to ink: neither side wears a project's colour. */
+.reltable.vs thead th:nth-child(2), .reltable.vs thead th:nth-child(3) { color: var(--ink); }
+.vs-grid a:hover { background: var(--paper); }
+.vs-grid a:hover .vs-card-label { text-decoration: underline; text-underline-offset: 3px; }
+.theme-grid a:hover { background: var(--paper); }
+.theme-grid a:hover .theme-n { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── pricing ─────────────────────────────────────────────────────── */
+.price-free { font-family: var(--serif); font-weight: 700; color: var(--ink); }
+.price-life { color: var(--ink-2); }
+
+/* ── blog ────────────────────────────────────────────────────────── */
+
+/* A post is read end to end, so it sets a step larger than the page
+   furniture and in ink, not the grey the ledes use. Its headings keep the
+   serif but step down: sections of an article, not of a landing page. */
+.prose { font-size: 1.0625rem; line-height: 1.72; text-wrap: pretty; }
+.post-head h1 { font-size: clamp(2.25rem, 4.6vw, 3.25rem); line-height: 1.06; }
+.prose h2 { font-size: clamp(1.5rem, 2.6vw, 1.95rem); line-height: 1.14; letter-spacing: -.016em; }
+.prose h3 { font-size: 1.1875rem; }
+.byline { font-size: .875rem; color: var(--ink-3); }
+.byline a { color: var(--ink-2); text-underline-offset: 3px; text-decoration-color: var(--rule-strong); }
+.byline a:hover { color: var(--ink); text-decoration-color: currentColor; }
+.prose > :is(p, ul, ol, blockquote) a { text-underline-offset: .18em; text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, currentColor 45%, transparent); }
+.prose > :is(p, ul, ol, blockquote) a:hover { text-decoration-color: currentColor; }
+.prose li::marker { color: var(--ink-3); }
+.prose > :is(p, ul, ol, blockquote) code { padding: .12em .38em; border: var(--hairline); border-radius: 6px; background: var(--surface); font-size: .86em; }
+.prose > pre { background: var(--code-bg); color: var(--code-ink); border: 1px solid #2a2a2a; }
+.prose blockquote { color: var(--ink-2); font-family: var(--serif); font-size: 1.125rem; }
+.post-list h2 { font-size: clamp(1.4rem, 2.4vw, 1.85rem); line-height: 1.14; letter-spacing: -.016em; }
+.post-list h2 a { text-decoration: none; }
+.post-list h2 a:hover { text-decoration: underline; text-underline-offset: .14em; text-decoration-thickness: 1px; }
+.post-list p { color: var(--ink-2); }
+.post-list .byline { color: var(--ink-3); }
+
+/* ── live projects ───────────────────────────────────────────────── */
+/* Lighthouse's own three bands, on the site's soft tints rather than its
+   traffic-light greens and reds: legible in both schemes, never shouting. */
+.live-host { color: var(--ink-3); }
+.live-body p { color: var(--ink-2); }
+.live-stack { color: var(--ink-3); }
+.live-body h3 a { color: var(--ink); text-decoration: none; }
+.live-body h3 a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.live-scores dt { color: var(--ink-2); }
+.score-good { background: var(--tint-mint); } .score-good dd { color: var(--on-mint); }
+.score-fair { background: var(--tint-peach); } .score-fair dd { color: var(--on-peach); }
+.score-poor { background: color-mix(in srgb, #d33 12%, var(--paper)); } .score-poor dd { color: color-mix(in srgb, #b3261e 85%, var(--ink)); }
+
+/* ── features ────────────────────────────────────────────────────── */
+.feat-text { color: var(--ink-2); }
+.feat-src code { color: var(--ink-3); background: none; border: 0; padding: 0; }
+.feat-chip { flex: none; font: 500 .625rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 4px 6px; border-radius: 4px; background: var(--tint-peach); color: var(--on-peach); }
+.notyet span { color: var(--ink-2); }
+
+/* ── home additions ──────────────────────────────────────────────── */
+.hero-checks li { color: var(--ink-2); }
+.hero-checks svg { color: var(--on-mint); }
+.hero-own { color: var(--ink); font-weight: 500; }
+.proofbar b { font-family: var(--serif); font-weight: 700; color: var(--ink); }
+.proofbar span { color: var(--ink-3); }
+.steps4 li::before { color: var(--ink-3); }
+.steps4 span { color: var(--ink-2); }
+.steps4 a { color: var(--ink); }

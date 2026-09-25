@@ -130,7 +130,7 @@ for (const page of pages) {
 }
 
 // ── 4. files the host needs, which a build can silently drop
-const required = ['robots.txt', 'llms.txt', '_headers', '_redirects']
+const required = ['robots.txt', 'llms.txt', '_headers', '_redirects', 'sitemap.xml', 'rss.xml', 'favicon.ico', '.well-known/security.txt']
 for (const f of required) {
   if (!fs.existsSync(path.join(DIST, f))) fail(`missing from the build: ${f}`)
 }

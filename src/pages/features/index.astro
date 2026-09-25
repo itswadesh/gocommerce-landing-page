@@ -1,0 +1,60 @@
+---
+/**
+ * The map of the features pages, built from the same data files, so a page
+ * is listed here the moment its file exists.
+ */
+import Base from '../../layouts/Base.astro'
+import type { FeaturePage } from '../../data/features/_schema'
+
+const path = '/features/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+const files = import.meta.glob<FeaturePage>('../../data/features/*.json', { eager: true, import: 'default' })
+const order = ['checkout', 'operations', 'development']
+const pages = Object.values(files).sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug))
+const count = (p: FeaturePage, s: 'yes' | 'partial') => p.groups.reduce((n, g) => n + g.tiles.filter((t) => t.status === s).length, 0)
+
+const graph = [
+  { '@type': 'CollectionPage', '@id': abs(path + '#page'), url: abs(path), name: 'GoCommerce features', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, inLanguage: 'en' },
+]
+---
+<Base
+  title="Features — What GoCommerce Does, Checked Against Its Code"
+  description="GoCommerce’s checkout, operations and developer features, each tile checked against the repository with the file that does the work named — and what is not built yet, listed by name."
+  path={path}
+  ogTitle="GoCommerce features, checked against the code"
+  ogDescription="Checkout, operations and development — every tile names the file that does the work."
+  nav="solutions"
+  crumbs={[{ name: 'Features', href: path }]}
+  graph={graph}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Features</p>
+    <h1>Every feature, with the file that does it</h1>
+    <p class="lede">Each page below lists what GoCommerce does, tile by tile, checked against the repository. A tile marked partial says what is missing, and each page ends with what is not built at all.</p>
+  </section>
+
+  <section class="section wrap" aria-labelledby="pages-title">
+    <h2 id="pages-title" class="vh">Feature pages</h2>
+    <ul class="vs-grid">
+      {pages.map((p) => (
+        <li>
+          <a href={`/features/${p.slug}/`}>
+            <span class="vs-card-label">{p.name}</span>
+            <span class="vs-card-summary">{p.summary}</span>
+            <span class="vs-card-summary">{count(p, 'yes')} in full · {count(p, 'partial')} partial · {p.notYet.length} not yet</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="fineprint">Checked against GoCommerce at commit 1498c68, 21 September 2026. The shapes of store these add up to are on the <a href="/solutions/">solutions pages</a>; the 44 modules are on <a href="/integrations/">integrations</a>.</p>
+  </section>
+
+  <section class="closing wrap">
+    <h2>Check it on your own machine</h2>
+    <p>One command brings up the API and the admin. Every feature on these pages is in it.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="/pricing/">Free, for life</a>
+    </div>
+  </section>
+</Base>

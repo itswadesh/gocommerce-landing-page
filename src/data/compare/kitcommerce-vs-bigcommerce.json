@@ -1,0 +1,90 @@
+{
+  "slug": "kitcommerce-vs-bigcommerce",
+  "platform": "BigCommerce",
+  "platformUrl": "https://www.bigcommerce.com/",
+  "label": "KitCommerce vs BigCommerce",
+  "group": "Global SaaS",
+  "summary": "A hosted platform whose plan follows your sales, against two MIT projects you run: GMV thresholds, gateway fees, US dollar pricing and code.",
+  "title": "KitCommerce vs BigCommerce — GoCommerce and Svelte Commerce Compared With BigCommerce",
+  "description": "BigCommerce compared with GoCommerce and Svelte Commerce, the open-source backend and storefront this site presents: the 2026 plans, sales-based upgrades, the Open Payment Provider Fee, gateways in India, B2B and code — with where BigCommerce is the better choice.",
+  "ogTitle": "KitCommerce vs BigCommerce",
+  "ogDescription": "BigCommerce’s plan now rises with your sales and charges on gateways off its list. GoCommerce has no plan. Sourced.",
+  "h1": "BigCommerce’s plan rises with your sales. GoCommerce has no plan.",
+  "lede": "Since 1 June 2026, BigCommerce sets your plan from your last twelve months of sales, moves you up when you cross a threshold, and charges a fee on orders taken through any payment provider not on its embedded list. GoCommerce and Svelte Commerce are MIT source you run yourself: no plan to outgrow, no fee on any gateway — and no one else running the servers.",
+  "facts": [
+    { "b": "2%", "t": "BigCommerce’s fee on Core for orders through a provider off its embedded list" },
+    { "b": "$30K", "t": "a year in sales before BigCommerce moves a Core store up to Growth" },
+    { "b": "0.9%", "t": "of sales above $33,333 a month on BigCommerce’s Scale plan" }
+  ],
+  "glanceLede": "BigCommerce’s side comes from its pricing page and its note on the June 2026 changes, linked at the foot of this page; ours from the GoCommerce and Svelte Commerce pages on this site. BigCommerce prices in US dollars, so its figures here are in dollars too.",
+  "rows": [
+    ["What it is", "A hosted platform. BigCommerce runs the software, the servers and the upgrades.", "Two MIT projects you run: a Go backend with its admin compiled in, and a SvelteKit storefront."],
+    ["Software price", "Core $29, Growth $79 and Scale $299 a month billed yearly ($39, $105 and $399 monthly); Performance from $1,499 a month by contract. In US dollars, before tax such as GST; the India site offers a demo, not a price list.", "Nothing. Both projects are MIT licensed."],
+    ["How your plan is set", "By trailing twelve-month GMV — gross order value less 10%. Pass $30K on Core or $100K on Growth and BigCommerce notifies you, then moves you up.", "It isn’t. Sales volume changes nothing you pay for software."],
+    ["Above the cap", "Scale covers $33,333 of GMV a month and takes 0.9% of the excess. At $2 million a year the account moves to Performance.", "No cap."],
+    ["Fee on each order", "2.0% on Core, 1.0% on Growth and 0.6% on Scale for orders through Open Payment Providers — any provider not on its embedded list. None through embedded providers.", "None, on any gateway."],
+    ["Payments in India", "Its India page lists Adyen, BlueSnap, CCAvenue, Paymetric, NMI and Stripe. CCAvenue, Paymetric and NMI are not on the embedded list, so on self-serve plans they carry the fee.", "Razorpay, Stripe, Adyen, HyperSwitch and five more as modules; cash on delivery built in. No CCAvenue module."],
+    ["B2B", "Customer groups from Growth; price lists only on Performance.", "Customer groups, price lists and quantity breaks in core. No quote or approval workflow."],
+    ["Inventory locations", "Up to 4, 5 or 8 by plan; custom on Performance.", "Stock per location in core, on hand and reserved, with no plan limit."],
+    ["More storefronts", "$30, $50 or $100 a month each, up to 3, 5 or 8 by plan.", "Channels, each with its own published catalogue and price lists, at no charge."],
+    ["Extensions", "An app marketplace of over 1,200 apps; Amazon, eBay and Walmart channels on every plan.", "44 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No marketplace channels."],
+    ["Code", "Catalyst, its Next.js storefront, is MIT on GitHub. The backend it runs against is closed.", "Both halves open: the GoCommerce backend and admin, and the Svelte Commerce storefront."],
+    ["Your data", "Products, customers (not passwords) and orders export to CSV; themes download as a zip. Orders cannot be imported back by CSV.", "Rows in your own PostgreSQL, which you can query, back up and move."]
+  ],
+  "cost": {
+    "title": "What each side costs",
+    "lede": "On BigCommerce, the plan is the part you choose and the fees are the part your sales choose. Here is where the money goes on each side, in BigCommerce’s US dollars.",
+    "caption": "Recurring costs, BigCommerce against GoCommerce and Svelte Commerce",
+    "head": ["Cost", "BigCommerce", "GoCommerce + Svelte Commerce"],
+    "rows": [
+      ["Software", "$29 to $299 a month, billed yearly, on self-serve plans; Performance from $1,499 a month", "Nothing"],
+      ["Plan upgrades", "Automatic, as twelve-month GMV passes $30K and then $100K", "None"],
+      ["Fee per order", "0.6% to 2% of GMV through a provider off the embedded list", "None"],
+      ["Sales above the cap", "0.9% of monthly GMV above $33,333 on Scale", "None"],
+      ["Extra storefronts", "$30 to $100 a month each", "None — channels on the same backend"],
+      ["Hosting and people", "Hosting included; nobody needed to launch", "A server and PostgreSQL, and a developer to run and extend them"]
+    ],
+    "note": "A worked example from the figures above: a new store selling $10,000 a month on Core through a provider off the embedded list has $9,000 of GMV, so pays BigCommerce $180 a month in fees on top of the $29 plan. In its fourth month its twelve-month GMV passes $30K and it moves to Growth: $79 a month, and 1.0% — $90 — in fees. The same sales on GoCommerce pay the gateway alone; the server and the developer are the costs that replace those fees."
+  },
+  "themWhen": [
+    "You want a hosted platform with an app marketplace, marketplace channels and 24/7 support.",
+    "Your payments run through an embedded provider such as Stripe or Adyen, so the new fee does not apply.",
+    "You want an open-source storefront in Catalyst, with a backend someone else runs.",
+    "There is no developer on the team to run servers, backups and upgrades."
+  ],
+  "usWhen": [
+    "Your gateway is not on BigCommerce’s embedded list, and 0.6–2% of sales costs more than a server and a developer.",
+    "You don’t want your software bill to rise on its own as sales grow.",
+    "You need B2B price lists without a contract that starts at $1,499 a month.",
+    "You want the backend’s code, not only the storefront’s."
+  ],
+  "takeOnExtra": [
+    "No Amazon, eBay or Walmart selling channels. The feeds module covers Google Merchant Center and Meta catalogues only.",
+    "No CCAvenue module. If CCAvenue is your gateway, the integration is yours to write."
+  ],
+  "move": {
+    "title": "Moving from BigCommerce",
+    "paras": [
+      "There is no importer for BigCommerce, and no storefront-only halfway house.",
+      "BigCommerce exports products, customers — without passwords — and orders to CSV, and its API can export the same. The move is a script that reads those and writes through GoCommerce’s 342 documented REST operations. Customers will need to set new passwords.",
+      "Svelte Commerce has no BigCommerce connector among its 26 backends, so, unlike Shopify, you cannot keep BigCommerce and swap only the storefront. If that is what you want, Catalyst is BigCommerce’s own answer."
+    ]
+  },
+  "faq": [
+    { "q": "What is BigCommerce’s Open Payment Provider Fee?", "a": "A fee BigCommerce added on 1 June 2026 to its self-serve plans: 2.0% on Core, 1.0% on Growth and 0.6% on Scale, charged on GMV from orders processed by any provider not on its embedded list. It is billed to you monthly, separately from your provider’s own fees, and must not be passed on to shoppers." },
+    { "q": "Does BigCommerce sell to merchants in India, and in what currency?", "a": "It has an India page, which leads to a demo request, and a page of payment gateways for Indian merchants. Its plans are priced in US dollars, excluding taxes such as GST; there is no rupee price list." },
+    { "q": "What happens when my sales pass my BigCommerce plan’s limit?", "a": "BigCommerce measures twelve months of GMV — gross order value less 10%. Past $30K on Core or $100K on Growth, it notifies you and moves you up a plan. Scale instead charges 0.9% on monthly GMV above $33,333, and at $2 million a year the account moves to Performance." },
+    { "q": "BigCommerce’s India page says it charges no penalty for your own gateway. Which is right?", "a": "Its India gateways page does say so. Its pricing page, which sets the bill, charges 0.6–2% on orders through providers off the embedded list on self-serve plans — and CCAvenue, Paymetric and NMI from that India page are off the list. The pricing page is the one that describes what you pay." },
+    { "q": "BigCommerce’s Catalyst storefront is MIT too. Isn’t that the same?", "a": "Half of it. Catalyst is an MIT Next.js storefront, but it runs against BigCommerce’s closed backend through its GraphQL Storefront API, so the plans and fees still apply. GoCommerce opens the backend as well." },
+    { "q": "Can I move from BigCommerce to GoCommerce?", "a": "Yes, with a script. Export products, customers and orders from BigCommerce as CSV or through its API, and write them in through GoCommerce’s documented REST API. There is no ready-made importer, and passwords do not come across." }
+  ],
+  "sources": [
+    { "label": "BigCommerce pricing (plans, GMV caps, Open Payment Provider Fee)", "url": "https://www.bigcommerce.com/pricing/" },
+    { "label": "BigCommerce — 2026 plan and pricing updates", "url": "https://www.bigcommerce.com/dm/plan-pricing-updates-2026/" },
+    { "label": "BigCommerce — payment gateways in India", "url": "https://www.bigcommerce.com/payments/gateways/india/" },
+    { "label": "BigCommerce India", "url": "https://www.bigcommerce.com/india/" },
+    { "label": "BigCommerce Help Center — backing up your store", "url": "https://support.bigcommerce.com/s/article/Backing-Up-Your-Store?language=en_US" },
+    { "label": "Catalyst on GitHub (MIT licence)", "url": "https://github.com/bigcommerce/catalyst" }
+  ],
+  "checked": "2026-09-25"
+}

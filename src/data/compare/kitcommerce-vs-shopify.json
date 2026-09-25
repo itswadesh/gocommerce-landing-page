@@ -1,0 +1,199 @@
+{
+  "slug": "kitcommerce-vs-shopify",
+  "platform": "Shopify",
+  "platformUrl": "https://www.shopify.com",
+  "label": "KitCommerce vs Shopify",
+  "group": "Shopify",
+  "summary": "A hosted platform you rent against two MIT projects you run: fees per order, code ownership, and what each asks of you.",
+  "title": "KitCommerce vs Shopify — GoCommerce and Svelte Commerce Compared With Shopify",
+  "description": "Shopify compared with GoCommerce and Svelte Commerce, the open-source backend and storefront this site presents: platform fees per order, hosting, code ownership, checkout, apps and payments — with where Shopify is the better choice.",
+  "ogTitle": "KitCommerce vs Shopify",
+  "ogDescription": "Rent a hosted platform, or run two MIT projects yourself. Fees, ownership and trade-offs, sourced.",
+  "h1": "Shopify rents you a store. GoCommerce gives you one.",
+  "lede": "Shopify runs the software and the servers and charges a monthly plan, plus a fee on every order taken through a third-party gateway. GoCommerce and Svelte Commerce are MIT source you run yourself: no plan, no per-order fee, and every line of the checkout is yours to change — along with the server it runs on.",
+  "facts": [
+    {
+      "b": "0.2–2%",
+      "t": "Shopify’s fee per order on a third-party gateway"
+    },
+    {
+      "b": "₹0",
+      "t": "GoCommerce licence, and no fee per order"
+    },
+    {
+      "b": "40",
+      "t": "countries where Shopify Payments waives that fee"
+    }
+  ],
+  "glanceLede": "Each row is checkable: Shopify’s side against its own pricing and help pages, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site.",
+  "rows": [
+    [
+      "What it is",
+      "A hosted platform. Shopify runs the software, the servers and the upgrades.",
+      "Two MIT projects you run: a Go backend with its admin compiled in, and a SvelteKit storefront."
+    ],
+    [
+      "Software price",
+      "A monthly plan — Basic, Grow, Advanced, or Plus on a one- or three-year term.",
+      "Nothing. Both projects are MIT licensed."
+    ],
+    [
+      "Fee on each order",
+      "2% on Basic, 1% on Grow, 0.6% on Advanced and 0.2% on Plus when a third-party gateway takes the payment; waived with Shopify Payments, and not charged on cash on delivery or other manual payments.",
+      "None. Your payment gateway’s own fee is the only one."
+    ],
+    [
+      "Hosting",
+      "Included in the plan.",
+      "Yours: one Go binary and one PostgreSQL database, on any server."
+    ],
+    [
+      "Source code",
+      "Closed. You extend it through apps, themes and APIs.",
+      "Open. Change anything, checkout included, and ship it under your own name."
+    ],
+    [
+      "Extensions",
+      "The Shopify App Store, where each app sets its own price.",
+      "44 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No app store."
+    ],
+    [
+      "Payments",
+      "Shopify Payments in 40 countries and regions; third-party providers elsewhere, with the fee above.",
+      "Razorpay, Stripe, Adyen, Paddle, HyperSwitch and four more as modules; cash on delivery built in."
+    ],
+    [
+      "Storefront",
+      "Online Store themes, or Hydrogen for headless.",
+      "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes — or any client that speaks HTTP."
+    ],
+    [
+      "Admin",
+      "Shopify’s admin, on the web and in its mobile app.",
+      "61 admin screens compiled into the GoCommerce binary, on the same API a storefront uses."
+    ],
+    [
+      "Your data",
+      "Exportable through CSV and the Admin API; the runtime is Shopify’s.",
+      "Rows in your own PostgreSQL, which you can query, back up and move."
+    ],
+    [
+      "Help when it breaks",
+      "Shopify’s own support team.",
+      "GitHub issues, discussions and Discord. No support contract."
+    ],
+    [
+      "Track record",
+      "Millions of merchants.",
+      "Svelte Commerce runs arialshop.com and other stores in production. GoCommerce has none yet."
+    ]
+  ],
+  "cost": {
+    "title": "What each side costs",
+    "lede": "The plan is the smallest part of Shopify’s bill once a store sells, and the software is the smallest part of ours. Here is where the money goes on each side.",
+    "caption": "Recurring costs, Shopify against GoCommerce and Svelte Commerce",
+    "head": [
+      "Cost",
+      "Shopify",
+      "GoCommerce + Svelte Commerce"
+    ],
+    "rows": [
+      [
+        "Software",
+        "₹1,499 to ₹22,680 a month, billed yearly, on Shopify’s Indian price list; Plus from ₹1,75,000 a month",
+        "₹0"
+      ],
+      [
+        "Platform fee per order",
+        "0.2% to 2% of each sale through a third-party gateway",
+        "None"
+      ],
+      [
+        "Payment processing",
+        "Your gateway’s rate, or Shopify Payments’ card rate where it is offered",
+        "Your gateway’s rate"
+      ],
+      [
+        "Apps and themes",
+        "Each app’s own subscription; paid themes are a one-time purchase",
+        "None to buy — modules and themes are MIT"
+      ],
+      [
+        "Hosting",
+        "Included",
+        "A server and a PostgreSQL database, from a small VPS upward"
+      ],
+      [
+        "People",
+        "None needed to launch",
+        "A developer to deploy, maintain and extend it"
+      ]
+    ],
+    "note": "A worked example from the figures above: ₹10 lakh a month in sales through Razorpay on Shopify’s Basic plan pays Shopify ₹20,000 a month in third-party fees — 2% — on top of the plan and Razorpay’s own charge. The same sales on GoCommerce pay Razorpay alone; the server and the developer are the costs that replace that fee."
+  },
+  "themWhen": [
+    "You want a store live this week and there is no developer on the team.",
+    "You depend on particular apps from the Shopify App Store.",
+    "You would rather pay a monthly fee than own servers, backups and upgrades.",
+    "You sell where Shopify Payments is offered, so the per-order fee is waived."
+  ],
+  "usWhen": [
+    "A per-order fee of 1–2% of revenue costs more than a server and a developer’s time.",
+    "You want the code — checkout, pricing, order flow — to be yours to change.",
+    "You sell in India, where Shopify Payments is not offered, so every plan pays that fee on online payments — cash on delivery and other manual payments are exempt.",
+    "You want B2B price lists, several storefronts or marketplace vendors without a higher plan."
+  ],
+  "move": {
+    "title": "Moving from Shopify, or not moving at all",
+    "paras": [
+      "Two paths, and the second needs no migration.",
+      "Move the backend: GoCommerce’s import-shopify module brings a whole Shopify catalogue across in one go, matching on Shopify’s own product ids, so running it again updates rather than duplicates. A separate order importer loads your history without sending a single confirmation email or moving stock.",
+      "Or keep Shopify and change only the storefront: Svelte Commerce has a Shopify connector — 16 of the 27 services it applies to are wired, cart and checkout among them — so a SvelteKit storefront can front your existing Shopify store."
+    ]
+  },
+  "faq": [
+    {
+      "q": "Is GoCommerce a Shopify replacement?",
+      "a": "For a store with a developer, it covers the core: catalogue, carts, checkout, orders, inventory across locations, discounts, customers, B2B price lists and channels, with an admin compiled in. What it does not replace is the part of Shopify you pay not to think about — hosting, upgrades, an app store and a support team."
+    },
+    {
+      "q": "Is it really free?",
+      "a": "The software is. GoCommerce and Svelte Commerce are MIT licensed, with no plan, no per-order fee and no paid tier. The server, the database and the time of whoever runs them are real costs, and for a small store they can exceed a Shopify plan."
+    },
+    {
+      "q": "Can I keep Shopify and use Svelte Commerce as the storefront?",
+      "a": "Yes. Svelte Commerce has a Shopify connector, with cart, checkout and sign-in wired. It is one of 26 backend connectors, and coverage for each is measured on the backends page rather than claimed."
+    },
+    {
+      "q": "How do I move my catalogue from Shopify?",
+      "a": "With the import-shopify module, which imports a whole Shopify catalogue and matches on Shopify’s own product ids, so a second run updates rather than duplicates. An order importer brings history across without firing events or moving stock."
+    },
+    {
+      "q": "Is there a hosted version, like Shopify?",
+      "a": "No. Neither project has a hosted offering, a paid tier or an enterprise edition. You run both, on your own server or a developer’s."
+    },
+    {
+      "q": "Why does Shopify charge a fee on my own payment gateway?",
+      "a": "Shopify’s pricing charges a third-party transaction fee — 2%, 1%, 0.6% or 0.2% by plan — whenever a provider other than Shopify Payments takes the payment. Where Shopify Payments is available and used as the only provider, the fee is waived."
+    }
+  ],
+  "sources": [
+    {
+      "label": "Shopify pricing, India (plans in INR)",
+      "url": "https://www.shopify.com/in/pricing"
+    },
+    {
+      "label": "Shopify Plus pricing",
+      "url": "https://www.shopify.com/plus/pricing"
+    },
+    {
+      "label": "Shopify Help Center — third-party transaction fees",
+      "url": "https://help.shopify.com/en/manual/your-account/manage-billing/billing-charges/types-of-charges/third-party-charges/third-party-transaction-fees"
+    },
+    {
+      "label": "Shopify Help Center — Shopify Payments supported countries",
+      "url": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries"
+    }
+  ],
+  "checked": "2026-09-25"
+}

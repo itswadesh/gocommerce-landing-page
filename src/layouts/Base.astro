@@ -16,6 +16,8 @@ import Footer from '../components/Footer.astro'
 import Breadcrumbs from '../components/Breadcrumbs.astro'
 import Consent from '../components/Consent.astro'
 import { pageDates } from '../lib/dates.mjs'
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 
 export interface Crumb { name: string; href: string }
 export interface FaqItem { q: string; a: string }
@@ -29,7 +31,7 @@ interface Props {
   ogDescription?: string
   ogImageAlt?: string
   /** Which top-nav item is current. */
-  nav?: 'gocommerce' | 'svelte-commerce' | 'solutions' | 'develop' | 'architecture' | 'live-admin' | 'connector' | 'backends'
+  nav?: 'gocommerce' | 'svelte-commerce' | 'solutions' | 'develop' | 'architecture' | 'live-admin' | 'connector' | 'backends' | 'pricing'
   /** Visible trail + BreadcrumbList. Home is implied as the first item. */
   crumbs?: Crumb[]
   /** Renders FAQPage JSON-LD; the page renders the same array visibly. */
@@ -37,13 +39,15 @@ interface Props {
   /** Page-specific JSON-LD nodes, joined into the site graph by @id. */
   graph?: Record<string, unknown>[]
   noindex?: boolean
+  /** og:type — "article" for blog posts, "website" everywhere else. */
+  ogType?: 'website' | 'article'
 }
 
 const {
   title, description, path,
   ogTitle = title, ogDescription = description,
   ogImageAlt = 'GoCommerce and Svelte Commerce — fast, open-source ecommerce you host yourself',
-  nav, crumbs = [], faq = [], graph = [], noindex = false,
+  nav, crumbs = [], faq = [], graph = [], noindex = false, ogType = 'website',
 } = Astro.props
 
 const site = Astro.site!
@@ -101,6 +105,11 @@ const faqld = faq.length
 // Rendered only when a number is configured; never a placeholder.
 const wa = import.meta.env.PUBLIC_WHATSAPP ?? ''
 
+// A social card per page when scripts/og-images.mjs has made one for this path,
+// public/og/<path with slashes as -->.jpg; otherwise the site-wide card.
+const ogSlug = path === '/' ? 'home' : path.replace(/^\/+|\/+$/g, '').replace(/\//g, '--')
+const ogImage = existsSync(join(process.cwd(), 'public', 'og', ogSlug + '.jpg')) ? '/og/' + ogSlug + '.jpg' : '/assets/og.png'
+
 const robots = noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1'
 ---
 <!doctype html>
@@ -116,14 +125,15 @@ const robots = noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-ima
 {/* The reader's chosen theme, applied before first paint so a dark page never
     flashes white. The choice lives in localStorage under kc-theme. */}
 <script is:inline>(function(){try{var t=localStorage.getItem('kc-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})()</script>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230f1720'/%3E%3Cg fill='%23ffffff'%3E%3Crect x='4' y='4' width='3.6' height='16' rx='1'/%3E%3Cpath d='M9.6 12 15.4 4h4.4l-5.8 8z'/%3E%3Cpath d='M9.6 12h4.4l5.8 8h-4.4z'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 {!noindex && <link rel="canonical" href={canonical}>}
-<meta property="og:type" content="website">
+<meta property="og:type" content={ogType}>
 <meta property="og:site_name" content="kitcommerce.store">
 <meta property="og:url" content={canonical}>
 <meta property="og:title" content={ogTitle}>
 <meta property="og:description" content={ogDescription}>
-<meta property="og:image" content={abs('/assets/og.png')}>
+<meta property="og:image" content={abs(ogImage)}>
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content={ogImageAlt}>
@@ -131,10 +141,11 @@ const robots = noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-ima
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content={ogTitle}>
 <meta name="twitter:description" content={ogDescription}>
-<meta name="twitter:image" content={abs('/assets/og.png')}>
+<meta name="twitter:image" content={abs(ogImage)}>
 <link rel="preload" href="/assets/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="/manifest.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="kitcommerce.store blog" href="/rss.xml">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <script is:inline set:html={`window.KC_CONFIG=${JSON.stringify(cfg)}`} />
 <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonld)} />

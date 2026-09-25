@@ -1,0 +1,69 @@
+---
+/**
+ * The blog's index, built from the same collection the posts are, so a new
+ * file in src/content/blog/ is listed the moment it exists and nothing can be
+ * listed that was not built.
+ *
+ * Each post is dated exactly as its own page is — from git, through
+ * pageDates — so the list and the post cannot disagree about when it last
+ * changed. A date the build cannot know (a single-commit clone) is left out
+ * rather than shown as today.
+ */
+import Base from '../../layouts/Base.astro'
+import { getCollection } from 'astro:content'
+import { pageDates } from '../../lib/dates.mjs'
+
+const path = '/blog/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+
+const posts = (await getCollection('blog'))
+  .map((p) => ({ id: p.id, data: p.data, href: `/blog/${p.id}/`, dates: pageDates(`/blog/${p.id}/`) }))
+  .sort((a, b) => b.dates.modified.localeCompare(a.dates.modified) || a.data.title.localeCompare(b.data.title))
+
+const graph = [
+  {
+    '@type': 'CollectionPage', '@id': abs(path + '#page'), url: abs(path), name: 'Blog — notes from the people building GoCommerce and Svelte Commerce', isPartOf: { '@id': abs('/#site') }, inLanguage: 'en',
+    mainEntity: { '@type': 'ItemList', numberOfItems: posts.length, itemListElement: posts.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(p.href), name: p.data.title })) },
+  },
+]
+---
+<Base
+  title="Blog — Notes From the People Building GoCommerce and Svelte Commerce"
+  description="Posts by the people building GoCommerce and Svelte Commerce: why the software is shaped the way it is, what it does today, and where it stops. Every claim about the code can be checked in the repositories."
+  path={path}
+  ogTitle="The GoCommerce and Svelte Commerce blog"
+  ogDescription="Posts by the people building GoCommerce and Svelte Commerce — what is built, why, and where it stops."
+  crumbs={[{ name: 'Blog', href: path }]}
+  graph={graph}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Blog</p>
+    <h1>Notes from the people building it</h1>
+    <p class="lede">Posts by the people building GoCommerce and Svelte Commerce — why the software is shaped the way it is, what it does today, and where it stops. Every claim about the code can be checked in the repositories.</p>
+  </section>
+
+  <section class="wrap" aria-label="All posts">
+    <ol class="post-list">
+      {posts.map((p) => (
+        <li>
+          <article>
+            <h2><a href={p.href}>{p.data.title}</a></h2>
+            <p>{p.data.description}</p>
+            <p class="byline">By {p.data.author}{p.dates.exact && <> · <time datetime={p.dates.modified}>Updated {fmt(p.dates.modified)}</time></>}</p>
+          </article>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="closing wrap">
+    <h2>Read the code the posts are about</h2>
+    <p>Both projects are MIT licensed and public. The posts link the files they describe; the repositories are the final word.</p>
+    <div class="actions">
+      <a class="button" href="/gocommerce/">Explore GoCommerce</a>
+      <a class="button secondary" href="/svelte-commerce/">Explore Svelte Commerce</a>
+      <a class="button secondary" href="https://github.com/itswadesh/gocommerce" target="_blank" rel="noopener noreferrer">GoCommerce on GitHub</a>
+    </div>
+  </section>
+</Base>

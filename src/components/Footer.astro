@@ -5,9 +5,13 @@
  *
  * Columns follow the shape shared by Medusa, Saleor, Vendure and Bagisto —
  * Product, Developers, Community, Company, Legal — with only the links that
- * are honest here. There is no blog, careers page, status page, cloud tier or
- * terms of service, so none are listed. The word "partner" appears once, for
- * the one relationship that is one.
+ * are honest here, plus the Comparison and Ecommerce Tools columns in the
+ * StoreHippo and Litekart shape. There is no careers page, status page, cloud
+ * tier or terms of service, so none are listed. The word "partner" appears
+ * once, for the one relationship that is one.
+ *
+ * Comparison lists the Shopify pages by name and the rest through the hub,
+ * which links every one — twenty names would drown the other columns.
  */
 interface Props { updated?: string }
 const { updated } = Astro.props
@@ -21,6 +25,7 @@ const cols = [
     title: 'Product',
     links: [
       { href: '/gocommerce/admin/', label: 'Admin — every screen' },
+      { href: '/features/', label: 'Features' },
       { href: '/integrations/', label: 'Modules and integrations' },
       { href: '/#headless', label: 'Headless' },
       { href: '/solutions/marketplace/', label: 'Marketplace' },
@@ -28,9 +33,11 @@ const cols = [
       { href: '/solutions/d2c/', label: 'Direct-to-consumer' },
       { href: '/solutions/multi-store/', label: 'Multi-store' },
       { href: '/svelte-commerce/', label: 'Storefront' },
+      { href: '/svelte-commerce/themes/', label: 'Storefront themes' },
+      { href: '/live-projects/', label: 'Live projects' },
       { href: '/gocommerce/#roadmap', label: 'Roadmap' },
       { href: 'https://github.com/itswadesh/svelte-commerce/blob/main/docs/CHANGELOG.md', label: 'Changelog', external: true },
-      { href: '/#ownership', label: 'Pricing — free, no platform fees' },
+      { href: '/pricing/', label: 'Pricing — free, for life' },
     ],
   },
   {
@@ -45,7 +52,27 @@ const cols = [
       { href: '/svelte-commerce/backends/', label: '26 backend integrations' },
       { href: '/go-svelte-ecommerce/', label: 'Architecture' },
       { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status' },
+      { href: '/open-source/', label: 'Open source' },
+      { href: '/vibe-coding-commerce/', label: 'Vibe-coding commerce' },
       { href: 'https://github.com/itswadesh/gocommerce/blob/main/AGENTS.md', label: 'Agent guide (AGENTS.md)', external: true },
+    ],
+  },
+  {
+    title: 'Comparison',
+    links: [
+      { href: '/compare/kitcommerce-vs-shopify/', label: 'KitCommerce vs Shopify' },
+      { href: '/compare/shopify-india-vs-kitcommerce/', label: 'Shopify India vs KitCommerce' },
+      { href: '/compare/shopify-plus-vs-kitcommerce/', label: 'Shopify Plus vs KitCommerce' },
+      { href: '/compare/kitcommerce-vs-bagisto/', label: 'KitCommerce vs Bagisto' },
+      { href: '/compare/', label: 'All comparisons' },
+    ],
+  },
+  {
+    title: 'Ecommerce Tools',
+    links: [
+      { href: 'https://litekart.in/invalid-link-finder', label: 'URL Validator', external: true, isNew: true },
+      { href: 'https://aerosearch.cloud', label: 'Aerosearch', external: true, isNew: true },
+      { href: 'https://datamirror.cloud', label: 'DataMirror', external: true, isNew: true },
     ],
   },
   {
@@ -64,6 +91,8 @@ const cols = [
     title: 'Company',
     links: [
       { href: 'https://github.com/itswadesh', label: 'About — built by itswadesh', external: true },
+      { href: '/blog/', label: 'Blog' },
+      { href: '/contact/', label: 'Contact' },
       { href: '/integrations/#partner', label: 'Partners' },
       ...(wa ? [{ href: `https://wa.me/${wa}`, label: 'Contact on WhatsApp', external: true }] : []),
       { href: 'https://discord.gg/GgdAeccwDR', label: 'Contact on Discord', external: true },
@@ -82,12 +111,12 @@ const cols = [
 ]
 ---
 <footer>
-  <div class="wrap footer-grid footer-grid-5">
+  <div class="wrap footer-grid footer-grid-7">
     {cols.map((c) => (
       <nav class="footer-col" aria-label={c.title}>
         <h2>{c.title}</h2>
         {c.links.map((l) => (
-          <a href={l.href} {...(l.external ? ext : {})}>{l.label}</a>
+          <a href={l.href} {...(l.external ? ext : {})}>{l.label}{l.isNew && <span class="new-badge">New</span>}</a>
         ))}
       </nav>
     ))}

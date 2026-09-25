@@ -1,0 +1,75 @@
+---
+/**
+ * One page per post in src/content/blog/. The Markdown file is the post: its
+ * title, its description and its words. This template only decides where
+ * they sit, so every post reads in the same column and carries the same
+ * structured data.
+ *
+ * Dates come from git, never frontmatter. Base stamps them on the WebPage
+ * node below; the BlogPosting carries them too, from the same pageDates call,
+ * and only when the build could actually know them. A shallow clone knows
+ * when a post last changed but not when it first appeared, so on one the
+ * byline says "Updated" and the published date is withheld, not guessed.
+ */
+import Base from '../../layouts/Base.astro'
+import { getCollection, render, type CollectionEntry } from 'astro:content'
+import { pageDates } from '../../lib/dates.mjs'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }))
+}
+
+const { post } = Astro.props as { post: CollectionEntry<'blog'> }
+const { Content } = await render(post)
+
+const path = `/blog/${post.id}/`
+const abs = (p: string) => new URL(p, Astro.site!).href
+const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+
+const { title, description, author, tags } = post.data
+const authorUrl = `https://github.com/${author}`
+const dates = pageDates(path)
+const published = dates.exact ? dates.published : undefined
+const modified = dates.exact ? dates.modified : undefined
+
+const graph = [
+  {
+    '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: title, description,
+    isPartOf: { '@id': abs('/#site') }, mainEntity: { '@id': abs(path + '#post') }, inLanguage: 'en',
+  },
+  {
+    '@type': 'BlogPosting', '@id': abs(path + '#post'), headline: title, description,
+    author: { '@type': 'Person', name: author, url: authorUrl },
+    publisher: { '@id': abs('/#org') },
+    mainEntityOfPage: { '@id': abs(path + '#page') },
+    isPartOf: { '@id': abs('/blog/#page') },
+    image: abs('/assets/og.png'),
+    inLanguage: 'en',
+    ...(tags?.length ? { keywords: tags.join(', ') } : {}),
+    ...(modified ? { dateModified: modified } : {}),
+    ...(published ? { datePublished: published } : {}),
+  },
+]
+---
+<Base
+  title={title}
+  description={description}
+  path={path}
+  ogType="article"
+  crumbs={[{ name: 'Blog', href: '/blog/' }, { name: title, href: path }]}
+  graph={graph}
+>
+  <article class="wrap prose">
+    <header class="post-head">
+      <p class="kicker">Blog</p>
+      <h1>{title}</h1>
+      <p class="byline">
+        By <a href={authorUrl} rel="author noopener noreferrer" target="_blank">{author}</a>
+        {published && <> · <time datetime={published}>{fmt(published)}</time></>}
+        {modified && (!published || modified !== published) && <> · <time datetime={modified}>Updated {fmt(modified)}</time></>}
+      </p>
+    </header>
+    <Content />
+  </article>
+</Base>

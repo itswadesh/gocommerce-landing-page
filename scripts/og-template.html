@@ -1,0 +1,101 @@
+<!doctype html>
+<!--
+  The social card, 1200 × 630, filled in and screenshotted by og-images.mjs.
+  {{…}} slots are replaced with escaped text; {{FONTS}} is a file:// URL to
+  public/assets/fonts/. Same paper, ink, faces and mark as the site; the only
+  colour is the two project dots, which mean what they mean everywhere else.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @font-face { font-family: "Geist"; font-weight: 100 900; src: url({{FONTS}}geist.woff2) format("woff2-variations"); }
+  @font-face { font-family: "Geist Mono"; font-weight: 100 900; src: url({{FONTS}}geist-mono.woff2) format("woff2-variations"); }
+  @font-face { font-family: "Source Serif 4"; font-weight: 200 900; src: url({{FONTS}}source-serif-4.woff2) format("woff2-variations"); }
+
+  :root {
+    --paper: #ffffff; --ink: #171717; --ink-2: #525252; --ink-3: #6b6b6b; --rule: #e3e3e3;
+    --go-mark: #00add8; --svelte-mark: #ff3e00;
+    --sans: Geist, sans-serif; --serif: "Source Serif 4", serif; --mono: "Geist Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: var(--paper); }
+  body { color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+
+  /* Hidden until the title has been fitted, so a card shot too early comes
+     out blank — which the script checks for — rather than wrong. */
+  .card { position: absolute; inset: 0; padding: 72px 80px 64px; display: flex; flex-direction: column; visibility: hidden; }
+  .ready .card { visibility: visible; }
+  /* The hairline frame: the site's card edge, drawn at 2px so it survives
+     being shown at a third of this size in a feed. */
+  .card::before { content: ""; position: absolute; inset: 26px; border: 2px solid var(--rule); border-radius: 20px; }
+
+  .head { flex: 1 1 auto; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
+  .eyebrow { margin: 0 0 30px; font: 500 19px/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .title { margin: 0; font: 700 96px/1.04 var(--serif); letter-spacing: -.022em; text-wrap: balance; overflow-wrap: break-word; }
+  .desc { margin: 26px 0 0; max-width: 960px; font: 400 27px/1.42 var(--sans); color: var(--ink-2); text-wrap: pretty;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+
+  .foot { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding-top: 44px; }
+  .brand { display: flex; align-items: center; gap: 12px; font-size: 28px; letter-spacing: -.028em; white-space: nowrap; }
+  .brand svg { width: 34px; height: 34px; fill: var(--ink); flex: none; }
+  .brand b { font-weight: 600; }
+  .brand span { color: var(--ink-3); font-weight: 400; }
+  .projects { display: flex; align-items: center; gap: 10px; font: 400 17px/1 var(--mono); letter-spacing: .02em; color: var(--ink-3); white-space: nowrap; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .dot.go { background: var(--go-mark); }
+  .dot.svelte { background: var(--svelte-mark); margin-left: 4px; }
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="head">
+    <p class="eyebrow">{{EYEBROW}}</p>
+    <h1 class="title">{{TITLE}}</h1>
+    <p class="desc">{{DESCRIPTION}}</p>
+  </div>
+  <div class="foot">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="3.6" height="16" rx="1"/><path d="M9.6 12 15.4 4h4.4l-5.8 8z"/><path d="M9.6 12h4.4l5.8 8h-4.4z"/></svg>
+      <div><b>kitcommerce</b><span>.store</span></div>
+    </div>
+    <div class="projects"><i class="dot go"></i>GoCommerce · <i class="dot svelte"></i>Svelte Commerce · MIT</div>
+  </div>
+</main>
+<script>
+  // Largest title size, in 2px steps down from 96, that stays within three
+  // lines and leaves the description its room — or, if two lines are
+  // reachable within 10px of that, two lines, which read better than three
+  // short ones. Measured after the faces load, since the fallback serif sets
+  // narrower and would pass titles that the real one overflows.
+  (async () => {
+    const title = document.querySelector('.title')
+    const head = document.querySelector('.head')
+    try {
+      await Promise.all([
+        document.fonts.load('700 96px "Source Serif 4"', title.textContent),
+        document.fonts.load('400 27px Geist'), document.fonts.load('600 28px Geist'),
+        document.fonts.load('500 19px "Geist Mono"'),
+      ])
+    } catch {}
+    await document.fonts.ready
+    const lineHeight = 1.04
+    let size = 96
+    const set = () => { title.style.fontSize = size + 'px' }
+    const lines = () => Math.round(title.getBoundingClientRect().height / (size * lineHeight))
+    const fits = () => head.scrollHeight <= head.clientHeight && lines() <= 3 && title.scrollWidth <= title.clientWidth
+    set()
+    while (!fits() && size > 40) { size -= 2; set() }
+    if (lines() === 3) {
+      const three = size
+      while (lines() > 2 && size > three - 10) { size -= 2; set() }
+      if (lines() > 2) { size = three; set() }
+    }
+    document.documentElement.dataset.size = size
+    document.documentElement.dataset.lines = lines()
+    document.documentElement.dataset.fonts = [...document.fonts].map((f) => f.family + ':' + f.status).join(',')
+    document.body.classList.add('ready')
+  })()
+</script>
+</body>
+</html>

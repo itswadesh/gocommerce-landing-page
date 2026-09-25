@@ -1,0 +1,91 @@
+{
+  "slug": "kitcommerce-vs-wix",
+  "platform": "Wix eCommerce",
+  "platformUrl": "https://www.wix.com/ecommerce/website",
+  "label": "KitCommerce vs Wix",
+  "group": "Global SaaS",
+  "summary": "A website builder with a store inside it, against two MIT projects you run: design, payments in India, and a site that cannot leave its host.",
+  "title": "KitCommerce vs Wix — GoCommerce and Svelte Commerce Compared With Wix eCommerce",
+  "description": "Wix eCommerce compared with GoCommerce and Svelte Commerce, the open-source backend and storefront this site presents: plans, payment providers in India, hosting lock-in, data export, code and storefronts — with where Wix is the better choice.",
+  "ogTitle": "KitCommerce vs Wix",
+  "ogDescription": "Wix designs, hosts and keeps your store. GoCommerce runs wherever you put it. Trade-offs, sourced.",
+  "h1": "A Wix store lives on Wix’s servers. A GoCommerce store lives on yours.",
+  "lede": "Wix is a website builder with a store inside it: a drag-and-drop editor, with hosting and upgrades included, priced by location. Its own help centre is plain that a Wix site cannot run anywhere but on Wix. GoCommerce and Svelte Commerce are MIT source you run yourself — on any server, which means somebody has to run it.",
+  "facts": [
+    { "b": "8", "t": "payment providers Wix lists for India — its own Wix Payments is not one of them" },
+    { "b": "US$29", "t": "a month, billed yearly: Wix’s cheapest plan that takes payments, at its reference price" },
+    { "b": "1", "t": "site per Wix plan — a second store is a second subscription" }
+  ],
+  "glanceLede": "Wix’s side comes from its plans page and help centre, linked at the foot of this page; ours from the GoCommerce and Svelte Commerce pages on this site. Wix sets price and currency by location and gives US dollar prices for reference, so the dollar figures here are those reference prices, not rupee quotes.",
+  "rows": [
+    ["What it is", "A hosted website builder, with a store on its Core, Business and Business Elite plans.", "Two MIT projects you run: a Go backend with its admin compiled in, and a SvelteKit storefront."],
+    ["Software price", "Light $17, Core $29, Business $39 and Business Elite $159 a month, billed yearly, at Wix’s US dollar reference prices, before tax. What you pay depends on where you are.", "Nothing. Both projects are MIT licensed."],
+    ["Taking payments", "Not on Light. Core and above.", "On every install: cash on delivery built in, gateways as modules."],
+    ["Payments in India", "PayPal, Razorpay, PayU India, Cashfree Payments, Paytm, Easebuzz, airpay and Nimbbl. Wix Payments, Wix’s own processor, serves 15 other countries.", "Razorpay, Stripe, Adyen, HyperSwitch and five more as modules; cash on delivery built in."],
+    ["Design", "A drag-and-drop editor and thousands of templates. No code needed.", "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes, changed in code rather than a visual editor."],
+    ["Hosting", "Included, and required: Wix says a Wix site has to run on Wix’s servers and cannot be moved to another host.", "Yours, anywhere: one Go binary and one PostgreSQL database."],
+    ["Code", "Closed. Custom code goes through Wix’s own developer platform, with the advanced tier on Business Elite.", "Open. Checkout, pricing and order flow are Go source you can change."],
+    ["Your data", "Products export to CSV, up to 5,000 rows a file, digital products excepted; orders export to CSV.", "Rows in your own PostgreSQL, which you can query, back up and move."],
+    ["More than one store", "Each plan covers a single site.", "Channels: several storefronts on one backend, each with its own published catalogue and price lists."],
+    ["Beyond the shop", "Bookings, events, online courses and a marketing suite on the same platform.", "Commerce first, with CMS, FAQ and newsletter modules. No bookings, events or courses."],
+    ["Trying it first", "A free plan to build on, and a 14-day money-back guarantee on paid plans.", "Free to run and read in full before you commit to anything."],
+    ["Help when it breaks", "24/7 customer care on every paid plan.", "GitHub issues, discussions and Discord. No support contract."]
+  ],
+  "cost": {
+    "title": "What each side costs",
+    "lede": "Wix’s bill is a plan for each site; ours is a server and a developer. The dollar figures below are Wix’s reference prices — its checkout shows the price for your country.",
+    "caption": "Recurring costs, Wix eCommerce against GoCommerce and Svelte Commerce",
+    "head": ["Cost", "Wix eCommerce", "GoCommerce + Svelte Commerce"],
+    "rows": [
+      ["Software", "US$29 to US$159 a month, billed yearly, for the plans that take payments; prices vary by location and exclude tax", "₹0"],
+      ["Payment processing", "Your provider’s rate — Wix lists Razorpay’s as from 2% a transaction", "Your gateway’s rate"],
+      ["A second storefront", "A second plan, since each covers one site", "Nothing — another channel on the same backend"],
+      ["Hosting", "Included", "A server and a PostgreSQL database, from a small VPS upward"],
+      ["Design", "Templates and the editor included", "Svelte Commerce themes are MIT; changes cost developer time"],
+      ["People", "None needed to launch", "A developer to deploy, maintain and extend it"]
+    ],
+    "note": "For one small store and no developer, a Wix plan costs less than anyone’s time. The balance shifts with more storefronts, a need to change how checkout works, or a requirement that the store can change host."
+  },
+  "themWhen": [
+    "You want to design the site yourself in a visual editor, without a developer.",
+    "The shop is one part of a site that also takes bookings, sells tickets or runs courses.",
+    "You want hosting, security and upgrades handled, with 24/7 support to call.",
+    "One storefront and a modest catalogue are all you need."
+  ],
+  "usWhen": [
+    "The store has to be portable: your server, your database, free to change host.",
+    "You want several storefronts on one catalogue without a plan for each.",
+    "You need to change how checkout, pricing or orders work, not only how they look.",
+    "You want Indian fulfilment in the backend itself — Delhivery, Shiprocket, India Post and NimbusPost modules, and MSG91 for SMS."
+  ],
+  "takeOnExtra": [
+    "No visual editor. Every layout change in Svelte Commerce is a code change.",
+    "No bookings, events or courses. Those are other software."
+  ],
+  "move": {
+    "title": "Moving from Wix",
+    "paras": [
+      "Your data moves; your site does not.",
+      "Wix exports products to CSV, up to 5,000 rows a file, and orders to CSV. There is no Wix importer for GoCommerce, so the move is a script that reads those files and writes through GoCommerce’s documented API. Digital products are not in Wix’s export and need handling on their own.",
+      "The design stays behind. Wix says its sites run only on its own servers, and Svelte Commerce has no Wix connector, so the storefront is rebuilt — from one of its 79 demo themes, or from scratch."
+    ]
+  },
+  "faq": [
+    { "q": "Can I export my Wix site and host it myself?", "a": "No. Wix’s help centre says a Wix site has to run on Wix’s servers; you can connect your own domain, but not move the site. Products and orders can be exported as CSV files." },
+    { "q": "Does Wix Payments work in India?", "a": "No. Wix lists 15 countries for Wix Payments, and India is not among them. For India, Wix lists PayPal, Razorpay, PayU India, Cashfree Payments, Paytm, Easebuzz, airpay and Nimbbl as providers." },
+    { "q": "Which Wix plan do I need to sell online?", "a": "Core or above. Wix’s help centre says the Light plan cannot accept payments. At Wix’s US dollar reference prices, Core is $29 a month billed yearly; the price shown in India may differ." },
+    { "q": "Is GoCommerce easier than Wix?", "a": "No. Wix is built so that someone without a developer can launch a store. GoCommerce and Svelte Commerce need a developer to deploy and change. They are the better choice when control, portability or several storefronts matter more than ease." },
+    { "q": "How do I move my products from Wix to GoCommerce?", "a": "Export them from Wix as CSV — up to 5,000 rows a file — and write a script against GoCommerce’s documented REST API. There is no ready-made Wix importer." }
+  ],
+  "sources": [
+    { "label": "Wix plans and pricing (US dollar reference prices)", "url": "https://www.wix.com/plans" },
+    { "label": "Wix Help Center — choosing a Premium plan", "url": "https://support.wix.com/en/article/choosing-a-premium-plan" },
+    { "label": "Wix Help Center — available payment providers in your country", "url": "https://support.wix.com/en/article/available-payment-providers-in-your-country" },
+    { "label": "Wix Help Center — getting started with Wix Payments (supported countries)", "url": "https://support.wix.com/en/article/about-wix-payments" },
+    { "label": "Wix Help Center — connecting Razorpay", "url": "https://support.wix.com/en/article/connecting-razorpay-as-a-payment-provider" },
+    { "label": "Wix Help Center — exporting or embedding your Wix site elsewhere", "url": "https://support.wix.com/en/article/exporting-or-embedding-your-wix-site-elsewhere" },
+    { "label": "Wix Help Center — Wix Stores: exporting your product list", "url": "https://support.wix.com/en/article/wix-stores-exporting-your-product-list" },
+    { "label": "Wix Help Center — exporting orders", "url": "https://support.wix.com/en/article/exporting-orders-3126323" }
+  ],
+  "checked": "2026-09-25"
+}

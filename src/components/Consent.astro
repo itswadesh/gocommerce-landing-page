@@ -25,16 +25,15 @@ const parties = [
 const list = parties.length <= 1 ? parties.join('') : parties.slice(0, -1).join(', ') + ' and ' + parties.at(-1)
 ---
 {parties.length > 0 && (
-  <div class="consent" id="consent" role="region" aria-label="Analytics consent" hidden>
+  <div class="consent" id="consent" role="region" aria-label="Cookie consent" hidden>
     <p>
-      <b>Analytics, only if you say so.</b> With your OK this site loads {list},
-      which set cookies and see your IP address. Decline and nothing loads: the
-      typefaces are served from this domain, and the only other request is to
-      GitHub, for the live star counts.
+      We use cookies for analytics — {list} — to understand what content helps
+      visitors. Nothing loads unless you accept; this site sets no cookies of
+      its own. <a href="/privacy/">Privacy policy</a>
     </p>
     <div class="consent-actions">
-      <button class="button" type="button" data-consent="granted">Allow analytics</button>
-      <button class="button secondary" type="button" data-consent="denied">No thanks</button>
+      <button class="button" type="button" data-consent="granted">Accept analytics</button>
+      <button class="button secondary" type="button" data-consent="denied">Essential only</button>
     </div>
   </div>
 )}

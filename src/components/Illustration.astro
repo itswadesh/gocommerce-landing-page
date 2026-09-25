@@ -1,0 +1,221 @@
+---
+/**
+ * Four explanatory drawings for the home page: how GoCommerce scales, why it
+ * is headless, what a module is, and why a server-rendered page reaches a
+ * reader as a page. Each draws a mechanism the GoCommerce docs describe and
+ * labels it with names from the code; none of them draws a figure. There are
+ * no timings, no request counts and no benchmark bars, because none has been
+ * published, and a longer lane means more steps, not more milliseconds.
+ *
+ * Three caveats are drawn on purpose. The scalable caption names the one
+ * thing instances do share — a volume for uploads, which live on local disk.
+ * The headless caption says how far the Svelte Commerce connector reaches
+ * (0.1.0: catalogue, cart, checkout, order lookup). And the fast drawing keeps
+ * Svelte Commerce and GoCommerce in separate rows with no wire between them:
+ * it compares ways of rendering a page, not a deployment, and an early
+ * connector is no reason to draw one.
+ *
+ * Colour comes only from the site's tokens, so both themes hold: Go blue
+ * marks GoCommerce, Svelte orange marks Svelte Commerce, and everything else
+ * is ink on paper. No text in a drawing is set below 15 units, which stays at
+ * 12px or more when the drawing is 300px wide.
+ */
+interface Props { kind: 'scalable' | 'headless' | 'modular' | 'fast' }
+const { kind } = Astro.props
+---
+<figure class={`illus illus-${kind}`}>
+  {kind === 'scalable' && (
+    <>
+      <p class="illus-kicker">Scalable</p>
+      <h3 class="illus-title">Add processes, not coordination.</h3>
+      <svg viewBox="0 0 360 260" role="img" aria-labelledby="illus-scalable-title illus-scalable-desc">
+        <title id="illus-scalable-title">Scaling GoCommerce by adding identical processes</title>
+        <desc id="illus-scalable-desc">A load balancer sends requests to three identical GoCommerce processes running the same binary; the third is drawn dashed with a plus sign to show that more can be added. There is no leader election between them. Every process reaches one PostgreSQL database through the PgBouncer connection pooler.</desc>
+        <defs><marker id="illus-scalable-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path class="head" d="M1 1 6 4 1 7"/></marker></defs>
+        <rect class="box" x="2" y="2" width="356" height="34" rx="6"/>
+        <text class="name c" x="180" y="24">Load balancer</text>
+        <path class="wire" d="M59 36V75" marker-end="url(#illus-scalable-arrow)"/>
+        <path class="wire" d="M180 36V75" marker-end="url(#illus-scalable-arrow)"/>
+        <path class="wire dash" d="M301 36V75" marker-end="url(#illus-scalable-arrow)"/>
+        <rect class="mask" x="120" y="46" width="120" height="20"/>
+        <text class="mono c" x="180" y="61">Same binary</text>
+        <rect class="go" x="2" y="76" width="114" height="44" rx="6"/>
+        <text class="name c" x="59" y="103">GoCommerce</text>
+        <rect class="go" x="123" y="76" width="114" height="44" rx="6"/>
+        <text class="name c" x="180" y="103">GoCommerce</text>
+        <rect class="ghost" x="244" y="76" width="114" height="44" rx="6"/>
+        <text class="name faint c" x="301" y="103">GoCommerce</text>
+        <circle class="badge" cx="347" cy="76" r="9"/>
+        <path class="plus" d="M342.5 76h9M347 71.5v9"/>
+        <path class="wire" d="M59 120V163" marker-end="url(#illus-scalable-arrow)"/>
+        <path class="wire" d="M180 120V163" marker-end="url(#illus-scalable-arrow)"/>
+        <path class="wire dash" d="M301 120V163" marker-end="url(#illus-scalable-arrow)"/>
+        <rect class="mask" x="88" y="132" width="184" height="20"/>
+        <text class="mono c" x="180" y="147">No leader election</text>
+        <rect class="box" x="2" y="164" width="356" height="34" rx="6"/>
+        <text class="c" x="180" y="186"><tspan class="name">PgBouncer</tspan><tspan dx="8">connection pooler</tspan></text>
+        <path class="wire" d="M180 198V223" marker-end="url(#illus-scalable-arrow)"/>
+        <rect class="box" x="2" y="224" width="356" height="34" rx="6"/>
+        <text class="c" x="180" y="246"><tspan class="name">PostgreSQL</tspan><tspan dx="8">one database</tspan></text>
+      </svg>
+      <figcaption>Run more identical processes behind a load balancer. Workers claim jobs with <code>FOR UPDATE SKIP LOCKED</code>, so instances need no coordination — only a shared volume for uploads.</figcaption>
+    </>
+  )}
+  {kind === 'headless' && (
+    <>
+      <p class="illus-kicker">Headless</p>
+      <h3 class="illus-title">One API, any front end.</h3>
+      <svg viewBox="0 0 360 254" role="img" aria-labelledby="illus-headless-title illus-headless-desc">
+        <title id="illus-headless-title">One GoCommerce API serving every front end</title>
+        <desc id="illus-headless-desc">A storefront (Svelte Commerce or your own), a mobile app, the admin compiled into the binary, an AI agent over MCP, and Google and Meta product feeds all call GoCommerce, which serves 342 documented operations over REST with an OpenAPI description. Svelte Commerce reaches GoCommerce through an early connector (0.1.0) covering catalogue, cart, checkout and order lookup.</desc>
+        <defs><marker id="illus-headless-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path class="head" d="M1 1 6 4 1 7"/></marker></defs>
+        <rect class="box" x="2" y="2" width="228" height="52" rx="6"/>
+        <text class="name c" x="116" y="24">Storefront</text>
+        <text class="c" x="116" y="44">Svelte Commerce or your own</text>
+        <rect class="box" x="242" y="2" width="116" height="52" rx="6"/>
+        <text class="name c" x="300" y="33">Mobile app</text>
+        <path class="wire" d="M116 54V97" marker-end="url(#illus-headless-arrow)"/>
+        <path class="wire" d="M300 54V97" marker-end="url(#illus-headless-arrow)"/>
+        <rect class="go" x="2" y="98" width="356" height="58" rx="6"/>
+        <text class="name big go-ink c" x="180" y="122">GoCommerce</text>
+        <text class="c" x="180" y="144">342 documented operations · REST + OpenAPI</text>
+        <path class="wire" d="M53 200V157" marker-end="url(#illus-headless-arrow)"/>
+        <path class="wire" d="M165 200V157" marker-end="url(#illus-headless-arrow)"/>
+        <path class="wire" d="M292 200V157" marker-end="url(#illus-headless-arrow)"/>
+        <rect class="box" x="2" y="200" width="102" height="52" rx="6"/>
+        <text class="name c" x="53" y="222">Admin</text>
+        <text class="c" x="53" y="242">compiled in</text>
+        <rect class="box" x="114" y="200" width="102" height="52" rx="6"/>
+        <text class="name c" x="165" y="222">AI agent</text>
+        <text class="c" x="165" y="242">via MCP</text>
+        <rect class="box" x="226" y="200" width="132" height="52" rx="6"/>
+        <text class="name c" x="292" y="222">Feeds</text>
+        <text class="c" x="292" y="242">Google &amp; Meta</text>
+      </svg>
+      <figcaption>The storefront, the admin, an app and an agent all use the same API. Svelte Commerce reaches GoCommerce through an early connector (0.1.0) covering catalogue, cart, checkout and order lookup.</figcaption>
+    </>
+  )}
+  {kind === 'modular' && (
+    <>
+      <p class="illus-kicker">Modular</p>
+      <h3 class="illus-title">Import what you need.</h3>
+      <svg viewBox="0 0 360 258" role="img" aria-labelledby="illus-modular-title illus-modular-desc">
+        <title id="illus-modular-title">GoCommerce modules are compiled in only when imported</title>
+        <desc id="illus-modular-desc">One GoCommerce binary holds the core (catalogue, cart, checkout, orders and inventory) with five imported modules docked into it: payments-razorpay, payments-stripe, fulfill-shiprocket, notify-msg91 and search-meilisearch. A dashed tile outside the binary stands for a module that is not imported, and so is not in the binary.</desc>
+        <defs><marker id="illus-modular-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path class="head head-go" d="M1 1 6 4 1 7"/></marker></defs>
+        <rect class="go" x="2" y="2" width="356" height="192" rx="6"/>
+        <text class="name go-ink" x="16" y="25">GoCommerce</text>
+        <text class="mono e" x="344" y="25">One binary</text>
+        <rect class="box" x="14" y="38" width="118" height="146" rx="6"/>
+        <text class="mono" x="26" y="60">Core</text>
+        <path class="rule" d="M26 70H120"/>
+        <text x="26" y="90">catalogue</text>
+        <text x="26" y="110">cart</text>
+        <text x="26" y="130">checkout</text>
+        <text x="26" y="150">orders</text>
+        <text x="26" y="170">inventory</text>
+        <rect class="tile" x="150" y="38" width="196" height="26" rx="6"/>
+        <text class="id c" x="248" y="56">payments-razorpay</text>
+        <rect class="tile" x="150" y="68" width="196" height="26" rx="6"/>
+        <text class="id c" x="248" y="86">payments-stripe</text>
+        <rect class="tile" x="150" y="98" width="196" height="26" rx="6"/>
+        <text class="id c" x="248" y="116">fulfill-shiprocket</text>
+        <rect class="tile" x="150" y="128" width="196" height="26" rx="6"/>
+        <text class="id c" x="248" y="146">notify-msg91</text>
+        <rect class="tile" x="150" y="158" width="196" height="26" rx="6"/>
+        <text class="id c" x="248" y="176">search-meilisearch</text>
+        <path class="wire wire-go" d="M149 51H134" marker-end="url(#illus-modular-arrow)"/>
+        <path class="wire wire-go" d="M149 81H134" marker-end="url(#illus-modular-arrow)"/>
+        <path class="wire wire-go" d="M149 111H134" marker-end="url(#illus-modular-arrow)"/>
+        <path class="wire wire-go" d="M149 141H134" marker-end="url(#illus-modular-arrow)"/>
+        <path class="wire wire-go" d="M149 171H134" marker-end="url(#illus-modular-arrow)"/>
+        <rect class="out" x="150" y="208" width="196" height="48" rx="6"/>
+        <text class="faint c" x="248" y="228">not imported →</text>
+        <text class="faint c" x="248" y="247">not in the binary</text>
+      </svg>
+      <figcaption>44 modules, each a directory under <code>ext/</code>. Import one and it’s compiled in; leave it out and none of its code ships.</figcaption>
+    </>
+  )}
+  {kind === 'fast' && (
+    <>
+      <p class="illus-kicker">Fast</p>
+      <h3 class="illus-title">Finished HTML, one process in front of the database.</h3>
+      <svg viewBox="0 0 360 246" role="img" aria-labelledby="illus-fast-title illus-fast-desc">
+        <title id="illus-fast-title">A server-rendered page beside a client-rendered bundle</title>
+        <desc id="illus-fast-desc">In the server-rendered lane, Svelte Commerce sends the browser HTML that is ready to read. In the client-rendered lane, the browser receives a JavaScript bundle, then boots it, fetches data and renders before there is a page to read. Below, separately, GoCommerce is one compiled Go process that talks to PostgreSQL. No timings are shown because no benchmark figures are published.</desc>
+        <defs><marker id="illus-fast-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path class="head" d="M1 1 6 4 1 7"/></marker></defs>
+        <text class="mono sv-ink" x="2" y="14">Server-rendered · Svelte Commerce</text>
+        <rect class="box" x="2" y="27" width="34" height="28" rx="4"/>
+        <path class="rule" d="M2 35H36"/>
+        <circle class="dot" cx="8" cy="31" r="1.5"/><circle class="dot" cx="13" cy="31" r="1.5"/><circle class="dot" cx="18" cy="31" r="1.5"/>
+        <path class="wire" d="M55 41H38" marker-end="url(#illus-fast-arrow)"/>
+        <rect class="sv" x="56" y="24" width="156" height="34" rx="6"/>
+        <text class="strong c" x="134" y="46">HTML, ready to read</text>
+        <text class="mono" x="2" y="92">Client-rendered bundle</text>
+        <rect class="box" x="2" y="105" width="34" height="28" rx="4"/>
+        <path class="rule" d="M2 113H36"/>
+        <circle class="dot" cx="8" cy="109" r="1.5"/><circle class="dot" cx="13" cy="109" r="1.5"/><circle class="dot" cx="18" cy="109" r="1.5"/>
+        <path class="wire" d="M55 119H38" marker-end="url(#illus-fast-arrow)"/>
+        <rect class="box" x="56" y="102" width="84" height="34" rx="6"/>
+        <text class="c" x="98" y="124">JS bundle</text>
+        <path class="wire" d="M141 119H159" marker-end="url(#illus-fast-arrow)"/>
+        <rect class="box" x="160" y="102" width="46" height="34" rx="6"/>
+        <text class="c" x="183" y="124">boot</text>
+        <path class="wire" d="M207 119H225" marker-end="url(#illus-fast-arrow)"/>
+        <rect class="box" x="226" y="102" width="50" height="34" rx="6"/>
+        <text class="c" x="251" y="124">fetch</text>
+        <path class="wire" d="M277 119H295" marker-end="url(#illus-fast-arrow)"/>
+        <rect class="box" x="296" y="102" width="60" height="34" rx="6"/>
+        <text class="c" x="326" y="124">render</text>
+        <path class="rule" d="M2 160H358"/>
+        <text class="mono" x="2" y="186">Backend</text>
+        <rect class="go" x="2" y="196" width="204" height="48" rx="6"/>
+        <text class="name c" x="104" y="216">GoCommerce</text>
+        <text class="c" x="104" y="235">one compiled Go process</text>
+        <path class="wire" d="M207 220H246" marker-end="url(#illus-fast-arrow)"/>
+        <rect class="box" x="248" y="196" width="110" height="48" rx="6"/>
+        <text class="name c" x="303" y="225">PostgreSQL</text>
+      </svg>
+      <figcaption>A crawler and a shopper get the page itself, not a bundle to boot. No benchmark figures are published.</figcaption>
+    </>
+  )}
+</figure>
+<style>
+  .illus { margin: 0; padding: 24px; display: flex; flex-direction: column; border: 1px solid var(--rule); border-radius: var(--radius-card); background: var(--surface); }
+  .illus-kicker { margin: 0 0 10px; font: 500 .75rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+  .illus-title { margin: 0 0 22px; }
+  svg { display: block; width: 100%; max-width: 440px; height: auto; margin: 0 auto 22px; color: var(--ink-3); }
+  figcaption { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--rule); color: var(--ink-2); font-size: .875rem; line-height: 1.6; }
+
+  /* Fifteen units is the floor: at 300px wide that is still 12.5px. */
+  text { font-family: var(--sans); font-size: 15px; fill: var(--ink-2); }
+  .c { text-anchor: middle; }
+  .e { text-anchor: end; }
+  .name { fill: var(--ink); font-weight: 600; }
+  .big { font-size: 16px; }
+  .strong { fill: var(--ink); font-weight: 500; }
+  .faint { fill: var(--ink-3); }
+  .mono { font-family: var(--mono); font-weight: 500; letter-spacing: .04em; text-transform: uppercase; fill: var(--ink-3); }
+  .id { font-family: var(--mono); fill: var(--ink); }
+  .go-ink { fill: var(--go); }
+  .sv-ink { fill: var(--svelte); }
+
+  .box { fill: var(--paper); stroke: var(--rule-strong); }
+  .go { fill: var(--tint-sky); stroke: var(--go); }
+  .sv { fill: var(--tint-peach); stroke: var(--svelte); }
+  .tile { fill: var(--paper); stroke: var(--go); }
+  .ghost { fill: none; stroke: var(--go); stroke-dasharray: 4 3; }
+  .out { fill: none; stroke: var(--ink-3); stroke-dasharray: 4 3; }
+  .badge { fill: var(--surface); stroke: var(--go); }
+  .plus { fill: none; stroke: var(--go); stroke-width: 1.5; }
+  .dot { fill: var(--ink-3); }
+  .rule { fill: none; stroke: var(--rule-strong); }
+  .mask { fill: var(--surface); }
+  .wire { fill: none; stroke: var(--ink-3); stroke-width: 1.25; }
+  .wire-go { stroke: var(--go); }
+  .dash { stroke-dasharray: 3 3; }
+  .head { fill: none; stroke: currentColor; stroke-width: 1.5; }
+  .head-go { stroke: var(--go); }
+
+  @media (max-width: 540px) { .illus { padding: 12px; } .illus-title { margin-bottom: 16px; } svg { margin-bottom: 16px; } }
+</style>

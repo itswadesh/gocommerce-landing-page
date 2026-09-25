@@ -1,0 +1,91 @@
+{
+  "slug": "kitcommerce-vs-opencart",
+  "platform": "OpenCart",
+  "platformUrl": "https://www.opencart.com",
+  "label": "KitCommerce vs OpenCart",
+  "group": "Open-source platforms",
+  "summary": "A free PHP cart with paid extensions and no catalogue API, against a free Go backend built around its API.",
+  "title": "KitCommerce vs OpenCart — GoCommerce and Svelte Commerce Compared With OpenCart",
+  "description": "OpenCart compared with GoCommerce and Svelte Commerce: a PHP cart with a marketplace of paid extensions against one Go binary with a documented REST API — requirements, extension costs and compatibility, payments in India, and why no SvelteKit storefront can front OpenCart yet. With where OpenCart is the better choice.",
+  "ogTitle": "KitCommerce vs OpenCart",
+  "ogDescription": "A free PHP cart, or a free Go backend built around its API. Stack, extensions and storefront options, sourced.",
+  "h1": "Both are free. Only one is built around its API.",
+  "lede": "OpenCart is a GPL shopping cart in PHP — storefront, admin and installer in one download — extended by paid add-ons from its marketplace. Its built-in API handles carts and orders, not the catalogue. GoCommerce is an MIT backend in Go whose REST API is the whole product, with Svelte Commerce as a separate storefront. OpenCart is the simpler thing to put on ordinary PHP hosting; GoCommerce is the one a storefront, an app or an agent can drive.",
+  "facts": [
+    { "b": "₹0", "t": "licence for OpenCart and for GoCommerce alike" },
+    { "b": "$78.99–$132.99", "t": "each, for the three paid extensions on OpenCart’s download page" },
+    { "b": "9/43", "t": "Svelte Commerce services wired for OpenCart — too few to run a storefront" }
+  ],
+  "glanceLede": "OpenCart’s side is checked against opencart.com, its marketplace and its GitHub repository at release 4.1.0.4, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site and their repositories.",
+  "rows": [
+    ["What it is", "A PHP shopping cart: storefront, admin and web installer in one download.", "Two MIT projects: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
+    ["Licence", "GPL, version 3 or later.", "MIT, both projects."],
+    ["What you run", "For 4.1.0.4, its installer checks for PHP 8.1 or later, mysqli or PDO, and the gd, curl, OpenSSL, zlib and zip extensions; a MySQL database, with Apache suggested.", "One Go binary and one PostgreSQL database. No PHP runtime, no Redis, no message broker required."],
+    ["API", "A built-in API for carts, customers, addresses, shipping and payment methods, and orders. It has no product or category endpoints.", "342 documented REST operations, published as OpenAPI, across the catalogue, carts, checkout and orders."],
+    ["Extensions", "OpenCart’s marketplace, where paid extensions come with 12 months’ free support: AJAX Quick Checkout PRO $110.99, Export-Import to Excel PRO $132.99, SEO Module URL $78.99.", "44 MIT modules, compiled in when imported. Nothing to buy."],
+    ["Extension compatibility", "Each extension lists the OpenCart releases it supports. Of those three, one lists up to 4.1.0.3, one stops at 4.0.2.3 and one at 3.0.4.0.", "Modules live in the GoCommerce repository, under ext/, and are compiled into the binary you build."],
+    ["Payments in India", "Bank transfer, cheque and cash on delivery in core; Razorpay publishes extensions for OpenCart 4, 3, 2 and 1.5.", "Razorpay, Stripe, Adyen, HyperSwitch and five more as modules; cash on delivery is the core’s default."],
+    ["Storefront", "Themes inside the application; the marketplace themes on its download page cost $19.99 to $34.99.", "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes. Its GoCommerce connector is early, at 0.1.0 — catalogue, cart, checkout and order lookup, not yet customer accounts or search."],
+    ["Headless storefront", "Not with Svelte Commerce yet: 9 of 43 services are wired for OpenCart, and the catalogue and search are not among them.", "Svelte Commerce through its early GoCommerce connector, or one written against the REST API."],
+    ["Hosting", "Self-hosted — a download, Softaculous or AWS — with a partner host linked from the download page.", "Self-host only. No hosted offering."],
+    ["Help when it breaks", "Community forums, and paid support from approved partners.", "GitHub issues, discussions and Discord. No support contract."]
+  ],
+  "cost": {
+    "title": "What each side costs",
+    "lede": "Neither core costs anything. OpenCart’s money goes on extensions and themes, each tied to the releases its author supports; GoCommerce’s goes on the server and the developer.",
+    "caption": "What you pay for, OpenCart against GoCommerce and Svelte Commerce",
+    "head": ["Cost", "OpenCart", "GoCommerce + Svelte Commerce"],
+    "rows": [
+      ["Core software", "Nothing — GPL", "Nothing — MIT"],
+      ["Paid extensions", "$78.99 to $132.99 each for the three featured, with 12 months’ free support", "None to buy — 44 MIT modules"],
+      ["Themes", "$19.99 to $34.99 for the featured marketplace themes", "Svelte Commerce’s 79 demo themes are MIT"],
+      ["Razorpay", "Razorpay’s own extension; Razorpay’s own rate", "Razorpay module; Razorpay’s own rate"],
+      ["Hosting", "PHP and MySQL hosting", "A server and a PostgreSQL database, from a small VPS upward"],
+      ["People", "A PHP developer for extensions and upgrades", "A developer to deploy it, and Go to extend it"]
+    ],
+    "note": "Prices are in US dollars as listed on the OpenCart marketplace on the day checked. Check an extension’s compatibility list against your release before buying: of the three featured on the download page, only AJAX Quick Checkout PRO lists a 4.1 release, and none yet lists 4.1.0.4."
+  },
+  "themWhen": [
+    "You want a complete store — storefront, admin, installer — on the PHP hosting you already pay for.",
+    "You would rather buy a finished extension once than write one.",
+    "Your store already runs on OpenCart 3 or 4, and its extensions work.",
+    "You want storefront and admin in one application, with no API between them."
+  ],
+  "usWhen": [
+    "You want to drive the store through an API: a SvelteKit storefront, a mobile app, an agent over MCP.",
+    "You would rather not check every extension against every release before upgrading.",
+    "You want vendors, B2B price lists and inventory per location in the core.",
+    "You sell in India and want Razorpay, Shiprocket, Delhivery and India Post as modules kept in one repository."
+  ],
+  "takeOnExtra": [
+    "Svelte Commerce cannot front OpenCart today, so leaving OpenCart means a new storefront as well as a new backend."
+  ],
+  "move": {
+    "title": "Moving from OpenCart",
+    "paras": [
+      "One path, and it replaces the storefront as well as the backend.",
+      "Keeping OpenCart and changing only the storefront is not an option yet. Svelte Commerce’s OpenCart connector wires 9 of its 43 services, and the catalogue and search are not among them, so it cannot show a product. Do not plan around it.",
+      "Moving the backend means a script. GoCommerce has no OpenCart importer — its import modules cover Shopify and Amazon only — and OpenCart’s own API has no product endpoints to read, so the script reads OpenCart’s MySQL database and writes to GoCommerce’s documented REST API. For the catalogue, GoCommerce’s core also imports products from CSV in its own column layout."
+    ]
+  },
+  "faq": [
+    { "q": "Is OpenCart free?", "a": "Yes. OpenCart is GPL and free to download, as GoCommerce and Svelte Commerce are free under MIT. Its marketplace sells extensions and themes: the three extensions featured on its download page cost $78.99 to $132.99 each, with 12 months’ free support." },
+    { "q": "Can Svelte Commerce run on OpenCart?", "a": "Not usefully, today. Its OpenCart connector wires 9 of 43 services; the catalogue and search are unwired, as are sign-in, addresses, coupons and pages. Treat it as unfinished, not as a storefront you can launch." },
+    { "q": "Why does OpenCart’s API matter?", "a": "Because a separate storefront, a mobile app or an agent needs one. OpenCart’s built-in API covers carts, customers, addresses, shipping, payment and orders, but has no product or category endpoints. GoCommerce’s REST API has 342 documented operations, published as OpenAPI, and its admin uses the same API." },
+    { "q": "What does OpenCart need to run?", "a": "The 4.1.0.4 installer checks for PHP 8.1 or later, mysqli or PDO, and the gd, curl, OpenSSL, zlib and zip extensions, with a MySQL database and Apache suggested. Its download page still lists PHP 5.4 as the minimum; the release’s installer is stricter. GoCommerce needs one Go binary and one PostgreSQL database." },
+    { "q": "How do I move from OpenCart to GoCommerce?", "a": "By script, reading OpenCart’s MySQL database and writing to GoCommerce’s REST API, since OpenCart’s API has no product endpoints and GoCommerce imports only from Shopify and Amazon. Products can also go in through GoCommerce’s CSV import, in its own column layout." }
+  ],
+  "sources": [
+    { "label": "OpenCart — downloads and requirements", "url": "https://www.opencart.com/index.php?route=cms/download" },
+    { "label": "OpenCart 4.1.0.4 release (GitHub)", "url": "https://github.com/opencart/opencart/releases/tag/4.1.0.4" },
+    { "label": "OpenCart 4.1.0.4 composer.json (licence and PHP version)", "url": "https://github.com/opencart/opencart/blob/4.1.0.4/composer.json" },
+    { "label": "OpenCart 4.1.0.4 installer requirement checks", "url": "https://github.com/opencart/opencart/blob/4.1.0.4/upload/install/controller/install/step_2.php" },
+    { "label": "OpenCart 4.1.0.4 built-in API controllers", "url": "https://github.com/opencart/opencart/tree/4.1.0.4/upload/catalog/controller/api" },
+    { "label": "OpenCart 4.1.0.4 core payment methods", "url": "https://github.com/opencart/opencart/tree/4.1.0.4/upload/extension/opencart/catalog/controller/payment" },
+    { "label": "OpenCart Marketplace — AJAX Quick Checkout PRO", "url": "https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=9132" },
+    { "label": "OpenCart Marketplace — Export-Import to Excel PRO", "url": "https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=31314" },
+    { "label": "OpenCart Marketplace — SEO Module URL", "url": "https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=29764" },
+    { "label": "Razorpay — OpenCart plugin documentation", "url": "https://razorpay.com/docs/payments/payment-gateway/ecommerce-plugins/open-cart/" }
+  ],
+  "checked": "2026-09-25"
+}

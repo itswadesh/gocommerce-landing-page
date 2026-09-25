@@ -1,0 +1,98 @@
+{
+  "slug": "kitcommerce-vs-medusa",
+  "platform": "Medusa",
+  "platformUrl": "https://medusajs.com",
+  "label": "KitCommerce vs Medusa",
+  "group": "Headless open source",
+  "summary": "Engine against engine: Medusa’s TypeScript framework on PostgreSQL and Redis against one Go binary and PostgreSQL — licence, APIs, hosting and maturity.",
+  "title": "KitCommerce vs Medusa — GoCommerce and Svelte Commerce Compared With Medusa",
+  "description": "Medusa compared with GoCommerce and Svelte Commerce: TypeScript on Node.js with PostgreSQL and Redis against one Go binary and PostgreSQL, licences, REST APIs, extension models, agent tooling, Medusa Cloud pricing — and where Medusa is the better choice.",
+  "ogTitle": "KitCommerce vs Medusa",
+  "ogDescription": "Two headless engines: Medusa’s Node.js framework or one Go binary. What each needs to run, what it costs, and where Medusa wins.",
+  "h1": "Medusa is the bigger engine. GoCommerce is the smaller one to run.",
+  "lede": "Medusa is a headless commerce engine in TypeScript: commerce modules, a framework for customising them, and an admin, run on Node.js with PostgreSQL and Redis — and sold as a managed service, Medusa Cloud. GoCommerce is a headless engine in Go: one binary with its admin compiled in and one PostgreSQL database, and Svelte Commerce is a separate SvelteKit storefront. Medusa is far more widely used. GoCommerce asks less of the server it runs on.",
+  "facts": [
+    { "b": "$29", "t": "a month, where Medusa Cloud’s plans start" },
+    { "b": "36,000+", "t": "GitHub stars on Medusa — the far larger community" },
+    { "b": "31/43", "t": "Svelte Commerce services wired for Medusa — not yet cart or sign-in" }
+  ],
+  "glanceLede": "Medusa’s side is checked against its own site, pricing page, documentation and repository, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site.",
+  "rows": [
+    ["What it is", "A headless commerce engine: a Node.js application built from commerce modules, with a framework for customising them and an admin served by the same server.", "A headless Go backend with its admin compiled into the same binary; Svelte Commerce is a separate SvelteKit storefront."],
+    ["Licence", "MIT, except the Enterprise Edition materials — role-based access control and single sign-on — which need a commercial agreement with MedusaJS, Inc.", "MIT, the whole of both repositories."],
+    ["Language", "TypeScript on Node.js v20.19+ or v22.12+.", "Go, compiled to one binary with one production dependency, the PostgreSQL driver."],
+    ["What production needs", "PostgreSQL and Redis, and two deployments of the application — one in server mode, one in worker mode — with Redis-backed caching, event bus, workflow engine and locking modules recommended.", "One binary and one PostgreSQL database. No Node.js server, no Redis, no separate worker process, no message broker."],
+    ["API", "REST: a Store API and an Admin API, with OpenAPI specs to download and a JavaScript SDK.", "REST: 342 documented operations, published as OpenAPI, the same API the admin uses."],
+    ["Extending it", "Custom modules, workflows with rollback and retry, API routes and subscribers, written in TypeScript inside your project.", "44 modules, each a directory under ext/ compiled in only when imported. Anything else is Go you write."],
+    ["Admin", "Medusa Admin, extended with your own widgets and UI routes.", "61 Svelte admin screens compiled into the binary."],
+    ["Marketplace and B2B", "Marketplace is a recipe you build: a vendor module, links to products and orders, order splitting. B2B uses customer groups, price lists and sales channels, with a B2B starter.", "Vendors built in, with commission recorded but not settled. Customer groups, price lists and quantity breaks; no quotes or approvals."],
+    ["Agent tooling", "Agent skills as Claude Code plugins; a docs MCP server and a development agent for Medusa Cloud users, with agent-led migration guides for Shopify, WooCommerce and Magento.", "An MCP module with 19 tools that act on a running store, with no account needed; an AGENTS.md of 18 rules and 16 task guides in the repository."],
+    ["Hosting", "Self-host anywhere Node.js runs, or Medusa Cloud from $29 a month with no fee on sales.", "Self-host only. No hosted offering."],
+    ["Storefront", "A Next.js Starter Storefront, or any front end.", "Svelte Commerce, whose Medusa connector wires 31 of 43 services — not yet cart or sign-in."],
+    ["Track record", "36,000+ GitHub stars; Heineken, Mitsubishi Motors and Eight Sleep are among the users named on its home page.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
+  ],
+  "cost": {
+    "title": "What running each one costs",
+    "lede": "Both engines are free to self-host. Medusa also sells a managed runtime; GoCommerce has none, so its cost is always a server and whoever looks after it.",
+    "caption": "Recurring costs, Medusa against GoCommerce and Svelte Commerce",
+    "head": ["Cost", "Medusa", "GoCommerce + Svelte Commerce"],
+    "rows": [
+      ["Software", "Nothing under MIT; RBAC and SSO need an Enterprise agreement", "Nothing — MIT"],
+      ["Managed hosting", "Medusa Cloud: Develop from $29, Launch from $99, Scale from $299 a month; Enterprise quoted", "None offered"],
+      ["Fee on sales", "None — Medusa Cloud lists a 0% GMV fee on every plan", "None"],
+      ["Self-hosted infrastructure", "A server instance, a worker instance, PostgreSQL and Redis", "One binary and PostgreSQL"],
+      ["People", "A TypeScript developer to deploy and extend it", "A developer to deploy it, and Go to extend it"]
+    ],
+    "note": "Medusa Cloud prices are ‘from’ figures in US dollars. Each plan includes an allowance of storefront edge requests — 1, 5 or 10 million a month — and bills $0.30 per million beyond it."
+  },
+  "themWhen": [
+    "Your team writes TypeScript and wants the engine in the same language as the storefront.",
+    "You want the makers to run it for you — Medusa Cloud starts at $29 a month with no fee on sales.",
+    "You want a large community and named production users behind the engine you choose.",
+    "You are building unusual commerce flows and want Medusa’s workflow framework, with rollback and retry, to build them in."
+  ],
+  "usWhen": [
+    "You want fewer moving parts: one binary and PostgreSQL, with no Redis and no separate worker deployment.",
+    "You want marketplace vendors in the core rather than a recipe to build.",
+    "You want every line under MIT, with no enterprise materials reserved in the same repository.",
+    "You want an MCP server in the source that lets an agent run the store — stock, prices, orders, refunds — without a cloud account."
+  ],
+  "takeOnExtra": [
+    "No importer from Medusa: GoCommerce imports from Shopify and Amazon only, so moving means a script against both APIs.",
+    "Far fewer people have run GoCommerce than Medusa, so fewer answers already exist when something breaks."
+  ],
+  "move": {
+    "title": "Keeping Medusa, or moving off it",
+    "paras": [
+      "Two paths, and neither is finished for you.",
+      "Keep Medusa and change only the storefront: Svelte Commerce’s Medusa connector wires 31 of its 43 services, but cart and sign-in are not among them, and product, category and search have gaps of their own. Until those are wired it cannot sell from a Medusa store, so this path starts with connector work, not a choice of theme.",
+      "Or move the backend: GoCommerce has no Medusa importer — its import modules cover Shopify and Amazon only — so a move is a script that reads Medusa’s Admin API and writes to GoCommerce’s REST API. Both are described in OpenAPI, which makes the mapping a documented job rather than guesswork."
+    ]
+  },
+  "faq": [
+    { "q": "Is Medusa open source?", "a": "Yes, with one carve-out. Medusa’s repository is MIT licensed except for its Enterprise Edition materials — role-based access control and single sign-on — which are proprietary and need a commercial agreement. GoCommerce and Svelte Commerce are MIT throughout." },
+    { "q": "What does Medusa need to run in production?", "a": "By Medusa’s deployment guide: PostgreSQL, Redis, and the application deployed twice, once in server mode for the API and admin and once in worker mode for background jobs. GoCommerce needs one binary and one PostgreSQL database." },
+    { "q": "How much is Medusa Cloud?", "a": "Medusa’s pricing page lists Develop from $29 a month, Launch from $99 and Scale from $299, with Enterprise quoted, and no GMV fee on any plan. GoCommerce has no hosted offering; you run it on your own server." },
+    { "q": "Can Svelte Commerce run on Medusa?", "a": "Not for selling yet. Its Medusa connector wires 31 of 43 services, but cart and sign-in are unwired and product, category and search have gaps. Coverage is traced by a script on the backends page, and no connector has been run against a live production store." },
+    { "q": "Which API style does each use?", "a": "Both use REST described by OpenAPI. Medusa splits it into a Store API and an Admin API and adds a JavaScript SDK; GoCommerce publishes 342 documented operations in one OpenAPI file, used by its admin and any storefront alike." }
+  ],
+  "sources": [
+    { "label": "Medusa — home page", "url": "https://medusajs.com/" },
+    { "label": "Medusa — pricing (Medusa Cloud)", "url": "https://medusajs.com/pricing" },
+    { "label": "Medusa docs — installation and prerequisites", "url": "https://docs.medusajs.com/learn/installation" },
+    { "label": "Medusa docs — general deployment guide", "url": "https://docs.medusajs.com/learn/deployment/general" },
+    { "label": "Medusa docs — Cloud overview", "url": "https://docs.medusajs.com/cloud" },
+    { "label": "Medusa docs — Store API reference", "url": "https://docs.medusajs.com/api/store" },
+    { "label": "Medusa docs — Admin API reference", "url": "https://docs.medusajs.com/api/admin" },
+    { "label": "Medusa docs — build with AI assistants and LLMs", "url": "https://docs.medusajs.com/learn/introduction/build-with-llms-ai" },
+    { "label": "Medusa docs — MCP server", "url": "https://docs.medusajs.com/learn/introduction/build-with-llms-ai/mcp-server" },
+    { "label": "Medusa docs — agentic skills", "url": "https://docs.medusajs.com/learn/introduction/build-with-llms-ai/agentic-skills" },
+    { "label": "Medusa docs — migrate from Shopify with the MCP server", "url": "https://docs.medusajs.com/learn/introduction/build-with-llms-ai/mcp-server/migrate-from-shopify" },
+    { "label": "Medusa docs — marketplace recipe", "url": "https://docs.medusajs.com/resources/recipes/marketplace" },
+    { "label": "Medusa docs — B2B recipe", "url": "https://docs.medusajs.com/resources/recipes/b2b" },
+    { "label": "Medusa on GitHub — LICENSE", "url": "https://github.com/medusajs/medusa/blob/develop/LICENSE" },
+    { "label": "Medusa on GitHub — ENTERPRISE-LICENSE.md", "url": "https://github.com/medusajs/medusa/blob/develop/ENTERPRISE-LICENSE.md" },
+    { "label": "Medusa on GitHub (stars, releases)", "url": "https://github.com/medusajs/medusa" }
+  ],
+  "checked": "2026-09-25"
+}

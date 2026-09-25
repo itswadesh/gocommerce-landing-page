@@ -1,0 +1,99 @@
+---
+/**
+ * Stores running Svelte Commerce in production, each with the scores Google
+ * Lighthouse gave its home page on the date shown — measured, not claimed.
+ * The scores are whatever the audit returned, weak ones included: a page
+ * that published only the flattering categories would be choosing its
+ * evidence. Visitor-growth figures from other sites are not repeated here,
+ * because nothing on this side can check them.
+ *
+ * The stack line says only what the store's own HTML shows: a SvelteKit
+ * storefront and, for most, the Litekart API behind it. None of these runs
+ * GoCommerce; the page says so.
+ */
+import Base from '../layouts/Base.astro'
+import Faq from '../components/Faq.astro'
+import data from '../data/live-projects.json'
+
+const path = '/live-projects/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+const measured = new Date(data.measured + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+const host = (u: string) => new URL(u).host
+const cats: [keyof (typeof data.stores)[number]['scores'], string][] = [['performance', 'Performance'], ['accessibility', 'Accessibility'], ['bestPractices', 'Best practices'], ['seo', 'SEO']]
+const band = (n: number) => (n >= 90 ? 'good' : n >= 50 ? 'fair' : 'poor')
+
+const graph = [
+  {
+    '@type': 'CollectionPage', '@id': abs(path + '#page'), url: abs(path), name: 'Live stores running Svelte Commerce', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/svelte-commerce/#app') }, inLanguage: 'en',
+    mainEntity: { '@type': 'ItemList', numberOfItems: data.stores.length, itemListElement: data.stores.map((s, i) => ({ '@type': 'ListItem', position: i + 1, url: s.url, name: s.name })) },
+  },
+]
+
+const faq = [
+  { q: 'Do these stores run GoCommerce?', a: 'No. They run Svelte Commerce as their storefront; most of them are backed by the Litekart API. GoCommerce has no store in production that we know of yet, and this page will say so until one is.' },
+  { q: 'How were the scores measured?', a: `Google Lighthouse ${data.lighthouse}, run on ${measured} against each store’s home page with its default mobile settings: an emulated mid-range phone on a throttled connection. One run per store, so a score can move a few points between runs.` },
+  { q: 'Why publish the performance scores that are low?', a: 'Because they are what the audit returned. A page that showed only the categories that scored well would be choosing its evidence. Mobile performance under Lighthouse’s throttling is a strict test, and it is where these stores have the most room to improve.' },
+  { q: 'Can my store be listed here?', a: 'If it runs Svelte Commerce in production, yes — tell us on Discord. It is added after its own HTML confirms the storefront and a Lighthouse run like the ones above.' },
+]
+---
+<Base
+  title="Live Projects — Stores Running Svelte Commerce in Production"
+  description={`${data.stores.length} live stores running Svelte Commerce, each with the Google Lighthouse scores its home page received on ${measured}. Measured, not claimed — weak scores included.`}
+  path={path}
+  ogTitle="Live stores running Svelte Commerce"
+  ogDescription="Real stores, with the Lighthouse scores they actually got — measured, dated, weak ones included."
+  crumbs={[{ name: 'Live projects', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Live projects</p>
+    <h1>Stores running Svelte Commerce, today</h1>
+    <p class="lede">Real stores, selling now, each linked so you can judge it yourself. Under each is what Google Lighthouse scored its home page on {measured} — measured by us, not claimed, and published whether the number flatters or not.</p>
+    <ul class="head-facts">
+      <li><b>{data.stores.length}</b> live stores</li>
+      <li><b>4</b> Lighthouse categories each</li>
+      <li><b>0</b> running GoCommerce yet</li>
+    </ul>
+  </section>
+
+  <section id="stores" class="section wrap" aria-labelledby="stores-title">
+    <h2 id="stores-title">The stores</h2>
+    <ul class="live-grid">
+      {data.stores.map((s) => (
+        <li class="live-card">
+          {s.image && <img src={s.image} width="1200" height="800" alt={`${s.name} on a laptop and a phone`} loading="lazy" decoding="async">}
+          <div class="live-body">
+            <h3><a href={s.url} {...ext}>{s.name}</a></h3>
+            <p class="live-host">{host(s.url)}</p>
+            <p>{s.desc}</p>
+            <p class="live-stack">{s.stack}</p>
+            {s.scores ? (
+              <dl class="live-scores">
+                {cats.map(([k, label]) => (
+                  <div class={`score score-${band(s.scores[k])}`}><dt>{label}</dt><dd>{s.scores[k]}</dd></div>
+                ))}
+              </dl>
+            ) : (
+              <p class="fineprint">Did not respond to Lighthouse on {measured}.</p>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+    <p class="fineprint">Scores: Google Lighthouse {data.lighthouse}, mobile defaults (emulated mid-range phone, throttled network), one run per home page on {measured}. 90–100 is good, 50–89 needs improvement, below 50 is poor — Lighthouse’s own bands.</p>
+  </section>
+
+  <Faq items={faq} title="Questions about these stores" />
+
+  <section class="closing wrap">
+    <h2>The storefront behind every one of them</h2>
+    <p>Svelte Commerce is MIT licensed and runs against 26 commerce backends. Start from the same code these stores did.</p>
+    <div class="actions">
+      <a class="button" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_click">Download the storefront</a>
+      <a class="button secondary" href="/svelte-commerce/themes/">79 live themes</a>
+      <a class="button secondary" href="/svelte-commerce/">Explore Svelte Commerce</a>
+    </div>
+  </section>
+</Base>

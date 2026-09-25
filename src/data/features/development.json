@@ -1,0 +1,73 @@
+{
+  "slug": "development",
+  "name": "Development",
+  "summary": "One Go binary and PostgreSQL, one dependency, a documented REST API, modules compiled in, and an MCP server — with no cloud in the way.",
+  "title": "Developer Experience — Building on GoCommerce, Feature by Feature",
+  "description": "What developers get from GoCommerce, checked against the code: one Go binary and PostgreSQL, one production dependency, 342 documented REST operations, signed webhooks, custom metadata, an MCP server and agent guides — and what self-hosting means in place of a cloud.",
+  "ogTitle": "Building on GoCommerce, feature by feature",
+  "ogDescription": "One binary, one dependency, 342 documented operations, signed webhooks, MCP — and no cloud in the way.",
+  "kicker": "Features · Development",
+  "h1": "One binary, one database, one dependency",
+  "lede": "GoCommerce is a Go program with its admin compiled in, talking to one PostgreSQL. Everything else — payments, carriers, search, an AI agent — is a module you import, and the whole API is written down in OpenAPI.",
+  "facts": [
+    { "b": "342", "t": "documented REST operations" },
+    { "b": "1", "t": "production dependency (pgx)" },
+    { "b": "44", "t": "modules, compiled in only when imported" }
+  ],
+  "groups": [
+    {
+      "name": "The shape of it",
+      "tiles": [
+        { "title": "One binary and PostgreSQL", "status": "yes", "text": "The API and the 61-screen Svelte admin compile into one binary with go:embed. No Node.js at runtime, no cgo; it cross-compiles for Linux, Windows and macOS, and a distroless Docker image is provided.", "source": "admin/embed.go · Dockerfile" },
+        { "title": "One production dependency", "status": "yes", "text": "go.mod requires only the pgx PostgreSQL driver, and modules add no third-party dependencies — CI enforces it.", "source": "go.mod · AGENTS.md" },
+        { "title": "Headless REST, documented", "status": "yes", "text": "342 operations — 238 in the core, the rest from modules — in OpenAPI 3.0.3, served at /doc and printed by gocommerce spec. The admin is itself a client of the same API.", "source": "core/openapi.json" },
+        { "title": "MIT, all of it", "status": "yes", "text": "The licence covers the whole repository. There is no closed edition and no paid tier.", "source": "LICENSE" }
+      ]
+    },
+    {
+      "name": "Extending it",
+      "tiles": [
+        { "title": "Modules, compiled in", "status": "partial", "text": "44 modules plug into a small set of ports; import one and it is in your binary. Narrower than a plugin store: modules are Go, compiled in, not installed at runtime.", "source": "core/ports.go · ext/" },
+        { "title": "Signed webhooks", "status": "yes", "text": "The webhooks module posts signed events to any URL, with retries and a delivery log. Go code can also subscribe in-process.", "source": "ext/webhooks · core/events.go" },
+        { "title": "Custom data", "status": "yes", "text": "Fifteen core tables — products, variants, orders, carts, discounts, vendors and more — carry a free-form metadata object. Product attributes follow Shopify’s taxonomy, embedded in the binary, and can be filtered.", "source": "core/types.go · Metadata" },
+        { "title": "Admin screens from modules", "status": "partial", "text": "A module adds an admin screen by describing a list and a form, gated by rights. Missing: shipping your own front-end code into the admin.", "source": "core/screens.go" },
+        { "title": "Any language", "status": "yes", "text": "Anything that speaks JSON over HTTP can drive the API, and non-Go services receive events through signed webhooks.", "source": "core/openapi.json" }
+      ]
+    },
+    {
+      "name": "Running it",
+      "tiles": [
+        { "title": "gocommerce doctor", "status": "yes", "text": "Fifteen health checks — the stock ledger, refunds, returns, event backlog, discounts, the API contract — from the command line (non-zero exit on failure), the admin or the API.", "source": "core/doctor.go" },
+        { "title": "Several instances, no coordination", "status": "yes", "text": "Run more copies behind a load balancer: background work is claimed with FOR UPDATE SKIP LOCKED and migrations run under an advisory lock. Uploads live on local disk, so instances share a volume for them.", "source": "core/outbox.go · core/migrate.go" },
+        { "title": "Events that are never lost", "status": "yes", "text": "Each event is written in the same transaction as the change it describes, delivered at least once with backoff, and parked after 12 failures on an Events screen where it can be retried.", "source": "core/outbox.go" },
+        { "title": "No API rate limits", "status": "yes", "text": "Only operator sign-in and password reset are throttled. Your server and database set the ceiling.", "source": "core/superusers.go" },
+        { "title": "A command-line tool", "status": "partial", "text": "serve, migrate, superuser, doctor, spec, taxonomy, attributes and version. Missing: environments, data branching and scaffolding.", "source": "cmd/gocommerce/main.go" }
+      ]
+    },
+    {
+      "name": "Working with AI agents",
+      "tiles": [
+        { "title": "An MCP server", "status": "yes", "text": "19 tools that call the same domain services as the API — never the database — each checked against the caller’s rights. Read-only mode withholds every tool that changes anything, and changes are logged. Over HTTP or stdio.", "source": "ext/mcp" },
+        { "title": "Guides for coding agents", "status": "yes", "text": "AGENTS.md sets 14 architectural rules and four notes for AI agents; skills/ holds 15 task guides and an index, so an agent reads the part of the domain it is about to change.", "source": "AGENTS.md · skills/" },
+        { "title": "A test kit for module authors", "status": "yes", "text": "gctest gives each test its own isolated database schema, and over a thousand tests catch a wrong edit.", "source": "gctest/gctest.go" }
+      ]
+    }
+  ],
+  "notYetLede": "There is no GoCommerce cloud, so none of the hosted-platform conveniences exist. Self-hosting gives you standard PostgreSQL backups and point-in-time recovery instead. Also absent today:",
+  "notYet": [
+    { "name": "Sandboxes and data branching", "why": "No hosted environments; copy a store with pg_dump and pg_restore." },
+    { "name": "Managed backups and auto-scaling", "why": "Backups and scaling are yours, on your own infrastructure." },
+    { "name": "GraphQL", "why": "The API is REST and JSON." },
+    { "name": "Custom webhook payloads", "why": "Each event has a fixed body; you can filter events, not reshape them." },
+    { "name": "An app store", "why": "The Plugins screen configures modules already compiled in." },
+    { "name": "A generated client", "why": "Generate your own from the OpenAPI spec." },
+    { "name": "Data anonymisation", "why": "No tooling to mask production data." }
+  ],
+  "faq": [
+    { "q": "What do I need to run GoCommerce?", "a": "One PostgreSQL database and somewhere to run one binary — a server, a container or your laptop. No Node.js, Redis or message broker is required." },
+    { "q": "Can I scale it horizontally?", "a": "Yes. Several instances can run behind a load balancer with no coordination between them; background work is claimed with row locks. Give them a shared volume for uploaded media, and size your PostgreSQL connection pooling." },
+    { "q": "Is there a GraphQL API?", "a": "No. The API is REST and JSON, documented in OpenAPI 3.0.3, so any language can generate a client from the spec." },
+    { "q": "How do I add a feature the core does not have?", "a": "Write a module: a Go package under ext/ that plugs into the core’s ports and is compiled in when imported. Or keep it outside GoCommerce entirely and listen to its signed webhooks." },
+    { "q": "Can an AI agent run the store?", "a": "Through the MCP module: 19 tools that go through the same services and rights checks as the API. Read-only mode lets an agent look without changing anything." }
+  ]
+}

@@ -1,0 +1,84 @@
+---
+/**
+ * How to reach the people behind the two projects, by what you need. Public
+ * questions go to public places, because the answer helps the next person;
+ * email and WhatsApp are for what should not be public — a security report,
+ * a privacy request, a custom build.
+ *
+ * /.well-known/security.txt points at #security, so that id must stay.
+ */
+import Base from '../layouts/Base.astro'
+
+const path = '/contact/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+const email = 'hello@kitcommerce.store'
+const wa = import.meta.env.PUBLIC_WHATSAPP ?? ''
+const waText = encodeURIComponent('Hi! I’d like to talk about GoCommerce and Svelte Commerce.')
+
+const graph = [
+  {
+    '@type': 'ContactPage', '@id': abs(path + '#page'), url: abs(path), name: 'Contact', isPartOf: { '@id': abs('/#site') }, inLanguage: 'en',
+    about: { '@id': abs('/#org') },
+  },
+]
+---
+<Base
+  title="Contact — Reach the People Behind GoCommerce and Svelte Commerce"
+  description={`How to reach the team behind GoCommerce and Svelte Commerce: questions on Discord and GitHub, custom builds on WhatsApp, and ${email} for security reports and privacy requests.`}
+  path={path}
+  ogTitle="Contact"
+  ogDescription="Questions in public, custom builds on WhatsApp, security and privacy by email."
+  crumbs={[{ name: 'Contact', href: path }]}
+  graph={graph}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Contact</p>
+    <h1>Talk to the people who build it</h1>
+    <p class="lede">Pick the door that fits. Questions about the code are best asked in public, where the answer helps the next person too; anything private goes by email or WhatsApp.</p>
+  </section>
+
+  <section id="ways" class="section wrap" aria-labelledby="ways-title">
+    <h2 id="ways-title" class="vh">Ways to reach us</h2>
+    <div class="tri">
+      <div class="tri-item tri-engine">
+        <h3>A question about the code</h3>
+        <p>Ask on Discord, or open a GitHub issue or discussion. The people who build both projects answer there.</p>
+        <div class="actions contact-actions">
+          <a class="button secondary" href="https://discord.gg/GgdAeccwDR" {...ext} data-ev="discord_click">Discord</a>
+          <a class="button secondary" href="https://github.com/itswadesh/gocommerce/issues" {...ext}>GoCommerce issues</a>
+          <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce/discussions" {...ext}>Svelte Commerce discussions</a>
+        </div>
+      </div>
+      <div class="tri-item tri-store">
+        <h3>A custom build</h3>
+        <p>Themes, integrations or a whole store built for you, by the team behind both projects.</p>
+        <div class="actions contact-actions">
+          {wa && <a class="button" href={`https://wa.me/${wa}?text=${waText}`} {...ext} data-ev="whatsapp_click">WhatsApp</a>}
+          <a class={wa ? 'button secondary' : 'button'} href={`mailto:${email}`}>{email}</a>
+        </div>
+      </div>
+      <div class="tri-item">
+        <h3>Anything else</h3>
+        <p>Partnerships, press, a correction to this site, or a question about your data.</p>
+        <div class="actions contact-actions">
+          <a class="button secondary" href={`mailto:${email}`}>{email}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="security" class="section wrap" aria-labelledby="security-title">
+    <h2 id="security-title">Reporting a security problem</h2>
+    <div class="statement">
+      <p class="statement-lead">Please do not open a public issue for a vulnerability. Email <a href={`mailto:${email}?subject=${encodeURIComponent('Security report')}`}>{email}</a> with “Security” in the subject.</p>
+      <p>Say which project and version or commit, what you found, and how to reproduce it. The aim is to confirm the problem with you and ship a fix before it is discussed in public.</p>
+      <p class="statement-note">This address is also listed in <a href="/.well-known/security.txt">/.well-known/security.txt</a>, the standard place security researchers look.</p>
+    </div>
+  </section>
+
+  <section id="privacy" class="section wrap" aria-labelledby="privacy-title">
+    <h2 id="privacy-title">About your data</h2>
+    <p class="section-lede">To ask what this website holds about you, or to have it removed, email <a href={`mailto:${email}?subject=${encodeURIComponent('Privacy request')}`}>{email}</a>. What the site stores, and what loads only with your consent, is on the <a href="/privacy/">privacy page</a>.</p>
+  </section>
+</Base>

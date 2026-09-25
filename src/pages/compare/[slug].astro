@@ -1,0 +1,159 @@
+---
+/**
+ * One comparison page per file in src/data/compare/. The data file is the
+ * page: its facts, its sources, the date they were checked. This template
+ * only decides where each fact sits, so twenty comparisons cannot drift into
+ * twenty layouts, and a price that changes is a one-line edit with a commit
+ * that re-dates the page (see src/lib/dates.mjs).
+ *
+ * "KitCommerce" appears in the titles because that is what people search.
+ * The body always compares GoCommerce and Svelte Commerce — the two projects
+ * this site presents — and every page says so under the heading, because
+ * KitCommerce is not a product and the verifier holds the prose to that.
+ *
+ * Every page carries the same "what you take on" column. A comparison that
+ * lists only the other side's costs is an advert, and this site does not
+ * publish those.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+import type { Comparison } from '../../data/compare/_schema'
+
+export function getStaticPaths() {
+  const files = import.meta.glob<Comparison>('../../data/compare/*.json', { eager: true, import: 'default' })
+  return Object.values(files).map((c) => ({ params: { slug: c.slug }, props: { c } }))
+}
+
+const { c } = Astro.props as { c: Comparison }
+const path = `/compare/${c.slug}/`
+const abs = (p: string) => new URL(p, Astro.site!).href
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+const checked = new Date(c.checked + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+
+const graph = [
+  {
+    '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: c.title, isPartOf: { '@id': abs('/#site') }, inLanguage: 'en',
+    about: [
+      { '@type': 'SoftwareApplication', name: c.platform, url: c.platformUrl, applicationCategory: 'BusinessApplication' },
+      { '@id': abs('/gocommerce/#app') },
+      { '@id': abs('/svelte-commerce/#app') },
+    ],
+  },
+]
+
+// What running two self-hosted MIT projects asks of you, said the same way on
+// every page. Page data can add to it; it cannot remove from it.
+const takeOn = [
+  'You host it: a server, a PostgreSQL database, backups and upgrades are yours, or a developer’s you pay.',
+  'No app store. What a module does not cover, somebody writes.',
+  'GoCommerce has over 1,000 tests, but no store we know of runs it in production yet.',
+  'Svelte Commerce reaches GoCommerce through an early connector, version 0.1.0: catalogue, cart, checkout and order lookup work; customer accounts and a search index do not.',
+  ...(c.takeOnExtra ?? []),
+]
+---
+<Base
+  title={c.title}
+  description={c.description}
+  path={path}
+  ogTitle={c.ogTitle}
+  ogDescription={c.ogDescription}
+  crumbs={[{ name: 'Compare', href: '/compare/' }, { name: c.label, href: path }]}
+  graph={graph}
+  faq={c.faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">{c.label}</p>
+    <h1>{c.h1}</h1>
+    <p class="lede">{c.lede}</p>
+    <ul class="head-facts">
+      {c.facts.map((f) => <li><b>{f.b}</b> {f.t}</li>)}
+    </ul>
+    <p class="fineprint vs-meaning">KitCommerce is the website presenting two independent MIT projects, GoCommerce (backend and admin) and Svelte Commerce (storefront). On this page, the KitCommerce side means those two used together.</p>
+  </section>
+
+  <section id="glance" class="section wrap" aria-labelledby="glance-title">
+    <h2 id="glance-title">{c.platform} and GoCommerce, side by side</h2>
+    <p class="section-lede">{c.glanceLede}</p>
+    <div class="tbl-scroll">
+      <table class="reltable vs">
+        <caption>{c.platform} compared with GoCommerce and Svelte Commerce, checked {checked}</caption>
+        <thead>
+          <tr><th scope="col"><span class="vh">Aspect</span></th><th scope="col">{c.platform}</th><th scope="col">GoCommerce + Svelte Commerce</th></tr>
+        </thead>
+        <tbody>
+          {c.rows.map(([aspect, them, us]) => (
+            <tr><th scope="row">{aspect}</th><td>{them}</td><td>{us}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {c.cost && (
+    <section id="cost" class="section wrap" aria-labelledby="cost-title">
+      <h2 id="cost-title">{c.cost.title}</h2>
+      <p class="section-lede">{c.cost.lede}</p>
+      <div class="tbl-scroll">
+        <table class="reltable vs">
+          <caption>{c.cost.caption}</caption>
+          <thead>
+            <tr>{c.cost.head.map((h, i) => <th scope="col">{i === 0 ? <span class="vh">{h}</span> : h}</th>)}</tr>
+          </thead>
+          <tbody>
+            {c.cost.rows.map(([first, ...rest]) => (
+              <tr><th scope="row">{first}</th>{rest.map((cell) => <td>{cell}</td>)}</tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {c.cost.note && <p class="fineprint">{c.cost.note}</p>}
+    </section>
+  )}
+
+  <section id="choose" class="section wrap" aria-labelledby="choose-title">
+    <h2 id="choose-title">Which one fits</h2>
+    <div class="tri">
+      <div class="tri-item">
+        <h3>Choose {c.platform} when</h3>
+        <ul class="tick">{c.themWhen.map((t) => <li>{t}</li>)}</ul>
+      </div>
+      <div class="tri-item tri-engine">
+        <h3>Choose GoCommerce + Svelte Commerce when</h3>
+        <ul class="tick">{c.usWhen.map((t) => <li>{t}</li>)}</ul>
+      </div>
+      <div class="tri-item">
+        <h3>What you take on</h3>
+        <ul class="tick">{takeOn.map((t) => <li>{t}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  {c.move && (
+    <section id="move" class="section wrap" aria-labelledby="move-title">
+      <h2 id="move-title">{c.move.title}</h2>
+      <div class="statement">
+        {c.move.paras.map((p, i) => <p class={i === 0 ? 'statement-lead' : undefined}>{p}</p>)}
+      </div>
+    </section>
+  )}
+
+  <Faq items={c.faq} title={`Questions about ${c.platform} and GoCommerce`} />
+
+  <section class="section wrap vs-sources" aria-labelledby="sources-title">
+    <h2 id="sources-title" class="vs-sources-title">Sources</h2>
+    <p class="fineprint">{c.platform}’s prices and features were checked on {checked} against the pages below. Prices change; when one here disagrees with the source, the source is right and this page is out of date.</p>
+    <ul class="vs-source-list">
+      {c.sources.map((s) => <li><a href={s.url} {...ext}>{s.label}</a></li>)}
+    </ul>
+  </section>
+
+  <section class="closing wrap">
+    <h2>Run it before you decide</h2>
+    <p>The one-command stack gives you GoCommerce’s API and admin on your own machine in minutes. Load a catalogue and judge it against {c.platform} yourself.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="/gocommerce/">Explore GoCommerce</a>
+      <a class="button secondary" href="/compare/">All comparisons</a>
+    </div>
+  </section>
+</Base>

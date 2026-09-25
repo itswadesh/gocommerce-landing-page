@@ -1,0 +1,75 @@
+{
+  "slug": "operations",
+  "name": "Operations",
+  "summary": "Order timelines and edits, stock across locations with a ledger that reconciles, twelve ways to ship, and an audit of who changed what.",
+  "title": "Order Management — GoCommerce Operations, Feature by Feature",
+  "description": "What running a store on GoCommerce looks like, checked against the code: order timelines and edits, multi-location stock with a movement ledger, multi-parcel shipping across 12 carrier options, refunds, returns, roles and audit — and what is not built yet.",
+  "ogTitle": "GoCommerce operations, feature by feature",
+  "ogDescription": "Order timelines and edits, stock across locations, 12 ways to ship, audit — and what is not built yet.",
+  "kicker": "Features · Operations",
+  "h1": "Run the store from one admin, with every change on the record",
+  "lede": "Orders, stock, shipping, refunds and staff, handled from the admin compiled into the GoCommerce binary. Every stock movement lands in a ledger that reconciles, and every change says who made it.",
+  "facts": [
+    { "b": "12", "t": "carrier options, four of them Indian" },
+    { "b": "11", "t": "kinds of stock movement, all on a ledger" },
+    { "b": "15", "t": "health checks in gocommerce doctor" }
+  ],
+  "groups": [
+    {
+      "name": "Orders",
+      "tiles": [
+        { "title": "Order timeline", "status": "yes", "text": "Each order has a timeline of its events and changes, internal notes, and a log of every email and SMS sent — with a button to resend.", "source": "core/orders.go · Timeline" },
+        { "title": "Order edits", "status": "yes", "text": "Add, remove or change lines; stock moves with them and the balance owed either way is reported. Contact details, address and shipments can be corrected too. Line edits stop once anything has shipped, been refunded or returned.", "source": "PUT /api/admin/orders/{id}/lines" },
+        { "title": "Unpaid orders cancel themselves", "status": "yes", "text": "Every five minutes, orders still unpaid past their window (24 hours by default) are cancelled and their stock released. Staff can run the sweep on demand.", "source": "core/orders.go · SweepUnpaid" },
+        { "title": "Returns", "status": "partial", "text": "Record returns per line on shipped orders, capped at what shipped, with a restock decision and location for each; refunds are a separate step. Missing: exchange orders and customer-requested returns.", "source": "core/returns.go" },
+        { "title": "Order import", "status": "partial", "text": "Load order history from CSV in the store’s own layout or Shopify’s export, with a dry run. It never moves stock and fires events only when asked. Missing: mapping columns from any file.", "source": "core/transfer.go · ImportOrders" }
+      ]
+    },
+    {
+      "name": "Stock and shipping",
+      "tiles": [
+        { "title": "Stock across locations", "status": "yes", "text": "Stock is held per variant per location, and one order can draw from several. Transfers move stock between locations; a picking sheet groups work by SKU and location.", "source": "core/inventory.go · core/locations.go" },
+        { "title": "A ledger that reconciles", "status": "yes", "text": "Every stock change — reserve, commit, release, restock, transfer and more — is written to an append-only ledger that gocommerce doctor checks against the balances.", "source": "core/movements.go" },
+        { "title": "Shipping in several parcels", "status": "yes", "text": "An order ships in any number of parcels by line and quantity, each through its own carrier: manual, Shiprocket, Delhivery, NimbusPost, India Post, Shippo, ShipStation, Easyship, Shippit, USPS, Onfleet or Veeqo.", "source": "core/fulfillment.go · ext/fulfill-*/" },
+        { "title": "Low-stock report and stock import", "status": "yes", "text": "A report of variants running low, and CSV stock import that also reads Shopify’s inventory file.", "source": "GET /api/admin/inventory/low-stock" },
+        { "title": "Backorders", "status": "partial", "text": "A variant can keep selling past zero and ship in parts as stock arrives. Missing: a separate backorder status and partial payment.", "source": "core/inventory.go" }
+      ]
+    },
+    {
+      "name": "Money",
+      "tiles": [
+        { "title": "Refunds through the gateway", "status": "partial", "text": "Staff refund any amount up to what remains, through the gateway that took the payment, each recorded with the gateway’s id. Missing: cash-on-delivery refunds through the engine, and RevenueCat refunds.", "source": "core/payments.go · Refund" },
+        { "title": "Record payments by hand", "status": "partial", "text": "Mark an order paid with a reference for cash or bank transfer, or record a failed payment. Missing: manual refund records.", "source": "POST /api/admin/orders/{id}/mark-paid" },
+        { "title": "Payouts and reports", "status": "yes", "text": "Collected, refunded and net per payment method; sales and top products; saved custom SQL reports that run read-only.", "source": "core/reports_payouts.go · core/custom_reports.go" }
+      ]
+    },
+    {
+      "name": "Customers and staff",
+      "tiles": [
+        { "title": "Customer groups and price lists", "status": "yes", "text": "Group customers and give each group its own prices, with dates, priority, channel and quantity breaks.", "source": "core/pricing.go" },
+        { "title": "Roles and rights", "status": "partial", "text": "Four roles — owner, manager, staff, vendor — whose rights and names you can change, over 48 core rights plus those modules add; invitations and session revocation. Missing: creating roles beyond the four.", "source": "core/rights.go · core/roles.go" },
+        { "title": "Scoped API keys", "status": "yes", "text": "Keys carry a role and pass the same rights checks as a person. Only owners mint them; revoked keys stay on the record.", "source": "core/api_keys.go" },
+        { "title": "Audit trail", "status": "yes", "text": "Who changed what, with before and after values, and a history for products, categories, discounts, tax rates and locations.", "source": "core/audit.go" },
+        { "title": "Notifications you control", "status": "yes", "text": "Edit every email and SMS template in the admin; every message is logged and can be resent. Email through Resend or SendGrid, SMS through Twilio or MSG91.", "source": "core/notify_templates.go" }
+      ]
+    }
+  ],
+  "notYetLede": "What a larger operation may expect and will not find in GoCommerce today.",
+  "notYet": [
+    { "name": "Order approvals", "why": "No approval step before an order is accepted." },
+    { "name": "Draft orders", "why": "An order placed by staff is a real order at once." },
+    { "name": "Per-channel permissions", "why": "Staff rights apply to the whole store." },
+    { "name": "Manual price overrides", "why": "Staff cannot set one line’s price by hand." },
+    { "name": "Authorise-then-capture", "why": "Gateway payments settle on the provider’s success webhook." },
+    { "name": "Gift cards and store credit", "why": "No balances of any kind." },
+    { "name": "Single sign-on", "why": "Staff sign in with email and password." },
+    { "name": "A translated admin", "why": "The admin is in English; storefront content can be translated." },
+    { "name": "Click-and-collect", "why": "No pickup option at checkout." }
+  ],
+  "faq": [
+    { "q": "Can staff edit an order after it is placed?", "a": "Yes, until anything has shipped, been refunded or returned: lines can be added, removed or changed, stock moves to match, and the admin reports what is owed either way. Contact details and the address can be corrected at any time." },
+    { "q": "How do I know stock figures are right?", "a": "Every movement is written to a ledger, and gocommerce doctor checks the ledger against the balances — from the command line, the admin or the API. A mismatch is reported, not hidden." },
+    { "q": "Which Indian carriers are supported?", "a": "Shiprocket, Delhivery, NimbusPost and India Post, each a module. SMS goes through MSG91 using pre-registered DLT templates, as India requires." },
+    { "q": "Can different staff see different things?", "a": "By role: owner, manager, staff and vendor, each with rights you can adjust. A vendor login sees only that seller’s records. Splitting access by channel is not built yet." }
+  ]
+}

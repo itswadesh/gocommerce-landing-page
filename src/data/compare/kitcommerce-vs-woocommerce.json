@@ -1,0 +1,98 @@
+{
+  "slug": "kitcommerce-vs-woocommerce",
+  "platform": "WooCommerce",
+  "platformUrl": "https://woocommerce.com",
+  "label": "KitCommerce vs WooCommerce",
+  "group": "Open-source platforms",
+  "summary": "WordPress, PHP and a set of yearly-renewed extensions against one Go binary — and a Svelte Commerce storefront if you keep WooCommerce.",
+  "title": "KitCommerce vs WooCommerce — GoCommerce and Svelte Commerce Compared With WooCommerce",
+  "description": "WooCommerce compared with GoCommerce and Svelte Commerce: WordPress and PHP against one Go binary, yearly extension renewals against MIT modules, payments in India, APIs, and a Svelte Commerce storefront for an existing WooCommerce store — with where WooCommerce is the better choice.",
+  "ogTitle": "KitCommerce vs WooCommerce",
+  "ogDescription": "WordPress plus plugins, or one Go binary. Stack, extension renewals and a storefront path, sourced.",
+  "h1": "WooCommerce is a store inside WordPress. GoCommerce is only the store.",
+  "lede": "WooCommerce is a free plugin that turns a WordPress site into a shop, on PHP and MySQL, with an extension for most things — many of the useful ones renewed every year. GoCommerce is one Go binary and a PostgreSQL database with vendors and B2B pricing in its core, and Svelte Commerce is a SvelteKit storefront that can already sit in front of a WooCommerce store. Neither side charges for the core.",
+  "facts": [
+    { "b": "₹0", "t": "for the WooCommerce plugin and for GoCommerce alike" },
+    { "b": "₹26,749", "t": "a year for WooCommerce Subscriptions, one of Woo’s own extensions" },
+    { "b": "27/43", "t": "Svelte Commerce services wired for WooCommerce, cart and checkout among them" }
+  ],
+  "glanceLede": "WooCommerce’s side is checked against WooCommerce.com, its documentation, WordPress.org and its GitHub repository, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site and their repositories.",
+  "rows": [
+    ["What it is", "A plugin that adds a store to WordPress, published by Automattic.", "Two MIT projects: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
+    ["Licence", "GPL — version 3 or later for the plugin.", "MIT, both projects."],
+    ["What you run", "For WooCommerce 10.8 and later: WordPress 6.9+, PHP 8.3+ (tested to 8.4), MySQL 8.0+ or MariaDB 10.6+, HTTPS and a 256 MB WordPress memory limit.", "One Go binary and one PostgreSQL database. No PHP, no Node.js server, no Redis, no message broker required."],
+    ["What you keep updated", "WordPress, WooCommerce and every plugin, each on its own release schedule.", "One binary; the modules you import are compiled into it."],
+    ["Extensions", "Free plugins on WordPress.org, and paid extensions on WooCommerce.com renewed yearly for updates and support — Product Bundles ₹7,575, Memberships ₹19,079, Bookings ₹23,873 a year.", "44 MIT modules, compiled in when imported. Nothing to renew."],
+    ["Marketplace", "Product Vendors, Woo’s own extension, at ₹11,410 a year.", "In the core: vendors move through pending, approved and suspended, and sell through vendor offers. Commission is recorded, not settled."],
+    ["B2B pricing", "Extensions such as B2B for WooCommerce by Addify at ₹17,162 a year, or Dynamic Pricing by Element Stark at ₹12,368.", "Customer groups, price lists, quantity breaks and scoped API keys in the core. No quotes or approval workflow."],
+    ["Payments in India", "Razorpay’s official plugin, free on WordPress.org, for cards, netbanking, wallets and UPI; cash on delivery in core. WooPayments is not offered in India.", "Razorpay, Stripe, Adyen, HyperSwitch and five more as modules; cash on delivery is the core’s default."],
+    ["API", "A REST API at /wp-json/wc/v3 for products, orders, customers and coupons — but no endpoint in core that signs a shopper in.", "342 documented REST operations, published as OpenAPI — the same API the admin uses."],
+    ["Storefront", "WordPress themes, with Cart and Checkout blocks in core.", "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes. It can front WooCommerce today; its GoCommerce connector is early, at 0.1.0 — catalogue, cart, checkout and order lookup, not yet customer accounts or search."],
+    ["Help when it breaks", "WordPress.org community forums for the free plugin; Woo’s own support for paid extensions while their subscription runs.", "GitHub issues, discussions and Discord. No support contract."],
+    ["Track record", "7 million+ active installations, on WordPress.org’s count.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
+  ],
+  "cost": {
+    "title": "What each side costs",
+    "lede": "Both cores are free. WooCommerce’s bill arrives as extensions renewed every year; GoCommerce has nothing to sell, and less of that built.",
+    "caption": "Yearly costs, WooCommerce against GoCommerce and Svelte Commerce",
+    "head": ["Cost", "WooCommerce", "GoCommerce + Svelte Commerce"],
+    "rows": [
+      ["Core software", "Nothing — GPL", "Nothing — MIT"],
+      ["Multi-vendor marketplace", "₹11,410 a year — Product Vendors", "In the core; commission recorded, payouts not settled"],
+      ["B2B pricing", "₹17,162 a year — B2B for WooCommerce by Addify", "In the core: customer groups, price lists, quantity breaks"],
+      ["Razorpay", "Free plugin; Razorpay’s own rate", "Free module; Razorpay’s own rate"],
+      ["Hosting", "A PHP and MySQL host that meets WooCommerce’s recommendations", "A server and a PostgreSQL database, from a small VPS upward"],
+      ["People", "A WordPress and PHP developer for anything past configuration", "A developer to deploy it, and Go to extend it"]
+    ],
+    "note": "Extension prices are WooCommerce.com’s rupee prices for a one-year plan on the day checked; a two-year plan saves 20%. The subscription buys updates and support for its term, so keeping them means renewing it."
+  },
+  "themWhen": [
+    "Your site is already WordPress, and the shop is one part of it.",
+    "You want an extension for almost anything, and would rather install or buy than build.",
+    "Your team or agency works in PHP and WordPress.",
+    "You need subscriptions, bookings or memberships now, from extensions Woo maintains itself."
+  ],
+  "usWhen": [
+    "You would rather run one binary and PostgreSQL than WordPress, PHP, MySQL and a set of plugins that update separately.",
+    "You want vendors and B2B price lists without an extension to renew each year.",
+    "You want the commerce API to be the product — 342 documented operations, published as OpenAPI — not a plugin inside a CMS.",
+    "You want to keep WooCommerce for now and put a server-rendered SvelteKit storefront in front of it."
+  ],
+  "takeOnExtra": [
+    "Svelte Commerce on WooCommerce has no shopper sign-in or wishlist yet: WooCommerce’s core has no sign-in endpoint for it to call.",
+    "WordPress’s pages and posts stay behind. GoCommerce’s cms module adds store pages — about, terms, delivery — not a blog."
+  ],
+  "move": {
+    "title": "Moving from WooCommerce, or keeping it",
+    "paras": [
+      "Two paths, and the second keeps WooCommerce.",
+      "Move the backend: GoCommerce has no WooCommerce importer — its import modules cover Shopify and Amazon only — so a move is a script that reads WooCommerce’s REST API, /wp-json/wc/v3, and writes to GoCommerce’s documented one. Where a spreadsheet is the easier middle step, GoCommerce’s core imports products, orders and inventory from CSV in its own column layout.",
+      "Or keep WooCommerce and change only the storefront: Svelte Commerce’s WooCommerce connector wires 27 of its 43 services, cart and checkout among them. Shopper sign-in and wishlists are the gaps — WooCommerce’s core has no endpoint for sign-in — so a storefront with customer accounts needs that written first. Like every Svelte Commerce connector, it has not yet run against a live production store."
+    ]
+  },
+  "faq": [
+    { "q": "Is WooCommerce free?", "a": "The plugin is: WooCommerce is GPL and costs nothing, as GoCommerce and Svelte Commerce cost nothing under MIT. Many extensions on WooCommerce.com are paid yearly — Subscriptions is ₹26,749, Product Vendors ₹11,410 and Product Bundles ₹7,575 for a one-year plan — and hosting that meets its requirements is yours to pay for." },
+    { "q": "Can I keep WooCommerce and use Svelte Commerce as the storefront?", "a": "Yes. Svelte Commerce’s WooCommerce connector wires 27 of 43 services, cart and checkout among them. Shopper sign-in is not wired, because WooCommerce’s core has no endpoint for it, and wishlists are not either. No Svelte Commerce connector has been run against a live production store yet." },
+    { "q": "Which is easier to host?", "a": "GoCommerce asks for less: one Go binary and one PostgreSQL database. WooCommerce 10.8 and later wants WordPress 6.9+, PHP 8.3+, MySQL 8.0+ or MariaDB 10.6+ and a 256 MB memory limit, though Woo notes any server that supports PHP and MySQL will run it." },
+    { "q": "Does Razorpay work with both?", "a": "Yes. Razorpay’s official WooCommerce plugin is free on WordPress.org and takes cards, netbanking, wallets and UPI. GoCommerce has a Razorpay payments module. WooPayments, Woo’s own gateway, is not offered to businesses in India." },
+    { "q": "How do I move a WooCommerce store to GoCommerce?", "a": "By script. GoCommerce imports from Shopify and Amazon only; for WooCommerce you read its REST API and write to GoCommerce’s documented REST API, published as OpenAPI. Its core also imports products, orders and inventory from CSV in its own column layout." }
+  ],
+  "sources": [
+    { "label": "WooCommerce — server recommendations", "url": "https://woocommerce.com/document/server-requirements/" },
+    { "label": "WooCommerce on WordPress.org (version and active installations)", "url": "https://wordpress.org/plugins/woocommerce/" },
+    { "label": "WooCommerce plugin licence (GitHub)", "url": "https://github.com/woocommerce/woocommerce/blob/trunk/plugins/woocommerce/license.txt" },
+    { "label": "WooCommerce Subscriptions (prices in INR)", "url": "https://woocommerce.com/products/woocommerce-subscriptions/?currency=INR" },
+    { "label": "Product Bundles for WooCommerce (prices in INR)", "url": "https://woocommerce.com/products/product-bundles/?currency=INR" },
+    { "label": "WooCommerce Memberships (prices in INR)", "url": "https://woocommerce.com/products/woocommerce-memberships/?currency=INR" },
+    { "label": "WooCommerce Bookings (prices in INR)", "url": "https://woocommerce.com/products/woocommerce-bookings/?currency=INR" },
+    { "label": "Product Vendors for WooCommerce (prices in INR)", "url": "https://woocommerce.com/products/product-vendors/?currency=INR" },
+    { "label": "B2B for WooCommerce by Addify (prices in INR)", "url": "https://woocommerce.com/products/b2b-for-woocommerce/?currency=INR" },
+    { "label": "Dynamic Pricing for WooCommerce by Element Stark (prices in INR)", "url": "https://woocommerce.com/products/dynamic-pricing/?currency=INR" },
+    { "label": "WooCommerce.com — managing Marketplace subscriptions", "url": "https://woocommerce.com/document/managing-woocommerce-com-subscriptions/" },
+    { "label": "WooPayments — supported countries", "url": "https://woocommerce.com/document/woopayments/compatibility/countries/" },
+    { "label": "WooCommerce — Cash on Delivery", "url": "https://woocommerce.com/document/cash-on-delivery/" },
+    { "label": "Razorpay for WooCommerce on WordPress.org", "url": "https://wordpress.org/plugins/woo-razorpay/" },
+    { "label": "WooCommerce REST API documentation", "url": "https://woocommerce.github.io/woocommerce-rest-api-docs/" }
+  ],
+  "checked": "2026-09-25"
+}

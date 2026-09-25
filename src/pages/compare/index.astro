@@ -1,0 +1,99 @@
+---
+/**
+ * The map of every comparison, built from the same data files the pages are,
+ * so a new file in src/data/compare/ is listed here the moment it exists and
+ * none can be listed that was not built.
+ */
+import Base from '../../layouts/Base.astro'
+import Faq from '../../components/Faq.astro'
+import type { Comparison } from '../../data/compare/_schema'
+
+const path = '/compare/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const files = import.meta.glob<Comparison>('../../data/compare/*.json', { eager: true, import: 'default' })
+const all = Object.values(files)
+
+const order: Comparison['group'][] = ['Shopify', 'Indian SaaS builders', 'Global SaaS', 'Open-source platforms', 'Headless open source']
+const notes: Record<Comparison['group'], string> = {
+  'Shopify': 'The hosted platform most stores start on, on three price lists.',
+  'Indian SaaS builders': 'Store builders made in India, priced in rupees, with Indian gateways and carriers built in.',
+  'Global SaaS': 'Hosted builders from abroad that sell to Indian merchants.',
+  'Open-source platforms': 'Self-hosted platforms with long histories — the closest cousins to GoCommerce.',
+  'Headless open source': 'API-first engines. Svelte Commerce already runs against each of them.',
+}
+// Shopify's three pages read best in this order; the rest alphabetically.
+const shopifyOrder = ['kitcommerce-vs-shopify', 'shopify-india-vs-kitcommerce', 'shopify-plus-vs-kitcommerce']
+const groups = order
+  .map((g) => ({
+    name: g,
+    note: notes[g],
+    items: all
+      .filter((c) => c.group === g)
+      .sort((a, b) => (g === 'Shopify' ? shopifyOrder.indexOf(a.slug) - shopifyOrder.indexOf(b.slug) : a.platform.localeCompare(b.platform))),
+  }))
+  .filter((g) => g.items.length)
+
+const graph = [
+  {
+    '@type': 'CollectionPage', '@id': abs(path + '#page'), url: abs(path), name: 'Compare GoCommerce and Svelte Commerce with other ecommerce platforms', isPartOf: { '@id': abs('/#site') }, inLanguage: 'en',
+    mainEntity: { '@type': 'ItemList', numberOfItems: all.length, itemListElement: groups.flatMap((g) => g.items).map((c, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(`/compare/${c.slug}/`), name: c.label })) },
+  },
+]
+
+const faq = [
+  { q: 'Who wrote these comparisons?', a: 'The people who build GoCommerce and Svelte Commerce, so read them as a builder’s view. Each page links the other platform’s own pricing and documentation, checked on the date shown, so every figure about the other side can be checked at its source.' },
+  { q: 'Why does every page have a “what you take on” column?', a: 'Because both projects are software you run yourself, and that has costs a hosted platform does not: servers, backups, upgrades, and a developer. A comparison that lists only the other side’s costs is an advert.' },
+  { q: 'What does KitCommerce mean on these pages?', a: 'KitCommerce is this website. It presents two independent MIT projects — GoCommerce, the backend and admin, and Svelte Commerce, the storefront — and on these pages the KitCommerce side means those two used together.' },
+  { q: 'Can I keep my current platform and still use Svelte Commerce?', a: 'Often, yes. Svelte Commerce runs against 26 backends, including Shopify, WooCommerce, Magento, PrestaShop, OpenCart, Bagisto, Medusa, Saleor and Vendure. The backends page measures how complete each connector is.' },
+]
+---
+<Base
+  title="Compare — GoCommerce and Svelte Commerce Against Shopify, WooCommerce, Bagisto and More"
+  description={`${all.length} comparisons of GoCommerce and Svelte Commerce with the ecommerce platforms Indian stores choose between: Shopify, Indian store builders, global SaaS, open-source platforms and headless engines. Sourced, dated, and honest about where the other side wins.`}
+  path={path}
+  ogTitle="Compare ecommerce platforms"
+  ogDescription="GoCommerce and Svelte Commerce against Shopify, WooCommerce, Bagisto and the rest — sourced and dated."
+  crumbs={[{ name: 'Compare', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Compare</p>
+    <h1>The platforms Indian stores choose between</h1>
+    <p class="lede">Each page puts one platform beside GoCommerce and Svelte Commerce: what each costs, what each owns, and when the other side is the better choice. Every figure about the other platform links to its source.</p>
+    <ul class="head-facts">
+      <li><b>{all.length}</b> comparisons</li>
+      <li><b>{groups.length}</b> kinds of platform</li>
+      <li><b>1</b> column on every page for what self-hosting costs you</li>
+    </ul>
+  </section>
+
+  {groups.map((g) => (
+    <section id={g.name.toLowerCase().replace(/[^a-z]+/g, '-')} class="section wrap" aria-labelledby={`${g.name.toLowerCase().replace(/[^a-z]+/g, '-')}-title`}>
+      <h2 id={`${g.name.toLowerCase().replace(/[^a-z]+/g, '-')}-title`}>{g.name}</h2>
+      <p class="section-lede">{g.note}</p>
+      <ul class="vs-grid">
+        {g.items.map((c) => (
+          <li>
+            <a href={`/compare/${c.slug}/`}>
+              <span class="vs-card-label">{c.label}</span>
+              <span class="vs-card-summary">{c.summary}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <Faq items={faq} title="Questions about these comparisons" />
+
+  <section class="closing wrap">
+    <h2>Judge it on your own machine</h2>
+    <p>One command brings up GoCommerce’s API and admin. Put your catalogue in it and compare for yourself.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="/svelte-commerce/backends/">26 backends Svelte Commerce runs on</a>
+    </div>
+  </section>
+</Base>

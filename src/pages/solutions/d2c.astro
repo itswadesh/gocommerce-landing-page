@@ -17,7 +17,7 @@ const graph = [
 const faq = [
   { q: 'What does a store do with no modules installed?', a: 'Sell. The catalogue, carts, checkout, orders, customers, inventory across locations, discounts and channels are in the core. Checkout takes an email, defaults the payment method to cash on delivery, and the manual fulfillment provider records the shipment you make yourself. A card processor or a carrier is a module you add when a real order asks for it.' },
   { q: 'Do shoppers need an account?', a: 'No. Checkout identifies the shopper by email. Shopper accounts — sign-in, saved addresses, order history — are the identity module, which you compile in when you want them.' },
-  { q: 'Which storefront do I put in front of it?', a: 'Any client that speaks HTTP. Svelte Commerce is the storefront presented on this site, and arialshop.com runs it in production; its GoCommerce connector is in development, so today it fronts one of 26 other backends. Until that connector ships, a GoCommerce store’s storefront is one you write against the documented API.' },
+  { q: 'Which storefront do I put in front of it?', a: 'Any client that speaks HTTP. Svelte Commerce is the storefront presented on this site, and arialshop.com runs it in production, against one of 26 other backends. It reaches GoCommerce through an early connector, 0.1.0, covering catalogue, cart, guest checkout and order lookup — the direct-to-consumer path — but not customer accounts or a search index, and no store is known to run the pair in production. The other route is a storefront you write against the documented API.' },
   { q: 'Is Arialshop running on GoCommerce?', a: 'No — on Svelte Commerce, against a different backend. It is shown as proof that the storefront runs a real business, not that the two projects are wired together. The connector page is explicit about that.' },
   { q: 'What about retention — abandoned carts, reviews, wishlists?', a: 'Each is a module: cart-recovery chases a basket somebody gave up on, reviews holds what shoppers say, wishlist holds what they wanted, newsletter holds who asked to hear from you, klaviyo forwards events to Klaviyo flows. None is in the binary until imported.' },
 ]
@@ -86,7 +86,7 @@ const faq = [
       <div class="store-meta">
         <h3>Svelte Commerce, on arialshop.com</h3>
         <p class="store-domain">server-rendered SvelteKit</p>
-        <p>A real production jewellery storefront running on Svelte Commerce. It fronts one of <a href="/svelte-commerce/backends/">26 backends</a>; the GoCommerce connector is <a href="/gocommerce-svelte-commerce-connector/">in development</a>, so a GoCommerce store’s storefront today is one you write against the API.</p>
+        <p>A real production jewellery storefront running on Svelte Commerce. It fronts one of <a href="/svelte-commerce/backends/">26 backends</a>, not GoCommerce. Svelte Commerce’s GoCommerce connector is <a href="/gocommerce-svelte-commerce-connector/">early, at 0.1.0</a>, and no store is known to run the pair in production.</p>
         <a class="button secondary" href="/svelte-commerce/">Explore Svelte Commerce</a>
       </div>
     </div>

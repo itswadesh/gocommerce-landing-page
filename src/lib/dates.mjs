@@ -19,6 +19,11 @@ const EXTRA = {
   '/integrations/': ['src/data/modules.json'],
   '/gocommerce/admin/': ['src/data/admin-screens.json'],
   '/svelte-commerce/backends/': ['src/data/connectors.json'],
+  // The blog index changes when any post does.
+  '/blog/': ['src/content/blog'],
+  '/compare/': ['src/data/compare'],
+  '/features/': ['src/data/features'],
+  '/svelte-commerce/themes/': ['src/data/themes.json'],
 }
 
 function git(args) {
@@ -35,11 +40,23 @@ const shallow = git(['rev-parse', '--is-shallow-repository']) === 'true'
 // be the tip, which is the deploy date. Withhold rather than mislead.
 const depthOne = shallow && git(['rev-list', '--count', 'HEAD']) === '1'
 
+// Pages rendered by one dynamic route from one entry each: the entry is the
+// page's real source, so its commits date the page, not the shared template's.
+const ENTRIES = [
+  [/^compare\/([a-z0-9-]+)$/, (slug) => `src/data/compare/${slug}.json`],
+  [/^blog\/([a-z0-9-]+)$/, (slug) => `src/content/blog/${slug}.md`],
+  [/^features\/([a-z0-9-]+)$/, (slug) => `src/data/features/${slug}.json`],
+]
+
 function sourceFor(p) {
   const clean = p.replace(/^\/+|\/+$/g, '')
   if (!clean) return 'src/pages/index.astro'
   for (const c of [`src/pages/${clean}.astro`, `src/pages/${clean}/index.astro`]) {
     if (existsSync(path.join(ROOT, c))) return c
+  }
+  for (const [re, entry] of ENTRIES) {
+    const m = clean.match(re)
+    if (m && existsSync(path.join(ROOT, entry(m[1])))) return entry(m[1])
   }
   return null
 }

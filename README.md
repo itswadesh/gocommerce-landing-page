@@ -80,9 +80,11 @@ compiled into the binary, so a separate admin service would be theatre) and
 all three containers healthy, `/` serving the admin, `/docs` the OpenAPI page,
 `/api/products` returning JSON.
 
-It deliberately does **not** start Svelte Commerce. The connector is
-unpublished, so a storefront container would boot, serve a page and fail to
-load a product. Do not add one to look complete.
+It deliberately does **not** start Svelte Commerce by default. The GoCommerce
+connector (`@misiki/gocommerce-connector`) is early, at 0.1.0, and is installed
+into a Svelte Commerce checkout rather than shipped in a storefront image, so a
+default storefront container would serve a page and fail to load a product from
+this stack. Do not add one to look complete.
 
 GoCommerce builds from source because no image is published; pin a tag in
 `build.context` once releases exist. The env template is `env.example`, not
@@ -159,10 +161,12 @@ panel or to any image the page shows on arrival.
 
 ## What the site deliberately does not claim
 
-- **The Svelte Commerce connector is not published.** GoCommerce is not among
-  the 26. `/gocommerce-svelte-commerce-connector/` exists so the answer is one
-  link rather than an inference. It is the only thing on the site marked *in
-  development*.
+- **The Svelte Commerce connector is early, not production-ready.**
+  `@misiki/gocommerce-connector` 0.1.0 is on npm and covers catalogue, cart,
+  checkout and order lookup — not customer accounts or a search index — and no
+  store is known to run the pair in production. GoCommerce is not among the 26
+  measured connectors. `/gocommerce-svelte-commerce-connector/` exists so the
+  answer is one link rather than an inference.
 - **A coverage score is not a guarantee.** No connector has been run against a
   live production instance of its platform. The backends page says so above the
   table, not in a footnote.

@@ -1,0 +1,89 @@
+{
+  "slug": "kitcommerce-vs-webnexs",
+  "platform": "Webnexs",
+  "platformUrl": "https://www.webnexs.com/",
+  "label": "KitCommerce vs Webnexs",
+  "group": "Indian SaaS builders",
+  "summary": "A commissioned build with source for one store, against two MIT projects you run: price, licence, refunds and who does the work.",
+  "title": "KitCommerce vs Webnexs — GoCommerce and Svelte Commerce Compared With Webnexs",
+  "description": "Webnexs compared with GoCommerce and Svelte Commerce, the open-source backend and storefront this site presents: quoted pricing, the source-code licence, refunds, marketplace features, apps and hosting — with where Webnexs is the better choice.",
+  "ogTitle": "KitCommerce vs Webnexs",
+  "ogDescription": "Both hand you the source code. One sells it for a quoted fee and one store; the other is MIT. Sourced.",
+  "h1": "Both give you the source code. The licences are not the same.",
+  "lede": "Webnexs sells ecommerce as a commissioned build: its team scopes the project, quotes a one-time fee, builds the store and hands over the source, which its terms let you use for your own store. GoCommerce and Svelte Commerce are MIT: free to read, run and reuse on as many stores as you like — and nobody builds them for you unless you hire someone.",
+  "facts": [
+    { "b": "Quoted", "t": "Webnexs’s price — it publishes none, and scopes each build after a call" },
+    { "b": "One store", "t": "the use Webnexs’s terms allow for the source it delivers" },
+    { "b": "4–12 weeks", "t": "Webnexs’s stated time to launch a marketplace" }
+  ],
+  "glanceLede": "Webnexs’s side is taken from its product pages and its terms and conditions, linked at the foot of this page; ours from the GoCommerce and Svelte Commerce pages on this site.",
+  "rows": [
+    ["What it is", "A development company selling what it calls a productised custom platform. Its marketplace FAQ says it is not SaaS.", "Two MIT projects you run: a Go backend with its admin compiled in, and a SvelteKit storefront."],
+    ["Price", "Not published. Its product pages lead to a pricing form, a demo request or a discovery call; the terms describe a one-time fee, paid upfront.", "Nothing. Both projects are MIT licensed."],
+    ["Licence", "You receive the complete, unencrypted source, for the purpose you bought it: your own store, per the terms.", "MIT: run it for any number of stores, change it, and ship it under your own name."],
+    ["If it isn’t right", "Fees are non-refundable once paid, the terms say, unless the product fails to work as demonstrated and Webnexs cannot fix it.", "Nothing to refund. Run it, read the code and decide before anyone is paid."],
+    ["Who builds it", "Webnexs’s in-house team: a few weeks for a standard headless storefront, 4–12 weeks for a marketplace.", "You, or a developer you hire. The Docker quick start brings up the API and admin on your own machine."],
+    ["Hosting", "Webnexs helps with hosting, and lists moving the store to your own server without data loss as a feature.", "Yours: one Go binary and one PostgreSQL database, on any server."],
+    ["Fee on each order", "None claimed: its headless page lists avoiding transaction fees as a feature.", "None. Your gateway’s fee is the only one."],
+    ["Payments", "Cards, UPI, net banking, wallets, bank transfer, cash on delivery and pay-later, depending on which gateways a market offers. No gateway is named.", "Razorpay, Stripe, Adyen, HyperSwitch and five more as modules; cash on delivery built in."],
+    ["Marketplace", "Multi-vendor built in: commission by category, seller tier or agreement, and payouts split on a schedule.", "Vendors with pending, approved and suspended states, and vendor offers. Commission is recorded per vendor but not settled — payouts are yours to build."],
+    ["Apps and POS", "Native iOS and Android apps and POS integration, included in its small-business offer.", "Neither. Svelte Commerce for the web, or any client that speaks HTTP."],
+    ["Before you pay", "Demo screens and sites, arranged with sales; the terms ask you to check them carefully before buying.", "Everything: the code on GitHub, over 1,000 tests, and 342 REST operations documented in OpenAPI."],
+    ["Track record", "Case studies on its site, among them spirits, grocery, sweets and fashion retailers.", "Svelte Commerce runs arialshop.com in production. GoCommerce has no production store yet."]
+  ],
+  "cost": {
+    "title": "What each side costs",
+    "lede": "Webnexs publishes no prices, so its column has no figures — only where the money goes. Ask for the quote in writing, with what the licence allows.",
+    "caption": "Where the money goes, Webnexs against GoCommerce and Svelte Commerce",
+    "head": ["Cost", "Webnexs", "GoCommerce + Svelte Commerce"],
+    "rows": [
+      ["Software", "A one-time fee, quoted per project and paid upfront", "₹0"],
+      ["Building the store", "Included in the quote", "Your developer’s time, or yours"],
+      ["Fee per order", "None claimed", "None"],
+      ["Hosting", "Webnexs’s help, or your own server", "A server and a PostgreSQL database, from a small VPS upward"],
+      ["Changes after launch", "Webnexs’s support plans, or any developer — you hold the source", "Your developer"],
+      ["A second store", "A question for the quote: the terms tie the source to your own store", "₹0 — the same code, another deployment"]
+    ],
+    "note": "The honest comparison is a Webnexs quote against a developer’s time. If the quote is less than a developer would cost to build the same store on GoCommerce, and one store is all you will run, Webnexs may be the better buy."
+  },
+  "themWhen": [
+    "You want a team to build and launch the store, and can pay for a one-off project.",
+    "You need native mobile apps or POS from the first day.",
+    "Your marketplace has to pay vendors out, not just record what they are owed.",
+    "You want one company answerable for the build, the hosting and the support."
+  ],
+  "usWhen": [
+    "You want to read and run the code before you pay anyone.",
+    "You run more than one store, or expect to, on the same code.",
+    "You have a developer and would rather pay for their time than for a licence.",
+    "You want a published API contract — 342 documented REST operations — to build against."
+  ],
+  "takeOnExtra": [
+    "No mobile apps and no POS. Webnexs includes both; GoCommerce does not.",
+    "Vendor commission is recorded but not paid out. Settlement is code you write."
+  ],
+  "move": {
+    "title": "Already on a Webnexs build?",
+    "paras": [
+      "Then you hold the source, which makes leaving easier than it is from most hosted builders.",
+      "There is no importer for Webnexs. Moving to GoCommerce means exporting products, customers and orders from your current store and writing a script against GoCommerce’s documented API.",
+      "Svelte Commerce has no Webnexs connector, so the storefront is rebuilt too — from one of its 79 demo themes, or from scratch against the API."
+    ]
+  },
+  "faq": [
+    { "q": "Does Webnexs publish its prices?", "a": "No. Its product pages lead to a pricing form, a demo request or a discovery call, and its headless page says each build is scoped rather than priced from a list. Its terms describe the fee as one-time and paid upfront." },
+    { "q": "Webnexs also gives me the source code. What is the difference?", "a": "The licence and the price. Webnexs’s terms give you the complete source for the purpose you bought it — your own store — for a quoted fee. GoCommerce and Svelte Commerce are MIT: free, for any number of stores, with the right to change and redistribute them." },
+    { "q": "Can I get my money back from Webnexs?", "a": "Its terms say fees are non-refundable once paid. The exception they give is a product that does not work as demonstrated and that Webnexs cannot fix, refunded less bank charges. Read the terms before you sign." },
+    { "q": "Can GoCommerce run a multi-vendor marketplace?", "a": "In part. Vendors are first-class sellers with pending, approved and suspended states, and each can make offers. Commission is recorded per vendor but not settled, so payouts need code. Webnexs’s marketplace offer includes payouts." },
+    { "q": "Who builds a GoCommerce store if I don’t have a developer?", "a": "Nobody, unless you hire someone. There is no hosted offering, paid tier or build service behind either project." }
+  ],
+  "sources": [
+    { "label": "Webnexs — home page and case studies", "url": "https://www.webnexs.com/" },
+    { "label": "Webnexs — ecommerce platform for small business", "url": "https://www.webnexs.com/smb-ecommerce-website-development.php" },
+    { "label": "Webnexs — headless ecommerce development", "url": "https://www.webnexs.com/headless-ecommerce.php" },
+    { "label": "Webnexs — multi-vendor ecommerce marketplace", "url": "https://www.webnexs.com/multivendor-ecommerce-marketplace.php" },
+    { "label": "Webnexs — ecommerce features", "url": "https://www.webnexs.com/ecommerce-features.php" },
+    { "label": "Webnexs — terms and conditions (fees, refunds, source code)", "url": "https://www.webnexs.com/terms-conditions.php" }
+  ],
+  "checked": "2026-09-25"
+}

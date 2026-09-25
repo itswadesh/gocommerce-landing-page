@@ -1,0 +1,353 @@
+---
+/**
+ * The open-source page: what the two repositories are, how to have them
+ * running in five steps, what sits around them, and the plain statement that
+ * there is no cloud or paid tier behind them. Shaped after Saleor's
+ * open-source page — hero with stars, first steps, ecosystem, community —
+ * with its managed-cloud section replaced by the honest absence of one, and
+ * no releases feed, because GoCommerce has no releases yet.
+ */
+import Base from '../layouts/Base.astro'
+import Faq from '../components/Faq.astro'
+
+const path = '/open-source/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+// Repository figures, fetched at build time exactly as the homepage does;
+// the fallbacks were read from the GitHub API on 25 September 2026. app.js
+// refreshes the data-gh numbers in the browser if GitHub answers — it knows
+// go-stars, sv-stars and sv-forks, so only those are marked.
+async function repoStats(repo: string, fallback: { stars: number; forks: number }) {
+  try {
+    const ctrl = new AbortController()
+    const timer = setTimeout(() => ctrl.abort(), 5000)
+    const r = await fetch(`https://api.github.com/repos/${repo}`, { headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'kitcommerce.store build' }, signal: ctrl.signal })
+    clearTimeout(timer)
+    if (!r.ok) return fallback
+    const j = await r.json()
+    return { stars: typeof j.stargazers_count === 'number' ? j.stargazers_count : fallback.stars, forks: typeof j.forks_count === 'number' ? j.forks_count : fallback.forks }
+  } catch { return fallback }
+}
+const [go, sv] = await Promise.all([
+  repoStats('itswadesh/gocommerce', { stars: 2, forks: 0 }),
+  repoStats('itswadesh/svelte-commerce', { stars: 1815, forks: 336 }),
+])
+const n = (x: number) => x.toLocaleString('en')
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'Open source — GoCommerce and Svelte Commerce', isPartOf: { '@id': abs('/#site') }, about: [{ '@id': abs('/gocommerce/#app') }, { '@id': abs('/svelte-commerce/#app') }], inLanguage: 'en' },
+]
+
+const faq = [
+  { q: 'What licence are GoCommerce and Svelte Commerce under?', a: 'MIT, both of them. You may use, copy, modify, merge, publish, distribute, sublicense and sell copies, commercially or not. The one condition is that the MIT copyright and permission notice is included with copies of the software. There is no second licence, no source-available clause and no commercial edition on different terms.' },
+  { q: 'Can I white-label or rebrand them?', a: 'Yes. Rename either project, restyle the GoCommerce admin, change the storefront’s theme and ship the result under your own name and domain — for your own shop or for clients. The licence asks for its notice to travel with copies of the software, as a file in the source or the distribution; it does not ask for a credit in your storefront or your admin.' },
+  { q: 'Is there a cloud or a hosted version?', a: 'No. There is no hosted GoCommerce, no Svelte Commerce cloud, no paid tier and no enterprise edition. You run both yourself: the compose file on this site starts PostgreSQL, GoCommerce with its admin, and a proxy on port 80 on any machine with Docker. If you would rather someone else operated the servers, a hosted platform is the better fit.' },
+  { q: 'Is it ready for production?', a: 'Svelte Commerce is: arialshop.com runs it in production, against one of its 26 backends. GoCommerce carries over 1,000 tests and 342 documented operations, but no store we know of runs it in production yet, so treat it as something to build on deliberately — run the suite against your changes and place test orders before real ones. Svelte Commerce reaches GoCommerce through an early connector, 0.1.0, covering catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet, and no store we know of runs the pair in production.' },
+  { q: 'Why does GoCommerce have so few GitHub stars?', a: 'Because its repository is new: it was created on GitHub on 30 August 2026. Svelte Commerce has been there since October 2019, which is where its count comes from. A star count says how long a project has been noticed, not whether its code is right — the test suite is the better evidence. Both numbers on this page are read from the GitHub API, not typed in.' },
+  { q: 'How do I contribute?', a: 'For anything large, ask in the Discord first. For GoCommerce, read AGENTS.md — the rules every contributor works under, human or agent — and docs/writing-a-module.md if you are adding an integration, then open an issue or a pull request. For Svelte Commerce, docs/CONNECTORS.md lists every backend connector and what it covers. The most useful work right now is the GoCommerce connector for Svelte Commerce.' },
+]
+
+// Code blocks carry braces, which Astro would read as expressions; they are
+// strings here and rendered with set:html, as on the homepage.
+const stepsCode = `<span class="cm"># 1 — the compose file: PostgreSQL, GoCommerce and Caddy</span>
+curl -O https://kitcommerce.store/docker-compose.yml
+
+<span class="cm"># 2 — the settings template, saved as .env beside it</span>
+curl -o .env https://kitcommerce.store/env.example
+
+<span class="cm"># 3 — replace every value in .env; make the two secrets with</span>
+openssl rand -hex 32
+
+<span class="cm"># 4 — start it; the first run builds GoCommerce from source</span>
+docker compose up -d
+
+<span class="cm"># 5 — check the catalogue answers, then open http://localhost/</span>
+curl http://localhost/api/products`
+
+// Adapted from gocommerce.astro's composeCode, with modules taken verbatim
+// from examples/store/main.go.
+const composeCode = `<span class="k">import</span> (
+	<span class="s">"github.com/misiki/gocommerce/core"</span>
+	razorpay <span class="s">"github.com/misiki/gocommerce/ext/payments-razorpay"</span>
+	shiprocket <span class="s">"github.com/misiki/gocommerce/ext/fulfill-shiprocket"</span>
+	<span class="s">"github.com/misiki/gocommerce/ext/mcp"</span>
+)
+
+<span class="cm">// Everything this store runs is on this screen. A module that is</span>
+<span class="cm">// not in this list is not in the binary.</span>
+modules := []gocommerce.<span class="t">Module</span>{
+	razorpay.<span class="f">New</span>(razorpay.<span class="t">Config</span>{}),
+	shiprocket.<span class="f">New</span>(shiprocket.<span class="t">Config</span>{}),
+	mcp.<span class="f">New</span>(mcp.<span class="t">Config</span>{ServerName: <span class="s">"my-store"</span>}),
+}
+
+app, err := gocommerce.<span class="f">New</span>(gocommerce.<span class="t">Config</span>{
+	DBURL:       os.<span class="f">Getenv</span>(<span class="s">"DATABASE_URL"</span>),
+	Currency:    <span class="s">"INR"</span>,
+	AdminTokens: []<span class="t">string</span>{os.<span class="f">Getenv</span>(<span class="s">"GOCOMMERCE_ADMIN_TOKEN"</span>)},
+}, modules...)`
+
+const repo = {
+  go: 'https://github.com/itswadesh/gocommerce',
+  sv: 'https://github.com/itswadesh/svelte-commerce',
+}
+const discord = 'https://discord.gg/GgdAeccwDR'
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+---
+<Base
+  title="Open Source Commerce Engine for Builders | GoCommerce & Svelte Commerce"
+  description="MIT licensed and built in the open: GoCommerce, a commerce engine in Go with its admin compiled in, and Svelte Commerce, a SvelteKit storefront. Five steps to run GoCommerce with Docker. No cloud, no paid tier."
+  path={path}
+  ogTitle="The open-source commerce engine for builders"
+  ogDescription="GoCommerce and Svelte Commerce: MIT, on GitHub, run by you. GoCommerce in five steps with Docker. No cloud, no paid tier."
+  crumbs={[{ name: 'Open source', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Open source</p>
+    <h1>The open-source commerce engine for builders</h1>
+    <p class="lede">GoCommerce is the engine: catalogue, carts, checkout, orders and inventory in one Go binary, with its admin compiled in. Svelte Commerce is the storefront, in SvelteKit. Both are MIT licensed and developed on GitHub, and there is nothing to sign up for — you clone them, run them and change them.</p>
+    <div class="actions">
+      <a class="button" href={repo.go} {...ext} data-ev="github_gocommerce_click">GoCommerce on GitHub</a>
+      <a class="button secondary" href={repo.sv} {...ext} data-ev="github_sveltecommerce_click">Svelte Commerce on GitHub</a>
+      <a class="button secondary" href={discord} {...ext} data-ev="discord_click">Join the Discord</a>
+    </div>
+    {/* Each count sits with the project it belongs to; app.js refreshes both. */}
+    <ul class="hero-stats" aria-label="At a glance">
+      <li><b data-gh="go-stars">{n(go.stars)}</b><span>GitHub stars, GoCommerce</span></li>
+      <li><b data-gh="sv-stars">{n(sv.stars)}</b><span>GitHub stars, Svelte Commerce</span></li>
+      <li><b>MIT</b><span>both projects</span></li>
+      <li><b>0</b><span>paid tiers</span></li>
+    </ul>
+  </section>
+
+  {/* ═══════════════════════════════════════════════ first steps */}
+  <section id="first-steps" class="section wrap" aria-labelledby="steps-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">First steps</p>
+        <h2 id="steps-title">A store on your own machine in five steps</h2>
+      </div>
+      <p class="section-lede">All it needs is Docker and a terminal — nothing to register, nothing to pay. The compose file is served from this domain and starts three services: PostgreSQL, GoCommerce with its admin, and Caddy so it answers on port 80.</p>
+    </div>
+
+    <ol class="agentflow">
+      <li>Download <code>docker-compose.yml</code></li>
+      <li>Save <code>env.example</code> as <code>.env</code></li>
+      <li>Set your secrets</li>
+      <li><code>docker compose up -d</code></li>
+      <li>Open <code>localhost</code></li>
+    </ol>
+
+    <div class="code-block">
+      <div class="code-head">
+        <p>Five steps, in order</p>
+        <button class="copy" data-copy="code-first-steps" data-ev="docker_compose_copy">Copy commands</button>
+      </div>
+      <pre id="code-first-steps"><code set:html={stepsCode} /></pre>
+      <p class="code-note"><a href="/docker-compose.yml">docker-compose.yml</a> · <a href="/env.example">env.example</a> — both plain text, commented line by line, readable before you run them.</p>
+    </div>
+
+    <div class="urls">
+      <div class="url"><p class="url-what">Admin</p><p class="url-where"><code>http://localhost/</code></p><p class="url-note">Sign in with the email and password you set in <code>.env</code>.</p></div>
+      <div class="url"><p class="url-what">API documentation</p><p class="url-where"><code>http://localhost/docs</code></p><p class="url-note">The OpenAPI contract this build actually serves.</p></div>
+      <div class="url"><p class="url-what">Catalogue</p><p class="url-where"><code>http://localhost/api/products</code></p><p class="url-note">Public and unauthenticated — the route a storefront calls.</p></div>
+    </div>
+
+    <p class="fineprint">
+      <b>Step 3 in full:</b> <code>POSTGRES_PASSWORD</code> and <code>GOCOMMERCE_ADMIN_TOKEN</code>
+      take the output of <code>openssl rand -hex 32</code>; <code>GOCOMMERCE_ADMIN_EMAIL</code> and
+      <code>GOCOMMERCE_ADMIN_PASSWORD</code> create the first operator, and only while there is none,
+      so leaving them set never resets a password. The compose file will not start while a required
+      secret is unset.
+    </p>
+    <p class="fineprint">
+      The first <code>docker compose up -d</code> compiles GoCommerce from the public repository,
+      because no image is published yet — expect a few minutes; later runs are cached. Svelte Commerce
+      is not part of the stack yet: its Docker image has no published tags, so it runs from
+      source (the <a href="/svelte-commerce/#quickstart">Svelte Commerce quick start</a>), and pairing it with this stack means installing
+      the early GoCommerce connector in that checkout.
+    </p>
+
+    <div class="tri">
+      <div class="tri-item tri-engine">
+        <h3>Build from source instead</h3>
+        <p>No Docker: Go and a PostgreSQL you can reach. The GoCommerce quick start clones the repository and runs the reference binary, with every module installed.</p>
+        <a class="button secondary" href="/gocommerce/#quickstart">GoCommerce quick start</a>
+      </div>
+      <div class="tri-item tri-store">
+        <h3>Run the storefront</h3>
+        <p>Svelte Commerce needs Node and a backend to point at — one of its 26, or GoCommerce through its <a href="/gocommerce-svelte-commerce-connector/">early connector</a>, which covers catalogue, cart, checkout and order lookup.</p>
+        <a class="button secondary" href="/svelte-commerce/#quickstart">Svelte Commerce quick start</a>
+      </div>
+      <div class="tri-item">
+        <h3>On a server, not a laptop</h3>
+        <p>The same compose file runs on any server with Docker. <code>PORT</code> in <code>.env</code> moves it off port 80, and Caddy in front is the one place to add TLS. Running GoCommerce in production has its own guide.</p>
+        <a class="button secondary" href="https://github.com/itswadesh/gocommerce/blob/main/docs/operations.md" {...ext}>Operations guide</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ═════════════════════════════════════ more than an engine */}
+  <section id="ecosystem" class="section wrap" aria-labelledby="eco-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">The ecosystem</p>
+        <h2 id="eco-title">More than an engine</h2>
+      </div>
+      <p class="section-lede">Two repositories and everything around them — modules, themes, agent tooling — developed in the open under one licence. Each piece works without the others; take the one you need first.</p>
+    </div>
+
+    <div class="plate">
+      <div class="part part-engine">
+        <p class="part-id">itswadesh/gocommerce</p>
+        <p class="part-name"><a href="/gocommerce/" data-ev="gocommerce_explore">GoCommerce</a></p>
+        <p class="part-role">The engine and its admin. One Go binary and one PostgreSQL; the Svelte admin is compiled into the same binary, so there is no second service to deploy.</p>
+        <ul class="part-figures">
+          <li><b>61</b> admin screens</li>
+          <li><b>342</b> API operations</li>
+          <li><b>1,000+</b> tests</li>
+          <li><b>44</b> modules</li>
+        </ul>
+        <div class="part-cta actions">
+          <a class="button" href="/gocommerce/" data-ev="gocommerce_explore">Explore GoCommerce</a>
+          <a class="button secondary" href={repo.go} {...ext} data-ev="github_gocommerce_click">GitHub</a>
+        </div>
+      </div>
+      <div class="part part-store">
+        <p class="part-id">itswadesh/svelte-commerce</p>
+        <p class="part-name"><a href="/svelte-commerce/" data-ev="sveltecommerce_explore">Svelte Commerce</a></p>
+        <p class="part-role">The storefront. Server-rendered SvelteKit — browse, search, cart, checkout, account — against 26 commerce backends. arialshop.com runs it in production.</p>
+        <ul class="part-figures">
+          <li><b>26</b> backends</li>
+          <li><b>79</b> demo themes</li>
+          <li><b data-gh="sv-stars">{n(sv.stars)}</b> stars</li>
+          <li><b data-gh="sv-forks">{n(sv.forks)}</b> forks</li>
+        </ul>
+        <div class="part-cta actions">
+          <a class="button" href="/svelte-commerce/" data-ev="sveltecommerce_explore">Explore Svelte Commerce</a>
+          <a class="button secondary" href="/svelte-commerce/themes/">79 themes</a>
+          <a class="button secondary" href={repo.sv} {...ext} data-ev="github_sveltecommerce_click">GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="status-line status-inline"><span class="dot dot-dev" aria-hidden="true"></span><b>GoCommerce ↔ Svelte Commerce connector: early, 0.1.0</b><span>It covers catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet.</span><a href="/gocommerce-svelte-commerce-connector/">Status</a></p>
+
+    <div class="tri">
+      <div class="tri-item">
+        <h3>44 modules, compiled in only when imported</h3>
+        <p>Payments, carriers, email and SMS, search, content, feeds and importers — each a directory under <code>ext/</code>. Import one and it is in your binary; leave it out and none of its code is.</p>
+        <ul class="tick">
+          <li>9 payment modules, Razorpay and Stripe among them</li>
+          <li>11 shipping modules, Shiprocket and Delhivery among them</li>
+          <li>Shopify and Amazon importers</li>
+        </ul>
+        <a class="button secondary" href="/integrations/">Browse the 44 modules</a>
+      </div>
+      <div class="tri-item">
+        <h3>Written for coding agents</h3>
+        <p>The repository tells an agent how it is built, and the MCP module lets an agent operate a running store.</p>
+        <ul class="tick">
+          <li><code>AGENTS.md</code> — 14 architectural rules and 4 notes for agents</li>
+          <li><code>skills/</code> — 15 task guides and an index</li>
+          <li>MCP — 19 tools, through the same services as REST</li>
+        </ul>
+        <a class="button secondary" href="/vibe-coding-commerce/">Build with coding agents</a>
+      </div>
+      <div class="tri-item">
+        <h3>Commerce as code</h3>
+        <p>A store is a Go program. Modules are imports composed in <code>main.go</code>, so installing a gateway is a diff that goes through review, tests and rollback like any other change.</p>
+        <ul class="tick">
+          <li>No plugin registry</li>
+          <li>Nothing downloaded at runtime</li>
+          <li>“Go to definition” works on all of it</li>
+        </ul>
+        <a class="button secondary" href="https://github.com/itswadesh/gocommerce/blob/main/docs/writing-a-module.md" {...ext}>How a module is written</a>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-head">
+        <p>Commerce as code — a store’s <code>main.go</code>, shortened</p>
+        <button class="copy" data-copy="code-compose-os">Copy</button>
+      </div>
+      <pre id="code-compose-os"><code set:html={composeCode} /></pre>
+      <p class="code-note">Shortened from <code>examples/store/main.go</code>. The Go module path is still <code>github.com/misiki/gocommerce</code>; only the repository moved.</p>
+    </div>
+  </section>
+
+  {/* ═══════════════════════════════════ no cloud, no paid tier */}
+  <section id="no-cloud" class="section wrap" aria-labelledby="nocloud-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">No cloud, no paid tier</p>
+        <h2 id="nocloud-title">What you clone is all there is</h2>
+      </div>
+      <p class="section-lede">No hosted version, no enterprise edition, no plan to upgrade to. The two repositories on GitHub are the whole offering, and both are yours under MIT.</p>
+    </div>
+
+    <div class="tri">
+      <div class="tri-item">
+        <h3>No hosted version</h3>
+        <p>There is no GoCommerce cloud and no Svelte Commerce cloud, no paid tier and no enterprise edition. You run the software on your own servers, and you own what it stores.</p>
+      </div>
+      <div class="tri-item">
+        <h3>Rebrand it, white-label it</h3>
+        <p>Rename either project, restyle the admin, ship it under your own name and domain, and sell what you build. The one condition is the licence’s own: its copyright and permission notice travels with the software.</p>
+      </div>
+      <div class="tri-item">
+        <h3>GoCommerce doesn’t phone home</h3>
+        <p>No licence key to check, no usage report, no account with anyone. The admin even serves its own fonts, so it works on a machine that has never seen the internet.</p>
+      </div>
+    </div>
+
+    <div class="statement">
+      <p class="statement-lead">The cost of that: nobody runs it for you.</p>
+      <p>Servers, backups, upgrades and security patches are yours, and so is the pager. If you want someone else to carry them, a hosted platform is the better choice — the <a href="/compare/">comparisons</a> say where each one wins.</p>
+    </div>
+  </section>
+
+  {/* ═══════════════════════════════════════════════ community */}
+  <section id="community" class="section wrap" aria-labelledby="community-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Community</p>
+        <h2 id="community-title">Ask, report, contribute</h2>
+      </div>
+      <p class="section-lede">Questions, bug reports and pull requests go where the work happens: a Discord server and the two repositories.</p>
+    </div>
+
+    <div class="contrib">
+      <ul class="contrib-list">
+        <li><b>Discord</b> — questions, help getting a store running, and what people are building with either project. <a href={discord} {...ext} data-ev="discord_click">Join the server</a></li>
+        <li><b>Discussions</b> — Svelte Commerce keeps <a href="https://github.com/itswadesh/svelte-commerce/discussions" {...ext}>GitHub Discussions</a> open for questions and ideas. GoCommerce has them switched off, so its questions go to Discord or an issue.</li>
+        <li><b>Issues</b> — bugs and proposals, filed against <a href="https://github.com/itswadesh/gocommerce/issues" {...ext}>GoCommerce</a> or <a href="https://github.com/itswadesh/svelte-commerce/issues" {...ext}>Svelte Commerce</a>. Say what you ran and what came back.</li>
+        <li><b>Contributing</b> — for GoCommerce, <a href="https://github.com/itswadesh/gocommerce/blob/main/AGENTS.md" {...ext}><code>AGENTS.md</code></a> holds the rules every contributor works under, human or agent, and <a href="https://github.com/itswadesh/gocommerce/blob/main/docs/writing-a-module.md" {...ext}><code>docs/writing-a-module.md</code></a> shows how an integration is built. The work that matters most is listed on the <a href="/gocommerce/#roadmap">GoCommerce page</a>.</li>
+        <li><b>Changelog</b> — Svelte Commerce records its changes in <a href="https://github.com/itswadesh/svelte-commerce/blob/main/docs/CHANGELOG.md" {...ext}><code>docs/CHANGELOG.md</code></a>. GoCommerce has no tagged releases yet, so its <a href="https://github.com/itswadesh/gocommerce/commits/main" {...ext}>commit history</a> is the record.</li>
+      </ul>
+      <div class="contrib-cta">
+        <p>GoCommerce carries <b>1,000+ tests</b> and a documented contract for every route, so a pull request has something to prove itself against.</p>
+        <a class="button" href={discord} {...ext} data-ev="discord_click">Join the Discord</a>
+        <a class="button secondary" href="https://github.com/itswadesh/gocommerce/issues" {...ext}>GoCommerce issues</a>
+        <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce/discussions" {...ext}>Svelte Commerce discussions</a>
+      </div>
+    </div>
+
+    <p class="fineprint">GoCommerce’s repository was created on 30 August 2026, so its star count is small; Svelte Commerce has been on GitHub since October 2019. Both counts are read from the GitHub API when this page is built, and again in your browser if GitHub answers.</p>
+  </section>
+
+  <Faq items={faq} title="Questions about open source" />
+
+  <section class="closing wrap">
+    <h2>Clone it, run it, make it yours</h2>
+    <p>Two MIT repositories, five steps to a running store, and a Discord if you get stuck.</p>
+    <div class="actions">
+      <a class="button" href="#first-steps" data-ev="quickstart_click">Start in five steps</a>
+      <a class="button secondary" href={repo.go} {...ext} data-ev="github_gocommerce_click">GoCommerce on GitHub</a>
+      <a class="button secondary" href={repo.sv} {...ext} data-ev="github_sveltecommerce_click">Svelte Commerce on GitHub</a>
+      <a class="button secondary" href={discord} {...ext} data-ev="discord_click">Join the Discord</a>
+    </div>
+  </section>
+</Base>

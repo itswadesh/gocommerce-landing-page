@@ -17,6 +17,14 @@
   X-Frame-Options: SAMEORIGIN
   Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
+  # Report-only first: the browser logs what this policy would block and
+  # blocks nothing. The one third party that loads is Google Analytics, and
+  # only after consent; GitHub answers the live star counts. Inline scripts
+  # and style attributes are part of the build (theme, config, JSON-LD, the
+  # terminal's line timings), hence 'unsafe-inline' until they are hashed.
+  # Once the console stays quiet on real traffic, rename the header to
+  # Content-Security-Policy to enforce it.
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; connect-src 'self' https://api.github.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; worker-src 'self'; manifest-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'
 
 # Fonts carry their weight in the filename and are replaced rather than
 # edited, so a year is safe and immutable stops the revalidation round trip
@@ -58,3 +66,15 @@
 
 /assets/icons/*
   Cache-Control: public, max-age=604800
+
+# Per-page social cards, re-rendered only when a page's title changes.
+/og/*
+  Cache-Control: public, max-age=86400
+
+/.well-known/security.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400
+
+/rss.xml
+  Content-Type: application/rss+xml; charset=utf-8
+  Cache-Control: public, max-age=3600

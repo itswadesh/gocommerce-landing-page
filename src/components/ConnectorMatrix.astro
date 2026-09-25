@@ -54,15 +54,18 @@ const Mark = (s: State) => MARK[s] ?? MARK.unwired
           </tr>
         )
       })}
-      {/* Not in the data because it is not a connector yet. Listed last, on
-          purpose, so the page answers the question everyone arrives with. */}
+      {/* Not in the data because the coverage script has not measured it: the
+          connector lives in the GoCommerce repository, not in Svelte
+          Commerce's. Listed last, on purpose, so the page answers the question
+          everyone arrives with. Marks are from its README: cart and checkout
+          are mapped; shopper sign-in is not (checkout is guest checkout). */}
       <tr class="row-pending">
-        <th scope="row">GoCommerce</th>
+        <th scope="row"><a href="/gocommerce-svelte-commerce-connector/">GoCommerce</a></th>
         <td class="cov"><span class="num none">—</span></td>
+        <td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
+        <td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
         <td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td>
-        <td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td>
-        <td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td>
-        <td class="gaps">connector in development, not published</td>
+        <td class="gaps">early connector, 0.1.0 — not measured by the coverage script; no customer accounts or search index</td>
       </tr>
     </tbody>
   </table>

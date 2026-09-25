@@ -3,6 +3,8 @@ import { defineConfig } from 'astro/config'
 import sitemap from '@astrojs/sitemap'
 import AstroPWA from '@vite-pwa/astro'
 import { pageDates } from './src/lib/dates.mjs'
+import { copyFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 
 // One canonical host, declared once. The sitemap, every canonical, every
 // og:url and every BreadcrumbList item derive from it — a domain change is a
@@ -32,6 +34,19 @@ export default defineConfig({
         return item
       },
     }),
+    // /sitemap.xml is where people and most tools look first, but the sitemap
+    // integration writes only sitemap-index.xml. The same index is copied to
+    // the conventional name after the build, so both answer 200 with identical
+    // content and neither can drift from the other.
+    {
+      name: 'sitemap-xml-alias',
+      hooks: {
+        'astro:build:done': ({ dir }) => {
+          const out = fileURLToPath(dir)
+          copyFileSync(out + 'sitemap-index.xml', out + 'sitemap.xml')
+        },
+      },
+    },
     AstroPWA({
       // A precaching worker that takes over as soon as it installs. app.js
       // registers it and reloads the page the next time the tab is hidden,

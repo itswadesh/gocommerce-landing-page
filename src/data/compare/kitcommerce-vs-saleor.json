@@ -1,0 +1,100 @@
+{
+  "slug": "kitcommerce-vs-saleor",
+  "platform": "Saleor",
+  "platformUrl": "https://saleor.io",
+  "label": "KitCommerce vs Saleor",
+  "group": "Headless open source",
+  "summary": "Engine against engine: Saleor’s mature Python and GraphQL platform against one Go binary with a REST API — maturity, what you run, cost and agent commerce.",
+  "title": "KitCommerce vs Saleor — GoCommerce and Svelte Commerce Compared With Saleor",
+  "description": "Saleor compared with GoCommerce and Svelte Commerce: Python, Django and GraphQL against one Go binary and REST, 160+ webhooks, ACP, Saleor Cloud pricing and production track record — and why Saleor is the more proven choice.",
+  "ogTitle": "KitCommerce vs Saleor",
+  "ogDescription": "A proven GraphQL engine with a cloud, or a small Go binary you run yourself. Maturity, stack, cost and agent commerce, sourced.",
+  "h1": "Saleor is the proven engine. GoCommerce is the simpler one to run.",
+  "lede": "Saleor is a headless commerce API in Python and Django, spoken through GraphQL and extended by apps in any language, with a managed Saleor Cloud and production case studies from brands such as Lush and Breitling. GoCommerce is a headless engine in Go — one binary with its admin compiled in, one PostgreSQL database, a REST API — and Svelte Commerce is a separate SvelteKit storefront. On maturity, Saleor wins, and this page says so. On what it takes to run, GoCommerce asks for less.",
+  "facts": [
+    { "b": "23,000+", "t": "GitHub stars on Saleor, BSD-3 licensed" },
+    { "b": "160+", "t": "webhooks Saleor offers its apps" },
+    { "b": "$1,599", "t": "a month for Saleor Cloud’s Select plan, up to $200,000 in monthly sales" }
+  ],
+  "glanceLede": "Saleor’s side is checked against its own site, pricing page, documentation and repository, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site.",
+  "rows": [
+    ["What it is", "A headless commerce API with a separate dashboard, run by its makers as Saleor Cloud or by you.", "A headless Go backend with its admin compiled into the same binary; Svelte Commerce is a separate SvelteKit storefront."],
+    ["Licence", "BSD-3-Clause, for the core and the dashboard.", "MIT, both projects."],
+    ["Language", "Python 3.12 and Django; the dashboard is a separate TypeScript application.", "Go, compiled to one binary with one production dependency, the PostgreSQL driver."],
+    ["What production runs", "API web workers, background task workers and a periodic scheduler, on PostgreSQL with read replicas, a Redis cache, a Redis queue and S3 or Google Cloud Storage.", "One binary and one PostgreSQL database. No Redis, no separate worker process, no message broker."],
+    ["API", "GraphQL, with subscription queries that shape each webhook’s payload.", "REST: 342 documented operations, published as OpenAPI, the same API the admin uses."],
+    ["Extending it", "Apps in any language, driven by 160+ webhooks — synchronous ones among them, to override default flows — and 45+ mount points in the dashboard.", "44 modules, each compiled in only when imported, outgoing webhooks among them. Anything else is Go you write."],
+    ["Selling through AI agents", "Saleor says it was the first open commerce platform to implement the Agentic Commerce Protocol, and lists an app that publishes products to ChatGPT through an ACP feed.", "None. GoCommerce supports no agentic commerce protocol — not ACP, UCP or AP2."],
+    ["Agent tooling for developers", "Agent skills for core, apps, storefront and the Configurator CLI, which keeps channels, product types, shipping zones and tax rules in version-controlled YAML.", "An MCP module with 19 tools that act on a running store; an AGENTS.md of 18 rules and 16 task guides in the repository."],
+    ["Marketplace and B2B", "Patterns Saleor documents and you build: vendors modelled with attributes and warehouses, payment splitting through apps such as Stripe Connect, per-channel price and stock.", "Vendors built in, with commission recorded but not settled. Customer groups, price lists and quantity breaks; no quotes or approvals."],
+    ["Hosting", "Self-host with Docker, or Saleor Cloud from $1,599 a month; sandboxes are free for non-commercial use.", "Self-host only. No hosted offering."],
+    ["Storefront", "Paper, Saleor’s open-source storefront foundation, or any front end.", "Svelte Commerce, whose Saleor connector wires 28 of 43 services — not yet cart, checkout or sign-in."],
+    ["Track record", "Case studies from Lush, Breitling, PCDIGA and Kencove; Saleor Cloud reports over a billion API requests and 400,000 orders a month.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
+  ],
+  "cost": {
+    "title": "What running each one costs",
+    "lede": "Self-hosted, both are free. Saleor Cloud starts at $1,599 a month and adds a fee on sales above each plan’s allowance; GoCommerce has no cloud, so its cost is a server and whoever looks after it.",
+    "caption": "Recurring costs, Saleor against GoCommerce and Svelte Commerce",
+    "head": ["Cost", "Saleor", "GoCommerce + Svelte Commerce"],
+    "rows": [
+      ["Software", "Nothing to self-host — BSD-3", "Nothing — MIT"],
+      ["Managed hosting", "Saleor Cloud: Select $1,599 a month up to $200,000 in monthly sales; Volume $3,999 up to $1,000,000; Enterprise negotiated", "None offered"],
+      ["Fee on sales above the allowance", "0.8% on Select, 0.4% on Volume, as low as 0.2% on Enterprise", "None"],
+      ["Trying it out", "Cloud sandboxes, free for non-commercial use", "The one-command Docker stack, locally"],
+      ["Onboarding add-ons", "Accelerator $6,000 or Forward Deployed Engineering $12,000, one-time, credited back over the first year after launch", "None"],
+      ["Self-hosted infrastructure", "API workers, background workers, a scheduler, PostgreSQL, Redis for cache and queue, and object storage", "One binary and PostgreSQL"]
+    ],
+    "note": "A worked example from the figures above: a month with $300,000 in sales on Saleor Cloud’s Select plan costs $1,599 plus 0.8% of the $100,000 above the allowance — $2,399 in all. Self-hosted Saleor carries no platform fee; the infrastructure and the people who run it are the cost instead."
+  },
+  "themWhen": [
+    "You want an engine with a long production record — Saleor publishes case studies from Lush, Breitling and PCDIGA.",
+    "You want to sell through AI agents now: Saleor implements ACP, and GoCommerce implements no agentic commerce protocol.",
+    "You want GraphQL, and apps in any language driven by webhooks.",
+    "You want the makers to run it and help build it, and a Saleor Cloud budget from $1,599 a month fits."
+  ],
+  "usWhen": [
+    "Python with background workers, a scheduler and Redis in two roles is more infrastructure than the store needs.",
+    "You would rather speak REST described by OpenAPI than GraphQL.",
+    "You want marketplace vendors and B2B price lists in the core, not patterns to build.",
+    "Your team writes Go, or wants a single binary to deploy and roll back."
+  ],
+  "takeOnExtra": [
+    "No agentic commerce protocol. Saleor implements ACP; GoCommerce has no ACP, UCP or AP2 support.",
+    "No importer from Saleor: GoCommerce imports from Shopify and Amazon only, so moving means a script against both APIs."
+  ],
+  "move": {
+    "title": "Keeping Saleor, or moving off it",
+    "paras": [
+      "For most Saleor stores, the honest advice is to stay.",
+      "Keep Saleor and change only the storefront: Svelte Commerce’s Saleor connector wires 28 of its 43 services, but cart, checkout and sign-in are not among them, and orders, coupons and search have gaps too. It is further from selling than the Medusa or Vendure connectors, so this path is connector work first.",
+      "Or move the backend: GoCommerce has no Saleor importer — its import modules cover Shopify and Amazon only — so a move is a script that queries Saleor’s GraphQL API and writes to GoCommerce’s REST API. Move for the stack or the bill; on features, Saleor has more."
+    ]
+  },
+  "faq": [
+    { "q": "Is Saleor better than GoCommerce?", "a": "On maturity, yes. Saleor has 23,000+ GitHub stars, a managed cloud, published case studies and agent-commerce support that GoCommerce does not have. GoCommerce is smaller to run — one binary and PostgreSQL — and MIT licensed, but no store we know of runs it in production yet." },
+    { "q": "How much does Saleor Cloud cost?", "a": "Saleor’s pricing page lists Select at $1,599 a month up to $200,000 in monthly sales, with 0.8% above that, and Volume at $3,999 up to $1,000,000, with 0.4% above. Enterprise is negotiated, as low as 0.2%. Sandboxes are free for non-commercial use." },
+    { "q": "Does GoCommerce support ACP like Saleor?", "a": "No. GoCommerce supports no agentic commerce protocol — ACP, UCP or AP2. It does have an MCP module that lets an AI agent operate a store through 19 tools, which is a different job from selling through an agent." },
+    { "q": "Is Saleor free to self-host?", "a": "Yes. Saleor is BSD-3 licensed. A production deployment runs API workers, background workers and a scheduler, with PostgreSQL, Redis and object storage — more pieces than GoCommerce’s one binary and PostgreSQL." },
+    { "q": "Can Svelte Commerce run on Saleor?", "a": "Not for selling yet. Its Saleor connector wires 28 of 43 services, but cart, checkout and sign-in are unwired. Coverage is traced by a script on the backends page, and no connector has been run against a live production store." }
+  ],
+  "sources": [
+    { "label": "Saleor — home page", "url": "https://saleor.io/" },
+    { "label": "Saleor — pricing (Saleor Cloud)", "url": "https://saleor.io/pricing" },
+    { "label": "Saleor — open source", "url": "https://saleor.io/open-source" },
+    { "label": "Saleor — case studies", "url": "https://saleor.io/case-study" },
+    { "label": "Saleor blog — end-to-end agentic commerce (ACP)", "url": "https://saleor.io/blog/end-to-end-agentic-commerce" },
+    { "label": "Saleor Apps — extensions directory", "url": "https://apps.saleor.io/" },
+    { "label": "Saleor — marketplace solutions", "url": "https://saleor.io/solutions/marketplace" },
+    { "label": "Saleor — B2B commerce", "url": "https://saleor.io/solutions/b2b-commerce" },
+    { "label": "Saleor docs — self-hosting architecture", "url": "https://docs.saleor.io/setup/architecture" },
+    { "label": "Saleor docs — installation with Docker", "url": "https://docs.saleor.io/setup/docker-compose" },
+    { "label": "Saleor docs — webhooks overview", "url": "https://docs.saleor.io/developer/extending/webhooks/overview" },
+    { "label": "Saleor docs — extending the dashboard with apps", "url": "https://docs.saleor.io/developer/extending/apps/extending-dashboard-with-apps" },
+    { "label": "Saleor docs — SaaS vs self-hosting", "url": "https://docs.saleor.io/cloud/saas-self-host" },
+    { "label": "Saleor on GitHub (stars, licence, releases)", "url": "https://github.com/saleor/saleor" },
+    { "label": "Saleor on GitHub — pyproject.toml (Python version)", "url": "https://github.com/saleor/saleor/blob/main/pyproject.toml" },
+    { "label": "Saleor Dashboard on GitHub", "url": "https://github.com/saleor/saleor-dashboard" },
+    { "label": "Saleor agent skills on GitHub", "url": "https://github.com/saleor/agent-skills" }
+  ],
+  "checked": "2026-09-25"
+}

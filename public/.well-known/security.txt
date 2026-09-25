@@ -1,0 +1,6 @@
+Contact: mailto:hello@kitcommerce.store
+Contact: https://kitcommerce.store/contact/#security
+Expires: 2027-09-25T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://kitcommerce.store/.well-known/security.txt
+Policy: https://kitcommerce.store/contact/#security

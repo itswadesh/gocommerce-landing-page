@@ -1,0 +1,75 @@
+{
+  "slug": "kitcommerce-vs-instamojo",
+  "platform": "Instamojo",
+  "platformUrl": "https://www.instamojo.com",
+  "label": "KitCommerce vs Instamojo",
+  "group": "Indian SaaS builders",
+  "summary": "A payments company’s store builder, free to start with the gateway built in at a fee per payment — against GoCommerce and a gateway of your own choosing.",
+  "title": "KitCommerce vs Instamojo — GoCommerce and Svelte Commerce Compared With Instamojo’s Online Store",
+  "description": "Instamojo’s online store compared with GoCommerce and Svelte Commerce: INR plans, Instamojo’s fee per payment with its gateway built in, what that comes to against Razorpay, cash on delivery, shipping, customisation — and who each one suits.",
+  "ogTitle": "KitCommerce vs Instamojo",
+  "ogDescription": "A free store with payments built in, at a fee per payment — or your own backend and your own gateway. Sourced.",
+  "h1": "Instamojo sells payments and gives you a store. GoCommerce is the store, and you pick the payments.",
+  "lede": "Instamojo is a payment gateway first, and its online store comes with that gateway built in: nothing to connect, and a fee of 5% + ₹3 a payment — 2% + ₹3 on the Growth plan billed yearly. GoCommerce is a backend you run, paired with a gateway you choose. On Growth the fees are close; the difference is who owns the store.",
+  "facts": [
+    { "b": "₹0", "t": "a year for Instamojo’s Lite store" },
+    { "b": "5% + ₹3", "t": "Instamojo’s fee per payment on Lite and Starter, plus GST" },
+    { "b": "2% + ₹3", "t": "per payment on Growth billed yearly, at ₹14,999 a year" }
+  ],
+  "glanceLede": "Instamojo’s side is taken from its pricing, online store and payment gateway pages, linked at the foot of this page. Ours is what GoCommerce and Svelte Commerce do today.",
+  "rows": [
+    ["What it is", "An online store from a payments company, with Instamojo’s own gateway built in.", "A Go backend and admin plus a SvelteKit storefront, both MIT, that you host."],
+    ["Plans", "Lite ₹0 and Starter ₹6,999 a year; Growth ₹14,999 a year or ₹2,999 a month; a store built for you, priced on request. GST extra.", "No plans; the software is ₹0."],
+    ["Fee per payment", "5% + ₹3 on Lite and Starter, 2% + ₹3 on Growth billed yearly, each plus GST — and covering the gateway, which Instamojo says comes at no additional charge.", "None from GoCommerce. The gateway charges its own rate; Razorpay lists 2% + GST."],
+    ["Payment methods", "UPI, cards, netbanking, wallets, pay later and EMI through Instamojo, with an option to pass the fee on to the buyer.", "Whatever your gateway offers, through one of nine payment modules — Razorpay, Stripe and Adyen among them."],
+    ["Cash on delivery", "Included from the free plan.", "The core’s default payment method."],
+    ["Shipping", "Shipway, Shiprocket, Vamaship, Pickrr and others; Instamojo says pickup and delivery cover 26,000 pin codes.", "Shiprocket, Delhivery and NimbusPost modules book shipments; India Post consignments are recorded against the order."],
+    ["Customising", "Themes, with CSS customisation and JavaScript editing among the store features.", "The source of the backend and storefront, checkout included."],
+    ["Catalogue", "Unlimited products, categories and variants; 1, 3 or 10 images per product by plan.", "No plan limits. Stock is tracked per location, as on hand and reserved."],
+    ["Marketing", "Abandoned cart recovery, discount coupons and advanced analytics from Growth; Google Shopping and Facebook catalogue sync.", "Discounts in the core; cart recovery, Google Merchant Center and Meta catalogue feeds, Klaviyo and newsletters as modules."],
+    ["Integrations", "Webhooks when a customer completes a purchase.", "Webhooks, 342 documented REST operations, and an MCP server that lets AI agents work the store."],
+    ["Hosting", "Instamojo’s.", "Yours — a single Go binary beside a PostgreSQL database, on any server you choose."]
+  ],
+  "cost": {
+    "title": "Where the money goes on ₹2 lakh a month",
+    "lede": "Instamojo’s fee already includes payment processing, so the fair comparison is Instamojo against GoCommerce plus a gateway. Take ₹2 lakh a month in prepaid sales as 200 orders of ₹1,000.",
+    "caption": "Monthly payment and platform cost at ₹2 lakh in prepaid sales over 200 orders, before GST",
+    "head": ["Set-up", "Plan", "Fees on ₹2 lakh", "Total a month"],
+    "rows": [
+      ["Instamojo Lite", "₹0", "₹10,600 (5% + ₹3 × 200)", "₹10,600"],
+      ["Instamojo Starter", "₹6,999 a year", "₹10,600 (5% + ₹3 × 200)", "₹10,600 + plan"],
+      ["Instamojo Growth, billed yearly", "₹14,999 a year", "₹4,600 (2% + ₹3 × 200)", "₹4,600 + plan"],
+      ["GoCommerce + Razorpay", "₹0", "₹4,000 (Razorpay’s 2%)", "₹4,000 + your server"]
+    ],
+    "note": "Arithmetic from the published fees; GST is added on both sides. On Lite and Starter, Instamojo costs ₹6,600 a month more than Razorpay’s standard rate at this volume. On Growth billed yearly, the gap is the ₹3 a payment — ₹600 here — plus the plan — a sum that hosting and upkeep can easily outweigh. Against Instamojo, GoCommerce’s case is ownership, not fees."
+  },
+  "themWhen": [
+    "You want to take payments and sell today, with no gateway to apply for and nothing to host.",
+    "You are on Growth billed yearly: at 2% + ₹3 a payment, the store and the gateway cost about what a gateway alone would.",
+    "You sell a small catalogue and would rather pick a theme than touch code.",
+    "You also sell through payment links or landing pages, and want one Instamojo dashboard for all of it."
+  ],
+  "usWhen": [
+    "You are on Lite or Starter and prepaid sales are growing — 5% + ₹3 a payment is more than twice Razorpay’s standard rate.",
+    "You want to choose, or change, your payment gateway without changing your store.",
+    "You need catalogue depth the plans cap — more images per product, stock held at several locations.",
+    "You need several storefronts, B2B price lists or marketplace vendors."
+  ],
+  "takeOnExtra": [
+    "The gateway account is yours to open: GoCommerce takes online payments only through a provider you sign up with."
+  ],
+  "faq": [
+    { "q": "What does Instamojo charge per sale?", "a": "Instamojo’s online store charges 5% + ₹3 per payment on Lite and Starter, and 2% + ₹3 on the Growth plan billed yearly, each plus GST. Its pricing page says the payment gateway comes integrated with no additional charges, so that fee covers payment processing." },
+    { "q": "How much are Instamojo’s store plans?", "a": "Lite is ₹0 a year, Starter ₹6,999 a year, and Growth ₹14,999 a year or ₹2,999 a month; a store built for you by Instamojo’s team is priced on request. GST is charged on top of those prices." },
+    { "q": "Is GoCommerce cheaper than Instamojo?", "a": "Against Lite and Starter, once prepaid sales grow: Razorpay lists 2% + GST, against Instamojo’s 5% + ₹3. Against Growth billed yearly, barely — the difference is ₹3 a payment plus the plan, and a server can cost more than that. Choose GoCommerce for ownership and depth, not to save on fees." },
+    { "q": "Can I use Razorpay with GoCommerce?", "a": "Yes, through the payments-razorpay module, which calls Razorpay’s API directly. Eight other payment modules — Stripe, Adyen and HyperSwitch among them — are there if you choose differently, and cash on delivery needs none." },
+    { "q": "Can Svelte Commerce be the storefront for an Instamojo store?", "a": "No. Instamojo is not among the 26 backends Svelte Commerce connects to. Paired with GoCommerce, Svelte Commerce reaches it through an early connector, 0.1.0, covering catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet." }
+  ],
+  "sources": [
+    { "label": "Instamojo pricing (online store plans and fees)", "url": "https://www.instamojo.com/pricing/" },
+    { "label": "Instamojo online store (FAQ on fees and shipping)", "url": "https://www.instamojo.com/online-store/" },
+    { "label": "Instamojo payment gateway", "url": "https://www.instamojo.com/payment-gateway/" },
+    { "label": "Razorpay pricing", "url": "https://razorpay.com/pricing/" }
+  ],
+  "checked": "2026-09-25"
+}

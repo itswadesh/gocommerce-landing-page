@@ -79,7 +79,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       </div>
     ) : (
       <>
-        <p class="section-lede">Nothing below loads until you choose <b>Allow analytics</b> on the banner. Decline, and none of it is ever requested. You can change your answer any time from the footer’s <b>Analytics preferences</b>.</p>
+        <p class="section-lede">Nothing below loads until you choose <b>Accept analytics</b> on the banner. Choose <b>Essential only</b>, and none of it is ever requested. You can change your answer any time from the footer’s <b>Analytics preferences</b>.</p>
         <div class="tbl-scroll">
           <table class="reltable">
             <caption>Services loaded after consent</caption>
@@ -92,13 +92,14 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
           </table>
         </div>
         <p class="fineprint">Google’s tag is loaded with Consent Mode v2 defaults of <code>denied</code> for every storage type; they flip to <code>granted</code> only on your click. The funnel events sent are named in the page source: which project you chose, whether you copied the compose command, whether you went to GitHub or opened a question. No form fields, no keystrokes.</p>
+        {cfg.ga4 && <p class="fineprint">Google Analytics sets two cookies, <code>_ga</code> and <code>_ga_{cfg.ga4.replace(/^G-/, '')}</code>, which by Google’s defaults last up to two years. The Google Analytics property this site reports to, <code>{cfg.ga4}</code>, is shared with <a href="https://litekart.in" target="_blank" rel="noopener noreferrer">litekart.in</a>, run by the same team, so visits to both sites are counted in one set of reports.</p>}
       </>
     )}
   </section>
 
   <section id="contact" class="section wrap" aria-labelledby="contact-title">
     <h2 id="contact-title">Contacting us</h2>
-    <p class="section-lede">Everything about the code is public, so questions are best asked in public too.</p>
+    <p class="section-lede">Everything about the code is public, so questions are best asked in public too. To ask what this site holds about you, or to have it removed, email <a href="mailto:hello@kitcommerce.store?subject=Privacy%20request">hello@kitcommerce.store</a> — the <a href="/contact/">contact page</a> lists every other way to reach us.</p>
     <div class="actions">
       <a class="button secondary" href="https://github.com/itswadesh/gocommerce/issues" {...ext}>GoCommerce issues</a>
       <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce/discussions" {...ext}>Svelte Commerce discussions</a>

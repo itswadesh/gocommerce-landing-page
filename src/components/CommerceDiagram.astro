@@ -7,7 +7,7 @@ const id = `diagram-${kind}`
 <figure class="commerce-diagram">
   <svg viewBox="0 0 420 390" role="img" aria-labelledby={`${id}-title ${id}-desc`}>
     <title id={`${id}-title`}>{isStack ? 'The self-hosted GoCommerce stack' : 'Independent storefront and commerce backend'}</title>
-    <desc id={`${id}-desc`}>{isStack ? 'HTTP requests pass through Caddy to one GoCommerce binary containing the API and admin, then to PostgreSQL through pgx. Svelte Commerce is an optional profile and its GoCommerce connector is unpublished.' : 'A storefront, an app, or an agent can use GoCommerce through REST or MCP. GoCommerce stores data in PostgreSQL. Svelte Commerce has 26 other backend connectors; its GoCommerce connector is in development.'}</desc>
+    <desc id={`${id}-desc`}>{isStack ? 'HTTP requests pass through Caddy to one GoCommerce binary containing the API and admin, then to PostgreSQL through pgx. Svelte Commerce is an optional profile; its GoCommerce connector is early, at 0.1.0, and installed separately.' : 'A storefront, an app, or an agent can use GoCommerce through REST or MCP. GoCommerce stores data in PostgreSQL. Svelte Commerce has 26 other backend connectors, and reaches GoCommerce through an early connector (0.1.0) covering catalogue, cart, checkout and order lookup.'}</desc>
     <defs><marker id={`${id}-arrow`} markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1 6 4 1 7" fill="none" stroke="currentColor" stroke-width="1.5"/></marker></defs>
     <rect class="box" x="20" y="16" width="380" height="66" rx="5"/>
     <text class="title" x="210" y="44">{isStack ? 'Caddy' : 'Your storefront, app or agent'}</text>
@@ -25,7 +25,7 @@ const id = `diagram-${kind}`
     <text class="title" x="210" y="325">PostgreSQL</text>
     <text class="label" x="210" y="347">Your data, on your infrastructure</text>
   </svg>
-  <figcaption>{isStack ? 'Three default services. Svelte Commerce is an optional profile; its GoCommerce connector is unpublished.' : 'Svelte Commerce: 26 backend connectors. The GoCommerce connector is still in development.'} <a href="/gocommerce-svelte-commerce-connector/">Connector status ↗</a></figcaption>
+  <figcaption>{isStack ? 'Three default services. Svelte Commerce is an optional profile; its GoCommerce connector is early (0.1.0) and installed separately.' : 'Svelte Commerce: 26 backend connectors. The GoCommerce connector is early, at 0.1.0.'} <a href="/gocommerce-svelte-commerce-connector/">Connector status ↗</a></figcaption>
 </figure>
 <style>
   .commerce-diagram { margin: 0; padding: 18px; border: 1px solid var(--rule); background: var(--surface); }

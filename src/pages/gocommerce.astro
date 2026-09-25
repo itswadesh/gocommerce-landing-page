@@ -258,7 +258,7 @@ const modules = [
     <p class="section-lede">What exists in the repository today, and what is designed but not built. Every line says which. Nothing below is a separate product — these are GoCommerce capabilities, shipped or planned.</p>
     <ul class="legend">
       <li><span class="dot dot-ship" aria-hidden="true"></span><p>Shipped — in the repository, tested, running</p></li>
-      <li><span class="dot dot-dev" aria-hidden="true"></span><p>In development — being written now</p></li>
+      <li><span class="dot dot-dev" aria-hidden="true"></span><p>Early — published, not yet proven in production</p></li>
       <li><span class="dot dot-plan" aria-hidden="true"></span><p>Planned — designed, not built</p></li>
     </ul>
     <div class="mkt">
@@ -270,7 +270,7 @@ const modules = [
         <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Klaviyo, newsletter, reviews, wishlists</b> — installable modules.</p></li>
         <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Product feeds, sitemaps, IndexNow</b> — discovery for Google and Meta.</p></li>
         <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Webhooks</b> — so anything not on this list can be built outside the engine today.</p></li>
-        <li><span class="dot dot-dev" aria-hidden="true"></span><p><b>Svelte Commerce connector</b> — the client that maps this API onto the storefront’s data layer. The one piece actively being written.</p></li>
+        <li><span class="dot dot-dev" aria-hidden="true"></span><p><b>Svelte Commerce connector</b> — early (0.1.0). <code>@misiki/gocommerce-connector</code> maps this API onto the storefront’s data layer, from a shelf to a placed order; customer accounts and a search index are not covered. <a href="/gocommerce-svelte-commerce-connector/">Connector status</a>.</p></li>
         <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Behavioural events</b> — product viewed, search performed, checkout started, payment failed. The engine emits order and catalog events only, so the intent half of a customer profile has no source yet.</p></li>
         <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Unified customer profile</b> — visits, searches, carts, orders and messages on one timeline.</p></li>
         <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Dynamic segments</b> — at risk, dormant, high value, computed rather than listed.</p></li>
@@ -284,7 +284,7 @@ const modules = [
     <p class="fineprint">Consent, frequency caps and quiet hours are part of that design rather than an afterthought: a messaging feature that cannot be told to stop is a liability, not a feature.</p>
     <div class="contrib">
       <ul class="contrib-list">
-        <li><b>The Svelte Commerce connector</b> — the highest-value work on this project.</li>
+        <li><b>The Svelte Commerce connector</b> — 0.1.0 is published; running it against a real store is the highest-value work on this project.</li>
         <li><b>Behavioural events</b> — the piece most of the planned list waits on.</li>
         <li><b>Payment providers</b> for regions the nine current modules do not reach.</li>
         <li><b>Shipping carriers</b>, on the same pattern as the eleven that exist.</li>

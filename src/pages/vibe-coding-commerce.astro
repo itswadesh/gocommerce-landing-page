@@ -1,0 +1,329 @@
+---
+/**
+ * Where to point an AI coding agent in a commerce build. The argument is that
+ * the experience layer is the one to vibe-code, because its mistakes show on
+ * a screen, and the engine is the one to build against, because its mistakes
+ * show up later as money. Every claim in the GoCommerce column is checkable
+ * in the repository file named under the comparison; the from-scratch column
+ * says what the work is, not that it cannot be done.
+ */
+import Base from '../layouts/Base.astro'
+import Faq from '../components/Faq.astro'
+
+const path = '/vibe-coding-commerce/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'Vibe-coding commerce — vibe-code the storefront, not the engine', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, mentions: [{ '@id': abs('/svelte-commerce/#app') }], inLanguage: 'en' },
+]
+
+// Six topics, each a pair: what the engine already does, and what building it
+// from nothing asks of you. Paragraphs are HTML for the inline <code>.
+const pairs = [
+  {
+    topic: 'Checkout',
+    go: {
+      h: 'Checkout is one call, in two phases',
+      p: [
+        'One transaction validates the cart, re-prices it under a lock, reserves the stock and creates the order. Only after it commits is the payment provider called, so a slow gateway never holds a lock.',
+        'Send an <code>Idempotency-Key</code> and a retried request resumes the same order instead of creating a second. A price that moved or stock that ran out comes back as a per-line conflict for the storefront to show the shopper.',
+      ],
+    },
+    scratch: {
+      h: 'The paths nobody described',
+      p: [
+        'An agent will write a working checkout in an afternoon, and it will be right for the path you described. The work is in the paths you didn’t: a double-tapped Pay button, a price changed while the cart sat open, a gateway that times out after the order row exists.',
+        'Each has a known answer. Each is also another prompt and another test, and they tend to be found after launch rather than before.',
+      ],
+    },
+  },
+  {
+    topic: 'Stock',
+    go: {
+      h: 'Stock is counted per location, under a lock',
+      p: [
+        'On hand and reserved are held per variant, per location. Every movement is one statement that checks and changes under the same row lock, so two checkouts for the last unit resolve instead of racing — the second re-checks after the first commits.',
+        'Checkout reserves, a sale converts the reservation, a cancellation releases it, and every movement writes a row to a stock ledger in the same transaction.',
+      ],
+    },
+    scratch: {
+      h: 'Last unit, two checkouts',
+      p: [
+        '“Check the stock, then decrement it” passes every test that sends one request at a time. Overselling needs two at once, which a demo never does.',
+        'The fix is well known — row locks or conditional updates — but someone has to ask for it, and a second warehouse turns it into a routing question as well.',
+      ],
+    },
+  },
+  {
+    topic: 'Promotions and price lists',
+    go: {
+      h: 'Discounts and price lists are records, not branches',
+      p: [
+        'A discount is a percentage, a fixed amount or free shipping, scoped to the order, products, collections or categories, with dates, a minimum and a usage limit claimed inside the checkout transaction. Price lists resolve by customer group, quantity and channel.',
+        'Integers throughout, one rounding per basket, and a discount can never exceed what it discounts. The edge today: one code per checkout, and automatic discounts are not applied yet.',
+      ],
+    },
+    scratch: {
+      h: 'Every promotion is a decision',
+      p: [
+        'Ten percent off is one line. Ten percent off two categories, above a minimum, until Friday, for the first hundred orders, on an order that is edited afterwards, is a string of decisions: round per line or per basket, what an edit does to the discount, who gets the last use.',
+        'An agent will make every one of those decisions. It will not always tell you it made them.',
+      ],
+    },
+  },
+  {
+    topic: 'Payments',
+    go: {
+      h: 'The shopper pays in the provider’s own form',
+      p: [
+        'Nine payment modules — Stripe, Razorpay, Adyen, Paddle and five more — plus cash on delivery in the core. The Stripe module creates a PaymentIntent and hands the storefront its client secret; the Razorpay module creates a Razorpay order. The card is entered with the provider, not posted to your server.',
+        'In both modules a webhook marks the order paid only with a valid signature, and a repeated event cannot settle an order twice. A refund is recorded as pending before the gateway is asked, so two refunds cannot spend the same money.',
+      ],
+    },
+    scratch: {
+      h: 'The webhook is where it goes wrong',
+      p: [
+        'An agent will wire a payment SDK quickly, and usually reaches for the provider’s hosted fields — the right call. The risk is at the other end: an unverified webhook, a replayed one, the same event handled twice, an order marked paid on the browser’s word.',
+        'Each is a line of code. Missing any one of them ships goods nobody paid for, and a test suite written for the happy path will not notice.',
+      ],
+    },
+  },
+  {
+    topic: 'The API',
+    go: {
+      h: 'The contract is written down',
+      p: [
+        '342 operations across the engine and its modules, every one in a published OpenAPI document that a running store serves at <code>/docs</code>. A rule in <code>AGENTS.md</code> says every served route must appear there.',
+        'An agent reads the contract instead of guessing from handler code. The admin panel uses the same contract, so there is no private channel it can call and your client cannot.',
+      ],
+    },
+    scratch: {
+      h: 'Is session forty’s API the same as session one’s?',
+      p: [
+        'Without a contract that something enforces, each session names things its own way: <code>total_price</code> in one response, <code>amount</code> in the next, cents here and a decimal string there.',
+        'You can generate an OpenAPI file for a scratch-built API too. The discipline is keeping it true, and that is a habit, not a prompt.',
+      ],
+    },
+  },
+  {
+    topic: 'Channels and B2B',
+    go: {
+      h: 'A new channel is a row, not a fork',
+      p: [
+        'Channels publish parts of one catalogue, each with its own price lists. Customer groups and quantity breaks give wholesale pricing, and scoped API keys let a buyer’s system order by machine. Marketplace vendors arrive pending and are approved or suspended.',
+        'The edges: channels scope publishing and price, not orders; there is no quotes or approvals workflow; vendor commission is recorded, not settled.',
+      ],
+    },
+    scratch: {
+      h: 'A second kind of buyer',
+      p: [
+        'The price function the agent wrote assumes one price per product and one storefront. Then a wholesale buyer wants their own prices, and a second storefront wants a different range.',
+        'Teaching a price function that assumed one kind of buyer about groups, quantities and channels is possible. It is also where the shortcuts of the first month tend to get paid for.',
+      ],
+    },
+  },
+]
+
+const mcpRead = ['store_info', 'store_health', 'list_products', 'get_product', 'list_low_stock_variants', 'list_orders', 'get_order', 'list_customers', 'sales_report']
+const mcpChange = ['update_variant_inventory', 'set_variant_price', 'create_product', 'update_product', 'create_discount', 'mark_order_paid', 'cancel_order', 'create_fulfillment', 'mark_order_delivered', 'refund_order']
+
+const faq = [
+  { q: 'Can’t an AI coding agent just write the commerce engine?', a: 'It can write one that works in a demo, and quickly. The argument here is about which mistakes you find, and when. A storefront bug shows on the screen the day it ships. An oversold unit, a discount rounded the wrong way or a webhook handled twice shows up later, in a reconciliation, as money that is not where it should be. That is the layer worth building against something written and tested in advance.' },
+  { q: 'So an agent should never change GoCommerce itself?', a: 'It can, and the repository is set up for it. GoCommerce is MIT and meant to be modified: AGENTS.md holds 14 architectural rules and 4 notes for AI agents, skills/ holds 15 task guides, and over 1,000 tests run against a real PostgreSQL to catch a wrong edit. The difference is between changing an engine whose rules are written down and whose behaviour is tested, and improvising one that has neither.' },
+  { q: 'Can I vibe-code a Svelte Commerce storefront against GoCommerce today?', a: 'Yes, through an early connector — Svelte Commerce’s GoCommerce connector is at 0.1.0 and covers catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet. Svelte Commerce also runs against 26 other backends, and a GoCommerce storefront can instead be one you write against the documented API. That is experience-layer work: visible, testable in a browser and easy to throw away, which is exactly the work this page suggests handing to an agent.' },
+  { q: 'Can AI shopping agents buy from a GoCommerce store?', a: 'Not through an agentic commerce protocol: ACP, UCP and AP2 are not supported. The MCP module is for running a store, not shopping in one — it inherits admin authentication, and its 19 tools read and change orders, stock, products, prices and discounts. A buying agent can use the same public catalogue, cart and checkout routes a storefront does, and building that entry point is experience-layer work.' },
+  { q: 'Is GoCommerce ready for production?', a: 'No store we know of runs it in production yet. It has over 1,000 tests and a documented contract for every route, but not production mileage. Treat it as something to build on deliberately, and test your own store against it before it takes real orders. There is no hosted version, no paid tier and no support contract; you run it.' },
+  { q: 'Does GoCommerce make me PCI compliant?', a: 'GoCommerce makes no compliance claim. What its Stripe and Razorpay modules do is keep card entry on the provider’s side: the engine creates a payment with the provider and hands the storefront what it needs to finish it there, and neither module asks the engine to handle a card number. Your compliance position depends on your provider and on how your storefront is built — ask your provider what applies to you.' },
+]
+---
+<Base
+  title="Vibe-Coding Commerce: Vibe-Code the Storefront, Not the Engine"
+  description="AI coding agents are good at storefronts, where a mistake shows on the screen. Keep them off the engine, where stock is promised and money moves. How GoCommerce and Svelte Commerce split the work, and when building from scratch is fine."
+  path={path}
+  ogTitle="Vibe-code the storefront, not the engine"
+  ogDescription="Point AI coding tools at the layer where mistakes are visible. Build against an engine for the layer where they are not."
+  crumbs={[{ name: 'Vibe-coding commerce', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Vibe-coding commerce</p>
+    <h1>Vibe-code the storefront, not the engine</h1>
+    <p class="lede">AI coding agents are good now. The question is what to point them at: the layer where a mistake shows on the screen — the storefront, the landing page, the integration. A commerce engine is where prices are worked out, stock is promised and money changes hands, and its mistakes surface later, as money. Build that layer against an engine that already exists. GoCommerce is an open-source one, documented to the operation and written to be read by an agent.</p>
+    <ul class="head-facts">
+      <li><b>342</b> documented operations</li>
+      <li><b>19</b> MCP tools</li>
+      <li><b>1,000+</b> tests</li>
+      <li><b>1</b> production dependency</li>
+    </ul>
+  </section>
+
+  <section id="demo" class="section wrap" aria-labelledby="demo-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">The appeal</p>
+        <h2 id="demo-title">The demo works. That was never the question.</h2>
+      </div>
+      <p class="section-lede">Ask a coding agent for a commerce API and you will get one: a catalogue, a cart, a checkout and a payment integration that compile, pass their tests and click through cleanly. That part is real.</p>
+    </div>
+    <div class="statement">
+      <p class="statement-lead">The tests it wrote are the tests it thought of.</p>
+      <p>Commerce breaks in the cases nobody asked about: two requests at once, the same webhook twice, an order edited after its discount was applied, a gateway that answers after the order already exists. None of these is exotic. They just never come up in a demo, so they come up later — with real orders attached.</p>
+    </div>
+  </section>
+
+  <section id="layers" class="section wrap" aria-labelledby="layers-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">The two layers</p>
+        <h2 id="layers-title">The layer you can see, and the layer you can’t</h2>
+      </div>
+      <p class="section-lede">A storefront is something you can look at, click through and throw away. An engine is a ledger with a state machine attached: when it is wrong, nothing on the screen says so. Keep the line between them clean.</p>
+    </div>
+    <div class="plate">
+      <div class="part part-store">
+        <p class="part-id">Experience layer</p>
+        <h3 class="part-name">Vibe-code it</h3>
+        <p class="part-role">A mistake here is visible: you see it in a browser, fix it and ship again.</p>
+        <ul class="tick">
+          <li>Storefronts — Svelte Commerce and its 79 themes, or one written against the API</li>
+          <li>Landing pages, campaign pages and content</li>
+          <li>Admin-side tools and reports over the admin API</li>
+          <li>Integrations — ERP, CRM, email — over the webhooks module’s signed events</li>
+          <li>Agent entry points — agents that run the store, over the MCP module</li>
+        </ul>
+        <div class="part-cta actions">
+          <a class="button" href="/svelte-commerce/themes/">See the 79 themes</a>
+        </div>
+      </div>
+      <div class="part part-engine">
+        <p class="part-id">Engine layer</p>
+        <h3 class="part-name">Don’t</h3>
+        <p class="part-role">A mistake here is silent: it surfaces weeks later, in a reconciliation or a refund.</p>
+        <ul class="tick">
+          <li>Order lifecycle — controlled transitions, payment and fulfillment as separate states</li>
+          <li>Inventory on hand and reserved, per location</li>
+          <li>Price lists by customer group, quantity and channel</li>
+          <li>Discounts, their usage limits, and what an order edit does to them</li>
+          <li>Refunds, recorded before the gateway is asked</li>
+          <li>Money as integer minor units, never a float</li>
+          <li>Payment modules and their signed webhooks</li>
+        </ul>
+        <div class="part-cta actions">
+          <a class="button" href="/gocommerce/" data-ev="gocommerce_explore">GoCommerce is this layer</a>
+        </div>
+      </div>
+    </div>
+    <div class="statement">
+      <p class="statement-lead">The rule: vibe-code the layer where you can see a mistake. Build against an engine for the layer where you can’t.</p>
+      <p>A misaligned button is on the screen the moment it ships. An oversold unit, a discount rounded the wrong way or a refund paid twice turns up weeks later as money that is not where the books say it is, and the trail back to the cause is weeks old too.</p>
+      <p class="statement-note">Svelte Commerce’s GoCommerce connector is <a href="/gocommerce-svelte-commerce-connector/">early, at 0.1.0</a>: catalogue, cart, checkout and order lookup, not yet customer accounts or search. Svelte Commerce also runs against <a href="/svelte-commerce/backends/">26 other backends</a>, and a GoCommerce storefront can instead be one you write against the API.</p>
+    </div>
+  </section>
+
+  <section id="side-by-side" class="section wrap" aria-labelledby="sbs-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Side by side</p>
+        <h2 id="sbs-title">On GoCommerce, and from scratch</h2>
+      </div>
+      <p class="section-lede">Same agent, same prompts. The difference is what the agent is asked to invent. Nothing in the from-scratch column is impossible — it is work the engine column has already done and tested.</p>
+    </div>
+    {pairs.map((c) => (
+      <div class="plate" role="group" aria-label={c.topic}>
+        <article class="part part-engine">
+          <p class="part-id">{c.topic} · with GoCommerce</p>
+          <h3>{c.go.h}</h3>
+          {c.go.p.map((p) => <p class="part-role" set:html={p} />)}
+        </article>
+        <article class="part">
+          <p class="part-id">{c.topic} · from scratch</p>
+          <h3>{c.scratch.h}</h3>
+          {c.scratch.p.map((p) => <p class="part-role" set:html={p} />)}
+        </article>
+      </div>
+    ))}
+    <p class="fineprint">Every claim in the GoCommerce column can be checked in the repository: <code>core/checkout.go</code>, <code>core/inventory.go</code>, <code>core/discounts.go</code>, <code>core/pricing.go</code>, <code>core/channels.go</code>, <code>core/orders.go</code>, and the payment modules under <code>ext/</code>.</p>
+  </section>
+
+  <section id="toolkit" class="section wrap" aria-labelledby="toolkit-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">The agent’s toolkit</p>
+        <h2 id="toolkit-title">What an agent gets to read</h2>
+      </div>
+      <p class="section-lede">Don’t vibe-code an engine from nothing. When you do change this one — it is MIT, and changing it is expected — the rules are written down, the contract is published, and a test suite is waiting for the wrong edit.</p>
+    </div>
+    <ul class="evidence">
+      <li><svg aria-hidden="true"><use href="#i-braces"/></svg><b>342 operations in OpenAPI</b><span>The engine and its modules in one contract, served by a running store at <code>/docs</code>. A storefront agent’s first read.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-bot"/></svg><b>An MCP module with 19 tools</b><span>Operates a running store through the same services a REST call uses, never the database. <code>ReadOnly</code> withholds the 10 that change anything.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-source"/></svg><b><code>AGENTS.md</code> — 14 rules, 4 agent notes</b><span>Money is integer minor units. A state change and its event commit together. No transaction is held across a network call.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-package"/></svg><b><code>skills/</code> — 15 task guides</b><span>Checkout, discounts, inventory, orders, payments and the rest. An agent loads the one for its job instead of reading everything.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>1,000+ tests</b><span>Run against a real PostgreSQL, not a mock, so a wrong edit fails in the suite instead of in a customer’s checkout.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-git"/></svg><b>One production dependency</b><span>The Postgres driver, pgx. A graph small enough for an agent to hold, with little underneath it to upgrade.</span></li>
+    </ul>
+    <div class="tbl-scroll">
+      <table class="reltable">
+        <caption>The MCP module’s 19 tools</caption>
+        <tbody>
+          <tr><th scope="row">Read (9)</th><td>{mcpRead.map((t, i) => <>{i > 0 && ', '}<code>{t}</code></>)}</td></tr>
+          <tr><th scope="row">Change (10) — withheld under <code>ReadOnly</code></th><td>{mcpChange.map((t, i) => <>{i > 0 && ', '}<code>{t}</code></>)}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fineprint">The MCP endpoint inherits the admin’s authentication, so the store’s admin token is the agent’s credential. <code>gocommerce doctor -json</code> is the machine-readable health check: it exits non-zero when something is wrong, so it can gate an agent’s work without being parsed.</p>
+  </section>
+
+  <section id="from-scratch" class="section wrap" aria-labelledby="scratch-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Honest take</p>
+        <h2 id="scratch-title">When vibe-coding from scratch makes sense</h2>
+      </div>
+      <p class="section-lede">Not every store needs an engine. These three rarely do.</p>
+    </div>
+    <div class="tri">
+      <div class="tri-item">
+        <h3>A one-off promo store</h3>
+        <p>A campaign page, a short product list and your payment provider’s hosted checkout. It runs for a month and is switched off. There is nothing to maintain, so there is little to get wrong.</p>
+      </div>
+      <div class="tri-item">
+        <h3>An internal prototype</h3>
+        <p>A proof of concept to test demand or make a case. It is explicitly disposable, and nobody is going to reconcile its takings.</p>
+      </div>
+      <div class="tri-item">
+        <h3>A very narrow store</h3>
+        <p>One product, one market, one currency, no discounts, stock you can count on your fingers. If the commerce logic fits on one screen, an engine may be more than you need.</p>
+      </div>
+    </div>
+    <p class="fineprint">Once there is real stock, a refund to issue, a discount with a limit or a second market, the engine is the part not to improvise. It does not have to be GoCommerce. It should be something written, tested and documented before your first order, not after it.</p>
+  </section>
+
+  <section id="status" class="section wrap" aria-labelledby="status-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Where it stands</p>
+        <h2 id="status-title">What GoCommerce does not have yet</h2>
+      </div>
+      <p class="section-lede">The argument above is about engines in general. This is about this one.</p>
+    </div>
+    <div class="statement">
+      <p class="statement-lead">No store we know of runs GoCommerce in production yet.</p>
+      <p>It carries over 1,000 tests, a documented contract for every route and the engine behaviour described on this page — but not production mileage, which only time and real stores provide. Build on it deliberately, and test your own store against it before it takes real orders.</p>
+      <p>There is no hosted version, no paid tier and no support contract. You run it; help comes from the <a href="https://github.com/itswadesh/gocommerce/issues" target="_blank" rel="noopener noreferrer">issue tracker</a> and the <a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
+      <p class="statement-note">Svelte Commerce runs arialshop.com in production, against a different backend. Its GoCommerce connector is <a href="/gocommerce-svelte-commerce-connector/">early, at 0.1.0</a>, and no store we know of runs the pair in production. A GoCommerce storefront built on it, or written against the API, is the experience layer — exactly the work this page says to hand an agent.</p>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions about vibe-coding commerce" />
+
+  <section class="closing wrap">
+    <h2>Let the agent build what the shopper sees</h2>
+    <p>One command gives you GoCommerce, its admin and its OpenAPI contract on a machine you control. Hand your agent <code>/docs</code> and a storefront to build; leave the ledger to the engine.</p>
+    <div class="actions">
+      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button secondary" href="/open-source/">Open source</a>
+      <a class="button secondary" href="/gocommerce/">Explore GoCommerce</a>
+    </div>
+  </section>
+</Base>
