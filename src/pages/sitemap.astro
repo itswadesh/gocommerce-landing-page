@@ -1,0 +1,83 @@
+---
+/**
+ * The sitemap as a page, for people. /sitemap.xml is the one search engines
+ * read, and public/sitemap.xsl styles it in browsers that still run XSLT;
+ * this page does the same job without depending on that.
+ *
+ * Comparisons, features and posts come from the same data the pages are built
+ * from, so they cannot drift. The fixed pages are listed by hand — add a new
+ * static page to `groups` below when you add it to src/pages/.
+ */
+import Base from '../layouts/Base.astro'
+import { getCollection } from 'astro:content'
+import type { Comparison } from '../data/compare/_schema'
+import type { FeaturePage } from '../data/features/_schema'
+
+const path = '/sitemap/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+
+const compares = Object.values(import.meta.glob<Comparison>('../data/compare/*.json', { eager: true, import: 'default' })).sort((a, b) => a.label.localeCompare(b.label))
+const features = Object.values(import.meta.glob<FeaturePage>('../data/features/*.json', { eager: true, import: 'default' }))
+const posts = await getCollection('blog')
+
+const groups: { name: string; links: { href: string; label: string }[] }[] = [
+  { name: 'Main pages', links: [
+    { href: '/', label: 'Home' },
+    { href: '/gocommerce/', label: 'GoCommerce' },
+    { href: '/gocommerce/admin/', label: 'The admin, every screen' },
+    { href: '/integrations/', label: 'Modules and integrations' },
+    { href: '/go-svelte-ecommerce/', label: 'Architecture' },
+    { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status' },
+    { href: '/pricing/', label: 'Pricing' },
+    { href: '/open-source/', label: 'Open source' },
+    { href: '/vibe-coding-commerce/', label: 'Vibe-coding commerce' },
+    { href: '/about/', label: 'About' },
+    { href: '/contact/', label: 'Contact' },
+    { href: '/privacy/', label: 'Privacy' },
+  ] },
+  { name: 'Storefront', links: [
+    { href: '/svelte-commerce/', label: 'Svelte Commerce' },
+    { href: '/svelte-commerce/backends/', label: 'Backend integrations' },
+    { href: '/svelte-commerce/themes/', label: 'Themes' },
+    { href: '/live-projects/', label: 'Live projects' },
+  ] },
+  { name: 'Solutions', links: [
+    { href: '/solutions/', label: 'All solutions' },
+    { href: '/solutions/marketplace/', label: 'Multi-vendor marketplace' },
+    { href: '/solutions/b2b/', label: 'B2B commerce' },
+    { href: '/solutions/d2c/', label: 'Direct-to-consumer' },
+    { href: '/solutions/multi-store/', label: 'Multi-store' },
+  ] },
+  { name: 'Features', links: [{ href: '/features/', label: 'All features' }, ...features.map((f) => ({ href: `/features/${f.slug}/`, label: f.name }))] },
+  { name: 'Comparisons', links: [{ href: '/compare/', label: 'All comparisons' }, ...compares.map((c) => ({ href: `/compare/${c.slug}/`, label: c.label }))] },
+  { name: 'Blog', links: [{ href: '/blog/', label: 'All posts' }, ...posts.map((p) => ({ href: `/blog/${p.id}/`, label: p.data.title }))] },
+]
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'Sitemap', isPartOf: { '@id': abs('/#site') }, inLanguage: 'en' },
+]
+---
+<Base
+  title="Sitemap — Every Page on kitcommerce.store, by Section"
+  description="Every page on kitcommerce.store, grouped by section: the two projects, the storefront, solutions, features, comparisons and the blog."
+  path={path}
+  ogTitle="Sitemap"
+  ogDescription="Every page on kitcommerce.store, grouped by section."
+  crumbs={[{ name: 'Sitemap', href: path }]}
+  graph={graph}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Sitemap</p>
+    <h1>Every page, by section</h1>
+    <p class="lede">The same map search engines read at <a href="/sitemap.xml">/sitemap.xml</a>, grouped for people.</p>
+  </section>
+
+  <section class="section wrap sitemap-groups" aria-label="Pages by section">
+    {groups.map((g) => (
+      <div class="featlist-group">
+        <h2 class="sitemap-h">{g.name} <span>{g.links.length}</span></h2>
+        <ul class="sitemap-list">{g.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+    ))}
+  </section>
+</Base>

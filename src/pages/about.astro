@@ -1,0 +1,85 @@
+---
+/**
+ * Who is behind the two projects and this site, how the site is written, and
+ * the trademark note every page's footer points at. The #trademarks id is
+ * linked from the footer and from every comparison page, so it must stay.
+ */
+import Base from '../layouts/Base.astro'
+
+const path = '/about/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+
+const graph = [
+  {
+    '@type': 'AboutPage', '@id': abs(path + '#page'), url: abs(path), name: 'About kitcommerce.store', isPartOf: { '@id': abs('/#site') }, inLanguage: 'en',
+    about: { '@id': abs(path + '#person') },
+  },
+  {
+    '@type': 'Person', '@id': abs(path + '#person'), name: 'Swadesh Behera', alternateName: 'itswadesh', url: 'https://github.com/itswadesh', sameAs: ['https://github.com/itswadesh'],
+    homeLocation: { '@type': 'Country', name: 'India' },
+  },
+]
+---
+<Base
+  title="About — Who Builds GoCommerce and Svelte Commerce, and This Site"
+  description="kitcommerce.store is run by Swadesh Behera, who builds GoCommerce and Svelte Commerce. How the two projects started, what this site is and is not, how its claims are checked, and the trademark note."
+  path={path}
+  ogTitle="About kitcommerce.store"
+  ogDescription="Who builds GoCommerce and Svelte Commerce, how this site checks its claims, and the trademark note."
+  crumbs={[{ name: 'About', href: path }]}
+  graph={graph}
+>
+  <section class="wrap page-head">
+    <p class="kicker">About</p>
+    <h1>One builder, two projects, one website</h1>
+    <p class="lede">kitcommerce.store is run by Swadesh Behera — <a href="https://github.com/itswadesh" {...ext}>itswadesh</a> on GitHub, in India — who builds both of the projects it presents: GoCommerce, the backend and admin, and Svelte Commerce, the storefront.</p>
+  </section>
+
+  <section id="projects" class="section wrap" aria-labelledby="projects-title">
+    <h2 id="projects-title">How the two projects started</h2>
+    <div class="tri">
+      <div class="tri-item tri-store">
+        <h3>Svelte Commerce, since 2019</h3>
+        <p>The storefront has been public on GitHub since October 2019. It began in front of one backend and now runs against 26, and it serves stores in production today — <a href="/live-projects/">the live ones are listed with their scores</a>.</p>
+      </div>
+      <div class="tri-item tri-engine">
+        <h3>GoCommerce, since 2026</h3>
+        <p>The backend came later, in August 2026: one Go binary with its admin compiled in, on one PostgreSQL. No store is known to run it in production yet, and this site says so wherever it matters.</p>
+      </div>
+      <div class="tri-item">
+        <h3>This site</h3>
+        <p>kitcommerce.store presents the two. It is a website, not a product: there is nothing called KitCommerce to install, and each project works without the other.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="section wrap" aria-labelledby="how-title">
+    <h2 id="how-title">How this site is written</h2>
+    <ul class="tick about-rules">
+      <li><b>Checked, not asserted.</b> Feature claims are checked against the repositories, and the <a href="/features/">features pages</a> name the file that does the work.</li>
+      <li><b>Measured, not borrowed.</b> Numbers are counted from the code or measured and dated, like the Lighthouse scores on the live-projects page. No statistic is quoted from anyone else’s marketing.</li>
+      <li><b>Sourced and dated.</b> Every figure about another platform on the <a href="/compare/">comparison pages</a> links to that platform’s own page, with the date it was read.</li>
+      <li><b>Written by the builder.</b> The comparisons are a builder’s view, so each one also says when the other platform is the better choice.</li>
+      <li><b>Corrected in public.</b> If something here is wrong, <a href="https://github.com/itswadesh/gocommerce-landing-page/issues" {...ext}>open an issue</a> or <a href="/contact/">get in touch</a>; the site’s source is on GitHub too.</li>
+    </ul>
+  </section>
+
+  <section id="trademarks" class="section wrap" aria-labelledby="trademarks-title">
+    <h2 id="trademarks-title">Trademarks</h2>
+    <div class="statement">
+      <p class="statement-lead">Product names, logos and brands on this site belong to their owners.</p>
+      <p>Shopify, WooCommerce, Magento, Adobe Commerce, BigCommerce, Wix, Squarespace, PrestaShop, OpenCart, Bagisto, Medusa, Saleor, Vendure, StoreHippo, Dukaan, Instamojo, Zoho Commerce, Webnexs, Stripe, Razorpay, Shiprocket and every other name or logo shown are trademarks of their respective owners. They are used only to identify those products — in comparisons, and where a GoCommerce module or a Svelte Commerce connector talks to their public APIs.</p>
+      <p class="statement-note">No endorsement, partnership or affiliation is implied, and none exists, except the one relationship named as such: Cloudflare, the hosting partner. GoCommerce and Svelte Commerce are MIT-licensed open-source projects.</p>
+    </div>
+  </section>
+
+  <section class="closing wrap">
+    <h2>Talk to the person who builds it</h2>
+    <p>Questions about the code go in public; anything else, by email or WhatsApp.</p>
+    <div class="actions">
+      <a class="button" href="/contact/">Contact</a>
+      <a class="button secondary" href="https://github.com/itswadesh" {...ext}>itswadesh on GitHub</a>
+    </div>
+  </section>
+</Base>

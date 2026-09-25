@@ -397,3 +397,10 @@ h2 + .capwall, h2 + .moddir, h2 + .screens { margin-top: 44px; }
 .steps4 li::before { color: var(--ink-3); }
 .steps4 span { color: var(--ink-2); }
 .steps4 a { color: var(--ink); }
+
+/* ── sitemap, about, trademark line ──────────────────────────────── */
+.sitemap-h span { color: var(--ink-3); }
+.sitemap-list a { color: var(--ink-2); text-decoration: none; }
+.sitemap-list a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.footer-tm { color: var(--ink-3); }
+.footer-tm a { color: var(--ink-3); }

@@ -9,6 +9,9 @@ import { fileURLToPath } from 'node:url'
 // One canonical host, declared once. The sitemap, every canonical, every
 // og:url and every BreadcrumbList item derive from it — a domain change is a
 // one-line edit here, per the playbook's §96.
+// The first path segment of a sitemap entry: 'compare' for /compare/x/.
+const section = (item) => new URL(item.url).pathname.split('/')[1]
+
 export default defineConfig({
   site: 'https://kitcommerce.store',
   // Every URL is /path/ with a trailing slash, matching the canonicals the
@@ -27,6 +30,17 @@ export default defineConfig({
       // from git, never the build time — see src/lib/dates.mjs. The 404 is
       // noindex and must not be advertised.
       filter: (page) => !page.endsWith('/404/'),
+      // One sitemap per section, listed in sitemap-index.xml, so a reader of
+      // the index — and public/sitemap.xsl, which shows it grouped — sees the
+      // site's shape. Whatever no section claims lands in the pages chunk.
+      xslURL: '/sitemap.xsl',
+      chunks: {
+        solutions: (item) => (section(item) === 'solutions' ? item : undefined),
+        features: (item) => (section(item) === 'features' ? item : undefined),
+        storefront: (item) => (['svelte-commerce', 'live-projects'].includes(section(item)) ? item : undefined),
+        compare: (item) => (section(item) === 'compare' ? item : undefined),
+        blog: (item) => (section(item) === 'blog' ? item : undefined),
+      },
       serialize: (item) => {
         const p = new URL(item.url).pathname
         const d = pageDates(p)

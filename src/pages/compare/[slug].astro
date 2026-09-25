@@ -141,7 +141,7 @@ const takeOn = [
 
   <section class="section wrap vs-sources" aria-labelledby="sources-title">
     <h2 id="sources-title" class="vs-sources-title">Sources</h2>
-    <p class="fineprint">{c.platform}’s prices and features were checked on {checked} against the pages below. Prices change; when one here disagrees with the source, the source is right and this page is out of date.</p>
+    <p class="fineprint">{c.platform}’s prices and features were checked on {checked} against the pages below. Prices change; when one here disagrees with the source, the source is right and this page is out of date. {c.platform} is a trademark of its owner, named here only to compare; no endorsement or affiliation is implied — see <a href="/about/#trademarks">trademarks</a>.</p>
     <ul class="vs-source-list">
       {c.sources.map((s) => <li><a href={s.url} {...ext}>{s.label}</a></li>)}
     </ul>

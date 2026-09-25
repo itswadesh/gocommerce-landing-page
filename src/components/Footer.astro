@@ -90,7 +90,7 @@ const cols = [
   {
     title: 'Company',
     links: [
-      { href: 'https://github.com/itswadesh', label: 'About — built by itswadesh', external: true },
+      { href: '/about/', label: 'About — built by Swadesh Behera' },
       { href: '/blog/', label: 'Blog' },
       { href: '/contact/', label: 'Contact' },
       { href: '/integrations/#partner', label: 'Partners' },
@@ -105,6 +105,8 @@ const cols = [
       { href: '/privacy/', label: 'Privacy' },
       { href: 'https://github.com/itswadesh/gocommerce/blob/main/LICENSE', label: 'GoCommerce licence (MIT)', external: true },
       { href: 'https://github.com/itswadesh/svelte-commerce/blob/main/LICENSE', label: 'Svelte Commerce licence (MIT)', external: true },
+      { href: '/about/#trademarks', label: 'Trademarks' },
+      { href: '/sitemap/', label: 'Sitemap' },
       { href: '/llms.txt', label: 'llms.txt' },
     ],
   },
@@ -135,6 +137,10 @@ const cols = [
         {wa && <li><a href={`https://wa.me/${wa}`} {...ext}><img src="/assets/brands/whatsapp.svg" width="15" height="15" alt="" loading="lazy">WhatsApp</a></li>}
       </ul>
     </nav>
+  </div>
+
+  <div class="wrap">
+    <p class="footer-tm">Shopify, WooCommerce, Magento and every other product name and logo on this site are trademarks of their owners, used only to identify those products. No endorsement or affiliation is implied. <a href="/about/#trademarks">Trademarks</a></p>
   </div>
 
   <div class="wrap footer-base">

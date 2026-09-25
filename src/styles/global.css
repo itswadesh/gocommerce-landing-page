@@ -1605,7 +1605,8 @@ header { view-transition-name: site-header; }
 /* A floating contact button and the banner both want the bottom edge; on a
    phone the banner moves up out of its way. */
 .wa-fab ~ .consent { bottom: 78px; }
-@media (min-width: 700px) { .wa-fab ~ .consent { bottom: 16px; } }
+/* …and at every width: centred, the banner would otherwise sit under the
+   button between roughly 700 and 1200px. */
 
 .linklike {
   background: none; border: 0; padding: 0; margin: 0; font: inherit; cursor: pointer;
@@ -1968,3 +1969,19 @@ html:has(dialog.lightbox[open]) { overflow: hidden; }
 /* Contact: button rows inside the three-card row. */
 .contact-actions { margin-top: 16px; }
 .contact-actions .button { padding: 9px 14px; font-size: .875rem; }
+
+/* ═══════════════════════════════════════════════════════ sitemap (/sitemap/) */
+.sitemap-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+@media (max-width: 860px) { .sitemap-groups { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .sitemap-groups { grid-template-columns: 1fr; } }
+.sitemap-h { font-size: 1.125rem; }
+.sitemap-h span { font: 400 .8125rem var(--mono); margin-left: 6px; }
+.sitemap-list { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.sitemap-list a { font-size: .9375rem; }
+
+/* About: the rules list reads as prose, one rule per item. */
+.about-rules { margin-top: 26px; max-width: 46rem; }
+.about-rules li + li { margin-top: 10px; }
+
+/* The trademark line in every footer. */
+.footer-tm { margin-top: 18px; font-size: .75rem; line-height: 1.6; max-width: 60rem; }

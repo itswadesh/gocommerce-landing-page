@@ -48,6 +48,8 @@
 - https://kitcommerce.store/solutions/multi-store/ — several storefronts on one catalogue: channels, per-channel publishing and pricing
 - https://kitcommerce.store/integrations/ — all 44 GoCommerce modules by category, each a directory under ext/, and the one hosting partner
 - https://kitcommerce.store/privacy/ — what the site stores, which third parties it contacts, and what loads only after consent
+- https://kitcommerce.store/about/ — who runs the site and builds both projects (Swadesh Behera), how the site checks its claims, and the trademark note
+- https://kitcommerce.store/sitemap/ — every page, grouped by section; /sitemap.xml is the same map for search engines
 - https://kitcommerce.store/contact/ — how to reach the team: Discord and GitHub for questions, WhatsApp for custom builds, hello@kitcommerce.store for security reports and privacy requests
 - https://kitcommerce.store/rss.xml — the blog as an RSS feed
 - https://kitcommerce.store/.well-known/security.txt — where to report a vulnerability
