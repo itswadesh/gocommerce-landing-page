@@ -404,3 +404,4 @@ h2 + .capwall, h2 + .moddir, h2 + .screens { margin-top: 44px; }
 .sitemap-list a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 .footer-tm { color: var(--ink-3); }
 .footer-tm a { color: var(--ink-3); }
+.prose td { color: var(--ink-2); }

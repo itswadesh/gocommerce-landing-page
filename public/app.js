@@ -343,10 +343,29 @@
   var consent = $('#consent')
   var reopen = $('[data-consent="reopen"]')
 
+  // The question waits until someone has been on the site for 20 seconds —
+  // counted from the first page of the visit, so three pages of seven
+  // seconds each count the same as one page of twenty-one. A visitor who
+  // leaves sooner is never asked, and nothing loads for them either way.
+  var ASK_AFTER = 20000
+  var ARRIVED_KEY = 'kc-arrived'
+  function askAfterDwell () {
+    var now = Date.now()
+    var arrived = now
+    try {
+      var s = parseInt(sessionStorage.getItem(ARRIVED_KEY), 10)
+      if (s && s <= now) arrived = s
+      else sessionStorage.setItem(ARRIVED_KEY, String(now))
+    } catch (e) { /* storage blocked: count from this page */ }
+    setTimeout(function () {
+      if (!readConsent()) consent.hidden = false
+    }, Math.max(0, ASK_AFTER - (now - arrived)))
+  }
+
   if (consent) {
     var choice = readConsent()
     if (choice === 'granted') loadAnalytics()
-    else if (!choice) consent.hidden = false
+    else if (!choice) askAfterDwell()
     if (reopen) reopen.hidden = false
 
     $$('button[data-consent]', consent).forEach(function (btn) {

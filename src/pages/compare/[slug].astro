@@ -63,7 +63,7 @@ const takeOn = [
 >
   <section class="wrap page-head">
     <p class="kicker">{c.label}</p>
-    <h1>{c.h1}</h1>
+    <h1 class={c.h1.length > 60 ? 'h1-long' : undefined}>{c.h1}</h1>
     <p class="lede">{c.lede}</p>
     <ul class="head-facts">
       {c.facts.map((f) => <li><b>{f.b}</b> {f.t}</li>)}

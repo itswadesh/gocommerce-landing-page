@@ -845,6 +845,9 @@ footer { border-top: var(--hairline); background: var(--surface); padding-block:
 
 .page-head { padding-block: clamp(26px, 4vw, 46px) clamp(28px, 4vw, 44px); }
 .page-head h1 { max-width: 20ch; }
+/* A sentence-long headline (the comparisons’) at 20ch stacks into five or six
+   lines down the left of the page; give it a wider measure and a step down. */
+.page-head h1.h1-long { max-width: 30ch; font-size: clamp(2rem, 4.2vw, 3.1rem); }
 .page-head .lede { margin-top: 18px; }
 .page-head .hero-proof { margin-top: 28px; }
 
@@ -1598,6 +1601,9 @@ header { view-transition-name: site-header; }
   background: var(--paper); border: var(--frame); padding: 16px; border-radius: var(--radius-card);
 }
 @media (min-width: 640px) { .consent { flex-direction: row; align-items: center; gap: 20px; padding: 20px; } }
+/* display: flex above outranks the browser's own [hidden] rule, so without
+   this the banner stays on screen after app.js sets hidden on a click. */
+.consent[hidden] { display: none; }
 .consent p { font-size: .875rem; line-height: 1.6; color: var(--ink-2); }
 .consent p a { color: var(--ink); font-weight: 500; }
 .consent-actions { display: flex; flex-shrink: 0; gap: 8px; }
@@ -1985,3 +1991,8 @@ html:has(dialog.lightbox[open]) { overflow: hidden; }
 
 /* The trademark line in every footer. */
 .footer-tm { margin-top: 18px; font-size: .75rem; line-height: 1.6; max-width: 60rem; }
+
+/* Tables inside a blog post, wrapped in .tbl-scroll by the post itself. */
+.prose table { width: 100%; min-width: 30rem; border-collapse: collapse; font-size: .9375rem; }
+.prose th, .prose td { text-align: left; padding: 10px 16px 10px 0; border-bottom: var(--hairline); }
+.prose thead th { font-weight: 500; border-bottom: var(--edge); }
