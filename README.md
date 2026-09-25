@@ -13,8 +13,10 @@ npm run preview    # inspect dist/ locally
 
 ## What this site is
 
-`kitcommerce.store` is **the website presenting two independent open-source
-projects**. It is not itself a product.
+**KitCommerce is the open-source ecommerce platform made of two independent
+MIT projects** — GoCommerce for the backend and admin, Svelte Commerce for the
+storefront — and `kitcommerce.store` is its website. Each project also works
+on its own.
 
 | | GoCommerce | Svelte Commerce |
 | --- | --- | --- |
@@ -30,10 +32,17 @@ project.
 
 ### The branding rule
 
-Do **not** reintroduce KitCommerce as a third product — no platform, framework,
-engine, runtime, umbrella, parent, backend or storefront. Never write "powered
-by KitCommerce", "built on KitCommerce", or describe either project as a
-KitCommerce module or layer. There is nothing called KitCommerce to install.
+Since 25 September 2026 KitCommerce is presented as one product — the
+open-source ecommerce platform — whose two parts are GoCommerce and Svelte
+Commerce (the owner's decision, so directories can list it under one name).
+What stays true, and what the verifier still holds the prose to:
+
+- There is **no KitCommerce edition, tier, cloud or enterprise version**, and
+  nothing to buy. It is the two MIT projects, free.
+- **Name the part that does the work** when a claim is about one of them:
+  "GoCommerce's checkout", "Svelte Commerce's 26 backends".
+- **Don't overstate how joined they are.** The connector between them is early
+  (0.1.0), and each project runs without the other.
 
 Spell them `GoCommerce` and `Svelte Commerce` — never `Go Commerce`,
 `SvelteCommerce` or, in prose, `Svelte-Commerce`. The repository slug is

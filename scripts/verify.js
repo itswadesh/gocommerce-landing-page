@@ -1,10 +1,11 @@
 /**
  * Enforce the site's naming rules mechanically.
  *
- * The rule the README states first is that kitcommerce.store is a website, not
- * a third product. That rule is easy to agree with and easy to break by
- * accident — "the KitCommerce stack" reads perfectly naturally and undoes the
- * whole positioning. A rule nothing checks is a rule that drifts, so this
+ * KitCommerce is the platform made of GoCommerce and Svelte Commerce, and the
+ * rules that keep that honest are easy to break by accident: a "KitCommerce
+ * Cloud" or an "enterprise edition" reads naturally and describes something
+ * that does not exist, and the project names drift ("Go Commerce",
+ * "SvelteCommerce"). A rule nothing checks is a rule that drifts, so this
  * checks it.
  *
  *   node scripts/verify.js
@@ -57,21 +58,12 @@ const PAGES = htmlUnder(DIST)
 
 const RULES = [
   {
-    // "KitCommerce platform", "KitCommerce framework", "the KitCommerce stack"…
-    re: /KitCommerce\s+(platform|framework|engine|runtime|ecosystem|stack|Growth|product|suite)/gi,
-    why: 'KitCommerce is a website, not a product. Name the project instead — GoCommerce or Svelte Commerce.',
-  },
-  {
-    re: /(powered by|built on|built with|running on)\s+KitCommerce/gi,
-    why: 'Nothing is powered by or built on KitCommerce. It is the site presenting two projects.',
-  },
-  {
-    re: /(start|build|begin|get started)\s+with\s+KitCommerce/gi,
-    why: 'There is nothing called KitCommerce to install. Point at a project.',
-  },
-  {
-    re: /KitCommerce\s+(module|layer|component|edition|tier|cloud)/gi,
-    why: 'Neither project is a part of KitCommerce. They are standalone and compatible.',
+    // Since 25 September 2026 KitCommerce is the platform — GoCommerce and
+    // Svelte Commerce together — so "KitCommerce platform" is allowed. What it
+    // does not have is an edition, a tier, a cloud or an enterprise version,
+    // and a sentence claiming one describes something that does not exist.
+    re: /KitCommerce\s+(edition|tier|cloud|enterprise|pro|plus|premium)\b/gi,
+    why: 'KitCommerce has no edition, tier, cloud or enterprise version. It is two free MIT projects.',
   },
   {
     // The repository slug is svelte-commerce; the project in prose is two words.
