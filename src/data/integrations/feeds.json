@@ -26,7 +26,7 @@
     { "b": "Read the Feeds screen", "t": "It counts items, products and stock, and the items missing a picture, a brand or an identifier. Fix those before a platform rejects them." },
     { "b": "Give the platforms the URLs", "t": "https://your-api-host/x/feeds/google.xml for Merchant Center and /x/feeds/meta.csv for Meta’s catalogue, each fetched on the platform’s own schedule." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/feeds\"\n)\n\napp, err := gocommerce.New(cfg, feeds.New(feeds.Config{\n\tStorefrontURL: os.Getenv(\"STOREFRONT_URL\"),\n}))",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/feeds\"\n)\n\napp, err := gocommerce.New(cfg, feeds.New(feeds.Config{\n\tStorefrontURL: os.Getenv(\"STOREFRONT_URL\"),\n}))",
   "codeTitle": "main.go",
   "codeNote": "The package doc has no example of its own; this is how the reference binary’s -feeds flag and examples/store/main.go install it. cfg is your gocommerce.Config.",
   "howItWorks": [

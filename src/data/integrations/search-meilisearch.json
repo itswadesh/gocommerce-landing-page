@@ -28,7 +28,7 @@
     { "b": "Switch it on", "t": "With a host and key in Config it starts switched on. Otherwise enable Meilisearch on the Plugins screen and fill in the URL and key there." },
     { "b": "Search", "t": "The first poll is a full sync. The storefront calls GET /x/meilisearch/search?q=… with optional limit, offset, filter and sort, and gets Meilisearch’s hits back." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tmeilisearch \"github.com/misiki/gocommerce/ext/search-meilisearch\"\n)\n\napp, err := gocommerce.New(cfg, meilisearch.New(meilisearch.Config{\n\tHost:      os.Getenv(\"MEILI_HOST\"),\n\tAPIKey:    os.Getenv(\"MEILI_API_KEY\"),\n\tSearchKey: os.Getenv(\"MEILI_SEARCH_KEY\"),\n}))",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tmeilisearch \"github.com/itswadesh/gocommerce/ext/search-meilisearch\"\n)\n\napp, err := gocommerce.New(cfg, meilisearch.New(meilisearch.Config{\n\tHost:      os.Getenv(\"MEILI_HOST\"),\n\tAPIKey:    os.Getenv(\"MEILI_API_KEY\"),\n\tSearchKey: os.Getenv(\"MEILI_SEARCH_KEY\"),\n}))",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s example with its imports, using the variable names the reference binary reads — the doc itself reads the write key from MEILI_MASTER_KEY. cfg is your gocommerce.Config.",
   "howItWorks": [

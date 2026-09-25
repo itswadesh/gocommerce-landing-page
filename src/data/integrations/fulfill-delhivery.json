@@ -32,7 +32,7 @@
     { "b": "Configure it", "t": "Token, pickup location and seller name, in Config or under Settings › Shipping providers. Add the GSTIN and HSN code if your goods need them." },
     { "b": "Ship an order", "t": "Choose Delhivery in the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"delhivery\". The waybill becomes the tracking number." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tdelhivery \"github.com/misiki/gocommerce/ext/fulfill-delhivery\"\n)\n\napp, err := gocommerce.New(cfg,\n\tdelhivery.New(delhivery.Config{\n\t\tToken:          os.Getenv(\"DELHIVERY_TOKEN\"),\n\t\tPickupLocation: \"Primary\",\n\t\tSellerName:     \"Acme Retail\",\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tdelhivery \"github.com/itswadesh/gocommerce/ext/fulfill-delhivery\"\n)\n\napp, err := gocommerce.New(cfg,\n\tdelhivery.New(delhivery.Config{\n\t\tToken:          os.Getenv(\"DELHIVERY_TOKEN\"),\n\t\tPickupLocation: \"Primary\",\n\t\tSellerName:     \"Acme Retail\",\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty delhivery.Config the module installs idle and waits for the panel.",
   "howItWorks": [

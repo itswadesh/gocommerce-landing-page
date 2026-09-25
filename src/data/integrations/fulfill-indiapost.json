@@ -23,7 +23,7 @@
     { "b": "Record the parcel", "t": "Choose India Post in the admin’s ship dialog and type the number, or POST /api/admin/create-fulfillment with \"provider\": \"india-post\" and the tracking number." },
     { "b": "Let the check work", "t": "A number that is not an S10 article number — EE123456789IN for Speed Post — is refused, and the order stays unshipped until the right one is entered." }
   ],
-  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\tindiapost \"github.com/misiki/gocommerce/ext/fulfill-indiapost\"\n)\n\napp, err := gocommerce.New(cfg, indiapost.New(indiapost.Config{}))",
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\tindiapost \"github.com/itswadesh/gocommerce/ext/fulfill-indiapost\"\n)\n\napp, err := gocommerce.New(cfg, indiapost.New(indiapost.Config{}))",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. An empty Config is the normal case.",
   "howItWorks": [

@@ -28,7 +28,7 @@
     { "b": "Decide on assignment", "t": "Leave auto-assign off to dispatch by hand in Onfleet, or switch it on, optionally for one team. Settings live in Config or under Settings › Shipping providers." },
     { "b": "Ship an order", "t": "POST /api/admin/create-fulfillment with the order id and the provider onfleet. The task’s shortId is recorded as the tracking number; meta notes adds a line for the driver." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tonfleet \"github.com/misiki/gocommerce/ext/fulfill-onfleet\"\n)\n\napp, err := gocommerce.New(cfg,\n\tonfleet.New(onfleet.Config{APIKey: os.Getenv(\"ONFLEET_API_KEY\")}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tonfleet \"github.com/itswadesh/gocommerce/ext/fulfill-onfleet\"\n)\n\napp, err := gocommerce.New(cfg,\n\tonfleet.New(onfleet.Config{APIKey: os.Getenv(\"ONFLEET_API_KEY\")}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty onfleet.Config the module installs idle and waits for the panel.",
   "howItWorks": [

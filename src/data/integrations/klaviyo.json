@@ -27,7 +27,7 @@
     { "b": "Switch it on", "t": "A private key in Config switches it on. Otherwise enable Klaviyo on the Plugins screen and paste the key there — and the public key, if the storefront needs it." },
     { "b": "Build flows on the metrics", "t": "The six metrics arrive as orders and carts do. GET /api/admin/x/klaviyo/status shows whether it is on, how many events were sent and failed, and the last error." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/klaviyo\"\n)\n\napp, err := gocommerce.New(cfg, klaviyo.New(klaviyo.Config{\n\tPrivateKey: os.Getenv(\"KLAVIYO_PRIVATE_KEY\"),\n}))",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/klaviyo\"\n)\n\napp, err := gocommerce.New(cfg, klaviyo.New(klaviyo.Config{\n\tPrivateKey: os.Getenv(\"KLAVIYO_PRIVATE_KEY\"),\n}))",
   "codeTitle": "main.go",
   "codeNote": "The package doc has no example of its own; this is the reference binary’s, without the public key, which Config does not publish — type that on the Plugins screen. cfg is your gocommerce.Config.",
   "howItWorks": [

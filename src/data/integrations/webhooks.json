@@ -23,7 +23,7 @@
     { "b": "Verify the signature", "t": "Your server recomputes HMAC-SHA256 over the timestamp, a dot and the raw body with that secret, and compares it with v1 in the X-GoCommerce-Signature header." },
     { "b": "Watch the log", "t": "GET /api/admin/x/webhooks/deliveries lists each delivery as pending, delivered or dead, with its last status and error. A dead one can be queued again by hand." }
   ],
-  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\twebhooks \"github.com/misiki/gocommerce/ext/webhooks\"\n)\n\napp, err := gocommerce.New(cfg,\n\t// Timeout bounds one POST to one endpoint; zero means 10 seconds.\n\twebhooks.New(webhooks.Config{}),\n)",
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\twebhooks \"github.com/itswadesh/gocommerce/ext/webhooks\"\n)\n\napp, err := gocommerce.New(cfg,\n\t// Timeout bounds one POST to one endpoint; zero means 10 seconds.\n\twebhooks.New(webhooks.Config{}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc has no example of its own; this is how the reference binary’s -webhooks flag installs it. cfg is your gocommerce.Config.",
   "howItWorks": [

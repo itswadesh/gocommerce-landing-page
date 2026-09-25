@@ -26,7 +26,7 @@
     { "b": "Point /sitemap.xml at it", "t": "Have the storefront proxy or redirect /sitemap.xml to /x/sitemaps/sitemap.xml — and /x/sitemaps/ too, since the index links to the files there." },
     { "b": "Check it, then submit it", "t": "Open the index in a browser: the stylesheet shows what is listed. Then submit the storefront’s /sitemap.xml to the search engines." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/sitemaps\"\n)\n\napp, err := gocommerce.New(cfg,\n\tsitemaps.New(sitemaps.Config{StorefrontURL: os.Getenv(\"STOREFRONT_URL\")}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/sitemaps\"\n)\n\napp, err := gocommerce.New(cfg,\n\tsitemaps.New(sitemaps.Config{StorefrontURL: os.Getenv(\"STOREFRONT_URL\")}),\n)",
   "codeTitle": "main.go",
   "codeNote": "As the repository’s examples/store/main.go wires it, with its imports; cfg is your gocommerce.Config. The package doc itself has no example.",
   "howItWorks": [

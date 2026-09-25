@@ -25,7 +25,7 @@
     { "b": "Point the agent at it", "t": "An HTTP client posts JSON-RPC to /api/admin/x/mcp with the credential as a bearer token. A desktop agent over stdio needs mcp.ServeStdio(app, m) called in place of ListenAndServe." },
     { "b": "Read what it did", "t": "Every mutating call, including one refused for want of a right, is recorded. GET /api/admin/x/mcp/audit lists them, and the admin’s Agent activity screen shows the same list." }
   ],
-  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/mcp\"\n)\n\napp, err := gocommerce.New(cfg, mcp.New(mcp.Config{\n\tServerName: \"example-store\",\n\t// The ten mutating tools stay hidden until you switch this off.\n\tReadOnly: true,\n}))",
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/mcp\"\n)\n\napp, err := gocommerce.New(cfg, mcp.New(mcp.Config{\n\tServerName: \"example-store\",\n\t// The ten mutating tools stay hidden until you switch this off.\n\tReadOnly: true,\n}))",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s example with the server name examples/store/main.go gives it, and ReadOnly switched on as a cautious start. cfg is your gocommerce.Config; the endpoint is then POST /api/admin/x/mcp.",
   "howItWorks": [

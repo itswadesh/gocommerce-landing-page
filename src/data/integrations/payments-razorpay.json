@@ -28,7 +28,7 @@
     { "b": "Give it the keys", "t": "Key ID, key secret and webhook secret, in Config or under Settings › Payment methods. A key typed into the panel counts on the next request, with no restart." },
     { "b": "Take a payment", "t": "POST /api/checkout/razorpay answers with the order and a client_action intent carrying razorpay_order_id and key_id for Razorpay’s checkout. The webhook marks it paid." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\trazorpay \"github.com/misiki/gocommerce/ext/payments-razorpay\"\n)\n\napp, err := gocommerce.New(cfg,\n\trazorpay.New(razorpay.Config{\n\t\tKeyID:         os.Getenv(\"RAZORPAY_KEY_ID\"),\n\t\tKeySecret:     os.Getenv(\"RAZORPAY_KEY_SECRET\"),\n\t\tWebhookSecret: os.Getenv(\"RAZORPAY_WEBHOOK_SECRET\"),\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\trazorpay \"github.com/itswadesh/gocommerce/ext/payments-razorpay\"\n)\n\napp, err := gocommerce.New(cfg,\n\trazorpay.New(razorpay.Config{\n\t\tKeyID:         os.Getenv(\"RAZORPAY_KEY_ID\"),\n\t\tKeySecret:     os.Getenv(\"RAZORPAY_KEY_SECRET\"),\n\t\tWebhookSecret: os.Getenv(\"RAZORPAY_WEBHOOK_SECRET\"),\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty razorpay.Config the module installs idle and waits for the panel.",
   "howItWorks": [

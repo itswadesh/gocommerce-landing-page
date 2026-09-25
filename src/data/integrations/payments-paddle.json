@@ -28,7 +28,7 @@
     { "b": "Install and configure", "t": "Pass paddle.New to gocommerce.New as below, or run the reference binary with -gateways and fill in Settings › Payment methods. Tick Sandbox while testing." },
     { "b": "Take a payment", "t": "POST /api/checkout/paddle answers with a redirect intent whose url is Paddle’s checkout. transaction.completed marks the order paid." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tpaddle \"github.com/misiki/gocommerce/ext/payments-paddle\"\n)\n\napp, err := gocommerce.New(cfg,\n\tpaddle.New(paddle.Config{\n\t\tAPIKey:        os.Getenv(\"PADDLE_API_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"PADDLE_NOTIFICATION_SECRET\"),\n\t\tSandbox:       true,\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tpaddle \"github.com/itswadesh/gocommerce/ext/payments-paddle\"\n)\n\napp, err := gocommerce.New(cfg,\n\tpaddle.New(paddle.Config{\n\t\tAPIKey:        os.Getenv(\"PADDLE_API_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"PADDLE_NOTIFICATION_SECRET\"),\n\t\tSandbox:       true,\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. It points at the sandbox; drop Sandbox for live keys.",
   "howItWorks": [

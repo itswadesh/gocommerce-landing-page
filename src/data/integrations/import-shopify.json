@@ -24,7 +24,7 @@
     { "b": "Enter the credentials", "t": "Shop domain and token on the Plugins screen, under Import from Shopify. POST /api/admin/x/import-shopify/check confirms them — shop name, currency, product count — before anything is written." },
     { "b": "Import", "t": "Press Import on the products page, or POST /api/admin/x/import-shopify/jobs. The job runs in the background, and GET …/jobs/{id} reports created, updated, failed and warnings." }
   ],
-  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\tshopify \"github.com/misiki/gocommerce/ext/import-shopify\"\n)\n\n// No Config: the shop domain and the access token are plugin\n// settings, typed in once on the Plugins screen.\napp, err := gocommerce.New(cfg, shopify.New())",
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\tshopify \"github.com/itswadesh/gocommerce/ext/import-shopify\"\n)\n\n// No Config: the shop domain and the access token are plugin\n// settings, typed in once on the Plugins screen.\napp, err := gocommerce.New(cfg, shopify.New())",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports. cfg is your gocommerce.Config.",
   "howItWorks": [

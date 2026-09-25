@@ -24,7 +24,7 @@
     { "b": "Write translations", "t": "PUT /api/admin/x/translations/product/{id}/{language} with fields for title, description, seo_title or seo_description. An unknown field is refused; an empty one is dropped." },
     { "b": "Ask in a language", "t": "The storefront sends ?lang=fr or an Accept-Language header on product reads, and gets French where it exists and the stored text where it does not." }
   ],
-  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/translations\"\n)\n\napp, err := gocommerce.New(gocommerce.Config{\n\t// DBURL, Addr and the rest of your Config, then:\n\tLanguages: []string{\"en\", \"fr\", \"de\"},\n}, translations.New())",
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/translations\"\n)\n\napp, err := gocommerce.New(gocommerce.Config{\n\t// DBURL, Addr and the rest of your Config, then:\n\tLanguages: []string{\"en\", \"fr\", \"de\"},\n}, translations.New())",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; the first language listed is the default unless DefaultLanguage says otherwise.",
   "howItWorks": [

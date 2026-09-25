@@ -21,7 +21,7 @@
 - Of those, 142 are admin endpoints. They are privileged, not private: the admin uses the same published contract an integration reads.
 - GoCommerce: 1,036 tests, 61 admin screens, 44 modules, 48 migrations, 17 commerce events.
 - Money is stored and returned as integer minor units plus a currency code, never a float and never a formatted string.
-- Go module path: `github.com/misiki/gocommerce`. This is unchanged by the repository rename and is the path to import.
+- Go module path: `github.com/itswadesh/gocommerce`, the same as the repository. Install with `go get github.com/itswadesh/gocommerce@latest`; tagged releases start at v1.0.0.
 - Svelte Commerce reaches a backend through a connector package implementing a shared 43-service surface.
 - 26 connectors exist. Coverage is traced by a script, not hand-asserted.
 - Most complete: Litekart and Vendure at 39/43. Then Medusa 31/43; Broadleaf, Saleor, Shopware and Virto Commerce 28/43; WooCommerce 27/43. Lowest is OpenCart at 9/43, which is the honest ceiling for that API.

@@ -30,7 +30,7 @@
     { "b": "Give it both", "t": "Key and sender in Config, which starts it switched on, or under Notifications › Setup Email. A value typed into the panel counts on the next message, with no restart." },
     { "b": "Edit the wording", "t": "Subjects and bodies are the engine’s templates, edited under Notifications › Setup Email. Place an order and the confirmation goes out." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tsendgrid \"github.com/misiki/gocommerce/ext/notify-sendgrid\"\n)\n\napp, err := gocommerce.New(cfg,\n\tsendgrid.New(sendgrid.Config{\n\t\tAPIKey: os.Getenv(\"SENDGRID_API_KEY\"),\n\t\tFrom:   \"orders@example.com\",\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tsendgrid \"github.com/itswadesh/gocommerce/ext/notify-sendgrid\"\n)\n\napp, err := gocommerce.New(cfg,\n\tsendgrid.New(sendgrid.Config{\n\t\tAPIKey: os.Getenv(\"SENDGRID_API_KEY\"),\n\t\tFrom:   \"orders@example.com\",\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty sendgrid.Config the module installs idle and waits for the panel.",
   "howItWorks": [

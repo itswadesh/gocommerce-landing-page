@@ -29,7 +29,7 @@
     { "b": "Serve the key", "t": "POST /api/admin/x/indexnow/key mints a key and says what to serve: <key>.txt at the storefront’s root, holding the key with no trailing newline — or a route proxying /x/indexnow/key." },
     { "b": "Check it", "t": "GET /api/admin/x/indexnow/check fetches the file from the storefront, compares it byte for byte, and names the problem — a 404, a wrong key, a stray newline — before anything is submitted." }
   ],
-  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/indexnow\"\n)\n\n// Nothing to configure here: the storefront URL is a plugin\n// setting, and the storefront serves the key file.\napp, err := gocommerce.New(cfg, indexnow.New())",
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/indexnow\"\n)\n\n// Nothing to configure here: the storefront URL is a plugin\n// setting, and the storefront serves the key file.\napp, err := gocommerce.New(cfg, indexnow.New())",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports. cfg is your gocommerce.Config; indexnow.New also accepts an optional indexnow.Config.",
   "howItWorks": [

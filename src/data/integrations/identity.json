@@ -26,7 +26,7 @@
     { "b": "Wire the storefront", "t": "Register and sign in at /x/identity/register and /x/identity/login, then send Authorization: Bearer <token> to /x/identity/me and the address and order routes. /x/identity/refresh extends a session." },
     { "b": "Claim orders after checkout", "t": "Checkout stays guest-shaped. After an order is placed, the storefront posts its number and access token to /x/identity/me/orders to put it in the account’s history." }
   ],
-  "code": "import (\n\t\"github.com/misiki/gocommerce/core\"\n\t\"github.com/misiki/gocommerce/ext/identity\"\n)\n\napp, err := gocommerce.New(cfg, identity.New(identity.Config{\n\tResetURL: \"https://shop.example.com/auth/reset-password?token={token}\",\n}))",
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/identity\"\n)\n\napp, err := gocommerce.New(cfg, identity.New(identity.Config{\n\tResetURL: \"https://shop.example.com/auth/reset-password?token={token}\",\n}))",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports. cfg is your gocommerce.Config.",
   "howItWorks": [

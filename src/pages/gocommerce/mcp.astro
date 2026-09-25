@@ -81,8 +81,8 @@ const session: [string, string][] = [
 ]
 
 const registerCode = `<span class="k">import</span> (
-	<span class="s">"github.com/misiki/gocommerce/core"</span>
-	<span class="s">"github.com/misiki/gocommerce/ext/mcp"</span>
+	<span class="s">"github.com/itswadesh/gocommerce/core"</span>
+	<span class="s">"github.com/itswadesh/gocommerce/ext/mcp"</span>
 )
 
 modules := []gocommerce.<span class="t">Module</span>{
@@ -291,7 +291,7 @@ const faq = [
     <div class="code-block">
       <div class="code-head"><p>Registering the module</p><button class="copy" data-copy="code-mcp-register">Copy</button></div>
       <pre id="code-mcp-register"><code set:html={registerCode} /></pre>
-      <p class="code-note">From <code>examples/store/main.go</code>. <code>mcp.Config</code> has three fields: <code>ServerName</code>, reported to the agent (default <code>gocommerce</code>); <code>ReadOnly</code>; and <code>Tools</code>. The Go module path is still <code>github.com/misiki/gocommerce</code>; only the repository moved.</p>
+      <p class="code-note">From <code>examples/store/main.go</code>. <code>mcp.Config</code> has three fields: <code>ServerName</code>, reported to the agent (default <code>gocommerce</code>); <code>ReadOnly</code>; and <code>Tools</code>. Install with <code>go get github.com/itswadesh/gocommerce@latest</code>.</p>
     </div>
     <div class="code-block">
       <div class="code-head"><p>Example: serving stdio as well as HTTP</p><button class="copy" data-copy="code-mcp-stdio">Copy</button></div>

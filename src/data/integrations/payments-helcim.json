@@ -27,7 +27,7 @@
     { "b": "Load HelcimPay.js", "t": "On the storefront, load Helcim’s script. POST /api/checkout/helcim answers with a client_action intent whose checkout_token opens the modal via appendHelcimPayIframe." },
     { "b": "Let the webhook settle it", "t": "When the shopper pays, Helcim’s cardTransaction webhook arrives, the module reads the transaction back, and the engine marks the order paid." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\thelcim \"github.com/misiki/gocommerce/ext/payments-helcim\"\n)\n\napp, err := gocommerce.New(cfg,\n\thelcim.New(helcim.Config{\n\t\tAPIToken:      os.Getenv(\"HELCIM_API_TOKEN\"),\n\t\tVerifierToken: os.Getenv(\"HELCIM_VERIFIER_TOKEN\"),\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\thelcim \"github.com/itswadesh/gocommerce/ext/payments-helcim\"\n)\n\napp, err := gocommerce.New(cfg,\n\thelcim.New(helcim.Config{\n\t\tAPIToken:      os.Getenv(\"HELCIM_API_TOKEN\"),\n\t\tVerifierToken: os.Getenv(\"HELCIM_VERIFIER_TOKEN\"),\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty helcim.Config the module installs idle and waits for the panel.",
   "howItWorks": [

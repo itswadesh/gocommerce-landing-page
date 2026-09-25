@@ -31,7 +31,7 @@
     { "b": "Configure it", "t": "Email, password and warehouse name, in Config or under Settings › Shipping providers. Decide whether booking should also raise the pickup." },
     { "b": "Ship an order", "t": "Choose NimbusPost in the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"nimbuspost\". The courier’s waybill becomes the tracking number." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tnimbuspost \"github.com/misiki/gocommerce/ext/fulfill-nimbuspost\"\n)\n\napp, err := gocommerce.New(cfg,\n\tnimbuspost.New(nimbuspost.Config{\n\t\tEmail:         os.Getenv(\"NIMBUSPOST_EMAIL\"),\n\t\tPassword:      os.Getenv(\"NIMBUSPOST_PASSWORD\"),\n\t\tWarehouseName: \"Primary\",\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tnimbuspost \"github.com/itswadesh/gocommerce/ext/fulfill-nimbuspost\"\n)\n\napp, err := gocommerce.New(cfg,\n\tnimbuspost.New(nimbuspost.Config{\n\t\tEmail:         os.Getenv(\"NIMBUSPOST_EMAIL\"),\n\t\tPassword:      os.Getenv(\"NIMBUSPOST_PASSWORD\"),\n\t\tWarehouseName: \"Primary\",\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty nimbuspost.Config the module installs idle and waits for the panel.",
   "howItWorks": [

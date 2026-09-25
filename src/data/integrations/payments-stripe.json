@@ -26,7 +26,7 @@
     { "b": "Give it the keys", "t": "Secret key and webhook signing secret, in Config or under Settings › Payment methods. A key typed into the panel counts on the next request, with no restart." },
     { "b": "Take a payment", "t": "POST /api/checkout/stripe answers with the order and a client_action intent carrying the client_secret. The storefront confirms the payment with it; the webhook marks the order paid." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tstripe \"github.com/misiki/gocommerce/ext/payments-stripe\"\n)\n\napp, err := gocommerce.New(cfg,\n\tstripe.New(stripe.Config{\n\t\tSecretKey:     os.Getenv(\"STRIPE_SECRET_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"STRIPE_WEBHOOK_SECRET\"),\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tstripe \"github.com/itswadesh/gocommerce/ext/payments-stripe\"\n)\n\napp, err := gocommerce.New(cfg,\n\tstripe.New(stripe.Config{\n\t\tSecretKey:     os.Getenv(\"STRIPE_SECRET_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"STRIPE_WEBHOOK_SECRET\"),\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. examples/store/main.go installs it only when STRIPE_SECRET_KEY is set, and then insists on the webhook secret.",
   "howItWorks": [

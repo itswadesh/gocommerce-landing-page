@@ -30,7 +30,7 @@
     { "b": "Switch it on", "t": "A key in Config starts it switched on. Otherwise switch it on under Notifications › Setup Email and paste the key there; it counts on the next message, with no restart." },
     { "b": "Edit the wording", "t": "Subjects and bodies are the engine’s templates, edited under Notifications › Setup Email. Place an order and the confirmation goes out." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tresend \"github.com/misiki/gocommerce/ext/notify-resend\"\n)\n\napp, err := gocommerce.New(cfg,\n\tresend.New(resend.Config{APIKey: os.Getenv(\"RESEND_API_KEY\")}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tresend \"github.com/itswadesh/gocommerce/ext/notify-resend\"\n)\n\napp, err := gocommerce.New(cfg,\n\tresend.New(resend.Config{APIKey: os.Getenv(\"RESEND_API_KEY\")}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty resend.Config the module installs idle and waits for the panel.",
   "howItWorks": [

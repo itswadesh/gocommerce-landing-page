@@ -29,7 +29,7 @@
     { "b": "Configure it", "t": "API key, hash key and a return URL, in Config or under Settings › Payment methods. Point BaseURL at the sandbox while testing." },
     { "b": "Take a payment", "t": "POST /api/checkout/hyperswitch answers with a redirect intent whose url is the payment link. The payment_succeeded webhook marks the order paid." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\thyperswitch \"github.com/misiki/gocommerce/ext/payments-hyperswitch\"\n)\n\napp, err := gocommerce.New(cfg,\n\thyperswitch.New(hyperswitch.Config{\n\t\tAPIKey:          os.Getenv(\"HYPERSWITCH_API_KEY\"),\n\t\tResponseHashKey: os.Getenv(\"HYPERSWITCH_RESPONSE_HASH_KEY\"),\n\t\tBaseURL:         \"https://sandbox.hyperswitch.io\",\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\thyperswitch \"github.com/itswadesh/gocommerce/ext/payments-hyperswitch\"\n)\n\napp, err := gocommerce.New(cfg,\n\thyperswitch.New(hyperswitch.Config{\n\t\tAPIKey:          os.Getenv(\"HYPERSWITCH_API_KEY\"),\n\t\tResponseHashKey: os.Getenv(\"HYPERSWITCH_RESPONSE_HASH_KEY\"),\n\t\tBaseURL:         \"https://sandbox.hyperswitch.io\",\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. It points at the sandbox; drop BaseURL for Hyperswitch’s hosted API, or set it to your own router.",
   "howItWorks": [

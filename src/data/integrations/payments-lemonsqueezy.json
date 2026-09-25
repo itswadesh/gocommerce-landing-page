@@ -28,7 +28,7 @@
     { "b": "Install and configure", "t": "Pass lemonsqueezy.New to gocommerce.New as below, or run the reference binary with -gateways and fill in Settings › Payment methods. Leave GoCommerce’s tax rates empty." },
     { "b": "Take a payment", "t": "POST /api/checkout/lemonsqueezy answers with a redirect intent whose url is the hosted checkout. A paid order_created marks the order paid." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tlemonsqueezy \"github.com/misiki/gocommerce/ext/payments-lemonsqueezy\"\n)\n\napp, err := gocommerce.New(cfg,\n\tlemonsqueezy.New(lemonsqueezy.Config{\n\t\tAPIKey:        os.Getenv(\"LEMONSQUEEZY_API_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"LEMONSQUEEZY_WEBHOOK_SECRET\"),\n\t\tStoreID:       os.Getenv(\"LEMONSQUEEZY_STORE_ID\"),\n\t\tVariantID:     os.Getenv(\"LEMONSQUEEZY_VARIANT_ID\"),\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tlemonsqueezy \"github.com/itswadesh/gocommerce/ext/payments-lemonsqueezy\"\n)\n\napp, err := gocommerce.New(cfg,\n\tlemonsqueezy.New(lemonsqueezy.Config{\n\t\tAPIKey:        os.Getenv(\"LEMONSQUEEZY_API_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"LEMONSQUEEZY_WEBHOOK_SECRET\"),\n\t\tStoreID:       os.Getenv(\"LEMONSQUEEZY_STORE_ID\"),\n\t\tVariantID:     os.Getenv(\"LEMONSQUEEZY_VARIANT_ID\"),\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty lemonsqueezy.Config the module installs idle and waits for the panel.",
   "howItWorks": [

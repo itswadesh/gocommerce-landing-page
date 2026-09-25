@@ -38,8 +38,8 @@ Installing it is one entry in the store’s `main()`:
 <div class="code-head"><p>The store as tools for an agent</p><button class="copy" data-copy="code-mcp">Copy</button></div>
 
 <pre id="code-mcp"><code><span class="k">import</span> (
-	<span class="s">"github.com/misiki/gocommerce/core"</span>
-	<span class="s">"github.com/misiki/gocommerce/ext/mcp"</span>
+	<span class="s">"github.com/itswadesh/gocommerce/core"</span>
+	<span class="s">"github.com/itswadesh/gocommerce/ext/mcp"</span>
 )
 
 modules := []gocommerce.<span class="t">Module</span>{
@@ -47,7 +47,7 @@ modules := []gocommerce.<span class="t">Module</span>{
 	mcp.<span class="f">New</span>(mcp.<span class="t">Config</span>{ServerName: <span class="s">"my-store"</span>, ReadOnly: <span class="k">true</span>}),
 }</code></pre>
 
-<p class="code-note">Adapted from <code>examples/store/main.go</code> and <code>ext/mcp/mcp.go</code>. The Go module path is still <code>github.com/misiki/gocommerce</code>; only the repository moved.</p>
+<p class="code-note">Adapted from <code>examples/store/main.go</code> and <code>ext/mcp/mcp.go</code>. Install with <code>go get github.com/itswadesh/gocommerce@latest</code>.</p>
 </div>
 
 The endpoint inherits admin authentication, so the store’s admin token is the agent’s credential. `ReadOnly` is worth keeping on while you decide how far to trust the agent on the other end. Each tool names the rights it needs, and every state-changing call — including a refused one — is written to an audit table. A desktop agent that speaks stdio can run the store as a subprocess instead.

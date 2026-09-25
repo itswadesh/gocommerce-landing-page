@@ -28,7 +28,7 @@
     { "b": "Give it the key", "t": "In Config, or under Settings › Shipping providers, with a carrier id if the store always ships with one carrier. A value typed into the panel counts on the next shipment." },
     { "b": "Record the parcel", "t": "POST /api/admin/create-fulfillment with the provider veeqo and the tracking number. For an order with several allocations, pass meta allocation_id and order_id together." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tveeqo \"github.com/misiki/gocommerce/ext/fulfill-veeqo\"\n)\n\napp, err := gocommerce.New(cfg,\n\tveeqo.New(veeqo.Config{APIKey: os.Getenv(\"VEEQO_API_KEY\")}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tveeqo \"github.com/itswadesh/gocommerce/ext/fulfill-veeqo\"\n)\n\napp, err := gocommerce.New(cfg,\n\tveeqo.New(veeqo.Config{APIKey: os.Getenv(\"VEEQO_API_KEY\")}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty veeqo.Config the module installs idle and waits for the panel.",
   "howItWorks": [

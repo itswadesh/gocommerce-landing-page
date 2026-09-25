@@ -67,10 +67,10 @@ curl http://localhost/api/products`
 // Adapted from gocommerce.astro's composeCode, with modules taken verbatim
 // from examples/store/main.go.
 const composeCode = `<span class="k">import</span> (
-	<span class="s">"github.com/misiki/gocommerce/core"</span>
-	razorpay <span class="s">"github.com/misiki/gocommerce/ext/payments-razorpay"</span>
-	shiprocket <span class="s">"github.com/misiki/gocommerce/ext/fulfill-shiprocket"</span>
-	<span class="s">"github.com/misiki/gocommerce/ext/mcp"</span>
+	<span class="s">"github.com/itswadesh/gocommerce/core"</span>
+	razorpay <span class="s">"github.com/itswadesh/gocommerce/ext/payments-razorpay"</span>
+	shiprocket <span class="s">"github.com/itswadesh/gocommerce/ext/fulfill-shiprocket"</span>
+	<span class="s">"github.com/itswadesh/gocommerce/ext/mcp"</span>
 )
 
 <span class="cm">// Everything this store runs is on this screen. A module that is</span>
@@ -274,7 +274,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <button class="copy" data-copy="code-compose-os">Copy</button>
       </div>
       <pre id="code-compose-os"><code set:html={composeCode} /></pre>
-      <p class="code-note">Shortened from <code>examples/store/main.go</code>. The Go module path is still <code>github.com/misiki/gocommerce</code>; only the repository moved.</p>
+      <p class="code-note">Shortened from <code>examples/store/main.go</code>. Install with <code>go get github.com/itswadesh/gocommerce@latest</code>.</p>
     </div>
   </section>
 

@@ -28,7 +28,7 @@
     { "b": "Install and configure", "t": "Pass creem.New to gocommerce.New as below, or run the reference binary with -gateways and fill in Settings › Payment methods. For the sandbox, set BaseURL to https://test-api.creem.io." },
     { "b": "Take a payment", "t": "POST /api/checkout/creem answers with a redirect intent whose url is Creem’s checkout. A paid checkout.completed marks the order paid." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tcreem \"github.com/misiki/gocommerce/ext/payments-creem\"\n)\n\napp, err := gocommerce.New(cfg,\n\tcreem.New(creem.Config{\n\t\tAPIKey:        os.Getenv(\"CREEM_API_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"CREEM_WEBHOOK_SECRET\"),\n\t\tProductID:     os.Getenv(\"CREEM_PRODUCT_ID\"),\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tcreem \"github.com/itswadesh/gocommerce/ext/payments-creem\"\n)\n\napp, err := gocommerce.New(cfg,\n\tcreem.New(creem.Config{\n\t\tAPIKey:        os.Getenv(\"CREEM_API_KEY\"),\n\t\tWebhookSecret: os.Getenv(\"CREEM_WEBHOOK_SECRET\"),\n\t\tProductID:     os.Getenv(\"CREEM_PRODUCT_ID\"),\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. The sandbox host is exported as creem.TestBaseURL for BaseURL.",
   "howItWorks": [

@@ -29,7 +29,7 @@
     { "b": "Configure it", "t": "Email, password and pickup location, in Config or under Settings › Shipping providers. Record weights on your variants; the default is only a fallback." },
     { "b": "Ship an order", "t": "Choose Shiprocket in the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"shiprocket\". The waybill becomes the tracking number." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tshiprocket \"github.com/misiki/gocommerce/ext/fulfill-shiprocket\"\n)\n\napp, err := gocommerce.New(cfg,\n\tshiprocket.New(shiprocket.Config{\n\t\tEmail:          os.Getenv(\"SHIPROCKET_EMAIL\"),\n\t\tPassword:       os.Getenv(\"SHIPROCKET_PASSWORD\"),\n\t\tPickupLocation: \"Primary\",\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tshiprocket \"github.com/itswadesh/gocommerce/ext/fulfill-shiprocket\"\n)\n\napp, err := gocommerce.New(cfg,\n\tshiprocket.New(shiprocket.Config{\n\t\tEmail:          os.Getenv(\"SHIPROCKET_EMAIL\"),\n\t\tPassword:       os.Getenv(\"SHIPROCKET_PASSWORD\"),\n\t\tPickupLocation: \"Primary\",\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty shiprocket.Config the module installs idle and waits for the panel.",
   "howItWorks": [

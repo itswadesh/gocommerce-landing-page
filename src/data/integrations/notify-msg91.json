@@ -27,7 +27,7 @@
     { "b": "Map events to templates", "t": "Under Notifications › Setup SMS, or in Config’s Templates map, give each event its template id. An event left empty sends nothing." },
     { "b": "Name the variables", "t": "Each message carries the order’s values — order_number, customer_name, tracking, items_summary and more — as template variables. Use those names in the template." }
   ],
-  "code": "import (\n\t\"os\"\n\n\t\"github.com/misiki/gocommerce/core\"\n\tmsg91 \"github.com/misiki/gocommerce/ext/notify-msg91\"\n)\n\napp, err := gocommerce.New(cfg,\n\tmsg91.New(msg91.Config{\n\t\tAuthKey: os.Getenv(\"MSG91_AUTH_KEY\"),\n\t\tTemplates: map[string]string{\n\t\t\tgocommerce.EventOrderShipped: \"65a1b2c3d4e5f6\",\n\t\t},\n\t}),\n)",
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tmsg91 \"github.com/itswadesh/gocommerce/ext/notify-msg91\"\n)\n\napp, err := gocommerce.New(cfg,\n\tmsg91.New(msg91.Config{\n\t\tAuthKey: os.Getenv(\"MSG91_AUTH_KEY\"),\n\t\tTemplates: map[string]string{\n\t\t\tgocommerce.EventOrderShipped: \"65a1b2c3d4e5f6\",\n\t\t},\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config and the template id is a placeholder. gocommerce.EventOrderShipped is the event named order.shipped.",
   "howItWorks": [
