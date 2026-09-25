@@ -4,7 +4,7 @@
   "platformUrl": "https://www.zoho.com/commerce/",
   "label": "KitCommerce vs Zoho Commerce",
   "group": "Indian SaaS builders",
-  "summary": "A rupee-priced store builder with no fee per order, against two MIT projects you run: plan limits, Zoho’s suite, and where your data lives.",
+  "summary": "A rupee-priced store builder with no fee per order, against an open-source platform you run: plan limits, Zoho’s suite, and where your data lives.",
   "title": "KitCommerce vs Zoho Commerce: Plans, Limits, B2B, Payments",
   "description": "Zoho Commerce vs GoCommerce and Svelte Commerce: INR plans, product and user limits, B2B, Indian payments and shipping — and where Zoho Commerce wins.",
   "ogTitle": "KitCommerce vs Zoho Commerce",
@@ -18,8 +18,8 @@
   ],
   "glanceLede": "Zoho Commerce’s side is taken from its pricing page and help centre, linked at the foot of this page; ours from the GoCommerce and Svelte Commerce pages on this site. Where the two are level, the row says so.",
   "rows": [
-    ["What it is", "A hosted store builder, one of Zoho’s finance apps alongside Zoho Inventory, Billing, Invoice and Checkout.", "Two MIT projects you run: a Go backend with its admin compiled in, and a SvelteKit storefront."],
-    ["Software price", "₹599, ₹1,799, ₹3,499 or ₹4,999 a month on Standard, Professional, Premium and Plus, billed yearly (₹999 to ₹5,999 month to month), plus tax. Enterprise is priced on request.", "Nothing. Both projects are MIT licensed."],
+    ["What it is", "A hosted store builder, one of Zoho’s finance apps alongside Zoho Inventory, Billing, Invoice and Checkout.", "An open-source platform you run, in two MIT packages: a Go backend with its admin compiled in, and a SvelteKit storefront."],
+    ["Software price", "₹599, ₹1,799, ₹3,499 or ₹4,999 a month on Standard, Professional, Premium and Plus, billed yearly (₹999 to ₹5,999 month to month), plus tax. Enterprise is priced on request.", "Nothing. Both packages are MIT licensed."],
     ["Fee on each order", "None on any paid plan, by Zoho’s own pricing FAQ. Level with GoCommerce.", "None. Your gateway’s fee is the only one."],
     ["Plan limits", "Set per plan: 500 products, 2 users and 2,000 customer accounts on Standard; 10,000 products and 10 users on Premium and Plus. Extra users are ₹150–₹180 each a month.", "None in the software. Products and customers are rows in your PostgreSQL; the server is the limit."],
     ["Inventory locations", "3 on Premium and Plus, then ₹600–₹720 a month for each extra one. Not offered on lower plans.", "Stock per location in core — on hand and reserved — on every install."],
@@ -76,7 +76,7 @@
     { "q": "Zoho Commerce has an MCP server too. What is different?", "a": "Zoho’s MCP server is run by Zoho and reached through its MCP hub. GoCommerce’s MCP module is compiled into your own binary and exposes 19 tools — orders, stock, prices, refunds, reports — through the same domain services as the REST API, never the database directly." },
     { "q": "Can GoCommerce connect to Zoho Inventory or Zoho Billing?", "a": "Not out of the box: there is no Zoho module. The webhooks module and the documented REST API are where such a sync would start, and somebody has to write it." },
     { "q": "How do I move my store from Zoho Commerce?", "a": "Export it — Zoho offers CSV or XLS backups and a product export API — and write a script against GoCommerce’s documented API. There is no ready-made importer for Zoho." },
-    { "q": "Is there a hosted version of GoCommerce, like Zoho Commerce?", "a": "No. Neither project has a hosted offering, a paid tier or an enterprise edition. You run both, on your own server or a developer’s." }
+    { "q": "Is there a hosted version of GoCommerce, like Zoho Commerce?", "a": "No. Neither package has a hosted offering, a paid tier or an enterprise edition. You run both, on your own server or a developer’s." }
   ],
   "sources": [
     { "label": "Zoho Commerce pricing (plans in INR)", "url": "https://www.zoho.com/commerce/pricing.html" },

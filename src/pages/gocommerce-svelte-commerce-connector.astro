@@ -15,7 +15,7 @@ const faq = [
   { q: 'What does it not do?', a: 'Two absences change what you can build. There are no customer accounts, because GoCommerce checkout is guest checkout — an order is read back with the access token checkout returned, which is why orderService has getOne and no list. And there is no search index: product search is the engine’s own filter, not a Meilisearch relevance ranking. The services the connector does not map — blogs, reels, banners, CMS pages, wishlists, reviews, chat, warranties, vendor commissions — throw UnsupportedByGoCommerce, naming the service, rather than returning empty.' },
   { q: 'How do I install it?', a: 'Run npm i @misiki/gocommerce-connector in your Svelte Commerce checkout and set PUBLIC_GOCOMMERCE_API_URL to where GoCommerce answers, for example http://127.0.0.1:8080. Install one connector at a time: the backend is whichever @misiki/*-connector package.json has, so remove the Litekart and Vendure connectors Svelte Commerce ships with.' },
   { q: 'Is GoCommerce one of the 26 backends?', a: 'No. The 26 are the connectors whose coverage the backends page measures with a script, and the GoCommerce connector is not in that set. It lives in the GoCommerce repository, under connectors/svelte-commerce, and this page describes it instead.' },
-  { q: 'Does this mean the two projects are now one stack?', a: 'They are two projects with an early connector between them. Both are still useful on their own — GoCommerce behind any client, Svelte Commerce in front of 26 other backends — and the connector is the newest and least proven of the three.' },
+  { q: 'Does this mean the two packages are now one wired stack?', a: 'They are two packages of one platform with an early connector between them. Both are still useful on their own — GoCommerce behind any client, Svelte Commerce in front of 26 other backends — and the connector is the newest and least proven of the three.' },
 ]
 
 // The ledger. One state per line, and the states mean what the legend says.
@@ -147,7 +147,7 @@ npm i @misiki/gocommerce-connector
   <Faq items={faq} title="Connector questions" />
 
   <section class="closing wrap">
-    <h2>Either project is useful on its own</h2>
+    <h2>Either package is useful on its own</h2>
     <p>The connector is early, and this page says what it does not do. GoCommerce and Svelte Commerce are each useful without it.</p>
     <div class="actions">
       <a class="button" href="/gocommerce/">Explore GoCommerce</a>

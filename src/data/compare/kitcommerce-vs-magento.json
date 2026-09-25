@@ -30,12 +30,12 @@
     [
       "What it is",
       "Magento Open Source, free PHP software, and Adobe Commerce, the licensed edition — on your own servers, on Adobe’s managed cloud, or as a cloud service.",
-      "Two MIT projects: a Go backend with its admin compiled in, and a separate SvelteKit storefront."
+      "An open-source platform in two MIT packages: a Go backend with its admin compiled in, and a separate SvelteKit storefront."
     ],
     [
       "Licence and price",
       "Open Source is free under OSL 3.0. Adobe Commerce has no list price: Adobe quotes it, and licenses it at a pricing level of gross merchandise value and average order value tiers, or an order limit.",
-      "MIT, both projects. No paid edition and no pricing tier."
+      "MIT, both packages. No paid edition and no pricing tier."
     ],
     [
       "What you run",

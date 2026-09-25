@@ -4,11 +4,11 @@
   "platformUrl": "https://www.shopify.com",
   "label": "KitCommerce vs Shopify",
   "group": "Shopify",
-  "summary": "A hosted platform you rent against two MIT projects you run: fees per order, code ownership, and what each asks of you.",
+  "summary": "A hosted platform you rent against an open-source one you run: fees per order, code ownership, and what each asks of you.",
   "title": "KitCommerce vs Shopify: Fees, Ownership, Trade-offs",
   "description": "Shopify vs GoCommerce and Svelte Commerce: platform fees per order, hosting, code ownership, apps and payments — and where Shopify is the better choice.",
   "ogTitle": "KitCommerce vs Shopify",
-  "ogDescription": "Rent a hosted platform, or run two MIT projects yourself. Fees, ownership and trade-offs, sourced.",
+  "ogDescription": "Rent a hosted platform, or run an open-source one yourself. Fees, ownership and trade-offs, sourced.",
   "h1": "Shopify rents you a store. GoCommerce gives you one.",
   "lede": "Shopify runs the software and the servers and charges a monthly plan, plus a fee on every order taken through a third-party gateway. GoCommerce and Svelte Commerce are MIT source you run yourself: no plan, no per-order fee, and every line of the checkout is yours to change — along with the server it runs on.",
   "facts": [
@@ -30,12 +30,12 @@
     [
       "What it is",
       "A hosted platform. Shopify runs the software, the servers and the upgrades.",
-      "Two MIT projects you run: a Go backend with its admin compiled in, and a SvelteKit storefront."
+      "An open-source platform you run, in two MIT packages: a Go backend with its admin compiled in, and a SvelteKit storefront."
     ],
     [
       "Software price",
       "A monthly plan — Basic, Grow, Advanced, or Plus on a one- or three-year term.",
-      "Nothing. Both projects are MIT licensed."
+      "Nothing. Both packages are MIT licensed."
     ],
     [
       "Fee on each order",
@@ -170,7 +170,7 @@
     },
     {
       "q": "Is there a hosted version, like Shopify?",
-      "a": "No. Neither project has a hosted offering, a paid tier or an enterprise edition. You run both, on your own server or a developer’s."
+      "a": "No. Neither package has a hosted offering, a paid tier or an enterprise edition. You run both, on your own server or a developer’s."
     },
     {
       "q": "Why does Shopify charge a fee on my own payment gateway?",

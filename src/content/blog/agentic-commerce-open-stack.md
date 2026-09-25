@@ -10,7 +10,7 @@ Search changed how people find a shop. Mobile changed what a shop has to be in t
 
 When the visitor is a program acting for a person, it does not look at the hero image. It asks questions — what is in stock, what does it cost, can it arrive by Friday — and it wants answers it can check. Whatever answers those questions is the storefront. More and more often, that is the API.
 
-Saleor made this argument well in [The Open End-to-End AI Ecommerce Stack](https://saleor.io/blog/end-to-end-agentic-commerce). This post takes the same argument to the two projects we build — GoCommerce, the backend and admin, and Svelte Commerce, the storefront — and is specific about what exists today and what does not.
+Saleor made this argument well in [The Open End-to-End AI Ecommerce Stack](https://saleor.io/blog/end-to-end-agentic-commerce). This post takes the same argument to KitCommerce and its two packages — GoCommerce, the backend and admin, and Svelte Commerce, the storefront — and is specific about what exists today and what does not.
 
 ## The API is the storefront now
 
@@ -84,7 +84,7 @@ That is the direction the architecture points. It is not a dated roadmap item, a
 
 Every new door — a search engine, a marketplace, an assistant — brings customers, and each would happily own the relationship. Let them send the customers. Do not let them own the store.
 
-Both projects are MIT licensed. You own the engine the agents talk to: its code, its database, its audit trail and its rules. If a protocol changes, you — or anyone you hire — can change the module that speaks it, without waiting on a vendor’s roadmap. And an agent unsure how a refund works can read the source instead of guessing.
+Both packages are MIT licensed. You own the engine the agents talk to: its code, its database, its audit trail and its rules. If a protocol changes, you — or anyone you hire — can change the module that speaks it, without waiting on a vendor’s roadmap. And an agent unsure how a refund works can read the source instead of guessing.
 
 The cost is that you run it. There is no hosted offering, and no store we know of runs GoCommerce in production yet. That is the trade: more to operate, and nothing between you and the next door but your own code.
 

@@ -4,7 +4,7 @@
   "platformUrl": "https://mydukaan.io",
   "label": "KitCommerce vs Dukaan",
   "group": "Indian SaaS builders",
-  "summary": "A quick-start Indian store builder with a free plan and a service fee on every sale — against two MIT projects with no fee and more work up front.",
+  "summary": "A quick-start Indian store builder with a free plan and a service fee on every sale — against an open-source platform with no fee and more work up front.",
   "title": "KitCommerce vs Dukaan: Plans, Service Fee and Code Access",
   "description": "Dukaan vs GoCommerce and Svelte Commerce: INR plans, Dukaan’s service fee on sales and what it comes to at ₹5 lakh a month — and where Dukaan wins.",
   "ogTitle": "KitCommerce vs Dukaan",
@@ -18,7 +18,7 @@
   ],
   "glanceLede": "Dukaan’s side is taken from its pricing page — plan cards, comparison table and FAQ — linked at the foot of this page. Ours is what GoCommerce and Svelte Commerce do today.",
   "rows": [
-    ["What it is", "A hosted store builder, run from the web or Dukaan’s Android and iOS apps on every plan.", "Two MIT projects you deploy: GoCommerce for the backend and a web admin, Svelte Commerce for the storefront."],
+    ["What it is", "A hosted store builder, run from the web or Dukaan’s Android and iOS apps on every plan.", "An open-source platform you deploy, in two MIT packages: GoCommerce for the backend and a web admin, Svelte Commerce for the storefront."],
     ["Plans", "Free; Starter ₹299, Growth ₹999 and Infinity ₹5,999 a month billed monthly — or ₹2,500, ₹8,000 and ₹50,000 billed yearly.", "None. The software is ₹0."],
     ["Service fee on sales", "4.99% on Free, 3.99% on Starter, 1.99% on Growth and 0.99% on Infinity — capped at ₹200 an order, not charged on manual orders, and on top of gateway charges.", "None."],
     ["Payment gateways", "Cashfree, Razorpay, PayPal and Stripe.", "Nine payment modules, Razorpay and Stripe among them; cash on delivery is the core’s default method."],

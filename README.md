@@ -13,10 +13,11 @@ npm run preview    # inspect dist/ locally
 
 ## What this site is
 
-**KitCommerce is the open-source ecommerce platform made of two independent
-MIT projects** — GoCommerce for the backend and admin, Svelte Commerce for the
-storefront — and `kitcommerce.store` is its website. Each project also works
-on its own.
+**KitCommerce is an open-source ecommerce platform whose packages are
+GoCommerce and Svelte Commerce** — GoCommerce for the backend and admin,
+Svelte Commerce for the storefront — presented the way Medusa presents itself:
+one platform, several packages. `kitcommerce.store` is its website. Each
+package is MIT licensed and also works on its own.
 
 | | GoCommerce | Svelte Commerce |
 | --- | --- | --- |
@@ -27,22 +28,23 @@ on its own.
 | Accent | Go blue `#00add8` | Svelte orange `#ff3e00` |
 
 The site takes no hue of its own and the wordmark is monochrome, because a
-website that wore one of the projects' colours would be claiming to be that
-project.
+website that wore one of the packages' colours would be claiming to be that
+package.
 
 ### The branding rule
 
 Since 25 September 2026 KitCommerce is presented as one product — the
-open-source ecommerce platform — whose two parts are GoCommerce and Svelte
-Commerce (the owner's decision, so directories can list it under one name).
+open-source ecommerce platform — whose two packages are GoCommerce and Svelte
+Commerce, the way Medusa is one platform made of packages (the owner's
+decision, so directories can list it under one name).
 What stays true, and what the verifier still holds the prose to:
 
 - There is **no KitCommerce edition, tier, cloud or enterprise version**, and
-  nothing to buy. It is the two MIT projects, free.
-- **Name the part that does the work** when a claim is about one of them:
+  nothing to buy. Both packages are MIT, free.
+- **Name the package that does the work** when a claim is about one of them:
   "GoCommerce's checkout", "Svelte Commerce's 26 backends".
 - **Don't overstate how joined they are.** The connector between them is early
-  (0.1.0), and each project runs without the other.
+  (0.1.0), and each package runs without the other.
 
 Spell them `GoCommerce` and `Svelte Commerce` — never `Go Commerce`,
 `SvelteCommerce` or, in prose, `Svelte-Commerce`. The repository slug is

@@ -18,8 +18,8 @@
   ],
   "glanceLede": "Bagisto’s side is checked against its own site, developer docs, extension store and GitHub, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site.",
   "rows": [
-    ["What it is", "One Laravel application: Blade and Vue storefront, admin panel and a web installer, maintained by Webkul.", "Two MIT projects: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
-    ["Licence", "MIT.", "MIT, both projects."],
+    ["What it is", "One Laravel application: Blade and Vue storefront, admin panel and a web installer, maintained by Webkul.", "An open-source platform in two MIT packages: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
+    ["Licence", "MIT.", "MIT, both packages."],
     ["What you run", "On Bagisto 2.4, the current stable line: PHP 8.3 or 8.4, Composer, and MySQL or MariaDB behind Nginx, Apache or OpenLiteSpeed. Bagisto 2.5, in beta, needs PHP 8.4 and adds PostgreSQL 16 to MySQL 8.0 and MariaDB 10.11. Elasticsearch 8 and Redis are optional.", "One Go binary and one PostgreSQL database. No PHP runtime, no Redis and no message broker required."],
     ["API", "REST and GraphQL from one Composer package, bagisto/bagisto-api, kept outside the core and installed separately; Shop and Admin surfaces.", "REST in the core: 342 documented operations, published as OpenAPI, the same API the admin uses."],
     ["Marketplace", "A paid extension, $449: seller dashboards, per-seller commission, payouts, product approval and sub-sellers.", "In the core: vendors move through pending, approved and suspended, and sell through vendor offers. Commission is recorded per vendor but not settled — payouts are yours to build."],

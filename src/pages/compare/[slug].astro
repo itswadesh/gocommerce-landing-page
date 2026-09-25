@@ -7,10 +7,9 @@
  * that re-dates the page (see src/lib/dates.mjs).
  *
  * "KitCommerce" appears in the titles because that is what people search.
- * The body always compares GoCommerce and Svelte Commerce — the two projects
- * this site presents — and every page says so under the heading, because
- * KitCommerce is the platform the two make together; claims name the part
- * they are about.
+ * The body always compares GoCommerce and Svelte Commerce — the two packages
+ * of KitCommerce — and every page says so under the heading, because a claim
+ * names the package it is about.
  *
  * Every page carries the same "what you take on" column. A comparison that
  * lists only the other side's costs is an advert, and this site does not
@@ -42,7 +41,7 @@ const graph = [
   },
 ]
 
-// What running two self-hosted MIT projects asks of you, said the same way on
+// What running a self-hosted MIT platform asks of you, said the same way on
 // every page. Page data can add to it; it cannot remove from it.
 const takeOn = [
   'You host it: a server, a PostgreSQL database, backups and upgrades are yours, or a developer’s you pay.',
@@ -69,7 +68,7 @@ const takeOn = [
     <ul class="head-facts">
       {c.facts.map((f) => <li><b>{f.b}</b> {f.t}</li>)}
     </ul>
-    <p class="fineprint vs-meaning">KitCommerce is the open-source ecommerce platform made of two independent MIT projects: GoCommerce (backend and admin) and Svelte Commerce (storefront). On this page, each claim names the part it is about.</p>
+    <p class="fineprint vs-meaning">KitCommerce is an open-source ecommerce platform. Its packages are GoCommerce, the backend and admin, and Svelte Commerce, the storefront — MIT licensed, used together or either one on its own. On this page, each claim names the package it is about.</p>
   </section>
 
   <section id="glance" class="section wrap" aria-labelledby="glance-title">

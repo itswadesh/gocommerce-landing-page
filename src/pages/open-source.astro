@@ -40,7 +40,7 @@ const graph = [
 
 const faq = [
   { q: 'What licence are GoCommerce and Svelte Commerce under?', a: 'MIT, both of them. You may use, copy, modify, merge, publish, distribute, sublicense and sell copies, commercially or not. The one condition is that the MIT copyright and permission notice is included with copies of the software. There is no second licence, no source-available clause and no commercial edition on different terms.' },
-  { q: 'Can I white-label or rebrand them?', a: 'Yes. Rename either project, restyle the GoCommerce admin, change the storefront’s theme and ship the result under your own name and domain — for your own shop or for clients. The licence asks for its notice to travel with copies of the software, as a file in the source or the distribution; it does not ask for a credit in your storefront or your admin.' },
+  { q: 'Can I white-label or rebrand them?', a: 'Yes. Rename either package, restyle the GoCommerce admin, change the storefront’s theme and ship the result under your own name and domain — for your own shop or for clients. The licence asks for its notice to travel with copies of the software, as a file in the source or the distribution; it does not ask for a credit in your storefront or your admin.' },
   { q: 'Is there a cloud or a hosted version?', a: 'No. There is no hosted GoCommerce, no Svelte Commerce cloud, no paid tier and no enterprise edition. You run both yourself: the compose file on this site starts PostgreSQL, GoCommerce with its admin, and a proxy on port 80 on any machine with Docker. If you would rather someone else operated the servers, a hosted platform is the better fit.' },
   { q: 'Is it ready for production?', a: 'Svelte Commerce is: arialshop.com runs it in production, against one of its 26 backends. GoCommerce carries over 1,000 tests and 342 documented operations, but no store we know of runs it in production yet, so treat it as something to build on deliberately — run the suite against your changes and place test orders before real ones. Svelte Commerce reaches GoCommerce through an early connector, 0.1.0, covering catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet, and no store we know of runs the pair in production.' },
   { q: 'Why does GoCommerce have so few GitHub stars?', a: 'Because its repository is new: it was created on GitHub on 30 August 2026. Svelte Commerce has been there since October 2019, which is where its count comes from. A star count says how long a project has been noticed, not whether its code is right — the test suite is the better evidence. Both numbers on this page are read from the GitHub API, not typed in.' },
@@ -117,7 +117,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <ul class="hero-stats" aria-label="At a glance">
       <li><b data-gh="go-stars">{n(go.stars)}</b><span>GitHub stars, GoCommerce</span></li>
       <li><b data-gh="sv-stars">{n(sv.stars)}</b><span>GitHub stars, Svelte Commerce</span></li>
-      <li><b>MIT</b><span>both projects</span></li>
+      <li><b>MIT</b><span>both packages</span></li>
       <li><b>0</b><span>paid tiers</span></li>
     </ul>
   </section>
@@ -295,7 +295,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       </div>
       <div class="tri-item">
         <h3>Rebrand it, white-label it</h3>
-        <p>Rename either project, restyle the admin, ship it under your own name and domain, and sell what you build. The one condition is the licence’s own: its copyright and permission notice travels with the software.</p>
+        <p>Rename either package, restyle the admin, ship it under your own name and domain, and sell what you build. The one condition is the licence’s own: its copyright and permission notice travels with the software.</p>
       </div>
       <div class="tri-item">
         <h3>GoCommerce doesn’t phone home</h3>
@@ -321,7 +321,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
     <div class="contrib">
       <ul class="contrib-list">
-        <li><b>Discord</b> — questions, help getting a store running, and what people are building with either project. <a href={discord} {...ext} data-ev="discord_click">Join the server</a></li>
+        <li><b>Discord</b> — questions, help getting a store running, and what people are building with either package. <a href={discord} {...ext} data-ev="discord_click">Join the server</a></li>
         <li><b>Discussions</b> — Svelte Commerce keeps <a href="https://github.com/itswadesh/svelte-commerce/discussions" {...ext}>GitHub Discussions</a> open for questions and ideas. GoCommerce has them switched off, so its questions go to Discord or an issue.</li>
         <li><b>Issues</b> — bugs and proposals, filed against <a href="https://github.com/itswadesh/gocommerce/issues" {...ext}>GoCommerce</a> or <a href="https://github.com/itswadesh/svelte-commerce/issues" {...ext}>Svelte Commerce</a>. Say what you ran and what came back.</li>
         <li><b>Contributing</b> — for GoCommerce, <a href="https://github.com/itswadesh/gocommerce/blob/main/AGENTS.md" {...ext}><code>AGENTS.md</code></a> holds the rules every contributor works under, human or agent, and <a href="https://github.com/itswadesh/gocommerce/blob/main/docs/writing-a-module.md" {...ext}><code>docs/writing-a-module.md</code></a> shows how an integration is built. The work that matters most is listed on the <a href="/gocommerce/#roadmap">GoCommerce page</a>.</li>

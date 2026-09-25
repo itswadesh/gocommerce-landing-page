@@ -18,8 +18,8 @@
   ],
   "glanceLede": "WooCommerce’s side is checked against WooCommerce.com, its documentation, WordPress.org and its GitHub repository, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site and their repositories.",
   "rows": [
-    ["What it is", "A plugin that adds a store to WordPress, published by Automattic.", "Two MIT projects: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
-    ["Licence", "GPL — version 3 or later for the plugin.", "MIT, both projects."],
+    ["What it is", "A plugin that adds a store to WordPress, published by Automattic.", "An open-source platform in two MIT packages: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
+    ["Licence", "GPL — version 3 or later for the plugin.", "MIT, both packages."],
     ["What you run", "For WooCommerce 10.8 and later: WordPress 6.9+, PHP 8.3+ (tested to 8.4), MySQL 8.0+ or MariaDB 10.6+, HTTPS and a 256 MB WordPress memory limit.", "One Go binary and one PostgreSQL database. No PHP, no Node.js server, no Redis, no message broker required."],
     ["What you keep updated", "WordPress, WooCommerce and every plugin, each on its own release schedule.", "One binary; the modules you import are compiled into it."],
     ["Extensions", "Free plugins on WordPress.org, and paid extensions on WooCommerce.com renewed yearly for updates and support — Product Bundles ₹7,575, Memberships ₹19,079, Bookings ₹23,873 a year.", "44 MIT modules, compiled in when imported. Nothing to renew."],

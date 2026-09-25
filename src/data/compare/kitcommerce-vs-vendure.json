@@ -19,7 +19,7 @@
   "glanceLede": "Vendure’s side is checked against its own site, pricing page, documentation and repository, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site.",
   "rows": [
     ["What it is", "A headless commerce framework: one NestJS application holding catalogue, pricing, orders, customers and channels, with a React dashboard.", "A headless Go backend with its admin compiled into the same binary; Svelte Commerce is a separate SvelteKit storefront."],
-    ["Licence", "Vendure Core is GPLv3, with an exception that lets plugins carry their own licence; Vendure GmbH also sells a commercial licence.", "MIT, both projects."],
+    ["Licence", "Vendure Core is GPLv3, with an exception that lets plugins carry their own licence; Vendure GmbH also sells a commercial licence.", "MIT, both packages."],
     ["Language", "TypeScript on Node.js v20, v22 or v24.", "Go, compiled to one binary with one production dependency, the PostgreSQL driver."],
     ["What production runs", "Two Node.js processes from one codebase — a server and a worker — on PostgreSQL, MySQL or MariaDB. The job queue and cache can live in the database; Redis is an option for both.", "One binary and one PostgreSQL database. No Node.js server, no Redis, no separate worker process."],
     ["API", "GraphQL: a Shop API and an Admin API, both extensible and introspectable, with codegen for typed clients.", "REST: 342 documented operations, published as OpenAPI, the same API the admin uses."],

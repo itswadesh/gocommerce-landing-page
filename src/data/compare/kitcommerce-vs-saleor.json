@@ -19,7 +19,7 @@
   "glanceLede": "Saleor’s side is checked against its own site, pricing page, documentation and repository, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site.",
   "rows": [
     ["What it is", "A headless commerce API with a separate dashboard, run by its makers as Saleor Cloud or by you.", "A headless Go backend with its admin compiled into the same binary; Svelte Commerce is a separate SvelteKit storefront."],
-    ["Licence", "BSD-3-Clause, for the core and the dashboard.", "MIT, both projects."],
+    ["Licence", "BSD-3-Clause, for the core and the dashboard.", "MIT, both packages."],
     ["Language", "Python 3.12 and Django; the dashboard is a separate TypeScript application.", "Go, compiled to one binary with one production dependency, the PostgreSQL driver."],
     ["What production runs", "API web workers, background task workers and a periodic scheduler, on PostgreSQL with read replicas, a Redis cache, a Redis queue and S3 or Google Cloud Storage.", "One binary and one PostgreSQL database. No Redis, no separate worker process, no message broker."],
     ["API", "GraphQL, with subscription queries that shape each webhook’s payload.", "REST: 342 documented operations, published as OpenAPI, the same API the admin uses."],

@@ -18,8 +18,8 @@
   ],
   "glanceLede": "OpenCart’s side is checked against opencart.com, its marketplace and its GitHub repository at release 4.1.0.4, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site and their repositories.",
   "rows": [
-    ["What it is", "A PHP shopping cart: storefront, admin and web installer in one download.", "Two MIT projects: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
-    ["Licence", "GPL, version 3 or later.", "MIT, both projects."],
+    ["What it is", "A PHP shopping cart: storefront, admin and web installer in one download.", "An open-source platform in two MIT packages: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
+    ["Licence", "GPL, version 3 or later.", "MIT, both packages."],
     ["What you run", "For 4.1.0.4, its installer checks for PHP 8.1 or later, mysqli or PDO, and the gd, curl, OpenSSL, zlib and zip extensions; a MySQL database, with Apache suggested.", "One Go binary and one PostgreSQL database. No PHP runtime, no Redis, no message broker required."],
     ["API", "A built-in API for carts, customers, addresses, shipping and payment methods, and orders. It has no product or category endpoints.", "342 documented REST operations, published as OpenAPI, across the catalogue, carts, checkout and orders."],
     ["Extensions", "OpenCart’s marketplace, where paid extensions come with 12 months’ free support: AJAX Quick Checkout PRO $110.99, Export-Import to Excel PRO $132.99, SEO Module URL $78.99.", "44 MIT modules, compiled in when imported. Nothing to buy."],

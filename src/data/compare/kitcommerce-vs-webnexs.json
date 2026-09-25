@@ -4,7 +4,7 @@
   "platformUrl": "https://www.webnexs.com/",
   "label": "KitCommerce vs Webnexs",
   "group": "Indian SaaS builders",
-  "summary": "A commissioned build with source for one store, against two MIT projects you run: price, licence, refunds and who does the work.",
+  "summary": "A commissioned build with source for one store, against an open-source platform you run: price, licence, refunds and who does the work.",
   "title": "KitCommerce vs Webnexs: Pricing, Source-Code Licence",
   "description": "Webnexs vs GoCommerce and Svelte Commerce: quoted pricing, the source-code licence, refunds, marketplace features, apps and hosting — and where Webnexs wins.",
   "ogTitle": "KitCommerce vs Webnexs",
@@ -18,8 +18,8 @@
   ],
   "glanceLede": "Webnexs’s side is taken from its product pages and its terms and conditions, linked at the foot of this page; ours from the GoCommerce and Svelte Commerce pages on this site.",
   "rows": [
-    ["What it is", "A development company selling what it calls a productised custom platform. Its marketplace FAQ says it is not SaaS.", "Two MIT projects you run: a Go backend with its admin compiled in, and a SvelteKit storefront."],
-    ["Price", "Not published. Its product pages lead to a pricing form, a demo request or a discovery call; the terms describe a one-time fee, paid upfront.", "Nothing. Both projects are MIT licensed."],
+    ["What it is", "A development company selling what it calls a productised custom platform. Its marketplace FAQ says it is not SaaS.", "An open-source platform you run, in two MIT packages: a Go backend with its admin compiled in, and a SvelteKit storefront."],
+    ["Price", "Not published. Its product pages lead to a pricing form, a demo request or a discovery call; the terms describe a one-time fee, paid upfront.", "Nothing. Both packages are MIT licensed."],
     ["Licence", "You receive the complete, unencrypted source, for the purpose you bought it: your own store, per the terms.", "MIT: run it for any number of stores, change it, and ship it under your own name."],
     ["If it isn’t right", "Fees are non-refundable once paid, the terms say, unless the product fails to work as demonstrated and Webnexs cannot fix it.", "Nothing to refund. Run it, read the code and decide before anyone is paid."],
     ["Who builds it", "Webnexs’s in-house team: a few weeks for a standard headless storefront, 4–12 weeks for a marketplace.", "You, or a developer you hire. The Docker quick start brings up the API and admin on your own machine."],
@@ -75,7 +75,7 @@
     { "q": "Webnexs also gives me the source code. What is the difference?", "a": "The licence and the price. Webnexs’s terms give you the complete source for the purpose you bought it — your own store — for a quoted fee. GoCommerce and Svelte Commerce are MIT: free, for any number of stores, with the right to change and redistribute them." },
     { "q": "Can I get my money back from Webnexs?", "a": "Its terms say fees are non-refundable once paid. The exception they give is a product that does not work as demonstrated and that Webnexs cannot fix, refunded less bank charges. Read the terms before you sign." },
     { "q": "Can GoCommerce run a multi-vendor marketplace?", "a": "In part. Vendors are first-class sellers with pending, approved and suspended states, and each can make offers. Commission is recorded per vendor but not settled, so payouts need code. Webnexs’s marketplace offer includes payouts." },
-    { "q": "Who builds a GoCommerce store if I don’t have a developer?", "a": "Nobody, unless you hire someone. There is no hosted offering, paid tier or build service behind either project." }
+    { "q": "Who builds a GoCommerce store if I don’t have a developer?", "a": "Nobody, unless you hire someone. There is no hosted offering, paid tier or build service behind either package." }
   ],
   "sources": [
     { "label": "Webnexs — home page and case studies", "url": "https://www.webnexs.com/" },

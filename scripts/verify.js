@@ -1,12 +1,12 @@
 /**
  * Enforce the site's naming rules mechanically.
  *
- * KitCommerce is the platform made of GoCommerce and Svelte Commerce, and the
- * rules that keep that honest are easy to break by accident: a "KitCommerce
- * Cloud" or an "enterprise edition" reads naturally and describes something
- * that does not exist, and the project names drift ("Go Commerce",
- * "SvelteCommerce"). A rule nothing checks is a rule that drifts, so this
- * checks it.
+ * KitCommerce is the platform whose packages are GoCommerce and Svelte
+ * Commerce, and the rules that keep that honest are easy to break by
+ * accident: a "KitCommerce Cloud" or an "enterprise edition" reads naturally
+ * and describes something that does not exist, and the package names drift
+ * ("Go Commerce", "SvelteCommerce"). A rule nothing checks is a rule that
+ * drifts, so this checks it.
  *
  *   node scripts/verify.js
  *
@@ -59,11 +59,12 @@ const PAGES = htmlUnder(DIST)
 const RULES = [
   {
     // Since 25 September 2026 KitCommerce is the platform — GoCommerce and
-    // Svelte Commerce together — so "KitCommerce platform" is allowed. What it
-    // does not have is an edition, a tier, a cloud or an enterprise version,
-    // and a sentence claiming one describes something that does not exist.
+    // Svelte Commerce are its packages — so "KitCommerce platform" is
+    // allowed. What it does not have is an edition, a tier, a cloud or an
+    // enterprise version, and a sentence claiming one describes something that
+    // does not exist.
     re: /KitCommerce\s+(edition|tier|cloud|enterprise|pro|plus|premium)\b/gi,
-    why: 'KitCommerce has no edition, tier, cloud or enterprise version. It is two free MIT projects.',
+    why: 'KitCommerce has no edition, tier, cloud or enterprise version. Its packages, GoCommerce and Svelte Commerce, are free and MIT licensed.',
   },
   {
     // The repository slug is svelte-commerce; the project in prose is two words.

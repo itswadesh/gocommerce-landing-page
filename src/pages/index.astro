@@ -57,17 +57,17 @@ const adminLabel = demo ? 'Live demo' : 'Open admin'
 const graph = [
   { '@type': 'SoftwareApplication', '@id': abs('/gocommerce/#app'), name: 'GoCommerce', url: abs('/gocommerce/'), applicationCategory: 'DeveloperApplication', applicationSubCategory: 'Headless ecommerce backend', operatingSystem: 'Cross-platform', runtimePlatform: 'Go 1.27', softwareRequirements: 'Docker, or Go 1.27 and PostgreSQL', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, description: 'A headless open-source ecommerce backend built with Go, with a Svelte admin compiled into the same binary. Catalog, carts, checkout, orders, payments, inventory and fulfillment over a documented REST API.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
   { '@type': 'SoftwareApplication', '@id': abs('/svelte-commerce/#app'), name: 'Svelte Commerce', url: abs('/svelte-commerce/'), applicationCategory: 'DeveloperApplication', applicationSubCategory: 'Headless ecommerce storefront', operatingSystem: 'Cross-platform', runtimePlatform: 'SvelteKit', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, description: 'A headless open-source ecommerce storefront built with SvelteKit, running against 26 commerce backends through connector packages.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
-  { '@type': 'SoftwareApplication', '@id': abs('/#platform'), name: 'KitCommerce', url: abs('/'), applicationCategory: 'BusinessApplication', applicationSubCategory: 'Open-source ecommerce platform', operatingSystem: 'Cross-platform', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, publisher: { '@id': abs('/#org') }, description: 'A free, open-source, self-hosted ecommerce platform made of two MIT projects: GoCommerce, a Go backend with its admin built in, and Svelte Commerce, a SvelteKit storefront.', hasPart: [{ '@id': abs('/gocommerce/#app') }, { '@id': abs('/svelte-commerce/#app') }], offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR', availability: 'https://schema.org/InStock' } },
+  { '@type': 'SoftwareApplication', '@id': abs('/#platform'), name: 'KitCommerce', url: abs('/'), applicationCategory: 'BusinessApplication', applicationSubCategory: 'Open-source ecommerce platform', operatingSystem: 'Cross-platform', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, publisher: { '@id': abs('/#org') }, description: 'A free, open-source, self-hosted ecommerce platform. Its packages are GoCommerce, a Go backend with its admin built in, and Svelte Commerce, a SvelteKit storefront — MIT licensed, used together or either one on its own.', hasPart: [{ '@id': abs('/gocommerce/#app') }, { '@id': abs('/svelte-commerce/#app') }], offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR', availability: 'https://schema.org/InStock' } },
 ]
 
 const faq = [
   { q: 'What is GoCommerce?', a: 'GoCommerce is an open-source, headless ecommerce backend built with Go and PostgreSQL, with a Svelte-based admin compiled into the same binary. It serves 342 documented operations over REST.' },
   { q: 'What is Svelte Commerce?', a: 'Svelte Commerce is an open-source headless ecommerce storefront built with Svelte and SvelteKit. It reaches a commerce backend through a connector package, and 26 connectors exist today.' },
-  { q: 'What is KitCommerce?', a: 'KitCommerce is the open-source ecommerce platform made of two MIT projects: GoCommerce, the backend and admin, and Svelte Commerce, the storefront. It is free, self-hosted and has no paid editions. Each part also works on its own.' },
-  { q: 'Can I self-host them?', a: 'Yes. Both projects are MIT licensed and designed to run on your own infrastructure: GoCommerce is one binary and one PostgreSQL, Svelte Commerce is a Node server. The compose file on this site runs the backend, its admin and a proxy on port 80 in one command.' },
+  { q: 'What is KitCommerce?', a: 'KitCommerce is an open-source ecommerce platform. Its packages are GoCommerce, the backend and admin, and Svelte Commerce, the storefront — MIT licensed, used together or either one on its own. It is free, self-hosted and has no paid editions.' },
+  { q: 'Can I self-host them?', a: 'Yes. Both packages are MIT licensed and designed to run on your own infrastructure: GoCommerce is one binary and one PostgreSQL, Svelte Commerce is a Node server. The compose file on this site runs the backend, its admin and a proxy on port 80 in one command.' },
   { q: 'Is there a platform fee or a paid plan?', a: 'No. There is one plan and it is free, for life: no fee on your orders and no hosted tier to graduate to. Your own servers, domains and third-party services still cost what they cost — the software is free, hosting is not.' },
-  { q: 'Can I white-label it?', a: 'Yes. Both projects are MIT, so you can rename them, restyle the storefront and the admin, and ship them under your own brand for yourself or for clients. Keeping the copyright notice in the source is the only condition.' },
-  { q: 'Can GoCommerce and Svelte Commerce work together?', a: 'Through an early connector: @misiki/gocommerce-connector 0.1.0 lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Customer accounts and a search index are not covered yet. Either project also works alone: GoCommerce with any HTTP client, Svelte Commerce with 26 other backends.' },
+  { q: 'Can I white-label it?', a: 'Yes. Both packages are MIT, so you can rename them, restyle the storefront and the admin, and ship them under your own brand for yourself or for clients. Keeping the copyright notice in the source is the only condition.' },
+  { q: 'Can GoCommerce and Svelte Commerce work together?', a: 'Through an early connector: @misiki/gocommerce-connector 0.1.0 lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Customer accounts and a search index are not covered yet. Either package also works alone: GoCommerce with any HTTP client, Svelte Commerce with 26 other backends.' },
   { q: 'How do I get started?', a: 'Download docker-compose.yml and env.example from this site, set your secrets in .env, then run docker compose up -d. The admin answers on http://localhost/, the OpenAPI docs on /docs and the catalogue on /api/products. Everything deeper — your own PostgreSQL, modules, the storefront profile — is in the GoCommerce README.' },
 ]
 
@@ -383,7 +383,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <p class="kicker">Build</p>
         <h2 id="projects-title">A codebase developers actually want</h2>
       </div>
-      <p class="section-lede">A Go engine with its admin embedded, and a SvelteKit storefront — two MIT repositories, either one usable alone, with a documented API between them.</p>
+      <p class="section-lede">A Go engine with its admin embedded, and a SvelteKit storefront — the two packages of KitCommerce, each MIT licensed and usable alone, with a documented API between them.</p>
     </div>
     <div class="plate">
       <div class="part part-engine">
@@ -551,7 +551,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <p class="kicker">Everything in the box</p>
         <h2 id="cap-title">The full feature list, nothing sold separately</h2>
       </div>
-      <p class="section-lede">No plugin store, no per-feature pricing. Every line below ships in the two MIT repositories — in the GoCommerce core or as a module you import.</p>
+      <p class="section-lede">No plugin store, no per-feature pricing. Every line below ships in the KitCommerce packages — in the GoCommerce core or as a module you import.</p>
     </div>
     <div class="featlist">
       {featureGroups.map((g) => (
@@ -660,12 +660,12 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       </div>
       <div class="tri-item tri-store">
         <h3>Ask the community</h3>
-        <p>Questions go in public, where the people who build both projects answer them.</p>
+        <p>Questions go in public, where the people who build both packages answer them.</p>
         <a class="button secondary" href="https://discord.gg/GgdAeccwDR" {...ext} data-ev="discord_click">Join the Discord</a>
       </div>
       <div class="tri-item">
         <h3>Have it built for you</h3>
-        <p>The team behind both projects takes on custom builds — themes, integrations, whole stores. Tell them what you need.</p>
+        <p>The team behind both packages takes on custom builds — themes, integrations, whole stores. Tell them what you need.</p>
         {wa
           ? <a class="button secondary" href={`https://wa.me/${wa}?text=${encodeURIComponent('Hi! I’d like to discuss a custom build on GoCommerce and Svelte Commerce.')}`} {...ext} data-ev="whatsapp_click">Talk to the team on WhatsApp</a>
           : <a class="button secondary" href="/contact/">Talk to the team</a>}

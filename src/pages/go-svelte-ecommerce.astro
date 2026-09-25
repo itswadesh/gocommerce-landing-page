@@ -10,8 +10,8 @@ const graph = [
 ]
 
 const faq = [
-  { q: 'Do GoCommerce and Svelte Commerce require each other?', a: 'No. Both projects can be used independently, but they can also be combined to build a complete ecommerce stack. GoCommerce runs with no Svelte storefront in front of it, and Svelte Commerce runs against 26 backends that are not GoCommerce.' },
-  { q: 'What is KitCommerce?', a: 'KitCommerce is the open-source ecommerce platform made of GoCommerce and Svelte Commerce, and kitcommerce.store is its website. The two are independent MIT projects: either works alone, and an early connector (0.1.0) joins them.' },
+  { q: 'Do GoCommerce and Svelte Commerce require each other?', a: 'No. They are two packages of one platform, and each can be used on its own or combined into a complete ecommerce stack. GoCommerce runs with no Svelte storefront in front of it, and Svelte Commerce runs against 26 backends that are not GoCommerce.' },
+  { q: 'What is KitCommerce?', a: 'KitCommerce is an open-source ecommerce platform, and kitcommerce.store is its website. Its packages are GoCommerce, the backend and admin, and Svelte Commerce, the storefront — MIT licensed, used together or either one on its own. An early connector (0.1.0) joins them.' },
   { q: 'Can Svelte Commerce work with another ecommerce backend?', a: 'Yes. Svelte Commerce is a headless storefront that reaches a backend through a connector package, and 26 connectors exist today — Litekart and Vendure are the most complete at 39 of 43 services. The storefront imports no connector by name, so switching backends is a package change rather than a rewrite.' },
   { q: 'Can GoCommerce work with another frontend?', a: 'Yes. GoCommerce exposes commerce backend functionality that any compatible storefront or application can consume. It serves 342 documented operations over REST, published as OpenAPI, so any framework that can call HTTP can drive it.' },
   { q: 'Can I run the two together today?', a: 'Yes, through an early connector. @misiki/gocommerce-connector 0.1.0 is on npm and maps the GoCommerce API onto the Svelte Commerce data layer from a shelf to a placed order: catalogue, cart, checkout and order lookup. Customer accounts and a search index are not covered, and no store is known to run the pair in production.' },
@@ -48,10 +48,10 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 ---
 <Base
   title="Go + Svelte Ecommerce: How GoCommerce & Svelte Commerce Fit"
-  description="How GoCommerce and Svelte Commerce fit: a Go backend and a Svelte storefront, two independent open-source projects to adopt separately or combine."
+  description="How the two packages of KitCommerce fit: GoCommerce, a Go backend, and Svelte Commerce, a Svelte storefront. Adopt either on its own, or combine them."
   path={path}
   ogTitle="Go + Svelte Ecommerce Architecture"
-  ogDescription="A Go backend and a Svelte storefront. Two independent projects — use either alone, or combine them."
+  ogDescription="A Go backend and a Svelte storefront: the two packages of KitCommerce. Use either alone, or combine them."
   ogImageAlt="Architecture of GoCommerce and Svelte Commerce: two flows meeting at one PostgreSQL"
   nav="architecture"
   crumbs={[{ name: 'Architecture', href: path }]}
@@ -59,8 +59,8 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   faq={faq}
 >
   <section class="wrap page-head">
-    <h1>Go backend. Svelte storefront. Independent projects.</h1>
-    <p class="lede">This page explains the relationship between the two projects — what talks to what, which parts are real today, and when you would reach for one, the other, or both.</p>
+    <h1>Go backend. Svelte storefront. One platform, two packages.</h1>
+    <p class="lede">This page explains how the two packages of KitCommerce relate — what talks to what, which parts are real today, and when you would reach for one, the other, or both.</p>
   </section>
 
   <section id="flows" class="section wrap" aria-labelledby="flows-title">
@@ -86,7 +86,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   <section id="independent" class="section wrap" aria-labelledby="ind-title">
     <h2 id="ind-title">They do not require each other</h2>
     <div class="statement">
-      <p class="statement-lead">GoCommerce and Svelte Commerce are independent open-source projects. Either can be used without the other.</p>
+      <p class="statement-lead">GoCommerce and Svelte Commerce are packages of one platform, and neither needs the other. Either can be used on its own.</p>
       <p>GoCommerce runs with no Svelte storefront in front of it, serving any client that speaks HTTP. Svelte Commerce runs against <a href="/svelte-commerce/backends/">26 commerce backends</a>, none of which is GoCommerce.</p>
       <p class="statement-note">A direct connector between GoCommerce and Svelte Commerce is published, and <b>early (0.1.0)</b>: catalogue, cart, checkout and order lookup work; customer accounts and a search index do not, and no store is known to run the pair in production. <a href="/gocommerce-svelte-commerce-connector/">See the connector status</a>.</p>
     </div>
@@ -165,11 +165,11 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     </div>
   </section>
 
-  <Faq items={faq} title="How the two projects relate" />
+  <Faq items={faq} title="How the packages relate" />
 
   <section class="closing wrap">
     <h2>Pick the piece you need</h2>
-    <p>Neither project asks you to adopt the other.</p>
+    <p>Neither package asks you to adopt the other.</p>
     <div class="actions">
       <a class="button" href="/gocommerce/">Explore GoCommerce</a>
       <a class="button" href="/svelte-commerce/">Explore Svelte Commerce</a>

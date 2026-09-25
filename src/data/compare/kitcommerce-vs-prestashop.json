@@ -18,8 +18,8 @@
   ],
   "glanceLede": "PrestaShop’s side is checked against prestashop.com, the PrestaShop 9 developer documentation, PrestaShop Addons and its GitHub repository, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site and their repositories.",
   "rows": [
-    ["What it is", "A PHP store application — front office, back office and modules — from PrestaShop SA and its community.", "Two MIT projects: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
-    ["Licence", "Core under OSL 3.0; modules under AFL 3.0.", "MIT, both projects."],
+    ["What it is", "A PHP store application — front office, back office and modules — from PrestaShop SA and its community.", "An open-source platform in two MIT packages: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
+    ["Licence", "Core under OSL 3.0; modules under AFL 3.0.", "MIT, both packages."],
     ["Editions", "Classic, a free download you host; Hosted, €24 a month billed yearly or €29 month to month, built on PrestaShop 8 with 50 GB of hosting through Gandi.", "Self-host only. No hosted offering and no paid tier."],
     ["What you run", "PrestaShop 9.1: PHP 8.1 to 8.5, with 8.5 recommended; MySQL 5.7+ or MariaDB 10.2+; Apache 2.4 or Nginx; a PHP memory_limit of 512M. Windows is not actively supported.", "One Go binary and one PostgreSQL database. No PHP runtime, no Redis, no message broker required."],
     ["Modules", "PrestaShop Addons, where a module is a lifetime licence for one store plus a year of its developer’s support, then a monthly support fee billed yearly.", "44 MIT modules, compiled in when imported. Nothing per store, nothing to renew."],
