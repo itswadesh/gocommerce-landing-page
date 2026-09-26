@@ -17,6 +17,11 @@ const cfg = {
 }
 const wa = import.meta.env.PUBLIC_WHATSAPP ?? ''
 
+// cfg.ga4 may hold one ID or a comma-separated pair (one property shared with
+// litekart.in, one dedicated to kitcommerce.store); the fineprint below reads
+// correctly either way, and identically to before when there is only one.
+const ga4Ids = cfg.ga4 ? cfg.ga4.split(',').map((id) => id.trim()).filter(Boolean) : []
+
 const parties = [
   cfg.ga4 && { name: 'Google Analytics 4', who: 'Google', what: 'page views and the funnel events named below, under Consent Mode v2', policy: 'https://policies.google.com/privacy' },
   cfg.clarity && { name: 'Microsoft Clarity', who: 'Microsoft', what: 'session replays and heatmaps of how the page is used', policy: 'https://privacy.microsoft.com/privacystatement' },
@@ -92,7 +97,8 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
           </table>
         </div>
         <p class="fineprint">Google’s tag is loaded with Consent Mode v2 defaults of <code>denied</code> for every storage type; they flip to <code>granted</code> only on your click. The funnel events sent are named in the page source: which project you chose, whether you copied the compose command, whether you went to GitHub or opened a question. No form fields, no keystrokes.</p>
-        {cfg.ga4 && <p class="fineprint">Google Analytics sets two cookies, <code>_ga</code> and <code>_ga_{cfg.ga4.replace(/^G-/, '')}</code>, which by Google’s defaults last up to two years. The Google Analytics property this site reports to, <code>{cfg.ga4}</code>, is shared with <a href="https://litekart.in" target="_blank" rel="noopener noreferrer">litekart.in</a>, run by the same team, so visits to both sites are counted in one set of reports.</p>}
+        {ga4Ids.length === 1 && <p class="fineprint">Google Analytics sets two cookies, <code>_ga</code> and <code>_ga_{ga4Ids[0].replace(/^G-/, '')}</code>, which by Google’s defaults last up to two years. The Google Analytics property this site reports to, <code>{ga4Ids[0]}</code>, is shared with <a href="https://litekart.in" target="_blank" rel="noopener noreferrer">litekart.in</a>, run by the same team, so visits to both sites are counted in one set of reports.</p>}
+        {ga4Ids.length > 1 && <p class="fineprint">Google Analytics sets <code>_ga</code> plus <code>_ga_{ga4Ids[0].replace(/^G-/, '')}</code> and <code>_ga_{ga4Ids[1].replace(/^G-/, '')}</code>, which by Google’s defaults last up to two years. The first property, <code>{ga4Ids[0]}</code>, is shared with <a href="https://litekart.in" target="_blank" rel="noopener noreferrer">litekart.in</a>, run by the same team, so visits to both sites are counted in one set of reports. The second, <code>{ga4Ids[1]}</code>, counts kitcommerce.store alone.</p>}
       </>
     )}
   </section>

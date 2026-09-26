@@ -292,7 +292,11 @@
     if (loaded || !configured) return
     loaded = true
 
-    if (cfg.ga4) {
+    // cfg.ga4 may be a single ID or a comma-separated list (e.g. one property
+    // shared with another site plus one dedicated to this one). One gtag.js
+    // load carries every ID; each gets its own 'config' call.
+    var ga4Ids = (cfg.ga4 || '').split(',').map(function (id) { return id.trim() }).filter(Boolean)
+    if (ga4Ids.length) {
       window.dataLayer = window.dataLayer || []
       var gtag = function () { window.dataLayer.push(arguments) }
       window.gtag = gtag
@@ -301,8 +305,10 @@
       gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied' })
       gtag('consent', 'update', { analytics_storage: 'granted' })
       gtag('js', new Date())
-      gtag('config', cfg.ga4, { anonymize_ip: true })
-      loadScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(cfg.ga4))
+      for (var i = 0; i < ga4Ids.length; i++) {
+        gtag('config', ga4Ids[i], { anonymize_ip: true })
+      }
+      loadScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(ga4Ids[0]))
       sinks.push(function (name, detail) { gtag('event', name, detail) })
     }
 
