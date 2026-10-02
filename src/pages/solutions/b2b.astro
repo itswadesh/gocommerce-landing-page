@@ -1,9 +1,10 @@
 ---
 /**
- * B2B on GoCommerce is pricing that resolves by who is buying and how many,
- * plus a way for a buyer's own system to place orders. Every claim names the
- * file it lives in; the edge — no quotes, no approvals, no net terms — is
- * named too.
+ * Every B2B capability GoCommerce has today, each naming the file it lives
+ * in — and the edge named too, because a buyer who finds a missing feature
+ * after choosing the engine was misled, however good the rest of the page.
+ * Pricing is core's; companies, terms, approvals and quotes are the b2b
+ * module's; buyers are the identity module's accounts.
  */
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
@@ -16,19 +17,21 @@ const graph = [
 ]
 
 const faq = [
-  { q: 'How does a wholesale customer get a different price?', a: 'Put them in a customer group, then attach a price list to that group. A price list holds rows of variant, minimum quantity and amount; when that customer’s cart is priced, the engine finds the row for the variant whose minimum quantity is highest but not above the quantity ordered. A list with no group applies to everybody, which is how a launch price or a seasonal price is expressed with the same mechanism.' },
-  { q: 'What happens when two price lists both match?', a: 'Each list carries a priority and the higher one wins. A list can also be limited to a date window and to one channel, so a wholesale list for one storefront during one quarter is three fields, not a custom rule.' },
-  { q: 'Can a buyer’s procurement system order without a person logging in?', a: 'Yes. Create an API key with a role. The key carries that role’s rights, a prefix that identifies it in a log line, its last-used time and a revocation, so an integration is a credential you can inspect and switch off rather than a shared password.' },
-  { q: 'Are invoices generated?', a: 'The invoices module issues a numbered invoice for every paid order. It is a module under ext/, so a store that does not need invoices does not compile it in.' },
-  { q: 'What B2B features are not there?', a: 'Quote requests, order approval chains, net payment terms and credit limits. None exists in the engine today, and this page will not describe them as if they did. What exists is pricing, machine access and invoicing, which is where most wholesale stores start.' },
+  { q: 'How does a business customer get its own prices?', a: 'A company points at a customer group, and its buyers’ addresses are in that group. A price list attached to the group holds rows of variant, minimum quantity and amount, so a buyer’s cart is priced from the list at the quantity they order — with priority, a date window and a channel when two lists could apply.' },
+  { q: 'Can somebody get a dealer’s prices by typing the dealer’s email?', a: 'No. A group price reaches a cart only through an address something has proven: a signed-in account whose email is confirmed, an operator placing the order, or a storefront backend vouching for its own signed-in customer. The email typed onto a cart is a contact address and earns nothing. Buyers join a company by an invitation mailed to their address, and accepting it is the proof.' },
+  { q: 'How do payment terms and credit limits work?', a: 'A company with an account pays on account: the order is confirmed with payment pending and a due date its net days out, and settling the invoice marks it paid. Its credit limit is checked inside the checkout, against the order’s final total, before the order exists — under a lock per company, so two buyers ordering at the same moment cannot both fit under a limit only one of them fits under.' },
+  { q: 'How do approvals work?', a: 'A company sets an approval threshold. A buyer whose order is over it gets an approval request instead of an order, and the company’s approvers are emailed. An approver places it at the prices it was submitted at, or rejects it with a reason; the buyer can withdraw it. Admins and approvers order without approval.' },
+  { q: 'How do quotes work?', a: 'A buyer asks for a quote on quantities. The store prices each line, adds a reply and an expiry, and sends it. The buyer accepts and the order is placed at exactly those prices — over the catalogue and over the company’s own price list — or it waits for approval when it is over the buyer’s limit. A quote becomes one order at most.' },
+  { q: 'Can a buyer’s procurement system order without a person logging in?', a: 'Yes. An API key carries a role’s rights, a prefix that identifies it in a log line, its last-used time and a revocation. Checkout takes an Idempotency-Key, so a system that retries a timed-out request does not place the order twice.' },
+  { q: 'Is it free to use for B2B?', a: 'Yes. GoCommerce is MIT-licensed, and the B2B module is in the same repository as the engine: no paid edition, no B2B add-on.' },
 ]
 ---
 <Base
-  title="B2B Commerce on GoCommerce — Price Lists, Quantity Breaks"
-  description="Tiered B2B pricing on an open-source backend: customer groups, price lists with quantity breaks, scoped API keys, numbered invoices. No quotes or approvals yet."
+  title="B2B Commerce on GoCommerce — Accounts, Credit, Quotes"
+  description="Open-source B2B commerce: company accounts and buyer roles, pay on account with credit limits and net terms, approvals, quotes, PO numbers, tiered prices."
   path={path}
   ogTitle="B2B commerce on GoCommerce"
-  ogDescription="Customer groups, price lists, quantity breaks, scoped API keys and invoices — with the edges named."
+  ogDescription="Company accounts, buyer roles, credit limits and net terms, approvals, quotes, purchase orders and tiered pricing — MIT, with the edges named."
   nav="solutions"
   crumbs={[{ name: 'Solutions', href: '/solutions/' }, { name: 'B2B', href: path }]}
   graph={graph}
@@ -36,67 +39,127 @@ const faq = [
 >
   <section class="wrap page-head">
     <p class="kicker">B2B commerce</p>
-    <h1>Sell to businesses with negotiated, tiered pricing</h1>
-    <p class="lede">Pricing resolves by who is buying and how many. Customer groups share a price list, quantity breaks apply within it, and the cart enforces the same one-price-per-line rule it uses for everyone else — so a wholesale account and a walk-in shopper hit the same checkout.</p>
+    <h1>Sell to businesses on their terms, not just their prices</h1>
+    <p class="lede">Companies with buyers in roles, orders on account against a credit limit, approval before a junior buyer spends the company’s money, quotes priced for one buyer, and the tiered pricing underneath — in the engine and its MIT-licensed modules, enforced before an order exists rather than cleaned up after.</p>
     <ul class="head-facts">
-      <li><b>core/pricing.go</b> groups, lists, resolution</li>
-      <li><b>core/api_keys.go</b> scoped keys</li>
-      <li><b>ext/invoices</b> numbered invoices</li>
+      <li><b>ext/b2b</b> companies, terms, approvals, quotes</li>
+      <li><b>core/pricing.go</b> groups, price lists, quantity breaks</li>
+      <li><b>ext/identity</b> buyer accounts, confirmed addresses</li>
     </ul>
   </section>
 
-  <section id="resolve" class="section wrap feature" aria-labelledby="resolve-title">
-    <div class="feature-copy">
-      <h2 id="resolve-title">How a B2B price is found</h2>
-      <ul class="tick">
-        <li><b>Customer groups</b> hold members by email; a customer is priced by the groups they are in.</li>
-        <li><b>Price lists</b> attach to a group, or to nobody — a list with no group is a launch or seasonal price for everyone.</li>
-        <li><b>Quantity breaks</b> are rows of variant, minimum quantity and amount. Minimum quantity 1 means any quantity.</li>
-        <li><b>Priority</b> breaks a tie when two lists cover a line; higher wins. Lists can also carry a start, an end and a channel.</li>
-        <li><b>Integer minor units</b> throughout — no rounding drift on a 2,000-unit order.</li>
-      </ul>
-      <p class="sol-prim">PriceFor(variant, quantity, email) · PriceInChannel(…, channel)</p>
+  <section id="everything" class="section wrap" aria-labelledby="everything-title">
+    <h2 id="everything-title">Everything B2B in GoCommerce today</h2>
+    <p class="section-lede">Grouped by what a business customer meets. Each item is in the code now.</p>
+    <div class="featlist">
+      <div class="featlist-group">
+        <h3>Company accounts</h3>
+        <ul class="tick">
+          <li><b>Companies</b> with a code, tax number, notes and a status: active, on hold, or closed.</li>
+          <li><b>Buyer roles</b>: admin, approver and buyer, the company’s own business rather than the store’s.</li>
+          <li><b>Invitations</b> mailed to an address; accepting confirms it and joins the company.</li>
+          <li><b>Self-service</b>: a company’s admins add, re-role and remove their own buyers through the storefront API.</li>
+        </ul>
+      </div>
+      <div class="featlist-group">
+        <h3>Pricing</h3>
+        <ul class="tick">
+          <li><b>Customer groups</b> and <b>price lists</b>, with priority, a date window and a channel.</li>
+          <li><b>Quantity breaks</b>: the highest break at or below the quantity ordered, per line.</li>
+          <li><b>Proven buyers only</b>: a group price reaches a cart through a confirmed address, never a typed one.</li>
+          <li><b>Agreed line prices</b> on quotes and phone orders, over every list.</li>
+        </ul>
+      </div>
+      <div class="featlist-group">
+        <h3>Terms and credit</h3>
+        <ul class="tick">
+          <li><b>Pay on account</b>: confirmed at once, payment due net days later.</li>
+          <li><b>Credit limits</b> checked with the order’s final total before it exists.</li>
+          <li><b>On hold</b> stops ordering on account; <b>closed</b> stops ordering at all.</li>
+          <li><b>Receivables</b>: outstanding, available and overdue per company, and every unpaid order on account.</li>
+        </ul>
+      </div>
+      <div class="featlist-group">
+        <h3>Approvals</h3>
+        <ul class="tick">
+          <li><b>A threshold per company</b>: a buyer’s order over it waits for an approver.</li>
+          <li><b>Approvers emailed</b>, and the buyer told the decision.</li>
+          <li><b>Placed as submitted</b>: at the prices the approver was shown, whatever the cart does next.</li>
+          <li><b>Reject with a reason</b>, or withdraw your own request.</li>
+        </ul>
+      </div>
+      <div class="featlist-group">
+        <h3>Quotes</h3>
+        <ul class="tick">
+          <li><b>Requests for quote</b> on quantities, with a note.</li>
+          <li><b>Priced per line</b> by the store, with a reply and an expiry, then sent.</li>
+          <li><b>Accepted into an order</b> at the quoted prices — or into an approval.</li>
+          <li><b>One order per quote</b>, even when two people accept at once.</li>
+        </ul>
+      </div>
+      <div class="featlist-group">
+        <h3>Orders and systems</h3>
+        <ul class="tick">
+          <li><b>Purchase order numbers</b> on every order, required per company if you choose.</li>
+          <li><b>API keys</b> with a role, for a procurement system that never logs in.</li>
+          <li><b>Idempotent checkout</b>, <b>webhooks</b> out, and <b>numbered invoices</b>.</li>
+          <li><b>Admin screens</b> for companies, quotes, approvals and receivables.</li>
+        </ul>
+      </div>
     </div>
-    <figure class="feature-visual flow" aria-labelledby="fb-cap">
-      <figcaption id="fb-cap" class="flow-cap">One line, priced once</figcaption>
-      <div class="arch-row"><h3>Customer</h3><p>member of group: wholesale</p></div>
-      <p class="arch-wire"><span>group → active lists, by priority</span></p>
-      <div class="arch-row arch-engine"><h3>Price list</h3><p>wholesale, this channel, this quarter</p></div>
-      <p class="arch-wire"><span>quantity 250 → highest break ≤ 250</span></p>
-      <div class="arch-row arch-store"><h3>Unit price</h3><p>resolved per line, not per cart</p></div>
-      <p class="arch-wire"><span>same rule as retail</span></p>
-      <div class="arch-row arch-data"><h3>Cart</h3><p>integer minor units</p></div>
+  </section>
+
+  <section id="order" class="section wrap feature" aria-labelledby="order-title">
+    <div class="feature-copy">
+      <h2 id="order-title">One buyer’s order, end to end</h2>
+      <ul class="tick">
+        <li><b>The cart is priced as the buyer</b> — the company’s group prices — once the buyer is signed in with a confirmed address.</li>
+        <li><b>Checkout goes through the company</b>: a company-priced basket sent to the public checkout is refused, so nobody routes around approval.</li>
+        <li><b>The company’s rules run inside the checkout</b>, with the final total: status, PO number, approval threshold, credit limit.</li>
+        <li><b>Refused means nothing happened</b>: no order, no stock reserved, no order number drawn.</li>
+      </ul>
+      <p class="sol-prim">POST /x/b2b/checkout → 201 order · 202 approval · 403 credit_limit_exceeded</p>
+    </div>
+    <figure class="feature-visual flow" aria-labelledby="fo-cap">
+      <figcaption id="fo-cap" class="flow-cap">A buyer checks out on account</figcaption>
+      <div class="arch-row"><h3>Buyer</h3><p>role: buyer · address confirmed</p></div>
+      <p class="arch-wire"><span>cart priced at the company’s group prices</span></p>
+      <div class="arch-row arch-engine"><h3>Checkout guard</h3><p>status · PO · threshold · credit, one company at a time</p></div>
+      <p class="arch-wire"><span>under the threshold and the limit</span></p>
+      <div class="arch-row arch-store"><h3>Order on account</h3><p>confirmed · payment pending · due in 30 days</p></div>
+      <p class="arch-wire"><span>invoice settled</span></p>
+      <div class="arch-row arch-data"><h3>Marked paid</h3><p>the credit is free again</p></div>
     </figure>
   </section>
 
-  <section id="machines" class="section wrap" aria-labelledby="machines-title">
-    <h2 id="machines-title">Buyers that are systems, not people</h2>
-    <p class="section-lede">A procurement system does not log in. It holds a key.</p>
+  <section id="controls" class="section wrap" aria-labelledby="controls-title">
+    <h2 id="controls-title">Controls, not apologies</h2>
+    <p class="section-lede">A limit that is checked after the order exists is a cancellation email. These run before.</p>
     <ul class="evidence">
-      <li><svg aria-hidden="true"><use href="#i-braces"/></svg><b>A key carries a role</b><span>The same rights model the admin uses: 52 granular rights, read and write separately, grouped into roles.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-search"/></svg><b>A prefix in every log line</b><span>You can tell which integration made a request without the secret ever appearing.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>Last used, and revoked</b><span>A key records when it last authenticated and who revoked it. Revoked keys stay listed; they just stop working.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-return"/></svg><b>Idempotent checkout</b><span>A system that retries a timed-out request does not place the order twice.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-card"/></svg><b>Numbered invoices</b><span>The invoices module issues one per paid order — a module, so opt in.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-webhook"/></svg><b>Webhooks out</b><span>Order and payment events delivered to the buyer’s system, or yours, from the webhooks module.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>A checkout guard</b><span>A module’s rules run inside the checkout transaction with the final figures; a refusal rolls everything back.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-coin"/></svg><b>One decision per company</b><span>Credit is checked under a lock per company, so two simultaneous orders cannot overrun the limit together.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-users"/></svg><b>Proven addresses</b><span>Group prices follow a confirmed address. A buyer who changes theirs leaves the company’s prices until the new one is confirmed.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Snapshots for approval</b><span>An approver approves exactly what was submitted; editing the cart afterwards changes nothing.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-tag"/></svg><b>Agreed prices stay agreed</b><span>A quoted price holds over every list and break, on an order no shopper’s token can reach.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-braces"/></svg><b>Rights of their own</b><span>Seeing and managing companies, and pricing quotes, are separate rights on the Roles grid.</span></li>
     </ul>
   </section>
 
   <section id="edge" class="section wrap" aria-labelledby="edge-title">
     <h2 id="edge-title">Where the edge is</h2>
-    <p class="section-lede">What a dedicated B2B platform has that this engine does not, today.</p>
+    <p class="section-lede">What a business buyer may expect that is not there yet.</p>
     <div class="tri">
-      <div class="tri-item"><h3>No quotes or approvals</h3><p>There is no request-for-quote flow and no order approval chain. An order is placed by whoever holds the key or the login.</p></div>
-      <div class="tri-item"><h3>No net terms</h3><p>Payment is a payment module or cash on delivery. Credit limits and net-30 terms are not modelled.</p></div>
-      <div class="tri-item"><h3>Group pricing, not per-contract pricing</h3><p>A group with one member is per-customer pricing; per-contract terms beyond price are not a concept in the engine.</p></div>
+      <div class="tri-item"><h3>No per-company catalogue</h3><p>Every company sees the whole catalogue; what differs is the price. Shipping and tax are not set per company either.</p></div>
+      <div class="tri-item"><h3>One approval threshold</h3><p>A company has one limit above which a buyer waits. Multi-level chains and per-buyer budgets are not modelled.</p></div>
+      <div class="tri-item"><h3>The storefront is yours to build</h3><p>The buyer side is an API. Svelte Commerce does not ship company, approval or quote screens yet, and an invoice is issued when an order is paid, not when it ships.</p></div>
     </div>
   </section>
 
   <Faq items={faq} title="Questions about B2B" />
 
   <section class="closing wrap">
-    <h2>Price lists are rows. Start with one.</h2>
-    <p>Run the stack, create a group and a list from the admin, and price a cart from the API docs.</p>
+    <h2>Create a company, set its terms, invite a buyer.</h2>
+    <p>Run the stack with the b2b module, open Customers › Companies in the admin, and place an order on account from the API docs.</p>
     <div class="actions">
       <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
       <a class="button secondary" href="/solutions/multi-store/">Per-channel pricing</a>

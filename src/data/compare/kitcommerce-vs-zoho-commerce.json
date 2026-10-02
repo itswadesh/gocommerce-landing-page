@@ -23,7 +23,7 @@
     ["Fee on each order", "None on any paid plan, by Zoho’s own pricing FAQ. Level with GoCommerce.", "None. Your gateway’s fee is the only one."],
     ["Plan limits", "Set per plan: 500 products, 2 users and 2,000 customer accounts on Standard; 10,000 products and 10 users on Premium and Plus. Extra users are ₹150–₹180 each a month.", "None in the software. Products and customers are rows in your PostgreSQL; the server is the limit."],
     ["Inventory locations", "3 on Premium and Plus, then ₹600–₹720 a month for each extra one. Not offered on lower plans.", "Stock per location in core — on hand and reserved — on every install."],
-    ["B2B", "Price lists, quote requests and credit limits for business customers, from Premium.", "Customer groups, price lists, quantity breaks and scoped API keys in core. No quote or approval workflow."],
+    ["B2B", "Price lists, quote requests and credit limits for business customers, from Premium.", "Customer groups, price lists and quantity breaks in core; quote requests, credit limits, approvals and company accounts in the b2b module."],
     ["Payments in India", "Zoho Payments (UPI, cards and net banking in INR), Razorpay, Paytm, Stripe, PayPal and Verifone, plus offline methods such as cash on delivery. Razorpay Magic Checkout and GoKwik as checkout options.", "Razorpay, Stripe, Adyen, Hyperswitch and five more as modules; cash on delivery built in."],
     ["Shipping in India", "Integrations with Shiprocket, Delhivery, Easyship and AfterShip, among others.", "Modules for Delhivery, Shiprocket, India Post, NimbusPost and seven more carriers and aggregators."],
     ["Sales channels", "ONDC on every plan; WhatsApp commerce from Professional.", "Channels, each with its own published catalogue and price lists; feeds for Google Merchant Center and Meta catalogues. No ONDC or WhatsApp connection."],
@@ -48,7 +48,6 @@
   },
   "themWhen": [
     "You already use Zoho Inventory or Zoho Billing and want the store inside the same suite.",
-    "You need quote requests or credit limits for business buyers — GoCommerce has neither.",
     "You want to sell on ONDC or through WhatsApp without building the connection.",
     "There is no developer on the team, and a few thousand rupees a month is the whole budget."
   ],
@@ -59,7 +58,7 @@
     "You want marketplace vendors with approval states, or several storefronts with their own price lists, on one backend."
   ],
   "takeOnExtra": [
-    "No ONDC, WhatsApp commerce or quote workflow. Each would be code you write.",
+    "No ONDC or WhatsApp commerce. Each would be code you write.",
     "No connection to Zoho’s apps. If your accounts live in Zoho, a sync is yours to build."
   ],
   "move": {

@@ -24,7 +24,7 @@
     ["Above the cap", "Scale covers $33,333 of GMV a month and takes 0.9% of the excess. At $2 million a year the account moves to Performance.", "No cap."],
     ["Fee on each order", "2.0% on Core, 1.0% on Growth and 0.6% on Scale for orders through Open Payment Providers — any provider not on its embedded list. None through embedded providers.", "None, on any gateway."],
     ["Payments in India", "Its India page lists Adyen, BlueSnap, CCAvenue, Paymetric, NMI and Stripe. CCAvenue, Paymetric and NMI are not on the embedded list, so on self-serve plans they carry the fee.", "Razorpay, Stripe, Adyen, Hyperswitch and five more as modules; cash on delivery built in. No CCAvenue module."],
-    ["B2B", "Customer groups from Growth; price lists only on Performance.", "Customer groups, price lists and quantity breaks in core. No quote or approval workflow."],
+    ["B2B", "Customer groups from Growth; price lists only on Performance.", "Customer groups, price lists and quantity breaks in core, and company accounts, credit on account, approvals and quotes in the b2b module."],
     ["Inventory locations", "Up to 4, 5 or 8 by plan; custom on Performance.", "Stock per location in core, on hand and reserved, with no plan limit."],
     ["More storefronts", "$30, $50 or $100 a month each, up to 3, 5 or 8 by plan.", "Channels, each with its own published catalogue and price lists, at no charge."],
     ["Extensions", "An app marketplace of over 1,200 apps; Amazon, eBay and Walmart channels on every plan.", "44 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No marketplace channels."],

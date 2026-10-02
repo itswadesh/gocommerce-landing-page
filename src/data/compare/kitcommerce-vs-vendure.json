@@ -26,7 +26,7 @@
     ["Extending it", "Plugins as NestJS modules, strategies that swap default behaviour, custom fields and entities, typed events and jobs.", "44 modules, each compiled in only when imported. Anything else is Go you write."],
     ["Admin", "The Vendure Dashboard, extended with your own pages, blocks and widgets.", "61 Svelte admin screens compiled into the binary."],
     ["Marketplace", "Sellers and channels in the core, and an example multi-vendor plugin that Vendure marks as educational, not production-ready.", "Vendors in the core, moving through pending, approved and suspended; commission recorded per vendor but not settled."],
-    ["B2B", "Company accounts, quotes, approvals, credit limits, contract pricing and single sign-on come with Vendure Platform, the commercial subscription.", "Customer groups, price lists, quantity breaks and scoped API keys in the MIT core. No quotes or approvals."],
+    ["B2B", "Company accounts, quotes, approvals, credit limits, contract pricing and single sign-on come with Vendure Platform, the commercial subscription.", "Company accounts, quotes, approvals and credit limits in the MIT b2b module, beside customer groups, price lists and quantity breaks in the core. No single sign-on for buyers."],
     ["Agent tooling", "New projects get an AGENTS.md and non-interactive CLI scaffolding for agents; the earlier official MCP server is marked unmaintained.", "An MCP module with 19 tools that act on a running store; an AGENTS.md of 18 rules and 16 task guides in the repository."],
     ["Hosting and price", "Self-host Core for nothing. Vendure Platform is a flat annual subscription, quoted per project; Vendure Cloud is in a paid design-partner programme.", "Self-host only. No hosted offering and no paid tier."],
     ["Track record", "Customer stories from Hans Kohler, Flowtech, SKYdeals and Munch, which Vendure says runs over 10,000 payment transactions a day at peak.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
@@ -39,7 +39,7 @@
     "rows": [
       ["Core software", "Nothing — Vendure Core under GPLv3", "Nothing — MIT"],
       ["Commercial platform", "Vendure Platform: a flat annual subscription, quoted per project, with no fee on sales, orders or users", "None exists"],
-      ["B2B accounts, quotes, approvals", "Included in Vendure Platform", "Not available; price lists, groups and quantity breaks are in the core"],
+      ["B2B accounts, quotes, approvals", "Included in Vendure Platform", "Free, in the MIT b2b module"],
       ["Managed hosting", "Vendure Cloud, in a paid design-partner programme; priced by environments and resources", "None offered"],
       ["Self-hosted infrastructure", "A server process, a worker process and a SQL database; Redis optional", "One binary and PostgreSQL"]
     ],
@@ -47,7 +47,7 @@
   },
   "themWhen": [
     "You already run Vendure. Keep it, and put Svelte Commerce in front if you want a SvelteKit storefront.",
-    "You need company accounts, quotes and approvals now, with Vendure under contract to support them — that is Vendure Platform.",
+    "You need single sign-on for buyers, or a vendor under contract to support your B2B — that is Vendure Platform.",
     "Your team works in TypeScript and NestJS and wants GraphQL.",
     "You want named production customers and a company behind the code."
   ],
@@ -59,7 +59,7 @@
   ],
   "takeOnExtra": [
     "No importer from Vendure: GoCommerce imports from Shopify and Amazon only, so moving means a script against both APIs.",
-    "No company accounts, quotes or approvals — Vendure Platform has them, for a subscription."
+    "No single sign-on for buyers and no support contract — Vendure Platform has both, for a subscription."
   ],
   "move": {
     "title": "Keep Vendure, and use Svelte Commerce",
