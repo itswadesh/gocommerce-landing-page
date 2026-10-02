@@ -23,12 +23,14 @@ const faq = [
   { q: 'How do approvals work?', a: 'A company sets an approval threshold. A buyer whose order is over it gets an approval request instead of an order, and the company’s approvers are emailed. An approver places it at the prices it was submitted at, or rejects it with a reason; the buyer can withdraw it. Admins and approvers order without approval.' },
   { q: 'How do quotes work?', a: 'A buyer asks for a quote on quantities. The store prices each line, adds a reply and an expiry, and sends it. The buyer accepts and the order is placed at exactly those prices — over the catalogue and over the company’s own price list — or it waits for approval when it is over the buyer’s limit. A quote becomes one order at most.' },
   { q: 'Can a buyer’s procurement system order without a person logging in?', a: 'Yes. An API key carries a role’s rights, a prefix that identifies it in a log line, its last-used time and a revocation. Checkout takes an Idempotency-Key, so a system that retries a timed-out request does not place the order twice.' },
+  { q: 'Can consumer enquiries go to the nearest dealer?', a: 'Yes. A dealer is a company with territories — a country, a state or a postcode prefix — and an enquiry posted from the storefront goes to the dealer whose territory fits it most specifically, with its admins emailed. The public answer never names the dealer, so the form cannot be used to map the network, and the store sees and reassigns every lead, including the ones no territory covers.' },
+  { q: 'Can each dealer have a store of its own?', a: 'Yes, from one install. Platform mode serves many stores from one process and one PostgreSQL database, each in a schema of its own with its own operators, admin panel and domain, created and suspended through a platform API whose credentials open no store.' },
   { q: 'Is it free to use for B2B?', a: 'Yes. GoCommerce is MIT-licensed, and the B2B module is in the same repository as the engine: no paid edition, no B2B add-on.' },
 ]
 ---
 <Base
   title="B2B Commerce on GoCommerce — Accounts, Credit, Quotes"
-  description="Open-source B2B commerce: company accounts and buyer roles, pay on account with credit limits and net terms, approvals, quotes, PO numbers, tiered prices."
+  description="Open-source B2B commerce: company accounts, buyer roles, credit limits and net terms, approvals, quotes, bulk and repeat orders, dealer lead routing."
   path={path}
   ogTitle="B2B commerce on GoCommerce"
   ogDescription="Company accounts, buyer roles, credit limits and net terms, approvals, quotes, purchase orders and tiered pricing — MIT, with the edges named."
@@ -40,7 +42,7 @@ const faq = [
   <section class="wrap page-head">
     <p class="kicker">B2B commerce</p>
     <h1>Sell to businesses on their terms, not just their prices</h1>
-    <p class="lede">Companies with buyers in roles, orders on account against a credit limit, approval before a junior buyer spends the company’s money, quotes priced for one buyer, and the tiered pricing underneath — in the engine and its MIT-licensed modules, enforced before an order exists rather than cleaned up after.</p>
+    <p class="lede">Companies with buyers in roles, orders on account against a credit limit, approval before a junior buyer spends the company’s money, quotes priced for one buyer, bulk and repeat orders, enquiries routed to the right dealer, and the tiered pricing underneath — in the engine and its MIT-licensed modules, enforced before an order exists rather than cleaned up after.</p>
     <ul class="head-facts">
       <li><b>ext/b2b</b> companies, terms, approvals, quotes</li>
       <li><b>core/pricing.go</b> groups, price lists, quantity breaks</li>
@@ -98,11 +100,38 @@ const faq = [
         </ul>
       </div>
       <div class="featlist-group">
-        <h3>Orders and systems</h3>
+        <h3>Ordering</h3>
         <ul class="tick">
+          <li><b>Bulk order</b>: many SKUs and quantities at once; the lines that cannot go are listed, not fatal.</li>
+          <li><b>Repeat order</b>: a past order back in the basket, at today’s prices.</li>
+          <li><b>Partial checkout</b>: order the lines you choose and keep the rest in the basket.</li>
           <li><b>Purchase order numbers</b> on every order, required per company if you choose.</li>
+        </ul>
+      </div>
+      <div class="featlist-group">
+        <h3>Dealer networks</h3>
+        <ul class="tick">
+          <li><b>Territories</b>: a country, a state or a postcode prefix, each held by one dealer.</li>
+          <li><b>Lead routing</b>: a consumer’s enquiry goes to the dealer whose territory fits best.</li>
+          <li><b>Dealers see their own leads</b> and mark them contacted, won or lost.</li>
+          <li><b>The store sees every lead</b>, catches the unrouted ones and reassigns.</li>
+        </ul>
+      </div>
+      <div class="featlist-group">
+        <h3>Many stores</h3>
+        <ul class="tick">
+          <li><b>A store per dealer or brand</b> from one install and one database.</li>
+          <li><b>Each in its own schema</b>, with its own operators, admin panel and domain.</li>
+          <li><b>A platform API</b> to create, suspend and delete stores, with its own credentials.</li>
+          <li><b>Custom domains</b>, with certificates issued on demand by your proxy.</li>
+        </ul>
+      </div>
+      <div class="featlist-group">
+        <h3>Systems</h3>
+        <ul class="tick">
           <li><b>API keys</b> with a role, for a procurement system that never logs in.</li>
-          <li><b>Idempotent checkout</b>, <b>webhooks</b> out, and <b>numbered invoices</b>.</li>
+          <li><b>Idempotent checkout</b>: a retried order is the same order, never a second.</li>
+          <li><b>Webhooks</b> out, and <b>numbered invoices</b>.</li>
           <li><b>Admin screens</b> for companies, quotes, approvals and receivables.</li>
         </ul>
       </div>
