@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="Which of GoCommerce's B2B, multi-tenant and distributor features are built, tested and on main, and what is still missing.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>GoCommerce Feature Status</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@87,600;87,700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column. A short answer, then three feature tables grouped
+   the way the evaluator's question grouped them, then what is still missing. Tables become stacked cards at phone width. */
+:root {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --ink: #15202b;
+  --muted: #56636f;
+  --line: #d9dfe5;
+  --accent: #1b5a85;
+  --accent-soft: #e4eef6;
+  --ok: #1d7448;
+  --ok-soft: #e2f2e9;
+  --warn: #8f5d00;
+  --warn-soft: #fbf0d9;
+  --no: #a8261d;
+  --no-soft: #fbe5e2;
+  --code-bg: #eef1f4;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1318; --surface: #151c23; --ink: #e5eaef; --muted: #96a3b0; --line: #26313c;
+    --accent: #79b8e4; --accent-soft: #19293a; --ok: #63c98f; --ok-soft: #15291f;
+    --warn: #e3ac4c; --warn-soft: #2d2412; --no: #ff8f84; --no-soft: #331a18; --code-bg: #1c252e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1318; --surface: #151c23; --ink: #e5eaef; --muted: #96a3b0; --line: #26313c;
+  --accent: #79b8e4; --accent-soft: #19293a; --ok: #63c98f; --ok-soft: #15291f;
+  --warn: #e3ac4c; --warn-soft: #2d2412; --no: #ff8f84; --no-soft: #331a18; --code-bg: #1c252e;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 48px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font: 0.86em/1.4 var(--mono); background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+h1, h2 { font-family: var(--display); font-stretch: 87%; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 4.5vw, 2.9rem); line-height: 1.05; font-weight: 700; }
+h2 { font-size: 1.55rem; line-height: 1.15; font-weight: 700; }
+p { margin: 0; }
+.eyebrow { font: 500 0.72rem/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+
+/* Header */
+header { display: grid; gap: 16px; }
+.lede { font-size: 1.08rem; max-width: 68ch; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 4px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); }
+.facts div { display: grid; gap: 2px; min-width: 0; }
+.facts dt { font: 500 0.7rem/1.2 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; font-size: 0.92rem; }
+
+/* The short answer */
+.answer { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; display: grid; gap: 14px; }
+.answer h2 { font-size: 1.2rem; }
+.tally { display: flex; flex-wrap: wrap; gap: 10px 26px; }
+.tally div { display: flex; align-items: baseline; gap: 8px; }
+.tally strong { font: 700 1.6rem/1 var(--display); font-stretch: 87%; font-variant-numeric: tabular-nums; }
+.tally .ok strong { color: var(--ok); }
+.tally .warn strong { color: var(--warn); }
+.tally .no strong { color: var(--no); }
+.answer ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; max-width: 80ch; }
+
+/* Status pills */
+.pill { display: inline-flex; align-items: center; gap: 6px; font: 600 0.74rem/1 var(--body); padding: 5px 8px; border-radius: 999px; white-space: nowrap; }
+.pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.pill.ok { color: var(--ok); background: var(--ok-soft); }
+.pill.warn { color: var(--warn); background: var(--warn-soft); }
+.pill.no { color: var(--no); background: var(--no-soft); }
+.tag { display: inline-block; font: 500 0.7rem/1.3 var(--mono); color: var(--warn); background: var(--warn-soft); padding: 1px 6px; border-radius: 4px; margin-top: 4px; }
+.api { color: var(--muted); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; font-size: 0.86rem; color: var(--muted); }
+
+/* Sections */
+section { display: grid; gap: 16px; min-width: 0; }
+.section-head { display: grid; gap: 6px; max-width: 80ch; }
+.source { font-size: 0.86rem; color: var(--muted); }
+
+/* Tables */
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; min-width: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 820px; }
+th, td { text-align: left; vertical-align: top; padding: 13px 14px; border-bottom: 1px solid var(--line); }
+tbody tr:last-child td { border-bottom: 0; }
+thead th { font: 500 0.7rem/1.3 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--bg); position: sticky; top: 0; }
+tbody tr { transition: background-color 160ms ease; }
+tbody tr:hover { background: var(--accent-soft); }
+td.feature { font-weight: 600; width: 16%; }
+td.status { width: 11%; }
+td.what { width: 41%; }
+td.admin { width: 18%; }
+td.buyer { width: 14%; }
+td p + p { margin-top: 6px; }
+
+/* Lists */
+.plain { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; max-width: 82ch; }
+pre { margin: 0; background: var(--code-bg); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font: 0.82rem/1.6 var(--mono); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 24px; }
+.cols > div { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.cols h3 { font: 600 1rem/1.3 var(--body); margin: 0; }
+
+footer { border-top: 1px solid var(--line); padding-top: 18px; font-size: 0.86rem; color: var(--muted); display: grid; gap: 4px; }
+
+/* Phone: each row becomes a card, each cell labelled. */
+@media (max-width: 760px) {
+  .wrap { padding-inline: 16px; padding-block: 28px 48px; gap: 36px; }
+  .table-wrap { background: none; border: 0; overflow: visible; }
+  table, thead, tbody, tr, td { display: block; min-width: 0; width: auto; }
+  table { min-width: 0; }
+  thead { display: none; }
+  tbody { display: grid; gap: 12px; }
+  tbody tr { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 6px 0; }
+  tbody tr:hover { background: var(--surface); }
+  td, tbody tr:last-child td { border-bottom: 0; padding: 7px 14px; width: auto; }
+  td[data-label]::before { content: attr(data-label); display: block; font: 500 0.68rem/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  td.feature { font-size: 1.02rem; padding-top: 10px; }
+  td.feature::before { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  tbody tr { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>What exists today</h1>
+    <dl class="facts">
+      <div><dt>Release</dt><dd>Not yet tagged. The binary still reports 1.0.0</dd></div>
+      <div><dt>License</dt><dd>MIT, same repository</dd></div>
+    </dl>
+  </header>
+
+  <section class="answer" aria-label="Summary">
+    <div class="tally">
+      <div class="ok"><strong>16</strong><span>of 17 built, tested and on main</span></div>
+      <div class="no"><strong>1</strong><span>not built: the distributor portal</span></div>
+      <div class="warn"><strong>3</strong><span>of those 16 have their admin screens on a branch: the platform console</span></div>
+    </div>
+    <ul>
+      <li>B2B is the <code>ext/b2b</code> module, built on <code>ext/identity</code>. Turn it on with <code>-b2b</code>.</li>
+      <li>Multi-tenant is the <code>platform</code> package. Run it with <code>gocommerce platform</code>.</li>
+      <li>The store's own admin panel has screens for every B2B feature that the store operates. Buyers and dealers have the API but no screens in GoCommerce. That gap is the distributor portal row.</li>
+    </ul>
+  </section>
+
+  <div class="legend" aria-label="Status key">
+    <span class="pill ok">Available</span><span>Built, tested and in the code</span>
+    <span class="pill no">Not built</span><span>No code for it yet</span>
+    <span class="tag">Not merged yet</span><span>Built, waiting to be merged</span>
+  </div>
+
+  <section aria-labelledby="b2b-h">
+    <div class="section-head">
+      <h2 id="b2b-h">Business accounts and ordering</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Feature</th><th scope="col">Status</th><th scope="col">What it does</th><th scope="col">In the store’s admin</th><th scope="col">For buyers</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="feature">Company accounts</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">Each business customer is set up as a company, with its tax number and notes. A company can be active, on hold (it still buys, but pays up front) or closed. Everyone who buys for a company gets that company’s prices.</td>
+            <td class="admin" data-label="In the store’s admin">List and search companies; create, edit and delete them</td>
+            <td class="buyer" data-label="For buyers">Through the API only, no screens yet</td>
+          </tr>
+          <tr>
+            <td class="feature">Buyer roles</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">Each person buying for a company has a role. <b>Admins</b> manage the team and approve orders. <b>Approvers</b> order without waiting and approve other people’s orders. <b>Buyers</b> place orders, and larger ones wait for approval. People join by an emailed invitation, and a company’s admins can manage their own team.</td>
+            <td class="admin" data-label="In the store’s admin">Add or invite buyers, change their role, remove them</td>
+            <td class="buyer" data-label="For buyers">Through the API only, no screens yet</td>
+          </tr>
+          <tr>
+            <td class="feature">Approval workflows</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">Each company sets an amount. A buyer’s order above it waits for an approver instead of going through. The approver approves it, and the order is placed at the prices the buyer saw, or rejects it with a reason. The buyer can also withdraw it.</td>
+            <td class="admin" data-label="In the store’s admin">See the requests that are waiting; the company’s own approvers decide</td>
+            <td class="buyer" data-label="For buyers">Through the API only, no screens yet</td>
+          </tr>
+          <tr>
+            <td class="feature">Purchase orders</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">Each business order can carry the buyer’s purchase order (PO) number, and a company can make it required. Orders can be looked up by that number.</td>
+            <td class="admin" data-label="In the store’s admin">PO numbers shown on orders and in receivables, and searchable</td>
+            <td class="buyer" data-label="For buyers">Through the API only, no screens yet</td>
+          </tr>
+          <tr>
+            <td class="feature">Requests for quote</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">A buyer asks for a price on a list of products. The store sets a price for each line, adds a note and an end date, and sends it. The buyer accepts it, which places the order at those prices, or declines it.</td>
+            <td class="admin" data-label="In the store’s admin">List of quotes; price, send or decline each one</td>
+            <td class="buyer" data-label="For buyers">Through the API only, no screens yet</td>
+          </tr>
+          <tr>
+            <td class="feature">Credit limits and payment terms</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">Each company gets a credit limit and payment terms, such as 30 days. Its buyers order now and pay later, up to the limit. An order that would go over the limit is stopped before it is placed, even when two people order at the same moment.</td>
+            <td class="admin" data-label="In the store’s admin">Set the limit and terms; see what each company owes and what is overdue; mark orders paid, one or several at a time</td>
+            <td class="buyer" data-label="For buyers">Applied automatically when they order</td>
+          </tr>
+          <tr>
+            <td class="feature">Partial checkout</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">A buyer can order some of the items in their basket and leave the rest for later. The same limits and approvals apply.</td>
+            <td class="admin" data-label="In the store’s admin">Not needed</td>
+            <td class="buyer" data-label="For buyers">Svelte Commerce has tick boxes for this, but its GoCommerce connector cannot place an order from Svelte Commerce’s checkout yet.</td>
+          </tr>
+          <tr>
+            <td class="feature">Repeat orders</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">Puts a past order’s items back in the basket at today’s prices, and says which items can no longer be bought.</td>
+            <td class="admin" data-label="In the store’s admin">Not needed</td>
+            <td class="buyer" data-label="For buyers">Svelte Commerce has a “Buy again” page. Its GoCommerce connector does not support signed-in customers yet, so the page cannot show past orders from GoCommerce.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="mt-h">
+    <div class="section-head">
+      <h2 id="mt-h">Multi-tenant platform</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Feature</th><th scope="col">Status</th><th scope="col">What it does</th><th scope="col">In the platform console</th><th scope="col">For each store</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="feature">Creating stores</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">One request creates a complete new store with its first owner and its web address. Stores can also be paused, restarted, renamed and deleted. A store has to be paused before it can be deleted.</td>
+            <td class="admin" data-label="In the platform console">List of stores, create a store, a page for each store<br><span class="tag">Not merged yet</span></td>
+            <td class="buyer" data-label="For each store">—</td>
+          </tr>
+          <tr>
+            <td class="feature">Separate data per store</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">Every store’s data is kept apart from every other store’s by the database itself. Each store has its own staff logins, settings and uploads. All stores run the same set of features.</td>
+            <td class="admin" data-label="In the platform console">Not needed</td>
+            <td class="buyer" data-label="For each store">Its own full admin panel at its own address</td>
+          </tr>
+          <tr>
+            <td class="feature">Custom domains</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">Each store can have its own web addresses, such as shop.example.com, as well as a free address on the platform’s domain. Security certificates are issued automatically by the web server in front, and only for addresses the platform serves.</td>
+            <td class="admin" data-label="In the platform console">Add or remove a store’s addresses<br><span class="tag">Not merged yet</span></td>
+            <td class="buyer" data-label="For each store">—</td>
+          </tr>
+          <tr>
+            <td class="feature">Platform admin and store admin</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">Two kinds of administrator that never mix. Platform admins create and manage stores. Each store’s admins manage only their own store, and can’t reach any other store or the platform.</td>
+            <td class="admin" data-label="In the platform console">Platform admins sign in here<br><span class="tag">Not merged yet</span></td>
+            <td class="buyer" data-label="For each store">Store admins sign in to their own store as usual</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="dealer-h">
+    <div class="section-head">
+      <h2 id="dealer-h">Distributors and dealers</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Feature</th><th scope="col">Status</th><th scope="col">What it does</th><th scope="col">In the store’s admin</th><th scope="col">For distributors and dealers</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="feature">Distributor portal</td>
+            <td class="status" data-label="Status"><span class="pill no">Not built</span></td>
+            <td class="what" data-label="What it does">There is no portal website for distributors yet. Everything their staff would do there already works through the API: see their account and terms, manage their team, order and reorder, request quotes, approve orders and follow up leads.</td>
+            <td class="admin" data-label="In the store’s admin">—</td>
+            <td class="buyer" data-label="For distributors and dealers">None yet</td>
+          </tr>
+          <tr>
+            <td class="feature">Bulk ordering</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">Add many products at once by product code, up to 500 lines. Any line that can’t be added, such as an unknown code or not enough stock, is listed with the reason, and the rest are added. Uploading a file is not supported yet.</td>
+            <td class="admin" data-label="In the store’s admin">Not needed</td>
+            <td class="buyer" data-label="For distributors and dealers">Through the API only, no screens yet</td>
+          </tr>
+          <tr>
+            <td class="feature">Quotation workflows</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">A quote moves from requested, to sent, to accepted, declined or expired. The store can change a quote and send it again, and the buyer is emailed when a quote is ready.</td>
+            <td class="admin" data-label="In the store’s admin">Quotes filtered by stage, and a page for each quote</td>
+            <td class="buyer" data-label="For distributors and dealers">Through the API only, no screens yet</td>
+          </tr>
+          <tr>
+            <td class="feature">Dealer territories</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">Each dealer covers areas by country, state or postcode, and each area belongs to one dealer. A state can be written in full or as a short code: “California” and “CA” both work.</td>
+            <td class="admin" data-label="In the store’s admin">Set each dealer’s areas; see every dealer’s areas in one list</td>
+            <td class="buyer" data-label="For distributors and dealers">—</td>
+          </tr>
+          <tr>
+            <td class="feature">Lead routing</td>
+            <td class="status" data-label="Status"><span class="pill ok">Available</span></td>
+            <td class="what" data-label="What it does">When a customer fills in the “find a dealer” form, the enquiry goes to the dealer that covers their area, and that dealer is emailed. A closed dealer is skipped for the next one, and if no dealer covers the area the store keeps the enquiry. The form doesn’t reveal which dealer it went to, and it limits repeated submissions.</td>
+            <td class="admin" data-label="In the store’s admin">See every lead; search and filter them, change their status, or move one to another dealer</td>
+            <td class="buyer" data-label="For distributors and dealers">Dealers see and update their own leads through the API</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================== Running and gaps -->
+  <section aria-labelledby="gaps-h">
+    <div class="section-head">
+      <h2 id="gaps-h">Instructions</h2>
+    </div>
+    <div class="cols">
+      <div>
+        <h3>Turning it on</h3>
+        <pre><code># one store, with B2B (implies -identity)
+gocommerce -db "$DATABASE_URL" -admin-token "$TOKEN" -b2b serve
+
+# many stores from one process and one database
+gocommerce -db "$DATABASE_URL" \
+  -base-domain shops.example.com \
+  -platform-token "$GOCOMMERCE_PLATFORM_TOKEN" \
+  -b2b platform</code></pre>
+        <p class="muted">Guides in the repository: <code>skills/b2b.md</code>, and "Running many stores" in <code>skills/infrastructure.md</code>. The reasons behind each choice are decisions D66 to D73 in <code>PLAN.md</code>.</p>
+      </div>
+      <div>
+        <h3>Not built yet</h3>
+        <ul class="plain">
+          <li><b>Buyer and distributor screens.</b> GoCommerce has the API for them, but no pages. Svelte Commerce has pages for buying again and for checking out ticked items, but its GoCommerce connector does not reach them yet. It has no pages for quotes, approvals, credit or company accounts.</li>
+          <li><b>The platform console</b> is committed on a branch (e659cee) and not yet merged to main. The platform API it uses is on main.</li>
+          <li><b>A tagged release.</b> Everything here is on main after v1.0.0.</li>
+          <li>Statements and a credit-limit history.</li>
+          <li>Per-company catalogues, and shipping or tax per company.</li>
+          <li>Uploading a file of lines for a bulk order.</li>
+          <li>Paging the platform's store list, needed past a few thousand stores.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Every feature marked Available passes the project’s automated tests at c960ee0.</span>
+  </footer>
+</div>
+
+</body>
+</html>

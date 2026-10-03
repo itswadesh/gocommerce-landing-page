@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="The B2B and platform screens in GoCommerce's admin panel, what changed in the engine to support them, and how they were checked.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>GoCommerce B2B Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column; the screens sit in it as plates, each with its
+   own Desktop / Dark / Phone switch, because the panel was checked in all three. */
+:root {
+  --bg: #f5f6f2;
+  --surface: #ffffff;
+  --ink: #1c2019;
+  --muted: #5c6455;
+  --line: #dcdfd5;
+  --accent: #56711a;
+  --accent-soft: #edf2df;
+  --pass: #2b7a4b;
+  --warn: #94600c;
+  --shot-bg: #e9ebe4;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121410; --surface: #1a1d17; --ink: #e7eae1; --muted: #a0a797; --line: #2d3228;
+    --accent: #a8c46a; --accent-soft: #222a17; --pass: #6cc590; --warn: #e2aa5c; --shot-bg: #0d0f0b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121410; --surface: #1a1d17; --ink: #e7eae1; --muted: #a0a797; --line: #2d3228;
+  --accent: #a8c46a; --accent-soft: #222a17; --pass: #6cc590; --warn: #e2aa5c; --shot-bg: #0d0f0b;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 16px/1.6 var(--body);
+  padding-inline: 20px;
+  padding-block: 40px 72px;
+}
+.wrap { max-width: 1040px; margin: 0 auto; display: grid; gap: 64px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+h1 { font: 600 clamp(2.2rem, 5vw, 3.4rem)/1.05 var(--display); letter-spacing: -0.01em; }
+h2 { font: 600 1.75rem/1.15 var(--display); }
+h3 { font: 600 1.125rem/1.3 var(--body); }
+p { margin: 0; max-width: 68ch; }
+code, .mono { font-family: var(--mono); font-size: 0.86em; }
+code { background: var(--accent-soft); padding: 0.1em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
+a { color: var(--accent); }
+
+.eyebrow {
+  font: 500 0.78rem/1.4 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.muted { color: var(--muted); }
+
+/* Header */
+header { display: grid; gap: 18px; }
+.lede { font-size: 1.125rem; color: var(--muted); max-width: 62ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 500 0.8rem/1 var(--mono);
+  padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--ink); white-space: nowrap;
+}
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--pass); }
+.chip.warn .dot { background: var(--warn); }
+
+/* At a glance */
+.glance {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.glance div { padding: 18px 18px 18px 0; display: grid; gap: 2px; min-width: 0; }
+.glance dt { font: 500 0.75rem/1.4 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.glance dd { margin: 0; font: 600 1.6rem/1.2 var(--display); font-variant-numeric: tabular-nums; }
+.glance dd small { display: block; font: 400 0.85rem/1.45 var(--body); color: var(--muted); }
+
+section { display: grid; gap: 22px; }
+.section-head { display: grid; gap: 8px; }
+
+/* The screens */
+.modebar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.switch { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.switch button {
+  font: 500 0.82rem/1 var(--body); color: var(--muted);
+  background: transparent; border: 0; padding: 8px 12px; cursor: pointer;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+.switch button + button { border-left: 1px solid var(--line); }
+.switch button:hover { color: var(--ink); background: var(--accent-soft); }
+.switch button[aria-pressed="true"] { color: var(--ink); background: var(--accent-soft); box-shadow: inset 0 -2px 0 var(--accent); }
+.switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.plates { display: grid; gap: 44px; }
+.plate { display: grid; gap: 12px; min-width: 0; }
+.plate-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; }
+.plate-head .route { font: 400 0.82rem/1.4 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+.plate p { color: var(--muted); }
+.frame {
+  margin: 0; background: var(--shot-bg); border: 1px solid var(--line); border-radius: 10px;
+  padding: 10px; display: grid; justify-items: center; min-width: 0;
+}
+.frame img {
+  display: block; width: 100%; height: auto; border-radius: 6px;
+  border: 1px solid var(--line); transition: opacity 150ms ease-out;
+}
+.frame[data-mode="phone"] img { width: min(100%, 300px); }
+.frame img.swapping { opacity: 0.35; }
+
+/* Tables */
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 0.94rem; }
+th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 500 0.74rem/1.4 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
+td:first-child { font-weight: 600; width: 22%; }
+
+/* Lists */
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.checks li { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: baseline; }
+.mark { font: 600 0.75rem/1 var(--mono); padding: 4px 7px; border-radius: 4px; color: var(--pass); border: 1px solid currentColor; white-space: nowrap; }
+.mark.open { color: var(--warn); }
+.checks li > span:last-child { min-width: 0; }
+
+.files { columns: 2 320px; column-gap: 32px; margin: 0; padding: 0; list-style: none; }
+.files li { break-inside: avoid; padding: 6px 0; border-bottom: 1px solid var(--line); display: grid; gap: 1px; }
+.files code { background: none; padding: 0; font-size: 0.82rem; }
+.files span { font-size: 0.88rem; color: var(--muted); }
+
+footer { border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: 0.9rem; display: grid; gap: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .switch button, .frame img { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">ext/b2b and the platform · GoCommerce admin panel</span>
+    <h1>B2B in the panel</h1>
+    <p class="lede">Screens for selling to businesses: companies and their buyers, credit and terms, quotes, approvals, receivables, dealer territories and the leads routed to them. Since the first version: purchase-order search and marking several orders paid at once, a business-order card on the order screen, states read by code or name everywhere (D72), and a console for running many stores from one platform (D73).</p>
+    <div class="meta">
+      <span class="chip"><span class="dot"></span>All checks pass on the built binary</span>
+      <span class="chip"><span class="dot"></span>On main through c960ee0</span>
+      <span class="chip warn"><span class="dot"></span>Console e659cee on the branch, not pushed</span>
+      <span class="chip">6 commits since 17cfe0a</span>
+    </div>
+  </header>
+
+  <dl class="glance">
+    <div><dt>Screens</dt><dd>10<small>routes, a Territories tab and the order card</small></dd></div>
+    <div><dt>Go suite</dt><dd>46<small>packages passing through c960ee0</small></dd></div>
+    <div><dt>Screen checks</dt><dd>20 × 3<small>URLs × desktop, dark and 390px</small></dd></div>
+    <div><dt>Frame time</dt><dd>16.7 ms<small>median while scrolling, routing, switching tabs</small></dd></div>
+  </dl>
+
+  <section id="screens" aria-labelledby="screens-h">
+    <div class="section-head">
+      <span class="eyebrow">What was built</span>
+      <h2 id="screens-h">The screens</h2>
+      <p class="muted">Captured from a dev store seeded through the API. Switch any screenshot between the desktop, dark and phone views, or switch them all at once.</p>
+    </div>
+    <div class="modebar">
+      <span class="muted">Show every screen as</span>
+      <div class="switch" role="group" aria-label="Show every screen as">
+        <button type="button" data-all="desktop" aria-pressed="true">Desktop</button>
+        <button type="button" data-all="dark" aria-pressed="false">Dark</button>
+        <button type="button" data-all="phone" aria-pressed="false">Phone</button>
+      </div>
+    </div>
+    <div class="plates" id="plates"></div>
+  </section>
+
+  <section id="fixes" aria-labelledby="fixes-h">
+    <div class="section-head">
+      <span class="eyebrow">Commits 58fad49, 1852310, c960ee0, e659cee</span>
+      <h2 id="fixes-h">What changed in the engine</h2>
+      <p class="muted">Each change came from something the screens could not do well. Every one is covered by tests, in the OpenAPI contract, and described in the skills.</p>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Problem</th><th>Before</th><th>Now</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>State names</td>
+            <td>A state was matched as text, so "California" never reached the dealer for "CA". The seeded enquiry from Cupertino went to the nationwide dealer.</td>
+            <td>States in the US, Canada, Australia and India are read by code or name on both sides: "California", "ca" and "US-CA" are all <code>CA</code>, and territories are stored as codes. India's codes changed in 2023 (OR → OD) and both still work. The Cupertino enquiry now reaches Golden State Dealers. Decision D72 (1852310) moved the rule into core, so tax rates and shipping zones read states the same way: a rate typed as "California" is stored as CA, and rules saved under a name earlier still match without being rewritten.</td>
+          </tr>
+          <tr>
+            <td>One lead</td>
+            <td>No route read a single lead, so a lead could not be linked to.</td>
+            <td><code>GET /api/admin/x/b2b/leads/{id}</code> under <code>leads.read</code>. The panel opens <code>/b2b/leads?lead=5</code> straight onto that lead.</td>
+          </tr>
+          <tr>
+            <td>Product names</td>
+            <td>A lead carried product and variant ids only, so the drawer said "Product 1".</td>
+            <td>Every lead names its <code>product_title</code> and <code>variant_sku</code> as the catalogue has them now; a deleted product leaves the ids.</td>
+          </tr>
+          <tr>
+            <td>Finding leads</td>
+            <td>No search, and no way to tell leads the store handed over from ones a territory matched.</td>
+            <td><code>?q=</code> searches name, message and postcode, and email and phone except on a demo store, where they are masked. <code>?routed_by=</code> filters by how a lead arrived. Pairs that cannot overlap are refused with a 400 that names them.</td>
+          </tr>
+          <tr>
+            <td>Picking a dealer</td>
+            <td>Pickers showed the first 200 companies, dealers or not.</td>
+            <td>Companies carry <code>territory_count</code>, and <code>?dealers=true</code> keeps those with a territory. Pickers list dealers first and still offer every dealer past 200 companies.</td>
+          </tr>
+          <tr>
+            <td>Finding a PO</td>
+            <td>A company quotes its PO number when it pays, and the ledger could only be narrowed to overdue orders.</td>
+            <td><code>?q=</code> on receivables, a company's orders and the buyer's <code>GET /x/b2b/orders</code>, matched against PO number, order number and, except on a demo store, the buyer's email (c960ee0).</td>
+          </tr>
+          <tr>
+            <td>One business order</td>
+            <td>The order screen showed the module's metadata as a raw line.</td>
+            <td><code>GET /api/admin/x/b2b/orders/{order_id}</code> reads one order's ledger row: company, PO, who placed it, due date, overdue, and the quote or approval it came from. The order screen's Business order card is built on it.</td>
+          </tr>
+          <tr>
+            <td>Paying several</td>
+            <td>Each invoice had to be opened and marked paid on its own.</td>
+            <td>Receivables marks the ticked orders paid through core's mark-paid, one order at a time, so each keeps its own event and history. No new route.</td>
+          </tr>
+          <tr>
+            <td>Many stores</td>
+            <td>Multi-tenant mode (D70) was an API with no screens: a platform operator had curl.</td>
+            <td>The platform's hosts serve the panel's <code>/platform</code> screens through core's <code>ServeAdminPanel</code>, the same files, cache rules and CSP a store sends; every other path there is still a JSON 404. The health report gained <code>base_domain</code>. Decision D73, e659cee.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="checks" aria-labelledby="checks-h">
+    <div class="section-head">
+      <span class="eyebrow">Verification</span>
+      <h2 id="checks-h">How it was checked</h2>
+      <p class="muted">In a real browser with Playwright, against the built binary on fresh databases: a dev store, and a platform on its own port serving stores at <code>&lt;slug&gt;.localhost</code>. The browser checks ran at least twice each.</p>
+    </div>
+    <ul class="checks">
+      <li><span class="mark">PASS</span><span>All 20 screen URLs at 1440 px light, 1440 px dark and 390 px: no console or page errors, no failed requests, no sideways scrolling. Twice, then once more with reduced motion.</span></li>
+      <li><span class="mark">PASS</span><span>Companies and quotes: create a company, edit its terms, add a buyer who joins at once and one who is invited, price a quote line by line, send it, change it and send it again, decline one.</span></li>
+      <li><span class="mark">PASS</span><span>Territories and leads: add a territory, see the conflict naming the other dealer, take it back, filter the Territories tab, search leads, open one from a link, hand it to a dealer, see a closed dealer refused, change its status, take it back.</span></li>
+      <li><span class="mark">PASS</span><span>Keyboard: list rows open with Enter, a lead opens from its row the same way, and the overdue tile shows a focus ring.</span></li>
+      <li><span class="mark">PASS</span><span>Business orders: the card names the company, PO, on account and Overdue; searching "po-4490" finds that one order in Receivables and on the company's page; ticking two unpaid orders offers "Mark paid (2) · $1,550.00" and both are marked paid. The company page's search box and filter are one height.</span></li>
+      <li><span class="mark">PASS</span><span>Platform console, at desktop, dark and 390 px: the platform's root goes to the console and shows no store login; a wrong token is refused in words; a new store opens with its slug following the name, and its owner signs in to its own panel at its own host with the generated password; rename, attach and detach a domain, add an owner, replace the token (the old one answers 401, the new one 200), suspend (its host answers 503), resume, and delete only with the slug typed exactly; signing out forgets the token.</span></li>
+      <li><span class="mark">PASS</span><span>Go, through c960ee0: the full suite (46 packages), the API-only build and its core tests, <code>gofmt</code>, <code>go vet</code>, the docs check, the 59-step smoke sale and <code>gocommerce doctor</code>. For the console: the platform package with and without the panel, core's panel tests, <code>gofmt</code>, <code>go vet</code>, the API-only build, the docs check and the smoke sale.</span></li>
+      <li><span class="mark">PASS</span><span>Motion: pages slide 3 px and fade in over 150 ms, drawers over 200 ms. Frames held a 16.7 ms median with none over 25 ms. With reduced motion, slides become plain fades, on the console too. A refused platform token shakes once (240 ms) and a copied credential's icon pops (200 ms), both transform only.</span></li>
+    </ul>
+  </section>
+
+  <section id="open" aria-labelledby="open-h">
+    <div class="section-head">
+      <span class="eyebrow">Not done</span>
+      <h2 id="open-h">Still open</h2>
+    </div>
+    <ul class="checks">
+      <li><span class="mark open">OPEN</span><span>The platform console (e659cee) is committed on <code>b2b-territories-leads</code> but not pushed to <code>main</code>. Everything before it, through c960ee0, is on <code>main</code>.</span></li>
+      <li><span class="mark open">OPEN</span><span>Statements and a credit-limit history were asked about but not defined: what a statement covers and whether a limit change is audited are decisions to make before building either.</span></li>
+      <li><span class="mark open">OPEN</span><span>The platform lists every store at once. Past a few thousand stores the list wants paging from the engine; until then the console filters what it has.</span></li>
+      <li><span class="mark open">OPEN</span><span>Approvals carry no company name, Receivables cannot show "owed but not yet due", and a quote's expiry cannot be cleared once set.</span></li>
+    </ul>
+  </section>
+
+  <section id="files" aria-labelledby="files-h">
+    <div class="section-head">
+      <span class="eyebrow">Commits 58fad49 to e659cee</span>
+      <h2 id="files-h">Files</h2>
+    </div>
+    <ul class="files">
+      <li><code>admin/src/routes/b2b/leads/+page.svelte</code><span>Leads list, filters, search and the drawer</span></li>
+      <li><code>admin/src/lib/components/CompanyTerritories.svelte</code><span>A dealer's territories on its page</span></li>
+      <li><code>admin/src/routes/b2b/companies/+page.svelte</code><span>Companies list and the Territories tab</span></li>
+      <li><code>admin/src/routes/b2b/companies/[id]/+page.svelte</code><span>Company page</span></li>
+      <li><code>admin/src/lib/b2b.js</code><span>Statuses, labels, dealer pickers</span></li>
+      <li><code>admin/src/lib/nav.js</code><span>Companies and Leads under Customers</span></li>
+      <li><code>admin/src/lib/modules.svelte.js</code><span>The b2b probe, for any of three rights</span></li>
+      <li><code>admin/src/lib/rights.js</code><span>Roles grid headings</span></li>
+      <li><code>admin/src/lib/styles/gocommerce.css</code><span>The b2b section</span></li>
+      <li><code>core/subdivisions.go</code><span>State names and codes for four countries (D72)</span></li>
+      <li><code>core/taxes.go</code>, <code>core/shipping.go</code><span>Store codes, match every spelling (D72)</span></li>
+      <li><code>admin/src/routes/platform/</code><span>The platform console: shell, stores, a store (D73)</span></li>
+      <li><code>admin/src/lib/platform.svelte.js</code><span>The platform token and its own client</span></li>
+      <li><code>platform/http.go</code><span>Serves the console on platform hosts; base_domain</span></li>
+      <li><code>core/admin_http.go</code><span>ServeAdminPanel, shared by store and platform</span></li>
+      <li><code>admin/src/lib/components/OrderBusinessCard.svelte</code><span>The order screen's Business order card</span></li>
+      <li><code>admin/src/routes/b2b/receivables/+page.svelte</code><span>Search and mark several paid</span></li>
+      <li><code>ext/b2b/checkout.go</code><span>The ledger's search and one order's row</span></li>
+      <li><code>ext/b2b/leads.go</code><span>Routing, product names, search, routed_by</span></li>
+      <li><code>ext/b2b/http.go</code><span>The single-lead route and new filters</span></li>
+      <li><code>ext/b2b/companies.go</code><span>territory_count and dealers=true</span></li>
+      <li><code>ext/b2b/openapi.json</code><span>The contract for all of the above</span></li>
+      <li><code>ext/b2b/b2b_test.go</code><span>Two new tests</span></li>
+      <li><code>skills/b2b.md</code><span>How states are matched</span></li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>Built and verified on October 2–3, 2026. The quotes, approvals and receivables screens were committed earlier in 17cfe0a.</span>
+    <span class="mono">GoCommerce · ext/b2b · platform</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var SCREENS = [
+    { id: "companies", name: "Companies", route: "/b2b/companies",
+      text: "Every business that buys on its own terms, with its status, credit limit, payment terms and number of buyers. New company opens a drawer, then goes straight to the new company's page." },
+    { id: "company", name: "A company", route: "/b2b/companies/1",
+      text: "Terms, the account at a glance (limit, outstanding, available, overdue), buyers and their roles, open invitations, territories, and orders on account. Adding a buyer says whether they joined or were sent an invitation." },
+    { id: "dealer", name: "A dealer's territories", route: "/b2b/companies/5",
+      text: "Areas by country, state and postcode prefix. The most specific territory wins an enquiry. An area another dealer covers is refused with that dealer's name." },
+    { id: "territories", name: "Who covers where", route: "/b2b/companies?view=territories",
+      text: "Every dealer's territories in one table, filtered by country and dealer." },
+    { id: "leads", name: "Leads", route: "/b2b/leads",
+      text: "Enquiries from the storefront's dealer form: whose they are, how they arrived and how they stand. Ones no dealer covers are marked Unrouted. Searchable." },
+    { id: "lead", name: "A lead", route: "/b2b/leads?lead=5",
+      text: "Read the enquiry, change its status, or hand it to another dealer. This one came from \"California\" and reached the dealer for CA." },
+    { id: "quotes", name: "Quotes", route: "/b2b/quotes",
+      text: "Requests for a price, filtered by status: requested, sent, accepted, declined, cancelled or expired." },
+    { id: "quote", name: "A quote", route: "/b2b/quotes/6",
+      text: "Price each line, change quantities, write a reply and pick an expiry. Send stays off until every line has a price; changing a sent quote warns before it takes it back." },
+    { id: "approvals", name: "Approvals", route: "/b2b/approvals",
+      text: "Orders over a company's approval threshold, waiting for one of its own approvers. Read-only for the store." },
+    { id: "receivables", name: "Receivables", route: "/b2b/receivables",
+      text: "Every company's orders on account, with due dates and an Overdue label. Search by PO number, order number or email. Tick the orders one transfer paid and mark them paid together: the button counts only the ones still unpaid, with their total." },
+    { id: "ordercard", name: "A business order", route: "/orders/3",
+      text: "An order placed for a company shows a Business order card: the company, its PO number, who placed it, on account or paid at checkout, the due date and Overdue, and the quote or approval it came from. It replaces the raw metadata line." },
+    { id: "platform", name: "Platform: stores", route: "/platform  (on the platform host)",
+      text: "The platform console, on the platform's own host and signed in to with a platform token. Every store, with counts of running, suspended and failed-to-start stores, a search and a status filter. New store opens a drawer and shows the owner's generated password and the store's admin token once." },
+    { id: "platformstore", name: "Platform: a store", route: "/platform/northwind",
+      text: "Rename it, suspend or resume it, attach and detach domains, add an owner, replace its admin token, and delete it once suspended with its slug typed out. Open the store links to its own panel on its own host." }
+  ];
+  var MODES = [["desktop", "Desktop"], ["dark", "Dark"], ["phone", "Phone"]];
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var holder = document.getElementById("plates");
+
+  function el(tag, attrs, text) {
+    var n = document.createElement(tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function setMode(plate, mode) {
+    var img = plate.querySelector("img");
+    var frame = plate.querySelector(".frame");
+    var s = plate._screen;
+    plate.querySelectorAll(".switch button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
+    });
+    var src = "img/" + s.id + "-" + mode + ".jpg";
+    if (img.getAttribute("src") === src) return;
+    var label = MODES.filter(function (m) { return m[0] === mode; })[0][1];
+    var apply = function () {
+      frame.dataset.mode = mode;
+      img.src = src;
+      img.alt = s.name + " screen, " + label.toLowerCase() + " view";
+      img.width = mode === "phone" ? 780 : 1440;
+      img.height = mode === "phone" ? 1688 : 900;
+    };
+    if (reduce) { apply(); return; }
+    img.classList.add("swapping");
+    img.onload = function () { img.classList.remove("swapping"); };
+    setTimeout(apply, 120);
+  }
+
+  SCREENS.forEach(function (s) {
+    var plate = el("article", { class: "plate", id: "screen-" + s.id });
+    plate._screen = s;
+    var head = el("div", { class: "plate-head" });
+    var title = el("div", {});
+    title.appendChild(el("h3", {}, s.name));
+    title.appendChild(el("div", { class: "route" }, s.route));
+    var sw = el("div", { class: "switch", role: "group", "aria-label": s.name + " view" });
+    MODES.forEach(function (m) {
+      var b = el("button", { type: "button", "data-mode": m[0], "aria-pressed": String(m[0] === "desktop") }, m[1]);
+      b.addEventListener("click", function () { setMode(plate, m[0]); });
+      sw.appendChild(b);
+    });
+    head.appendChild(title);
+    head.appendChild(sw);
+    plate.appendChild(head);
+    plate.appendChild(el("p", {}, s.text));
+    var fig = el("figure", { class: "frame", "data-mode": "desktop" });
+    fig.appendChild(el("img", {
+      src: "img/" + s.id + "-desktop.jpg", alt: s.name + " screen, desktop view",
+      width: "1440", height: "900", decoding: "async"
+    }));
+    plate.appendChild(fig);
+    holder.appendChild(plate);
+  });
+
+  document.querySelectorAll("[data-all]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var mode = b.dataset.all;
+      document.querySelectorAll("[data-all]").forEach(function (o) {
+        o.setAttribute("aria-pressed", String(o === b));
+      });
+      holder.querySelectorAll(".plate").forEach(function (p) { setMode(p, mode); });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
