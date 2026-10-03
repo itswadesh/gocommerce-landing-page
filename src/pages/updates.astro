@@ -1,0 +1,81 @@
+---
+/**
+ * What changed in GoCommerce, a row per commit, newest first.
+ *
+ * Nobody edits src/data/updates.json by hand: the Updates workflow in
+ * itswadesh/gocommerce appends to it on every push to main and commits it
+ * here, which deploys the site. It files each commit as a feature or a bug
+ * fix; the gocommerce repository's .github/scripts/publish-update.mjs says
+ * how, and how a commit overrides the guess.
+ */
+import Base from '../layouts/Base.astro'
+import updates from '../data/updates.json'
+
+type Row = { sha: string; date: string; type: 'feature' | 'fix'; title: string; url: string }
+const rows = updates as Row[]
+
+const path = '/updates/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })
+const feats = rows.filter((r) => r.type === 'feature').length
+const fixes = rows.length - feats
+
+const graph = [
+  { '@type': 'CollectionPage', '@id': abs(path + '#page'), url: abs(path), name: 'GoCommerce updates', isPartOf: { '@id': abs('/#site') }, inLanguage: 'en' },
+]
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+---
+<Base
+  title="GoCommerce Updates — Every Feature and Bug Fix, as It Lands"
+  description="Every change to GoCommerce, filed as a feature or a bug fix and linked to its commit. Updated automatically on each push to the main branch."
+  path={path}
+  ogTitle="GoCommerce updates"
+  ogDescription="Every feature and bug fix in GoCommerce, as it lands on main, linked to its commit."
+  crumbs={[{ name: 'Updates', href: path }]}
+  graph={graph}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Updates</p>
+    <h1>What changed in GoCommerce</h1>
+    <p class="lede">Every change that lands on GoCommerce's main branch, newest first — {feats} features and {fixes} bug fixes so far. Each change links its commit, which tells the full story.</p>
+  </section>
+
+  <section class="wrap" aria-label="All updates">
+    <div class="tbl-scroll">
+      <table class="matrix updates">
+        <thead><tr><th scope="col">Date</th><th scope="col">Type</th><th scope="col">Change</th><th scope="col" class="c-sha">Commit</th></tr></thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr>
+              <td class="when"><time datetime={r.date}>{fmt(r.date)}</time></td>
+              <td><span class={`kind ${r.type}`}>{r.type === 'fix' ? 'Bug fix' : 'Feature'}</span></td>
+              <td class="what"><a href={r.url} {...ext}>{r.title}</a></td>
+              <td class="c-sha"><a class="sha" href={r.url} {...ext}><code>{r.sha.slice(0, 7)}</code></a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="closing wrap">
+    <h2>Read the code behind the changes</h2>
+    <p>GoCommerce is MIT licensed. The full history, with the reasoning in every commit message, is on GitHub.</p>
+    <div class="actions">
+      <a class="button" href="/gocommerce/">Explore GoCommerce</a>
+      <a class="button secondary" href="https://github.com/itswadesh/gocommerce/commits/main" {...ext}>Every commit on GitHub</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .updates .when { white-space: nowrap; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .updates .what a { color: inherit; text-decoration: none; }
+  .updates .what a:hover { text-decoration: underline; }
+  /* On a phone the change gets the width; its link already leads to the commit. */
+  @media (max-width: 640px) { .updates .c-sha { display: none; } }
+  .kind { display: inline-block; white-space: nowrap; font: 500 .75rem/1 var(--sans); padding: 5px 9px; border: 1px solid currentColor; border-radius: var(--radius-ui); }
+  .kind.feature { color: var(--go); }
+  .kind.fix { color: var(--svelte); }
+  .sha code { font-size: .8125rem; }
+</style>

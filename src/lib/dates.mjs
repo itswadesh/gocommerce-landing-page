@@ -24,6 +24,7 @@ const EXTRA = {
   '/compare/': ['src/data/compare'],
   '/features/': ['src/data/features'],
   '/svelte-commerce/themes/': ['src/data/themes.json'],
+  '/updates/': ['src/data/updates.json'],
 }
 
 function git(args) {
