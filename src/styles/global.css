@@ -782,6 +782,11 @@ footer { border-top: var(--hairline); background: var(--surface); padding-block:
 .reltable tbody th { font: 400 .8125rem/1.5 var(--sans); color: var(--ink-3); font-weight: 400; width: 30%; }
 .reltable td { color: var(--ink-2); }
 .reltable code { font-size: .8125rem; }
+/* A two-column table of a name and a sentence wraps on a phone instead of
+   scrolling sideways: the minimum width is for tables of figures, which
+   cannot wrap, and a reader should not have to swipe to finish a sentence. */
+.reltable.fit { min-width: 0; }
+.reltable.fit tbody th { width: 28%; padding-right: 14px; }
 .vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* ──────────────────────────────────────────── measured-facts strip */

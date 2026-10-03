@@ -50,7 +50,7 @@
     [
       "B2B",
       "Adobe Commerce’s B2B extension: company accounts, shared catalogues, negotiable quotes, purchase-order approvals, requisition lists and pay on account.",
-      "Company accounts and buyer roles, quotes, approvals, purchase-order numbers and pay on account against a credit limit in the b2b module; groups, price lists and quantity breaks in the core. No shared catalogues or requisition lists."
+      "Company accounts and buyer roles, quotes, approvals, purchase-order numbers, pay on account against a credit limit, statements and company catalogues in the b2b module; groups, price lists and quantity breaks in the core. A catalogue limits what a company may buy; its prices come from a customer group. No requisition lists."
     ],
     [
       "Several stores",
@@ -132,7 +132,7 @@
     "note": "Adobe publishes no price for Adobe Commerce; its pricing page asks you to request one. Its product descriptions define the pricing level: gross merchandise value is every order through your sites in a contract year, less shipping, taxes and financing charges, converted to US dollars at the year’s end."
   },
   "themWhen": [
-    "You need shared catalogues, requisition lists or rules-based purchase approvals, and can license Adobe Commerce.",
+    "You need requisition lists or rules-based purchase approvals, and can license Adobe Commerce.",
     "You run many brands, languages and store views, with a team that already knows Magento.",
     "You want a vendor contract, 24x7 support and a hosted edition from Adobe.",
     "Your catalogue and integrations already live in Magento, and they work."
@@ -144,7 +144,7 @@
     "You want to keep Magento’s backend for now and replace only the storefront with SvelteKit."
   ],
   "takeOnExtra": [
-    "No shared catalogues or requisition lists, and one approval threshold per company rather than approval rules — Adobe Commerce’s B2B extension goes further."
+    "No requisition lists, and one approval threshold per company rather than approval rules — Adobe Commerce’s B2B extension goes further."
   ],
   "move": {
     "title": "Moving from Magento, or keeping it",
@@ -169,7 +169,7 @@
     },
     {
       "q": "Does GoCommerce have Magento’s B2B features?",
-      "a": "Many of them. GoCommerce’s b2b module has company accounts with buyer roles, quotes, approvals over a threshold, purchase-order numbers and pay on account against a credit limit, beside customer groups, price lists and quantity breaks in the core. Adobe Commerce’s B2B extension also has shared catalogues and requisition lists, which GoCommerce does not."
+      "a": "Many of them. GoCommerce’s b2b module has company accounts with buyer roles, quotes, approvals over a threshold, purchase-order numbers, pay on account against a credit limit, statements and company catalogues, beside customer groups, price lists and quantity breaks in the core. Adobe Commerce’s B2B extension also has requisition lists, which GoCommerce does not."
     },
     {
       "q": "Can Svelte Commerce run on Magento?",
