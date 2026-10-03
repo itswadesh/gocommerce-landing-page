@@ -1,0 +1,93 @@
+[
+  {
+    "sha": "c960ee0c8584cac221ed5c05c6204045af9c6d65",
+    "date": "2026-10-03",
+    "type": "feature",
+    "title": "Find a business order by its PO number, and mark several paid at once",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c960ee0c8584cac221ed5c05c6204045af9c6d65"
+  },
+  {
+    "sha": "d9b2d9047f38d2918445c661cb07de37873ef511",
+    "date": "2026-10-03",
+    "type": "fix",
+    "title": "Make a select the height of the text boxes beside it",
+    "url": "https://github.com/itswadesh/gocommerce/commit/d9b2d9047f38d2918445c661cb07de37873ef511"
+  },
+  {
+    "sha": "185231052bf32d281467f5c9acdd3693cc3de0f9",
+    "date": "2026-10-03",
+    "type": "feature",
+    "title": "Read a state by its code or its name, everywhere a rule names one (D72)",
+    "url": "https://github.com/itswadesh/gocommerce/commit/185231052bf32d281467f5c9acdd3693cc3de0f9"
+  },
+  {
+    "sha": "8912018eb05e2cf975951f37f401412675f3d49b",
+    "date": "2026-10-02",
+    "type": "feature",
+    "title": "Give dealers their territories, and the store its leads, in the panel",
+    "url": "https://github.com/itswadesh/gocommerce/commit/8912018eb05e2cf975951f37f401412675f3d49b"
+  },
+  {
+    "sha": "58fad49e4fee8fe20c24e4c9e8f840cafd0ea8ed",
+    "date": "2026-10-02",
+    "type": "feature",
+    "title": "Read a state by its name, and let the store read, search and narrow leads",
+    "url": "https://github.com/itswadesh/gocommerce/commit/58fad49e4fee8fe20c24e4c9e8f840cafd0ea8ed"
+  },
+  {
+    "sha": "a3c0357e40ecfda9127b18c5e792b20462291d1c",
+    "date": "2026-10-02",
+    "type": "feature",
+    "title": "Route consumers to dealers, and let a business order in bulk",
+    "url": "https://github.com/itswadesh/gocommerce/commit/a3c0357e40ecfda9127b18c5e792b20462291d1c"
+  },
+  {
+    "sha": "63ef3fc6ae4bfa986ecca80e8516437c11e7768c",
+    "date": "2026-10-02",
+    "type": "feature",
+    "title": "Serve many stores from one process: multi-tenant mode",
+    "url": "https://github.com/itswadesh/gocommerce/commit/63ef3fc6ae4bfa986ecca80e8516437c11e7768c"
+  },
+  {
+    "sha": "17cfe0abe0275115edff117d89116156599e8be4",
+    "date": "2026-10-02",
+    "type": "feature",
+    "title": "Give business customers their screens in the panel",
+    "url": "https://github.com/itswadesh/gocommerce/commit/17cfe0abe0275115edff117d89116156599e8be4"
+  },
+  {
+    "sha": "9d9f704496fe7f1f2fabc0ffae93c887a6759454",
+    "date": "2026-10-02",
+    "type": "feature",
+    "title": "Mask and name the buyer an operator just added",
+    "url": "https://github.com/itswadesh/gocommerce/commit/9d9f704496fe7f1f2fabc0ffae93c887a6759454"
+  },
+  {
+    "sha": "aa2ecaa52e857fe00b66cd6f293973273262c2e8",
+    "date": "2026-10-02",
+    "type": "feature",
+    "title": "Sell to businesses: companies, buyers in roles, credit, approvals, quotes",
+    "url": "https://github.com/itswadesh/gocommerce/commit/aa2ecaa52e857fe00b66cd6f293973273262c2e8"
+  },
+  {
+    "sha": "96a754ae69b6ab89e6458d60279fe193c040b3ed",
+    "date": "2026-10-02",
+    "type": "fix",
+    "title": "Make the contract resolve, and stop it closing the set of error codes",
+    "url": "https://github.com/itswadesh/gocommerce/commit/96a754ae69b6ab89e6458d60279fe193c040b3ed"
+  },
+  {
+    "sha": "aa0787a64536e198831b4991738dbeb52907ed63",
+    "date": "2026-10-02",
+    "type": "feature",
+    "title": "Confirm a shopper's address before pricing their cart as them",
+    "url": "https://github.com/itswadesh/gocommerce/commit/aa0787a64536e198831b4991738dbeb52907ed63"
+  },
+  {
+    "sha": "65a66aed9266bdba7f3e6d5a18ca5f8581027766",
+    "date": "2026-10-02",
+    "type": "feature",
+    "title": "Let a module refuse a checkout before the order exists, and agree a price",
+    "url": "https://github.com/itswadesh/gocommerce/commit/65a66aed9266bdba7f3e6d5a18ca5f8581027766"
+  }
+]
