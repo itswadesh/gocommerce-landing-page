@@ -1,5 +1,19 @@
 [
   {
+    "sha": "368b51fbe805cd3b3dfd78c6ddfd67d2a1cd39e2",
+    "date": "2026-10-07",
+    "type": "feature",
+    "title": "Document how to put prices on a price list",
+    "url": "https://github.com/itswadesh/gocommerce/commit/368b51fbe805cd3b3dfd78c6ddfd67d2a1cd39e2"
+  },
+  {
+    "sha": "ec39aef7f546e5d8df077f24929f6459f7d0d30d",
+    "date": "2026-10-07",
+    "type": "feature",
+    "title": "Start Docker Compose stores with every module installed",
+    "url": "https://github.com/itswadesh/gocommerce/commit/ec39aef7f546e5d8df077f24929f6459f7d0d30d"
+  },
+  {
     "sha": "c960ee0c8584cac221ed5c05c6204045af9c6d65",
     "date": "2026-10-03",
     "type": "feature",
