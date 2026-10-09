@@ -249,7 +249,7 @@ const modules = [
         <div class="url"><p class="url-what">API documentation</p><p class="url-where"><code>localhost:8080/docs</code></p><p class="url-note">The OpenAPI contract this build actually serves.</p></div>
         <div class="url"><p class="url-what">The catalog</p><p class="url-where"><code>localhost:8080/api/products</code></p><p class="url-note">Public and unauthenticated — the route a storefront calls.</p></div>
       </div>
-      <p class="fineprint"><code>./cmd/gocommerce</code> is the reference binary and installs 39 of the 44 modules — all but cart-recovery, import-shopify, indexnow, mcp and translations — which makes it useful for reading the API contract. A real store is its own small <code>main()</code> that installs only what it needs — that is <code>examples/store</code>.</p>
+      <p class="fineprint"><code>./cmd/gocommerce</code> is the reference binary and installs 40 of the 44 modules — all but import-shopify, indexnow, mcp and translations — which makes it useful for reading the API contract. A real store is its own small <code>main()</code> that installs only what it needs — that is <code>examples/store</code>.</p>
     </div>
   </section>
 
@@ -264,7 +264,7 @@ const modules = [
     <div class="mkt">
       <ul class="growth-list">
         <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Commerce events</b> — 17 of them, written through a transactional outbox in the same transaction as the state change, so an event cannot be lost or invented.</p></li>
-        <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Abandoned-cart recovery</b> — the engine records and announces <code>cart.abandoned</code>; the module owns the schedule, so the first sweep after install does not mail every stale basket at once.</p></li>
+        <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Abandoned checkouts</b> — a basket left for a few minutes is recorded and sent the store's own sequence of reminders, each checked again before it goes; the order that brings it back is credited to it, and a basket left before the module was installed is never written to.</p></li>
         <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Email and SMS</b> — Resend, SendGrid, Twilio, MSG91. The store owns the sending account.</p></li>
         <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Order notifications</b> — paid, shipped, delivered, refunded and returned, wired into delivery by the engine itself.</p></li>
         <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Klaviyo, newsletter, reviews, wishlists</b> — installable modules.</p></li>

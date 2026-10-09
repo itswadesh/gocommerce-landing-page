@@ -26,6 +26,18 @@
       ]
     },
     {
+      "name": "Abandoned checkouts",
+      "lede": "A basket somebody left is the order closest to happening. The cart-recovery module notices it within minutes, writes to the shopper, and stops the moment it becomes an order.",
+      "tiles": [
+        { "title": "Noticed within minutes", "status": "yes", "text": "A basket left for 10 minutes after the shopper typed an email — 30 if they never reached checkout — is recorded with its items and value as they were. The store sets both times. Baskets left before the module was installed are shown and never written to.", "source": "ext/cart-recovery · pass.go" },
+        { "title": "A sequence of reminders", "status": "yes", "text": "Up to five “wait, then send” emails, one sequence for checkouts and one for carts. Each send is checked again first: nothing goes out if the basket became an order, was emptied, sold out, or the shopper is in it right now. The wording is the store’s, edited with the other emails.", "source": "ext/cart-recovery · sendStep" },
+        { "title": "A link that counts the click", "status": "yes", "text": "Each reminder links back through the store, which counts the click and lands the shopper on their basket, still filled.", "source": "GET /x/cart-recovery/r/{token}" },
+        { "title": "The order is credited", "status": "yes", "text": "When the basket is bought, that order is credited to it. The figures keep apart orders a reminder came before and shoppers who came back on their own.", "source": "order.created · cart_id" },
+        { "title": "Staff can step in", "status": "yes", "text": "Send a reminder now, copy the recovery link to paste into a chat, or stop the reminders with a reason. Every step is on the basket’s timeline with who took it.", "source": "/api/admin/x/cart-recovery/abandonments" },
+        { "title": "Recovery figures", "status": "yes", "text": "Abandoned, potential revenue, reminders sent, clicks, recovered orders and revenue, the recovery rate, a funnel, and recovered revenue by day, week or month.", "source": "/api/admin/x/cart-recovery/analytics" }
+      ]
+    },
+    {
       "name": "Payments",
       "tiles": [
         { "title": "Nine gateway modules", "status": "yes", "text": "Stripe, Razorpay, Adyen, Paddle, Lemon Squeezy, Creem, Hyperswitch, Helcim and RevenueCat, each configured from the admin’s payment methods screen.", "source": "ext/payments-*/" },
@@ -71,13 +83,16 @@
     { "name": "Tax or rate providers", "why": "No hook for Avalara-style tax or live carrier rates at checkout." },
     { "name": "Click-and-collect", "why": "No pickup option at checkout." },
     { "name": "Per-product quantity limits", "why": "A cart line is capped only by stock." },
-    { "name": "Reorder", "why": "Nothing turns a past order into a new cart." }
+    { "name": "Reorder", "why": "Nothing turns a past order into a new cart." },
+    { "name": "Recovery by SMS or WhatsApp", "why": "A basket carries an email and no phone number, so reminders go by email." },
+    { "name": "Chasing a failed payment", "why": "Once checkout runs the basket is an order, and nothing reopens it for another try." }
   ],
   "faq": [
     { "q": "What happens if a price changes while someone is checking out?", "a": "The checkout call answers 409 with the line that changed and its current price, and no order is charged. The client shows the new figure and the shopper decides. The engine never reprices an order silently." },
     { "q": "Can shoppers buy without an account?", "a": "Always. Guest checkout is a permanent guarantee in the core: an order needs an email, and the access token returned at checkout reads it back. Accounts are the identity module, added when you want them." },
     { "q": "Which payment gateways work in India?", "a": "Razorpay is a module, and cash on delivery is built in and on by default. Hyperswitch and Stripe are also modules; whether a gateway serves your business is between you and it." },
     { "q": "Can a cash-on-delivery order be refunded?", "a": "Not through the engine — the cod method has no refund call, so the API answers 409. The money goes back however you collected it, outside GoCommerce. Gateway orders refund through their gateway." },
+    { "q": "Does GoCommerce send abandoned-cart emails?", "a": "Yes, with the cart-recovery module. A basket left for a few minutes is recorded, and the store’s own sequence of reminders goes out by email, each one checked again before it is sent. When the shopper buys, the order is credited to the basket and the reminders stop." },
     { "q": "Does it calculate tax automatically?", "a": "From your own rate table: flat rates by country, state and product category, applied at checkout and recorded per line. There is no connection to a tax service yet." }
   ]
 }
