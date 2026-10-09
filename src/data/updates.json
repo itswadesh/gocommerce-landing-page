@@ -1,5 +1,19 @@
 [
   {
+    "sha": "bb8d70f96aa05ffb5a5f8873a144ec6151c41eda",
+    "date": "2026-10-09",
+    "type": "feature",
+    "title": "Add Abandoned checkouts, recovery automations and recovery analytics to the panel",
+    "url": "https://github.com/itswadesh/gocommerce/commit/bb8d70f96aa05ffb5a5f8873a144ec6151c41eda"
+  },
+  {
+    "sha": "392c0abeda2f7d5032d6b3a42cfaa9d8145d5ba6",
+    "date": "2026-10-09",
+    "type": "feature",
+    "title": "Chase abandoned checkouts with a sequence of reminders and credit the order that brings each one back",
+    "url": "https://github.com/itswadesh/gocommerce/commit/392c0abeda2f7d5032d6b3a42cfaa9d8145d5ba6"
+  },
+  {
     "sha": "368b51fbe805cd3b3dfd78c6ddfd67d2a1cd39e2",
     "date": "2026-10-07",
     "type": "feature",
