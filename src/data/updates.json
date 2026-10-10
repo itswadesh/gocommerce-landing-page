@@ -14,6 +14,41 @@
     "url": "https://github.com/itswadesh/gocommerce/commit/392c0abeda2f7d5032d6b3a42cfaa9d8145d5ba6"
   },
   {
+    "sha": "683de63dba38daf9220fb236e861a5da5dc68d7a",
+    "date": "2026-10-09",
+    "type": "feature",
+    "title": "Let stores make their own roles and add team members by email",
+    "url": "https://github.com/itswadesh/gocommerce/commit/683de63dba38daf9220fb236e861a5da5dc68d7a"
+  },
+  {
+    "sha": "c1ddf619f30cb0700f1c1170500e14920c1c4f02",
+    "date": "2026-10-09",
+    "type": "fix",
+    "title": "Stop the Roles screen failing on a role with no rights",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c1ddf619f30cb0700f1c1170500e14920c1c4f02"
+  },
+  {
+    "sha": "02f871407297eb28bea66392d41988bdd82d5882",
+    "date": "2026-10-09",
+    "type": "feature",
+    "title": "Put the admin panel's screens under /dash, as the KitCommerce admin does",
+    "url": "https://github.com/itswadesh/gocommerce/commit/02f871407297eb28bea66392d41988bdd82d5882"
+  },
+  {
+    "sha": "b1ab7b15320df78213ef57831256528c22963672",
+    "date": "2026-10-09",
+    "type": "fix",
+    "title": "Stop custom reports running as a superuser or reading other stores",
+    "url": "https://github.com/itswadesh/gocommerce/commit/b1ab7b15320df78213ef57831256528c22963672"
+  },
+  {
+    "sha": "bd9f8e9a8633fbb06e9f8a42f6ed73b46a71079f",
+    "date": "2026-10-07",
+    "type": "feature",
+    "title": "Run many stores from one Docker Compose file",
+    "url": "https://github.com/itswadesh/gocommerce/commit/bd9f8e9a8633fbb06e9f8a42f6ed73b46a71079f"
+  },
+  {
     "sha": "368b51fbe805cd3b3dfd78c6ddfd67d2a1cd39e2",
     "date": "2026-10-07",
     "type": "feature",
