@@ -1,8 +1,9 @@
 ---
 /**
- * Multi-store is channels: one catalogue, several storefronts, differing in
- * what is published to each and at what price. The page says exactly what a
- * channel scopes — publishing and price — and what it does not.
+ * Multi-store comes in two shapes, and the page keeps them apart: channels
+ * (one merchant, one catalogue, several storefronts) and platform mode (many
+ * unrelated stores from one install, each in a schema of its own). It says
+ * exactly what each one scopes and what it does not.
  */
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
@@ -18,16 +19,18 @@ const faq = [
   { q: 'What is a channel?', a: 'A named storefront over the one catalogue: a code, a name, an active flag and a count of the products published to it. Exactly one channel is the default — enforced by a partial unique index — and a request that names no channel is served from it, which is why a store that never creates a second channel never notices the feature.' },
   { q: 'What differs between channels?', a: 'Two things: which products are published to each, set per product with a list of channel ids, and which price lists apply, since a price list can be limited to one channel. Orders, customers and inventory are not partitioned by channel; a second storefront sells from the same stock.' },
   { q: 'How does a storefront pick its channel?', a: 'By naming it on the request. Any HTTP client can, so a Next.js site and a native app can each be a channel of the same backend, and the admin sees all of them. Svelte Commerce’s early GoCommerce connector, 0.1.0, does not send a channel, so a Svelte Commerce storefront on it is served from the default one.' },
-  { q: 'Can I run separate brands from one install?', a: 'Separate catalogues per brand, yes — publish each product to its brand’s channel and price it per channel. Separate merchants with separate staff and separate books, no: that is one store with one admin, one set of rights and one ledger.' },
-  { q: 'Is this multi-tenant?', a: 'No. Channels are storefronts of one merchant. Several merchants selling on one store is the marketplace shape, and several unrelated stores is several installs.' },
+  { q: 'Can I run separate brands from one install?', a: 'Yes, two ways. Brands that share a catalogue, staff and books are channels of one store: publish each product to its brand’s channel and price it per channel. Brands or merchants that need their own staff, customers, orders and books are separate stores in platform mode, still one install and one database.' },
+  { q: 'Is GoCommerce multi-tenant?', a: 'Yes, since GoCommerce 1.1. Run gocommerce platform and one process and one PostgreSQL database serve many stores. Each store lives in a schema of its own, with its own operators, admin panel, media, modules and domains. Channels are a different thing: storefronts of one merchant.' },
+  { q: 'How are stores kept apart in platform mode?', a: 'By the database, not by a store_id column. Each store is an unchanged engine in its own PostgreSQL schema, so its queries cannot see another store’s tables. Custom SQL reports go further: each store runs them as its own read-only database login, which PostgreSQL refuses anything outside that store’s schema.' },
+  { q: 'How does a request find its store?', a: 'By its address: <slug>.<your base domain>, or any custom domain attached to the store. A shared API host can name the store in an X-Store header instead.' },
 ]
 ---
 <Base
-  title="Multi-Store on GoCommerce — Many Storefronts, One Catalogue"
-  description="Several storefronts from one open-source backend: channels scope product publishing and price lists; orders, customers and stock are shared, under one admin."
+  title="Multi-Store on GoCommerce — Channels and Many Stores"
+  description="Several storefronts over one catalogue with channels, or many separate stores from one install with platform mode: a schema per store, custom domains and a console."
   path={path}
-  ogTitle="Multi-store: several storefronts, one catalogue"
-  ogDescription="Channels with per-channel publishing and pricing, one default, one admin — and the two things channels do not partition."
+  ogTitle="Multi-store: storefronts, or whole stores"
+  ogDescription="Channels for one merchant's storefronts. Platform mode for many stores from one install, each in its own schema with its own domain."
   nav="solutions"
   crumbs={[{ name: 'Solutions', href: '/solutions/' }, { name: 'Multi-store', href: path }]}
   graph={graph}
@@ -41,7 +44,9 @@ const faq = [
       <li><b>core/channels.go</b> channels, publishing</li>
       <li><b>core/pricing.go</b> per-channel price lists</li>
       <li><b>1</b> default channel, enforced by the database</li>
+      <li><b>platform/</b> many stores, one install</li>
     </ul>
+    <p>Need separate stores, not separate storefronts? See <a href="#platform">many stores from one install</a>.</p>
   </section>
 
   <section id="how" class="section wrap feature" aria-labelledby="how-title">
@@ -74,10 +79,30 @@ const faq = [
     </div>
   </section>
 
+  <section id="platform" class="section wrap" aria-labelledby="platform-title">
+    <h2 id="platform-title">Many stores from one install</h2>
+    <p class="section-lede">Platform mode, since GoCommerce 1.1. Run <code>gocommerce platform</code> and one process serves many stores. Each one is a whole store, not a storefront.</p>
+    <div class="tbl-scroll">
+      <table class="reltable fit">
+        <caption>What platform mode gives you</caption>
+        <thead><tr><th scope="col">What</th><th scope="col">How it works</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">A store of its own</th><td>Each store gets its own database schema, operators, admin panel, media and modules.</td></tr>
+          <tr><th scope="row">Its own address</th><td><code>&lt;slug&gt;.your-domain</code>, or any custom domain you attach. Your proxy asks the platform before issuing a certificate.</td></tr>
+          <tr><th scope="row">One shared API host</th><td>Or name the store in an <code>X-Store</code> header.</td></tr>
+          <tr><th scope="row">A platform API</th><td>Create, rename, suspend, resume and delete stores, attach domains, add owners and replace a store’s token. Its credentials open no store.</td></tr>
+          <tr><th scope="row">A console</th><td>The same actions on screens, on the platform’s own address. New in 1.2.</td></tr>
+          <tr><th scope="row">Reports that stay home</th><td>A store’s custom SQL reports run as its own read-only login, so they cannot read another store.</td></tr>
+          <tr><th scope="row">One Compose file</th><td><code>docker-compose.platform.yml</code> starts the platform with every module installed.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <section id="edge" class="section wrap" aria-labelledby="edge-title">
     <h2 id="edge-title">Where the edge is</h2>
     <div class="tri">
-      <div class="tri-item"><h3>Not multi-tenant</h3><p>Channels belong to one merchant. Unrelated stores are separate installs, each one binary and one database.</p></div>
+      <div class="tri-item"><h3>Channels are one merchant’s</h3><p>A channel shares the store’s catalogue, staff and books. Unrelated stores belong in <a href="#platform">platform mode</a>, each in a schema of its own.</p></div>
       <div class="tri-item"><h3>No per-channel staff or ledger</h3><p>Rights, customers, orders and payouts are store-wide. A channel is a shop window, not a subsidiary.</p></div>
       <div class="tri-item"><h3>The storefront side is yours</h3><p>A channel is named on the request, so a second storefront is a second client of the API — anything HTTP. Svelte Commerce’s <a href="/gocommerce-svelte-commerce-connector/">early connector</a> (0.1.0) does not send a channel, so it is served from the default one.</p></div>
     </div>
@@ -87,7 +112,7 @@ const faq = [
 
   <section class="closing wrap">
     <h2>One catalogue, as many windows as you need</h2>
-    <p>Create a channel in the admin, publish a product to it, and price a cart against it from the API docs.</p>
+    <p>Create a channel in the admin, publish a product to it, and price a cart against it from the API docs. Or start <code>gocommerce platform</code> and create stores from its console.</p>
     <div class="actions">
       <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
       <a class="button secondary" href="/solutions/b2b/">B2B pricing</a>

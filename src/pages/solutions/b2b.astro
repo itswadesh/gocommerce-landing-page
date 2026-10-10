@@ -28,12 +28,14 @@ const faq = [
   { q: 'Can a buyer’s procurement system order without a person logging in?', a: 'Yes. An API key carries a role’s rights, a prefix that identifies it in a log line, its last-used time and a revocation. Checkout takes an Idempotency-Key, so a system that retries a timed-out request does not place the order twice.' },
   { q: 'Can consumer enquiries go to the nearest dealer?', a: 'Yes. A dealer is a company with territories — a country, a state or a postcode prefix — and an enquiry posted from the storefront goes to the dealer whose territory fits it most specifically, with its admins emailed. The public answer never names the dealer, so the form cannot be used to map the network, and the store sees and reassigns every lead, including the ones no territory covers.' },
   { q: 'Can each dealer have a store of its own?', a: 'Yes, from one install. Platform mode serves many stores from one process and one PostgreSQL database, each in a schema of its own with its own operators, admin panel and domain, created and suspended through a platform API whose credentials open no store.' },
+  { q: 'Do buyers need a storefront built for them?', a: 'No. Since GoCommerce 1.2, buyers and dealers sign in at /portal on the store’s own address with their store account. They see their company’s terms and what it owes, order by SKU or from a spreadsheet, check out the lines they tick, repeat orders, approve, accept quotes and download statements. Each person sees only what their role and company allow.' },
+  { q: 'Can a company have its own shipping and tax?', a: 'Yes, through its customer group. A shipping rate can name a group, and that group’s buyers are offered its rates instead of the public ones in that zone. A group can be tax-exempt: its orders carry no tax and record which group exempted them.' },
   { q: 'Is it free to use for B2B?', a: 'Yes. GoCommerce is MIT-licensed, and the B2B module is in the same repository as the engine: no paid edition, no B2B add-on.' },
 ]
 ---
 <Base
   title="B2B Commerce on GoCommerce — Accounts, Credit, Quotes"
-  description="Open-source B2B commerce: company accounts, credit limits and statements, approvals, quotes, per-company catalogues, spreadsheet orders and dealer lead routing."
+  description="Open-source B2B commerce: company accounts, credit limits and statements, approvals, quotes, a trade portal, per-company catalogues, shipping and tax, and dealer lead routing."
   path={path}
   ogTitle="B2B commerce on GoCommerce"
   ogDescription="Company accounts, buyer roles, credit limits and net terms, approvals, quotes, purchase orders and tiered pricing — MIT, with the edges named."
@@ -54,13 +56,16 @@ const faq = [
   </section>
 
   <section id="new" class="section wrap" aria-labelledby="new-title">
-    <h2 id="new-title">New in GoCommerce 1.1</h2>
-    <p class="section-lede">Five things suppliers asked for, in plain terms.</p>
+    <h2 id="new-title">New in GoCommerce 1.2</h2>
+    <p class="section-lede">Eight things suppliers asked for, in plain terms.</p>
     <div class="tbl-scroll">
       <table class="reltable fit">
         <caption>What each one does for you</caption>
         <thead><tr><th scope="col">New</th><th scope="col">What it does</th></tr></thead>
         <tbody>
+          <tr><th scope="row">A trade portal</th><td>Buyers and dealers sign in at <code>/portal</code> on your store’s address. No storefront to build first.</td></tr>
+          <tr><th scope="row">Shipping per company</th><td>Give a customer group its own shipping rates. Its buyers see those instead of the public ones.</td></tr>
+          <tr><th scope="row">Tax-exempt companies</th><td>Mark a customer group tax-exempt. Its orders carry no tax, and say which group made them exempt.</td></tr>
           <tr><th scope="row">Statements</th><td>One page per period: what was owed at the start, every order and payment, what is owed at the end. Download it as a spreadsheet.</td></tr>
           <tr><th scope="row">How late it is</th><td>Unpaid money split into not yet due, 1–30, 31–60, 61–90 and over 90 days late.</td></tr>
           <tr><th scope="row">Terms history</th><td>Every change to a credit limit, payment days or rules, with who changed it and when.</td></tr>
@@ -92,6 +97,7 @@ const faq = [
           <li><b>Quantity breaks</b>: the highest break at or below the quantity ordered, per line.</li>
           <li><b>Proven buyers only</b>: a group price reaches a cart through a confirmed address, never a typed one.</li>
           <li><b>Agreed line prices</b> on quotes and phone orders, over every list.</li>
+          <li><b>Shipping rates per group</b>, and <b>tax-exempt groups</b>.</li>
         </ul>
       </div>
       <div class="featlist-group">
@@ -157,6 +163,7 @@ const faq = [
           <li><b>Idempotent checkout</b>: a retried order is the same order, never a second.</li>
           <li><b>Webhooks</b> out, and <b>numbered invoices</b>.</li>
           <li><b>Admin screens</b> for companies, catalogues, statements, quotes, approvals and receivables.</li>
+          <li><b>A trade portal</b> at <code>/portal</code> for buyers and dealers, on the store’s own address.</li>
         </ul>
       </div>
     </div>
@@ -202,9 +209,9 @@ const faq = [
     <h2 id="edge-title">Where the edge is</h2>
     <p class="section-lede">What a business buyer may expect that is not there yet.</p>
     <div class="tri">
-      <div class="tri-item"><h3>No shipping or tax per company</h3><p>A company gets its own prices and its own catalogue, but pays the store’s shipping rates and tax like everyone else. The public storefront still shows every product; checkout is where a catalogue is enforced.</p></div>
+      <div class="tri-item"><h3>Catalogues bind at checkout</h3><p>A company held to a catalogue cannot buy outside it, but the public storefront still shows every product. Checkout, quick orders and quotes are where the catalogue is enforced.</p></div>
       <div class="tri-item"><h3>One approval threshold</h3><p>A company has one limit above which a buyer waits. Multi-level chains and per-buyer budgets are not modelled.</p></div>
-      <div class="tri-item"><h3>The storefront is yours to build</h3><p>The buyer side is an API. Svelte Commerce does not ship company, approval or quote screens yet, and an invoice is issued when an order is paid, not when it ships.</p></div>
+      <div class="tri-item"><h3>Your storefront, or the portal</h3><p>Buyers can use <code>/portal</code> today. A storefront of your own talks to the same API; Svelte Commerce does not ship company, approval or quote screens yet. An invoice is issued when an order is paid, not when it ships.</p></div>
     </div>
   </section>
 
