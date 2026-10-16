@@ -1,5 +1,82 @@
 [
   {
+    "sha": "98aad57a4431525f7a0457c751427061d1680f53",
+    "date": "2026-10-16",
+    "type": "feature",
+    "title": "Use kitcommerce.store's K mark as the panel's logo and tab icon",
+    "url": "https://github.com/itswadesh/gocommerce/commit/98aad57a4431525f7a0457c751427061d1680f53"
+  },
+  {
+    "sha": "476600c920b9af9ca426863aaa7267e02de6fd2c",
+    "date": "2026-10-16",
+    "type": "feature",
+    "title": "Turn custom reports back on, each run pinned to its own store",
+    "url": "https://github.com/itswadesh/gocommerce/commit/476600c920b9af9ca426863aaa7267e02de6fd2c"
+  },
+  {
+    "sha": "2e8260de1c62923cb2cb6ed860d61af40001347a",
+    "date": "2026-10-16",
+    "type": "feature",
+    "title": "Let a store add its own domains, proven by a DNS TXT record",
+    "url": "https://github.com/itswadesh/gocommerce/commit/2e8260de1c62923cb2cb6ed860d61af40001347a"
+  },
+  {
+    "sha": "c2106d17a47b1e347962c0dbcb697707a830ca16",
+    "date": "2026-10-16",
+    "type": "feature",
+    "title": "Keep each store's files in a folder of its own, and clear a deleted store's files and search documents",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c2106d17a47b1e347962c0dbcb697707a830ca16"
+  },
+  {
+    "sha": "b603d8eae05b5074bcb0f47ab98ab8cbe4f15c5d",
+    "date": "2026-10-16",
+    "type": "feature",
+    "title": "Let a store's owner delete it, with everything it owned",
+    "url": "https://github.com/itswadesh/gocommerce/commit/b603d8eae05b5074bcb0f47ab98ab8cbe4f15c5d"
+  },
+  {
+    "sha": "c55f4f5e27d316c0bb5ac63ec1f1bcefc6929eb0",
+    "date": "2026-10-16",
+    "type": "feature",
+    "title": "Let one store be a demo: mask its personal data while the others stay live",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c55f4f5e27d316c0bb5ac63ec1f1bcefc6929eb0"
+  },
+  {
+    "sha": "588b61b07e91a28948b5d2e31cec78b4aa1b620f",
+    "date": "2026-10-16",
+    "type": "fix",
+    "title": "Show the customer's email and phone under their name in the orders list",
+    "url": "https://github.com/itswadesh/gocommerce/commit/588b61b07e91a28948b5d2e31cec78b4aa1b620f"
+  },
+  {
+    "sha": "c757b06342de3ecc0d6e0118eca90663f0d2acc9",
+    "date": "2026-10-16",
+    "type": "feature",
+    "title": "Show the current store's domain in the account menu, with Copy store ID and Visit store",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c757b06342de3ecc0d6e0118eca90663f0d2acc9"
+  },
+  {
+    "sha": "f372444d13a3217312f2bd1804f6620ac327c52e",
+    "date": "2026-10-16",
+    "type": "fix",
+    "title": "Fix the store list ignoring the name set in Store details",
+    "url": "https://github.com/itswadesh/gocommerce/commit/f372444d13a3217312f2bd1804f6620ac327c52e"
+  },
+  {
+    "sha": "22b88447036e83d1021ac2d4523249ded2f9e3d0",
+    "date": "2026-10-16",
+    "type": "feature",
+    "title": "Switch stores from the account menu and keep the page you were on",
+    "url": "https://github.com/itswadesh/gocommerce/commit/22b88447036e83d1021ac2d4523249ded2f9e3d0"
+  },
+  {
+    "sha": "3bfd64d5998f595309679dcbb92a89dbce987c6b",
+    "date": "2026-10-15",
+    "type": "fix",
+    "title": "Fix the login page squeezing the form when a session has ended",
+    "url": "https://github.com/itswadesh/gocommerce/commit/3bfd64d5998f595309679dcbb92a89dbce987c6b"
+  },
+  {
     "sha": "bb8d70f96aa05ffb5a5f8873a144ec6151c41eda",
     "date": "2026-10-09",
     "type": "feature",
