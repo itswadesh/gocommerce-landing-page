@@ -1,5 +1,12 @@
 [
   {
+    "sha": "e5fc9ea68051cff1a6561ef64d29cd7e197c6846",
+    "date": "2026-10-20",
+    "type": "feature",
+    "title": "Take card payments through Clover",
+    "url": "https://github.com/itswadesh/gocommerce/commit/e5fc9ea68051cff1a6561ef64d29cd7e197c6846"
+  },
+  {
     "sha": "98aad57a4431525f7a0457c751427061d1680f53",
     "date": "2026-10-16",
     "type": "feature",
