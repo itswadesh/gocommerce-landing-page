@@ -1,5 +1,145 @@
 [
   {
+    "sha": "65baf0f7607c5e9dbe732b78d2c7de6a189173d0",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Fix Edit and Delete missing from a module's screen on a phone",
+    "url": "https://github.com/itswadesh/gocommerce/commit/65baf0f7607c5e9dbe732b78d2c7de6a189173d0"
+  },
+  {
+    "sha": "3eeba006719a3a981faccd7ef1787be2fa69d0ab",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Fix screens that modules add never reaching the panel",
+    "url": "https://github.com/itswadesh/gocommerce/commit/3eeba006719a3a981faccd7ef1787be2fa69d0ab"
+  },
+  {
+    "sha": "e786822ce1cccbe9041b0563ce8a526340fffd8d",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Offer Shopper accounts on its own rights, and its delete only to whoever may erase",
+    "url": "https://github.com/itswadesh/gocommerce/commit/e786822ce1cccbe9041b0563ce8a526340fffd8d"
+  },
+  {
+    "sha": "ef1c4655c0abd677d7ad1e3dc22e05c58736c9b9",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Stop adding abandoned baskets in two currencies into one figure",
+    "url": "https://github.com/itswadesh/gocommerce/commit/ef1c4655c0abd677d7ad1e3dc22e05c58736c9b9"
+  },
+  {
+    "sha": "5372b4c1d2fd90370f141e4011922bf681465e28",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Show the Accounts screen to whoever holds its rights",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5372b4c1d2fd90370f141e4011922bf681465e28"
+  },
+  {
+    "sha": "f3368902be9b171b09ee93bfdd9f5f726558fc8c",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Fix Shopify imports reading prices with the install's decimal places",
+    "url": "https://github.com/itswadesh/gocommerce/commit/f3368902be9b171b09ee93bfdd9f5f726558fc8c"
+  },
+  {
+    "sha": "3cd4305a637dc1902da207c5652d95710d44ecc9",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Fix Amazon imports refusing prices already in the store's own currency",
+    "url": "https://github.com/itswadesh/gocommerce/commit/3cd4305a637dc1902da207c5652d95710d44ecc9"
+  },
+  {
+    "sha": "821eb76123e0a49139194841bcec9835981e8ae1",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Show abandoned-checkout figures in the store's own currency",
+    "url": "https://github.com/itswadesh/gocommerce/commit/821eb76123e0a49139194841bcec9835981e8ae1"
+  },
+  {
+    "sha": "78243e4164dca7b8b65ad5f4f9c505c3775c93ca",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Show B2B credit, quotes, statements and trade prices in the store's own currency",
+    "url": "https://github.com/itswadesh/gocommerce/commit/78243e4164dca7b8b65ad5f4f9c505c3775c93ca"
+  },
+  {
+    "sha": "593a0f2d11ccf6375a9d15800ce4673974111b92",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Show the agent settings screen to whoever holds its rights",
+    "url": "https://github.com/itswadesh/gocommerce/commit/593a0f2d11ccf6375a9d15800ce4673974111b92"
+  },
+  {
+    "sha": "1fdea173a3405f4eb5555e3c0dc729cff36c75d8",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Fix the MCP sales report's currency on stores that sell in their own",
+    "url": "https://github.com/itswadesh/gocommerce/commit/1fdea173a3405f4eb5555e3c0dc729cff36c75d8"
+  },
+  {
+    "sha": "bbb13043c8d7a9823eeb20591971040656a1760a",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Check a Shopify shop domain when it is saved",
+    "url": "https://github.com/itswadesh/gocommerce/commit/bbb13043c8d7a9823eeb20591971040656a1760a"
+  },
+  {
+    "sha": "8a938d5bbfacbabb5692327d90b6b2e004d2175b",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Count more IPv6 ranges as not public",
+    "url": "https://github.com/itswadesh/gocommerce/commit/8a938d5bbfacbabb5692327d90b6b2e004d2175b"
+  },
+  {
+    "sha": "3ae62838cc1dabb67b0ffc223a22e94ae358f62d",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Refuse number-only hosts when a store saves an address",
+    "url": "https://github.com/itswadesh/gocommerce/commit/3ae62838cc1dabb67b0ffc223a22e94ae358f62d"
+  },
+  {
+    "sha": "2a33af07f51b52aa39a95fad20e90b5efd9adf40",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Give one reason for every name the server will not call",
+    "url": "https://github.com/itswadesh/gocommerce/commit/2a33af07f51b52aa39a95fad20e90b5efd9adf40"
+  },
+  {
+    "sha": "b7cf79c6e26f932965d96d8bdd43aac5d0a55e75",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Keep the install's Meilisearch keys for the install's Meilisearch",
+    "url": "https://github.com/itswadesh/gocommerce/commit/b7cf79c6e26f932965d96d8bdd43aac5d0a55e75"
+  },
+  {
+    "sha": "fdc8e722afc5c0cbaca2684eed9697b6b4ca9a72",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Stop Amazon imports from opening anything but an Amazon web page",
+    "url": "https://github.com/itswadesh/gocommerce/commit/fdc8e722afc5c0cbaca2684eed9697b6b4ca9a72"
+  },
+  {
+    "sha": "a92b9254255c720f5fb54bd2f306cfa0633449a1",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Stop Amazon imports from opening sites that are not Amazon's",
+    "url": "https://github.com/itswadesh/gocommerce/commit/a92b9254255c720f5fb54bd2f306cfa0633449a1"
+  },
+  {
+    "sha": "3a6c12a78874c9efb650f60a7cf0f0db6de76124",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Stop store settings from sending the server to private addresses",
+    "url": "https://github.com/itswadesh/gocommerce/commit/3a6c12a78874c9efb650f60a7cf0f0db6de76124"
+  },
+  {
+    "sha": "36b63f97fcacb621ca13e441cfd7691334189b82",
+    "date": "2026-10-21",
+    "type": "fix",
+    "title": "Stop the notification log from showing reset and invitation links",
+    "url": "https://github.com/itswadesh/gocommerce/commit/36b63f97fcacb621ca13e441cfd7691334189b82"
+  },
+  {
     "sha": "e5fc9ea68051cff1a6561ef64d29cd7e197c6846",
     "date": "2026-10-20",
     "type": "feature",
