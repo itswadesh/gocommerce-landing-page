@@ -1,5 +1,131 @@
 [
   {
+    "sha": "dffa6369b486a4e390692997ff455b67db785759",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "AI usage, jobs and approvals in the panel",
+    "url": "https://github.com/itswadesh/gocommerce/commit/dffa6369b486a4e390692997ff455b67db785759"
+  },
+  {
+    "sha": "eacf55e20f21fa15f83f52b564b10c9852355057",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "The Amazon importer's rewrite goes through the AI gateway",
+    "url": "https://github.com/itswadesh/gocommerce/commit/eacf55e20f21fa15f83f52b564b10c9852355057"
+  },
+  {
+    "sha": "6e7e598389734b00d24e9aa4b19ab52672b04f4f",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "An approval queue for AI proposals",
+    "url": "https://github.com/itswadesh/gocommerce/commit/6e7e598389734b00d24e9aa4b19ab52672b04f4f"
+  },
+  {
+    "sha": "5615320dcbe8adb73ed4db98c4b67e6ed5d73e45",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "An AI gateway that records and caps every model call",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5615320dcbe8adb73ed4db98c4b67e6ed5d73e45"
+  },
+  {
+    "sha": "6bf0309ad45d41f0301aba186bbd3e4d242615b3",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "Every request gets a trace id",
+    "url": "https://github.com/itswadesh/gocommerce/commit/6bf0309ad45d41f0301aba186bbd3e4d242615b3"
+  },
+  {
+    "sha": "f7ee06e8264ff3f028dea7ee0a1e81b1fc2a6993",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "The API keys screen says what is missing before a key can be made",
+    "url": "https://github.com/itswadesh/gocommerce/commit/f7ee06e8264ff3f028dea7ee0a1e81b1fc2a6993"
+  },
+  {
+    "sha": "e8e115acbf50fba37a570f9868f7c7a67a98dd9d",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "Agents cannot look a customer up by email",
+    "url": "https://github.com/itswadesh/gocommerce/commit/e8e115acbf50fba37a570f9868f7c7a67a98dd9d"
+  },
+  {
+    "sha": "5f8f98b691ce7db2b3ce29da74cd3cbba5023235",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "An agent key loses what its issuer loses",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5f8f98b691ce7db2b3ce29da74cd3cbba5023235"
+  },
+  {
+    "sha": "8b6fe9688b8e514dc7afb71c0ab1016d2fe03c07",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "Agents cannot read the notification log or open a label or invoice",
+    "url": "https://github.com/itswadesh/gocommerce/commit/8b6fe9688b8e514dc7afb71c0ab1016d2fe03c07"
+  },
+  {
+    "sha": "55166110f6ab6be8918a5ba8f73fba7e3c24214d",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "Agents do not see the merchant's notes and metadata",
+    "url": "https://github.com/itswadesh/gocommerce/commit/55166110f6ab6be8918a5ba8f73fba7e3c24214d"
+  },
+  {
+    "sha": "5466334bc70d68a6eeb9c95916afe76658b65780",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "Make a key for an AI agent from the API keys screen",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5466334bc70d68a6eeb9c95916afe76658b65780"
+  },
+  {
+    "sha": "7b0e52aed5bb9a0405a1097d25ee2fd5c729bdfb",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "Agent keys are rate limited",
+    "url": "https://github.com/itswadesh/gocommerce/commit/7b0e52aed5bb9a0405a1097d25ee2fd5c729bdfb"
+  },
+  {
+    "sha": "1dce97cf44d44821f02d3a21bfc9550534790a53",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "Agents see customers' contact details masked",
+    "url": "https://github.com/itswadesh/gocommerce/commit/1dce97cf44d44821f02d3a21bfc9550534790a53"
+  },
+  {
+    "sha": "f47d42d950eb8ef2cd35664fa8af0e5e9c2784fa",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "The audit trail names the key or agent that acted",
+    "url": "https://github.com/itswadesh/gocommerce/commit/f47d42d950eb8ef2cd35664fa8af0e5e9c2784fa"
+  },
+  {
+    "sha": "b083addca0ed482916c8fabc62c83753be677669",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "AI agents get their own read-only keys",
+    "url": "https://github.com/itswadesh/gocommerce/commit/b083addca0ed482916c8fabc62c83753be677669"
+  },
+  {
+    "sha": "7b2a67e3dc08ca9c41d4a0d32e772951b87b949f",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "Encrypt webhook signing secrets under the install key",
+    "url": "https://github.com/itswadesh/gocommerce/commit/7b2a67e3dc08ca9c41d4a0d32e772951b87b949f"
+  },
+  {
+    "sha": "9231790b3e44236fa3af9411c86ba76d8bae5d20",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "Seal existing secrets and rotate the key with gocommerce secrets seal",
+    "url": "https://github.com/itswadesh/gocommerce/commit/9231790b3e44236fa3af9411c86ba76d8bae5d20"
+  },
+  {
+    "sha": "75f706c4ce9ba1a25612f278f1626089a6c2bc27",
+    "date": "2026-10-21",
+    "type": "feature",
+    "title": "Encrypt stored payment and provider keys under an install key",
+    "url": "https://github.com/itswadesh/gocommerce/commit/75f706c4ce9ba1a25612f278f1626089a6c2bc27"
+  },
+  {
     "sha": "65baf0f7607c5e9dbe732b78d2c7de6a189173d0",
     "date": "2026-10-21",
     "type": "fix",
