@@ -34,7 +34,7 @@
     { "b": "Rights, per tool", "t": "One route dispatches every tool, so each tool names the rights its REST equivalent needs — orders.refund for refund_order, catalog.write for set_variant_price — and they are checked against the signed-in operator on every call." },
     { "b": "Errors an agent can use", "t": "A tool that fails returns its error as content with isError set: “that order is already shipped” is an answer. A call refused for want of a right comes back as a JSON-RPC error instead." },
     { "b": "An audit table", "t": "The module owns one table, mcp_audit: the tool, its arguments, ok or error, and when. Every mutating call is written, including a refused one. The right to read it, agent.read, is separate from the right to act." },
-    { "b": "Agent keys read", "t": "A call made with an agent key is never offered a mutating tool, and one it calls anyway — a module’s tool that names no right included — is refused and written to mcp_audit. Contact details reach it masked." },
+    { "b": "Agent keys read", "t": "A call made with an agent key is never offered a mutating tool, and one it calls anyway — a module’s tool that names no right included — is refused and written to mcp_audit. Customers’ emails and phone numbers reach it masked." },
     { "b": "Read-only, visibly", "t": "tools/list marks each tool with readOnlyHint, an annotation from a later MCP revision that older clients ignore. Under ReadOnly the mutating tools are not listed at all." },
     { "b": "Stdio for desktop agents", "t": "mcp.ServeStdio reads one JSON-RPC message per line from stdin and answers on stdout. It runs with the bootstrap credential, so every tool the Config allows is available." }
   ],
