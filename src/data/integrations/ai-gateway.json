@@ -1,0 +1,78 @@
+{
+  "slug": "ai-gateway",
+  "name": "AI gateway",
+  "category": "Platform",
+  "title": "AI Gateway for GoCommerce — Every Model Call, Capped",
+  "description": "One place a GoCommerce store calls a model: its own Anthropic or OpenAI key, a monthly cap, a price per model, data-sharing switches and an approval queue.",
+  "ogTitle": "An AI gateway for GoCommerce",
+  "ogDescription": "Every model call recorded, priced in integers and held to a monthly cap. Read from the module’s source.",
+  "h1": "An AI gateway for GoCommerce",
+  "lede": "A Go package that every model call in a GoCommerce store goes through: the store’s own provider key, a monthly cap in its own currency, a price for each model, a record of every run, and switches for which kinds of data may leave the store. Beside it sits a queue where a person approves what an agent proposes.",
+  "what": [
+    "In the package’s own words, it “is the one place in the engine that calls a model.” A module that wants model work does not write a prompt and call an API; it registers a named task in Go — its instructions, the JSON Schema its answer must satisfy, a small and a strong model to try in turn, and a check of its own — and the gateway runs it, records it and holds it to the store’s cap.",
+    "It installs idle. A store sees nothing until its owner switches the AI gateway plugin on under Settings › Plugins and gives it three things: a provider key, a monthly cap in the store’s currency, and the price of each model. Without all three no call is made, because, as the package puts it, without them the cap could not be kept. The key is the store’s own, from Anthropic or OpenAI, and the calls are billed to it.",
+    "Every run leaves one row in ai_executions: the task and its version, each step tried, the model that answered, the input, output and cache tokens, how long it took, the outcome, and the cost — tokens times the price per million, in millionths of a minor unit, an integer with no rounding. The owner decides which kinds of store data may leave: the catalogue, order lines, contact details, message bodies and documents, the last three off until switched on.",
+    "The panel gains an AI section with three screens: Usage, which sets this month’s spend against the cap by day, task and model; Jobs, the queue of model work with retry and cancel; and Approvals, where a person decides what an agent proposed. Today one module uses the gateway — the Amazon importer’s rewrite of a listing — and none has registered an action for the approval queue yet."
+  ],
+  "configLede": "Nothing is required in Go: the module installs with an empty Config. Everything a store chooses is a setting of the AI gateway plugin, under Settings › Plugins, read again on every run so a key or a cap typed a moment ago counts. The reference binary installs the module with -ai-gateway.",
+  "config": [
+    { "field": "provider", "panel": "Provider", "required": false, "note": "anthropic or openai; anthropic by default. Each provider’s API address is a constant in the code, so there is no custom address to set." },
+    { "field": "api_key", "panel": "API key", "required": true, "note": "The store’s own key, from console.anthropic.com or platform.openai.com; calls are billed to it. A secret field, never handed to the storefront, and stored sealed when the install sets GOCOMMERCE_SECRETS_KEY." },
+    { "field": "small_model", "panel": "Small model", "required": false, "note": "Tried first. Defaults to claude-haiku-4-5, so a store on OpenAI names one of OpenAI’s models here." },
+    { "field": "strong_model", "panel": "Strong model", "required": false, "note": "Asked when the small model’s answer fails its checks. Defaults to claude-sonnet-5-5." },
+    { "field": "monthly_cap", "panel": "Monthly cap", "required": true, "note": "The most the store spends on models in a calendar month (UTC), in minor units of its currency: 5000 is 50.00 in a two-decimal currency. A fraction rounds down. Work that would pass it waits for a person." },
+    { "field": "small_price_input", "panel": "Small model: input price", "required": true, "note": "Minor units per million input tokens, from your provider’s price list: $1.00 per million is 100. The form does not insist, but a model without an input and an output price, or priced at 0, is never called." },
+    { "field": "small_price_output", "panel": "Small model: output price", "required": true, "note": "Minor units per million output tokens. A fraction rounds up, so it can only make the cap stricter." },
+    { "field": "small_price_cache_read", "panel": "Small model: cache read price", "required": false, "note": "Per million tokens read from the provider’s cache. Empty or 0 means the input price." },
+    { "field": "small_price_cache_write", "panel": "Small model: cache write price", "required": false, "note": "Per million tokens written to the provider’s cache. Empty or 0 means the input price." },
+    { "field": "strong_price_input", "panel": "Strong model: input price", "required": true, "note": "As for the small model. Without it, a run that climbs to the strong model stops there." },
+    { "field": "strong_price_output", "panel": "Strong model: output price", "required": true, "note": "Minor units per million output tokens." },
+    { "field": "strong_price_cache_read", "panel": "Strong model: cache read price", "required": false, "note": "Empty or 0 means the input price." },
+    { "field": "strong_price_cache_write", "panel": "Strong model: cache write price", "required": false, "note": "Empty or 0 means the input price." },
+    { "field": "share_catalogue", "panel": "Share the catalogue", "required": false, "note": "On by default. Product titles, descriptions, attributes and prices may be sent." },
+    { "field": "share_order_lines", "panel": "Share order lines", "required": false, "note": "On by default. What was bought, how many and the totals — never names or addresses." },
+    { "field": "share_contact_details", "panel": "Share contact details", "required": false, "note": "Off by default. Customers’ names, emails, phone numbers and addresses." },
+    { "field": "share_message_bodies", "panel": "Share message bodies", "required": false, "note": "Off by default. The text of customers’ messages." },
+    { "field": "share_documents", "panel": "Share documents", "required": false, "note": "Off by default. PDFs and images, sent to the provider as files." },
+    { "field": "CallTimeout", "required": false, "note": "Bounds one call to a provider; 60 seconds when zero. Go only." },
+    { "field": "PollInterval", "required": false, "note": "How often the job runner looks for due work; five seconds when zero. Go only." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which tests do to answer in a provider’s place. The provider hosts stay constants either way. Go only." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Run the reference binary with -ai-gateway, or pass aigateway.New to gocommerce.New in your own main(), as below. The one-command Docker stack does not pass the flag." },
+    { "b": "Key, cap and prices", "t": "Under Settings › Plugins › AI gateway: the provider, the store’s API key, a monthly cap, and each model’s input and output price from the provider’s price list. Then switch the plugin on." },
+    { "b": "Check the connection", "t": "Check connection on the AI usage screen asks the provider which models the key reaches. It spends no tokens, and says whether each model named in the settings is one the provider offers." },
+    { "b": "Give it work", "t": "A module registers a task and runs it now, or queues it in the transaction that caused it. With the gateway switched on, the Amazon importer’s rewrite runs through it." }
+  ],
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\taigateway \"github.com/itswadesh/gocommerce/ext/ai-gateway\"\n\tamazon \"github.com/itswadesh/gocommerce/ext/import-amazon\"\n)\n\n// Installed idle: nothing is called until the store has a key, a cap and prices.\ngw := aigateway.New(aigateway.Config{})\n\napp, err := gocommerce.New(cfg, gw, amazon.New(amazon.Config{Gateway: gw}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. Handing the gateway to the Amazon importer is what moves its rewrite onto it, as examples/store/main.go does; the reference binary does the same with -ai-gateway -import-amazon.",
+  "howItWorks": [
+    { "b": "One run, one record", "t": "A run tries the task’s deterministic step, then the cache, then each model on its ladder. An answer is checked against the task’s schema with unknown fields refused, then by the task’s own check; one that fails moves up the ladder with the reason written down." },
+    { "b": "Reserved before the call", "t": "The most a call could cost — every input token at the dearest input-side price, plus every output token — is held against the month’s cap with one conditional UPDATE, so runs racing for the last of the money cannot both have it. Afterwards it is settled to what the provider reported." },
+    { "b": "Cost in integers", "t": "Prices are minor units per million tokens, so a call costs tokens times price in millionths of a minor unit, exact with no division. A call that left and reported nothing back is charged at its ceiling and marked as an estimate." },
+    { "b": "Only what the owner allows leaves", "t": "A task tags what it sends by class, and a class the owner has not allowed is dropped before sending. With contact details off, an email address or an international phone number found elsewhere is replaced. What is sent is fenced in <data> blocks the model is told to treat as data." },
+    { "b": "Retries only where waiting helps", "t": "Queued work is claimed with FOR UPDATE SKIP LOCKED, stores taking turns. A timeout, a rate limit or a provider outage is retried with backoff, up to 12 attempts; a refusal, an answer that fails on the strong model, a spent cap or a missing price goes straight to failed, for a person." },
+    { "b": "Approval runs what was seen", "t": "A proposal waits seven days. Its preview is recomputed when opened and again on approval; if the store moved in between, nothing runs. Only a person signed in to the panel decides — not an API key or the admin token — holding ai.approve and the action’s own right." }
+  ],
+  "limits": [
+    { "b": "Anthropic and OpenAI only", "t": "Two providers, each at a fixed host: Anthropic’s Messages API and OpenAI’s chat completions. There is no custom address, so a self-hosted or other model cannot be reached through the gateway, and a provider that redirects is not followed." },
+    { "b": "No key, cap and prices, no calls", "t": "Each store brings its own key; there is no install-wide one. A store with the plugin off, or without a key or a cap, is told which is missing and nothing is sent. A model left unpriced, or priced at 0, is never called." },
+    { "b": "The approval queue has no actions yet", "t": "The queue, its rules and its screen are built, but no module registers an action, so nothing can be proposed into it today. Agent keys only read for the same reason." },
+    { "b": "Little uses it yet", "t": "The Amazon importer’s rewrite is the only task in the repository, and it runs directly rather than through the job queue, so the Jobs screen stays empty until a module queues work." },
+    { "b": "No embeddings", "t": "An Embedder interface is declared and nothing implements it. There is no vector or semantic search." },
+    { "b": "Not on the Docker stack", "t": "The one-command Docker stack does not pass -ai-gateway, so a store on it — the live admin this site links to included — cannot switch the gateway on. It is a module you install when you run GoCommerce yourself." },
+    { "b": "Not tried against a live provider", "t": "The tests run against PostgreSQL, with each provider answered by a recorded response from a local test server; none calls Anthropic’s or OpenAI’s real API." }
+  ],
+  "tested": true,
+  "testCount": 76,
+  "apiOps": 12,
+  "trademark": "Anthropic, Claude and OpenAI are trademarks of their owners; this module calls their public APIs with a key the store supplies and implies no endorsement by either company.",
+  "faq": [
+    { "q": "Which models can it use?", "a": "Whatever the store’s key reaches, named in the Small model and Strong model settings: claude-haiku-4-5 and claude-sonnet-5-5 by default, on Anthropic. On OpenAI, name its models instead. Check connection on the AI usage screen says whether the provider offers each name." },
+    { "q": "Who pays for the calls?", "a": "The store, through its own provider account: the key is the store’s and the calls are billed to it. The gateway works out each call’s cost from the prices typed into the settings and stops at the monthly cap; the provider’s own bill is the one that counts." },
+    { "q": "Does customer data reach the model?", "a": "Only the kinds the owner allows. The catalogue and order lines are allowed by default; contact details, message bodies and documents are off until switched on. With contact details off, an email address or an international phone number that slipped into other data is replaced before sending, and each run’s record keeps the policy it ran under." },
+    { "q": "Can a store on the live admin switch it on?", "a": "Not today. The live admin this site links to runs the one-command Docker stack, which does not pass -ai-gateway. Run GoCommerce yourself with the flag, or install the module in your own main()." },
+    { "q": "Is this an Anthropic or OpenAI partnership?", "a": "No. The module calls their public APIs with a key the store supplies. Neither company endorses GoCommerce, and no store is known to run this module in production." }
+  ]
+}
