@@ -23,11 +23,13 @@ const marks: Record<string, string> = {
   'notify-resend': 'resend', 'notify-sendgrid': 'sendgrid', 'notify-twilio': 'twilio', 'search-meilisearch': 'meilisearch',
 }
 const names: Record<string, string> = {
-  'payments-stripe': 'Stripe', 'payments-razorpay': 'Razorpay', 'payments-adyen': 'Adyen', 'payments-paddle': 'Paddle', 'payments-hyperswitch': 'Hyperswitch', 'payments-lemonsqueezy': 'Lemon Squeezy', 'payments-helcim': 'Helcim', 'payments-creem': 'Creem', 'payments-revenuecat': 'RevenueCat',
+  'payments-stripe': 'Stripe', 'payments-razorpay': 'Razorpay', 'payments-adyen': 'Adyen', 'payments-paddle': 'Paddle', 'payments-hyperswitch': 'Hyperswitch', 'payments-lemonsqueezy': 'Lemon Squeezy', 'payments-helcim': 'Helcim', 'payments-creem': 'Creem', 'payments-revenuecat': 'RevenueCat', 'payments-clover': 'Clover',
   'fulfill-shiprocket': 'Shiprocket', 'fulfill-delhivery': 'Delhivery', 'fulfill-shippo': 'Shippo', 'fulfill-shipstation': 'ShipStation', 'fulfill-easyship': 'Easyship', 'fulfill-shippit': 'Shippit', 'fulfill-usps': 'USPS', 'fulfill-indiapost': 'India Post', 'fulfill-nimbuspost': 'NimbusPost', 'fulfill-onfleet': 'Onfleet', 'fulfill-veeqo': 'Veeqo',
   'notify-resend': 'Resend', 'notify-sendgrid': 'SendGrid', 'notify-twilio': 'Twilio', 'notify-msg91': 'MSG91',
   'cart-recovery': 'Cart recovery', 'klaviyo': 'Klaviyo', 'newsletter': 'Newsletter', 'reviews': 'Reviews', 'wishlist': 'Wishlist', 'feeds': 'Product feeds',
-  'cms': 'CMS', 'identity': 'Identity', 'navigation': 'Navigation', 'search-meilisearch': 'Search (Meilisearch)', 'sitemaps': 'Sitemaps', 'translations': 'Translations', 'invoices': 'Invoices', 'webhooks': 'Webhooks', 'contact': 'Contact', 'faq': 'FAQ', 'indexnow': 'IndexNow', 'mcp': 'MCP',
+  'cms': 'CMS', 'identity': 'Identity', 'navigation': 'Navigation', 'search-meilisearch': 'Search (Meilisearch)', 'sitemaps': 'Sitemaps', 'translations': 'Translations', 'invoices': 'Invoices', 'webhooks': 'Webhooks', 'contact': 'Contact', 'faq': 'FAQ', 'indexnow': 'IndexNow',
+  'b2b': 'B2B', 'banners': 'Banners', 'showcases': 'Video showcases',
+  'ai-gateway': 'AI gateway', 'mcp': 'MCP',
   'import-shopify': 'Shopify import', 'import-amazon': 'Amazon import',
 }
 const groups: [string, string, (d: string) => boolean][] = [
@@ -35,12 +37,16 @@ const groups: [string, string, (d: string) => boolean][] = [
   ['fulfillment', 'Fulfillment', (d) => d.startsWith('fulfill-')],
   ['messaging', 'Email and SMS', (d) => d.startsWith('notify-')],
   ['retention', 'Retention', (d) => ['cart-recovery', 'klaviyo', 'newsletter', 'reviews', 'wishlist', 'feeds'].includes(d)],
-  ['commerce', 'Commerce and content', (d) => ['cms', 'identity', 'navigation', 'search-meilisearch', 'sitemaps', 'translations', 'invoices', 'webhooks', 'contact', 'faq', 'indexnow', 'mcp'].includes(d)],
+  ['commerce', 'Commerce and content', (d) => ['cms', 'identity', 'navigation', 'search-meilisearch', 'sitemaps', 'translations', 'invoices', 'webhooks', 'contact', 'faq', 'indexnow', 'b2b', 'banners', 'showcases'].includes(d)],
+  ['ai', 'AI and agents', (d) => ['ai-gateway', 'mcp'].includes(d)],
   ['migration', 'Migration', (d) => d.startsWith('import-')],
 ]
 const grouped = groups.map(([id, title, pick]) => ({ id, title, items: modules.filter((m) => pick(m.dir)) }))
 const placed = grouped.reduce((n, g) => n + g.items.length, 0)
 if (placed !== modules.length) throw new Error(`integrations page: ${modules.length - placed} module(s) not placed in a group`)
+const sized = (id: string) => grouped.find((g) => g.id === id)!.items.length
+// "email and SMS", "AI and agents": lower-case the first word unless it is an acronym.
+const inProse = (s: string) => (/^[A-Z]{2}/.test(s) ? s : s[0].toLowerCase() + s.slice(1))
 
 const importCode = `<span class="k">import</span> (
 	<span class="s">"github.com/itswadesh/gocommerce/core"</span>
@@ -63,11 +69,11 @@ const faq = [
 const pages = new Set(Object.keys(import.meta.glob('../../data/integrations/*.json')).map((p) => p.split('/').pop()!.replace('.json', '')))
 ---
 <Base
-  title="GoCommerce Integrations: All 44 Modules, In Their Own Words"
-  description="All 44 GoCommerce modules: 9 payment providers, 11 fulfillment carriers, 4 email and SMS senders, retention, content, search, MCP and migration importers."
+  title={`GoCommerce Integrations: All ${modules.length} Modules, In Their Own Words`}
+  description={`All ${modules.length} GoCommerce modules: ${sized('payments')} payment providers, ${sized('fulfillment')} fulfillment carriers, ${sized('messaging')} email and SMS senders, retention, content, search, an AI gateway, MCP and importers.`}
   path={path}
-  ogTitle="44 GoCommerce modules, in their own words"
-  ogDescription="Payments, fulfillment, messaging, retention, content, search, MCP and migration — every module described by its own package doc."
+  ogTitle={`${modules.length} GoCommerce modules, in their own words`}
+  ogDescription="Payments, fulfillment, messaging, retention, content, search, AI and migration — every module described by its own package doc."
   nav="develop"
   crumbs={[{ name: 'Integrations', href: path }]}
   graph={graph}
@@ -77,7 +83,7 @@ const pages = new Set(Object.keys(import.meta.glob('../../data/integrations/*.js
     <h1>{modules.length} modules, in their own words</h1>
     <p class="lede">Every name below is a directory under <code>ext/</code> in the GoCommerce repository. Each description is the first sentence of that package's own doc comment, read from the source when this page was built — so it says what the code says, not what a brochure would.</p>
     <ul class="head-facts">
-      {grouped.map((g) => <li><b>{g.items.length}</b> {g.title.toLowerCase()}</li>)}
+      {grouped.map((g) => <li><b>{g.items.length}</b> {inProse(g.title)}</li>)}
     </ul>
   </section>
 

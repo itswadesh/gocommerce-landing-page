@@ -1,5 +1,17 @@
 [
   {
+    "dir": "ai-gateway",
+    "doc": "is the one place in the engine that calls a model."
+  },
+  {
+    "dir": "b2b",
+    "doc": "sells to businesses: companies with buyers in roles, orders placed on account against a credit limit and payment terms, purchase-order numbers, approval before a junior buyer spends the company's money, and quotes a merchant prices for one buyer."
+  },
+  {
+    "dir": "banners",
+    "doc": "is the pictures a shop puts on its storefront's pages: slides across the top of a page, and grids of tiles under a heading, each a picture and a link (D99)."
+  },
+  {
     "dir": "cart-recovery",
     "doc": "chases a basket somebody gave up on."
   },
@@ -120,6 +132,10 @@
     "doc": "takes payments through Adyen."
   },
   {
+    "dir": "payments-clover",
+    "doc": "takes payments through Clover's Hosted Checkout."
+  },
+  {
     "dir": "payments-creem",
     "doc": "takes payments through Creem."
   },
@@ -158,6 +174,10 @@
   {
     "dir": "search-meilisearch",
     "doc": "keeps a Meilisearch index of the catalogue and answers storefront searches from it."
+  },
+  {
+    "dir": "showcases",
+    "doc": "is Video Showcases (D88): a store's own people showing the products it sells, in a video on YouTube or Facebook, beside those products."
   },
   {
     "dir": "sitemaps",
