@@ -7,6 +7,9 @@
  * paraphrased. The repository documents no configuration for any particular
  * AI client, so the client section is labelled as an example throughout.
  *
+ * Agent keys (core/agent_keys.go, and their handling in ext/mcp/mcp.go) were
+ * read from origin/main at c891952 on 2026-10-22.
+ *
  * Two facts that are easy to get wrong: the rights on the module's two routes
  * are agent.dispatch and agent.read (older docs in the repository still say
  * store.operate), and the reference binary ./cmd/gocommerce — the one the
@@ -130,7 +133,7 @@ const curlCode = `curl -s https://shop.example.com/api/admin/x/mcp \\
 const faq = [
   { q: 'Is GoCommerce’s MCP server open source?', a: 'Yes. It is the mcp module in the GoCommerce repository, under ext/mcp, MIT licensed like the rest. It is not a separate package or a hosted service: you import it into your store’s main() and it is compiled into the same binary. It speaks JSON-RPC with Go’s standard library rather than an MCP SDK, so installing it adds no dependency.' },
   { q: 'Can an AI agent break my store through it?', a: 'It can do what the tools on offer allow, and no more. Every tool calls the domain service its REST route calls, so the engine’s rules hold: stock cannot drop below what open orders reserve, a shipped order cannot be cancelled, cash on delivery cannot be refunded, and a price sent as a decimal is refused. What an agent can still do is make a legitimate change you did not want — cancel the wrong order, say. That is what ReadOnly and the audit trail are for.' },
-  { q: 'How do I limit what the agent can do?', a: 'Three ways, from blunt to fine. ReadOnly: true withholds all ten tools that change anything. Over stdio there is no token, so ReadOnly is the only limit — whoever can start the process gets every tool offered. Over HTTP, the static admin token carries every right, while a panel session token is limited by that operator’s role: give a role agent.dispatch plus only the rights you want, such as catalog.read and orders.read, and the other tools are refused per call.' },
+  { q: 'How do I limit what the agent can do?', a: 'Four ways, from blunt to fine. ReadOnly: true withholds all ten tools that change anything. An agent key — made for an AI agent on Settings › API keys — is offered the read tools only, sees customers’ emails and phone numbers masked, expires and is rate limited. Over stdio there is no token, so ReadOnly is the only limit — whoever can start the process gets every tool offered. Over HTTP, the static admin token carries every right, while a panel session token is limited by that operator’s role: give a role agent.dispatch plus only the rights you want, such as catalog.read and orders.read, and the other tools are refused per call.' },
   { q: 'Which AI clients work with it?', a: 'Any MCP client that can launch a command and talk over stdin and stdout, or send JSON-RPC over HTTP with a bearer header. The GoCommerce repository does not document a configuration for any particular client, so the configuration on this page is a labelled example rather than a tested recipe. The module implements MCP revision 2024-11-05 and offers tools only, no resources or prompts.' },
   { q: 'Can shoppers’ AI agents buy from my store through it?', a: 'No. The MCP module is the operator’s door: it sits behind admin authentication and its tools run the store, not shop in it. GoCommerce also implements none of the agentic commerce protocols — ACP, UCP or AP2. A buying agent can use the same public catalogue, cart and checkout routes a storefront uses, and building that entry point is up to you.' },
   { q: 'Does the one-command Docker stack include it?', a: 'No. The Docker image builds the reference binary, ./cmd/gocommerce, which does not install the mcp module, so that stack has no MCP endpoint. Install the module in your own main(), as examples/store does, and build that.' },
@@ -219,7 +222,7 @@ const faq = [
         <p class="kicker">In practice</p>
         <h2 id="session-title">A session, as the module’s own test runs it</h2>
       </div>
-      <p class="section-lede">The module carries 20 tests of its own. One plays an agent end to end against a real PostgreSQL: a shopper places a cash-on-delivery order, and the agent takes it from there.</p>
+      <p class="section-lede">The module carries 23 tests of its own. One plays an agent end to end against a real PostgreSQL: a shopper places a cash-on-delivery order, and the agent takes it from there.</p>
     </div>
     <div class="tbl-scroll">
       <table class="reltable vs">
@@ -249,6 +252,7 @@ const faq = [
       <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>The admin token is the credential</b><span>The HTTP endpoint takes the store’s admin token as <code>Authorization: Bearer</code>. Without it the call is refused with 401 before the body is read.</span></li>
       <li><svg aria-hidden="true"><use href="#i-users"/></svg><b>Two rights for the module itself</b><span><code>agent.dispatch</code> to call tools, <code>agent.read</code> to read what an agent did. By default only the owner role holds them; a staff or manager session gets 403.</span></li>
       <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Rights checked per tool</b><span>Each tool names the right its REST route needs — <code>orders.refund</code> for a refund, <code>inventory.write</code> for stock. A signed-in operator without it gets a JSON-RPC error naming the right, and nothing changes.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-bot"/></svg><b>Agent keys only read</b><span>An agent key, made for an AI agent on Settings › API keys, is offered the read tools alone: a tool that changes the store is left out of its <code>tools/list</code>, and refused and audited if called. It sees customers’ emails and phone numbers masked, and <code>list_orders</code> will not filter by email for it.</span></li>
       <li><svg aria-hidden="true"><use href="#i-zap"/></svg><b><code>ReadOnly</code> withholds the ten</b><span>With <code>ReadOnly: true</code> the mutating tools are not offered at all — absent from <code>tools/list</code>, not merely refused. Every tool reports MCP’s <code>readOnlyHint</code> either way.</span></li>
       <li><svg aria-hidden="true"><use href="#i-db"/></svg><b>Every change is audited</b><span>Each call to a mutating tool writes a row to <code>mcp_audit</code> — the tool, its arguments verbatim, the outcome and the time — including a call refused for want of a right. Reads are not recorded.</span></li>
       <li><svg aria-hidden="true"><use href="#i-server"/></svg><b>Readable in the admin</b><span>The trail is served at <code>GET /api/admin/x/mcp/audit</code>, newest first, and shown in the admin under Settings → Agent activity.</span></li>
