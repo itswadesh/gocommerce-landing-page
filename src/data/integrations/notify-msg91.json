@@ -47,7 +47,7 @@
     { "b": "SMS only", "t": "It registers on the SMS channel. MSG91’s email, WhatsApp and voice products are not used." }
   ],
   "tested": true,
-  "testCount": 1,
+  "testCount": 2,
   "apiOps": 0,
   "vendorUrl": "https://msg91.com",
   "vendorType": "Organization",

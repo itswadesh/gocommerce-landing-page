@@ -60,7 +60,7 @@
     { "b": "A guessed box for several items", "t": "For anything but a single unit, the size sent is the configured default, not a measurement. The engine does not pack cartons." }
   ],
   "tested": true,
-  "testCount": 9,
+  "testCount": 10,
   "apiOps": 1,
   "vendorUrl": "https://www.usps.com",
   "vendorType": "Organization",

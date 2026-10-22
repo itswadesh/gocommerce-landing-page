@@ -50,7 +50,7 @@
     { "b": "No bounce tracking", "t": "The module registers no webhook. Bounces, complaints and opens stay in Resend." }
   ],
   "tested": true,
-  "testCount": 5,
+  "testCount": 7,
   "apiOps": 0,
   "vendorUrl": "https://resend.com",
   "vendorType": "Organization",

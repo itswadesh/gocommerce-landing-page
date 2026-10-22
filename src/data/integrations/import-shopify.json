@@ -45,7 +45,7 @@
     { "b": "An interrupted job still says running", "t": "Imports run in the background. A restart mid-import leaves that job marked running; starting another updates what arrived and adds the rest." }
   ],
   "tested": true,
-  "testCount": 14,
+  "testCount": 16,
   "apiOps": 4,
   "vendorUrl": "https://www.shopify.com",
   "vendorType": "Organization",

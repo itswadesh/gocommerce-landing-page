@@ -49,7 +49,7 @@
     { "b": "The panel’s hint is wrong", "t": "The Storefront URL field’s help says the key file is served from the engine. It is not: as the package doc explains, the storefront serves it." }
   ],
   "tested": true,
-  "testCount": 9,
+  "testCount": 11,
   "apiOps": 0,
   "vendorUrl": "https://www.indexnow.org",
   "vendorType": "CreativeWork",

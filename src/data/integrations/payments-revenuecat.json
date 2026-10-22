@@ -46,7 +46,7 @@
     { "b": "Cancellations are only logged", "t": "A CANCELLATION — how RevenueCat reports a refund — is logged, and the GoCommerce order keeps reading as paid." }
   ],
   "tested": true,
-  "testCount": 10,
+  "testCount": 11,
   "apiOps": 0,
   "vendorUrl": "https://www.revenuecat.com",
   "vendorType": "Organization",

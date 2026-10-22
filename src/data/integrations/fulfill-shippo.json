@@ -54,7 +54,7 @@
     { "b": "A guessed box for several items", "t": "For anything but a single unit, the size sent is the configured default, not a measurement. The engine does not pack cartons, and says so." }
   ],
   "tested": true,
-  "testCount": 8,
+  "testCount": 9,
   "apiOps": 0,
   "vendorUrl": "https://goshippo.com",
   "vendorType": "Organization",

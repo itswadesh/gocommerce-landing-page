@@ -49,7 +49,7 @@
     { "b": "Five query parameters", "t": "The search route passes q, limit, offset, filter and sort, and nothing else — facet counts and highlighting mean querying Meilisearch directly with the search-only key." }
   ],
   "tested": true,
-  "testCount": 2,
+  "testCount": 6,
   "apiOps": 3,
   "vendorUrl": "https://www.meilisearch.com",
   "vendorType": "SoftwareApplication",
