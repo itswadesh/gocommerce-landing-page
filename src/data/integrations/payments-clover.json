@@ -1,0 +1,64 @@
+{
+  "slug": "payments-clover",
+  "name": "Clover",
+  "category": "Payments",
+  "title": "Clover Payments for GoCommerce — Open-Source Module",
+  "description": "Take card payments through Clover’s Hosted Checkout in a GoCommerce store: three keys, the webhook URL, refunds, USD or CAD, and what the module leaves out.",
+  "ogTitle": "Clover payments for GoCommerce",
+  "ogDescription": "Clover’s Hosted Checkout page, a signed webhook, refunds in whole or in part. Read from the module’s source.",
+  "h1": "Clover payments for GoCommerce",
+  "lede": "A Go package that sends the shopper to Clover’s Hosted Checkout page for the order’s total and marks the GoCommerce order paid when Clover’s signed webhook says the payment was approved. Card numbers never reach the store, and there is no Clover SDK in your build.",
+  "what": [
+    "The module registers “clover” as a payment method. At checkout it creates a Hosted Checkout session for the order’s total and answers with a redirect intent carrying the session’s URL. The shopper types their card on Clover’s page and comes back to the return URL — which, in the package’s words, proves nothing: the signed webhook is what settles the order.",
+    "The order goes to Clover as one line for its total, with tips switched off. The engine has already worked out tax, shipping and discounts, and Clover would otherwise apply its own; Clover also refunds part of a payment only when the payment was one line with no tax or tip, so this is what makes a partial refund possible.",
+    "A Hosted Checkout session carries no currency and no reference of the store’s. So the module is told the merchant account’s currency, USD or CAD, and refuses an order in any other rather than charge 2500 Canadian cents for 2500 US ones; and it keeps its own table from session to order, with the amount each session asked for. The package notes that Hosted Checkout is offered in the United States and Canada only."
+  ],
+  "configLede": "Three settings are required: the merchant ID, the Ecommerce private token and the webhook signing secret. Set them in Config from your own main(), or leave Config empty and type them under Settings › Payment methods in the admin.",
+  "config": [
+    { "field": "MerchantID", "panel": "Merchant ID", "env": "CLOVER_MERCHANT_ID", "required": true, "note": "The Clover merchant the payments go to, sent as the X-Clover-Merchant-Id header. The panel’s hint: from the Clover dashboard’s address bar or Account & Setup." },
+    { "field": "PrivateToken", "panel": "Ecommerce private token", "env": "CLOVER_PRIVATE_TOKEN", "required": true, "note": "The merchant’s Ecommerce API private token, from Settings › Ecommerce › Ecommerce API Tokens in the Clover dashboard. Sent as a bearer token; not sent to the storefront." },
+    { "field": "WebhookSecret", "panel": "Webhook signing secret", "env": "CLOVER_WEBHOOK_SECRET", "required": true, "note": "The Hosted Checkout signing secret. Required because, as the code puts it, without it any caller could mark orders paid." },
+    { "field": "Currency", "panel": "Account currency", "required": false, "note": "USD or CAD; USD by default. Clover charges in the account’s own currency, so an order in any other is refused before a session is made." },
+    { "field": "ReturnURL", "panel": "Return URL", "required": false, "note": "Where the shopper lands after paying, when the checkout sends no return_url of its own. It must be https: Clover sends the shopper back to nothing else, and the module refuses the checkout otherwise." },
+    { "field": "Sandbox", "panel": "Sandbox", "required": false, "note": "Points the module at apisandbox.dev.clover.com, with a test merchant’s own token and secret." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.clover.com, and the sandbox switch, for tests. Empty for production. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Set the webhook in Clover", "t": "In the Clover dashboard, under Settings › Ecommerce › Hosted Checkout, set the webhook URL to https://your-api-host/api/checkout/clover/webhook and generate the signing secret." },
+    { "b": "Install the module", "t": "Pass clover.New to gocommerce.New, as below, or run the reference binary with -gateways, which installs every payment module idle." },
+    { "b": "Give it the keys", "t": "Merchant ID, private token, signing secret and the account’s currency, in Config or under Settings › Payment methods, with a return URL if the storefront sends none." },
+    { "b": "Take a payment", "t": "POST /api/checkout/clover answers with a redirect intent whose url is Clover’s Hosted Checkout page. The PAYMENT webhook marks the order paid." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tclover \"github.com/itswadesh/gocommerce/ext/payments-clover\"\n)\n\napp, err := gocommerce.New(cfg,\n\tclover.New(clover.Config{\n\t\tMerchantID:    os.Getenv(\"CLOVER_MERCHANT_ID\"),\n\t\tPrivateToken:  os.Getenv(\"CLOVER_PRIVATE_TOKEN\"),\n\t\tWebhookSecret: os.Getenv(\"CLOVER_WEBHOOK_SECRET\"),\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty clover.Config the module installs idle and waits for the panel, which is how examples/store/main.go and the reference binary install it.",
+  "howItWorks": [
+    { "b": "One route, owned by the engine", "t": "Clover calls POST /api/checkout/clover/webhook. The engine hands the module the request body untouched, because the signature is over the exact bytes Clover sent." },
+    { "b": "Signed and timed", "t": "Clover-Signature’s t=…,v1=… is checked as an HMAC-SHA256 over the timestamp, a dot and the body, in constant time; any v1 that matches is a match. A timestamp more than five minutes from now is refused, as is a missing or wrong signature (400)." },
+    { "b": "The session’s amount is the check", "t": "The webhook carries no amount, so the module compares the amount and currency its session asked for with the order’s. An order whose total changed since is logged as an error and not settled, for an operator who can see both sides." },
+    { "b": "Each outcome once", "t": "A decline and then an approval can arrive for one session, so the claim is on the payment and its outcome, in the module’s own table with ON CONFLICT DO NOTHING. A redelivery is answered 200 and changes nothing; a decline arriving after the approval leaves the order paid." },
+    { "b": "A failed update is retried", "t": "If marking the order paid or failed does not go through, the module releases its claim and answers 500, so Clover’s retry finds work to do." },
+    { "b": "Refunds, whole or in part", "t": "A refund from the admin posts to Clover’s refunds endpoint against the payment id the webhook recorded, for the amount asked. Clover’s refund id is kept; a refund Clover marks failed or cancelled comes back as an error with its reason." }
+  ],
+  "limits": [
+    { "b": "USD and CAD only", "t": "Hosted Checkout is offered in the United States and Canada, and charges in the merchant account’s currency. The store’s settlement currency has to be that one; any other order is refused at checkout." },
+    { "b": "The return proves nothing", "t": "The shopper’s return to the storefront does not settle the order. Until the webhook arrives the order reads unpaid, and an order with no working webhook stays that way." },
+    { "b": "A changed total waits for a person", "t": "An approved payment whose session asked for a different amount or currency than the order now holds is acknowledged and not applied. The order stays unpaid until an operator reconciles it." },
+    { "b": "Refunds need the webhook first", "t": "Until the webhook records Clover’s payment id, the order holds only the checkout session, which Clover cannot refund; the module says so rather than try." },
+    { "b": "Dashboard refunds and disputes", "t": "The module acts on PAYMENT notifications only. A refund made in Clover’s dashboard, or a dispute, does not change the GoCommerce order." },
+    { "b": "Nothing travels with the session", "t": "Extra data the storefront sends at checkout is not passed to Clover: a Hosted Checkout session has nowhere to carry it. The order’s email goes as the customer’s." }
+  ],
+  "tested": true,
+  "testCount": 16,
+  "apiOps": 0,
+  "vendorUrl": "https://www.clover.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "What is the webhook URL?", "a": "POST /api/checkout/clover/webhook on the host that serves your GoCommerce API — a route the engine owns, so the module mounts nothing itself. Set it in the Clover dashboard under Settings › Ecommerce › Hosted Checkout, where the signing secret is generated." },
+    { "q": "Does the shopper leave the storefront?", "a": "Yes. Checkout answers with a redirect to Clover’s Hosted Checkout page, where the card is typed, so card numbers never reach the store. Clover then sends the shopper back to the return URL, which has to be https." },
+    { "q": "How do I test it?", "a": "Switch on Sandbox, which points the module at apisandbox.dev.clover.com, and give it a test merchant’s ID, token and signing secret — Clover issues those separately. The module’s own tests answer in Clover’s place with a local test server; none calls Clover." },
+    { "q": "Can I sell in euros or pounds?", "a": "No. Hosted Checkout is offered in the United States and Canada, and the module accepts USD or CAD as the account’s currency, refusing an order in any other." },
+    { "q": "Is this a Clover partnership?", "a": "No. The module calls Clover’s public API with credentials you supply. Clover does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}
