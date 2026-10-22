@@ -18,7 +18,7 @@
     { "field": "APIKey", "panel": "API key", "env": "PADDLE_API_KEY", "required": true, "note": "Sent as a bearer token. It needs transaction.write to create a transaction and adjustment.write to refund one." },
     { "field": "WebhookSecret", "panel": "Notification signing secret", "env": "PADDLE_NOTIFICATION_SECRET", "required": true, "note": "Verifies the Paddle-Signature header. Required because, as the code puts it, without it any caller could mark orders paid." },
     { "field": "Sandbox", "panel": "Sandbox", "required": false, "note": "Points the module at sandbox-api.paddle.com. Paddle issues separate keys for the two, so this is a deliberate flag rather than something read from the key." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides both hosts, for tests." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides both hosts, for tests. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "WebhookTolerance", "required": false, "note": "How old a signed notification may be. Five minutes by default; Paddle’s own SDK helpers default to five seconds. Go only." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
   ],

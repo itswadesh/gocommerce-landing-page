@@ -31,7 +31,7 @@
     { "field": "From.FirstName, From.LastName, From.ZIPPlus4, From.Phone", "required": false, "note": "Also part of the ship-from address, settable in Go only; the package doc’s example sets FirstName." },
     { "field": "DefaultWeightGrams", "panel": "Default weight (grams)", "required": false, "note": "Per unit, for a parcel holding a variant with no weight recorded. 500 by default." },
     { "field": "DefaultLengthMM, DefaultWidthMM, DefaultHeightMM", "required": false, "note": "The box sent when the engine has no unambiguous size, which is any parcel holding more than one unit. 230 × 150 × 50 mm by default. Go only." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://apis.usps.com, for tests. Empty for production." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://apis.usps.com, for tests. Empty for production. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 45 seconds. Go only; not in the panel." }
   ],
   "setup": [

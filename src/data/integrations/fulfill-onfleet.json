@@ -19,7 +19,7 @@
     { "field": "AutoAssign", "panel": "Auto-assign a driver", "required": false, "note": "Asks Onfleet to pick a driver, by distance, as the task is created. Off by default: assigning somebody’s next two hours is a decision." },
     { "field": "TeamID", "panel": "Team ID", "required": false, "note": "Scopes auto-assignment to one team. Only meaningful with AutoAssign." },
     { "field": "ServiceTimeMinutes", "panel": "Service time (minutes)", "required": false, "note": "How long the driver is expected at the door. Zero leaves Onfleet’s own default." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://onfleet.com/api/v2, for tests. Empty for production." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://onfleet.com/api/v2, for tests. Empty for production. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
   ],
   "setup": [

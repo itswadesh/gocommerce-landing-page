@@ -23,7 +23,7 @@
     { "field": "HSNCode", "panel": "HSN code", "required": false, "note": "Sent with every parcel when set. One code for the whole store." },
     { "field": "DefaultWeightGrams", "panel": "Default weight (grams)", "required": false, "note": "Per unit, for a parcel the engine could not weigh. 500 g when unset." },
     { "field": "DefaultLengthCM, DefaultWidthCM, DefaultHeightCM", "required": false, "note": "The box used for any parcel of more than one unit, where the engine has no single size. 15 × 15 × 10 cm when unset. Go only." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Defaults to production, https://track.delhivery.com. Staging is https://staging-express.delhivery.com." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Defaults to production, https://track.delhivery.com. Staging is https://staging-express.delhivery.com. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
   ],
   "setup": [

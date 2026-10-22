@@ -18,7 +18,7 @@
     { "field": "APIToken", "panel": "API token", "env": "HELCIM_API_TOKEN", "required": true, "note": "A Helcim API access token, sent as the api-token header. Not sent to the storefront." },
     { "field": "VerifierToken", "panel": "Webhook verifier token", "env": "HELCIM_VERIFIER_TOKEN", "required": true, "note": "Base64, as Helcim shows it; the key webhook signatures are checked with. Required because, as the code puts it, without it any caller could mark orders paid." },
     { "field": "ServerIP", "panel": "Server IP for refunds", "required": false, "note": "Helcim wants an ipAddress on every payment call, and a refund has no shopper, so this is the server’s. Defaults to 127.0.0.1." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.helcim.com/v2, for tests. Empty for production." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.helcim.com/v2, for tests. Empty for production. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
   ],
   "setup": [

@@ -19,7 +19,7 @@
     { "field": "CarrierID", "panel": "Carrier ID", "required": false, "note": "Veeqo’s numeric id for the carrier that took the parcel. 3, Veeqo’s “Other”, by default; meta carrier_id overrides it for one parcel." },
     { "field": "NotifyCustomer", "panel": "Let Veeqo email the customer", "required": false, "note": "Off by default: the engine already notifies on order.shipped, and two emails about one parcel, as the code puts it, is how a shop looks disorganised." },
     { "field": "UpdateRemoteOrder", "panel": "Push the shipment to the sales channel", "required": false, "note": "Off by default, because this store is that channel — and a round trip back into the engine is the loop nobody wants." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.veeqo.com, for tests. Empty for production." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.veeqo.com, for tests. Empty for production. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
   ],
   "setup": [

@@ -17,7 +17,7 @@
   "config": [
     { "field": "SecretKey", "panel": "Secret key", "env": "STRIPE_SECRET_KEY", "required": true, "note": "The secret API key — the panel’s hint reads sk_live_… or sk_test_…, so the key decides the mode. Sent as a bearer token; not sent to the storefront." },
     { "field": "WebhookSecret", "panel": "Webhook signing secret", "env": "STRIPE_WEBHOOK_SECRET", "required": true, "note": "The endpoint’s whsec_… secret, used to verify the Stripe-Signature header. Required because, as the code puts it, without it any caller could mark orders paid." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.stripe.com, for tests. Empty for production." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.stripe.com, for tests. Empty for production. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
   ],
   "setup": [

@@ -19,7 +19,7 @@
     { "field": "KeySecret", "panel": "Key secret", "env": "RAZORPAY_KEY_SECRET", "required": true, "note": "The API key secret, sent with the key id as HTTP basic auth. Not sent to the storefront." },
     { "field": "WebhookSecret", "panel": "Webhook secret", "env": "RAZORPAY_WEBHOOK_SECRET", "required": true, "note": "Verifies the X-Razorpay-Signature header. Required because, as the code puts it, without it any caller could mark orders paid." },
     { "field": "Hosted", "panel": "Use the hosted checkout page", "required": false, "note": "Answers checkout with a redirect intent for Razorpay’s hosted page instead of data for the in-page widget. Off by default." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.razorpay.com, for tests. Empty for production." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.razorpay.com, for tests. Empty for production. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
   ],
   "setup": [

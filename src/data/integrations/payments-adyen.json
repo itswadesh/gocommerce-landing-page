@@ -18,7 +18,7 @@
     { "field": "APIKey", "panel": "API key", "env": "ADYEN_API_KEY", "required": true, "note": "An API credential’s key, sent as the X-API-Key header. Not sent to the storefront." },
     { "field": "MerchantAccount", "panel": "Merchant account", "env": "ADYEN_MERCHANT_ACCOUNT", "required": true, "note": "The account every payment link and refund is created against." },
     { "field": "HMACKey", "panel": "Webhook HMAC key", "env": "ADYEN_HMAC_KEY", "required": true, "note": "The hex key generated for the webhook in Adyen’s Customer Area. Required because, as the code puts it, without it any caller could mark orders paid." },
-    { "field": "BaseURL", "panel": "Checkout API base URL", "required": true, "note": "The endpoint including its version segment: https://checkout-test.adyen.com/v71 for test, your own merchant-prefixed host for live. No default." },
+    { "field": "BaseURL", "panel": "Checkout API base URL", "required": true, "note": "The endpoint including its version segment: https://checkout-test.adyen.com/v71 for test, your own merchant-prefixed host for live. No default. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "ReturnURL", "panel": "Return URL", "required": false, "note": "Where the shopper lands after paying, when the checkout request did not send a return_url of its own." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
   ],

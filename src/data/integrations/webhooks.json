@@ -3,7 +3,7 @@
   "name": "Webhooks",
   "category": "Platform",
   "title": "Webhooks for GoCommerce — Signed Events With Retries",
-  "description": "Send a GoCommerce store’s events to any server: register a URL and the events it wants, and each is POSTed signed, retried with backoff and logged.",
+  "description": "Send a GoCommerce store’s events to another server: register an https URL and the events it wants, and each is POSTed signed, retried with backoff and logged.",
   "ogTitle": "Webhooks for GoCommerce",
   "ogDescription": "Signed POSTs of the store’s own events, retried with backoff, with a delivery log an operator can read.",
   "h1": "Webhooks for GoCommerce",
@@ -19,7 +19,7 @@
   ],
   "setup": [
     { "b": "Install the module", "t": "Pass webhooks.New to gocommerce.New, as below, or start the reference binary with -webhooks. It adds two tables and a delivery worker." },
-    { "b": "Register an endpoint", "t": "On the admin’s Settings › Webhooks screen, or POST /api/admin/x/webhooks/endpoints with a url and events such as order.*. The reply carries the signing secret — the only time it is shown." },
+    { "b": "Register an endpoint", "t": "On the admin’s Settings › Webhooks screen, or POST /api/admin/x/webhooks/endpoints with a public https url and events such as order.*. The reply carries the signing secret — the only time it is shown." },
     { "b": "Verify the signature", "t": "Your server recomputes HMAC-SHA256 over the timestamp, a dot and the raw body with that secret, and compares it with v1 in the X-GoCommerce-Signature header." },
     { "b": "Watch the log", "t": "GET /api/admin/x/webhooks/deliveries lists each delivery as pending, delivered or dead, with its last status and error. A dead one can be queued again by hand." }
   ],
@@ -32,23 +32,23 @@
     { "b": "One row per endpoint per event", "t": "A unique key on endpoint and event id means the engine redelivering an event — its outbox guarantees at least once — never becomes a second row, or a second POST, for the same endpoint." },
     { "b": "Safe across instances", "t": "The worker claims 20 deliveries at a time with FOR UPDATE SKIP LOCKED and hides them for 60 seconds, so several instances send without coordinating and a process that dies mid-POST releases its work." },
     { "b": "Redirects are failures", "t": "A 3xx is recorded as a failed delivery, not followed: an endpoint that redirects is misconfigured, and following it would send the signed payload somewhere the operator did not name." },
-    { "b": "Secrets shown twice", "t": "The secret, whsec_ and 64 hex characters, is returned when the endpoint is created and when it is rotated, and never again. Lists show its last four characters." }
+    { "b": "Secrets shown twice", "t": "The secret, whsec_ and 64 hex characters, is returned when the endpoint is created and when it is rotated, and never again; lists show its last four characters. When the install sets GOCOMMERCE_SECRETS_KEY it is stored sealed, and gocommerce secrets seal seals the ones saved before." }
   ],
   "limits": [
     { "b": "At least once, not exactly once", "t": "A delivery that succeeded but could not be recorded as delivered is sent again. Deduplicate on the event id in the body." },
     { "b": "Order is not guaranteed", "t": "Deliveries go out oldest first, but a failed one waits out its backoff while later events are sent — an endpoint can see order.shipped before a retried order.paid." },
-    { "b": "Any http or https URL", "t": "Only the scheme and host are checked. Plain http is accepted, and so is an address on a private network; whether that is wise is the operator’s call." },
+    { "b": "Public https addresses only", "t": "A new or changed endpoint must be https and on the public internet, and each delivery checks the address it actually connects to. A private, loopback or plain-http one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS. An endpoint saved before the rule keeps its address, and if that address is private its deliveries now fail." },
     { "b": "The whole event, unfiltered", "t": "An endpoint subscribed to cart.abandoned, or to *, receives the cart token — which the engine treats as a credential for that basket — and the shopper’s email." },
     { "b": "Only the events the engine emits", "t": "Orders, abandoned carts, products and collections. There is no event for a new customer or a stock change, so there is no webhook for either." },
     { "b": "Nothing to tune per endpoint", "t": "The retry count, backoff, batch size and poll interval are constants in the package. Changing them is an edit to the code." }
   ],
   "tested": true,
-  "testCount": 12,
+  "testCount": 22,
   "apiOps": 8,
   "faq": [
     { "q": "Which events can I subscribe to?", "a": "Every event the engine emits: order.created, order.paid, order.shipped, order.delivered, order.cancelled, order.refunded, order.edited and order.returned, the reversals order.unpaid, order.unshipped, order.undelivered and order.unreturned, cart.abandoned, product.created, product.updated, product.deleted and collection.updated. An endpoint names exact events, prefixes such as order.*, or * for all." },
     { "q": "How do I verify a delivery?", "a": "Split X-GoCommerce-Signature into t and v1, compute HMAC-SHA256 with the endpoint’s secret over t, a dot and the raw request body, and compare it with v1 in constant time. Refuse a t that is too old, so a captured request cannot be replayed." },
     { "q": "What happens when my server is down?", "a": "Each delivery is retried, the wait doubling up to 15 minutes, for twelve attempts in all. Then it is marked dead but kept; the delivery log shows it, and an operator can queue it again from the admin or with POST /api/admin/x/webhooks/deliveries/{id}/retry." },
-    { "q": "Who can register an endpoint?", "a": "An operator with webhooks.write — the owner, until the right is granted to another role — or anyone holding a static admin token. Reading endpoints and the delivery log needs webhooks.read." }
+    { "q": "Who can register an endpoint?", "a": "An operator with webhooks.write — the owner, until the right is granted to another role — or anyone holding a static admin token. Reading endpoints and the delivery log needs webhooks.read. An AI agent’s key can hold neither right, because an endpoint is how data leaves the store." }
   ]
 }

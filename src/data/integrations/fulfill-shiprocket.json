@@ -20,7 +20,7 @@
     { "field": "PickupLocation", "panel": "Pickup location", "required": true, "note": "The nickname of the pickup address registered in Shiprocket. The package’s example uses “Primary”." },
     { "field": "DefaultWeightKg", "panel": "Default weight (kg)", "required": false, "note": "Per unit, for a parcel holding a variant with no weight recorded. 0.5 kg when unset; a fully weighed catalogue never reaches it." },
     { "field": "DefaultLengthCm, DefaultBreadthCm, DefaultHeightCm", "required": false, "note": "The box used when the engine has no single size — any parcel of more than one unit. 15 × 15 × 10 cm when unset. Go only." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://apiv2.shiprocket.in, for tests. Empty for production." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://apiv2.shiprocket.in, for tests. Empty for production. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
   ],
   "setup": [

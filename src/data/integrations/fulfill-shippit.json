@@ -20,7 +20,7 @@
     { "field": "AuthorityToLeave", "panel": "Authority to leave", "required": false, "note": "Whether a courier may leave the parcel at the door when nobody answers. Off by default: it is the shopper’s call, and a storefront that asks passes the answer per shipment with meta authority_to_leave." },
     { "field": "DefaultWeightGrams", "panel": "Default weight (grams)", "required": false, "note": "Per unit, for a parcel holding a variant with no weight recorded. 500 by default." },
     { "field": "DefaultLengthMM, DefaultWidthMM, DefaultHeightMM", "required": false, "note": "The box sent when the engine has no unambiguous size, which is any parcel holding more than one unit. 150 × 150 × 100 mm by default. Go only." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://app.shippit.com/api/3. Staging is https://app.staging.shippit.com/api/3, with its own key." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://app.shippit.com/api/3. Staging is https://app.staging.shippit.com/api/3, with its own key. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 30 seconds. Go only; not in the panel." }
   ],
   "setup": [

@@ -20,7 +20,7 @@
     { "field": "ProfileID", "panel": "Profile ID", "required": false, "note": "The business profile to charge against. Only needed when the merchant has more than one; then leaving it empty is a 400 at the first checkout." },
     { "field": "ReturnURL", "panel": "Return URL", "required": false, "note": "Where the shopper lands after paying, when the checkout did not send return_url. Hyperswitch requires one of the two for a payment link." },
     { "field": "SessionExpirySeconds", "panel": "Link expiry (seconds)", "required": false, "note": "How long the hosted link stays payable. Zero leaves Hyperswitch’s own default." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Defaults to https://api.hyperswitch.io. The sandbox is https://sandbox.hyperswitch.io; a self-hosted router is its own address." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Defaults to https://api.hyperswitch.io. The sandbox is https://sandbox.hyperswitch.io; a self-hosted router is its own address. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
   ],
   "setup": [

@@ -19,7 +19,7 @@
     { "field": "WebhookSecret", "panel": "Webhook signing secret", "env": "LEMONSQUEEZY_WEBHOOK_SECRET", "required": true, "note": "Verifies the X-Signature header. Required because, as the code puts it, without it any caller could mark orders paid." },
     { "field": "StoreID", "panel": "Store ID", "env": "LEMONSQUEEZY_STORE_ID", "required": true, "note": "The Lemon Squeezy store every checkout is created in." },
     { "field": "VariantID", "panel": "Placeholder variant ID", "env": "LEMONSQUEEZY_VARIANT_ID", "required": true, "note": "The catalogue item every checkout is created against; its price is replaced by the order total." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.lemonsqueezy.com, for tests. Empty for production." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://api.lemonsqueezy.com, for tests. Empty for production. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
   ],
   "setup": [

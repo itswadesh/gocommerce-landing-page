@@ -25,7 +25,7 @@
     { "field": "Imperial", "panel": "Account uses pounds and inches", "required": false, "note": "Set it when the Easyship account reads pounds and inches. Get it wrong and every parcel is declared at about 2.2 times the wrong weight." },
     { "field": "DefaultWeightGrams", "panel": "Default weight (grams)", "required": false, "note": "Per unit, for a parcel holding a variant with no weight recorded. 500 by default." },
     { "field": "DefaultLengthMM, DefaultWidthMM, DefaultHeightMM", "required": false, "note": "The box sent when the engine has no unambiguous size, which is any parcel holding more than one unit. 150 × 150 × 100 mm by default. Go only." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://public-api.easyship.com, for tests. Empty for production." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides https://public-api.easyship.com, for tests. Empty for production. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 45 seconds. Go only; not in the panel." }
   ],
   "setup": [

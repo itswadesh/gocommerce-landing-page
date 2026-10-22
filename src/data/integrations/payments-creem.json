@@ -19,7 +19,7 @@
     { "field": "WebhookSecret", "panel": "Webhook signing secret", "env": "CREEM_WEBHOOK_SECRET", "required": true, "note": "Verifies the creem-signature header. Required because, as the code puts it, without it any caller could mark orders paid." },
     { "field": "ProductID", "panel": "Placeholder product ID", "env": "CREEM_PRODUCT_ID", "required": true, "note": "A one-time product every checkout is created against; its price is overridden per order. Creem refuses a custom price on a subscription product." },
     { "field": "SuccessURL", "panel": "Where to send the shopper afterwards", "required": false, "note": "Where Creem sends the shopper after paying. Empty shows Creem’s own confirmation." },
-    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Empty for production, https://api.creem.io; https://test-api.creem.io for the sandbox." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Empty for production, https://api.creem.io; https://test-api.creem.io for the sandbox. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
     { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
   ],
   "setup": [
