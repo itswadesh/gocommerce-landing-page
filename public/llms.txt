@@ -18,7 +18,7 @@
 - The Svelte admin is compiled into the Go binary with `//go:embed`; one process serves the API and the admin.
 - Documented GoCommerce API operations: 342 — 238 in the core, 104 across modules, all in OpenAPI.
 - Of those, 142 are admin endpoints. They are privileged, not private: the admin uses the same published contract an integration reads.
-- GoCommerce: 1,036 tests, 61 admin screens, 44 modules, 48 migrations, 17 commerce events.
+- GoCommerce: 1,036 tests, 61 admin screens, 49 modules, 48 migrations, 17 commerce events.
 - Money is stored and returned as integer minor units plus a currency code, never a float and never a formatted string.
 - Go module path: `github.com/itswadesh/gocommerce`, the same as the repository. Install with `go get github.com/itswadesh/gocommerce@latest`; tagged releases start at v1.0.0.
 - Svelte Commerce reaches a backend through a connector package implementing a shared 43-service surface.
@@ -45,7 +45,7 @@
 - https://kitcommerce.store/solutions/b2b/ — B2B: customer groups, price lists, quantity breaks, scoped API keys, invoices
 - https://kitcommerce.store/solutions/d2c/ — direct-to-consumer: the default store, guest checkout, cash on delivery, manual fulfillment, the Svelte Commerce storefront
 - https://kitcommerce.store/solutions/multi-store/ — several storefronts on one catalogue: channels, per-channel publishing and pricing
-- https://kitcommerce.store/integrations/ — all 44 GoCommerce modules by category, each a directory under ext/, and the one hosting partner
+- https://kitcommerce.store/integrations/ — all 49 GoCommerce modules by category, each a directory under ext/, and the one hosting partner
 - https://kitcommerce.store/privacy/ — what the site stores, which third parties it contacts, and what loads only after consent
 - https://kitcommerce.store/gocommerce/mcp/ — the GoCommerce MCP server: 19 tools, rights, read-only mode, HTTP and stdio transports, how to connect an agent
 - https://kitcommerce.store/blog/choosing-a-backend-for-a-sveltekit-storefront/ — the 26 Svelte Commerce connectors ranked by measured coverage, with cart, checkout and sign-in status
@@ -76,6 +76,8 @@
 - https://kitcommerce.store/svelte-commerce/backends/woocommerce/ — Svelte Commerce on WooCommerce: setup, environment variables, coverage and limits
 - https://kitcommerce.store/svelte-commerce/backends/x-cart/ — Svelte Commerce on X-Cart: setup, environment variables, coverage and limits
 - https://kitcommerce.store/integrations/payments-adyen/ — Adyen module for GoCommerce: Take card and local payments through Adyen payment links in a GoCommerce store: API key, HMAC key, endpoint, refunds, and what the module le
+- https://kitcommerce.store/integrations/ai-gateway/ — AI gateway module for GoCommerce: One place a GoCommerce store calls a model: its own Anthropic or OpenAI key, a monthly cap, a price per model, data-sharing switches and an approval queue.
+- https://kitcommerce.store/integrations/payments-clover/ — Clover module for GoCommerce: Take card payments through Clover’s Hosted Checkout in a GoCommerce store: three keys, the webhook URL, refunds, USD or CAD, and what the module leaves out.
 - https://kitcommerce.store/integrations/payments-creem/ — Creem module for GoCommerce: Sell through Creem as merchant of record from a GoCommerce store: the placeholder product, keys, webhook URL, full-only refunds and the modu
 - https://kitcommerce.store/integrations/fulfill-delhivery/ — Delhivery module for GoCommerce: Manifest parcels with Delhivery from a GoCommerce order: the API token, pickup warehouse, GSTIN, COD amounts, units, and what the module lea
 - https://kitcommerce.store/integrations/fulfill-easyship/ — Easyship module for GoCommerce: Book Easyship shipments with the label in one call from a GoCommerce order: token, courier service, ship-from address, units, customs items 
@@ -87,7 +89,7 @@
 - https://kitcommerce.store/integrations/invoices/ — Invoices module for GoCommerce: Issue a gapless, numbered invoice for every paid GoCommerce order: seller details, GSTIN or VAT number, the number format, and what the docu
 - https://kitcommerce.store/integrations/klaviyo/ — Klaviyo module for GoCommerce: Send a GoCommerce store’s orders and abandoned carts to Klaviyo as events, under the metric names Klaviyo’s flows know. The key, the delays,
 - https://kitcommerce.store/integrations/payments-lemonsqueezy/ — Lemon Squeezy module for GoCommerce: Sell through Lemon Squeezy as merchant of record from a GoCommerce store: the placeholder variant, four settings, webhook URL, refunds and l
-- https://kitcommerce.store/integrations/mcp/ — MCP module for GoCommerce: Let an AI agent operate a GoCommerce store over the Model Context Protocol: 19 tools, admin auth, per-tool rights, a read-only mode and an a
+- https://kitcommerce.store/integrations/mcp/ — MCP module for GoCommerce: Let an AI agent operate a GoCommerce store over the Model Context Protocol: 19 tools, per-tool rights, read-only agent keys, a read-only mode and an audit log.
 - https://kitcommerce.store/integrations/search-meilisearch/ — Meilisearch module for GoCommerce: Typo-tolerant product search for a GoCommerce store: a worker keeps a Meilisearch index in step with the catalogue, and the store proxies th
 - https://kitcommerce.store/integrations/notify-msg91/ — MSG91 module for GoCommerce: Text shoppers about their GoCommerce orders through MSG91’s DLT-approved flow templates: the auth key, a template per event, and what the mo
 - https://kitcommerce.store/integrations/fulfill-nimbuspost/ — NimbusPost module for GoCommerce: Book shipments across NimbusPost’s couriers from a GoCommerce order: login, warehouse, courier choice, COD, labels, and what the module leav
@@ -109,7 +111,7 @@
 - https://kitcommerce.store/integrations/notify-twilio/ — Twilio module for GoCommerce: Text shoppers about GoCommerce orders through Twilio: account SID, auth token, a from number or messaging service, the engine’s wording, and
 - https://kitcommerce.store/integrations/fulfill-usps/ — USPS module for GoCommerce: Buy USPS labels directly from a GoCommerce order: the OAuth app, CRID, MID and payment account, mail class, the stored PDF label, and what i
 - https://kitcommerce.store/integrations/fulfill-veeqo/ — Veeqo module for GoCommerce: Record a GoCommerce shipment against its Veeqo order so Veeqo’s stock follows: the API key, carrier id, how the allocation is found, and the
-- https://kitcommerce.store/integrations/webhooks/ — Webhooks module for GoCommerce: Send a GoCommerce store’s events to any server: register a URL and the events it wants, and each is POSTed signed, retried with backoff and 
+- https://kitcommerce.store/integrations/webhooks/ — Webhooks module for GoCommerce: Send a GoCommerce store’s events to another server: register an https URL and the events it wants, and each is POSTed signed, retried with backoff and logged.
 - https://kitcommerce.store/about/ — who runs the site and builds both projects (Swadesh Behera), how the site checks its claims, and the trademark note
 - https://kitcommerce.store/sitemap/ — every page, grouped by section; /sitemap.xml is the same map for search engines
 - https://kitcommerce.store/contact/ — how to reach the team: Discord and GitHub for questions, WhatsApp for custom builds, hello@kitcommerce.store for security reports and privacy requests
@@ -117,9 +119,10 @@
 - https://kitcommerce.store/.well-known/security.txt — where to report a vulnerability
 - https://kitcommerce.store/pricing/ — pricing: one plan, free for life; no fee per order; what free includes and what running a store still costs
 - https://kitcommerce.store/features/ — GoCommerce features, each checked against the code with the file named; partial features say what is missing
-- https://kitcommerce.store/features/checkout/ — checkout: one idempotent call that returns 409 instead of charging a changed price, guest checkout, nine gateways plus cash on delivery
+- https://kitcommerce.store/features/checkout/ — checkout: one idempotent call that returns 409 instead of charging a changed price, guest checkout, ten gateways plus cash on delivery
 - https://kitcommerce.store/features/operations/ — operations: order timeline and edits, multi-location stock with a reconciling ledger, 12 carrier options, refunds, roles, audit
 - https://kitcommerce.store/features/development/ — development: one binary and PostgreSQL, one dependency, 342 documented operations, signed webhooks, MCP; no cloud
+- https://kitcommerce.store/features/ai/ — AI: a gateway that caps and records every model call, an approval queue with no actions yet, read-only agent keys and MCP; what is not built
 - https://kitcommerce.store/svelte-commerce/themes/ — 79 live Svelte Commerce demo storefronts, each opening as a running store
 - https://kitcommerce.store/live-projects/ — live stores running Svelte Commerce, with the Lighthouse scores each home page received on the date measured
 - https://kitcommerce.store/open-source/ — both repositories, the one-command quick start, the ecosystem, the community, and why there is no cloud or paid tier

@@ -22,7 +22,7 @@
     ["Licence", "Core under OSL 3.0; modules under AFL 3.0.", "MIT, both packages."],
     ["Editions", "Classic, a free download you host; Hosted, €24 a month billed yearly or €29 month to month, built on PrestaShop 8 with 50 GB of hosting through Gandi.", "Self-host only. No hosted offering and no paid tier."],
     ["What you run", "PrestaShop 9.1: PHP 8.1 to 8.5, with 8.5 recommended; MySQL 5.7+ or MariaDB 10.2+; Apache 2.4 or Nginx; a PHP memory_limit of 512M. Windows is not actively supported.", "One Go binary and one PostgreSQL database. No PHP runtime, no Redis, no message broker required."],
-    ["Modules", "PrestaShop Addons, where a module is a lifetime licence for one store plus a year of its developer’s support, then a monthly support fee billed yearly.", "44 MIT modules, compiled in when imported. Nothing per store, nothing to renew."],
+    ["Modules", "PrestaShop Addons, where a module is a lifetime licence for one store plus a year of its developer’s support, then a monthly support fee billed yearly.", "49 MIT modules, compiled in when imported. Nothing per store, nothing to renew."],
     ["Marketplace", "Third-party modules, such as Marketplace Builder at €167.99, then €4 a month for support from the second year.", "In the core: vendors move through pending, approved and suspended, and sell through vendor offers. Commission is recorded, not settled."],
     ["Payments in India", "Hosted bundles PrestaShop Checkout, built with PayPal. Razorpay documents a module for PrestaShop 1.6, 1.7, 8.0 and 8.1 — not yet 9.", "Razorpay, Stripe, Adyen, Hyperswitch and five more as modules; cash on delivery is the core’s default."],
     ["API", "The Webservice, a CRUD API over the shop’s data; PrestaShop 9 adds an Admin API built on API Platform 3 and authorised with OAuth2.", "342 documented REST operations, published as OpenAPI — the same API the admin uses."],
@@ -37,7 +37,7 @@
     "head": ["Cost", "PrestaShop", "GoCommerce + Svelte Commerce"],
     "rows": [
       ["Software", "Classic: nothing. Hosted: €290 a year, or €29 a month without commitment", "Nothing"],
-      ["Modules", "Bought per store — €167.99 for Marketplace Builder, €209.99 for One Page Checkout PS", "None to buy — 44 MIT modules"],
+      ["Modules", "Bought per store — €167.99 for Marketplace Builder, €209.99 for One Page Checkout PS", "None to buy — 49 MIT modules"],
       ["Module support", "Business Care: first year included, then €4 or €5 a month per module, billed yearly and renewed automatically", "None sold"],
       ["Hosting", "Classic: yours. Hosted: 50 GB through Gandi, included", "A server and a PostgreSQL database, from a small VPS upward"],
       ["People", "A PHP developer for modules and upgrades", "A developer to deploy it, and Go to extend it"]

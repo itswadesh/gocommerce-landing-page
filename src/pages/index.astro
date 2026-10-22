@@ -144,7 +144,7 @@ const featureGroups = [
   { name: 'Search and discovery', items: ['Filtering and sorting in the engine', 'Meilisearch module', 'Sitemaps and IndexNow modules', 'Google Merchant and Meta feeds'] },
   { name: 'Cart and checkout', items: ['Guest carts and checkout', 'Idempotent, never-repricing checkout', 'Discount codes', 'Abandoned-cart recovery'] },
   { name: 'Orders and fulfilment', items: ['Order timeline and edits', 'Shipping in parcels, 12 carrier options', 'Returns with per-line restock', 'Invoices, picking sheets, packing slips'] },
-  { name: 'Payments', items: ['Nine gateway modules', 'Cash on delivery built in', 'Refunds through the gateway', 'Payouts by payment method'] },
+  { name: 'Payments', items: ['Ten gateway modules', 'Cash on delivery built in', 'Refunds through the gateway', 'Payouts by payment method'] },
   { name: 'Customers and B2B', items: ['Shopper accounts (identity module)', 'Customer groups and price lists', 'Quantity breaks', 'Reviews and wishlists'] },
   { name: 'Marketplace and multi-store', items: ['Vendors, moderated, with their own logins', 'Channels with their own price lists', 'Roles and scoped API keys', 'Stock across locations'] },
   { name: 'Content and messaging', items: ['CMS pages, menus and FAQ', 'Newsletter and Klaviyo', 'Email: Resend, SendGrid', 'SMS: Twilio, MSG91'] },
@@ -272,7 +272,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <ul>
       <li><b>61</b><span>admin screens</span></li>
       <li><b>342</b><span>documented API operations</span></li>
-      <li><b>44</b><span>modules</span></li>
+      <li><b>49</b><span>modules</span></li>
       <li><b>{themes.length}</b><span>storefront themes</span></li>
       <li><b>{liveCount}</b><span>live stores</span></li>
     </ul>
@@ -342,11 +342,11 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <p class="section-lede">Orders, stock, customers, refunds and staff, from the 61-screen admin compiled into the GoCommerce binary. Each of these is a thing in the code, not an adjective.</p>
     </div>
     <ul class="evidence">
-      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>Rights, per resource</b><span>48 core rights, read and write gated separately, plus those modules add — for the admin and the API alike.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>Rights, per resource</b><span>50 core rights, read and write gated separately, plus those modules add — for the admin and the API alike.</span></li>
       <li><svg aria-hidden="true"><use href="#i-braces"/></svg><b>Scoped API keys</b><span>A key carries a role, a prefix for the log line, a last-used time and a revocation.</span></li>
       <li><svg aria-hidden="true"><use href="#i-bag"/></svg><b>Order timeline and edits</b><span>Every change on the record; edit lines and stock moves with them.</span></li>
       <li><svg aria-hidden="true"><use href="#i-warehouse"/></svg><b>Multi-location inventory</b><span>Stock on hand per location, reserved separately, every movement on a ledger.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-card"/></svg><b>9 payment modules</b><span>Money as integer minor units, never a float.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-card"/></svg><b>10 payment modules</b><span>Money as integer minor units, never a float.</span></li>
       <li><svg aria-hidden="true"><use href="#i-return"/></svg><b>Idempotent writes</b><span>Repeat a checkout request safely; a changed price answers 409 instead of charging.</span></li>
     </ul>
     <div class="actions">
@@ -391,7 +391,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <p class="part-name"><a href="/gocommerce/" data-ev="gocommerce_explore">GoCommerce</a></p>
         <p class="part-role">Headless Go backend + Svelte admin. One binary, one dependency, PostgreSQL.</p>
         <ul class="part-figures">
-          <li><b>44</b> modules</li>
+          <li><b>49</b> modules</li>
           <li><b>342</b> API operations</li>
           <li><b>1,000+</b> tests</li>
           <li><b>61</b> admin screens</li>
@@ -448,7 +448,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     </div>
     <div class="actions">
       <a class="button secondary" href="/features/development/">Developer features</a>
-      <a class="button secondary" href="/integrations/">44 modules</a>
+      <a class="button secondary" href="/integrations/">49 modules</a>
       <a class="button secondary" href="/gocommerce/mcp/">MCP server</a>
     </div>
   </section>
@@ -572,7 +572,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <h2 id="int-title" class="kicker">Works with what you already run</h2>
       <ul class="intstrip">
         {strip.map(([name, mark]) => <li>{mark && <img src={`/assets/brands/${mark}.svg`} width="22" height="22" alt="" loading="lazy">}{name}</li>)}
-        <li class="intstrip-more"><a href="/integrations/">44 modules →</a></li>
+        <li class="intstrip-more"><a href="/integrations/">49 modules →</a></li>
       </ul>
     </div>
   </section>
@@ -588,7 +588,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <ol class="steps4">
       <li><b>Download and run</b><span>One command brings up PostgreSQL, the API with its admin, and a proxy on port 80.</span><a href="#one-command">The command</a></li>
       <li><b>Configure your store</b><span>Catalogue, payment methods, shipping zones, tax rates and staff — all from the admin.</span><a href="/features/operations/">What the admin does</a></li>
-      <li><b>Customise it</b><span>Import the modules you need, change the storefront’s Svelte components, and let a coding agent read <code>AGENTS.md</code> first.</span><a href="/integrations/">44 modules</a></li>
+      <li><b>Customise it</b><span>Import the modules you need, change the storefront’s Svelte components, and let a coding agent read <code>AGENTS.md</code> first.</span><a href="/integrations/">49 modules</a></li>
       <li><b>Launch on your infrastructure</b><span>Your server, your domain, your PostgreSQL backups — and your brand on all of it.</span><a href="/open-source/">Open source</a></li>
     </ol>
   </section>

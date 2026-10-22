@@ -26,7 +26,7 @@
     ["Shipping", "Real-time carrier rates and label printing, from the Core plan up.", "11 fulfilment modules, Shiprocket, Delhivery, NimbusPost and India Post among them; manual fulfilment built in."],
     ["Design", "Designer templates and a drag-and-drop editor; custom CSS and JavaScript from Core up.", "Svelte Commerce: server-rendered SvelteKit with 79 live demo themes, every component yours to edit."],
     ["API", "Commerce APIs for products, orders, inventory, discounts, contacts and webhooks; API integrations are listed from Core up.", "342 documented REST operations, published as OpenAPI — the same API the admin uses."],
-    ["Extensions", "Squarespace Extensions: third-party tools that connect to your site.", "44 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No app store."],
+    ["Extensions", "Squarespace Extensions: third-party tools that connect to your site.", "49 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No app store."],
     ["Your data", "Products export to CSV, up to 10,000 at a time, without reviews, featured images or variant images.", "Rows in your own PostgreSQL, which you can query, back up and move."],
     ["Help when it breaks", "Squarespace’s own customer support, included in every plan.", "GitHub issues, discussions and Discord. No support contract."]
   ],

@@ -21,7 +21,7 @@
     ["What it is", "A hosted store builder, run from the web or Dukaan’s Android and iOS apps on every plan.", "An open-source platform you deploy, in two MIT packages: GoCommerce for the backend and a web admin, Svelte Commerce for the storefront."],
     ["Plans", "Free; Starter ₹299, Growth ₹999 and Infinity ₹5,999 a month billed monthly — or ₹2,500, ₹8,000 and ₹50,000 billed yearly.", "None. The software is ₹0."],
     ["Service fee on sales", "4.99% on Free, 3.99% on Starter, 1.99% on Growth and 0.99% on Infinity — capped at ₹200 an order, not charged on manual orders, and on top of gateway charges.", "None."],
-    ["Payment gateways", "Cashfree, Razorpay, PayPal and Stripe.", "Nine payment modules, Razorpay and Stripe among them; cash on delivery is the core’s default method."],
+    ["Payment gateways", "Cashfree, Razorpay, PayPal and Stripe.", "Ten payment modules, Razorpay and Stripe among them; cash on delivery is the core’s default method."],
     ["Shipping", "Dukaan Delivery built in; Shiprocket and Shippo, or your own Blue Dart, Delhivery, DTDC or Xpressbees account.", "Shiprocket, Delhivery and NimbusPost modules book shipments; India Post consignments are recorded; Shippo, ShipStation and others for parcels abroad."],
     ["Stores and staff", "1 store on Free and Starter, 3 on Growth, 10 on Infinity; 1, 2, 5 and 20 staff accounts.", "Channels for several storefronts and roles for staff, with no count set by a plan."],
     ["Customising", "Themes from Dukaan’s marketplace, and a code editor for fonts, colours and theme sections.", "The source — storefront, checkout and backend."],
@@ -63,7 +63,7 @@
   "faq": [
     { "q": "Does Dukaan charge a fee on sales?", "a": "Yes. Dukaan’s plan table lists a service fee of 4.99% on Free, 3.99% on Starter, 1.99% on Growth and 0.99% on Infinity, capped at ₹200 an order and not charged on manual orders. Its FAQ adds that the fee is exclusive of payment gateway charges. GoCommerce charges no fee on sales." },
     { "q": "How much does Dukaan cost?", "a": "Free is ₹0. Starter is ₹299, Growth ₹999 and Infinity ₹5,999 a month billed monthly, or ₹2,500, ₹8,000 and ₹50,000 billed yearly, on Dukaan’s pricing page." },
-    { "q": "Which payment gateways work on each?", "a": "Dukaan lists Cashfree, Razorpay, PayPal and Stripe. GoCommerce has nine payment modules, Razorpay and Stripe among them, and cash on delivery in the core; Cashfree and PayPal are not among its modules." },
+    { "q": "Which payment gateways work on each?", "a": "Dukaan lists Cashfree, Razorpay, PayPal and Stripe. GoCommerce has ten payment modules, Razorpay and Stripe among them, and cash on delivery in the core; Cashfree and PayPal are not among its modules." },
     { "q": "Can I move from Dukaan to GoCommerce?", "a": "There is no Dukaan importer, so moving means a script against GoCommerce’s documented API. The one catalogue importer GoCommerce has is for Shopify." },
     { "q": "Can Svelte Commerce be the storefront for a Dukaan store?", "a": "No. Dukaan is not among the 26 backends Svelte Commerce connects to. Svelte Commerce reaches GoCommerce through an early connector, 0.1.0, covering catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet." }
   ],
