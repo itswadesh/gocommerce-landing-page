@@ -12,7 +12,7 @@
   "facts": [
     { "b": "12", "t": "carrier options, four of them Indian" },
     { "b": "11", "t": "kinds of stock movement, all on a ledger" },
-    { "b": "15", "t": "health checks in gocommerce doctor" }
+    { "b": "19", "t": "health checks in gocommerce doctor" }
   ],
   "groups": [
     {
@@ -47,16 +47,16 @@
       "name": "Customers and staff",
       "tiles": [
         { "title": "Customer groups and price lists", "status": "yes", "text": "Group customers and give each group its own prices, with dates, priority, channel and quantity breaks.", "source": "core/pricing.go" },
-        { "title": "Roles and rights", "status": "partial", "text": "Four roles — owner, manager, staff, vendor — whose rights and names you can change, over 48 core rights plus those modules add; invitations and session revocation. Missing: creating roles beyond the four.", "source": "core/rights.go · core/roles.go" },
-        { "title": "Scoped API keys", "status": "yes", "text": "Keys carry a role and pass the same rights checks as a person. Only owners mint them; revoked keys stay on the record.", "source": "core/api_keys.go" },
-        { "title": "Audit trail", "status": "yes", "text": "Who changed what, with before and after values, and a history for products, categories, discounts, tax rates and locations.", "source": "core/audit.go" },
-        { "title": "Notifications you control", "status": "yes", "text": "Edit every email and SMS template in the admin; every message is logged and can be resent. Email through Resend or SendGrid, SMS through Twilio or MSG91.", "source": "core/notify_templates.go" }
+        { "title": "Roles and rights", "status": "partial", "text": "Four roles — owner, manager, staff, vendor — whose rights and names you can change, over 50 core rights plus those modules add; invitations and session revocation. Missing: creating roles beyond the four.", "source": "core/rights.go · core/roles.go" },
+        { "title": "Scoped API keys", "status": "yes", "text": "Keys carry a role and pass the same rights checks as a person. A key for an AI agent carries a list of reads instead, expires and is rate limited. Only owners mint them; revoked keys stay on the record.", "source": "core/api_keys.go" },
+        { "title": "Audit trail", "status": "yes", "text": "Who changed what, with before and after values, and a history for products, categories, discounts, tax rates and locations. A change made with an API key names the key.", "source": "core/audit.go" },
+        { "title": "Notifications you control", "status": "yes", "text": "Edit every email and SMS template in the admin; every message is logged, with reset and invitation links hidden, and can be resent. Email through Resend or SendGrid, SMS through Twilio or MSG91.", "source": "core/notify_templates.go" }
       ]
     }
   ],
   "notYetLede": "What a larger operation may expect and will not find in GoCommerce today.",
   "notYet": [
-    { "name": "Order approvals", "why": "No approval step before an order is accepted." },
+    { "name": "Order approvals outside B2B", "why": "Only a company buyer’s basket can wait for an approver (ext/b2b); every other order is accepted at once." },
     { "name": "Draft orders", "why": "An order placed by staff is a real order at once." },
     { "name": "Per-channel permissions", "why": "Staff rights apply to the whole store." },
     { "name": "Manual price overrides", "why": "Staff cannot set one line’s price by hand." },
