@@ -69,7 +69,7 @@ const graph = [
     </ul>
   </section>
 
-  <Faq items={f.faq} title={`Questions about ${f.name.toLowerCase()}`} />
+  <Faq items={f.faq} title={`Questions about ${/^[A-Z]{2}/.test(f.name) ? f.name : f.name.toLowerCase()}`} />
 
   <section class="closing wrap">
     <h2>Read the code behind every tile</h2>

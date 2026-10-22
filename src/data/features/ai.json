@@ -1,0 +1,78 @@
+{
+  "slug": "ai",
+  "name": "AI",
+  "summary": "An AI gateway that caps and records every model call, an approval queue, read-only keys for AI agents and an MCP server — and what is not built.",
+  "title": "AI in GoCommerce — Gateway, Agent Keys and MCP",
+  "description": "GoCommerce’s AI features, checked against the code: a gateway that caps and records every model call, an approval queue, read-only agent keys and MCP.",
+  "ogTitle": "AI in GoCommerce, feature by feature",
+  "ogDescription": "A capped, recorded AI gateway, an approval queue, read-only agent keys and MCP — and what is not built yet.",
+  "kicker": "Features · AI",
+  "h1": "Model calls on a budget, agents on read-only keys",
+  "lede": "GoCommerce calls a model in one place, the AI gateway, which holds each store to its own key, a monthly cap and the data its owner lets out. An AI agent gets a key of its own that only reads, and reaches the store through the MCP server. Both are modules you install when you run GoCommerce yourself.",
+  "facts": [
+    { "b": "2", "t": "model providers, Anthropic and OpenAI" },
+    { "b": "5", "t": "kinds of store data, each a switch the owner sets" },
+    { "b": "19", "t": "MCP tools, the 9 that read offered to an agent key" }
+  ],
+  "groups": [
+    {
+      "name": "The AI gateway",
+      "lede": "ext/ai-gateway, installed with -ai-gateway or in your own main(). It stays idle until a store gives it a key, a monthly cap and a price for each model.",
+      "tiles": [
+        { "title": "The store’s own key", "status": "yes", "text": "Each store picks Anthropic or OpenAI and pastes its own key, so calls are billed to its own account. Check connection lists the models the key reaches without spending tokens.", "source": "ext/ai-gateway/gateway.go · POST /api/admin/x/ai-gateway/check" },
+        { "title": "A monthly cap that holds", "status": "yes", "text": "A cap in the store’s currency per calendar month. Before each call its worst-case cost is reserved in one conditional update, so calls running at once cannot spend past it; afterwards it is settled to what the provider reported.", "source": "ext/ai-gateway/budget.go" },
+        { "title": "Every run on the record", "status": "yes", "text": "One row per run: the task, the model, tokens, time taken, the outcome, and the cost as an integer in millionths of a minor unit. The Usage screen adds them up by day, task or model against the cap.", "source": "ext/ai-gateway/records.go · GET /api/admin/x/ai-gateway/usage" },
+        { "title": "Switches for what leaves the store", "status": "yes", "text": "Catalogue, order lines, contact details, message bodies and documents, the last three off until the owner turns them on. Data in a class that is off is dropped before sending, and an email address or international phone number found elsewhere is replaced.", "source": "ext/ai-gateway/policy.go" },
+        { "title": "The small model first", "status": "yes", "text": "Each task names its models in order: the small one first, the strong one only when an answer fails its schema or its own check, with the reason written down. Answers may be reused within one store, never across stores.", "source": "ext/ai-gateway/run.go · ext/ai-gateway/task.go" },
+        { "title": "A queue for model work", "status": "partial", "text": "Work is queued in the transaction that caused it and retried only for timeouts, rate limits and outages; the Jobs screen retries or cancels the rest. Missing: a module that queues work — the one task today, the Amazon importer’s rewrite, runs directly.", "source": "ext/ai-gateway/jobs.go" }
+      ]
+    },
+    {
+      "name": "The approval queue",
+      "lede": "Where something an agent proposes waits for a person. It is part of the AI gateway.",
+      "tiles": [
+        { "title": "A person decides", "status": "partial", "text": "A proposal waits seven days for a person signed in to the panel, holding ai.approve and the action’s own right; an API key or the admin token cannot decide. Approving runs the action as that person. Missing: actions — no module registers one yet, so nothing can be proposed.", "source": "ext/ai-gateway/approvals.go" },
+        { "title": "It runs what was reviewed", "status": "yes", "text": "The preview is worked out again when a proposal is opened and again on approval. If the store changed in between, nothing runs and the new preview is shown; two approvals at once run it once.", "source": "POST /api/admin/x/ai-gateway/approvals/{id}/approve" },
+        { "title": "Every decision on the record", "status": "yes", "text": "A proposal keeps who filed it, the trace id of the request that did, who approved or rejected it and when, and what the action returned or why it failed.", "source": "ext/ai-gateway/approvals.go · approval_requests" }
+      ]
+    },
+    {
+      "name": "Agent keys",
+      "lede": "A kind of API key made for an AI agent, on Settings › API keys. Integration keys work as before.",
+      "tiles": [
+        { "title": "Reads only", "status": "yes", "text": "An agent key carries a list of rights chosen from its maker’s own instead of a role, and in this release only reads. Some it can never hold: API keys, the team, roles, plugins, store settings, exports, custom SQL reports and webhooks.", "source": "core/agent_keys.go · AgentKeyRefusedRights" },
+        { "title": "Shown once, then it expires", "status": "yes", "text": "Only its hash is kept, so it is shown once and cannot be copied again. It expires after 90 days unless its maker chooses otherwise, a year at most.", "source": "core/agent_keys.go" },
+        { "title": "Rate limited", "status": "yes", "text": "60 requests a minute unless its maker chooses between 1 and 600, counted in PostgreSQL so the limit holds across servers. Over it, the answer is 429 with Retry-After.", "source": "core/agent_keys.go · allowAgent" },
+        { "title": "Never more than its maker", "status": "yes", "text": "On every request the key is cut to what the person who made it holds in the store today. Demote them and the key loses the same rights; remove them and it stops working.", "source": "core/agent_keys.go · agentCaller" },
+        { "title": "Contact details masked", "status": "yes", "text": "An agent sees customers’ emails and phone numbers masked, and none of the merchant’s notes; it cannot look a customer up by email. The notification log, shipping labels and invoice documents are closed to it, and no right unmasks it.", "source": "core/demo.go · App.Masks" },
+        { "title": "The audit trail names it", "status": "yes", "text": "A change made with an API key is recorded as that key, by id and name, and one made with an agent key as the agent, with the run it was doing — not as an unnamed operator.", "source": "core/audit.go" }
+      ]
+    },
+    {
+      "name": "MCP",
+      "tiles": [
+        { "title": "Store tools for agents", "status": "yes", "text": "19 tools over the same domain services as the REST API, each checked against the caller’s rights, with every change written to an audit table. Over HTTP or stdio.", "source": "ext/mcp" },
+        { "title": "A read-only mode", "status": "yes", "text": "Config.ReadOnly withholds all ten tools that change things from every caller, the admin token included, and tools/list marks each tool with readOnlyHint.", "source": "ext/mcp/mcp.go · Config.ReadOnly" },
+        { "title": "Agent keys get the read tools", "status": "yes", "text": "An agent key is offered the read tools only. A tool that changes the store, a module’s own included, is left out of its list and refused and audited if called.", "source": "ext/mcp/mcp.go · callTool" }
+      ]
+    }
+  ],
+  "notYetLede": "GoCommerce’s AI-Native B2B specification, in the repository under docs/ai-b2b, describes more than the code does. None of the following is built.",
+  "notYet": [
+    { "name": "Agents that change things", "why": "An agent key only reads, and no module registers an action in the approval queue, so an agent cannot propose a change." },
+    { "name": "A WhatsApp sales inbox", "why": "No WhatsApp connection, shared inbox or suggested replies." },
+    { "name": "An order desk", "why": "Nothing reads a message, an email or a PDF purchase order and drafts an order or a quote from it." },
+    { "name": "Semantic search", "why": "No embeddings are made or stored; search is the engine’s own or Meilisearch’s." },
+    { "name": "Agent memory", "why": "Nothing keeps an agent’s notes or a customer’s preferences between runs." },
+    { "name": "Procurement and catalogue tools", "why": "No supplier catalogue mapping, quote requests to suppliers or product substitution." },
+    { "name": "Other model providers", "why": "Anthropic and OpenAI only, at their own addresses; no self-hosted or custom endpoint." },
+    { "name": "AI on admin.kitcommerce.store", "why": "That install runs the one-command Docker stack, which installs neither the AI gateway nor MCP." }
+  ],
+  "faq": [
+    { "q": "Does GoCommerce come with an AI key?", "a": "No. Each store brings its own Anthropic or OpenAI key, and calls are billed to that account. Until a store has a key, a monthly cap and a price for each model, the gateway makes no call." },
+    { "q": "Can an AI agent change my store?", "a": "Not with an agent key: it only reads. An agent handed a person’s credential or the admin token can use MCP’s ten tools that change things, each checked against that credential’s rights and audited. The approval queue, which would let an agent propose a change for a person to approve, has no actions yet." },
+    { "q": "What customer data does a model see?", "a": "Only what the store’s owner allows. The catalogue and order lines may leave by default; contact details, message bodies and documents stay in until switched on. An agent key sees emails and phone numbers masked whatever the switches say." },
+    { "q": "What uses the AI gateway today?", "a": "The Amazon importer’s rewrite of a listing’s copy, when the gateway is installed and switched on for the store. Nothing else in the repository calls a model yet." },
+    { "q": "Can I try this on admin.kitcommerce.store?", "a": "Not today. That install runs the one-command Docker stack, which installs neither module. Run GoCommerce yourself with -ai-gateway, and install ext/mcp in your own main()." }
+  ]
+}

@@ -5,12 +5,15 @@
  */
 import Base from '../../layouts/Base.astro'
 import type { FeaturePage } from '../../data/features/_schema'
+import modules from '../../data/modules.json'
 
 const path = '/features/'
 const abs = (p: string) => new URL(p, Astro.site!).href
 const files = import.meta.glob<FeaturePage>('../../data/features/*.json', { eager: true, import: 'default' })
-const order = ['checkout', 'operations', 'development']
-const pages = Object.values(files).sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug))
+const order = ['checkout', 'operations', 'development', 'ai']
+// A page missing from the order goes last rather than first.
+const rank = (slug: string) => (order.includes(slug) ? order.indexOf(slug) : order.length)
+const pages = Object.values(files).sort((a, b) => rank(a.slug) - rank(b.slug))
 const count = (p: FeaturePage, s: 'yes' | 'partial') => p.groups.reduce((n, g) => n + g.tiles.filter((t) => t.status === s).length, 0)
 
 const graph = [
@@ -19,10 +22,10 @@ const graph = [
 ---
 <Base
   title="Features — What GoCommerce Does, Checked Against Its Code"
-  description="GoCommerce’s checkout, operations and developer features, each checked against the code with the file doing the work named — and what is not built yet."
+  description="GoCommerce’s checkout, operations, developer and AI features, each checked against the code with the file doing the work named — and what is not built yet."
   path={path}
   ogTitle="GoCommerce features, checked against the code"
-  ogDescription="Checkout, operations and development — every tile names the file that does the work."
+  ogDescription="Checkout, operations, development and AI — every tile names the file that does the work."
   nav="solutions"
   crumbs={[{ name: 'Features', href: path }]}
   graph={graph}
@@ -35,7 +38,7 @@ const graph = [
 
   <section class="section wrap" aria-labelledby="pages-title">
     <h2 id="pages-title" class="vh">Feature pages</h2>
-    <ul class="vs-grid">
+    <ul class={pages.length % 2 === 0 ? 'vs-grid vs-grid-2' : 'vs-grid'}>
       {pages.map((p) => (
         <li>
           <a href={`/features/${p.slug}/`}>
@@ -46,7 +49,7 @@ const graph = [
         </li>
       ))}
     </ul>
-    <p class="fineprint">Checked against GoCommerce at commit 1498c68, 21 September 2026. The shapes of store these add up to are on the <a href="/solutions/">solutions pages</a>; the 44 modules are on <a href="/integrations/">integrations</a>.</p>
+    <p class="fineprint">Checkout, operations and development were checked against GoCommerce at commit 1498c68, 21 September 2026; the AI page, the security tiles and the counts corrected since, at commit c891952, 21 October 2026. The shapes of store these add up to are on the <a href="/solutions/">solutions pages</a>; the {modules.length} modules are on <a href="/integrations/">integrations</a>.</p>
   </section>
 
   <section class="closing wrap">

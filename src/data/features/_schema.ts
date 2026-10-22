@@ -5,7 +5,9 @@
  * that does the work in `source`. `status: "partial"` tiles say what is
  * missing inside `text`. Anything the code does not do goes in `notYet`,
  * never in a tile. Source of truth for the first three pages: a tile-by-tile
- * audit of GoCommerce at commit 1498c68 (21 September 2026).
+ * audit of GoCommerce at commit 1498c68 (21 September 2026). The AI page, the
+ * Security group on development and the counts corrected since were checked
+ * at commit c891952 (21 October 2026).
  */
 export interface FeaturePage {
   slug: string

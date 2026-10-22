@@ -1829,6 +1829,9 @@ html:has(dialog.lightbox[open]) { overflow: hidden; }
 .vs-card-summary { font-size: .875rem; line-height: 1.55; color: var(--ink-2); }
 @media (max-width: 960px) { .vs-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .vs-grid { grid-template-columns: 1fr; } }
+/* An even number of cards reads as pairs, rather than a row with a gap in it. */
+.vs-grid.vs-grid-2 { grid-template-columns: 1fr 1fr; }
+@media (max-width: 560px) { .vs-grid.vs-grid-2 { grid-template-columns: 1fr; } }
 
 /* A comparison page's own parts. */
 .vs-meaning { margin-top: 18px; }
