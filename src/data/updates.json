@@ -1,5 +1,117 @@
 [
   {
+    "sha": "bd4e970cbfa1ca2617ec7ca4b1713dceea088f8c",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "gocommerce doctor checks a brands list before it is deployed",
+    "url": "https://github.com/itswadesh/gocommerce/commit/bd4e970cbfa1ca2617ec7ca4b1713dceea088f8c"
+  },
+  {
+    "sha": "5aca89713012921ba1bed816ba075105c166b2ea",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "The panel shows the brand of the domain it is opened on",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5aca89713012921ba1bed816ba075105c166b2ea"
+  },
+  {
+    "sha": "ecfe0f3fe7c916d8fd9d12e8678e12c8b79f9335",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "A cart recovery link goes through its store's own brand",
+    "url": "https://github.com/itswadesh/gocommerce/commit/ecfe0f3fe7c916d8fd9d12e8678e12c8b79f9335"
+  },
+  {
+    "sha": "ab93afd30661720555ac5bf19dcedb9c62efb2f9",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "Emails to staff carry the brand they signed up under",
+    "url": "https://github.com/itswadesh/gocommerce/commit/ab93afd30661720555ac5bf19dcedb9c62efb2f9"
+  },
+  {
+    "sha": "8ffc79e1fab89373435dd9a28871641cff961441",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "One install can serve several brands, each on its own admin domain",
+    "url": "https://github.com/itswadesh/gocommerce/commit/8ffc79e1fab89373435dd9a28871641cff961441"
+  },
+  {
+    "sha": "40c444faea83c81007d93d6ca188dedb065897c9",
+    "date": "2026-10-24",
+    "type": "fix",
+    "title": "Show the line between a domain's two DNS records",
+    "url": "https://github.com/itswadesh/gocommerce/commit/40c444faea83c81007d93d6ca188dedb065897c9"
+  },
+  {
+    "sha": "ece8a73a2339ba34d53a5c5dfb0c8dbdead20605",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "Shoppers can ask about a product",
+    "url": "https://github.com/itswadesh/gocommerce/commit/ece8a73a2339ba34d53a5c5dfb0c8dbdead20605"
+  },
+  {
+    "sha": "f4710126d069792a359704c5654cc8c60daeed6a",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "Reply to a contact message from the panel",
+    "url": "https://github.com/itswadesh/gocommerce/commit/f4710126d069792a359704c5654cc8c60daeed6a"
+  },
+  {
+    "sha": "74a67b6b5642dae7433d4a24be5d0e1d08ce4640",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "The compose file installs Telegram alerts",
+    "url": "https://github.com/itswadesh/gocommerce/commit/74a67b6b5642dae7433d4a24be5d0e1d08ce4640"
+  },
+  {
+    "sha": "a0effc5e2f4dd22f3895930915b01d7bdcfc31e4",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "Order alerts on Telegram",
+    "url": "https://github.com/itswadesh/gocommerce/commit/a0effc5e2f4dd22f3895930915b01d7bdcfc31e4"
+  },
+  {
+    "sha": "5b04131a840b6b3e42e9c2f1b898d9764fbb3258",
+    "date": "2026-10-24",
+    "type": "fix",
+    "title": "Retry a lost Stripe refund without refunding twice",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5b04131a840b6b3e42e9c2f1b898d9764fbb3258"
+  },
+  {
+    "sha": "e70024d40c0e6385398164a9aaa05b99299b8923",
+    "date": "2026-10-24",
+    "type": "fix",
+    "title": "Refund and confirm a Razorpay payment only on the order it belongs to",
+    "url": "https://github.com/itswadesh/gocommerce/commit/e70024d40c0e6385398164a9aaa05b99299b8923"
+  },
+  {
+    "sha": "32e53115c1cc24dffdb4d66b3f514d97d61e93af",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "Take payments through Cashfree",
+    "url": "https://github.com/itswadesh/gocommerce/commit/32e53115c1cc24dffdb4d66b3f514d97d61e93af"
+  },
+  {
+    "sha": "755c115f9d18098961dd720e4ca22803cffa7e8b",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "Check a pending payment with the gateway",
+    "url": "https://github.com/itswadesh/gocommerce/commit/755c115f9d18098961dd720e4ca22803cffa7e8b"
+  },
+  {
+    "sha": "8d7527f917773c9c9d89adfd6047e0f6575c02d5",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "Seal stored secrets when the engine starts with a key",
+    "url": "https://github.com/itswadesh/gocommerce/commit/8d7527f917773c9c9d89adfd6047e0f6575c02d5"
+  },
+  {
+    "sha": "21a442aca257cc0d87e411a3d343c734014e3a53",
+    "date": "2026-10-24",
+    "type": "fix",
+    "title": "Stop the public catalogue from showing what the shop paid",
+    "url": "https://github.com/itswadesh/gocommerce/commit/21a442aca257cc0d87e411a3d343c734014e3a53"
+  },
+  {
     "sha": "aa77dae7637dec1e06526f34ddaccaf572a07e78",
     "date": "2026-10-24",
     "type": "feature",
