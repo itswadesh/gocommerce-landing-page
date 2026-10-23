@@ -1,5 +1,12 @@
 [
   {
+    "sha": "aa77dae7637dec1e06526f34ddaccaf572a07e78",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "A verified store domain gets its route and certificate on its own",
+    "url": "https://github.com/itswadesh/gocommerce/commit/aa77dae7637dec1e06526f34ddaccaf572a07e78"
+  },
+  {
     "sha": "dffa6369b486a4e390692997ff455b67db785759",
     "date": "2026-10-21",
     "type": "feature",
