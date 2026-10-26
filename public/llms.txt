@@ -142,6 +142,12 @@
 - https://kitcommerce.store/vibe-coding-commerce/ — point AI coding tools at the storefront, not the commerce engine; the agent toolkit GoCommerce ships
 - https://kitcommerce.store/blog/ — posts by the people building GoCommerce and Svelte Commerce
 - https://kitcommerce.store/blog/agentic-commerce-open-stack/ — agentic commerce on an open stack: MCP, OpenAPI and feeds today; ACP, UCP and AP2 not built
+- https://kitcommerce.store/blog/ecommerce-backend-in-go/ — building an ecommerce backend in Go: integer money, variants, stock reserved in checkout, idempotent orders, verified webhooks, an outbox; where GoCommerce falls short
+- https://kitcommerce.store/blog/headless-commerce-in-go/ — headless commerce in Go: the REST API and OpenAPI contract, CORS or a proxy, the Svelte Commerce connector, and the gaps
+- https://kitcommerce.store/blog/multi-vendor-marketplace-in-go/ — multi-vendor marketplace in Go: the vendor and offer data model, scoped seller logins; selling from an offer and payouts not built
+- https://kitcommerce.store/blog/razorpay-webhook-verification-in-go/ — Razorpay webhook signature verification in Go, with a tested handler, duplicates, retries and the Checkout signature
+- https://kitcommerce.store/blog/sveltekit-storefront-on-vendure/ — a SvelteKit storefront on Vendure with Svelte Commerce: setup, Vendure settings, how it uses the Shop API, and the gaps
+- https://kitcommerce.store/blog/open-source-ecommerce-mcp-server/ — what to check in an open-source ecommerce MCP server, and how GoCommerce's MCP module answers each check
 - https://kitcommerce.store/compare/ — 19 comparisons with other ecommerce platforms, each sourced and dated, each with where the other side wins
 - https://kitcommerce.store/compare/kitcommerce-vs-shopify/ — KitCommerce vs Shopify: A hosted platform you rent against an open-source one you run: fees per order, code ownership, and what each asks of you
 - https://kitcommerce.store/compare/shopify-india-vs-kitcommerce/ — Shopify India vs KitCommerce: What an Indian store actually pays Shopify: no Shopify Payments, so a cut of every prepaid order on top of the plan — worked out plan by plan
