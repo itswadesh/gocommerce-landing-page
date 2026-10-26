@@ -1,0 +1,57 @@
+{
+  "slug": "reviews",
+  "name": "Product reviews",
+  "category": "Marketing",
+  "title": "Product Reviews for GoCommerce — Moderated Ratings Module",
+  "description": "Ratings and reviews on a GoCommerce product page: held for moderation, marked verified from the store’s own orders, and moved in or out as a CSV file.",
+  "ogTitle": "Product reviews for GoCommerce",
+  "ogDescription": "A rating out of five and some words, held for an operator and verified against the store’s own orders. Read from the source.",
+  "h1": "Product reviews for GoCommerce",
+  "lede": "A Go package for what shoppers say about a product: a rating from one to five and some words. A review waits for an operator unless the store approves on sight, and it is marked verified when its email has bought the product. Nothing is required; two switches sit on the Plugins screen.",
+  "what": [
+    "In the package’s own words, a review is “a rating out of five and some words, moderated before it shows.” The storefront posts one to POST /x/reviews and reads a product’s approved reviews from GET /x/reviews?product_id=, with the count, the average to one decimal and the number at each star beside them. The reviewer’s email is kept for the store and never sent to the storefront.",
+    "A review is marked verified when its email has an order for the product in the confirmed, partial, shipped or delivered status: the store’s own definition of a sale. The Plugins screen can make that a condition of posting at all. On the Reviews screen an operator approves or rejects a review, writes a public reply under it, or deletes it.",
+    "Reviews also travel as a CSV file. The package names two jobs: a store moving in from another platform “arrives with a few thousand reviews in a CSV and no other way to get them here”, and a store already running moderates in bulk by exporting, sorting by rating, and pasting a column of statuses back."
+  ],
+  "configLede": "Nothing is required. Config holds two switches, which become the Plugins screen’s defaults; the screen holds the same two and wins.",
+  "config": [
+    { "field": "AutoApprove", "panel": "Show reviews without moderation", "required": false, "note": "Shows a review the moment it is posted. Off by default, so every new review waits as pending." },
+    { "field": "RequirePurchase", "panel": "Only buyers may review", "required": false, "note": "Refuses a review from an email with no order for the product, and asks for the email the order was placed with. Public, so the storefront can say so on the form." },
+    { "field": "prompt", "panel": "Form heading", "required": false, "note": "The review form’s heading, “Write a review” by default. Public. Panel only; there is no Config field for it." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass reviews.New to gocommerce.New, as below, or start the reference binary with -reviews. It adds one table, and the plugin starts switched on." },
+    { "b": "Choose the policy", "t": "Under Product reviews on the Plugins screen: approve on sight or moderate, and whether only buyers may review." },
+    { "b": "Draw the form and the list", "t": "The storefront posts product_id, name, email, rating, title and body to POST /x/reviews, and reads GET /x/reviews?product_id= for the approved reviews and their summary." },
+    { "b": "Moderate", "t": "The Reviews screen lists reviews by status. PATCH /api/admin/x/reviews/{id} sets the status or the reply; DELETE removes the review." }
+  ],
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/reviews\"\n)\n\napp, err := gocommerce.New(cfg, reviews.New(reviews.Config{}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc has no example of its own; this is how the reference binary’s -reviews flag and examples/store/main.go install it. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "Held, then shown", "t": "A new review is pending unless auto-approve is on. Only approved reviews reach the storefront and count toward the summary; a rejected one stays in the admin list." },
+    { "b": "Verified by the orders", "t": "The badge is set when the review is posted, from an order carrying the product under the reviewer’s email, compared lower-cased, in the confirmed, partial, shipped or delivered status." },
+    { "b": "No email on the storefront", "t": "The public list carries the name, rating, title, body, badge, reply and date. The email stays on the admin side, masked on a demo store or for an agent key, where search stops matching it." },
+    { "b": "A honeypot for bots", "t": "A hidden website field that a person never sees. A request that fills it is answered as if the review were accepted, and nothing is kept." },
+    { "b": "A file both ways", "t": "The export streams every review, newest first, with its product’s slug and title. On import a row with an id updates that review, and a blank cell leaves its column alone; a row without one is a new review, found by product_slug." },
+    { "b": "Row by row, with a rehearsal", "t": "Each imported row is its own transaction, so a row naming a product that is not here is a row error and the rest still land. ?dry_run=1 checks every row and rolls each back. A file is read up to 32 MB." }
+  ],
+  "limits": [
+    { "b": "A honeypot, nothing more", "t": "The module has no captcha and no rate limit of its own, and does not stop one email posting several reviews of one product." },
+    { "b": "Text and stars only", "t": "No photos and no helpful votes. A shopper cannot edit or withdraw a review after posting it; an operator can only change its status or reply, or delete it." },
+    { "b": "Nobody is told", "t": "The module sends no notice when a review is waiting. Pending reviews are found on the Reviews screen." },
+    { "b": "An import is believed", "t": "A file’s status is applied as written, so an approved row goes live without moderation; a row with no status is pending. A file with a verified column is taken at its word, because a store moving in carries verifications its orders here cannot show. Without the column, the store’s orders decide." },
+    { "b": "Sample reviews show until erased", "t": "The sample shop adds one approved review to each sample product, written by a sample customer whose sample order bought it. They are flagged as samples and erased with the rest of the sample shop, which the package says to do before opening." },
+    { "b": "The file has no button", "t": "Export and import are API routes, GET /api/admin/x/reviews/export and POST /api/admin/x/reviews/import. The Reviews screen does not offer them." }
+  ],
+  "tested": true,
+  "testCount": 6,
+  "apiOps": 7,
+  "faq": [
+    { "q": "Does the store ever show a review nobody wrote?", "a": "Only the sample shop’s. Its reviews are flagged as samples, and erasing the sample shop removes them and no shopper’s. In the package’s words, “a review nobody wrote is not one to show a real shopper.” The module adds no other reviews of its own." },
+    { "q": "What makes a review verified?", "a": "An order for the product placed with the reviewer’s email, in the confirmed, partial, shipped or delivered status. It is decided when the review is posted. An imported review takes the file’s verified column if it has one, and the orders’ answer if it does not." },
+    { "q": "Can I bring reviews from another platform?", "a": "Yes, as a CSV with the columns id, product_slug, product_title, name, email, rating, title, body, status, verified, reply and created_at. The product is named by its slug here; product_title is ignored on the way in. Run it with ?dry_run=1 first to see each row’s errors without writing anything." },
+    { "q": "Who can moderate?", "a": "Seeing reviews needs reviews.read, which managers and staff hold by default. Approving, rejecting, replying and deleting need reviews.moderate, which managers hold by default. The export needs data.export and the import data.import." },
+    { "q": "What does switching the plugin off do?", "a": "Both storefront routes answer 404. The Reviews screen and the admin routes keep working, so an operator can still read and moderate." }
+  ]
+}
