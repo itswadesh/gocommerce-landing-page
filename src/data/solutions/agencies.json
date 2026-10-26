@@ -1,0 +1,54 @@
+{
+  "path": "/agencies/",
+  "label": "Agencies",
+  "summary": "For agencies and freelancers who build stores for clients: your brand, many client stores from one install, MIT licensed.",
+  "title": "White Label Ecommerce Platform for Agencies | KitCommerce",
+  "description": "A white label ecommerce platform for agencies: rebrand it under the MIT licence, run every client’s store from one install, and keep what you charge.",
+  "ogTitle": "A white label ecommerce platform for agencies",
+  "ogDescription": "Rename it, restyle it and run every client’s store from one install, each on its own domain. MIT licensed, with no per-store licence.",
+  "kicker": "For agencies and freelancers",
+  "h1": "A white label ecommerce platform for agencies that build stores",
+  "lede": "GoCommerce is MIT licensed, so you can put your own name on it, restyle the admin and the storefront, and sell it to clients. One installation runs many client stores, each with its own team, admin and domain. Run it on your own servers and there is no licence fee and no cut of your clients’ sales. Clients who sell to dealers get a trade portal without a second product.",
+  "facts": [
+    { "b": "MIT", "t": "licence: rename it and sell your work" },
+    { "b": "1 install", "t": "for many client stores, each on its own domain" },
+    { "b": "0%", "t": "of your clients’ sales when you host it yourself" }
+  ],
+  "needsTitle": "What an agency asks for",
+  "needsLede": "Matched to what GoCommerce does today.",
+  "needs": [
+    { "need": "Our brand, not the vendor’s", "does": "white-label" },
+    { "need": "Every client from one place", "does": "store-per-dealer", "note": "One process and one database serve them all, kept apart store by store." },
+    { "need": "Something to show a prospect", "does": "demo-store" },
+    { "need": "Moving a client off Shopify", "does": "shopify-import" },
+    { "need": "Indian payments", "does": "gateways" },
+    { "need": "Cash on delivery", "does": "cod" },
+    { "need": "Indian couriers", "does": "couriers" },
+    { "need": "B2B clients with dealers", "does": "portal" },
+    { "need": "Product text in Indian languages", "does": "catalogue-languages" },
+    { "need": "Connecting a client’s other systems", "does": "connect" },
+    { "need": "No lock-in for us or the client", "does": "open-source" }
+  ],
+  "gapsLede": "What an agency should know before pitching it to a client.",
+  "gaps": [
+    { "id": "no-partner-programme" },
+    { "id": "go-skills" },
+    { "id": "no-reference" },
+    { "id": "gst-invoice" },
+    { "id": "whatsapp" },
+    { "id": "tally" }
+  ],
+  "faq": [
+    { "q": "Can we sell it under our own brand?", "a": "Yes. The MIT licence lets you rename both packages, restyle the storefront and the admin, and sell them to clients. Keep the copyright notice in the source code; that is the only condition." },
+    { "q": "Do we pay per client store?", "a": "No. On your own servers there is no licence fee and no share of sales, however many stores you run. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale." },
+    { "q": "Can one installation run many clients?", "a": "Yes. One process and one PostgreSQL database serve many stores, each kept apart from the others, with its own operators, admin and domain." },
+    { "q": "Is there a partner or referral programme?", "a": "No, not today. What you charge clients for building and running their stores is yours." },
+    { "q": "What skills does our team need?", "a": "Running stores on your own servers needs someone at home with Docker and PostgreSQL. Setting each store up happens in the admin, without code. Changing the engine means Go, and changing the storefront means SvelteKit." }
+  ],
+  "related": [
+    "/solutions/multi-store/",
+    "/solutions/b2b-ecommerce-india/",
+    "/solutions/dealer-portal/",
+    "/pricing/"
+  ]
+}
