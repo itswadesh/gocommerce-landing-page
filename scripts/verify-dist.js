@@ -226,6 +226,24 @@ for (const rel of mdUnder(DIST)) {
   else if (!indexable.has(page.replace(SITE, ''))) fail(`${twin}: its canonical ${page} is not an indexable page in this build — a stale twin`)
 }
 
+// ── 7a. the asset server's redirects to a page leave as 308
+//
+// html_handling answers /pricing, /pricing.html and /gocommerce/index.html
+// with a 307, which tells a search engine the old URL is the one to keep.
+// The Worker makes them permanent; any other 307 must pass through as sent.
+const redirecting = (location) => ({ fetch: async () => new Response(null, { status: 307, headers: { location } }) })
+for (const [from, to, want] of [
+  ['/pricing', '/pricing/', 308],
+  ['/pricing.html', '/pricing/', 308],
+  ['/gocommerce/index.html', '/gocommerce/', 308],
+  ['/index.html', '/', 308],
+  ['/pricing.html', '/about/', 307],
+  ['/pricing', 'https://elsewhere.example/pricing/', 307],
+]) {
+  const res = await worker.fetch(new Request(SITE + from), { ASSETS: redirecting(to) })
+  if (res.status !== want) fail(`Worker: ${from} redirected by the asset server to ${to} leaves as ${res.status}, want ${want}`)
+}
+
 // ── 7b. lastmod is the page's own date
 //
 // scripts/page-dates.mjs dates each page by a hash of its content. A sitemap

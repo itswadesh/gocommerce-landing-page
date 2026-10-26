@@ -9,7 +9,8 @@
  *   ISO-8859-1 by the HTTP default — fine for a browser, which reads
  *   <meta charset>, wrong for every fetcher that does not, which is most of
  *   the crawlers this site is written for.
- * - The trailing-slash redirect is permanent (308) rather than temporary.
+ * - The trailing-slash and .html-alias redirects are permanent (308) rather
+ *   than temporary.
  * - Every page names its Markdown twin in a Link header, and the twin is
  *   served as text/markdown with a canonical that points back at the page.
  *   The twins are written after the build by scripts/markdown-alternates.mjs.
@@ -43,13 +44,15 @@ export default {
     // target is canonical, so a link posted without the slash consolidates
     // next to nothing onto the page it lands on. 308 is the permanent form —
     // a strong signal — and unlike 301 it keeps the method. html_handling
-    // has no setting for the status, so it is rewritten here, for this
-    // redirect only: same origin, same path, one slash added. Every other
-    // 307 (/gocommerce/index.html → /gocommerce/ among them) leaves as the
+    // has no setting for the status, so it is rewritten here. The .html
+    // aliases (/pricing.html, /gocommerce/index.html, /index.html) are the
+    // same redirect from html_handling and get the same treatment. Only
+    // these: same origin, and the target is the request's path with any
+    // (index).html dropped and one slash added. Any other 307 leaves as the
     // asset server sent it.
     if (res.status === 307) {
       const to = new URL(res.headers.get('location') || '', url)
-      if (to.origin !== url.origin || to.pathname !== url.pathname + '/') return res
+      if (to.origin !== url.origin || to.pathname !== url.pathname.replace(/(\/index)?\.html$/, '') + '/') return res
       return new Response(null, { status: 308, statusText: 'Permanent Redirect', headers: res.headers })
     }
 
