@@ -35,12 +35,12 @@ export const compareCard = (x: Comparison) => fill({ href: `/compare/${x.slug}/`
 const NEAR: Partial<Record<Integration['category'], Integration['category']>> = { Search: 'Marketing', Migration: 'Platform' }
 
 /** Four modules to read next: the ones after this in its category, wrapping round, so every module is linked from its neighbours. */
-export function relatedModules(i: Integration, n = 4): Integration[] {
+export function relatedModules(i: Integration): Integration[] {
   const same = integrations.filter((x) => x.category === i.category)
   const at = same.findIndex((x) => x.slug === i.slug)
   const ring = [...same.slice(at + 1), ...same.slice(0, at)]
   const near = NEAR[i.category]
-  return [...ring, ...(near ? integrations.filter((x) => x.category === near) : [])].slice(0, n)
+  return [...ring, ...(near ? integrations.filter((x) => x.category === near) : [])].slice(0, 4)
 }
 
 type Link = { href: string; text: string }

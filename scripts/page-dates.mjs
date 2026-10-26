@@ -31,10 +31,10 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = path.join(ROOT, 'dist')
-export const MANIFEST = path.join(ROOT, 'src', 'data', 'page-dates.json')
+const MANIFEST = path.join(ROOT, 'src', 'data', 'page-dates.json')
 
 /** URL path → content hash, for every indexable page in dist/. */
-export function hashPages(dist = DIST) {
+function hashPages() {
   const out = {}
   const walk = (dir) => {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -52,17 +52,17 @@ export function hashPages(dist = DIST) {
           .replace(/<(\w+)\b[^>]*\bdata-gh="[^"]*"[^>]*>[^<]*<\/\1>/gi, ' ')
           .replace(/<[^>]+>/g, ' ')
         const text = [pick(/<title>([^<]*)<\/title>/), pick(/<meta name="description" content="([^"]*)"/), main].join('\n').replace(/\s+/g, ' ').trim()
-        const url = '/' + path.relative(dist, dir).split(path.sep).join('/') + '/'
+        const url = '/' + path.relative(DIST, dir).split(path.sep).join('/') + '/'
         out[url.replace(/^\/+/, '/')] = createHash('sha256').update(text).digest('hex').slice(0, 16)
       }
     }
   }
-  walk(dist)
+  walk(DIST)
   return out
 }
 
-export const readManifest = () => (fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) : {})
-export const writeManifest = (m) => fs.writeFileSync(MANIFEST, JSON.stringify(Object.fromEntries(Object.entries(m).sort(([a], [b]) => a.localeCompare(b))), null, 2) + '\n')
+const readManifest = () => (fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) : {})
+const writeManifest = (m) => fs.writeFileSync(MANIFEST, JSON.stringify(Object.fromEntries(Object.entries(m).sort(([a], [b]) => a.localeCompare(b))), null, 2) + '\n')
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const today = new Date().toISOString().slice(0, 10)
