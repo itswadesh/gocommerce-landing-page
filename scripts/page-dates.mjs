@@ -45,12 +45,13 @@ function hashPages() {
         if (/name="robots"[^>]*noindex/i.test(html)) continue
         const pick = (re) => (html.match(re) || [, ''])[1]
         // Left out: <time>, which can print this page's own date, and the
-        // GitHub counts marked data-gh, which are fetched live at build time
-        // and are no reason to re-date a page.
+        // "·" that a byline puts before it only once the page has a date; and
+        // the GitHub counts marked data-gh, which are fetched live at build
+        // time and are no reason to re-date a page.
         const main = pick(/<main[^>]*>([\s\S]*?)<\/main>/)
           .replace(/<(script|style|time)\b[\s\S]*?<\/\1>/gi, ' ')
           .replace(/<(\w+)\b[^>]*\bdata-gh="[^"]*"[^>]*>[^<]*<\/\1>/gi, ' ')
-          .replace(/<[^>]+>/g, ' ')
+          .replace(/<[^>]+>|·/g, ' ')
         const text = [pick(/<title>([^<]*)<\/title>/), pick(/<meta name="description" content="([^"]*)"/), main].join('\n').replace(/\s+/g, ' ').trim()
         const url = '/' + path.relative(DIST, dir).split(path.sep).join('/') + '/'
         out[url.replace(/^\/+/, '/')] = createHash('sha256').update(text).digest('hex').slice(0, 16)

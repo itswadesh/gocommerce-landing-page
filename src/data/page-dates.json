@@ -1,66 +1,94 @@
 {
   "/": {
-    "hash": "a9ea263068dfbe96",
+    "hash": "d1b7c9b95fea3f32",
     "modified": "2026-10-26"
   },
   "/about/": {
     "hash": "94ac48a673714d07",
     "modified": "2026-10-26"
   },
+  "/agencies/": {
+    "hash": "5e51760217016395",
+    "modified": "2026-10-26"
+  },
   "/blog/": {
-    "hash": "e8af9e2458677190",
+    "hash": "d6d9fa181e4cea42",
     "modified": "2026-10-26"
   },
   "/blog/abandoned-checkout-recovery/": {
-    "hash": "4f009b9cfc53e1c8",
+    "hash": "2390cc15349bf1e8",
     "modified": "2026-10-10"
   },
   "/blog/admin-panel-moves-to-dash/": {
-    "hash": "7b4152ea9e0087ca",
-    "modified": "2026-10-10"
+    "hash": "a92e35c8e26f49c9",
+    "modified": "2026-10-26"
   },
   "/blog/agentic-commerce-open-stack/": {
-    "hash": "8f018fa891f5dca4",
+    "hash": "2ca2eb4f1b47e202",
     "modified": "2026-10-26"
   },
   "/blog/choosing-a-backend-for-a-sveltekit-storefront/": {
-    "hash": "ef323c2ed35093b9",
+    "hash": "80ce9ce9b274e165",
     "modified": "2026-09-25"
   },
   "/blog/commerce-platform-changes-12-18-october-2026/": {
-    "hash": "d5c62a8ed3f5ab32",
+    "hash": "02634329cef5cc3a",
     "modified": "2026-10-26"
   },
   "/blog/commerce-platform-changes-19-25-october-2026/": {
-    "hash": "d1a1104b2df30635",
+    "hash": "e704cea389926350",
     "modified": "2026-10-26"
   },
   "/blog/commerce-platform-changes-5-11-october-2026/": {
-    "hash": "e0e783d82c1a3959",
+    "hash": "5a6f19d7041bee02",
     "modified": "2026-10-26"
   },
   "/blog/custom-reports-stay-in-their-store/": {
-    "hash": "7ee572885696ea5e",
-    "modified": "2026-10-10"
+    "hash": "5504d82cce364c2b",
+    "modified": "2026-10-26"
   },
   "/blog/custom-roles-and-team-members/": {
-    "hash": "54230bd08fe74167",
-    "modified": "2026-10-10"
+    "hash": "c7c849b97dd75aed",
+    "modified": "2026-10-26"
+  },
+  "/blog/ecommerce-backend-in-go/": {
+    "hash": "a6cfe992070f5578",
+    "modified": "2026-10-26"
+  },
+  "/blog/headless-commerce-in-go/": {
+    "hash": "8ab22c08a5b5e3e9",
+    "modified": "2026-10-26"
   },
   "/blog/many-stores-one-docker-compose/": {
-    "hash": "9a84cd8629cd7a7e",
+    "hash": "8e39bddad55c24d5",
     "modified": "2026-10-10"
+  },
+  "/blog/multi-vendor-marketplace-in-go/": {
+    "hash": "cd55c0dce9a67e70",
+    "modified": "2026-10-26"
   },
   "/blog/one-engine-for-every-store/": {
-    "hash": "369c3c1ea89ff95a",
+    "hash": "0806f944755be544",
     "modified": "2026-10-15"
   },
+  "/blog/open-source-ecommerce-mcp-server/": {
+    "hash": "0b45465e8968dcdf",
+    "modified": "2026-10-26"
+  },
+  "/blog/razorpay-webhook-verification-in-go/": {
+    "hash": "5413406b7efe492c",
+    "modified": "2026-10-26"
+  },
   "/blog/roles-screen-role-with-no-rights/": {
-    "hash": "1437a788390db57f",
-    "modified": "2026-10-10"
+    "hash": "5464eadda1aaef68",
+    "modified": "2026-10-26"
+  },
+  "/blog/sveltekit-storefront-on-vendure/": {
+    "hash": "f26c665f8d18d8a9",
+    "modified": "2026-10-26"
   },
   "/compare/": {
-    "hash": "6c14db6985cab2e2",
+    "hash": "5840c0616d09f541",
     "modified": "2026-10-26"
   },
   "/compare/kitcommerce-vs-bagisto/": {
@@ -100,7 +128,7 @@
     "modified": "2026-10-26"
   },
   "/compare/kitcommerce-vs-shopify/": {
-    "hash": "ef75258abd6414f5",
+    "hash": "0109b38c933a0ef1",
     "modified": "2026-10-26"
   },
   "/compare/kitcommerce-vs-squarespace/": {
@@ -108,7 +136,7 @@
     "modified": "2026-10-26"
   },
   "/compare/kitcommerce-vs-storehippo/": {
-    "hash": "244eb53d0936e7cb",
+    "hash": "6862af365fa60dae",
     "modified": "2026-10-26"
   },
   "/compare/kitcommerce-vs-vendure/": {
@@ -131,12 +159,16 @@
     "hash": "df1362135e445cb9",
     "modified": "2026-10-26"
   },
+  "/compare/shopify-b2b-vs-kitcommerce/": {
+    "hash": "1f3d47821696c288",
+    "modified": "2026-10-26"
+  },
   "/compare/shopify-india-vs-kitcommerce/": {
-    "hash": "42e43320d752a0ad",
+    "hash": "e2cde5bd34acec5f",
     "modified": "2026-10-26"
   },
   "/compare/shopify-plus-vs-kitcommerce/": {
-    "hash": "66744b57dd1f695b",
+    "hash": "b2fd55bf6a8362e4",
     "modified": "2026-10-26"
   },
   "/contact/": {
@@ -144,23 +176,23 @@
     "modified": "2026-09-25"
   },
   "/features/": {
-    "hash": "1c6df4319400d761",
+    "hash": "e2cc10ea2c26cbf3",
     "modified": "2026-10-26"
   },
   "/features/ai/": {
-    "hash": "54efbc99d6f02236",
+    "hash": "44778f5de282e85c",
     "modified": "2026-10-22"
   },
   "/features/checkout/": {
-    "hash": "317ca67b1dd5ccd9",
+    "hash": "54d7a2141a9a3fff",
     "modified": "2026-10-26"
   },
   "/features/development/": {
-    "hash": "39380f77803ea29f",
+    "hash": "2c4710ce13f5d23f",
     "modified": "2026-10-26"
   },
   "/features/operations/": {
-    "hash": "471d59d23b9e6e36",
+    "hash": "b674c000d9f2b06b",
     "modified": "2026-10-22"
   },
   "/go-svelte-ecommerce/": {
@@ -184,7 +216,7 @@
     "modified": "2026-10-26"
   },
   "/integrations/": {
-    "hash": "bff9a25ec0096755",
+    "hash": "39d52068d297c803",
     "modified": "2026-10-26"
   },
   "/integrations/ai-gateway/": {
@@ -388,7 +420,7 @@
     "modified": "2026-09-25"
   },
   "/open-source/": {
-    "hash": "79a0f14321346fae",
+    "hash": "82534847200cb1ca",
     "modified": "2026-10-26"
   },
   "/pricing/": {
@@ -400,27 +432,47 @@
     "modified": "2026-09-26"
   },
   "/sitemap/": {
-    "hash": "b274fe9ae5e898e9",
+    "hash": "668a55d8f6eefa48",
     "modified": "2026-10-26"
   },
   "/solutions/": {
-    "hash": "b2dc0d3f87c977e3",
+    "hash": "edb990d2fcc6342a",
+    "modified": "2026-10-26"
+  },
+  "/solutions/auto-parts/": {
+    "hash": "478a80ffc4d790c6",
+    "modified": "2026-10-26"
+  },
+  "/solutions/b2b-ecommerce-india/": {
+    "hash": "3d1c37f601b81b71",
     "modified": "2026-10-26"
   },
   "/solutions/b2b/": {
-    "hash": "873a94d9147ab190",
+    "hash": "58d3f611cfb69257",
+    "modified": "2026-10-26"
+  },
+  "/solutions/building-materials/": {
+    "hash": "8f39f6e1d6c78431",
     "modified": "2026-10-26"
   },
   "/solutions/d2c/": {
     "hash": "3a10cc78b5b5569d",
     "modified": "2026-10-22"
   },
+  "/solutions/dealer-portal/": {
+    "hash": "dd6cc49fba9adf06",
+    "modified": "2026-10-26"
+  },
+  "/solutions/electricals/": {
+    "hash": "a69bc67baa5540e2",
+    "modified": "2026-10-26"
+  },
   "/solutions/marketplace/": {
-    "hash": "e637f780fdb8aa97",
-    "modified": "2026-10-22"
+    "hash": "3f2be78dd2701dcc",
+    "modified": "2026-10-26"
   },
   "/solutions/multi-store/": {
-    "hash": "e76807d41d76e439",
+    "hash": "44f81ea4c9d26df6",
     "modified": "2026-10-15"
   },
   "/svelte-commerce/": {
@@ -540,7 +592,7 @@
     "modified": "2026-10-26"
   },
   "/updates/": {
-    "hash": "97e2362fb5e8f148",
+    "hash": "970b46e9d64eac84",
     "modified": "2026-10-26"
   },
   "/updates/2/": {
@@ -548,7 +600,7 @@
     "modified": "2026-10-26"
   },
   "/vibe-coding-commerce/": {
-    "hash": "52fed080b66dc5f7",
+    "hash": "565c1eb955fa2491",
     "modified": "2026-10-26"
   }
 }
