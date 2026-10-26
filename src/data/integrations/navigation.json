@@ -1,0 +1,57 @@
+{
+  "slug": "navigation",
+  "name": "Menus",
+  "category": "Platform",
+  "title": "Storefront Menus for GoCommerce — Header and Footer Trees",
+  "description": "Keep a GoCommerce storefront’s menus as trees of links by handle, saved whole, resolved to storefront paths, and moved in and out as a CSV file.",
+  "ogTitle": "Storefront menus for GoCommerce",
+  "ogDescription": "Header, footer and any other menu, as trees of links to products, collections, categories, pages and URLs.",
+  "h1": "Storefront menus for GoCommerce",
+  "lede": "A Go package that keeps the storefront’s menus: a header, a footer, a sidebar, each a tree of items an operator arranges by hand. A storefront reads a menu at /x/navigation/menus/{handle} with every item already resolved to a path, so it renders the tree without knowing what each item points at.",
+  "what": [
+    "In the package’s own words, it is “the storefront’s menus: a header, a footer, a sidebar, each a tree of items an operator arranges by hand.” An item points at a product, a collection, a category, a content page, the home page, or any URL.",
+    "An item names what it points at by handle rather than by id, so a menu survives a re-import and reads sensibly in an export. The public route turns each handle into a storefront path with the four path patterns on the Plugins screen, and the item’s kind travels with it for a storefront that wants to know.",
+    "A menu is saved whole, because that is how it is edited: dragged into shape and saved, not one item at a time. Every store starts with a header and a footer, so a storefront can ask for them by handle before anyone has opened the Menus screen."
+  ],
+  "configLede": "Nothing has to be set. The four paths say where each kind of page lives on the storefront; set them on the Plugins screen, which is the setting that takes effect.",
+  "config": [
+    { "field": "ProductPath", "panel": "Product page path", "required": false, "note": "The product page’s path with {slug} in it, /products/{slug} by default." },
+    { "field": "CollectionPath", "panel": "Collection page path", "required": false, "note": "The collection page’s path, /collections/{slug} by default." },
+    { "field": "CategoryPath", "panel": "Category page path", "required": false, "note": "The category page’s path, /categories/{slug} by default." },
+    { "field": "PagePath", "panel": "Content page path", "required": false, "note": "The content page’s path, /pages/{slug} by default. Each panel field has a default of its own, which stands in front of Config, so a path set only in Config is never read; see the limits." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass navigation.New to gocommerce.New, as below, or start the reference binary with -menus. It adds two tables and gives each store a header and a footer menu." },
+    { "b": "Check the paths", "t": "If the storefront’s product, collection, category or page addresses are not the defaults, set their patterns on the Plugins screen under Menus." },
+    { "b": "Arrange a menu", "t": "On Content › Menus, add items, drag them into shape, up to four levels, and save. The save is one PUT /api/admin/x/navigation/menus/{id}/items with the whole tree." },
+    { "b": "Read it on the storefront", "t": "GET /x/navigation/menus/header answers the menu with its items nested and each one’s url resolved. GET /x/navigation/menus lists every menu’s handle and title." }
+  ],
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/navigation\"\n)\n\napp, err := gocommerce.New(cfg,\n\t// The four paths are set on the Plugins screen.\n\tnavigation.New(navigation.Config{}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc has no example of its own; this is how the reference binary’s -menus flag installs it. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "Six kinds of item", "t": "url, home, product, collection, category and page. Home resolves to /, a url is served as written, and the other four put the item’s handle into their path pattern in place of {slug}. Every item but Home needs a target." },
+    { "b": "A tree saved whole", "t": "Saving a menu deletes its items and writes the new tree in one transaction. Item ids are not kept: a tree dragged into a new shape is a new tree." },
+    { "b": "Header and footer from day one", "t": "Where a store has none, it gets a header (Home, Shop, Contact) and a footer (Search, Contact us, Privacy policy). A store opened later gets the same; a store that built its own keeps them." },
+    { "b": "Menus as a spreadsheet", "t": "GET /api/admin/x/navigation/export writes every menu as CSV: menu, menu_title, path, kind and target, with the trail of titles in one cell, such as Shop / Shirts. The file’s row order is the menu’s order." },
+    { "b": "An import that replaces only what it names", "t": "POST /api/admin/x/navigation/import rewrites each menu the file names and leaves the others alone. ?dry_run=1 rehearses and rolls back. A row it cannot place is skipped with its line number; files are capped at 8 MB. Export needs data.export, import data.import." },
+    { "b": "Rights of its own", "t": "menus.read for managers and staff, menus.write for managers, so a store can hand its navigation to somebody without handing over the products." }
+  ],
+  "limits": [
+    { "b": "Targets are not checked", "t": "A handle is not looked up when a menu is saved or read. A link to a product that was renamed or deleted is served as it is, and leads to a page that is not there." },
+    { "b": "The switch does not hide menus", "t": "The public routes do not check the plugin’s switch. Turning Menus off on the Plugins screen leaves /x/navigation/menus answering." },
+    { "b": "Config paths are ignored", "t": "Each path field on the Plugins screen has a default, and the module reads the panel first, so a path set only in Config never takes effect. Set the paths on the Plugins screen." },
+    { "b": "Four levels deep", "t": "A menu nests at most four levels. A deeper tree is refused on save, and a deeper row in a CSV file is skipped." },
+    { "b": "A title, a kind and a target", "t": "That is all an item holds. There is no icon, picture or new-tab flag, and item titles are not translated." },
+    { "b": "Every menu is public", "t": "GET /x/navigation/menus lists every menu’s handle and title to anyone, so a menu kept for later is visible by its handle." }
+  ],
+  "tested": true,
+  "testCount": 7,
+  "apiOps": 10,
+  "faq": [
+    { "q": "What does the storefront read?", "a": "GET /x/navigation/menus/{handle}, such as header or footer, on the host that serves your GoCommerce API. It answers the menu with its items nested, each with its title, kind, target and resolved url, and an empty children list on a leaf." },
+    { "q": "Why point at a handle and not an id?", "a": "So a menu survives a re-import of the catalogue and reads sensibly in an export. The handle is the product’s, collection’s, category’s or page’s slug, put into the matching path pattern." },
+    { "q": "Can I edit menus in a spreadsheet?", "a": "Yes. Export them as CSV, edit the rows, and import the file back. Each menu the file names is replaced whole; a menu it does not name is not touched. Run it with ?dry_run=1 first to see what it would do." },
+    { "q": "How deep can a menu go?", "a": "Four levels, which in the package’s words is what a header bar can render without becoming a filesystem browser." }
+  ]
+}
