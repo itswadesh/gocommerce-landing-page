@@ -1,0 +1,63 @@
+{
+  "slug": "payments-cashfree",
+  "name": "Cashfree",
+  "category": "Payments",
+  "title": "Cashfree Payments for GoCommerce — Open-Source Module",
+  "description": "Take UPI, cards, netbanking and wallets through Cashfree in a GoCommerce store: two keys, the webhook URL, the return check, refunds, and rupees only.",
+  "ogTitle": "Cashfree payments for GoCommerce",
+  "ogDescription": "Cashfree’s checkout, a signed webhook, a return-page check and refunds in whole or in part. Read from the module’s source.",
+  "h1": "Cashfree payments for GoCommerce",
+  "lede": "A Go package that opens a Cashfree order at checkout, hands the storefront its payment session for Cashfree’s own checkout, and marks the GoCommerce order paid when Cashfree’s signed webhook says the payment succeeded. Two keys to set, one webhook URL to register, and rupees only.",
+  "what": [
+    "The module registers “cashfree” as a payment method. At checkout it creates a Cashfree order for the order’s total and answers with the order’s payment_session_id, which Cashfree’s JavaScript checkout opens. The shopper pays on Cashfree’s page, so card numbers never reach the store. In the admin it describes itself as “UPI, cards, netbanking and wallets on Cashfree’s checkout, India, with its signed webhook marking orders paid. Rupees only.”",
+    "Coming back to the storefront proves nothing; the signed webhook settles the order. The storefront’s return page can ask POST /x/payments-cashfree/orders/{cf_order_id}/verify to have Cashfree asked at once rather than wait, and the order screen’s “Check with Cashfree” asks the same question. Either way the order is marked paid through the engine’s own check, the same path the webhook takes.",
+    "Cashfree takes and reports amounts as rupees with two decimals, and the engine holds paise. The two are converted as strings of digits, never through a float. Each checkout gets a Cashfree order id of its own, the order number with a random suffix, because two stores can share an account and a checkout can be retried; the module keeps its own table from that id to the store’s order, with the amount it asked for."
+  ],
+  "configLede": "Two settings are required: the App ID and the secret key. There is no separate webhook secret, because Cashfree signs its webhooks with the secret key. Set them in Config from your own main(), or leave Config empty and type them under Settings › Payment methods in the admin.",
+  "config": [
+    { "field": "AppID", "panel": "App ID", "env": "CASHFREE_APP_ID", "required": true, "note": "The API key’s client id, sent as the x-client-id header. The panel’s hint: Developers, API Keys, in the Cashfree dashboard." },
+    { "field": "SecretKey", "panel": "Secret key", "env": "CASHFREE_SECRET_KEY", "required": true, "note": "The API secret, sent as x-client-secret. It also verifies the webhooks, so, as the code puts it, without it any caller could mark orders paid. Not sent to the storefront." },
+    { "field": "Environment", "panel": "Environment", "required": false, "note": "production, the default, or sandbox, Cashfree’s test mode with its own keys. It picks Cashfree’s host, and is handed to the storefront at checkout, because a session opened in the wrong environment fails." },
+    { "field": "BaseURL", "panel": "API base URL", "required": false, "note": "Overrides the environment’s host, https://api.cashfree.com/pg or https://sandbox.cashfree.com/pg, for tests. It must be a public address: a private or loopback one is refused unless the install sets GOCOMMERCE_ALLOW_PRIVATE_URLS." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client, which otherwise times out after 20 seconds. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Set the webhook in Cashfree", "t": "In the Cashfree dashboard, under Developers, Webhooks, point the payment events at https://your-api-host/api/checkout/cashfree/webhook, webhook version 2023-08-01." },
+    { "b": "Install the module", "t": "Pass cashfree.New to gocommerce.New, as below, or run the reference binary with -gateways, which installs every payment module idle." },
+    { "b": "Give it the keys", "t": "App ID, secret key and environment, in Config or under Settings › Payment methods. A key typed into the panel counts on the next request, with no restart." },
+    { "b": "Take a payment", "t": "POST /api/checkout/cashfree answers with payment_session_id, the Cashfree order id and the environment for Cashfree’s checkout. The webhook marks the order paid." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tcashfree \"github.com/itswadesh/gocommerce/ext/payments-cashfree\"\n)\n\napp, err := gocommerce.New(cfg,\n\tcashfree.New(cashfree.Config{\n\t\tAppID:     os.Getenv(\"CASHFREE_APP_ID\"),\n\t\tSecretKey: os.Getenv(\"CASHFREE_SECRET_KEY\"),\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty cashfree.Config the module installs idle and waits for the panel, which is how the reference binary’s -gateways flag installs it.",
+  "howItWorks": [
+    { "b": "One webhook route, owned by the engine", "t": "Cashfree calls POST /api/checkout/cashfree/webhook. The engine hands the module the body untouched, because the signature is over the exact bytes Cashfree sent. Until the module is switched on and configured, every webhook is refused with a 503." },
+    { "b": "Signed and timed", "t": "x-webhook-signature is checked as the base64 HMAC-SHA256, keyed on the secret key, of x-webhook-timestamp followed by the raw body, in constant time. A timestamp more than five minutes from now is refused, as is a missing or wrong signature (400)." },
+    { "b": "Each outcome once", "t": "A failure and then a success can arrive for one Cashfree order, so the claim is on the event type and the payment id, in the module’s own table with ON CONFLICT DO NOTHING. A redelivery is answered 200 and changes nothing; a failure arriving after the order is paid leaves it paid." },
+    { "b": "The amount asked is the check", "t": "A success settles the order only when the Cashfree order’s amount matches what the module asked for, and that still matches the order’s total, in INR. An offer can make the payment itself smaller, so it is the Cashfree order’s amount that is compared." },
+    { "b": "A failed update is retried", "t": "If marking the order paid or failed does not go through, the module releases its claim and answers 500, so Cashfree’s retry finds work to do." },
+    { "b": "Refunds, whole or in part", "t": "A refund from the admin goes to Cashfree against the Cashfree order the money was taken on, never for more than Cashfree captured. Its refund id is built from the order, the refunds before it and the amount, so a retry after a lost answer is refused by Cashfree as a duplicate rather than paid twice." },
+    { "b": "The return check is rationed", "t": "The verify route answers a paid order from the store, and asks Cashfree about one Cashfree order at most once every 15 seconds, so a page reloaded in a loop cannot spend the merchant’s API allowance. It answers with the order number and payment status, nothing more." }
+  ],
+  "limits": [
+    { "b": "Rupees only", "t": "An order in any currency but INR is refused before a Cashfree order is made. The store’s settlement currency has to be the rupee." },
+    { "b": "A phone number is required", "t": "Cashfree needs the shopper’s phone. An order with none, on the order or its address, is refused at checkout." },
+    { "b": "Ten tries per order", "t": "An order may collect at most 10 Cashfree orders through retried checkouts. After that the shopper is told to place a new order." },
+    { "b": "A changed total waits for a person", "t": "A success for a Cashfree order whose amount no longer matches the order is logged as an error, acknowledged and not applied. The order stays unpaid until an operator reconciles it." },
+    { "b": "Money for a cancelled order", "t": "A payment that arrives after the order was cancelled does not settle it. It goes on the store’s Errors screen, and the refund is made by hand in Cashfree’s dashboard." },
+    { "b": "Payment events only", "t": "Only PAYMENT_SUCCESS_WEBHOOK and PAYMENT_FAILED_WEBHOOK are acted on. A refund made in Cashfree’s dashboard, a dropped-out shopper or any other event is acknowledged and does not change the GoCommerce order." },
+    { "b": "The rationing is per process", "t": "The verify route’s 15-second spacing is kept in memory. After a restart, or on another instance, the first call asks Cashfree again." }
+  ],
+  "tested": true,
+  "testCount": 28,
+  "apiOps": 1,
+  "vendorUrl": "https://www.cashfree.com",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "What is the webhook URL?", "a": "POST /api/checkout/cashfree/webhook on the host that serves your GoCommerce API, a route the engine owns. Set it in the Cashfree dashboard under Developers, Webhooks, for the payment events, with webhook version 2023-08-01. There is no webhook secret to copy: the secret key verifies it." },
+    { "q": "Does it take UPI?", "a": "The module opens a Cashfree order and leaves the choice of method to Cashfree’s checkout, so the shopper is offered what your Cashfree account offers. The module’s own description names UPI, cards, netbanking and wallets. There is no per-method code in it." },
+    { "q": "What if the webhook is late?", "a": "The storefront’s return page can post the cf_order_id Cashfree adds to the return URL to /x/payments-cashfree/orders/{cf_order_id}/verify, and an operator can press Check with Cashfree on the order. Both ask Cashfree for the order’s payments and record a success the way the webhook would." },
+    { "q": "How do I test it?", "a": "Set Environment to sandbox, which points the module at sandbox.cashfree.com, and give it the sandbox keys Cashfree issues separately. The module’s own tests answer in Cashfree’s place with a local test server; none calls Cashfree." },
+    { "q": "Is this a Cashfree partnership?", "a": "No. The module calls Cashfree’s public API with keys you supply. Cashfree does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}
