@@ -76,24 +76,24 @@ const screens = [
   ['right', 'x-products', 'products', 'GET /api/admin/products', 'admin', 'Manage products with their variants in view', 'The products list showing sixty-four products with status, variant count, price, available stock and last-updated time.', 'Status, variant count, price and available stock on one row, so the list answers most questions without opening a product. Sixty-four here, from the seeder.', 'Products, variants, per-location stock'],
   ['left', 'x-orders', 'orders', 'GET /api/admin/orders', 'admin', 'Track payment and fulfillment as separate facts', 'The orders list showing two hundred and sixty orders with order number, customer, fulfillment status, payment status, item count and total.', 'Payment state and fulfillment state are separate columns because they are separate facts: an order can be paid and unshipped, or shipped and awaiting settlement. The list does not collapse them.', 'Orders, payment state, fulfillment state, totals in minor units'],
   ['right', 'x-inventory', 'inventory', 'GET /api/admin/inventory/low-stock', 'admin', 'Hold stock per location', 'The inventory screen showing stock on hand for each SKU across several warehouse locations.', 'Stock is held per location, so a store with two warehouses does not have to fake it with one number. Low-stock is a query, not a flag somebody remembers to set.', 'Inventory levels, locations, low-stock query'],
-  ['left', 'x-plugins', 'integrations', 'GET /api/plugins', 'public', 'Turn modules on, not marketplaces', 'The plugins screen listing storefront, marketing and analytics features grouped by category, each with an activate button and settings link.', 'Only the modules compiled into this build appear. There is no marketplace to browse and nothing downloaded at runtime — a module you did not import is not in your binary.', '49 modules, installed by import'],
+  ['left', 'x-plugins', 'integrations', 'GET /api/plugins', 'public', 'Turn modules on, not marketplaces', 'The plugins screen listing storefront, marketing and analytics features grouped by category, each with an activate button and settings link.', 'Only the modules compiled into this build appear. There is no marketplace to browse and nothing downloaded at runtime — a module you did not import is not in your binary.', '51 modules, installed by import'],
   ['right', 'x-payments', 'payments', 'GET /api/admin/settings', 'admin', 'Configure payments from the panel', 'The payments settings screen showing which payment providers are installed in this build, with their configuration.', 'Ten payment modules exist; this screen shows the ones the running binary was built with. Cash on delivery is built into the engine and needs no module at all.', 'Stripe, Razorpay, Adyen, Paddle and five more'],
   ['left', 'x-shipping', 'shipping', 'GET /api/admin/shipping/zones', 'admin', 'Define zones and rates before any carrier', 'The shipping screen showing delivery zones and the rates configured within them.', 'Zones and rates are engine concepts, so manual fulfillment works before a carrier module is installed. Add Shiprocket or USPS when you need labels, not to get started.', 'Zones, rates, 11 carrier modules'],
 ]
 
 const modules = [
-  ['mod-pay', 'Payments', 10, ['Stripe', 'Razorpay', 'Adyen', 'Paddle', 'Hyperswitch', 'Lemon Squeezy', 'Helcim', 'Creem', 'Clover', 'RevenueCat']],
-  ['mod-ful', 'Fulfillment', 11, ['Shiprocket', 'Delhivery', 'Shippo', 'ShipStation', 'Easyship', 'Shippit', 'USPS', 'India Post', 'NimbusPost', 'Onfleet', 'Veeqo']],
-  ['mod-msg', 'Email and SMS', 4, ['Resend', 'SendGrid', 'Twilio', 'MSG91']],
-  ['mod-grow', 'Retention', 6, ['Cart recovery', 'Klaviyo', 'Newsletter', 'Reviews', 'Wishlist', 'Product feeds']],
-  ['mod-com', 'Commerce and content', 14, ['CMS', 'Identity', 'B2B', 'Navigation', 'Search (Meilisearch)', 'Sitemaps', 'Translations', 'Invoices', 'Webhooks', 'Contact', 'FAQ', 'Banners', 'Video showcases', 'IndexNow']],
-  ['mod-ai', 'AI and agents', 2, ['AI gateway', 'MCP']],
-  ['mod-imp', 'Migration', 2, ['Shopify import', 'Amazon import']],
+  ['mod-pay', 'Payments', ['Stripe', 'Razorpay', 'Cashfree', 'Adyen', 'Paddle', 'Hyperswitch', 'Lemon Squeezy', 'Helcim', 'Creem', 'Clover', 'RevenueCat']],
+  ['mod-ful', 'Fulfillment', ['Shiprocket', 'Delhivery', 'Shippo', 'ShipStation', 'Easyship', 'Shippit', 'USPS', 'India Post', 'NimbusPost', 'Onfleet', 'Veeqo']],
+  ['mod-msg', 'Email, SMS and Telegram', ['Resend', 'SendGrid', 'Twilio', 'MSG91', 'Telegram alerts']],
+  ['mod-grow', 'Retention', ['Cart recovery', 'Klaviyo', 'Newsletter', 'Reviews', 'Wishlist', 'Product feeds']],
+  ['mod-com', 'Commerce and content', ['CMS', 'Identity', 'B2B', 'Navigation', 'Search (Meilisearch)', 'Sitemaps', 'Translations', 'Invoices', 'Webhooks', 'Contact', 'FAQ', 'Banners', 'Video showcases', 'IndexNow']],
+  ['mod-ai', 'AI and agents', ['AI gateway', 'MCP']],
+  ['mod-imp', 'Migration', ['Shopify import', 'Amazon import']],
 ] as const
 ---
 <Base
   title="GoCommerce — Open Source Ecommerce Backend + Admin in Go"
-  description="An open-source ecommerce backend and admin in Go: commerce APIs, PostgreSQL, an embedded Svelte admin, 49 modules, 342 documented operations. Self-hosted, MIT."
+  description="An open-source ecommerce backend and admin in Go: commerce APIs, PostgreSQL, an embedded Svelte admin, 51 modules, 342 documented operations. Self-hosted, MIT."
   path={path}
   ogTitle="GoCommerce — Ecommerce Backend + Admin in Go"
   ogDescription="A standalone open-source ecommerce backend: commerce APIs, PostgreSQL, an admin compiled into the binary. One dependency, one database."
@@ -145,7 +145,7 @@ const modules = [
     <div class="why-grid">
       <div class="why-item"><h3>Native Go</h3><p>Ordinary packages, interfaces and modules. “Go to definition” works on every part of your store, including the parts you did not write.</p></div>
       <div class="why-item"><h3>Self-hosted</h3><p>Your server, your database, your backups. Nothing phones home, and there is no hosted tier to graduate to.</p></div>
-      <div class="why-item"><h3>Modular</h3><p>49 modules exist and a store installs the ones it needs. With none installed the engine still sells: cash on delivery and manual fulfillment are built in, because they need no third party.</p></div>
+      <div class="why-item"><h3>Modular</h3><p>51 modules exist and a store installs the ones it needs. With none installed the engine still sells: cash on delivery and manual fulfillment are built in, because they need no third party.</p></div>
       <div class="why-item"><h3>Embedded admin</h3><p>The Svelte admin compiles into the binary. One artifact to build, ship and roll back.</p></div>
       <div class="why-item"><h3>API-first</h3><p>342 operations across the engine and its modules, every one in a published OpenAPI document. The admin is a client of that contract, not an exception to it.</p></div>
       <div class="why-item"><h3>PostgreSQL-first</h3><p>Money is integer minor units plus a currency code, never a float and never a formatted string. Migrations are append-only. The schema is one you could read and query yourself.</p></div>
@@ -208,11 +208,11 @@ const modules = [
 
   <section id="modules" class="section wrap" aria-labelledby="modules-title">
     <h2 id="modules-title">Start small. Add what you need.</h2>
-    <p class="section-lede">49 modules live in the GoCommerce repository. Every one is an ordinary Go package: import it, pass it a config struct, and it is installed. Leave it out and none of its code is in your binary.</p>
+    <p class="section-lede">51 modules live in the GoCommerce repository. Every one is an ordinary Go package: import it, pass it a config struct, and it is installed. Leave it out and none of its code is in your binary.</p>
     <div class="modgrid">
-      {modules.map(([id, title, n, items]) => (
+      {modules.map(([id, title, items]) => (
         <section class="modgroup" aria-labelledby={id}>
-          <h3 id={id}>{title} <span>{n}</span></h3>
+          <h3 id={id}>{title} <span>{items.length}</span></h3>
           <ul>{items.map((m) => <li>{m}</li>)}</ul>
         </section>
       ))}
@@ -250,7 +250,7 @@ const modules = [
         <div class="url"><p class="url-what">API documentation</p><p class="url-where"><code>localhost:8080/docs</code></p><p class="url-note">The OpenAPI contract this build actually serves.</p></div>
         <div class="url"><p class="url-what">The catalog</p><p class="url-where"><code>localhost:8080/api/products</code></p><p class="url-note">Public and unauthenticated — the route a storefront calls.</p></div>
       </div>
-      <p class="fineprint"><code>./cmd/gocommerce</code> is the reference binary and can install 46 of the 49 modules, each behind a flag of its own — all but import-shopify, indexnow and mcp — which makes it useful for reading the API contract. A real store is its own small <code>main()</code> that installs only what it needs — that is <code>examples/store</code>.</p>
+      <p class="fineprint"><code>./cmd/gocommerce</code> is the reference binary and can install 48 of the 51 modules, each behind a flag of its own — all but import-shopify, indexnow and mcp — which makes it useful for reading the API contract. A real store is its own small <code>main()</code> that installs only what it needs — that is <code>examples/store</code>.</p>
     </div>
   </section>
 
@@ -288,7 +288,7 @@ const modules = [
       <ul class="contrib-list">
         <li><b>The Svelte Commerce connector</b> — 0.1.0 is published; running it against a real store is the highest-value work on this project.</li>
         <li><b>Behavioural events</b> — the piece most of the planned list waits on.</li>
-        <li><b>Payment providers</b> for regions the ten current modules do not reach.</li>
+        <li><b>Payment providers</b> for regions the eleven current modules do not reach.</li>
         <li><b>Shipping carriers</b>, on the same pattern as the eleven that exist.</li>
         <li><b>Benchmarks</b> — so this page can eventually say something measured about speed.</li>
       </ul>

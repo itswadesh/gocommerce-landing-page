@@ -55,12 +55,12 @@
     [
       "Extensions",
       "The Shopify App Store, where each app sets its own price.",
-      "49 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No app store."
+      "51 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No app store."
     ],
     [
       "Payments",
       "Shopify Payments in 40 countries and regions; third-party providers elsewhere, with the fee above.",
-      "Razorpay, Stripe, Adyen, Paddle, Hyperswitch and four more as modules; cash on delivery built in."
+      "Razorpay, Stripe, Cashfree, Adyen, Paddle, Hyperswitch and five more as modules; cash on delivery built in."
     ],
     [
       "Storefront",

@@ -23,11 +23,11 @@
     ["How your plan is set", "By trailing twelve-month GMV — gross order value less 10%. Pass $30K on Core or $100K on Growth and BigCommerce notifies you, then moves you up.", "It isn’t. Sales volume changes nothing you pay for software."],
     ["Above the cap", "Scale covers $33,333 of GMV a month and takes 0.9% of the excess. At $2 million a year the account moves to Performance.", "No cap."],
     ["Fee on each order", "2.0% on Core, 1.0% on Growth and 0.6% on Scale for orders through Open Payment Providers — any provider not on its embedded list. None through embedded providers.", "None, on any gateway."],
-    ["Payments in India", "Its India page lists Adyen, BlueSnap, CCAvenue, Paymetric, NMI and Stripe. CCAvenue, Paymetric and NMI are not on the embedded list, so on self-serve plans they carry the fee.", "Razorpay, Stripe, Adyen, Hyperswitch and five more as modules; cash on delivery built in. No CCAvenue module."],
+    ["Payments in India", "Its India page lists Adyen, BlueSnap, CCAvenue, Paymetric, NMI and Stripe. CCAvenue, Paymetric and NMI are not on the embedded list, so on self-serve plans they carry the fee.", "Razorpay, Stripe, Cashfree, Adyen, Hyperswitch and six more as modules; cash on delivery built in. No CCAvenue module."],
     ["B2B", "Customer groups from Growth; price lists only on Performance.", "Customer groups, price lists and quantity breaks in core, and company accounts, credit on account, approvals and quotes in the b2b module."],
     ["Inventory locations", "Up to 4, 5 or 8 by plan; custom on Performance.", "Stock per location in core, on hand and reserved, with no plan limit."],
     ["More storefronts", "$30, $50 or $100 a month each, up to 3, 5 or 8 by plan.", "Channels, each with its own published catalogue and price lists, at no charge."],
-    ["Extensions", "An app marketplace of over 1,200 apps; Amazon, eBay and Walmart channels on every plan.", "49 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No marketplace channels."],
+    ["Extensions", "An app marketplace of over 1,200 apps; Amazon, eBay and Walmart channels on every plan.", "51 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No marketplace channels."],
     ["Code", "Catalyst, its Next.js storefront, is MIT on GitHub. The backend it runs against is closed.", "Both halves open: the GoCommerce backend and admin, and the Svelte Commerce storefront."],
     ["Your data", "Products, customers (not passwords) and orders export to CSV; themes download as a zip. Orders cannot be imported back by CSV.", "Rows in your own PostgreSQL, which you can query, back up and move."]
   ],

@@ -18,7 +18,7 @@
 - The Svelte admin is compiled into the Go binary with `//go:embed`; one process serves the API and the admin.
 - Documented GoCommerce API operations: 342 — 238 in the core, 104 across modules, all in OpenAPI.
 - Of those, 142 are admin endpoints. They are privileged, not private: the admin uses the same published contract an integration reads.
-- GoCommerce: 1,036 tests, 61 admin screens, 49 modules, 48 migrations, 17 commerce events.
+- GoCommerce: 1,036 tests, 61 admin screens, 51 modules, 48 migrations, 17 commerce events.
 - Money is stored and returned as integer minor units plus a currency code, never a float and never a formatted string.
 - Go module path: `github.com/itswadesh/gocommerce`, the same as the repository. Install with `go get github.com/itswadesh/gocommerce@latest`; tagged releases start at v1.0.0.
 - Svelte Commerce reaches a backend through a connector package implementing a shared 43-service surface.
@@ -45,7 +45,7 @@
 - https://kitcommerce.store/solutions/b2b/ — B2B: customer groups, price lists, quantity breaks, scoped API keys, invoices
 - https://kitcommerce.store/solutions/d2c/ — direct-to-consumer: the default store, guest checkout, cash on delivery, manual fulfillment, the Svelte Commerce storefront
 - https://kitcommerce.store/solutions/multi-store/ — several storefronts on one catalogue: channels, per-channel publishing and pricing
-- https://kitcommerce.store/integrations/ — all 49 GoCommerce modules by category, each a directory under ext/, and the one hosting partner
+- https://kitcommerce.store/integrations/ — all 51 GoCommerce modules by category, each a directory under ext/, and the one hosting partner
 - https://kitcommerce.store/privacy/ — what the site stores, which third parties it contacts, and what loads only after consent
 - https://kitcommerce.store/gocommerce/mcp/ — the GoCommerce MCP server: 19 tools, rights, read-only mode, HTTP and stdio transports, how to connect an agent
 - https://kitcommerce.store/blog/choosing-a-backend-for-a-sveltekit-storefront/ — the 26 Svelte Commerce connectors ranked by measured coverage, with cart, checkout and sign-in status
@@ -119,7 +119,7 @@
 - https://kitcommerce.store/.well-known/security.txt — where to report a vulnerability
 - https://kitcommerce.store/pricing/ — pricing: one plan, free for life; no fee per order; what free includes and what running a store still costs
 - https://kitcommerce.store/features/ — GoCommerce features, each checked against the code with the file named; partial features say what is missing
-- https://kitcommerce.store/features/checkout/ — checkout: one idempotent call that returns 409 instead of charging a changed price, guest checkout, ten gateways plus cash on delivery
+- https://kitcommerce.store/features/checkout/ — checkout: one idempotent call that returns 409 instead of charging a changed price, guest checkout, eleven gateways plus cash on delivery
 - https://kitcommerce.store/features/operations/ — operations: order timeline and edits, multi-location stock with a reconciling ledger, 12 carrier options, refunds, roles, audit
 - https://kitcommerce.store/features/development/ — development: one binary and PostgreSQL, one dependency, 342 documented operations, signed webhooks, MCP; no cloud
 - https://kitcommerce.store/features/ai/ — AI: a gateway that caps and records every model call, an approval queue with no actions yet, read-only agent keys and MCP; what is not built

@@ -21,7 +21,7 @@
     ["What it is", "A hosted website builder, with a store on its Core, Business and Business Elite plans.", "An open-source platform you run, in two MIT packages: a Go backend with its admin compiled in, and a SvelteKit storefront."],
     ["Software price", "Light $17, Core $29, Business $39 and Business Elite $159 a month, billed yearly, at Wix’s US dollar reference prices, before tax. What you pay depends on where you are.", "Nothing. Both packages are MIT licensed."],
     ["Taking payments", "Not on Light. Core and above.", "On every install: cash on delivery built in, gateways as modules."],
-    ["Payments in India", "PayPal, Razorpay, PayU India, Cashfree Payments, Paytm, Easebuzz, airpay and Nimbbl. Wix Payments, Wix’s own processor, serves 15 other countries.", "Razorpay, Stripe, Adyen, Hyperswitch and five more as modules; cash on delivery built in."],
+    ["Payments in India", "PayPal, Razorpay, PayU India, Cashfree Payments, Paytm, Easebuzz, airpay and Nimbbl. Wix Payments, Wix’s own processor, serves 15 other countries.", "Razorpay, Stripe, Cashfree, Adyen, Hyperswitch and six more as modules; cash on delivery built in."],
     ["Design", "A drag-and-drop editor and thousands of templates. No code needed.", "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes, changed in code rather than a visual editor."],
     ["Hosting", "Included, and required: Wix says a Wix site has to run on Wix’s servers and cannot be moved to another host.", "Yours, anywhere: one Go binary and one PostgreSQL database."],
     ["Code", "Closed. Custom code goes through Wix’s own developer platform, with the advanced tier on Business Elite.", "Open. Checkout, pricing and order flow are Go source you can change."],

@@ -1,11 +1,11 @@
 {
   "slug": "checkout",
   "name": "Checkout",
-  "summary": "One idempotent call that never charges a changed price, guest checkout for good, and ten gateways beside cash on delivery.",
+  "summary": "One idempotent call that never charges a changed price, guest checkout for good, and eleven gateways beside cash on delivery.",
   "title": "Checkout API — GoCommerce’s Idempotent, Guest-First Checkout",
-  "description": "GoCommerce checkout: one idempotent call that returns 409 rather than charge a changed price, permanent guest checkout, ten gateways plus cash on delivery.",
+  "description": "GoCommerce checkout: one idempotent call that returns 409 rather than charge a changed price, permanent guest checkout, eleven gateways plus cash on delivery.",
   "ogTitle": "GoCommerce checkout, feature by feature",
-  "ogDescription": "One idempotent call, guest checkout for good, ten gateways plus cash on delivery — and what is not built yet.",
+  "ogDescription": "One idempotent call, guest checkout for good, eleven gateways plus cash on delivery — and what is not built yet.",
   "kicker": "Features · Checkout",
   "h1": "A checkout that refuses to charge the wrong price",
   "lede": "One call turns a cart into an order and tells the client how to pay. Retry it and you get the same order back; change a price underneath it and it answers 409 with the new figures instead of charging something the shopper never saw.",
@@ -40,7 +40,7 @@
     {
       "name": "Payments",
       "tiles": [
-        { "title": "Ten gateway modules", "status": "yes", "text": "Stripe, Razorpay, Adyen, Paddle, Lemon Squeezy, Creem, Hyperswitch, Helcim, Clover and RevenueCat, each configured from the admin’s payment methods screen.", "source": "ext/payments-*/" },
+        { "title": "Eleven gateway modules", "status": "yes", "text": "Stripe, Razorpay, Cashfree, Adyen, Paddle, Lemon Squeezy, Creem, Hyperswitch, Helcim, Clover and RevenueCat, each configured from the admin’s payment methods screen.", "source": "ext/payments-*/" },
         { "title": "Cash on delivery by default", "status": "yes", "text": "The built-in cod method confirms the order and takes stock off the shelf at once; payment stays pending until an operator marks it paid.", "source": "core/payments.go · codProvider" },
         { "title": "Several gateways side by side", "status": "yes", "text": "Any number of providers run at once, each at its own checkout route with a webhook route the core owns. Writing your own is a two-method interface.", "source": "core/ports.go · PaymentProvider" }
       ]

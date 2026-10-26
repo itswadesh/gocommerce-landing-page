@@ -21,7 +21,7 @@
     ["What it is", "An online store from a payments company, with Instamojo’s own gateway built in.", "A Go backend and admin plus a SvelteKit storefront, both MIT, that you host."],
     ["Plans", "Lite ₹0 and Starter ₹6,999 a year; Growth ₹14,999 a year or ₹2,999 a month; a store built for you, priced on request. GST extra.", "No plans; the software is ₹0."],
     ["Fee per payment", "5% + ₹3 on Lite and Starter, 2% + ₹3 on Growth billed yearly, each plus GST — and covering the gateway, which Instamojo says comes at no additional charge.", "None from GoCommerce. The gateway charges its own rate; Razorpay lists 2% + GST."],
-    ["Payment methods", "UPI, cards, netbanking, wallets, pay later and EMI through Instamojo, with an option to pass the fee on to the buyer.", "Whatever your gateway offers, through one of ten payment modules — Razorpay, Stripe and Adyen among them."],
+    ["Payment methods", "UPI, cards, netbanking, wallets, pay later and EMI through Instamojo, with an option to pass the fee on to the buyer.", "Whatever your gateway offers, through one of eleven payment modules — Razorpay, Cashfree, Stripe and Adyen among them."],
     ["Cash on delivery", "Included from the free plan.", "The core’s default payment method."],
     ["Shipping", "Shipway, Shiprocket, Vamaship, Pickrr and others; Instamojo says pickup and delivery cover 26,000 pin codes.", "Shiprocket, Delhivery and NimbusPost modules book shipments; India Post consignments are recorded against the order."],
     ["Customising", "Themes, with CSS customisation and JavaScript editing among the store features.", "The source of the backend and storefront, checkout included."],

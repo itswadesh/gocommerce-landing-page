@@ -12,7 +12,7 @@
   "facts": [
     { "b": "342", "t": "documented REST operations" },
     { "b": "1", "t": "production dependency (pgx)" },
-    { "b": "49", "t": "modules, compiled in only when imported" }
+    { "b": "51", "t": "modules, compiled in only when imported" }
   ],
   "groups": [
     {
@@ -27,7 +27,7 @@
     {
       "name": "Extending it",
       "tiles": [
-        { "title": "Modules, compiled in", "status": "partial", "text": "49 modules plug into a small set of ports; import one and it is in your binary. Narrower than a plugin store: modules are Go, compiled in, not installed at runtime.", "source": "core/ports.go · ext/" },
+        { "title": "Modules, compiled in", "status": "partial", "text": "51 modules plug into a small set of ports; import one and it is in your binary. Narrower than a plugin store: modules are Go, compiled in, not installed at runtime.", "source": "core/ports.go · ext/" },
         { "title": "Signed webhooks", "status": "yes", "text": "The webhooks module posts signed events to any public https URL, with retries and a delivery log. Go code can also subscribe in-process.", "source": "ext/webhooks · core/events.go" },
         { "title": "Custom data", "status": "yes", "text": "Fifteen core tables — products, variants, orders, carts, discounts, vendors and more — carry a free-form metadata object. Product attributes follow Shopify’s taxonomy, embedded in the binary, and can be filtered.", "source": "core/types.go · Metadata" },
         { "title": "Admin screens from modules", "status": "partial", "text": "A module adds an admin screen by describing a list and a form, gated by rights. Missing: shipping your own front-end code into the admin.", "source": "core/screens.go" },
