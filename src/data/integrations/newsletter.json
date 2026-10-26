@@ -1,0 +1,56 @@
+{
+  "slug": "newsletter",
+  "name": "Newsletter",
+  "category": "Marketing",
+  "title": "Newsletter Signups for GoCommerce — List and Unsubscribe",
+  "description": "Collect newsletter signups in a GoCommerce store: each address with its source and date, an unsubscribe route, and a CSV export. It sends no mail itself.",
+  "ogTitle": "Newsletter signups for GoCommerce",
+  "ogDescription": "The signup box and its list: addresses kept with their consent, unsubscribed by token, exported as CSV. Read from the source.",
+  "h1": "Newsletter signups for GoCommerce",
+  "lede": "A Go package for the signup box: who asked to hear from the store, and who asked to stop. It keeps each address with where it came from and when, lists and exports them for an operator, and unsubscribes by token. It sends nothing; in its own words, that is a marketing tool’s job.",
+  "what": [
+    "In the package’s words, “a subscription is an email address and a consent.” The storefront posts the address to POST /x/newsletter/subscribe, with an optional name and a source such as footer. The store keeps it lower-cased, with the date, and answers with the status alone: “an address and a token are not a storefront’s to show.”",
+    "An operator reads the list on the Newsletter screen, types in an address for a customer who asked at the counter, removes one on request, and exports the list as CSV. The package says it plainly: “Nothing here sends a newsletter: that is a marketing tool’s job, and the export is how the list reaches one.”",
+    "Each address gets a random token, and the unsubscribe route takes that token rather than the address, so a forwarded link cannot be edited into somebody else’s. Signing up again after leaving puts the same row back to subscribed."
+  ],
+  "configLede": "Nothing to configure in Go: Config has no fields. The Plugins screen holds the three lines of copy a storefront’s signup box can show.",
+  "config": [
+    { "field": "heading", "panel": "Signup heading", "required": false, "note": "“Get the news” by default. Public, for the storefront to read. Panel only." },
+    { "field": "blurb", "panel": "Signup text", "required": false, "note": "“New arrivals and offers, now and then. Unsubscribe any time.” by default. Public. Panel only." },
+    { "field": "thanks", "panel": "After signing up", "required": false, "note": "“Thanks — you’re on the list.” by default. Public. Panel only." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass newsletter.New to gocommerce.New, as below, or start the reference binary with -newsletter. It adds one table, and the plugin starts switched on." },
+    { "b": "Post the signup", "t": "The storefront posts email, name and source to POST /x/newsletter/subscribe, with a hidden website field that people leave empty." },
+    { "b": "Export for the mailer", "t": "Export CSV on the Newsletter screen, or GET /api/admin/x/newsletter/subscriptions.csv, downloads the subscribed addresses with name, source and dates." },
+    { "b": "Unsubscribe by token", "t": "GET /x/newsletter/unsubscribe?token=…, or a POST with the token in the body, marks the address unsubscribed. The token lives in the table only; see the limits." }
+  ],
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/newsletter\"\n)\n\napp, err := gocommerce.New(cfg, newsletter.New(newsletter.Config{}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc has no example of its own; this is how the reference binary’s -newsletter flag and examples/store/main.go install it. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "Twice is once", "t": "An address is unique per store. The same address posted again changes nothing and gets the same answer; a name given the second time replaces the first. After an unsubscribe, a new signup re-subscribes the row and records its new source." },
+    { "b": "A honeypot for bots", "t": "A hidden website field. A request that fills it is answered 201 subscribed, and nothing is kept." },
+    { "b": "A quiet unsubscribe", "t": "A token nobody has, or a link clicked twice, gets the same 200. In the code’s words, nothing about the list is learnable from this route." },
+    { "b": "An export a mailer can read", "t": "email, name, source, status, subscribed_at and unsubscribed_at, one address per row, in a file named newsletter-<date>.csv. Subscribed addresses only, unless ?status=unsubscribed asks for the others." },
+    { "b": "Rights of its own", "t": "newsletter.read, which managers and staff hold by default, shows the list. newsletter.write, given to no role by default, adds and removes. The export needs data.export." },
+    { "b": "Masked where it must be", "t": "On a demo store or for an agent key, addresses in the list and the export are masked, and search matches the name only, so an address cannot be read back one character at a time." }
+  ],
+  "limits": [
+    { "b": "It sends no mail", "t": "No newsletter, no welcome and no confirmation. The list reaches a mailing tool only through the CSV export or the admin list." },
+    { "b": "No double opt-in", "t": "An address is subscribed on the first POST, with no confirming mail, so an address typed by somebody else is on the list. What the row records is the source and the date." },
+    { "b": "The token is not handed out", "t": "No route returns an address’s unsubscribe token, and the export has no token column. A mailer working from the export cannot build the unsubscribe link the plugin’s description says every mail should carry; the token has to be read from the newsletter_subscriptions table." },
+    { "b": "Opening the link is enough", "t": "GET /x/newsletter/unsubscribe changes the status. There is no confirmation step." },
+    { "b": "Nothing comes back from the mailer", "t": "There is no import and no route for a mailing tool to call. An address that unsubscribes inside the mailing tool stays subscribed here until an operator removes it or the store’s own link is used." },
+    { "b": "Removing is deleting", "t": "Removing an address deletes its row, and the record of when it signed up and left goes with it. Switching the plugin off closes the signup only: unsubscribing and the admin routes keep working." }
+  ],
+  "tested": true,
+  "testCount": 3,
+  "apiOps": 7,
+  "faq": [
+    { "q": "Does it send newsletters?", "a": "No. It collects signups and unsubscribes and keeps the list. Sending is left to a mailing tool, which gets the list from the CSV export." },
+    { "q": "What is in the export?", "a": "One row per address, with email, name, source, status, subscribed_at and unsubscribed_at, the dates in RFC 3339 and UTC. By default only subscribed addresses; ?status=unsubscribed gives the ones who left." },
+    { "q": "How does a shopper unsubscribe?", "a": "Through a link to /x/newsletter/unsubscribe carrying their token, opened or posted. The token is created at signup and kept in the store’s table; no route returns it, so building the link means reading it from the database." },
+    { "q": "Are bot signups kept?", "a": "Not those that fill the hidden website field: they are told they are subscribed and nothing is stored. Other bots are not stopped by the module." }
+  ]
+}
