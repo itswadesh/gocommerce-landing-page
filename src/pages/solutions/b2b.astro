@@ -8,6 +8,7 @@
  */
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
+import { hostedFee } from '../../lib/pricing'
 
 const path = '/solutions/b2b/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -30,7 +31,7 @@ const faq = [
   { q: 'Can each dealer have a store of its own?', a: 'Yes, from one install. Platform mode serves many stores from one process and one PostgreSQL database, each in a schema of its own with its own operators, admin panel and domain, created and suspended through a platform API whose credentials open no store.' },
   { q: 'Do buyers need a storefront built for them?', a: 'No. Since GoCommerce 1.2, buyers and dealers sign in at /portal on the store’s own address with their store account. They see their company’s terms and what it owes, order by SKU or from a spreadsheet, check out the lines they tick, repeat orders, approve, accept quotes and download statements. Each person sees only what their role and company allow.' },
   { q: 'Can a company have its own shipping and tax?', a: 'Yes, through its customer group. A shipping rate can name a group, and that group’s buyers are offered its rates instead of the public ones in that zone. A group can be tax-exempt: its orders carry no tax and record which group exempted them.' },
-  { q: 'Is it free to use for B2B?', a: 'Yes. GoCommerce is MIT-licensed, and the B2B module is in the same repository as the engine: no paid edition, no B2B add-on.' },
+  { q: 'Is it free to use for B2B?', a: `Yes, to run yourself. GoCommerce is MIT-licensed, and the B2B module is in the same repository as the engine, not an add-on. A store hosted on kitcommerce.store pays ${hostedFee} of each successful sale.` },
 ]
 ---
 <Base

@@ -71,7 +71,7 @@ const RULES = [
     // Until 26 October 2026 the site said there was nothing to pay at all.
     // Since then a store hosted on kitcommerce.store pays a share of each
     // successful sale (src/data/pricing.json), so these phrasings are false.
-    re: /\b(free,? for life|no hosted (offering|version|tier|option)|hosted tier|nothing to (buy|pay)|no customer pays)\b/gi,
+    re: /\b(free,? for life|no hosted (offering|version|tier|option)|hosted tier|nothing to (buy|pay)|no customer pays|no paid editions?)\b/gi,
     why: 'Stores hosted on kitcommerce.store pay a share of each successful sale; only self-hosting is free. See src/data/pricing.json.',
   },
   {
