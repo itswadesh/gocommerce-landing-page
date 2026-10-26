@@ -1,0 +1,54 @@
+{
+  "slug": "cms",
+  "name": "Content pages",
+  "category": "Platform",
+  "title": "Content Pages for GoCommerce — About, Terms, Delivery",
+  "description": "Add about, terms and delivery pages to a GoCommerce store: one page per slug and language, draft or published, served at /x/cms/pages/{slug}.",
+  "ogTitle": "Content pages for GoCommerce",
+  "ogDescription": "Written pages a storefront reads by slug, in the shopper’s language, edited on the admin’s Pages screen. Read from the module’s source.",
+  "h1": "Content pages for GoCommerce",
+  "lede": "A Go package that gives a GoCommerce store its written pages: about, terms, delivery, a landing page. Each page is a slug, a title, a body and a language, draft until it is published. The storefront reads it at /x/cms/pages/{slug}, and operators write it on the admin’s Pages screen.",
+  "what": [
+    "In the package’s own words it adds “content pages — about, terms, delivery, a landing page — to a gocommerce store”. It is a module rather than part of the engine because a store can sell without it. It owns one table, cms_pages, mounts its own routes, and never touches a commerce table.",
+    "A page has a slug, a title, a body, an optional excerpt for a listing page, a status of draft or published, a language, and a set of SEO name and value pairs. The slug is unique per language, so the same page can be written once in each of the store’s languages under one address.",
+    "The storefront asks for a page by slug. The module answers in the request’s language, taken from ?lang or Accept-Language, and when that page has not been written it falls back through the store’s languages, main first, rather than answer 404. Drafts never reach the public routes."
+  ],
+  "configLede": "One setting, with a default, and nothing to set in the panel. Pages are not configuration: they are rows an operator writes on the Pages screen or through the API.",
+  "config": [
+    { "field": "PublishedOnly", "required": false, "note": "Hides draft pages from the public routes. True when left nil; in the package’s words there is no good reason to turn it off outside a preview environment. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass cms.New to gocommerce.New, as below, or start the reference binary with -cms. It adds the cms_pages table and the Pages screen to the admin’s main nav." },
+    { "b": "Write a page", "t": "On the Pages screen, or POST /api/admin/x/cms/pages with a title and a slug. It is a draft unless the status says published, and in the store’s main language unless the request names one." },
+    { "b": "Publish it", "t": "Set the status to published. The first publish stamps published_at, and publishing again does not move that date." },
+    { "b": "Read it from the storefront", "t": "GET /x/cms/pages/{slug} answers with the page in the shopper’s language, and GET /x/cms/pages lists the published pages in that language, newest first." }
+  ],
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/cms\"\n)\n\napp, err := gocommerce.New(cfg, cms.New(cms.Config{}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. The reference binary’s -cms flag and examples/store/main.go install it the same way.",
+  "howItWorks": [
+    { "b": "One page per slug and language", "t": "A unique key on slug and language lets “about” exist once in each of the store’s languages without colliding. Creating a page at a slug already taken in that language, or renaming one onto it, answers 409 with the slug." },
+    { "b": "A fallback, not a 404", "t": "A shopper whose browser asks for a translation nobody has written gets the page in the store’s other languages, main first. Only a slug with no published page in any of the store’s languages is a 404." },
+    { "b": "Draft or published", "t": "The status is one of the two, checked on create, on update and on the admin list’s filter. Drafts show on the admin routes and never on the public ones." },
+    { "b": "SEO as name and value pairs", "t": "Each page carries a free set of string pairs, stored as JSON and handed back as they were. The module does not read or check them; the storefront decides what each name means." },
+    { "b": "Rights of its own", "t": "Reading pages in the admin needs pages.read, held by managers and staff by default. Writing, publishing and deleting need pages.write, held by managers." },
+    { "b": "Sample pages", "t": "The sample shop adds three published pages, About us, Shipping and delivery, and Returns, in the store’s first language. A slug the store already uses is skipped, and erasing the sample shop removes only the pages it added." }
+  ],
+  "limits": [
+    { "b": "Language is fixed at creation", "t": "An update cannot change a page’s language. To write a page in another language, create a new one with the same slug." },
+    { "b": "The body is kept as sent", "t": "The admin edits the body in a rich-text editor. The module stores and serves it as it arrived; it does not render, clean or check it." },
+    { "b": "No history", "t": "An update overwrites the page. There are no revisions to compare or restore, and a deleted page is gone." },
+    { "b": "No scheduled publishing", "t": "A page is draft or published from the moment its status is set. There is no publish date in the future." },
+    { "b": "Flat pages", "t": "A page has no parent and no position. The public list is newest first; linking pages into the storefront’s header or footer is the menus’ job." },
+    { "b": "No switch in the Plugins screen", "t": "The module registers no plugin. Once installed, the public routes answer for every published page." }
+  ],
+  "tested": true,
+  "testCount": 8,
+  "apiOps": 7,
+  "faq": [
+    { "q": "Where does the storefront read a page?", "a": "GET /x/cms/pages/{slug} on the host that serves your GoCommerce API, which answers with the published page in the request’s language. GET /x/cms/pages lists the published pages in that language, a page at a time." },
+    { "q": "What happens when a page has no translation?", "a": "The module tries the store’s other languages, main first, and answers with the first published page it finds at that slug. A shopper reading in a language nobody has written the page in sees it in the main language rather than a 404." },
+    { "q": "Who can edit pages?", "a": "An operator with pages.write, which managers hold by default; an owner holds every right. Staff hold pages.read, so they can see pages in the admin but not change them. Either right can be granted to another role on the Roles screen." },
+    { "q": "Can I preview a draft on the storefront?", "a": "Not on a normal install. The public routes serve published pages only, unless Config.PublishedOnly is set to false, which the package keeps for a preview environment. The admin route GET /api/admin/x/cms/pages/{id} returns drafts." }
+  ]
+}
