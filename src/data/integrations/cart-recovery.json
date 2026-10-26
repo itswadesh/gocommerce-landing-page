@@ -1,0 +1,57 @@
+{
+  "slug": "cart-recovery",
+  "name": "Cart recovery",
+  "category": "Marketing",
+  "title": "Cart Recovery for GoCommerce — Abandoned Checkout Emails",
+  "description": "Remind shoppers about baskets they left in a GoCommerce store: a sequence of emails per kind of basket, a counted link back, and the order each one brings back.",
+  "ogTitle": "Cart recovery for GoCommerce",
+  "ogDescription": "Abandoned baskets recorded within minutes, up to five reminder emails, and the orders they bring back counted apart. Read from the source.",
+  "h1": "Cart recovery for GoCommerce",
+  "lede": "A Go package that records a basket somebody left idle, sends a sequence of reminder emails about it on a schedule the store sets, stops the moment the basket becomes an order, and credits that order to the record. It adds no third-party dependency: the emails go out through whatever email notifier the store installed.",
+  "what": [
+    "The engine records abandonment and announces it, and deliberately stops there, because when and how often to write to a shopper about a stale basket is, in the package’s words, “a marketing decision with opt-out obligations attached”. This module is the other half of that decision: it owns the schedule, and the engine owns the channels.",
+    "Its clock is its own. The engine calls a cart abandoned when its TTL runs out, thirty days by default, which is the right clock for retention and the wrong one for a reminder. So the module keeps a record of each basket idle past a threshold the store sets in minutes: by default 10 minutes for a basket that reached checkout, where an email was typed, and 30 for one that did not. The engine’s TTL is untouched.",
+    "Each record runs the sequence for its kind. By default a checkout gets three emails, an hour, then 20 hours, then 48 hours apart, and a cart two, after two hours and then 24. Every rule is checked again at the moment of sending, against the basket as it is then. The figures keep apart the orders a reminder preceded and the shoppers who came back on their own."
+  ],
+  "configLede": "Nothing is required. The storefront address can come from Config, which the reference binary fills from STOREFRONT_URL, and everything can be changed on the Marketing › Automations screen, which wins where both say something.",
+  "config": [
+    { "field": "StorefrontURL", "panel": "Storefront address", "env": "STOREFRONT_URL", "required": false, "note": "Where the shopper’s basket lives, as an absolute base URL such as https://shop.example.com; the link lands on that plus /cart/<token>. Unset in both places, a reminder carries the cart token and no link, and a bad value stops the module at startup." },
+    { "field": "checkout", "panel": "Abandoned checkout recovery", "required": false, "note": "The sequence for a basket with an email on it: on or off, the minutes of inactivity before it counts (1 to a week), and up to five steps, each a wait of up to 30 days and an email. Screen only; there is no Config field for it." },
+    { "field": "cart", "panel": "Abandoned cart recovery", "required": false, "note": "The same, for a basket that never reached checkout. It can be reached only through a signed-in shopper’s verified address. Screen only." }
+  ],
+  "setup": [
+    { "b": "Set up email", "t": "Install an email notifier and set it up under Notifications › Setup Email. Without one that delivers, every reminder is held as no_email_provider rather than written into a log." },
+    { "b": "Install the module", "t": "Pass cartrecovery.New to gocommerce.New, as below, or start the reference binary with -recovery and STOREFRONT_URL set." },
+    { "b": "Check the automations", "t": "Under Marketing › Automations, review the two sequences and the storefront address. The three reminder emails are worded on Notifications › Setup Email, as Checkout recovery #1, #2 and #3." },
+    { "b": "Watch the baskets", "t": "Orders › Abandoned checkouts lists each record with its timeline; Marketing › Cart recovery shows the funnel and the recovered revenue." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\tcartrecovery \"github.com/itswadesh/gocommerce/ext/cart-recovery\"\n)\n\napp, err := gocommerce.New(cfg,\n\tcartrecovery.New(cartrecovery.Config{\n\t\tStorefrontURL: os.Getenv(\"STOREFRONT_URL\"),\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc has no example of its own; this is how the reference binary’s -recovery flag installs it. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "Through the store’s own email", "t": "A reminder is a notification sent with the engine’s App.Notify on the email channel, through whichever email notifier the store installed, in the wording the store edits. The module ships no transport of its own." },
+    { "b": "A counted link", "t": "When the engine knows its panel address, a reminder’s link goes through GET /x/cart-recovery/r/{token}, which counts the click and redirects to the basket. Without one, the link goes straight to the storefront’s /cart/<token> and no click is counted; the report then says “Not counted”." },
+    { "b": "The store’s own brand", "t": "On an install with several brands, the counted link goes through the panel address of the store’s own brand and names its store, so a shopper only ever sees the brand of the shop they visited, and the click finds the right basket." },
+    { "b": "Checked at the moment of sending", "t": "Before each email the basket is read again. A basket that was bought, emptied, deleted or has nothing in stock is not written about, and a shopper who is in the basket right now is not written to until the visit goes quiet." },
+    { "b": "Credited to the order", "t": "order.created names the basket it came from, so the record becomes recovered with the order’s number and total, and notes whether a message had gone out first. A shopper who came back unprompted is recovered all the same, and not counted for the sequence." },
+    { "b": "Safe across instances", "t": "The sender claims up to 100 due steps at a time with FOR UPDATE SKIP LOCKED and holds them for five minutes, and the pass runs once a minute per store, plus once at startup." }
+  ],
+  "limits": [
+    { "b": "Email only", "t": "A basket carries an address and no phone number, so SMS and WhatsApp steps are not available. Creating a discount and notifying staff are listed on the screen as not built yet." },
+    { "b": "Nothing before install", "t": "A basket that went idle before the module was installed is recorded and shown, and never written to." },
+    { "b": "Three failures stop a step", "t": "A send that fails is tried again after 10 and then 20 minutes. After the third failure the sequence stops with send_failed until the automation screen is saved again." },
+    { "b": "No unsubscribe of its own", "t": "The module has no opt-out list. An operator stops the reminders for one basket by suppressing it, with a reason such as requested_no_contact." },
+    { "b": "The link opens the basket", "t": "A recovery link is as much a credential for the basket as its cart token. Copying it from the admin is a POST, and recorded; the notification log shows it as hidden." },
+    { "b": "Figures in the store’s currency", "t": "A basket left before the store changed its currency still counts as a basket, but its money is not added to the store’s figures." }
+  ],
+  "tested": true,
+  "testCount": 33,
+  "apiOps": 10,
+  "faq": [
+    { "q": "When does a basket count as abandoned?", "a": "When it has sat untouched for the threshold its kind has: 10 minutes by default for a basket with an email on it, 30 for one without. Each can be set from 1 minute to a week on the automation screen, and the module checks once a minute." },
+    { "q": "Which email service does it use?", "a": "Whichever the store installed as its email notifier. The module hands the engine a notification and the engine delivers it; with no notifier that delivers, nothing is sent and each record says it is waiting for a provider." },
+    { "q": "Can I change the wording?", "a": "Yes. The three reminders are templates on Notifications › Setup Email, Checkout recovery #1, #2 and #3, with the basket’s summary, item count, subtotal, discount code and recovery_url to use. A step names one, and two steps may name the same." },
+    { "q": "Can staff send a reminder by hand?", "a": "Yes, from the basket’s page, with abandonment.contact. A manual send is recorded on the timeline and leaves the sequence where it was. Changing the automation needs abandonment.automate, which managers have by default and staff do not." },
+    { "q": "Does it text abandoned baskets?", "a": "No. A basket carries no phone number, so every step is an email, and the engine’s own SMS notifiers write about order events only." }
+  ]
+}
