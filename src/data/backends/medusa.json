@@ -4,7 +4,7 @@
   "title": "Medusa SvelteKit Storefront — Svelte Commerce Connector",
   "description": "Svelte Commerce on Medusa’s Store API: setup, environment and settings. 31 of 43 services wired, but cart and sign-in are not, so it cannot sell yet.",
   "lede": "The Medusa connector reaches Medusa’s Store API with a publishable key and a region. Its guide describes cart, checkout and sign-in as Medusa-native, but the coverage script does not count cart or sign-in as wired — and until that is settled, it cannot sell.",
-  "verdict": "Cannot sell yet. The coverage script counts cart and sign-in — and products, categories and search — as not wired, and CONNECTORS.md says this connector predates the current wiring pass and has not had the source-verification sweep the others have. Even by its own guide, only cash on delivery completes: the card gateways still post to Litekart endpoints.",
+  "verdict": "Cannot sell yet. The coverage script counts cart and sign-in — and products, categories and search — as not wired, and CONNECTORS.md says this connector predates the current wiring pass and has not had the source-verification sweep the others have. Even by its own guide, only cash on delivery completes: the card gateways are not wired to Medusa.",
   "quickStart": [
     {
       "text": "get the storefront",
@@ -59,7 +59,7 @@
   "limitations": [
     "Sign-in (auth): not wired — the coverage script does not count it, though the guide describes email sign-in as native.",
     "Cart: not wired — the coverage script does not count it, though the guide describes the cart as Medusa-native.",
-    "The card gateways in this connector — Razorpay, Stripe, PhonePe, PayPal, Cashfree, Affirm — still post to Litekart `/api/checkout/*` endpoints and will not work without a Litekart API. Only cash on delivery completes through Medusa.",
+    "The card gateways in this connector — Razorpay, Stripe, PhonePe, PayPal, Cashfree, Affirm — still call Litekart’s `/api/checkout/*` routes, which the connector answers locally with an empty result, so they do not work. Only cash on delivery completes through Medusa.",
     "OTP sign-in is a mock: `getOtp` reports success without sending anything.",
     "Legal and CMS pages render their layout with empty content; the wishlist and the cart’s coupon drawer show empty states.",
     "The Conversational Shopping assistant is Litekart-only; its widget stays hidden in Medusa mode without firing requests."
@@ -77,7 +77,7 @@
   "faq": [
     {
       "q": "Can I sell on Medusa with Svelte Commerce today?",
-      "a": "Not yet. The coverage script counts the cart and sign-in as not wired, and CONNECTORS.md says the Medusa connector predates the current wiring pass. By its own guide, only cash on delivery completes; the card gateways still post to Litekart endpoints."
+      "a": "Not yet. The coverage script counts the cart and sign-in as not wired, and CONNECTORS.md says the Medusa connector predates the current wiring pass. By its own guide, only cash on delivery completes; the card gateways are not wired to Medusa."
     },
     {
       "q": "Why does the guide say the cart works when the coverage table says it does not?",
@@ -89,7 +89,7 @@
     },
     {
       "q": "Which payment methods work with Medusa?",
-      "a": "Cash on delivery completes through the Medusa SDK. The card gateways in this connector — Razorpay, Stripe, PhonePe, PayPal, Cashfree, Affirm — still post to Litekart endpoints and do not work without a Litekart API."
+      "a": "Cash on delivery completes through the Medusa SDK. The card gateways in this connector — Razorpay, Stripe, PhonePe, PayPal, Cashfree, Affirm — are not wired to Medusa and do not work."
     }
   ],
   "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/MEDUSA.md",

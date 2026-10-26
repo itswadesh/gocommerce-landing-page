@@ -432,7 +432,7 @@
     "modified": "2026-09-26"
   },
   "/sitemap/": {
-    "hash": "668a55d8f6eefa48",
+    "hash": "aca80185183ff1b6",
     "modified": "2026-10-26"
   },
   "/solutions/": {
@@ -496,7 +496,7 @@
     "modified": "2026-10-26"
   },
   "/svelte-commerce/backends/cs-cart/": {
-    "hash": "a0d92a9c13b359bf",
+    "hash": "b52ecbe592bbd1ca",
     "modified": "2026-10-26"
   },
   "/svelte-commerce/backends/django-oscar/": {
@@ -516,7 +516,7 @@
     "modified": "2026-10-26"
   },
   "/svelte-commerce/backends/medusa/": {
-    "hash": "d102f9001ee9bc2d",
+    "hash": "75797c5de35529e4",
     "modified": "2026-10-26"
   },
   "/svelte-commerce/backends/nopcommerce/": {

@@ -2,9 +2,9 @@
   "slug": "cs-cart",
   "name": "CS-Cart",
   "title": "CS-Cart SvelteKit Storefront — Svelte Commerce Connector",
-  "description": "Svelte Commerce on CS-Cart: 20 of 43 services wired. Browsing and cart work, but there is no shopper sign-in and the storefront cannot complete an order.",
-  "lede": "The CS-Cart connector covers browsing and the cart through CS-Cart’s REST API, which has no checkout resource and no shopper sign-in. It authenticates every call with an admin’s e-mail and API key.",
-  "verdict": "Shoppers can browse and fill a cart, but cannot sign in, and the storefront cannot complete an order. CS-Cart’s REST API has no checkout resource; the one call that creates an order sits in the connector’s `orderService.codCheckout()`, which the storefront’s payment step does not call, so every way it places an order throws `NotSupportedError`.",
+  "description": "Svelte Commerce on CS-Cart: 20 of 43 services wired. Browsing works and the cart is read-only; there is no shopper sign-in and the storefront cannot complete an order.",
+  "lede": "The CS-Cart connector covers browsing, and reads the cart, through CS-Cart’s REST API, which has no checkout resource and no shopper sign-in. It authenticates every call with an admin’s e-mail and API key.",
+  "verdict": "Shoppers can browse, but cannot add to a cart: CS-Cart’s cart resource only reads and deletes, so adding, changing or removing a line throws `NotSupportedError`. They cannot sign in either, and the storefront cannot complete an order. CS-Cart’s REST API has no checkout resource; the one call that creates an order sits in the connector’s `orderService.codCheckout()`, which the storefront’s payment step does not call, so every way it places an order throws `NotSupportedError`.",
   "quickStart": [
     {
       "text": "get the storefront",
