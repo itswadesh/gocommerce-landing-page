@@ -46,6 +46,12 @@
 - https://kitcommerce.store/solutions/b2b/ — B2B: customer groups, price lists, quantity breaks, scoped API keys, invoices
 - https://kitcommerce.store/solutions/d2c/ — direct-to-consumer: the default store, guest checkout, cash on delivery, manual fulfillment, the Svelte Commerce storefront
 - https://kitcommerce.store/solutions/multi-store/ — several storefronts on one catalogue: channels, per-channel publishing and pricing
+- https://kitcommerce.store/solutions/b2b-ecommerce-india/ — B2B ecommerce for Indian manufacturers and distributors, in plain words: dealer prices, credit limits, statements, and what is missing (no GST tax invoice, e-invoice or Tally sync)
+- https://kitcommerce.store/solutions/dealer-portal/ — the dealer ordering portal at /portal on the store's own address, with screenshots: quick order, credit, statements, approvals, quotes
+- https://kitcommerce.store/solutions/electricals/ — dealer ordering for wire, switch, fan, lighting and switchgear brands
+- https://kitcommerce.store/solutions/building-materials/ — dealer ordering for tile, sanitaryware, plywood and pipe makers; no pack-size or shade tracking yet
+- https://kitcommerce.store/solutions/auto-parts/ — ordering by part number for parts brands and distributors; no vehicle fitment search yet
+- https://kitcommerce.store/agencies/ — for agencies: white-label under MIT, many client stores from one install; no partner programme
 - https://kitcommerce.store/integrations/ — all 51 GoCommerce modules by category, each a directory under ext/, and the one hosting partner
 - https://kitcommerce.store/privacy/ — what the site stores, which third parties it contacts, and what loads only after consent
 - https://kitcommerce.store/gocommerce/mcp/ — the GoCommerce MCP server: 19 tools, rights, read-only mode, HTTP and stdio transports, how to connect an agent
@@ -148,9 +154,10 @@
 - https://kitcommerce.store/blog/razorpay-webhook-verification-in-go/ — Razorpay webhook signature verification in Go, with a tested handler, duplicates, retries and the Checkout signature
 - https://kitcommerce.store/blog/sveltekit-storefront-on-vendure/ — a SvelteKit storefront on Vendure with Svelte Commerce: setup, Vendure settings, how it uses the Shop API, and the gaps
 - https://kitcommerce.store/blog/open-source-ecommerce-mcp-server/ — what to check in an open-source ecommerce MCP server, and how GoCommerce's MCP module answers each check
-- https://kitcommerce.store/compare/ — 19 comparisons with other ecommerce platforms, each sourced and dated, each with where the other side wins
+- https://kitcommerce.store/compare/ — 20 comparisons with other ecommerce platforms, each sourced and dated, each with where the other side wins
 - https://kitcommerce.store/compare/kitcommerce-vs-shopify/ — KitCommerce vs Shopify: A hosted platform you rent against an open-source one you run: fees per order, code ownership, and what each asks of you
 - https://kitcommerce.store/compare/shopify-india-vs-kitcommerce/ — Shopify India vs KitCommerce: What an Indian store actually pays Shopify: no Shopify Payments, so a cut of every prepaid order on top of the plan — worked out plan by plan
+- https://kitcommerce.store/compare/shopify-b2b-vs-kitcommerce/ — Shopify B2B vs KitCommerce: Selling to dealers and wholesale buyers: Shopify’s B2B features by plan against GoCommerce’s trade portal, credit limits, statements and quotes
 - https://kitcommerce.store/compare/shopify-plus-vs-kitcommerce/ — Shopify Plus vs KitCommerce: Enterprise Shopify against running your own: term contracts, revenue-linked fees, API budgets, B2B and checkout control — and where Plus is simply further ahead
 - https://kitcommerce.store/compare/kitcommerce-vs-dukaan/ — KitCommerce vs Dukaan: A quick-start Indian store builder with a free plan and a service fee on every sale — against an open-source platform with no fee when you run it yourself, and more work up front
 - https://kitcommerce.store/compare/kitcommerce-vs-instamojo/ — KitCommerce vs Instamojo: A payments company’s store builder, free to start with the gateway built in at a fee per payment — against GoCommerce and a gateway of your own choosing

@@ -7,6 +7,7 @@
  */
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
+import type { SolutionPage } from '../../data/solutions/_schema'
 
 const path = '/solutions/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -14,6 +15,11 @@ const abs = (p: string) => new URL(p, Astro.site!).href
 const graph = [
   { '@type': 'CollectionPage', '@id': abs(path + '#page'), url: abs(path), name: 'Solutions — four shapes of store on GoCommerce', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, inLanguage: 'en' },
 ]
+
+// Pages for a trade or a kind of buyer, one per file in src/data/solutions/.
+const order = ['/solutions/b2b-ecommerce-india/', '/solutions/dealer-portal/', '/solutions/electricals/', '/solutions/building-materials/', '/solutions/auto-parts/', '/agencies/']
+const byTrade = Object.values(import.meta.glob<SolutionPage>('../../data/solutions/*.json', { eager: true, import: 'default' }))
+  .sort((a, b) => order.indexOf(a.path) - order.indexOf(b.path))
 
 const solutions = [
   { href: '/solutions/marketplace/', icon: 'i-users', title: 'Multi-vendor marketplace', cta: 'Explore marketplace', points: ['Vendor accounts', 'Vendor offers', 'Moderation states', 'Commission recorded per vendor'], prim: 'core/vendors.go' },
@@ -60,6 +66,19 @@ const faq = [
           <ul>{s.points.map((p) => <li>{p}</li>)}</ul>
           <p class="sol-prim">{s.prim}</p>
           <a href={s.href}>{s.cta}</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="by-trade" class="section wrap" aria-labelledby="by-trade-title">
+    <h2 id="by-trade-title">For Indian suppliers and the agencies that serve them</h2>
+    <p class="section-lede">Written for owners and sales heads: what the dealer portal does for each trade, and what it does not do yet.</p>
+    <div class="solgrid">
+      {byTrade.map((s) => (
+        <article>
+          <h3><a href={s.path}>{s.label}</a></h3>
+          <p>{s.summary}</p>
         </article>
       ))}
     </div>
