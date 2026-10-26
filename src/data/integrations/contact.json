@@ -1,0 +1,60 @@
+{
+  "slug": "contact",
+  "name": "Contact form",
+  "category": "Platform",
+  "title": "Contact Form and Product Enquiries for GoCommerce",
+  "description": "A GoCommerce contact form and product enquiries in one inbox: announced by email, answered from the admin, rate-limited, with a honeypot against bots.",
+  "ogTitle": "Contact form and product enquiries for GoCommerce",
+  "ogDescription": "One inbox for the contact form and questions about a product, answered by email from the admin. Read from the module’s source.",
+  "h1": "Contact form and product enquiries for GoCommerce",
+  "lede": "A Go package that gives the storefront a contact form and an “ask about this product” form, and the admin one inbox behind both. Each new message is announced to the store’s own address. An operator answers from the message’s drawer, and the reply goes to the shopper by email through the store’s own provider.",
+  "what": [
+    "In the package’s own words it is “the storefront’s contact form, its product enquiries, and the inbox behind both”. A shopper writes, the store keeps the message, and tells its own address by email when the Plugins screen says where.",
+    "Both kinds land in one inbox on Customers › Contact messages. An enquiry is a message marked as one, carrying the product, and the variant and quantity if the shopper named them, as they were called when the shopper asked. Only a product on sale can be asked about. The inbox has three states, new, replied and archived, and a place for notes.",
+    "An operator holding contact.reply answers in the message’s drawer. The reply goes to the shopper from the provider’s sender with its reply-to address, so the answer comes back to the shop. Once the provider has taken it, the reply joins the message’s thread with who sent it and when, and the message is marked replied."
+  ],
+  "configLede": "Nothing is required. Set the announcement address in Config, which the reference binary reads from CONTACT_EMAIL, or on the Plugins screen, which wins. The form’s wording and the enquiry switch are on the Plugins screen only.",
+  "config": [
+    { "field": "NotifyEmail", "panel": "Announce new messages to", "env": "CONTACT_EMAIL", "required": false, "note": "The store’s own address, told of each new message and enquiry. Without it messages are still kept, and nobody is told. The panel asks for it when Config leaves it empty." },
+    { "field": "MessagesPerMinute", "required": false, "note": "How many messages and enquiries, counted together, one address may send in a minute. Ten when zero; a negative number turns the limit off. Go only; not in the panel." },
+    { "field": "subjects", "panel": "Subjects the form offers", "required": false, "note": "One per line, shown by the storefront as a list. By default: An order, A product, Returns and exchanges, Something else. Panel only." },
+    { "field": "thanks", "panel": "After sending", "required": false, "note": "What the storefront says once the form is sent. By default “Thanks — we’ll reply by email.” Panel only." },
+    { "field": "enquiries", "panel": "Take product enquiries", "required": false, "note": "On by default. Off, the enquiry form answers 404 and the contact form stays open. Panel only." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass contact.New to gocommerce.New, as below, or start the reference binary with -contact and CONTACT_EMAIL set. The Contact form plugin starts switched on." },
+    { "b": "Say where to announce", "t": "Set “Announce new messages to” on the Plugins screen, or NotifyEmail in Config. Each announcement goes through the store’s email provider and is on the Notifications screen too." },
+    { "b": "Post from the storefront", "t": "POST /x/contact/messages with a name, an email and the message; POST /x/contact/enquiries with the same and a product_id or product_slug. Leave the website field empty: it is the honeypot." },
+    { "b": "Answer from the inbox", "t": "Customers › Contact messages lists both kinds, with filters for status and kind. Reply in the drawer, or with POST /api/admin/x/contact/messages/{id}/reply." }
+  ],
+  "code": "import (\n\t\"os\"\n\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/contact\"\n)\n\napp, err := gocommerce.New(cfg,\n\tcontact.New(contact.Config{\n\t\tNotifyEmail: os.Getenv(\"CONTACT_EMAIL\"),\n\t}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc has no example of its own; this is how the reference binary’s -contact flag and examples/store/main.go install it. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "One inbox, two kinds", "t": "The list filters by status and by kind, message or enquiry. Search matches a fragment of the name, email, subject or product asked about, and an order number exactly, so “42” does not sweep in every order with a 42 in it." },
+    { "b": "The product as it was", "t": "An enquiry keeps the product’s id, title and slug, and the variant’s name, as they were when the shopper asked, with no foreign key onto the catalogue. A product renamed or deleted since leaves the record as it was. A draft or archived product answers “that product is not on sale here”." },
+    { "b": "Sent first, recorded after", "t": "A reply goes to the provider before anything is written. Only once the provider takes it is the reply stored and the message marked replied, in one transaction. With no provider the answer is 409, with a refusal 422 and the provider’s words, and the drawer keeps the text." },
+    { "b": "A honeypot and a shared limit", "t": "A form with the hidden website field filled answers 201 and keeps nothing. Both forms share one limit per store and peer address, ten a minute by default, and every attempt counts, valid or not; past it the answer is 429 with Retry-After." },
+    { "b": "Three rights", "t": "Reading the inbox needs contact.read, held by managers and staff. Replying needs contact.reply, held by managers. Marking and deleting need contact.write, which no role holds by default, so only owners." },
+    { "b": "Masked where it should be", "t": "On a public demo store, and for an AI agent’s key, the sender’s email and phone and the replying operator’s address are masked, and search skips the email so it cannot be read back a character at a time." }
+  ],
+  "limits": [
+    { "b": "The shopper’s answer goes to your mail", "t": "A reply carries the provider’s reply-to address. When the shopper writes back, it lands in that mailbox, not in the message’s thread." },
+    { "b": "Announcements are best effort", "t": "The email to the store’s address does not hold up the form: if the mail backend is down, the message is kept and the shopper is told it was sent, but nobody may hear of it until they open the inbox." },
+    { "b": "A limit, not a captcha", "t": "The limit is held in memory, so each replica counts on its own. It counts the connection’s peer address and never X-Forwarded-For, so behind a reverse proxy every shopper shares the proxy’s allowance. The package says it is no substitute for a captcha on a form that draws real abuse." },
+    { "b": "The order number is not checked", "t": "The contact form’s order number is free text. It is kept and searchable, and not looked up or linked to an order." },
+    { "b": "No replies from a demo", "t": "A store marked as a public demo refuses every reply with 403 demo_frozen, because anybody may sign in to one and anybody may type an address into its storefront." },
+    { "b": "Deleting takes the thread", "t": "Deleting a message deletes its replies with it. There is no undo." },
+    { "b": "A link to the product needs PanelURL", "t": "The enquiry email links to the product in the admin only when the engine’s PanelURL is set. Without it the email names the product and carries no link." }
+  ],
+  "tested": true,
+  "testCount": 9,
+  "apiOps": 7,
+  "faq": [
+    { "q": "What does the storefront post?", "a": "POST /x/contact/messages takes name, email and body, with an optional phone, subject and order_number. POST /x/contact/enquiries takes name, email and body with product_id or product_slug, and an optional phone, variant_id and quantity. Both answer 201 with the status new." },
+    { "q": "What happens with no email provider set up?", "a": "Messages and enquiries are still kept in the inbox. The announcement to the store’s address is best effort, so nobody is told by email. A reply is refused with 409, the drawer says why beside the button, and the text stays in the box." },
+    { "q": "Can staff reply to shoppers?", "a": "Not by default. Staff read the inbox with contact.read; replying needs contact.reply, which managers hold. A store that wants staff answering grants it on the Roles screen." },
+    { "q": "How is spam kept out?", "a": "A honeypot field no person sees, and one limit for both forms of ten messages a minute from one address. Every attempt counts, so alternating between the two forms does not double the allowance. There is no captcha." },
+    { "q": "Can I turn off product enquiries and keep the contact form?", "a": "Yes. Switch off “Take product enquiries” on the Plugins screen and POST /x/contact/enquiries answers 404, while the contact form stays open. Switching off the Contact form plugin closes both." }
+  ]
+}
