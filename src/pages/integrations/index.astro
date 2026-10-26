@@ -23,9 +23,9 @@ const marks: Record<string, string> = {
   'notify-resend': 'resend', 'notify-sendgrid': 'sendgrid', 'notify-twilio': 'twilio', 'search-meilisearch': 'meilisearch',
 }
 const names: Record<string, string> = {
-  'payments-stripe': 'Stripe', 'payments-razorpay': 'Razorpay', 'payments-adyen': 'Adyen', 'payments-paddle': 'Paddle', 'payments-hyperswitch': 'Hyperswitch', 'payments-lemonsqueezy': 'Lemon Squeezy', 'payments-helcim': 'Helcim', 'payments-creem': 'Creem', 'payments-revenuecat': 'RevenueCat', 'payments-clover': 'Clover',
+  'payments-stripe': 'Stripe', 'payments-razorpay': 'Razorpay', 'payments-adyen': 'Adyen', 'payments-paddle': 'Paddle', 'payments-hyperswitch': 'Hyperswitch', 'payments-lemonsqueezy': 'Lemon Squeezy', 'payments-helcim': 'Helcim', 'payments-creem': 'Creem', 'payments-revenuecat': 'RevenueCat', 'payments-clover': 'Clover', 'payments-cashfree': 'Cashfree',
   'fulfill-shiprocket': 'Shiprocket', 'fulfill-delhivery': 'Delhivery', 'fulfill-shippo': 'Shippo', 'fulfill-shipstation': 'ShipStation', 'fulfill-easyship': 'Easyship', 'fulfill-shippit': 'Shippit', 'fulfill-usps': 'USPS', 'fulfill-indiapost': 'India Post', 'fulfill-nimbuspost': 'NimbusPost', 'fulfill-onfleet': 'Onfleet', 'fulfill-veeqo': 'Veeqo',
-  'notify-resend': 'Resend', 'notify-sendgrid': 'SendGrid', 'notify-twilio': 'Twilio', 'notify-msg91': 'MSG91',
+  'notify-resend': 'Resend', 'notify-sendgrid': 'SendGrid', 'notify-twilio': 'Twilio', 'notify-msg91': 'MSG91', 'telegram-alerts': 'Telegram alerts',
   'cart-recovery': 'Cart recovery', 'klaviyo': 'Klaviyo', 'newsletter': 'Newsletter', 'reviews': 'Reviews', 'wishlist': 'Wishlist', 'feeds': 'Product feeds',
   'cms': 'CMS', 'identity': 'Identity', 'navigation': 'Navigation', 'search-meilisearch': 'Search (Meilisearch)', 'sitemaps': 'Sitemaps', 'translations': 'Translations', 'invoices': 'Invoices', 'webhooks': 'Webhooks', 'contact': 'Contact', 'faq': 'FAQ', 'indexnow': 'IndexNow',
   'b2b': 'B2B', 'banners': 'Banners', 'showcases': 'Video showcases',
@@ -35,7 +35,7 @@ const names: Record<string, string> = {
 const groups: [string, string, (d: string) => boolean][] = [
   ['payments', 'Payments', (d) => d.startsWith('payments-')],
   ['fulfillment', 'Fulfillment', (d) => d.startsWith('fulfill-')],
-  ['messaging', 'Email and SMS', (d) => d.startsWith('notify-')],
+  ['messaging', 'Email, SMS and Telegram', (d) => d.startsWith('notify-') || d === 'telegram-alerts'],
   ['retention', 'Retention', (d) => ['cart-recovery', 'klaviyo', 'newsletter', 'reviews', 'wishlist', 'feeds'].includes(d)],
   ['commerce', 'Commerce and content', (d) => ['cms', 'identity', 'navigation', 'search-meilisearch', 'sitemaps', 'translations', 'invoices', 'webhooks', 'contact', 'faq', 'indexnow', 'b2b', 'banners', 'showcases'].includes(d)],
   ['ai', 'AI and agents', (d) => ['ai-gateway', 'mcp'].includes(d)],
@@ -67,10 +67,13 @@ const faq = [
 ]
 // Modules with a page of their own at /integrations/<dir>/ (one data file each).
 const pages = new Set(Object.keys(import.meta.glob('../../data/integrations/*.json')).map((p) => p.split('/').pop()!.replace('.json', '')))
+// Modules a page elsewhere on the site already covers in full.
+const covered: Record<string, string> = { b2b: '/solutions/b2b/' }
+const href = (dir: string) => (pages.has(dir) ? `/integrations/${dir}/` : covered[dir])
 ---
 <Base
   title={`GoCommerce Integrations: All ${modules.length} Modules, In Their Own Words`}
-  description={`All ${modules.length} GoCommerce modules: ${sized('payments')} payment providers, ${sized('fulfillment')} fulfillment carriers, ${sized('messaging')} email and SMS senders, retention, content, search, an AI gateway, MCP and importers.`}
+  description={`All ${modules.length} GoCommerce modules: ${sized('payments')} payment providers, ${sized('fulfillment')} fulfillment carriers, ${sized('messaging')} email, SMS and Telegram senders, retention, content, search, an AI gateway, MCP and importers.`}
   path={path}
   ogTitle={`${modules.length} GoCommerce modules, in their own words`}
   ogDescription="Payments, fulfillment, messaging, retention, content, search, AI and migration — every module described by its own package doc."
@@ -94,7 +97,7 @@ const pages = new Set(Object.keys(import.meta.glob('../../data/integrations/*.js
         {g.items.map((m) => (
           <li>
             {marks[m.dir] ? <img src={`/assets/brands/${marks[m.dir]}.svg`} width="17" height="17" alt="" loading="lazy"> : <svg aria-hidden="true"><use href="#i-package"/></svg>}
-            <b>{pages.has(m.dir) ? <a href={`/integrations/${m.dir}/`}>{names[m.dir] ?? m.dir}</a> : (names[m.dir] ?? m.dir)}</b>
+            <b>{href(m.dir) ? <a href={href(m.dir)}>{names[m.dir] ?? m.dir}</a> : (names[m.dir] ?? m.dir)}</b>
             <span>{m.doc} <code>ext/{m.dir}</code></span>
           </li>
         ))}

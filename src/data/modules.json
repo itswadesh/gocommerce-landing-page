@@ -21,7 +21,7 @@
   },
   {
     "dir": "contact",
-    "doc": "is the storefront's contact form and the inbox behind it."
+    "doc": "is the storefront's contact form, its product enquiries, and the inbox behind both."
   },
   {
     "dir": "faq",
@@ -132,6 +132,10 @@
     "doc": "takes payments through Adyen."
   },
   {
+    "dir": "payments-cashfree",
+    "doc": "takes payments through Cashfree Payments, India: UPI, cards, netbanking and wallets on Cashfree's own checkout."
+  },
+  {
     "dir": "payments-clover",
     "doc": "takes payments through Clover's Hosted Checkout."
   },
@@ -182,6 +186,10 @@
   {
     "dir": "sitemaps",
     "doc": "publishes the storefront's sitemap: every active product, every active collection, and every published page when the cms module is installed, each with the time it last changed."
+  },
+  {
+    "dir": "telegram-alerts",
+    "doc": "tells a store's owner about its orders on Telegram."
   },
   {
     "dir": "translations",
