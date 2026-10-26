@@ -1,11 +1,11 @@
-// Deepen a shallow build clone so git can date each page's source.
+// Deepen a shallow build clone so git can say when each page first appeared.
 //
-// Workers Builds clones at depth 1, which leaves every file "last changed" at
-// the tip commit — the deploy date wearing a disguise. Fetching the rest of
-// the history is cheap for a repository this size and makes the sitemap's
-// lastmod and every page's dateModified true. If the fetch fails (no
-// network, no remote) the build carries on and dates.mjs withholds the dates
-// rather than guessing.
+// Workers Builds clones at depth 1, where no file's first commit is in view.
+// Fetching the rest of the history is cheap for a repository this size and
+// makes every page's datePublished true. (Modified dates come from
+// src/data/page-dates.json, not git.) If the fetch fails (no network, no
+// remote) the build carries on and dates.mjs withholds datePublished rather
+// than guessing.
 import { execFileSync } from 'node:child_process'
 
 const git = (args) => execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim()

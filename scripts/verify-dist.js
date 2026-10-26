@@ -226,6 +226,20 @@ for (const rel of mdUnder(DIST)) {
   else if (!indexable.has(page.replace(SITE, ''))) fail(`${twin}: its canonical ${page} is not an indexable page in this build — a stale twin`)
 }
 
+// ── 7b. lastmod is the page's own date
+//
+// scripts/page-dates.mjs dates each page by a hash of its content. A sitemap
+// built without it, or before it rebuilt, would carry dates that disagree.
+const dated = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'page-dates.json'), 'utf8'))
+for (const sm of sitemaps) {
+  for (const m of fs.readFileSync(path.join(DIST, sm), 'utf8').matchAll(/<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)) {
+    if (m[1].endsWith('.xml')) continue // the index's own entries
+    const want = dated[m[1].replace(SITE, '')]?.modified
+    if (!want) fail(`${sm}: ${m[1]} has no entry in src/data/page-dates.json; run npm run build`)
+    else if (!m[2].startsWith(want)) fail(`${sm}: ${m[1]} lastmod ${m[2]}, but src/data/page-dates.json says ${want}`)
+  }
+}
+
 // ── 8. a title a results page shows whole
 //
 // Past about 60 characters Google cuts the title, and the cut usually lands

@@ -12,8 +12,8 @@ compatibility_date = "2026-09-21"
 
 [build]
 # The build clone is shallow. Deepening it first lets each page carry the
-# date its source was last committed rather than the date of this deploy —
-# see src/lib/dates.mjs. Harmless when the clone is already complete.
+# date its source was first committed as datePublished; see
+# src/lib/dates.mjs. Harmless when the clone is already complete.
 command = "node scripts/deepen.mjs && npm run build"
 
 [assets]

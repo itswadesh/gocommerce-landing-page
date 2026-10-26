@@ -26,9 +26,9 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // Honest lastmod: the date a page's source or data was last committed,
-      // from git, never the build time — see src/lib/dates.mjs. The 404 is
-      // noindex and must not be advertised.
+      // Honest lastmod: the date the page's own content last changed, from
+      // src/data/page-dates.json, never the build time; see
+      // scripts/page-dates.mjs. The 404 is noindex and must not be advertised.
       filter: (page) => !page.endsWith('/404/'),
       // One sitemap per section, listed in sitemap-index.xml, so a reader of
       // the index — and public/sitemap.xsl, which shows it grouped — sees the
