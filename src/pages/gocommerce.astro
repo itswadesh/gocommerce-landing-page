@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro'
+import { hostedFee } from '../lib/pricing'
 import Faq from '../components/Faq.astro'
 
 const path = '/gocommerce/'
@@ -20,7 +21,7 @@ const faq = [
   { q: 'How fast is it?', a: 'No benchmark figures are published, so this page does not quote one. Architecturally: a single compiled binary, one production dependency, the API and admin in one process, no runtime plugin loading, and integer arithmetic for money. Benchmarking is on the contribution list.' },
   { q: 'Does it handle B2B, or marketplaces?', a: 'Both have engine support. B2B pricing resolves by customer group and quantity through price lists. Marketplaces have vendors as first-class sellers with pending, approved and suspended states. Neither is as deep as a dedicated platform; read core/pricing.go and core/vendors.go before committing to one.' },
   { q: 'How do I migrate an existing catalogue?', a: 'The import-shopify module brings a whole Shopify catalogue across and matches on Shopify’s own product id, so re-running it updates rather than duplicates (titles, descriptions, status and tags; not variants, prices or stock). An Amazon importer exists for single listings and creates a new product each time. There is also an order importer that takes a created_at, fires no events unless asked and moves no stock, because loading history should not send two hundred confirmation emails.' },
-  { q: 'Is there a paid tier, a cloud, or an enterprise edition?', a: 'No. There is no hosted offering, no paid tier and nothing to buy. It is MIT source you run yourself.' },
+  { q: 'Is there a hosted version, a paid tier or an enterprise edition?', a: `There is a hosted option: stores on kitcommerce.store pay ${hostedFee} of each successful sale. There is no paid tier and no enterprise edition, and the MIT source stays free to run yourself.` },
 ]
 
 const composeCode = `<span class="k">import</span> (
@@ -144,7 +145,7 @@ const modules = [
     <p class="section-lede">Commerce logic as ordinary Go packages, against PostgreSQL, with an admin panel in the same binary. No proprietary control plane sits between you and your orders.</p>
     <div class="why-grid">
       <div class="why-item"><h3>Native Go</h3><p>Ordinary packages, interfaces and modules. “Go to definition” works on every part of your store, including the parts you did not write.</p></div>
-      <div class="why-item"><h3>Self-hosted</h3><p>Your server, your database, your backups. Nothing phones home, and there is no hosted tier to graduate to.</p></div>
+      <div class="why-item"><h3>Self-hosted</h3><p>Your server, your database, your backups. Nothing phones home, and there is no plan to outgrow.</p></div>
       <div class="why-item"><h3>Modular</h3><p>51 modules exist and a store installs the ones it needs. With none installed the engine still sells: cash on delivery and manual fulfillment are built in, because they need no third party.</p></div>
       <div class="why-item"><h3>Embedded admin</h3><p>The Svelte admin compiles into the binary. One artifact to build, ship and roll back.</p></div>
       <div class="why-item"><h3>API-first</h3><p>342 operations across the engine and its modules, every one in a published OpenAPI document. The admin is a client of that contract, not an exception to it.</p></div>

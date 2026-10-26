@@ -39,8 +39,13 @@ Commerce, the way Medusa is one platform made of packages (the owner's
 decision, so directories can list it under one name).
 What stays true, and what the verifier still holds the prose to:
 
-- There is **no KitCommerce edition, tier, cloud or enterprise version**, and
-  nothing to buy. Both packages are MIT, free.
+- There is **no KitCommerce edition, tier, cloud or enterprise version**. Both
+  packages are MIT and free to run yourself, at 0% of sales. **Stores hosted on
+  kitcommerce.store pay 1% of each successful sale** (since 26 October 2026);
+  that figure and the sign-up URL live once, in `src/data/pricing.json`, and
+  pages render them from there. Every price on the site is in US dollars, with
+  no conversion: a rival that publishes only rupee prices is compared without
+  them. See `docs/decisions.md`.
 - **Name the package that does the work** when a claim is about one of them:
   "GoCommerce's checkout", "Svelte Commerce's 26 backends".
 - **Don't overstate how joined they are.** The connector between them is early

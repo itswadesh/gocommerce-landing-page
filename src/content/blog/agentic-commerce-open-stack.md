@@ -86,7 +86,7 @@ Every new door — a search engine, a marketplace, an assistant — brings custo
 
 Both packages are MIT licensed. You own the engine the agents talk to: its code, its database, its audit trail and its rules. If a protocol changes, you — or anyone you hire — can change the module that speaks it, without waiting on a vendor’s roadmap. And an agent unsure how a refund works can read the source instead of guessing.
 
-The cost is that you run it. There is no hosted offering, and no store we know of runs GoCommerce in production yet. That is the trade: more to operate, and nothing between you and the next door but your own code.
+The cost, unless the store is hosted on kitcommerce.store, is that you run it. No store we know of runs GoCommerce in production yet. That is the trade: more to operate, and nothing between you and the next door but your own code.
 
 ## Further reading
 

@@ -1,51 +1,54 @@
 ---
 /**
- * The pricing page has one price on it. GoCommerce and Svelte Commerce are
- * MIT source with no plan above the free one — no Plus, no tier, no trial —
- * so the page says FREE as loudly as the type allows, then spends the rest of
- * its length on the two things a careful reader asks next: what free
- * includes, and what running it will still cost them.
+ * Two prices, one each for the two ways to run a store. A store hosted on
+ * kitcommerce.store pays a share of each successful sale; the MIT code, run on
+ * your own server, costs nothing. Both figures come from src/data/pricing.json
+ * (the owner's decision of 26 October 2026, in docs/decisions.md), and the page
+ * says nothing about the hosted option beyond that figure and its sign-up.
  *
- * The Shopify figures are its own Indian price list, read on the date shown;
- * the arithmetic is the only thing added.
+ * The Shopify figures are its own US price list, in US dollars, read on the
+ * date shown; the arithmetic is the only thing added.
  */
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
+import { hostedFee, signupUrl } from '../lib/pricing'
 
 const path = '/pricing/'
 const abs = (p: string) => new URL(p, Astro.site!).href
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
+const hosted = `${hostedFee} of each successful sale`
 
-const inr = (n: number) => '₹' + n.toLocaleString('en-IN')
-// Shopify India, billed yearly, per month — shopify.com/in/pricing, 25 Sep 2026.
+const usd = (n: number) => '$' + n.toLocaleString('en-US')
+// Shopify, billed yearly, per month: shopify.com/pricing (US), 26 Oct 2026.
 const shopify = [
-  { plan: 'Basic', month: 1499, fee: '2%' },
-  { plan: 'Grow', month: 5599, fee: '1%' },
-  { plan: 'Advanced', month: 22680, fee: '0.6%' },
+  { plan: 'Basic', month: 29, fee: '2%' },
+  { plan: 'Grow', month: 89, fee: '1%' },
+  { plan: 'Advanced', month: 359, fee: '0.6%' },
 ]
 
 const graph = [
   {
-    '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'Pricing — GoCommerce and Svelte Commerce are free', isPartOf: { '@id': abs('/#site') }, inLanguage: 'en',
+    '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: `Pricing: ${hosted} hosted on kitcommerce.store, free to run yourself`, isPartOf: { '@id': abs('/#site') }, inLanguage: 'en',
     about: [{ '@id': abs('/gocommerce/#app') }, { '@id': abs('/svelte-commerce/#app') }],
   },
 ]
 
 const faq = [
-  { q: 'Is it really free, for life?', a: 'Yes. GoCommerce and Svelte Commerce are MIT licensed. The licence has no expiry, no seat count and no revenue cap, and a copy you have downloaded stays MIT whatever happens to the packages later.' },
-  { q: 'Is there a Plus plan, a pro tier or an enterprise edition?', a: 'No. There is one plan and it is free. Every module, every admin screen and every theme is in it; nothing is held back for a higher tier because there is no higher tier.' },
-  { q: 'Are there hidden fees — per order, per product, per staff account?', a: 'None. Nobody takes a percentage of your sales, counts your products or charges for another admin user. The fees you pay are your payment gateway’s own, on its own terms.' },
+  { q: 'What does a store hosted on kitcommerce.store cost?', a: `${hosted}. Start one with the Start a store button on this page.` },
+  { q: 'Is running it myself really free?', a: 'Yes. GoCommerce and Svelte Commerce are MIT licensed. The licence has no expiry, no seat count and no revenue cap, takes 0% of your sales, and a copy you have downloaded stays MIT whatever happens to the packages later.' },
+  { q: 'Is there a Plus plan, a pro tier or an enterprise edition?', a: `No. A store is either hosted on kitcommerce.store, for ${hosted}, or run on your own server for free. The MIT code has every module, every admin screen and every theme in it; nothing is held back for a higher tier because there is no higher tier.` },
+  { q: 'When I run it myself, are there hidden fees: per order, per product, per staff account?', a: 'None. Nobody takes a percentage of your sales, counts your products or charges for another admin user. The fees you pay are your payment gateway’s own, on its own terms.' },
   { q: 'Can I white-label it and sell it to my clients?', a: 'Yes. MIT lets you rename both packages, restyle the storefront and the admin, and ship them under your own brand, for yourself or for clients. Keep the copyright notice in the source; that is the only condition.' },
-  { q: 'What will I actually spend?', a: 'Whatever your server, domain and payment gateway cost, plus the time of whoever runs it. A small store can start on one small VPS. For a store with no developer, a hosted platform’s monthly fee may cost less than that time — the comparison pages say so where it is true.' },
-  { q: 'Is there paid support?', a: 'No support contract is sold. Help comes from GitHub issues, discussions and the Discord, where the people who build both packages answer.' },
+  { q: 'What will I actually spend running it myself?', a: `Whatever your server, domain and payment gateway cost, plus the time of whoever runs it. A small store can start on one small VPS. For a store with no developer, hosting it on kitcommerce.store for ${hosted} may cost less than that time.` },
+  { q: 'Where does help come from?', a: 'GitHub issues, discussions and the Discord, where the people who build both packages answer.' },
 ]
 ---
 <Base
-  title="Pricing — GoCommerce and Svelte Commerce Are Free, for Life"
-  description="GoCommerce and Svelte Commerce are free and MIT licensed: no tiers, no trial, no fee per order, no sales cap. What free includes, and what a store still costs."
+  title={`Pricing: ${hostedFee} of Each Sale Hosted, Free to Self-Host`}
+  description={`Stores hosted on kitcommerce.store pay ${hosted}. GoCommerce and Svelte Commerce stay free and MIT licensed to run yourself, at 0% of your sales.`}
   path={path}
-  ogTitle="FREE. For life."
-  ogDescription="No Plus plan, no tiers, no per-order fee. MIT licensed, and here is what running it still costs."
+  ogTitle={`${hostedFee} of each sale, hosted. Free to run yourself.`}
+  ogDescription={`Start a store on kitcommerce.store for ${hosted}, or run the MIT code on your own server for free.`}
   nav="pricing"
   crumbs={[{ name: 'Pricing', href: path }]}
   graph={graph}
@@ -53,23 +56,32 @@ const faq = [
 >
   <section class="wrap price-hero">
     <p class="kicker">Pricing</p>
-    <h1 class="price-free">FREE</h1>
-    <p class="price-life">For life.</p>
-    <p class="lede">One plan, and this is it. No Plus plan, no tiers, no trial that ends, no fee on your orders, no cap on your sales, no limit on staff or products, and no feature held back for a customer who pays more — because no customer pays anything.</p>
-    <ul class="head-facts">
-      <li><b>₹0</b> licence</li>
-      <li><b>0%</b> of your sales</li>
-      <li><b>1</b> plan, forever</li>
-    </ul>
-    <div class="actions">
-      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
-      <a class="button secondary" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_click">Get the source</a>
+    <h1>{hostedFee} of each sale hosted. Free to run yourself.</h1>
+    <p class="lede">Two ways to run a store. Host it on kitcommerce.store and pay {hosted}. Or run GoCommerce and Svelte Commerce on your own server: MIT licensed, no plan, no fee on your orders, no cap on your sales.</p>
+    <div class="duo-grid">
+      <div class="duo-card">
+        <p class="duo-card-role">Hosted on kitcommerce.store</p>
+        <p class="price-big">{hostedFee}</p>
+        <p class="price-per">of each successful sale</p>
+        <div class="actions">
+          <a class="button" href={signupUrl} {...ext} data-ev="signup_click">Start a store</a>
+        </div>
+      </div>
+      <div class="duo-card duo-card-engine">
+        <p class="duo-card-role">Self-hosted, MIT licensed</p>
+        <p class="price-big">Free</p>
+        <p class="price-per">0% of your sales, no expiry</p>
+        <div class="actions">
+          <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+          <a class="button secondary" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_click">Get the source</a>
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="includes" class="section wrap" aria-labelledby="includes-title">
-    <h2 id="includes-title">Everything is in the free plan</h2>
-    <p class="section-lede">There is no other plan for anything to be missing from.</p>
+    <h2 id="includes-title">Everything is in the MIT code</h2>
+    <p class="section-lede">Run it yourself and you get all of it. There is no higher plan for anything to be missing from.</p>
     <ul class="evidence">
       <li><svg aria-hidden="true"><use href="#i-server"/></svg><b>GoCommerce</b><span>The backend: catalogue, carts, checkout, orders, inventory, discounts, price lists, channels — with 61 admin screens compiled in.</span></li>
       <li><svg aria-hidden="true"><use href="#i-store"/></svg><b>Svelte Commerce</b><span>The storefront: server-rendered SvelteKit, running against 26 commerce backends.</span></li>
@@ -81,25 +93,25 @@ const faq = [
   </section>
 
   <section id="replaces" class="section wrap" aria-labelledby="replaces-title">
-    <h2 id="replaces-title">What free replaces</h2>
-    <p class="section-lede">Shopify’s own Indian price list, billed yearly, added up. In India, where Shopify Payments is not offered, that fee applies to online payments on every plan; cash on delivery and other manual payments are exempt.</p>
+    <h2 id="replaces-title">What running it yourself replaces</h2>
+    <p class="section-lede">Shopify’s US price list, in US dollars, billed yearly, added up. Shopify charges the fee per order when a payment provider other than Shopify Payments takes the payment.</p>
     <div class="tbl-scroll">
       <table class="reltable vs">
-        <caption>Plan fees alone, before any per-order fee — Shopify India against GoCommerce and Svelte Commerce</caption>
+        <caption>Plan fees alone, before any per-order fee: Shopify against self-hosted GoCommerce and Svelte Commerce</caption>
         <thead><tr><th scope="col"><span class="vh">Plan</span></th><th scope="col">Per month</th><th scope="col">One year</th><th scope="col">Three years</th><th scope="col">Fee per order</th></tr></thead>
         <tbody>
           {shopify.map((s) => (
-            <tr><th scope="row">Shopify {s.plan}</th><td>{inr(s.month)}</td><td>{inr(s.month * 12)}</td><td>{inr(s.month * 36)}</td><td>{s.fee}</td></tr>
+            <tr><th scope="row">Shopify {s.plan}</th><td>{usd(s.month)}</td><td>{usd(s.month * 12)}</td><td>{usd(s.month * 36)}</td><td>{s.fee}</td></tr>
           ))}
-          <tr><th scope="row">GoCommerce + Svelte Commerce</th><td>₹0</td><td>₹0</td><td>₹0</td><td>0%</td></tr>
+          <tr><th scope="row">GoCommerce + Svelte Commerce, self-hosted</th><td>$0</td><td>$0</td><td>$0</td><td>0%</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="fineprint">Source: <a href="https://www.shopify.com/in/pricing" {...ext}>shopify.com/in/pricing</a> and Shopify’s <a href="https://help.shopify.com/en/manual/your-account/manage-billing/billing-charges/types-of-charges/third-party-charges/third-party-transaction-fees" {...ext}>third-party transaction fees</a>, read on 25 September 2026. The full comparison, with where Shopify is the better choice, is on <a href="/compare/shopify-india-vs-kitcommerce/">Shopify India vs KitCommerce</a>.</p>
+    <p class="fineprint">Source: <a href="https://www.shopify.com/pricing" {...ext}>shopify.com/pricing</a>, US prices in US dollars, and Shopify’s <a href="https://help.shopify.com/en/manual/your-account/manage-billing/billing-charges/types-of-charges/third-party-charges/third-party-transaction-fees" {...ext}>third-party transaction fees</a>, read on 26 October 2026. The full comparison, with where Shopify is the better choice, is on <a href="/compare/kitcommerce-vs-shopify/">KitCommerce vs Shopify</a>.</p>
   </section>
 
   <section id="costs" class="section wrap" aria-labelledby="costs-title">
-    <h2 id="costs-title">What you still pay for</h2>
+    <h2 id="costs-title">What running it yourself still costs</h2>
     <p class="section-lede">Free software is not a free store. These are yours, and they are the honest price of owning it.</p>
     <div class="tri">
       <div class="tri-item">
@@ -112,7 +124,7 @@ const faq = [
       </div>
       <div class="tri-item">
         <h3>Someone’s time</h3>
-        <p>Deploying, upgrading and extending it is work — yours, or a developer’s. For a store without one, a hosted platform can cost less than that time.</p>
+        <p>Deploying, upgrading and extending it is work — yours, or a developer’s. For a store without one, hosting on kitcommerce.store for {hosted} may cost less than that time.</p>
       </div>
     </div>
   </section>
@@ -120,10 +132,11 @@ const faq = [
   <Faq items={faq} title="Questions about the price" />
 
   <section class="closing wrap">
-    <h2>Free, and yours to keep</h2>
-    <p>One command brings up the API and the admin. The licence never runs out.</p>
+    <h2>Hosted for {hostedFee} of each sale, or yours to run</h2>
+    <p>Start a store on kitcommerce.store, or bring up the API and the admin on your own machine with one command.</p>
     <div class="actions">
-      <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button" href={signupUrl} {...ext} data-ev="signup_click">Start a store</a>
+      <a class="button secondary" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
       <a class="button secondary" href="/compare/">Compare platforms</a>
     </div>
   </section>

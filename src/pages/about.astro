@@ -5,6 +5,7 @@
  * linked from the footer and from every comparison page, so it must stay.
  */
 import Base from '../layouts/Base.astro'
+import { hostedFee } from '../lib/pricing'
 
 const path = '/about/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -49,7 +50,7 @@ const graph = [
       </div>
       <div class="tri-item">
         <h3>This site</h3>
-        <p>KitCommerce is the platform, GoCommerce and Svelte Commerce are its packages, and kitcommerce.store is its website. It has no paid edition and no cloud: the packages are MIT licensed, used together or either one on its own.</p>
+        <p>KitCommerce is the platform, GoCommerce and Svelte Commerce are its packages, and kitcommerce.store is its website. It has no paid edition: the packages are MIT licensed, used together or either one on its own, and free to run yourself. Stores hosted on kitcommerce.store pay {hostedFee} of each successful sale.</p>
       </div>
     </div>
   </section>

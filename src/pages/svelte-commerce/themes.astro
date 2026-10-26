@@ -26,7 +26,7 @@ const graph = [
 ]
 
 const faq = [
-  { q: 'Are the themes free?', a: 'Yes. Every demo runs Svelte Commerce, which is MIT licensed. There is nothing to buy and nothing to unlock: clone the storefront and change it.' },
+  { q: 'Are the themes free?', a: 'Yes. Every demo runs Svelte Commerce, which is MIT licensed. No theme is sold and none is locked: clone the storefront and change it.' },
   { q: 'How do I install one?', a: 'There is no one-click install, because a Svelte Commerce theme is not a theme file. It is the storefront’s own Svelte components, styled. Start from the repository, run it against your backend, and edit the templates until it looks the way the demo you picked does.' },
   { q: 'Can I use them with GoCommerce?', a: 'Partly. An early connector, @misiki/gocommerce-connector 0.1.0, lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Customer accounts and search are not covered yet, and any theme section the connector does not support — a blog, reels, a wishlist — says so with an error rather than rendering empty.' },
   { q: 'Why are nearly all of them jewellery stores?', a: 'Because that is what the demos were built for: 78 of the 79 sell jewellery, most of them diamonds, and one sells everyday essentials. The storefront itself is not jewellery-specific — the catalogue, cart and checkout are the same for any product.' },
@@ -51,7 +51,7 @@ const faq = [
     <ul class="head-facts">
       <li><b>{themes.length}</b> live demo stores</li>
       <li><b>MIT</b> licensed</li>
-      <li><b>₹0</b> to use any of them</li>
+      <li><b>$0</b> to use any of them</li>
     </ul>
     <div class="actions">
       <a class="button" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_click">Download the storefront</a>

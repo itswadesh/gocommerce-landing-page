@@ -1854,12 +1854,12 @@ html:has(dialog.lightbox[open]) { overflow: hidden; }
 
 /* ═══════════════════════════════════════════════════════ pricing (/pricing/) */
 
-/* One word, as large as the column allows: the whole page is its footnote. */
+/* Two ways to run a store, each led by its price in the largest type the card allows. */
 .price-hero { padding-block: clamp(32px, 5vw, 64px) clamp(28px, 4vw, 44px); }
-.price-free { font-size: clamp(5.5rem, 22vw, 15rem); line-height: .82; letter-spacing: -.06em; margin-top: 10px; }
-.price-life { margin-top: 14px; font-size: clamp(1.5rem, 4vw, 2.25rem); font-weight: 600; letter-spacing: -.02em; }
 .price-hero .lede { margin-top: 18px; max-width: 44rem; }
-.price-hero .actions { margin-top: 26px; }
+.price-hero .duo-grid { margin-top: 30px; }
+.duo-card > .price-big { margin-top: 10px; font-size: clamp(3.75rem, 12vw, 6.5rem); line-height: .9; letter-spacing: -.05em; }
+.duo-card > .price-per { margin-top: 8px; font-size: clamp(1.125rem, 2.6vw, 1.375rem); font-weight: 600; letter-spacing: -.015em; color: var(--ink-2); }
 
 /* ═══════════════════════════════════════════════════════════ blog (/blog/) */
 

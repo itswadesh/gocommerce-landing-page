@@ -19,7 +19,7 @@ const faq = [
   { q: 'How do I switch backends?', a: 'Remove one connector package and add another. Nothing in the storefront imports a connector by name — the active one resolves from package.json, with PUBLIC_CONNECTOR to override — so switching is a dependency change rather than a rewrite.' },
   { q: 'Can I change the design?', a: 'Yes. The storefront is ordinary Svelte components rather than a theme DSL, so changing a template means editing that template. It is MIT licensed, so you can rebrand it and ship it for a client.' },
   { q: 'Is it good for SEO?', a: 'Product and category pages are server-rendered by SvelteKit, so a crawler receives HTML with the catalogue in it rather than an empty shell. The rest of a store’s SEO — titles, structured data, canonical URLs — is yours to write, as it is in any storefront.' },
-  { q: 'Is there a paid tier?', a: 'No. It is MIT source you run yourself. There is no hosted offering, no paid tier and nothing to buy.' },
+  { q: 'Is there a paid tier?', a: 'No. It is MIT source, free to run yourself, with nothing to unlock.' },
 ]
 
 const startCode = `<span class="cm"># 1 — get the source</span>

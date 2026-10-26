@@ -63,7 +63,7 @@
       ]
     }
   ],
-  "notYetLede": "There is no GoCommerce cloud, so none of the hosted-platform conveniences exist. Self-hosting gives you standard PostgreSQL backups and point-in-time recovery instead. Also absent today:",
+  "notYetLede": "Self-hosted, GoCommerce gives you standard PostgreSQL backups and point-in-time recovery rather than a hosted platform’s conveniences. Also absent today:",
   "notYet": [
     { "name": "Sandboxes and data branching", "why": "No hosted environments; copy a store with pg_dump and pg_restore." },
     { "name": "Managed backups and auto-scaling", "why": "Backups and scaling are yours, on your own infrastructure." },

@@ -30,6 +30,7 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 // dist/ is what Cloudflare serves, so dist/ is what gets audited. Run
 // `npm run build` first, or this checks the previous build.
 const DIST = path.join(ROOT, 'dist')
+const { hostedFee, signupUrl } = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'pricing.json'), 'utf8'))
 
 function htmlUnder(dir, base = '') {
   const out = []
@@ -64,7 +65,25 @@ const RULES = [
     // enterprise version, and a sentence claiming one describes something that
     // does not exist.
     re: /KitCommerce\s+(edition|tier|cloud|enterprise|pro|plus|premium)\b/gi,
-    why: 'KitCommerce has no edition, tier, cloud or enterprise version. Its packages, GoCommerce and Svelte Commerce, are free and MIT licensed.',
+    why: 'KitCommerce has no edition, tier, cloud or enterprise version. Its packages are MIT licensed and free to run yourself; hosting on kitcommerce.store is priced per sale and has no product name.',
+  },
+  {
+    // Until 26 October 2026 the site said there was nothing to pay at all.
+    // Since then a store hosted on kitcommerce.store pays a share of each
+    // successful sale (src/data/pricing.json), so these phrasings are false.
+    re: /\b(free,? for life|no hosted (offering|version|tier|option)|hosted tier|nothing to (buy|pay)|no customer pays)\b/gi,
+    why: 'Stores hosted on kitcommerce.store pay a share of each successful sale; only self-hosting is free. See src/data/pricing.json.',
+  },
+  {
+    // A data file's {hostedFee} that no page filled in (src/lib/pricing.ts).
+    re: /\{hostedFee\}/g,
+    why: 'Unfilled token: render this data through fill() from src/lib/pricing.ts.',
+  },
+  {
+    // The hosted fee is typed once, in src/data/pricing.json.
+    re: /\b[\d.]+% of each successful sale/gi,
+    why: `The hosted fee is ${hostedFee} of each successful sale, from src/data/pricing.json.`,
+    allow: (line, match) => match.startsWith(hostedFee + ' '),
   },
   {
     // The repository slug is svelte-commerce; the project in prose is two words.
@@ -117,13 +136,27 @@ for (const page of PAGES) {
       rule.re.lastIndex = 0
       let m
       while ((m = rule.re.exec(line))) {
-        if (rule.allow && rule.allow(line)) continue
+        if (rule.allow && rule.allow(line, m[0])) continue
         console.error(`  ${page}:${i + 1}  "${m[0].trim()}"`)
         console.error(`      ${rule.why}`)
         violations++
       }
     }
   }
+}
+
+// llms.txt is out of the rules' scope (see above), so its statement of the
+// price is held to pricing.json here instead.
+const llms = fs.readFileSync(path.join(ROOT, 'public', 'llms.txt'), 'utf8')
+for (const m of llms.matchAll(/\b[\d.]+% of each successful sale/g)) {
+  if (!m[0].startsWith(hostedFee + ' ')) {
+    console.error(`  llms.txt  "${m[0]}" disagrees with src/data/pricing.json (${hostedFee})`)
+    violations++
+  }
+}
+if (!llms.includes(signupUrl)) {
+  console.error(`  llms.txt  does not name the sign-up page, ${signupUrl}`)
+  violations++
 }
 
 if (violations) {

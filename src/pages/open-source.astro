@@ -2,12 +2,13 @@
 /**
  * The open-source page: what the two repositories are, how to have them
  * running in five steps, what sits around them, and the plain statement that
- * there is no cloud or paid tier behind them. Shaped after Saleor's
- * open-source page — hero with stars, first steps, ecosystem, community —
- * with its managed-cloud section replaced by the honest absence of one, and
- * no releases feed, because GoCommerce has no releases yet.
+ * there is no paid tier behind them, only the hosted option and its price.
+ * Shaped after Saleor's open-source page — hero with stars, first steps,
+ * ecosystem, community — and no releases feed, because GoCommerce has no
+ * releases yet.
  */
 import Base from '../layouts/Base.astro'
+import { hostedFee } from '../lib/pricing'
 import Faq from '../components/Faq.astro'
 
 const path = '/open-source/'
@@ -41,7 +42,7 @@ const graph = [
 const faq = [
   { q: 'What licence are GoCommerce and Svelte Commerce under?', a: 'MIT, both of them. You may use, copy, modify, merge, publish, distribute, sublicense and sell copies, commercially or not. The one condition is that the MIT copyright and permission notice is included with copies of the software. There is no second licence, no source-available clause and no commercial edition on different terms.' },
   { q: 'Can I white-label or rebrand them?', a: 'Yes. Rename either package, restyle the GoCommerce admin, change the storefront’s theme and ship the result under your own name and domain — for your own shop or for clients. The licence asks for its notice to travel with copies of the software, as a file in the source or the distribution; it does not ask for a credit in your storefront or your admin.' },
-  { q: 'Is there a cloud or a hosted version?', a: 'No. There is no hosted GoCommerce, no Svelte Commerce cloud, no paid tier and no enterprise edition. You run both yourself: the compose file on this site starts PostgreSQL, GoCommerce with its admin, and a proxy on port 80 on any machine with Docker. If you would rather someone else operated the servers, a hosted platform is the better fit.' },
+  { q: 'Is there a cloud or a hosted version?', a: `Yes, one: stores hosted on kitcommerce.store pay ${hostedFee} of each successful sale. There is no paid tier and no enterprise edition, and running both yourself stays free: the compose file on this site starts PostgreSQL, GoCommerce with its admin, and a proxy on port 80 on any machine with Docker.` },
   { q: 'Is it ready for production?', a: 'Svelte Commerce is: arialshop.com runs it in production, against one of its 26 backends. GoCommerce carries over 1,000 tests and 342 documented operations, but no store we know of runs it in production yet, so treat it as something to build on deliberately — run the suite against your changes and place test orders before real ones. Svelte Commerce reaches GoCommerce through an early connector, 0.1.0, covering catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet, and no store we know of runs the pair in production.' },
   { q: 'Why does GoCommerce have so few GitHub stars?', a: 'Because its repository is new: it was created on GitHub on 30 August 2026. Svelte Commerce has been there since October 2019, which is where its count comes from. A star count says how long a project has been noticed, not whether its code is right — the test suite is the better evidence. Both numbers on this page are read from the GitHub API, not typed in.' },
   { q: 'How do I contribute?', a: 'For anything large, ask in the Discord first. For GoCommerce, read AGENTS.md — the rules every contributor works under, human or agent — and docs/writing-a-module.md if you are adding an integration, then open an issue or a pull request. For Svelte Commerce, docs/CONNECTORS.md lists every backend connector and what it covers. The most useful work right now is the GoCommerce connector for Svelte Commerce.' },
@@ -96,10 +97,10 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 ---
 <Base
   title="Open Source Commerce Engine | GoCommerce & Svelte Commerce"
-  description="GoCommerce, a commerce engine in Go with its admin compiled in, and Svelte Commerce, a SvelteKit storefront. MIT licensed, no cloud, no paid tier."
+  description="GoCommerce, a commerce engine in Go with its admin compiled in, and Svelte Commerce, a SvelteKit storefront. MIT licensed and free to run yourself."
   path={path}
   ogTitle="The open-source commerce engine for builders"
-  ogDescription="GoCommerce and Svelte Commerce: MIT, on GitHub, run by you. GoCommerce in five steps with Docker. No cloud, no paid tier."
+  ogDescription="GoCommerce and Svelte Commerce: MIT, on GitHub, run by you. GoCommerce in five steps with Docker, free."
   crumbs={[{ name: 'Open source', href: path }]}
   graph={graph}
   faq={faq}
@@ -118,7 +119,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <li><b data-gh="go-stars">{n(go.stars)}</b><span>GitHub stars, GoCommerce</span></li>
       <li><b data-gh="sv-stars">{n(sv.stars)}</b><span>GitHub stars, Svelte Commerce</span></li>
       <li><b>MIT</b><span>both packages</span></li>
-      <li><b>0</b><span>paid tiers</span></li>
+      <li><b>0%</b><span>of sales, self-hosted</span></li>
     </ul>
   </section>
 
@@ -129,7 +130,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <p class="kicker">First steps</p>
         <h2 id="steps-title">A store on your own machine in five steps</h2>
       </div>
-      <p class="section-lede">All it needs is Docker and a terminal — nothing to register, nothing to pay. The compose file is served from this domain and starts three services: PostgreSQL, GoCommerce with its admin, and Caddy so it answers on port 80.</p>
+      <p class="section-lede">All it needs is Docker and a terminal — nothing to register and no fee. The compose file is served from this domain and starts three services: PostgreSQL, GoCommerce with its admin, and Caddy so it answers on port 80.</p>
     </div>
 
     <ol class="agentflow">
@@ -278,20 +279,20 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     </div>
   </section>
 
-  {/* ═══════════════════════════════════ no cloud, no paid tier */}
+  {/* ═══════════════════════════════════ no paid tier */}
   <section id="no-cloud" class="section wrap" aria-labelledby="nocloud-title">
     <div class="sec-head">
       <div>
-        <p class="kicker">No cloud, no paid tier</p>
+        <p class="kicker">No paid tier</p>
         <h2 id="nocloud-title">What you clone is all there is</h2>
       </div>
-      <p class="section-lede">No hosted version, no enterprise edition, no plan to upgrade to. The two repositories on GitHub are the whole offering, and both are yours under MIT.</p>
+      <p class="section-lede">No enterprise edition, no plan to upgrade to. The two repositories on GitHub are the whole of the software, and both are yours under MIT.</p>
     </div>
 
     <div class="tri">
       <div class="tri-item">
-        <h3>No hosted version</h3>
-        <p>There is no GoCommerce cloud and no Svelte Commerce cloud, no paid tier and no enterprise edition. You run the software on your own servers, and you own what it stores.</p>
+        <h3>Your servers, or ours</h3>
+        <p>Run the software on your own servers for free, and own what it stores. Or start a store hosted on kitcommerce.store, for {hostedFee} of each successful sale.</p>
       </div>
       <div class="tri-item">
         <h3>Rebrand it, white-label it</h3>
@@ -304,8 +305,8 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     </div>
 
     <div class="statement">
-      <p class="statement-lead">The cost of that: nobody runs it for you.</p>
-      <p>Servers, backups, upgrades and security patches are yours, and so is the pager. If you want someone else to carry them, a hosted platform is the better choice — the <a href="/compare/">comparisons</a> say where each one wins.</p>
+      <p class="statement-lead">The cost of running it yourself: nobody runs it for you.</p>
+      <p>Servers, backups, upgrades and security patches are yours, and so is the pager. If you would rather not run servers, start a store hosted on kitcommerce.store, or read the <a href="/compare/">comparisons</a> for where other platforms win.</p>
     </div>
   </section>
 

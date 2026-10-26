@@ -342,8 +342,7 @@ h2 + .capwall, h2 + .moddir, h2 + .screens { margin-top: 44px; }
 .theme-grid a:hover .theme-n { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ── pricing ─────────────────────────────────────────────────────── */
-.price-free { font-family: var(--serif); font-weight: 700; color: var(--ink); }
-.price-life { color: var(--ink-2); }
+.duo-card > .price-big { font-family: var(--serif); font-weight: 700; color: var(--ink); }
 
 /* ── blog ────────────────────────────────────────────────────────── */
 

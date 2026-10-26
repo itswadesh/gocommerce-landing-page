@@ -1,0 +1,5 @@
+{
+  "_comment": "The price, said once. Stores hosted on kitcommerce.store pay hostedFee of each successful sale; running the MIT code yourself is free. The owner's decision of 26 October 2026, recorded in docs/decisions.md. Data files write {hostedFee} and src/lib/pricing.ts fills it in; scripts/verify.js checks llms.txt against it.",
+  "hostedFee": "1%",
+  "signupUrl": "https://admin.kitcommerce.store/admin/auth/signup"
+}
