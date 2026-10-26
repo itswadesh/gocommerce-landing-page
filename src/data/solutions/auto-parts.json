@@ -1,0 +1,58 @@
+{
+  "path": "/solutions/auto-parts/",
+  "label": "Auto parts",
+  "summary": "For parts brands and distributors whose retailers and workshops reorder by part number, on credit.",
+  "title": "Auto Parts B2B Ordering Portal for Distributors | KitCommerce",
+  "description": "An auto parts B2B ordering portal: retailers order by part number or spreadsheet at their own prices, on credit within your limit, with statements.",
+  "ogTitle": "Auto parts ordering by part number, for distributors and retailers",
+  "ogDescription": "Retailers and workshops paste part numbers, buy on credit within a limit and download statements. No vehicle fitment search yet, and the page says so.",
+  "kicker": "Auto parts aftermarket",
+  "h1": "An auto parts B2B ordering portal for brands, distributors and retailers",
+  "lede": "For parts brands and distributors selling to retailers and workshops. Your buyers order by part number, paste a list or upload a spreadsheet, repeat last week’s order in one step, and buy on credit up to the limit you set. They search your catalogue by name or part number. Searching by vehicle is not built yet.",
+  "facts": [
+    { "b": "500", "t": "part numbers in one spreadsheet order" },
+    { "b": "1 step", "t": "to put last week’s order back in the basket" },
+    { "b": "Per buyer", "t": "price lists for distributors, retailers and workshops" }
+  ],
+  "needsTitle": "What a parts distributor asks for",
+  "needsLede": "Matched to what GoCommerce does today.",
+  "needs": [
+    { "need": "Orders by part number", "does": "quick-order" },
+    { "need": "The same fast movers every week", "does": "reorder" },
+    { "need": "Finding a part by number", "does": "variants" },
+    { "need": "Different prices for distributors, retailers and workshops", "does": "dealer-prices" },
+    { "need": "No order past a buyer’s credit", "does": "credit-limit" },
+    { "need": "Pay in 30 days", "does": "net-terms" },
+    { "need": "Fewer calls about outstanding amounts", "does": "statements" },
+    { "need": "Each buyer sees only the ranges they deal in", "does": "catalogue" },
+    { "need": "Stock in several warehouses", "does": "locations" },
+    { "need": "A fleet operator’s large order", "does": "quotes" }
+  ],
+  "shots": ["quick-order"],
+  "gapsLede": "What a parts business will ask about that is not there yet.",
+  "gaps": [
+    { "id": "fitment" },
+    { "id": "pack-sizes" },
+    { "id": "sales-rep" },
+    { "id": "gst-invoice" },
+    { "id": "tally" },
+    { "id": "no-reference" }
+  ],
+  "faq": [
+    { "q": "Can a retailer paste 100 part numbers at once?", "a": "Yes. Paste part numbers and quantities, or upload a spreadsheet of up to 500 lines. Numbers that cannot be ordered come back with the row number and the reason, such as too little stock." },
+    { "q": "Can a mechanic search by vehicle?", "a": "No. The catalogue is searched by product name or part number. A vehicle make, model and year search is not built." },
+    { "q": "Can workshops and retailers see different prices?", "a": "Yes. Put each kind of buyer in a group with its own price list, with lower prices at quantities you choose." },
+    { "q": "Can our salesmen take orders on a retailer’s credit?", "a": "Not yet. Your team can enter a phone order at the retailer’s prices, but it cannot go on the retailer’s credit account. Retailers place credit orders themselves in the portal." },
+    { "q": "Does it handle GST?", "a": "Not the tax invoice. The invoice prints your GSTIN only, with no HSN codes or CGST, SGST and IGST lines, and there is no e-invoice or e-way bill. Keep your billing software for those." }
+  ],
+  "related": [
+    "/solutions/dealer-portal/",
+    "/solutions/b2b-ecommerce-india/",
+    "/solutions/electricals/",
+    "/compare/shopify-b2b-vs-kitcommerce/"
+  ],
+  "sources": [
+    { "label": "GST Council: Notification 10/2023-Central Tax, e-invoicing from ₹5 crore turnover", "url": "https://gstcouncil.gov.in/node/4365" }
+  ],
+  "checked": "2026-10-26"
+}

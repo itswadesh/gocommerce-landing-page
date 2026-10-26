@@ -1,0 +1,111 @@
+{
+  "_comment": "What GoCommerce does for a supplier and its dealers, in plain words, each said once. Checked against the GoCommerce code (ext/b2b, core, the modules) at commit 4c230ff5 on 26 October 2026, and the portal checked by running it. Pages in src/data/solutions/ point at these by key.",
+  "portal": {
+    "name": "A dealer portal on your own web address",
+    "text": "Dealers sign in at /portal on your store’s own address. They see their payment terms and what they owe, order, approve their staff’s orders, accept quotes and download statements. There is no separate website to build first, and it works in a phone’s browser."
+  },
+  "credit-limit": {
+    "name": "Credit limits that stop an order",
+    "text": "Each dealer has a credit limit. At checkout, what they already owe plus the new order’s final total is checked against it, and an order over the limit is refused before it exists, with the amount still available shown. Two orders placed at the same moment cannot both slip under one limit."
+  },
+  "net-terms": {
+    "name": "Orders on account",
+    "text": "A dealer with an account orders now and pays later. The order is confirmed straight away with a due date, say 30 days out, and the amount counts against their limit until you mark the order paid."
+  },
+  "hold": {
+    "name": "Put an account on hold",
+    "text": "Put a dealer on hold and they can no longer order on credit. Close the account and they cannot order at all. Every change to a limit or payment terms is recorded with who made it and when."
+  },
+  "statements": {
+    "name": "Statements and overdue amounts",
+    "text": "A statement for any period: what was owed at the start, every order and payment, and what is owed at the end, with unpaid money split into not yet due, 1–30, 31–60, 61–90 and over 90 days late. You see every dealer’s; a dealer’s owner sees their own, and either can download it as a spreadsheet."
+  },
+  "approvals": {
+    "name": "The owner approves big orders",
+    "text": "Set an amount per dealer. When a dealer’s staff member orders above it, the order waits, and the dealer’s owner or approver is emailed to approve or reject it. Approved orders go through at the prices the approver saw."
+  },
+  "quotes": {
+    "name": "Quotes",
+    "text": "A dealer asks for a price on a quantity. Your team prices each line, adds a note and an expiry date, and sends it. When the dealer accepts, the order is placed at exactly those prices."
+  },
+  "quick-order": {
+    "name": "Order by product code or spreadsheet",
+    "text": "Dealers type product codes and quantities, paste them from a spreadsheet, or upload the spreadsheet itself, up to 500 lines at a time. Lines that cannot be added come back with their row number and the reason, such as too little stock."
+  },
+  "reorder": {
+    "name": "Repeat an order",
+    "text": "Put a past order back in the basket at today’s prices, and order only the lines you tick while the rest wait in the basket."
+  },
+  "dealer-prices": {
+    "name": "A price list per dealer category",
+    "text": "Put dealers in groups, such as distributors, A-category and B-category dealers, and give each group its own price list. Prices can drop at quantities you set, and a list can run between two dates, for a scheme."
+  },
+  "catalogue": {
+    "name": "What each dealer may buy",
+    "text": "Limit a dealer to some categories and products. Their checkout, quick orders and quotes keep to it."
+  },
+  "po-numbers": {
+    "name": "Purchase order numbers",
+    "text": "Every order can carry the dealer’s PO number, and you can make it required for a dealer."
+  },
+  "team": {
+    "name": "The dealer’s own team",
+    "text": "A dealer’s owner invites their staff by email as buyers or approvers, and changes or removes them without calling you."
+  },
+  "territories": {
+    "name": "Dealer territories",
+    "text": "Give each dealer a territory: a country, a state or a PIN code prefix. An enquiry from a customer on your website goes to the dealer whose territory fits best, and that dealer is emailed and follows it up in the portal. You see every enquiry and can reassign it."
+  },
+  "group-shipping": {
+    "name": "Shipping rates per dealer group",
+    "text": "Give a dealer group its own shipping rates, and its dealers see those instead of your public ones."
+  },
+  "store-per-dealer": {
+    "name": "A store per dealer",
+    "text": "From one installation you can open a separate online store for each dealer or brand, each with its own team, admin and web address."
+  },
+  "cod": {
+    "name": "Cash on delivery",
+    "text": "Cash on delivery is built in and is the default payment method on the store’s checkout."
+  },
+  "couriers": {
+    "name": "Indian couriers",
+    "text": "Book shipments with Shiprocket, Delhivery or NimbusPost from the admin. The India Post module records the consignment number from the counter receipt."
+  },
+  "gateways": {
+    "name": "Razorpay and Cashfree",
+    "text": "Razorpay and Cashfree modules take UPI and card payments on your store’s checkout."
+  },
+  "connect": {
+    "name": "Connect your other systems",
+    "text": "Export orders, products, customers and stock as spreadsheets. Webhooks send each new and changed order to another system, and API keys let a system you trust read or place orders without a person signing in."
+  },
+  "variants": {
+    "name": "Sizes, colours and product codes",
+    "text": "Products have options and variants, such as size, colour or wattage, each with its own product code, price and stock. Dealers can search the portal’s catalogue by name or product code."
+  },
+  "locations": {
+    "name": "Stock in several warehouses",
+    "text": "Hold stock in more than one warehouse or godown. Each order line records which one it was taken from."
+  },
+  "catalogue-languages": {
+    "name": "Product names in Indian languages",
+    "text": "The translations module holds product names and descriptions in any of the 22 languages of the Eighth Schedule, Hindi among them."
+  },
+  "open-source": {
+    "name": "Open source, so it stays yours",
+    "text": "GoCommerce is MIT licensed. Run it on your own server for free, or have it hosted on kitcommerce.store for {hostedFee} of each successful sale, and take the code with you if you leave."
+  },
+  "white-label": {
+    "name": "Your brand on it",
+    "text": "The MIT licence lets you rename both packages, restyle the storefront and the admin, and sell them to clients under your own brand. Keeping the copyright notice in the source code is the only condition."
+  },
+  "demo-store": {
+    "name": "A demo store to show clients",
+    "text": "Mark one store as a demo: its admin hides email addresses and phone numbers and freezes its team and keys, so you can show it to a prospect while the client stores beside it stay live."
+  },
+  "shopify-import": {
+    "name": "Bring a client across from Shopify",
+    "text": "The Shopify import module copies a catalogue over Shopify’s Admin API, with variants, options, pictures and stock, and running it again updates what it copied. Products, stock and orders also import from Shopify’s own CSV exports."
+  }
+}

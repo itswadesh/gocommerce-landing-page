@@ -1,0 +1,19 @@
+---
+/**
+ * One page per file in src/data/solutions/ whose path is under /solutions/.
+ * The pages for the four shapes of store (b2b, d2c, marketplace,
+ * multi-store) are their own files beside this one and win over it.
+ */
+import SolutionPage from '../../components/SolutionPage.astro'
+import type { SolutionPage as Page } from '../../data/solutions/_schema'
+
+export function getStaticPaths() {
+  const files = import.meta.glob<Page>('../../data/solutions/*.json', { eager: true, import: 'default' })
+  return Object.values(files)
+    .filter((page) => page.path.startsWith('/solutions/'))
+    .map((page) => ({ params: { slug: page.path.split('/')[2] }, props: { page } }))
+}
+
+const { page } = Astro.props as { page: Page }
+---
+<SolutionPage page={page} />

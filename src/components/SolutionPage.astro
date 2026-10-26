@@ -1,0 +1,174 @@
+---
+/**
+ * The page for one kind of business, from its file in src/data/solutions/.
+ * The data file is the page; this decides only where each part sits.
+ *
+ * Every page shows what is missing as plainly as what is there. A supplier
+ * who learns after signing that there is no GST invoice or Tally sync was
+ * misled, however true the rest of the page was.
+ */
+import Base from '../layouts/Base.astro'
+import Faq from './Faq.astro'
+import type { SolutionPage } from '../data/solutions/_schema'
+import type { Comparison } from '../data/compare/_schema'
+import capabilityData from '../data/b2b/capabilities.json'
+import gapData from '../data/b2b/gaps.json'
+import shotData from '../data/b2b/portal-shots.json'
+import { fill, hostedFee, signupUrl } from '../lib/pricing'
+
+interface Props { page: SolutionPage }
+const p = fill(Astro.props.page)
+const capabilities = fill(capabilityData)
+const gaps = fill(gapData)
+const abs = (x: string) => new URL(x, Astro.site!).href
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+
+const solutionFiles = import.meta.glob<SolutionPage>('../data/solutions/*.json', { eager: true, import: 'default' })
+const compareFiles = import.meta.glob<Comparison>('../data/compare/*.json', { eager: true, import: 'default' })
+const known = new Map<string, { label: string; summary: string }>([
+  ...Object.values(solutionFiles).map((s) => [s.path, { label: s.label, summary: s.summary }] as const),
+  ...Object.values(compareFiles).map((c) => [`/compare/${c.slug}/`, { label: c.label, summary: c.summary }] as const),
+  ['/solutions/b2b/', { label: 'Every B2B feature', summary: 'The full list, feature by feature, for the person who will set it up.' }],
+  ['/solutions/multi-store/', { label: 'Multi-store', summary: 'Several storefronts over one catalogue, each with its own prices.' }],
+  ['/pricing/', { label: 'Pricing', summary: `Free to run yourself. ${hostedFee} of each successful sale on a store hosted on kitcommerce.store.` }],
+])
+const related = p.related.map((href) => {
+  const k = known.get(href)
+  if (!k) throw new Error(`${p.path}: related link ${href} has no label; add it to src/data/solutions or SolutionPage.astro`)
+  return { href, ...k }
+})
+
+const checked = p.checked && new Date(p.checked + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+const crumbs = p.path.startsWith('/solutions/')
+  ? [{ name: 'Solutions', href: '/solutions/' }, { name: p.label, href: p.path }]
+  : [{ name: p.label, href: p.path }]
+const graph = [
+  { '@type': 'WebPage', '@id': abs(p.path + '#page'), url: abs(p.path), name: p.title, isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, inLanguage: 'en' },
+]
+---
+<Base
+  title={p.title}
+  description={p.description}
+  path={p.path}
+  ogTitle={p.ogTitle}
+  ogDescription={p.ogDescription}
+  nav="solutions"
+  crumbs={crumbs}
+  graph={graph}
+  faq={p.faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">{p.kicker}</p>
+    <h1 class={p.h1.length > 60 ? 'h1-long' : undefined}>{p.h1}</h1>
+    <p class="lede">{p.lede}</p>
+    <ul class="head-facts">
+      {p.facts.map((f) => <li><b>{f.b}</b> {f.t}</li>)}
+    </ul>
+  </section>
+
+  <section id="needs" class="section wrap" aria-labelledby="needs-title">
+    <h2 id="needs-title">{p.needsTitle}</h2>
+    <p class="section-lede">{p.needsLede}</p>
+    <div class="tbl-scroll">
+      <table class="reltable fit">
+        <caption>What you need, and what GoCommerce does about it today</caption>
+        <thead><tr><th scope="col">You need</th><th scope="col">What it does today</th></tr></thead>
+        <tbody>
+          {p.needs.map((n) => (
+            <tr><th scope="row">{n.need}</th><td><b>{capabilities[n.does].name}.</b> {capabilities[n.does].text}{n.note && <> {n.note}</>}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {p.shots && (
+    <section id="screens" class="section wrap" aria-labelledby="screens-title">
+      <h2 id="screens-title">What your dealers see</h2>
+      <p class="section-lede">Screens from the portal itself, with a made-up demo dealer and sample products.</p>
+      <div class="portal-shots">
+        {p.shots.map((id) => {
+          const s = shotData[id]
+          return (
+            <figure class="portal-shot">
+              <a href={`/assets/portal/${id}.webp`} target="_blank" rel="noopener noreferrer" aria-label={`Open the ${s.title.toLowerCase()} screenshot full size`}>
+                <picture>
+                  <source media="(max-width: 700px)" srcset={`/assets/portal/${id}-mobile.webp`} width={s.mobileWidth} height={s.mobileHeight} />
+                  <img src={`/assets/portal/${id}.webp`} width={s.width} height={s.height} alt={s.alt} loading="lazy" decoding="async" />
+                </picture>
+              </a>
+              <figcaption><b>{s.title}.</b> {s.caption}</figcaption>
+            </figure>
+          )
+        })}
+      </div>
+    </section>
+  )}
+
+  {p.story && (
+    <section id="trade" class="section wrap" aria-labelledby="trade-title">
+      <h2 id="trade-title">{p.story.title}</h2>
+      <div class="statement">
+        {p.story.paras.map((para, i) => <p class={i === 0 ? 'statement-lead' : undefined}>{para}</p>)}
+      </div>
+    </section>
+  )}
+
+  <section id="not-yet" class="section wrap" aria-labelledby="not-yet-title">
+    <h2 id="not-yet-title">What it does not do yet</h2>
+    <p class="section-lede">{p.gapsLede}</p>
+    <div class="tri">
+      {p.gaps.map((g) => (
+        <div class="tri-item"><h3>{gaps[g.id].name}</h3><p>{gaps[g.id].text}{g.note && <> {g.note}</>}</p></div>
+      ))}
+    </div>
+  </section>
+
+  <Faq items={p.faq} title="Common questions" />
+
+  <section id="related" class="section wrap" aria-labelledby="related-title">
+    <h2 id="related-title">Read next</h2>
+    <div class="solgrid">
+      {related.map((r) => (
+        <article>
+          <h3><a href={r.href}>{r.label}</a></h3>
+          <p>{r.summary}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {p.sources && (
+    <section class="section wrap vs-sources" aria-labelledby="sources-title">
+      <h2 id="sources-title" class="vs-sources-title">Sources</h2>
+      <p class="fineprint">Facts about the trade on this page come from the pages below, read on {checked}. What GoCommerce does was checked against its code on the same day.</p>
+      <ul class="vs-source-list">
+        {p.sources.map((s) => <li><a href={s.url} {...ext}>{s.label}</a></li>)}
+      </ul>
+    </section>
+  )}
+
+  <section class="closing wrap">
+    <h2>See it with your own catalogue</h2>
+    <p>Start a store hosted on kitcommerce.store for {hostedFee} of each successful sale, or run the open-source code on your own server for free. Either way the admin and the trade portal are on the store’s own web address.</p>
+    <div class="actions">
+      <a class="button" href={signupUrl} {...ext} data-ev="signup_click">Start a hosted store</a>
+      <a class="button secondary" href="/contact/">Have it built for you</a>
+      <a class="button secondary" href="/solutions/">All solutions</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .portal-shots { display: grid; gap: 32px; }
+  .portal-shot { margin: 0; min-width: 0; }
+  .portal-shot a { display: block; border: 1px solid var(--rule-strong); border-radius: var(--radius-card); overflow: hidden; background: var(--surface); }
+  .portal-shot img { display: block; width: 100%; height: auto; }
+  .portal-shot figcaption { margin-top: 10px; font-size: .875rem; line-height: 1.55; color: var(--ink-2); max-width: 65ch; }
+  .portal-shot figcaption b { color: var(--ink); font-weight: 600; }
+  @media (max-width: 700px) { .portal-shot a { max-width: 360px; margin-inline: auto; } }
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+    .portal-shot a { transition: transform .18s ease, box-shadow .18s ease; }
+    .portal-shot a:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(15, 23, 32, .12); }
+  }
+</style>

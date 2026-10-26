@@ -1,0 +1,21 @@
+{
+  "_comment": "Screenshots of the GoCommerce trade portal, taken on 26 October 2026 from a local GoCommerce 1.2 install with a made-up demo dealer, \"Shree Electricals (demo)\", and a sample electrical catalogue. Files in public/assets/portal/: <key>.webp at 1440 px wide, <key>-mobile.webp at 390 px wide, both at 2x for the phone.",
+  "overview": {
+    "title": "The dealer’s home screen",
+    "caption": "A dealer’s owner signs in and sees their payment terms, the amount still available to spend, what they owe, recent orders and a staff order waiting for approval.",
+    "alt": "The trade portal overview for a demo dealer: pay within 30 days, approval limit, available to spend of a limit, owed, overdue, three recent orders on account and one order waiting for approval",
+    "width": 1440, "height": 700, "mobileWidth": 780, "mobileHeight": 1180
+  },
+  "quick-order": {
+    "title": "Quick order",
+    "caption": "Product codes and quantities typed or pasted from a spreadsheet, ready to go into the basket at the dealer’s own prices.",
+    "alt": "The quick order screen with four product codes and quantities entered and an Add to basket button",
+    "width": 1440, "height": 560, "mobileWidth": 780, "mobileHeight": 1180
+  },
+  "statements": {
+    "title": "The statement",
+    "caption": "What the dealer owed at the start of the month, each order on account with its PO number and due date, and how much is late.",
+    "alt": "A statement for a demo dealer: owed at the start, ordered on account, paid, owed at the end, amounts by days late, and three orders with PO numbers and due dates",
+    "width": 1440, "height": 640, "mobileWidth": 780, "mobileHeight": 1180
+  }
+}

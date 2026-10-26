@@ -1,0 +1,69 @@
+{
+  "path": "/solutions/dealer-portal/",
+  "label": "Dealer portal",
+  "summary": "A dealer and distributor ordering portal on your own web address: orders, credit, statements, approvals and quotes.",
+  "title": "Dealer Ordering Portal Software on Your Own Domain | KitCommerce",
+  "description": "Dealer ordering portal software: dealers sign in on your web address, order by code or spreadsheet, buy on credit within a limit and download statements.",
+  "ogTitle": "A dealer ordering portal on your own web address",
+  "ogDescription": "Dealers order by product code, buy on credit within a limit, approve their staff’s orders and download statements. Screens from the real portal.",
+  "kicker": "Dealer and distributor ordering portal",
+  "h1": "A dealer ordering portal on your own web address",
+  "lede": "Your dealers and distributors sign in at /portal on your store’s address and order for themselves: by product code, from a spreadsheet, or by repeating last month’s order. They see their own prices, how much credit is left and what they owe. Their staff’s big orders wait for the owner’s approval, and you see every order, quote and overdue amount in one admin.",
+  "facts": [
+    { "b": "/portal", "t": "on your own web address, with no website to build first" },
+    { "b": "3 roles", "t": "for a dealer’s team: owner, approver and buyer" },
+    { "b": "500", "t": "lines in one spreadsheet order" }
+  ],
+  "needsTitle": "What dealers can do in the portal",
+  "needsLede": "Everything below is in the portal today. The screenshots further down are the real screens.",
+  "needs": [
+    { "need": "Sign in and see their account", "does": "portal" },
+    { "need": "Order fast by code", "does": "quick-order" },
+    { "need": "Order the same again", "does": "reorder" },
+    { "need": "Their own prices", "does": "dealer-prices" },
+    { "need": "Know how much credit is left", "does": "credit-limit" },
+    { "need": "Pay later", "does": "net-terms" },
+    { "need": "A statement any time", "does": "statements" },
+    { "need": "Approve their staff’s big orders", "does": "approvals" },
+    { "need": "Ask for a better price", "does": "quotes" },
+    { "need": "Add their own staff", "does": "team" },
+    { "need": "Put their PO number on the order", "does": "po-numbers" },
+    { "need": "Only the ranges they deal in", "does": "catalogue" },
+    { "need": "Leads from customers in their area", "does": "territories" },
+    { "need": "A store of their own", "does": "store-per-dealer" }
+  ],
+  "shots": ["overview", "quick-order", "statements"],
+  "story": {
+    "title": "One order, start to finish",
+    "paras": [
+      "A dealer’s counter clerk pastes this week’s product codes and quantities into Quick order. The lines go into the basket at the dealer’s own prices, with any quantity price already applied, and lines the store cannot supply come back with the reason.",
+      "At checkout the order is checked against the dealer’s rules: the PO number if you require one, the approval amount and the credit limit. Under all three, it is confirmed on account with a due date. Over the approval amount, it waits for the dealer’s owner, who is emailed. Over the credit limit, it is refused before anything is reserved.",
+      "The order then sits on the dealer’s statement until you mark it paid, and you ship it the way you ship today, or book it with Shiprocket, Delhivery or NimbusPost from the admin."
+    ]
+  },
+  "gapsLede": "What dealers or your accounts team may expect that the portal does not do yet.",
+  "gaps": [
+    { "id": "portal-payments" },
+    { "id": "gst-invoice" },
+    { "id": "languages" },
+    { "id": "approval-levels" },
+    { "id": "dealer-locator" },
+    { "id": "dealer-stores-separate" }
+  ],
+  "faq": [
+    { "q": "What is a dealer ordering portal?", "a": "A private website where your dealers sign in and order from you themselves, at their own prices and credit terms, instead of calling or messaging a salesperson. They also see their orders and what they owe." },
+    { "q": "Do dealers need to install an app?", "a": "No. The portal opens in any browser, on a phone or a computer, at /portal on your store’s address." },
+    { "q": "Can each dealer have different prices?", "a": "Yes. Put dealers in groups and give each group a price list, with lower prices at quantities you choose. A dealer only gets their group’s prices once their email address is confirmed." },
+    { "q": "What happens when a dealer is over their credit limit?", "a": "The order is refused at checkout and the dealer is told how much credit is still available. Nothing is reserved and no order number is used. You can also put an account on hold, which stops ordering on credit until you lift it." },
+    { "q": "Can a dealer’s staff order without the owner knowing?", "a": "Only up to the amount you set for that dealer. Above it, the order waits for the dealer’s owner or approver, who is emailed and can approve or reject it." },
+    { "q": "Can it run on our own domain?", "a": "Yes. The portal is served on the store’s own web address, and a store can use your domain once you verify it with a DNS record." }
+  ],
+  "related": [
+    "/solutions/b2b-ecommerce-india/",
+    "/solutions/electricals/",
+    "/solutions/building-materials/",
+    "/solutions/auto-parts/",
+    "/compare/shopify-b2b-vs-kitcommerce/",
+    "/solutions/b2b/"
+  ]
+}

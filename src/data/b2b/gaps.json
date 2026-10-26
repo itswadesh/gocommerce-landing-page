@@ -1,0 +1,63 @@
+{
+  "_comment": "What GoCommerce does not do for an Indian supplier, in plain words, each said once. Checked against the GoCommerce code at commit 4c230ff5 on 26 October 2026. The e-invoice threshold is from Notification 10/2023-Central Tax (https://gstcouncil.gov.in/node/4365); the GST Council's 57th meeting on 8 October 2026 did not change it. When a gap closes, delete it here and every page that named it stops saying so.",
+  "gst-invoice": {
+    "name": "No GST tax invoice yet",
+    "text": "The invoice prints your GSTIN and nothing more GST-specific: no HSN codes, no CGST, SGST or IGST lines and no place of supply. It does not generate e-invoices (IRN) or e-way bills, and an order on account gets its invoice only once you mark it paid. A supplier whose turnover has passed ₹5 crore in any year since 2017-18 must e-invoice its sales to registered businesses, so keep issuing tax invoices from your billing software."
+  },
+  "tally": {
+    "name": "No Tally connection",
+    "text": "Orders do not flow into Tally or another accounting system by themselves. You can export orders, customers and statements as spreadsheets, and a developer can use the webhooks and API to connect them."
+  },
+  "whatsapp": {
+    "name": "No WhatsApp ordering or alerts",
+    "text": "Dealers cannot order over WhatsApp, and approvals, quotes and statements are sent by email. Order status texts to customers go by SMS through the MSG91 module."
+  },
+  "languages": {
+    "name": "Portal screens are in English",
+    "text": "Product names can be in Hindi or another Indian language, but the portal’s own buttons and screens are English only."
+  },
+  "portal-payments": {
+    "name": "No online payment inside the portal",
+    "text": "In the portal, dealers order on account. Paying by UPI or card through Razorpay or Cashfree works on your store’s checkout, but not yet from the portal’s basket. Payments are recorded against whole orders, not part payments."
+  },
+  "pack-sizes": {
+    "name": "No minimum order or pack sizes",
+    "text": "You cannot yet require a minimum quantity, or sell only in boxes or cases of a fixed size. Price breaks at a quantity do work."
+  },
+  "batch-expiry": {
+    "name": "No batch, shade or expiry tracking",
+    "text": "Stock is counted per product and per warehouse. Batch numbers, tile shades and lots, and expiry dates are not tracked."
+  },
+  "sales-rep": {
+    "name": "Sales staff cannot order on a dealer’s credit",
+    "text": "Your team can take an order over the phone at the dealer’s prices, but it cannot be placed on the dealer’s credit account. There is no salesperson role or beat plan."
+  },
+  "fitment": {
+    "name": "No vehicle fitment search",
+    "text": "Parts are found by name or part number. There is no search by vehicle make, model and year."
+  },
+  "dealer-locator": {
+    "name": "No ready-made dealer finder",
+    "text": "Enquiries reach the right dealer only when your website sends them. There is no ready-made “find a dealer” page to drop in."
+  },
+  "approval-levels": {
+    "name": "One approval level",
+    "text": "Each dealer has one amount above which a staff order waits for approval. Approval chains and budgets per person are not there."
+  },
+  "dealer-stores-separate": {
+    "name": "Dealer stores stand alone",
+    "text": "Each dealer’s own online store keeps its own catalogue, stock and orders. Nothing is shared with yours or flows back to you automatically."
+  },
+  "no-reference": {
+    "name": "No store runs it in production yet",
+    "text": "GoCommerce has over 1,000 tests, but no store we know of runs it in production yet. You would be among the first, and the team behind it can set it up with you."
+  },
+  "no-partner-programme": {
+    "name": "No partner programme",
+    "text": "There is no partner programme, referral fee or share of the hosted fee today. What you charge your clients for building and running their stores is yours."
+  },
+  "go-skills": {
+    "name": "Go and SvelteKit, not PHP",
+    "text": "The engine is written in Go and the storefront in SvelteKit. A team that works in PHP or Shopify’s Liquid can run and configure stores at once, but changing the engine itself means learning Go."
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "path": "/solutions/building-materials/",
+  "label": "Building materials",
+  "summary": "For makers and distributors of tiles, sanitaryware, plywood, laminates and pipes who sell through dealers on credit.",
+  "title": "Building Materials B2B Ecommerce for Dealers | KitCommerce",
+  "description": "Building materials B2B ecommerce for tile, sanitaryware, plywood and pipe makers: dealer price lists, regional freight rates, quotes and credit limits.",
+  "ogTitle": "Dealer ordering for tiles, sanitaryware, plywood and pipes",
+  "ogDescription": "Dealers order at their own prices and freight rates, ask for project quotes and buy on credit within a limit. What it does not do for shade and box quantities, too.",
+  "kicker": "Building materials",
+  "h1": "Building materials B2B ecommerce for tile, sanitaryware, plywood and pipe makers",
+  "lede": "For manufacturers and distributors of tiles, sanitaryware, plywood, laminates and pipes. Dealers order online at their own price list and freight rates, ask you for a price on a project order, and buy on credit up to the limit you set. You see every dealer’s orders, quotes and overdue amounts in one place.",
+  "facts": [
+    { "b": "Per region", "t": "shipping rates for each group of dealers" },
+    { "b": "Quotes", "t": "priced line by line for a builder’s or contractor’s order" },
+    { "b": "1–30 · 31–60 · 61–90", "t": "days late, on every dealer’s statement" }
+  ],
+  "needsTitle": "What a building materials supplier asks for",
+  "needsLede": "Matched to what GoCommerce does today.",
+  "needs": [
+    { "need": "Different prices for distributors, dealers and sub-dealers", "does": "dealer-prices" },
+    { "need": "Freight that differs by region", "does": "group-shipping", "note": "Put each region’s dealers in their own group to give them their own rates." },
+    { "need": "Project orders at a special price", "does": "quotes" },
+    { "need": "Sizes, finishes, grades and thicknesses", "does": "variants" },
+    { "need": "Each dealer sells only their ranges", "does": "catalogue" },
+    { "need": "No order past a dealer’s credit", "does": "credit-limit" },
+    { "need": "Fewer calls about outstanding amounts", "does": "statements" },
+    { "need": "Stock in several depots", "does": "locations" },
+    { "need": "Homeowner enquiries sent to the nearest dealer", "does": "territories" },
+    { "need": "Repeat orders for fast movers", "does": "reorder" }
+  ],
+  "shots": ["statements"],
+  "story": {
+    "title": "Where the trade is today",
+    "paras": [
+      "Morbi in Gujarat alone has about 1,200 ceramic units, which make 80 to 90 per cent of India’s ceramic exports,, according to the state government.",
+      "Asian Paints’ MyAwaaz app shows what dealers in the trade now get from a large brand: ordering, overdue amounts flagged on the first screen, prices per product and invoices to download. GoCommerce gives a mid-size maker the ordering, credit and statements on its own web address."
+    ]
+  },
+  "gapsLede": "What a building materials supplier will ask about that is not there yet.",
+  "gaps": [
+    { "id": "pack-sizes", "note": "Tiles sold only by the box, or plywood only by the sheet, have to be listed as the box or the sheet." },
+    { "id": "batch-expiry", "note": "A dealer cannot ask for the same shade as their last order." },
+    { "id": "gst-invoice" },
+    { "id": "tally" },
+    { "id": "sales-rep" },
+    { "id": "dealer-locator" }
+  ],
+  "faq": [
+    { "q": "Can dealers in different states pay different freight?", "a": "Yes. Put each region’s dealers in a group and give the group its own shipping rates. They see those instead of your public rates." },
+    { "q": "Can a dealer ask for a project price?", "a": "Yes. The dealer asks for a quote on quantities, your team prices each line and sets an expiry date, and when the dealer accepts, the order is placed at exactly those prices." },
+    { "q": "Can we sell tiles only in full boxes?", "a": "Not as a rule the software enforces. List the box as the product, with its price per box. A minimum quantity or a fixed pack size is not built yet." },
+    { "q": "Does it track tile shades or batches?", "a": "No. Stock is counted per product and per depot, with no shade, batch or lot." },
+    { "q": "Does it handle GST?", "a": "Not the tax invoice. The invoice prints your GSTIN only, with no HSN codes or CGST, SGST and IGST lines, and there is no e-invoice or e-way bill. Keep your billing software for those." }
+  ],
+  "related": [
+    "/solutions/dealer-portal/",
+    "/solutions/b2b-ecommerce-india/",
+    "/solutions/electricals/",
+    "/solutions/auto-parts/"
+  ],
+  "sources": [
+    { "label": "The Week (PTI): Morbi leads India’s ceramic exports with up to 90 pc share, Gujarat government, 6 January 2026", "url": "https://www.theweek.in/wire-updates/business/2026/01/06/morbi-leads-indias-ceramic-exports-with-up-to-90-pc-share-gujarat-govt.amp.html" },
+    { "label": "Asian Paints MyAwaaz on the App Store", "url": "https://apps.apple.com/app/id1077292745" },
+    { "label": "GST Council: Notification 10/2023-Central Tax, e-invoicing from ₹5 crore turnover", "url": "https://gstcouncil.gov.in/node/4365" }
+  ],
+  "checked": "2026-10-26"
+}

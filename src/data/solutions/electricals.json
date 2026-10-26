@@ -1,0 +1,67 @@
+{
+  "path": "/solutions/electricals/",
+  "label": "Electricals",
+  "summary": "For makers and distributors of wires, switches, fans, lighting and switchgear who sell through dealers on credit.",
+  "title": "Electrical Distributor Software for Dealer Orders | KitCommerce",
+  "description": "Electrical distributor software for wire, switch, fan and lighting brands: dealers order by product code at their own prices, on credit within your limit.",
+  "ogTitle": "Dealer ordering for electrical brands and distributors",
+  "ogDescription": "Wires, switches, fans and lighting ordered online by your dealers, at their own prices and credit limits, with statements they download themselves.",
+  "kicker": "Electricals and consumer durables",
+  "h1": "Electrical distributor software for brands that sell through dealers",
+  "lede": "For makers and distributors of wires and cables, switches, fans, lighting and switchgear. Your dealers order online by product code at their own price list, buy on credit up to the limit you set, and download their own statement, on your web address and under your name.",
+  "facts": [
+    { "b": "Per category", "t": "price lists for distributors and A, B or C dealers" },
+    { "b": "PIN code", "t": "territories that send a customer’s enquiry to the right dealer" },
+    { "b": "500", "t": "lines in one spreadsheet order" }
+  ],
+  "needsTitle": "What an electrical brand asks for",
+  "needsLede": "Matched to what GoCommerce does today.",
+  "needs": [
+    { "need": "Different prices for distributors and dealers", "does": "dealer-prices" },
+    { "need": "Dealers ordering coils and boxes by product code", "does": "quick-order" },
+    { "need": "Wattage, size, colour and pole variants", "does": "variants" },
+    { "need": "No order past a dealer’s credit", "does": "credit-limit" },
+    { "need": "30 or 45 days to pay", "does": "net-terms" },
+    { "need": "Fewer calls about outstanding amounts", "does": "statements" },
+    { "need": "Special prices for a contractor’s or builder’s order", "does": "quotes" },
+    { "need": "The counter clerk orders, the owner approves", "does": "approvals" },
+    { "need": "Fan and lighting enquiries sent to a local dealer", "does": "territories" },
+    { "need": "Stock in regional warehouses", "does": "locations" }
+  ],
+  "shots": ["quick-order"],
+  "story": {
+    "title": "Why now, for a regional brand",
+    "paras": [
+      "The largest electrical brands give their trade apps of their own. Havells’ RetailOne app lets retailers scan and order, reorder in one tap and see their purchase history, and Polycab’s Pconnect app shows its distributors pending, outstanding and paid invoices.",
+      "A regional brand can give its dealers the same core, ordering, credit and statements, without building an app. The portal runs in a phone’s browser on your own web address."
+    ]
+  },
+  "gapsLede": "What an electrical brand will ask about that is not there yet.",
+  "gaps": [
+    { "id": "gst-invoice" },
+    { "id": "tally" },
+    { "id": "pack-sizes", "note": "Selling cable only in full coils, or switches only in boxes of 20, has to be done by listing the coil or the box as the product." },
+    { "id": "sales-rep" },
+    { "id": "whatsapp" },
+    { "id": "no-reference" }
+  ],
+  "faq": [
+    { "q": "Can distributors and dealers see different prices?", "a": "Yes. Put them in different groups, such as distributors and A-category dealers, and give each group a price list. Prices can fall at quantities you set, for example from 10 coils or 50 MCBs." },
+    { "q": "Can a dealer order 40 product codes at once?", "a": "Yes. They type or paste product codes and quantities, or upload a spreadsheet of up to 500 lines. Codes that cannot be ordered come back with the row number and the reason." },
+    { "q": "How do we stop a dealer who has not paid?", "a": "Set a credit limit, and an order that would take them over it is refused at checkout. Put the account on hold and they cannot order on credit at all until you lift it." },
+    { "q": "Can customers who want a fan find their nearest dealer?", "a": "Your website can send their enquiry to GoCommerce, which passes it to the dealer whose state or PIN code area fits best and emails them. There is no ready-made dealer-finder page, so the form on your website has to be built." },
+    { "q": "Does it handle GST?", "a": "Not the tax invoice. The invoice prints your GSTIN only, with no HSN codes or CGST, SGST and IGST lines, and there is no e-invoice or e-way bill. Keep your billing software for those." }
+  ],
+  "related": [
+    "/solutions/dealer-portal/",
+    "/solutions/b2b-ecommerce-india/",
+    "/solutions/building-materials/",
+    "/compare/shopify-b2b-vs-kitcommerce/"
+  ],
+  "sources": [
+    { "label": "Havells RetailOne on the App Store (Havells India Ltd)", "url": "https://apps.apple.com/app/id6761036307" },
+    { "label": "Polycab Pconnect on the App Store", "url": "https://apps.apple.com/mx/app/polycab-pconnect/id6751802814" },
+    { "label": "GST Council: Notification 10/2023-Central Tax, e-invoicing from ₹5 crore turnover", "url": "https://gstcouncil.gov.in/node/4365" }
+  ],
+  "checked": "2026-10-26"
+}
