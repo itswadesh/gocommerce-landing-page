@@ -1,0 +1,54 @@
+{
+  "slug": "faq",
+  "name": "FAQ",
+  "category": "Platform",
+  "title": "FAQ Module for GoCommerce — Questions and Answers",
+  "description": "Give a GoCommerce store a page of questions and answers: grouped into sections, ordered by hand, draft or published, served whole at /x/faq.",
+  "ogTitle": "An FAQ for GoCommerce",
+  "ogDescription": "The shop’s questions and answers, grouped into sections and ordered by hand, served at /x/faq. Read from the module’s source.",
+  "h1": "An FAQ for GoCommerce",
+  "lede": "A Go package that holds the questions a shop is asked often, and its answers. Operators write them on the admin’s FAQ screen, group them into sections they name, and drag them into order. The storefront reads the whole published set at /x/faq.",
+  "what": [
+    "In the package’s words, every storefront has a page of these and every shop writes the same ones, “where is my order, how do I return this, what does delivery cost”, so the engine gives the answers a table, the panel a screen, and the storefront one address to read them from.",
+    "An entry is a question, an answer, a section such as “Delivery” or “Returns”, a position within that section, and a published flag. An entry with no section belongs to the ungrouped set, which the storefront shows first. A question with no answer is refused: in the module’s words, “an unanswered question helps nobody”.",
+    "GET /x/faq answers with the page’s heading, the line under it, and the published entries grouped by section, each with its id, question and answer. The storefront gets no positions or timestamps, because the order is the order the entries arrive in."
+  ],
+  "configLede": "Two settings, both optional. The heading can be set in Config or on the Plugins screen, which wins; the line under it is set on the Plugins screen only.",
+  "config": [
+    { "field": "Heading", "panel": "Page heading", "required": false, "note": "What the storefront’s page is called. “Frequently asked questions” when empty. A value in Config becomes the panel field’s default." },
+    { "field": "blurb", "panel": "Line under the heading", "required": false, "note": "A line the storefront shows under the heading. Panel only; there is no Config field for it." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass faq.New to gocommerce.New, as below, or start the reference binary with -faq. The FAQ plugin starts switched on." },
+    { "b": "Write the questions", "t": "On the FAQ screen, or POST /api/admin/x/faq with a question, an answer and a section. An entry is published unless the request says published is false." },
+    { "b": "Put them in order", "t": "Drag them on the FAQ screen, which saves the whole list with PUT /api/admin/x/faq/order: every entry’s id and section, in the order they should read." },
+    { "b": "Read them from the storefront", "t": "GET /x/faq answers with the heading, the line under it, and the published entries grouped by section." }
+  ],
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/faq\"\n)\n\napp, err := gocommerce.New(cfg, faq.New(faq.Config{}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. The reference binary’s -faq flag and examples/store/main.go install it the same way.",
+  "howItWorks": [
+    { "b": "Ordered by hand", "t": "A new entry goes last in its own section, not last overall, which is where it belongs until somebody drags it. Within a section the order is the shop’s, never the alphabet’s." },
+    { "b": "The whole order at once", "t": "A reorder names every entry with the section it now belongs to, the way the Menus screen saves a tree. One that leaves an entry out, or names one the store does not hold, is refused whole in one transaction: a half-sorted list is worse than one that did not move." },
+    { "b": "Drafts stay in the admin", "t": "An entry saved with published false is on the FAQ screen and the admin list, and absent from /x/faq until it is published." },
+    { "b": "The switch gates the storefront only", "t": "With the FAQ plugin off, GET /x/faq answers 404, “this store has no FAQ”. The admin routes still answer, because the screen is where it is switched back on." },
+    { "b": "Rights of its own", "t": "Seeing the FAQ in the admin needs faq.read, held by managers and staff by default. Writing, ordering and removing entries need faq.write, held by managers." },
+    { "b": "Sample questions", "t": "The sample shop adds five questions in Orders, Delivery and Returns. A question the shop already asks is skipped, and erasing the sample shop removes only the entries it added." }
+  ],
+  "limits": [
+    { "b": "Sections sort by name", "t": "Entries are read sorted by section, then position, so sections reach the storefront in alphabetical order, the ungrouped set first. The reorder sets the order within each section; it does not store an order for the sections themselves." },
+    { "b": "One language", "t": "An entry has no language. A store selling in several languages gets one FAQ, in whatever language it was written." },
+    { "b": "An update rewrites the entry", "t": "PATCH /api/admin/x/faq/{id} takes the question, the answer and the section every time. A request that leaves out published publishes the entry, and a changed section keeps the old position, so place it with a reorder." },
+    { "b": "Length is counted in bytes", "t": "A question is at most 300 and an answer at most 8,000, counted in bytes. Text in a script that takes several bytes a character, such as Devanagari, reaches the limit sooner." },
+    { "b": "Plain text, all at once", "t": "The answer is text from a textarea, stored and served as written; the module does not render or clean it. Every entry is returned in one response, with no paging." }
+  ],
+  "tested": true,
+  "testCount": 3,
+  "apiOps": 6,
+  "faq": [
+    { "q": "What does the storefront get from /x/faq?", "a": "One response with heading, blurb and sections. Each section has its name and its published entries, each with an id, a question and an answer, in the order the shop arranged them within the section." },
+    { "q": "Can I hide the FAQ without deleting it?", "a": "Yes. Switch the FAQ plugin off on the Plugins screen and /x/faq answers 404; the entries stay and the FAQ screen still works. A single entry can be hidden by saving it with published off." },
+    { "q": "Can I have an FAQ in each language?", "a": "No. Entries carry no language, so the store has one FAQ. The cms module’s content pages are the ones that keep a copy per language." },
+    { "q": "Who can edit the FAQ?", "a": "An operator with faq.write, which managers hold by default; an owner holds every right. Staff hold faq.read and can see the entries but not change them. Either right can be granted to another role on the Roles screen." }
+  ]
+}
