@@ -1,0 +1,61 @@
+{
+  "slug": "telegram-alerts",
+  "name": "Telegram",
+  "category": "Messaging",
+  "title": "Telegram Order Alerts for GoCommerce — Open-Source Module",
+  "description": "Tell a GoCommerce store’s owner about each new order, payment, cancellation and return on Telegram, through a bot of their own: setup, wording, retries, limits.",
+  "ogTitle": "Telegram order alerts for GoCommerce",
+  "ogDescription": "A bot from @BotFather, a chat, and a message for every new order, payment, cancellation and return. Read from the source.",
+  "h1": "Telegram order alerts for GoCommerce",
+  "lede": "A Go package that writes to the store’s owner, not its shoppers, on Telegram. The owner makes a bot with @BotFather, sends it a message, picks that chat under Notifications › Setup Telegram, and every new order, payment, cancellation and return arrives there as it happens. No provider account, and no price per message.",
+  "what": [
+    "In the package’s words it is not a notifier: the engine’s notifiers write to shoppers, on a channel the shopper gave, and this writes to the owner about the shop. It subscribes to four events, order.created, order.paid, order.cancelled and order.returned, and words each one as a short plain-text message: the order number, the total, the items, the customer’s first name, the payment, and a link to the order in the panel when the panel’s address is set.",
+    "Each alert can be switched off or reworded on the Setup Telegram screen, with a live preview. The wording is a template over the same flat order data the engine’s own templates read, so {{.order_number}} means one thing everywhere, and only the alerts the owner changed are stored, so a default improved in a release reaches every store that never touched it. Wording that would not render is refused as it is saved.",
+    "The sending follows the webhooks module’s shape. The subscriber only writes a row and returns, so a Telegram that takes ten seconds to answer never holds the engine’s outbox, and a refusal is recorded against the alert rather than returned to the outbox, which would re-run every other consumer of the event. A worker sends, with backoff and a dead state."
+  ],
+  "configLede": "Two settings, both normally typed on the Notifications › Setup Telegram screen: the bot token and the chat. Config can carry them for a store wired in its own main(), and the screen’s values win. The reference binary reads neither from the environment, because a bot and a chat belong to one owner.",
+  "config": [
+    { "field": "BotToken", "panel": "Bot token", "required": true, "note": "From @BotFather in Telegram: send it /newbot and it answers with a token like 123456789:AAE…. Checked for that shape before use. It travels in the Bot API’s URL path, so no error that could quote it is logged, stored or answered as it stands." },
+    { "field": "ChatID", "panel": "Chat ID", "required": true, "note": "Where the alerts go: the owner’s own chat with the bot, or a group it is in. Find my chat lists the chats that have written to the bot lately, or the ID can be typed. With a token and a chat in Config the plugin starts switched on." },
+    { "field": "Timeout", "required": false, "note": "Bounds one call to Telegram: 10 seconds when zero. Go only; not in the panel." },
+    { "field": "BaseURL", "required": false, "note": "Replaces https://api.telegram.org. The package says tests set it and nothing else should. Go only." },
+    { "field": "Client", "required": false, "note": "Replaces the HTTP client. Go only; not in the panel." }
+  ],
+  "setup": [
+    { "b": "Make a bot", "t": "In Telegram, send /newbot to @BotFather and keep the token it answers with. Then send your new bot a message, or add it to the group the alerts should go to." },
+    { "b": "Install the module", "t": "Pass telegramalerts.New to gocommerce.New, as below, or start the reference binary with -telegram, which installs it idle." },
+    { "b": "Set it up", "t": "Under Notifications › Setup Telegram, save the token, press Find my chat and pick yours, then Send test message. The test works before the alerts are switched on." },
+    { "b": "Switch the alerts on", "t": "Turn on Send alerts. Reword or switch off any of the four alerts there, and watch Recent alerts for what arrived and what Telegram answered." }
+  ],
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\ttelegramalerts \"github.com/itswadesh/gocommerce/ext/telegram-alerts\"\n)\n\napp, err := gocommerce.New(cfg, telegramalerts.New(telegramalerts.Config{}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. With an empty Config the module installs idle and each store sets its own bot and chat on the Setup Telegram screen, which is how the reference binary’s -telegram flag and examples/store/main.go install it.",
+  "howItWorks": [
+    { "b": "Queued, then sent", "t": "Each event becomes one row holding the message as it was worded when the event happened. A worker claims 20 at a time with FOR UPDATE SKIP LOCKED every five seconds, and sooner when an alert has just been queued." },
+    { "b": "One message per event", "t": "A unique key on the event id means the engine redelivering an event, which its outbox may do, never becomes a second message on the owner’s phone." },
+    { "b": "Retries with backoff", "t": "When Telegram cannot be reached, is busy or asks to slow down, the alert waits and goes again, the wait doubling up to 15 minutes and honouring Telegram’s retry_after, for 12 attempts. Then it is marked dead and kept." },
+    { "b": "A refusal stops at once", "t": "An unknown chat, a blocked bot or a revoked token is a 4xx Telegram will give again, so the alert is marked dead with the reason in words the owner can act on, and can be sent again from Recent alerts once the setting is fixed." },
+    { "b": "Plain text, no previews", "t": "Messages go as plain text, so a customer’s name with an underscore in it cannot break the formatting, with link previews off. A message is cut at 3,500 characters, under Telegram’s limit." },
+    { "b": "Money as a person reads it", "t": "The total is written with the currency’s sign and decimals, and a rupee amount is grouped in lakhs and crores: ₹1,29,900.00, not 12990000 paise." }
+  ],
+  "limits": [
+    { "b": "Four events", "t": "New order, payment received, order cancelled and return received. Shipping, delivery and refunds send no alert." },
+    { "b": "One chat per store", "t": "Every alert goes to the one chat the store chose. There is no routing of some events to one person and others to another." },
+    { "b": "Nothing queued while off", "t": "An event that happens while the alerts are switched off is not queued for later. Alerts already queued when they are switched off wait for the switch rather than being thrown away." },
+    { "b": "Find my chat needs no webhook", "t": "The chat list comes from the Bot API’s getUpdates, which Telegram refuses for a bot that has a webhook set. Such a bot’s chat ID is typed by hand." },
+    { "b": "The order link needs the panel’s address", "t": "The link into the panel is built from the install’s panel URL, GOCOMMERCE_PANEL_URL. Without it the alert carries no link rather than a guessed one." },
+    { "b": "The log holds no text", "t": "Recent alerts shows each alert’s event, state, attempts and Telegram’s last answer, not the message, because it carries a customer’s name." }
+  ],
+  "tested": true,
+  "testCount": 23,
+  "apiOps": 10,
+  "vendorUrl": "https://telegram.org",
+  "vendorType": "Organization",
+  "faq": [
+    { "q": "Does it cost anything?", "a": "The package doc puts it this way: a bot writing to its owner costs nothing, with no account with a provider, no wording registered with a carrier and no price per message. The bot is the owner’s own, made with @BotFather." },
+    { "q": "Can it write to a group?", "a": "Yes. Add the bot to the group, send a message there, and pick the group with Find my chat. If the group becomes a supergroup, Telegram moves it to a new chat ID, and the alert’s reason says to choose it again." },
+    { "q": "Who can change the alerts?", "a": "The module adds two rights. alerts.read, which managers have by default, sees the alerts, their wording and whether they arrived. alerts.write, which only the owner has until it is granted, rewords them, finds the chat, sends a test and retries one that failed." },
+    { "q": "Does it message shoppers?", "a": "No. It writes only to the chat the store chose. What shoppers are sent is the engine’s notifiers’ job, under Notifications." },
+    { "q": "Is Telegram a partner?", "a": "No. The module calls Telegram’s public Bot API with a token you supply. Telegram does not endorse GoCommerce, and no store is known to run this module in production yet." }
+  ]
+}
