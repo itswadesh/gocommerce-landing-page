@@ -1,0 +1,56 @@
+{
+  "slug": "wishlist",
+  "name": "Wishlist",
+  "category": "Marketing",
+  "title": "Wishlist for GoCommerce — Saved Products and Demand Module",
+  "description": "Let GoCommerce shoppers save products to a list kept by a token, guests included, and see which wished-for products are out of stock. Settings and limits.",
+  "ogTitle": "Wishlists for GoCommerce",
+  "ogDescription": "A list keyed by a token, the way a cart is, and a ranking of what is wanted most and out of stock. Read from the source.",
+  "h1": "Wishlists for GoCommerce",
+  "lede": "A Go package for what shoppers wanted and did not buy yet. A list is kept by a token the storefront holds, the way a cart is, so a guest can save a product before there is an account. The shop’s side ranks products by how many lists hold them and shows which of those are out of stock. Nothing is required.",
+  "what": [
+    "In the package’s own words, a wishlist is “what shoppers wanted and did not buy yet.” The storefront creates a list with POST /x/wishlist, which answers with its token, and then adds and removes products under /x/wishlist/{token}. Each item comes back with the product’s title, slug, SKU, price and how many the store could sell this minute.",
+    "The price and the stock come from the variant an item names, or from the product’s cheapest active variant when it names none, which is what a product card shows. Saving the same thing twice is not an error and not a second row. A list can carry an email when the shopper gives one, so the shop can write to the people waiting for a restock.",
+    "The package calls the shop’s side “the more interesting half”. The Wishlists screen ranks products by how many lists hold them, with how many of those lists gave an email, and can show only the ones out of stock: “a demand signal no other screen in the panel carries.”"
+  ],
+  "configLede": "Nothing is required. One Go setting bounds a list; the Plugins screen holds the page heading and whether the storefront asks for an email.",
+  "config": [
+    { "field": "MaxItems", "required": false, "note": "How many products one list may hold: 200 when zero. A list at the limit refuses another product with 409. Go only." },
+    { "field": "heading", "panel": "Page heading", "required": false, "note": "The wishlist page’s heading, “Your wishlist” by default. Public. Panel only; there is no Config field for it." },
+    { "field": "collect_email", "panel": "Ask for an email on the wishlist page", "required": false, "note": "The panel’s hint: so the shop can write when something wished for comes back in stock. Public, for the storefront to read; the module accepts an email whichever way it is set. Panel only." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass wishlist.New to gocommerce.New, as below, or start the reference binary with -wishlist. It adds two tables, and the plugin starts switched on." },
+    { "b": "Keep the token", "t": "POST /x/wishlist, with an email or with no body at all, answers with the new list and its token. The storefront stores the token as it does a cart’s; it is the only key to that list." },
+    { "b": "Save and show", "t": "POST /x/wishlist/{token}/items with a product_id, and a variant_id if the shopper chose one. GET /x/wishlist/{token} draws the page, stock included." },
+    { "b": "Read the demand", "t": "The Wishlists screen, or GET /api/admin/x/wishlist/wanted?out_of_stock=1, lists the most-wanted products the store cannot sell right now." }
+  ],
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/wishlist\"\n)\n\napp, err := gocommerce.New(cfg, wishlist.New(wishlist.Config{}))",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. The reference binary’s -wishlist flag and examples/store/main.go install it the same way.",
+  "howItWorks": [
+    { "b": "A token, like a cart’s", "t": "32 bytes from crypto/rand, written as hex: the only credential a guest holds. Every storefront route takes it in the path, and a token nobody has answers 404." },
+    { "b": "Once per product and variant", "t": "A unique index on the list, the product and the variant, with a whole-product save counted as one, makes a repeated save a no-op answered with the list as it stands." },
+    { "b": "Checked before it is saved", "t": "The product has to exist, and a named variant has to belong to it, or the save answers 404. Otherwise, in the code’s words, a list fills with rows that can never be drawn." },
+    { "b": "Stock as the store sells it", "t": "Available is on hand less reserved, summed over the active variants an item covers. A variant that does not track inventory counts as always in stock." },
+    { "b": "A deleted product still counts", "t": "The product id is deliberately not a foreign key. A product deleted since stays in the ranking, and the shopper’s list marks it deleted rather than losing the row." },
+    { "b": "The token stays off the admin", "t": "The admin’s list of wishlists shows the id, email, item count and dates, never the token, “the shopper’s credential”. On a demo store or for an agent key the email is masked and searching by it matches nothing." }
+  ],
+  "limits": [
+    { "b": "Kept by token, not by account", "t": "A list has no customer column. It follows a shopper only as far as the storefront keeps its token; nothing in the module joins two lists or ties one to a sign-in." },
+    { "b": "It sends nothing", "t": "The module counts who is waiting and keeps their emails, and stops there. No restock mail is sent and no event is emitted when a wished-for product comes back." },
+    { "b": "Consent is the storefront’s", "t": "An email is stored as given, with no confirmation and no record of consent. The collect_email switch only tells the storefront whether to ask." },
+    { "b": "The token is the whole key", "t": "Anyone holding a list’s token can read and change it. There is no read-only link for sharing a list." },
+    { "b": "Lists are never cleared", "t": "There is no route to delete a list and no expiry. A shopper can remove items one at a time and clear the email by sending an empty one; an operator can remove neither." },
+    { "b": "Products, not variants, in the ranking", "t": "The ranking groups by product: which variant was wished for is on the list but not in the count, and out of stock means no active variant has any to sell. It reads as JSON pages; there is no CSV export." }
+  ],
+  "tested": true,
+  "testCount": 6,
+  "apiOps": 7,
+  "faq": [
+    { "q": "Does a shopper need an account?", "a": "No. A list is created with POST /x/wishlist and kept by the token it returns, the way a cart is, so a guest can save products. The module has no link to customer accounts." },
+    { "q": "Does it email shoppers when something is back in stock?", "a": "No. It keeps the emails shoppers give and counts, for each product, how many lists with an email hold it. Sending the notice is left to something else." },
+    { "q": "What happens when a list is full?", "a": "The next save answers 409, “a wishlist holds at most 200 products”. MaxItems in Config changes the number." },
+    { "q": "Who can see what shoppers saved?", "a": "An operator with wishlists.read, which managers and staff hold by default. Switching the plugin off closes the storefront routes only; the Wishlists screen keeps working." }
+  ]
+}
