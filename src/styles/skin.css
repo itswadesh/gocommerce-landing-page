@@ -441,3 +441,47 @@ h2 + .capwall, h2 + .moddir, h2 + .screens { margin-top: 44px; }
 .field:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-color: var(--ink); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .field { color-scheme: dark; } }
 :root[data-theme="dark"] .field { color-scheme: dark; }
+
+/* ── fee calculator ──────────────────────────────────────────────── */
+.calc-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; margin-top: 22px; max-width: 46rem; }
+.calc-field { display: grid; gap: 8px; align-content: start; min-width: 0; margin: 0; padding: 0; border: 0; }
+.calc-field > label, .calc-field legend { font: 500 .9375rem/1.4 var(--sans); color: var(--ink); padding: 0; }
+.calc-field .field { width: 100%; font-variant-numeric: tabular-nums; }
+.calc-hint { margin: 0; font-size: .875rem; color: var(--ink-3); }
+.calc-error { margin: 0; min-height: 1.4em; font-size: .875rem; color: #b3261e; }
+.calc-field .field[aria-invalid="true"] { border-color: #b3261e; }
+.calc-range { display: flex; align-items: center; gap: 14px; min-height: 44px; }
+.calc-range input { flex: 1; min-width: 0; accent-color: var(--ink); }
+.calc-range output { min-width: 4ch; text-align: right; font: 500 1rem/1 var(--mono); font-variant-numeric: tabular-nums; }
+.calc-choice { grid-template-columns: repeat(2, max-content); column-gap: 18px; }
+.calc-choice legend { margin-bottom: 8px; }
+.calc-choice label { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: .9375rem; cursor: pointer; }
+.calc-choice input { width: 18px; height: 18px; accent-color: var(--ink); }
+.calc-table { margin-top: 26px; }
+.calc-table td, .calc-table th[scope="row"] { font-variant-numeric: tabular-nums; }
+.calc-table td:nth-child(2) { font-weight: 600; color: var(--ink); }
+.calc-us th, .calc-us td { background: var(--tint-mint); }
+.calc-verdict { margin-top: 18px; font-size: 1.0625rem; color: var(--ink); max-width: 46rem; }
+@media (max-width: 620px) { .calc-form { grid-template-columns: minmax(0, 1fr); } }
+
+/* A changed figure fades in; an invalid entry shakes once. The shake is
+   movement, so reduced motion keeps only the colour of the error. */
+.tick-in { animation: cur-in .2s ease both; }
+@media (prefers-reduced-motion: no-preference) {
+  .calc-error.shake { animation: calc-shake .28s ease both; }
+}
+@keyframes calc-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+/* Error red that clears 4.5:1 on the dark paper too. */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .calc-error { color: #ff8a80; } :root:not([data-theme="light"]) .calc-field .field[aria-invalid="true"] { border-color: #ff8a80; } }
+:root[data-theme="dark"] .calc-error { color: #ff8a80; }
+:root[data-theme="dark"] .calc-field .field[aria-invalid="true"] { border-color: #ff8a80; }
+
+.calc-note { grid-column: 1 / -1; }
+.calc-table { min-width: 0; }
+.reltable.calc-table thead th { color: var(--ink); }
+@media (max-width: 620px) {
+  .calc-table { font-size: .875rem; }
+  .calc-table th, .calc-table td { padding-right: 10px; }
+  .calc-table tbody th { width: auto; }
+}

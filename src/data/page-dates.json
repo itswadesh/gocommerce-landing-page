@@ -128,7 +128,7 @@
     "modified": "2026-10-26"
   },
   "/compare/kitcommerce-vs-shopify/": {
-    "hash": "8da3fe8174eb1529",
+    "hash": "76561d06a4c11484",
     "modified": "2026-10-26"
   },
   "/compare/kitcommerce-vs-squarespace/": {
@@ -164,7 +164,7 @@
     "modified": "2026-10-26"
   },
   "/compare/shopify-india-vs-kitcommerce/": {
-    "hash": "7113b091ce998182",
+    "hash": "80711102b674118c",
     "modified": "2026-10-26"
   },
   "/compare/shopify-plus-vs-kitcommerce/": {
@@ -424,7 +424,11 @@
     "modified": "2026-10-26"
   },
   "/pricing/": {
-    "hash": "b9499a988806b664",
+    "hash": "1d4d2f45444f7b17",
+    "modified": "2026-10-26"
+  },
+  "/pricing/fee-calculator/": {
+    "hash": "d0a5ba20dedeed62",
     "modified": "2026-10-26"
   },
   "/privacy/": {

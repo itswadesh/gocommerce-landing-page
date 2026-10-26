@@ -137,6 +137,7 @@
 - https://kitcommerce.store/rss.xml — the blog as an RSS feed
 - https://kitcommerce.store/.well-known/security.txt — where to report a vulnerability
 - https://kitcommerce.store/pricing/ — pricing: stores hosted on kitcommerce.store pay 1% of each successful sale; running the MIT code yourself is free, 0% of sales; what self-hosting includes and what it still costs
+- https://kitcommerce.store/pricing/fee-calculator/ — fee calculator: a month of sales and the share paid online, Shopify’s plan and fee from its own price list for the visitor’s country, against 1% of each successful sale hosted on kitcommerce.store
 - https://kitcommerce.store/features/ — GoCommerce features, each checked against the code with the file named; partial features say what is missing
 - https://kitcommerce.store/features/checkout/ — checkout: one idempotent call that returns 409 instead of charging a changed price, guest checkout, eleven gateways plus cash on delivery
 - https://kitcommerce.store/features/operations/ — operations: order timeline and edits, multi-location stock with a reconciling ledger, 12 carrier options, refunds, roles, audit

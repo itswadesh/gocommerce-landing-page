@@ -1,0 +1,233 @@
+---
+/**
+ * What Shopify takes from a month's sales against the hosted fee, in the
+ * visitor's currency. Shopify's side is its own price list for the market of
+ * that currency (src/data/prices.json): the plan, and its fee on orders that a
+ * provider other than Shopify Payments takes. No exchange rate anywhere; a
+ * currency Shopify publishes no list in uses its nearest list, and says so.
+ *
+ * The figures for each currency's default inputs are rendered into the HTML,
+ * so the page is complete without JavaScript and nothing moves when the
+ * script starts. The script redoes the same arithmetic (src/lib/fees.mjs) as
+ * the visitor types.
+ */
+import Base from '../../layouts/Base.astro'
+import CurrencyPicker from '../../components/CurrencyPicker.astro'
+import Variants from '../../components/Variants.astro'
+import { hostedFee } from '../../lib/pricing'
+import { CURRENCIES, CURRENCY_NAMES, byCurrency, formatMoney, shopifyMarkets, type Currency } from '../../lib/money'
+import { monthlyCosts, verdict } from '../../lib/fees.mjs'
+
+const path = '/pricing/fee-calculator/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+const hostedRate = parseFloat(hostedFee)
+const longDate = (iso: string) => new Date(iso + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+
+const markets = shopifyMarkets()
+// Starting figures, a round month for a small store in each market's currency.
+// Indian stores take many orders cash on delivery; elsewhere nearly all are paid online.
+const start = (m: (typeof markets)[Currency]) =>
+  ({ sales: m.list.currency === 'INR' ? 500000 : 10000, prepaid: m.list.currency === 'INR' ? 60 : 100, billing: 'yearly', via: 'shopify' })
+const costs = Object.fromEntries(CURRENCIES.map((c) => [c, monthlyCosts(markets[c], start(markets[c]), hostedRate)]))
+const money = (c: Currency, n: number) => formatMoney(n, markets[c].list.currency)
+
+// The browser needs only the numbers.
+const data = Object.fromEntries(CURRENCIES.map((c) => {
+  const m = markets[c]
+  return [c, { currency: m.list.currency, payments: m.payments, plans: m.plans, start: start(m) }]
+}))
+
+const inMarket = byCurrency((c) => markets[c].name)
+const salesStart = byCurrency((c) => new Intl.NumberFormat(markets[c].list.currency === 'INR' ? 'en-IN' : 'en-GB').format(start(markets[c]).sales))
+const paymentsCurs = CURRENCIES.filter((c) => markets[c].payments)
+const noPaymentsCurs = CURRENCIES.filter((c) => !markets[c].payments)
+
+const used = [...new Map(CURRENCIES.map((c) => [markets[c].list.url, markets[c]])).values()]
+const sources = [
+  ...used.map((m) => ({ label: `${m.list.label}, read ${longDate(m.list.read)}`, url: m.list.url })),
+  ...[...new Set(used.flatMap((m) => [m.feeUrl, m.paymentsUrl]))].map((url) => ({
+    label: url.includes('supported-countries') ? 'Shopify Help Center: countries where Shopify Payments is offered' : 'Shopify Help Center: third-party transaction fees',
+    url,
+  })),
+]
+
+const title = `Shopify Fee Calculator: Shopify vs ${hostedFee} on kitcommerce.store`
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: title, isPartOf: { '@id': abs('/#site') }, inLanguage: 'en' },
+  { '@type': 'WebApplication', name: 'Shopify fee calculator', url: abs(path), applicationCategory: 'BusinessApplication', operatingSystem: 'Any', isAccessibleForFree: true },
+]
+---
+<Base
+  title={title}
+  description={`Enter a month’s sales and the share paid online. See Shopify’s plan and fee, from its own price list for your country, against ${hostedFee} of each sale hosted.`}
+  path={path}
+  ogTitle="What Shopify takes from your sales, and what 1% takes"
+  ogDescription="Shopify’s plan and fees from its own price list for your country, against 1% of each successful sale on kitcommerce.store."
+  nav="pricing"
+  crumbs={[{ name: 'Pricing', href: '/pricing/' }, { name: 'Fee calculator', href: path }]}
+  graph={graph}
+  prices
+>
+  <section class="wrap page-head">
+    <p class="kicker">Fee calculator</p>
+    <h1>Shopify’s plan and fees against {hostedFee} of each sale</h1>
+    <p class="lede">Enter a month’s sales and how much of it is paid online. The calculator adds Shopify’s plan to Shopify’s fee on those orders, from Shopify’s own price list for <Variants v={inMarket} />, and sets it against {hostedFee} of each successful sale on a store hosted on kitcommerce.store.</p>
+    <CurrencyPicker refs={['shopify/basic-monthly']} />
+  </section>
+
+  <section class="section wrap calc" aria-labelledby="calc-title">
+    <h2 id="calc-title">Your month</h2>
+    <form class="calc-form" data-calc novalidate autocomplete="off">
+      <div class="calc-field">
+        <label for="sales">Sales a month, in <Variants v={byCurrency((c) => CURRENCY_NAMES[markets[c].list.currency])} /></label>
+        <input id="sales" name="sales" class="field" type="text" inputmode="decimal" autocomplete="off" value={salesStart.find((v) => v.curs.includes('INR'))!.text} aria-describedby="sales-hint sales-error">
+        <p id="sales-hint" class="calc-hint">Every order, paid online or cash on delivery.</p>
+        <p id="sales-error" class="calc-error" aria-live="polite"></p>
+      </div>
+      <div class="calc-field">
+        <label for="prepaid">Share paid online</label>
+        <div class="calc-range">
+          <input id="prepaid" name="prepaid" type="range" min="0" max="100" step="5" value="60" aria-describedby="prepaid-hint">
+          <output for="prepaid" id="prepaid-out"><Variants v={byCurrency((c) => `${start(markets[c]).prepaid}%`)} /></output>
+        </div>
+        <p id="prepaid-hint" class="calc-hint">The rest is cash on delivery, which Shopify charges no fee on.</p>
+      </div>
+      <fieldset class="calc-field calc-choice">
+        <legend>Shopify billed</legend>
+        <label><input type="radio" name="billing" value="yearly" checked> Yearly</label>
+        <label><input type="radio" name="billing" value="monthly"> Monthly</label>
+      </fieldset>
+      <fieldset class="calc-field calc-choice" data-c={paymentsCurs.join(' ')}>
+        <legend>Card payments on Shopify through</legend>
+        <label><input type="radio" name="via" value="shopify" checked> Shopify Payments</label>
+        <label><input type="radio" name="via" value="other"> Another provider</label>
+      </fieldset>
+      {noPaymentsCurs.length > 0 && (
+        <p class="calc-hint calc-note" data-c={noPaymentsCurs.join(' ')}>Shopify Payments is not offered in <Variants v={inMarket} />, so Shopify’s fee applies to every order paid online.</p>
+      )}
+    </form>
+    <noscript><style>.calc-form { display: none; }</style><p class="calc-hint">With JavaScript off, these are the figures for <Variants v={byCurrency((c) => money(c, start(markets[c]).sales))} /> of sales a month, <Variants v={byCurrency((c) => `${start(markets[c]).prepaid}%`)} /> paid online, with Shopify billed yearly.</p></noscript>
+
+    <div class="tbl-scroll">
+      <table class="reltable vs calc-table">
+        <caption>Platform charges a month, before payment gateway charges and tax</caption>
+        <thead><tr><th scope="col">Platform</th><th scope="col">Total a month</th><th scope="col">Plan</th><th scope="col">Fee on sales</th></tr></thead>
+        <tbody>
+          <tr class="calc-us">
+            <th scope="row">kitcommerce.store, hosted</th>
+            <td data-out="hosted-total"><Variants v={byCurrency((c) => money(c, costs[c].hosted))} /></td>
+            <td>None</td>
+            <td data-out="hosted"><Variants v={byCurrency((c) => money(c, costs[c].hosted))} /></td>
+          </tr>
+          {[0, 1, 2].map((i) => (
+            <tr>
+              <th scope="row">Shopify <Variants v={byCurrency((c) => costs[c].shopify[i].name)} /></th>
+              <td data-out={`total-${i}`}><Variants v={byCurrency((c) => money(c, costs[c].shopify[i].total))} /></td>
+              <td data-out={`plan-${i}`}><Variants v={byCurrency((c) => money(c, costs[c].shopify[i].plan))} /></td>
+              <td data-out={`fee-${i}`}><Variants v={byCurrency((c) => money(c, costs[c].shopify[i].fee))} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="calc-verdict" aria-live="polite"><span data-out="verdict"><Variants v={byCurrency((c) => verdict(costs[c], (n: number) => money(c, n)))} /></span></p>
+  </section>
+
+  <section id="counts" class="section wrap" aria-labelledby="counts-title">
+    <h2 id="counts-title">What does the calculator count?</h2>
+    <ul class="tick">
+      <li>Shopify: the plan’s price on Shopify’s price list for <Variants v={inMarket} />, billed yearly or monthly as you choose, and Shopify’s own fee on orders paid online through a provider other than Shopify Payments: <Variants v={byCurrency((c) => markets[c].plans.map((p) => `${p.fee}% on ${p.name}`).join(', '))} />. Shopify charges no such fee on cash-on-delivery orders.</li>
+      <li>kitcommerce.store: {hostedFee} of each successful sale. The calculator counts it on every sale, cash on delivery included.</li>
+      <li>Left out on both sides: payment gateway charges (Razorpay’s, Stripe’s, or Shopify Payments’ own card rates), taxes such as GST, apps, themes and domains.</li>
+    </ul>
+  </section>
+
+  <section id="india" class="section wrap" aria-labelledby="india-title">
+    <h2 id="india-title">Why does an Indian store pay Shopify’s fee on every prepaid order?</h2>
+    <p class="section-lede">Shopify Payments is not offered in India, so every order paid online goes through a provider such as Razorpay, and Shopify adds its fee for that plan on top. Cash-on-delivery orders carry no Shopify fee. The <a href="/compare/shopify-india-vs-kitcommerce/">Shopify India comparison</a> goes through it charge by charge.</p>
+  </section>
+
+  <section class="section wrap vs-sources" aria-labelledby="sources-title">
+    <h2 id="sources-title" class="vs-sources-title">Sources</h2>
+    <p class="fineprint">Shopify’s prices and fees come from the pages below, read on the dates shown. When a figure here disagrees with the source, the source is right and this page is out of date. Shopify is a trademark of its owner, named here only to compare; see <a href="/about/#trademarks">trademarks</a>.</p>
+    <ul class="vs-source-list">
+      {sources.map((s) => <li><a href={s.url} {...ext}>{s.label}</a></li>)}
+    </ul>
+  </section>
+
+  <section class="closing wrap">
+    <h2>Hosted for {hostedFee} of each sale, or free to run yourself</h2>
+    <p>Running GoCommerce and Svelte Commerce on your own server takes 0% of your sales.</p>
+    <div class="actions">
+      <a class="button" href="/pricing/">See pricing</a>
+      <a class="button secondary" href="/compare/kitcommerce-vs-shopify/">KitCommerce vs Shopify</a>
+    </div>
+  </section>
+
+  <script type="application/json" id="calc-data" set:html={JSON.stringify({ hostedRate, markets: data })} />
+</Base>
+
+<script>
+  import { monthlyCosts, verdict } from '../../lib/fees.mjs'
+  import { formatMoney } from '../../lib/format-money.mjs'
+
+  const form = document.querySelector<HTMLFormElement>('[data-calc]')!
+  const { hostedRate, markets } = JSON.parse(document.getElementById('calc-data')!.textContent!)
+  const sales = form.elements.namedItem('sales') as HTMLInputElement
+  const prepaid = form.elements.namedItem('prepaid') as HTMLInputElement
+  const prepaidOut = document.getElementById('prepaid-out')!
+  const error = document.getElementById('sales-error')!
+  const out = (key: string) => document.querySelector(`[data-out="${key}"]`)!
+  const cur = () => document.documentElement.getAttribute('data-cur')!
+  const grouping = (c: string) => new Intl.NumberFormat(c === 'INR' ? 'en-IN' : 'en-GB')
+
+  // A currency change resets the figures to that market's starting month,
+  // unless the visitor has typed their own: their number stays.
+  let touched = false
+  function reset() {
+    const m = markets[cur()]
+    if (!touched) sales.value = grouping(m.currency).format(m.start.sales)
+    prepaid.value = String(m.start.prepaid)
+  }
+
+  function render() {
+    const m = markets[cur()]
+    prepaidOut.textContent = `${prepaid.value}%`
+    const n = Number(sales.value.replace(/[^\d.]/g, ''))
+    const ok = sales.value.trim() !== '' && /^[\d,.\s]+$/.test(sales.value.trim()) && Number.isFinite(n)
+    sales.setAttribute('aria-invalid', String(!ok))
+    error.textContent = ok ? '' : 'Enter the month’s sales as a number, such as 250000.'
+    error.classList.toggle('shake', !ok)
+    if (!ok) return
+    const billing = (form.elements.namedItem('billing') as RadioNodeList).value
+    const via = (form.elements.namedItem('via') as RadioNodeList).value
+    const r = monthlyCosts(m, { sales: n, prepaid: Number(prepaid.value), billing, via }, hostedRate)
+    const money = (x: number) => formatMoney(x, m.currency)
+    const set = (key: string, text: string) => {
+      const el = out(key)
+      // innerText is the visible rendering only, so the first pass changes nothing.
+      if ((el as HTMLElement).innerText === text) return
+      el.textContent = text
+      el.classList.remove('tick-in')
+      void (el as HTMLElement).offsetWidth
+      el.classList.add('tick-in')
+    }
+    set('hosted', money(r.hosted))
+    set('hosted-total', money(r.hosted))
+    r.shopify.forEach((p, i) => {
+      set(`plan-${i}`, money(p.plan))
+      set(`fee-${i}`, money(p.fee))
+      set(`total-${i}`, money(p.total))
+    })
+    set('verdict', verdict(r, money))
+  }
+
+  form.addEventListener('submit', (e) => e.preventDefault())
+  sales.addEventListener('input', () => { touched = true })
+  form.addEventListener('input', render)
+  form.addEventListener('change', render)
+  document.addEventListener('kc-currency', () => { reset(); render() })
+  reset()
+  render()
+</script>

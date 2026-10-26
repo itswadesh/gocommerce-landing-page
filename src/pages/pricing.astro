@@ -115,6 +115,7 @@ const faq = [
         </tbody>
       </table>
     </div>
+    <p class="fineprint"><a href="/pricing/fee-calculator/">Work out Shopify’s fees on your own sales</a>, against {hosted} hosted.</p>
     <p class="fineprint">Sources: Shopify’s price lists for {shopifyLists.map((m, i) => <>{i > 0 && ', '}<a href={m.list.url} {...ext}>{m.name}</a>{m.list.read !== shopifyLists[0].list.read && ` (as archived on ${longDate(m.list.read)})`}</>)}, read on {longDate(shopifyLists[0].list.read)}, and Shopify’s <a href="https://help.shopify.com/en/manual/your-account/manage-billing/billing-charges/types-of-charges/third-party-charges/third-party-transaction-fees" {...ext}>third-party transaction fees</a>. The full comparison, with where Shopify is the better choice, is on <a href="/compare/kitcommerce-vs-shopify/">KitCommerce vs Shopify</a>.</p>
   </section>
 

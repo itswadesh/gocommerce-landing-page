@@ -127,6 +127,7 @@ const takeOn = [
         </table>
       </div>
       {c.cost.note && <p class="fineprint"><Priced s={c.cost.note} /></p>}
+      {refs.some((r) => r.startsWith('shopify/')) && <p class="fineprint"><a href="/pricing/fee-calculator/">Work out Shopify’s fees on your own sales</a>, in your currency, against {hostedFee} of each sale hosted.</p>}
     </section>
   )}
 
