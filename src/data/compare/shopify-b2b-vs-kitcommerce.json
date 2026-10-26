@@ -1,0 +1,67 @@
+{
+  "slug": "shopify-b2b-vs-kitcommerce",
+  "platform": "Shopify B2B",
+  "platformUrl": "https://www.shopify.com/b2b",
+  "label": "Shopify B2B vs KitCommerce",
+  "group": "Shopify",
+  "summary": "Selling to dealers and wholesale buyers: Shopify’s B2B features by plan against GoCommerce’s trade portal, credit limits, statements and quotes.",
+  "title": "Shopify B2B Alternative with Credit Limits | KitCommerce",
+  "description": "Shopify B2B vs GoCommerce: payment terms, credit limits, catalogues, quotes and statements compared plan by plan, with where Shopify is further ahead.",
+  "ogTitle": "Shopify B2B vs KitCommerce",
+  "ogDescription": "Shopify B2B has net terms and catalogues on every plan, and credit limits through apps. GoCommerce checks a credit limit inside checkout and prints statements. Sourced.",
+  "h1": "A Shopify B2B alternative with credit limits built in",
+  "lede": "Shopify now puts most B2B features on every plan: companies, net payment terms, catalogues, quantity rules and price breaks. Its help pages on B2B do not describe a credit limit, and apps in the Shopify App Store add one for a monthly fee. GoCommerce, the backend of KitCommerce, checks each dealer’s credit limit inside its checkout, prints statements with overdue amounts, and gives dealers a trade portal on your own web address. It has no company locations, quantity rules or deposits, and no GST tax invoice.",
+  "facts": [
+    { "b": "Every plan", "t": "carries Shopify’s companies, net terms and catalogues; direct company catalogues and deposits are Plus only" },
+    { "b": "$79", "t": "a month for one Shopify App Store app that adds B2B credit limits" },
+    { "b": "In checkout", "t": "where GoCommerce checks a dealer’s credit limit, before the order exists" }
+  ],
+  "glanceLede": "Shopify’s side is from its B2B help pages and pricing page, listed under Sources. GoCommerce’s side is what its b2b module does today, including what it does not.",
+  "rows": [
+    ["What you pay", "A monthly plan: Basic $29, Grow $89 or Advanced $359 a month billed yearly; Plus from $2,300 a month on a term. B2B features come with the plan.", "No plan. Run it yourself for free, or host it on kitcommerce.store for {hostedFee} of each successful sale. The B2B module is in the same MIT repository as the engine."],
+    ["Companies and buyers", "Companies with company locations, on every plan.", "Companies with three buyer roles: admin, approver and buyer. No company locations."],
+    ["Payment terms", "Net 7, 15, 30, 45, 60 or 90 days, due on fulfilment, or a fixed date on a draft order.", "Net days per company. An order on account is confirmed with a due date and counts against the limit until it is marked paid."],
+    ["Credit limits", "Not described on Shopify’s B2B plan-features or payment-terms pages. App Store apps add them, such as Extend B2B Credit Limits at $79 a month, which blocks or warns at checkout.", "Checked inside the checkout against what the company owes plus the order’s final total, under a lock per company, so two orders at once cannot both fit under one limit."],
+    ["Catalogues", "Up to 3 active B2B catalogues on Basic, Grow and Advanced; unlimited on Plus. Direct catalogue assignment to a company is Plus only.", "A catalogue per company, enforced at checkout, in quick orders and in quotes."],
+    ["Quantity rules and price breaks", "Quantity rules and quantity price breaks on every plan.", "Quantity price breaks on group price lists. No minimum quantities or fixed increments."],
+    ["Quotes", "Draft orders sent as an invoice, on every plan.", "Buyers ask for a quote; the store prices each line with an expiry, and acceptance places the order at those prices."],
+    ["Approvals", "Not listed on Shopify’s B2B plan-features page.", "An amount per company above which a buyer’s order waits for the company’s approver, who is emailed."],
+    ["Statements", "Not listed on Shopify’s B2B plan-features page.", "A statement for any period with opening and closing balances and amounts 1–30, 31–60, 61–90 and over 90 days late, as a page or a spreadsheet."],
+    ["Deposits and part payments", "Deposits, partial payments and payment per fulfilment on Plus only.", "None. Payment is recorded per whole order."],
+    ["Where buyers order", "The Shopify store, with B2B customer accounts.", "A trade portal at /portal on the store’s own address: quick order by code or spreadsheet, basket, orders, statements, approvals, quotes and team."],
+    ["In India", "Shopify Payments is not offered, so a third-party gateway’s orders carry Shopify’s 2%, 1% or 0.6% fee by plan. Shopify says it does not create GST-compliant bills.", "Razorpay and Cashfree on the store’s checkout, though not yet inside the portal’s basket. The invoice prints your GSTIN, with no HSN codes or CGST, SGST and IGST lines."]
+  ],
+  "themWhen": [
+    "Your wholesale buyers have several locations each, or you need quantity minimums and increments.",
+    "You want deposits or part payments on B2B orders and can be on Plus.",
+    "You also sell to consumers on Shopify and want one admin, one app store and 24/7 support.",
+    "Nobody on your team runs servers, and a monthly app for credit limits is a fair price."
+  ],
+  "usWhen": [
+    "Dealers buy on credit and an order over the limit must be stopped at checkout, not caught later.",
+    "Your accounts team wants each dealer’s statement and overdue amounts without a spreadsheet of its own.",
+    "Dealers ask for quotes, and staff orders above an amount must wait for the dealer’s owner.",
+    "You want the code: MIT licensed, on your own server, with no plan or app fees.",
+    "You want a store hosted for you at {hostedFee} of each successful sale instead of a monthly plan."
+  ],
+  "takeOnExtra": [
+    "No GST tax invoice, e-invoice or e-way bill, and no Tally connection: keep your billing software for tax invoices.",
+    "Dealers pay on account in the portal; paying by UPI or card from the portal’s basket is not finished yet."
+  ],
+  "faq": [
+    { "q": "Does Shopify B2B have credit limits?", "a": "Shopify’s help pages on B2B plan features and payment terms do not describe one. Apps in the Shopify App Store add credit limits, such as Extend B2B Credit Limits at $79 a month, which can block an order or show a warning at checkout. GoCommerce checks a credit limit inside its own checkout." },
+    { "q": "Is Shopify B2B only on Plus?", "a": "No. Shopify’s help centre says most B2B features are on every plan, including companies, catalogues and net payment terms. Direct company catalogues, more than 3 active B2B catalogues, deposits and partial payments are Plus only." },
+    { "q": "Can GoCommerce do company locations like Shopify?", "a": "No. A GoCommerce company has members in roles, terms, a catalogue and a price group, but not separate locations with their own terms. Shopify B2B has them on every plan." },
+    { "q": "Can I move my B2B customers from Shopify?", "a": "The catalogue comes across with the Shopify import module. Companies, their terms and catalogues are set up again in GoCommerce, by hand or through its API." },
+    { "q": "Which one makes GST invoices?", "a": "Neither does on its own. Shopify says it does not create GST-compliant bills and points merchants to an app or service. GoCommerce’s invoice prints your GSTIN only, with no tax split." }
+  ],
+  "sources": [
+    { "label": "Shopify Help Center: B2B features by plan", "url": "https://help.shopify.com/en/manual/b2b/getting-started/plan-features" },
+    { "label": "Shopify Help Center: setting up payment terms in B2B", "url": "https://help.shopify.com/en/manual/b2b/payment-terms" },
+    { "label": "Shopify App Store: Extend B2B Credit Limits", "url": "https://apps.shopify.com/extend-b2b-credit-limits" },
+    { "label": "Shopify pricing", "url": "https://www.shopify.com/pricing" },
+    { "label": "Shopify Help Center: Shopify Payments supported countries", "url": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries" },
+    { "label": "Shopify Help Center: GST in India FAQ", "url": "https://help.shopify.com/en/manual/taxes/india-gst" }
+  ],
+  "checked": "2026-10-26"
+}
