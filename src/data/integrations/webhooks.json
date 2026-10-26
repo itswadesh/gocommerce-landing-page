@@ -43,7 +43,7 @@
     { "b": "Nothing to tune per endpoint", "t": "The retry count, backoff, batch size and poll interval are constants in the package. Changing them is an edit to the code." }
   ],
   "tested": true,
-  "testCount": 22,
+  "testCount": 23,
   "apiOps": 8,
   "faq": [
     { "q": "Which events can I subscribe to?", "a": "Every event the engine emits: order.created, order.paid, order.shipped, order.delivered, order.cancelled, order.refunded, order.edited and order.returned, the reversals order.unpaid, order.unshipped, order.undelivered and order.unreturned, cart.abandoned, product.created, product.updated, product.deleted and collection.updated. An endpoint names exact events, prefixes such as order.*, or * for all." },

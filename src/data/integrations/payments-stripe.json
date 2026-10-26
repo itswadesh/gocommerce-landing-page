@@ -45,7 +45,7 @@
     { "b": "The store’s one currency", "t": "The PaymentIntent is created in the store’s single settlement currency, unconverted. Which currencies and methods are offered is decided in Stripe." }
   ],
   "tested": true,
-  "testCount": 9,
+  "testCount": 13,
   "apiOps": 0,
   "vendorUrl": "https://stripe.com",
   "vendorType": "Organization",

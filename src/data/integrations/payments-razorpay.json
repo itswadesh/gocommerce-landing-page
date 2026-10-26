@@ -7,7 +7,7 @@
   "ogTitle": "Razorpay payments for GoCommerce",
   "ogDescription": "Three keys, one webhook URL, signed and idempotent. Read from the module’s source.",
   "h1": "Razorpay payments for GoCommerce",
-  "lede": "A Go package that creates a Razorpay order at checkout and marks the GoCommerce order paid when Razorpay’s signed webhook says the payment was captured. Three keys to set, one webhook URL to register — and, unlike every other payment module in the repository, no tests yet.",
+  "lede": "A Go package that creates a Razorpay order at checkout and marks the GoCommerce order paid when Razorpay’s signed webhook says the payment was captured. Three keys to set and one webhook URL to register. Its four tests cover asking Razorpay about a payment and refunds; the webhook and checkout have none.",
   "what": [
     "The module registers “razorpay” as a payment method. At checkout it creates a Razorpay order for the order’s total, in minor units and the store’s currency, and hands the storefront what Razorpay’s checkout needs: the Razorpay order id, the key id, the amount and the currency.",
     "Razorpay then calls POST /api/checkout/razorpay/webhook, a route the engine owns. The module checks the signature, and on payment.captured asks the engine to mark the order paid; on payment.failed, to mark the payment failed. It never writes to an order itself — the engine makes the transition and records the event, as it does for every provider.",
@@ -40,15 +40,15 @@
     { "b": "Settings without a restart", "t": "Before each use the panel’s values are laid over Config. A store with nothing in Config installs the module idle; one with all three keys in Config starts with it switched on." }
   ],
   "limits": [
-    { "b": "No tests", "t": "The package has no _test.go file. Every other payment module in the repository ships with one, so read razorpay.go before an order depends on it." },
+    { "b": "Four tests, none on the webhook", "t": "status_test.go checks a payment the webhook never reported, what a status check reports, and that a refund or a status check is refused for another order’s payment. The webhook’s signature check and checkout itself have no test, so read razorpay.go before an order depends on them." },
     { "b": "Captured payments only", "t": "Only payment.captured marks an order paid. A payment that is authorised but never captured leaves the order unpaid; when Razorpay captures is a setting on Razorpay’s side." },
     { "b": "Refunds need the webhook first", "t": "A refund looks up the payment id the payment.captured webhook recorded. If that webhook never arrived, the refund is refused with “no captured payment recorded for this order”." },
     { "b": "Dashboard refunds are not read", "t": "Events other than payment.captured and payment.failed are acknowledged and ignored, so a refund made in Razorpay’s dashboard does not appear on the GoCommerce order." },
     { "b": "Hosted mode returns no URL", "t": "With Hosted on, the intent is a redirect carrying the Razorpay order id, the key id and your return URL as callback_url. There is no page URL in it; the storefront still sends the shopper to Razorpay itself." },
     { "b": "The store’s one currency", "t": "The total goes to Razorpay in the store’s single settlement currency, unconverted. Which currencies Razorpay accepts is Razorpay’s decision, not the module’s." }
   ],
-  "tested": false,
-  "testCount": 0,
+  "tested": true,
+  "testCount": 4,
   "apiOps": 0,
   "vendorUrl": "https://razorpay.com",
   "vendorType": "Organization",

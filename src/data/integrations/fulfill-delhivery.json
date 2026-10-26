@@ -52,7 +52,7 @@
     { "b": "Rupees only, in practice", "t": "Amounts are minor units divided by 100. The code notes that is exact for INR, the only currency Delhivery settles cash on delivery in." }
   ],
   "tested": true,
-  "testCount": 8,
+  "testCount": 9,
   "apiOps": 0,
   "vendorUrl": "https://www.delhivery.com",
   "vendorType": "Organization",

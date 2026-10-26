@@ -46,8 +46,8 @@
     { "b": "Orders are not claimed for you", "t": "Nothing links an order placed while signed in to the account. The storefront has to post the claim after checkout, or the order stays out of the history." }
   ],
   "tested": true,
-  "testCount": 20,
-  "apiOps": 23,
+  "testCount": 33,
+  "apiOps": 27,
   "faq": [
     { "q": "Does it replace guest checkout?", "a": "No. Checkout keeps taking an email and a cart token whether or not the shopper is signed in. The account adds saved addresses and a history of the orders the shopper has claimed." },
     { "q": "How is a signed-in shopper’s order added to their history?", "a": "By claim. Checkout returns an access token for the order, and the storefront posts the order number and that token to /x/identity/me/orders. Only whoever placed the order holds the token, so nobody can claim someone else’s purchases by registering their email." },

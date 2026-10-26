@@ -48,7 +48,7 @@
     { "b": "No tools from other modules yet", "t": "Config.Tools takes extra tools, but no other module in the repository ships any today. Each one you want exposed is one you write." }
   ],
   "tested": true,
-  "testCount": 23,
+  "testCount": 24,
   "apiOps": 2,
   "vendorUrl": "https://modelcontextprotocol.io",
   "vendorType": "CreativeWork",
