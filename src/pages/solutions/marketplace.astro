@@ -20,10 +20,10 @@ const graph = [
 const faq = [
   { q: 'How does a seller get onto the marketplace?', a: 'A vendor record is created — by you, or by their own sign-up — and starts pending. Nothing of theirs is shown until you approve it. Suspending keeps the row, the history and the offers, and stops the storefront showing them; it is reversible in a way that deleting is not.' },
   { q: 'What does a vendor actually own?', a: 'A vendor record with a slug, legal name, contact details, an address for the invoice and for tax, a tax id and a commission rate; a login of their own; and offers. An offer is one vendor’s price and stock for one variant of your catalogue, with its own active or paused state and its own reserved-versus-on-hand stock.' },
-  { q: 'Can several sellers sell the same product?', a: 'Yes. That is what an offer is: several vendors, one catalogue entry, each with their own price and stock. The unique constraint is one offer per vendor per variant, so a seller cannot list the same thing twice.' },
+  { q: 'Can several sellers list the same product?', a: 'They can list it, not sell it yet. An offer is one vendor’s price and stock on one catalogue entry, and several vendors may hold offers on the same one. Checkout does not sell from an offer yet: it still prices and reserves against the variant itself. The unique constraint is one offer per vendor per variant, so a seller cannot list the same thing twice.' },
   { q: 'What does a vendor see when they log in?', a: 'Only what is theirs. A vendor account uses the same login table, password hashing, sessions and rights machinery as every other operator — a second identity system would be a second place for a login bug to live — and what makes it a vendor account is a scope, not a right: the role is vendor and the row points at their vendor.' },
   { q: 'Is commission paid out automatically?', a: 'No. Each vendor carries a commission rate in basis points — 250 is 2.5% — and it is recorded, not settled. There is no payout ledger and no settlement run. A marketplace that pays its sellers needs to compute that from orders itself, today.' },
-  { q: 'Does an order know which seller it belongs to?', a: 'Not yet. Offers carry the seller, and a line bought from an offer is priced and stocked from that offer, but the order line does not yet record the vendor. This is the most visible gap for a marketplace and it is named here rather than left for you to find.' },
+  { q: 'Does an order know which seller it belongs to?', a: 'Not yet. Offers carry the seller, but checkout does not sell from an offer yet, and the order line does not record the vendor. This is the most visible gap for a marketplace and it is named here rather than left for you to find.' },
 ]
 ---
 <Base
@@ -39,7 +39,7 @@ const faq = [
 >
   <section class="wrap page-head">
     <p class="kicker">Multi-vendor marketplace</p>
-    <h1>Launch a marketplace where sellers are first-class</h1>
+    <h1>Marketplace groundwork: sellers, offers and their own logins</h1>
     <p class="lede">Vendors are sellers on your store, not brands on a product. A new seller arrives <em>pending</em> and is approved or suspended by you — because a marketplace that lists whoever signs up is not moderating, it is hosting whatever turns up.</p>
     <ul class="head-facts">
       <li><b>core/vendors.go</b> vendors, offers, states</li>
@@ -56,7 +56,7 @@ const faq = [
         <li><b>Approved</b> is a seller the storefront will show. Their offers can go active.</li>
         <li><b>Suspended</b> keeps the row, the history and the offers, and stops the storefront showing them.</li>
         <li><b>An offer</b> is one vendor's price and stock for one variant, <em>active</em> or <em>paused</em>, one per vendor per variant.</li>
-        <li><b>Stock</b> on an offer is on-hand and reserved, so two shoppers cannot both buy the last one.</li>
+        <li><b>Stock</b> on an offer is kept as on-hand and reserved. Checkout does not draw on it yet.</li>
       </ul>
       <p class="sol-prim">VendorStatus: pending · approved · suspended — OfferStatus: active · paused</p>
     </div>
@@ -67,8 +67,8 @@ const faq = [
       <div class="arch-row arch-engine"><h3>Approved</h3><p>may list offers — or suspended, reversibly</p></div>
       <p class="arch-wire"><span>publishes</span></p>
       <div class="arch-row arch-store"><h3>Vendor offer</h3><p>own price, own stock, on your catalogue entry</p></div>
-      <p class="arch-wire"><span>customer buys</span></p>
-      <div class="arch-row arch-data"><h3>Order</h3><p>priced and stocked from the offer</p></div>
+      <p class="arch-wire"><span>not yet</span></p>
+      <div class="arch-row arch-data"><h3>Order</h3><p>checkout still sells the variant, not the offer</p></div>
     </figure>
   </section>
 
@@ -87,10 +87,10 @@ const faq = [
 
   <section id="edge" class="section wrap" aria-labelledby="edge-title">
     <h2 id="edge-title">Where the edge is</h2>
-    <p class="section-lede">Two gaps a marketplace will meet early. Both are named so nobody discovers them in production.</p>
+    <p class="section-lede">Three gaps a marketplace will meet early. Both are named so nobody discovers them in production.</p>
     <div class="tri">
       <div class="tri-item"><h3>Commission is recorded, not settled</h3><p>The rate lives on the vendor. There is no payout ledger, no settlement run and no statement. Paying sellers means computing it from orders yourself.</p></div>
-      <div class="tri-item"><h3>The order line does not yet carry the seller</h3><p>A line is priced and stocked from an offer, but the vendor is not written onto the order. Per-seller fulfillment and payout reports need that, and it is not there.</p></div>
+      <div class="tri-item"><h3>Checkout does not sell from an offer yet</h3><p>A cart line is priced and reserved against the variant, not against a seller’s offer, and the vendor is not written onto the order. Per-seller fulfillment and payout reports need that, and it is not there.</p></div>
       <div class="tri-item"><h3>No seller-facing storefront</h3><p>A vendor's login is to the admin, scoped to their records. A separate seller portal is a client you would build on the same API.</p></div>
     </div>
   </section>
