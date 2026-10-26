@@ -10,6 +10,7 @@
  */
 import Base from '../layouts/Base.astro'
 import { getCollection } from 'astro:content'
+import releaseNotes from '../data/release-notes.json'
 import type { Comparison } from '../data/compare/_schema'
 import type { FeaturePage } from '../data/features/_schema'
 
@@ -18,7 +19,9 @@ const abs = (p: string) => new URL(p, Astro.site!).href
 
 const compares = Object.values(import.meta.glob<Comparison>('../data/compare/*.json', { eager: true, import: 'default' })).sort((a, b) => a.label.localeCompare(b.label))
 const features = Object.values(import.meta.glob<FeaturePage>('../data/features/*.json', { eager: true, import: 'default' }))
-const posts = await getCollection('blog')
+const allPosts = await getCollection('blog')
+const posts = allPosts.filter((p) => !releaseNotes.includes(p.id))
+const notes = allPosts.filter((p) => releaseNotes.includes(p.id))
 const backends = Object.values(import.meta.glob<{ slug: string; name: string }>('../data/backends/*.json', { eager: true, import: 'default' })).sort((a, b) => a.name.localeCompare(b.name))
 const integrations = Object.values(import.meta.glob<{ slug: string; name: string }>('../data/integrations/*.json', { eager: true, import: 'default' })).sort((a, b) => a.name.localeCompare(b.name))
 
@@ -55,6 +58,7 @@ const groups: { name: string; links: { href: string; label: string }[] }[] = [
   { name: 'Features', links: [{ href: '/features/', label: 'All features' }, ...features.map((f) => ({ href: `/features/${f.slug}/`, label: f.name }))] },
   { name: 'Comparisons', links: [{ href: '/compare/', label: 'All comparisons' }, ...compares.map((c) => ({ href: `/compare/${c.slug}/`, label: c.label }))] },
   { name: 'Blog', links: [{ href: '/blog/', label: 'All posts' }, ...posts.map((p) => ({ href: `/blog/${p.id}/`, label: p.data.title }))] },
+  { name: 'Updates', links: [{ href: '/updates/', label: 'Every change' }, ...notes.map((p) => ({ href: `/blog/${p.id}/`, label: p.data.title }))] },
 ]
 
 const graph = [

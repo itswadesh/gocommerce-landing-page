@@ -8,16 +8,21 @@
  * pageDates — so the list and the post cannot disagree about when it last
  * changed. A date the build cannot know (a single-commit clone) is left out
  * rather than shown as today.
+ *
+ * Release notes are posts too, but they are listed on /updates/, not here:
+ * src/data/release-notes.json names them.
  */
 import Base from '../../layouts/Base.astro'
 import { getCollection } from 'astro:content'
 import { pageDates } from '../../lib/dates.mjs'
+import releaseNotes from '../../data/release-notes.json'
 
 const path = '/blog/'
 const abs = (p: string) => new URL(p, Astro.site!).href
 const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
 
 const posts = (await getCollection('blog'))
+  .filter((p) => !releaseNotes.includes(p.id))
   .map((p) => ({ id: p.id, data: p.data, href: `/blog/${p.id}/`, dates: pageDates(`/blog/${p.id}/`) }))
   .sort((a, b) => b.dates.modified.localeCompare(a.dates.modified) || a.data.title.localeCompare(b.data.title))
 

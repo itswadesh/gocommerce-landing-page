@@ -7,12 +7,26 @@
  * here, which deploys the site. It files each commit as a feature or a bug
  * fix; the gocommerce repository's .github/scripts/publish-update.mjs says
  * how, and how a commit overrides the guess.
+ *
+ * Above the table, the release notes: posts that explain one change at
+ * length. They keep their /blog/ URLs and are listed here instead of on the
+ * blog. src/data/release-notes.json names them, and a name with no post fails
+ * the build.
  */
 import Base from '../layouts/Base.astro'
 import updates from '../data/updates.json'
+import releaseNotes from '../data/release-notes.json'
+import { getCollection } from 'astro:content'
 
 type Row = { sha: string; date: string; type: 'feature' | 'fix'; title: string; url: string }
 const rows = updates as Row[]
+
+const posts = await getCollection('blog')
+const notes = releaseNotes.map((id) => {
+  const post = posts.find((p) => p.id === id)
+  if (!post) throw new Error(`src/data/release-notes.json names ${id}, and src/content/blog/${id}.md does not exist`)
+  return post
+})
 
 const path = '/updates/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -38,6 +52,15 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <p class="kicker">Updates</p>
     <h1>What changed in GoCommerce</h1>
     <p class="lede">Every change that lands on GoCommerce's main branch, newest first — {feats} features and {fixes} bug fixes so far. Each change links its commit, which tells the full story.</p>
+  </section>
+
+  <section class="wrap" aria-labelledby="notes-title">
+    <h2 id="notes-title">Release notes</h2>
+    <ul class="notes">
+      {notes.map((p) => (
+        <li><a href={`/blog/${p.id}/`}>{p.data.title}</a><p>{p.data.description}</p></li>
+      ))}
+    </ul>
   </section>
 
   <section class="wrap" aria-label="All updates">
@@ -78,4 +101,6 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   .kind.feature { color: var(--go); }
   .kind.fix { color: var(--svelte); }
   .sha code { font-size: .8125rem; }
+  .notes { list-style: none; padding: 0; margin: 1.25rem 0 2.5rem; display: grid; gap: 1rem; }
+  .notes p { margin: .25rem 0 0; color: var(--ink-2); }
 </style>

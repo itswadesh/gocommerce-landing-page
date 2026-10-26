@@ -14,6 +14,7 @@
 import Base from '../../layouts/Base.astro'
 import { getCollection, render, type CollectionEntry } from 'astro:content'
 import { pageDates } from '../../lib/dates.mjs'
+import releaseNotes from '../../data/release-notes.json'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -28,6 +29,8 @@ const abs = (p: string) => new URL(p, Astro.site!).href
 const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
 
 const { title, description, author, tags, seoTitle } = post.data
+// A release note is filed under /updates/, so its trail and kicker say so.
+const section = releaseNotes.includes(post.id) ? { name: 'Updates', href: '/updates/' } : { name: 'Blog', href: '/blog/' }
 const authorUrl = `https://github.com/${author}`
 const dates = pageDates(path)
 const published = dates.exact ? dates.published : undefined
@@ -43,7 +46,7 @@ const graph = [
     author: { '@type': 'Person', name: author, url: authorUrl },
     publisher: { '@id': abs('/#org') },
     mainEntityOfPage: { '@id': abs(path + '#page') },
-    isPartOf: { '@id': abs('/blog/#page') },
+    isPartOf: { '@id': abs(section.href + '#page') },
     image: abs('/assets/og.png'),
     inLanguage: 'en',
     ...(tags?.length ? { keywords: tags.join(', ') } : {}),
@@ -57,12 +60,12 @@ const graph = [
   description={description}
   path={path}
   ogType="article"
-  crumbs={[{ name: 'Blog', href: '/blog/' }, { name: title, href: path }]}
+  crumbs={[section, { name: title, href: path }]}
   graph={graph}
 >
   <article class="wrap prose">
     <header class="post-head">
-      <p class="kicker">Blog</p>
+      <p class="kicker">{section.name}</p>
       <h1>{title}</h1>
       <p class="byline">
         By <a href={authorUrl} rel="author noopener noreferrer" target="_blank">{author}</a>

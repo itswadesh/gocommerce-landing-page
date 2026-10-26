@@ -8,12 +8,14 @@
 import type { APIRoute } from 'astro'
 import { getCollection } from 'astro:content'
 import { pageDates } from '../lib/dates.mjs'
+import releaseNotes from '../data/release-notes.json'
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
 export const GET: APIRoute = async ({ site }) => {
   const abs = (p: string) => new URL(p, site).href
   const posts = (await getCollection('blog'))
+    .filter((p) => !releaseNotes.includes(p.id))
     .map((p) => ({ p, d: pageDates(`/blog/${p.id}/`) }))
     .sort((a, b) => (b.d.published ?? b.d.modified).localeCompare(a.d.published ?? a.d.modified))
   const items = posts.map(({ p, d }) => {
