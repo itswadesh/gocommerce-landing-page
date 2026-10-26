@@ -14,7 +14,7 @@
   "lede": "Magento Open Source is free PHP software that Adobe tests against a long stack — a database, OpenSearch, a message queue, a cache and a proxy. Adobe Commerce is the licensed edition, quoted rather than priced, at a tier set by what you sell. GoCommerce is one Go binary and a PostgreSQL database under MIT, and Svelte Commerce is a SvelteKit storefront that can already front a Magento store. Magento has far more built, B2B above all; GoCommerce has far less to run.",
   "facts": [
     {
-      "b": "$0",
+      "b": "Free",
       "t": "licence for Magento Open Source and for GoCommerce alike"
     },
     {

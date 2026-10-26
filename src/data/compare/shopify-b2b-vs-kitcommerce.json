@@ -13,15 +13,15 @@
   "lede": "Shopify now puts most B2B features on every plan: companies, net payment terms, catalogues, quantity rules and price breaks. Its help pages on B2B do not describe a credit limit, and apps in the Shopify App Store add one for a monthly fee. GoCommerce, the backend of KitCommerce, checks each dealer’s credit limit inside its checkout, prints statements with overdue amounts, and gives dealers a trade portal on your own web address. It has no company locations, quantity rules or deposits, and no GST tax invoice.",
   "facts": [
     { "b": "Every plan", "t": "carries Shopify’s companies, net terms and catalogues; direct company catalogues and deposits are Plus only" },
-    { "b": "$79", "t": "a month for one Shopify App Store app that adds B2B credit limits" },
+    { "b": "{p:extend-b2b-credit-limits/core-month}", "t": "a month for one Shopify App Store app that adds B2B credit limits" },
     { "b": "In checkout", "t": "where GoCommerce checks a dealer’s credit limit, before the order exists" }
   ],
   "glanceLede": "Shopify’s side is from its B2B help pages and pricing page, listed under Sources. GoCommerce’s side is what its b2b module does today, including what it does not.",
   "rows": [
-    ["What you pay", "A monthly plan: Basic $29, Grow $89 or Advanced $359 a month billed yearly; Plus from $2,300 a month on a term. B2B features come with the plan.", "No plan. Run it yourself for free, or host it on kitcommerce.store for {hostedFee} of each successful sale. The B2B module is in the same MIT repository as the engine."],
+    ["What you pay", "A monthly plan: Basic {p:shopify/basic-yearly}, Grow {p:shopify/grow-yearly} or Advanced {p:shopify/advanced-yearly} a month billed yearly; Plus from {p:shopify-plus/plus-3y} a month on a term. B2B features come with the plan.", "No plan. Run it yourself for free, or host it on kitcommerce.store for {hostedFee} of each successful sale. The B2B module is in the same MIT repository as the engine."],
     ["Companies and buyers", "Companies with company locations, on every plan.", "Companies with three buyer roles: admin, approver and buyer. No company locations."],
     ["Payment terms", "Net 7, 15, 30, 45, 60 or 90 days, due on fulfilment, or a fixed date on a draft order.", "Net days per company. An order on account is confirmed with a due date and counts against the limit until it is marked paid."],
-    ["Credit limits", "Not described on Shopify’s B2B plan-features or payment-terms pages. App Store apps add them, such as Extend B2B Credit Limits at $79 a month, which blocks or warns at checkout.", "Checked inside the checkout against what the company owes plus the order’s final total, under a lock per company, so two orders at once cannot both fit under one limit."],
+    ["Credit limits", "Not described on Shopify’s B2B plan-features or payment-terms pages. App Store apps add them, such as Extend B2B Credit Limits at {p:extend-b2b-credit-limits/core-month} a month, which blocks or warns at checkout.", "Checked inside the checkout against what the company owes plus the order’s final total, under a lock per company, so two orders at once cannot both fit under one limit."],
     ["Catalogues", "Up to 3 active B2B catalogues on Basic, Grow and Advanced; unlimited on Plus. Direct catalogue assignment to a company is Plus only.", "A catalogue per company, enforced at checkout, in quick orders and in quotes."],
     ["Quantity rules and price breaks", "Quantity rules and quantity price breaks on every plan.", "Quantity price breaks on group price lists. No minimum quantities or fixed increments."],
     ["Quotes", "Draft orders sent as an invoice, on every plan.", "Buyers ask for a quote; the store prices each line with an expiry, and acceptance places the order at those prices."],
@@ -49,7 +49,7 @@
     "Dealers pay on account in the portal; paying by UPI or card from the portal’s basket is not finished yet."
   ],
   "faq": [
-    { "q": "Does Shopify B2B have credit limits?", "a": "Shopify’s help pages on B2B plan features and payment terms do not describe one. Apps in the Shopify App Store add credit limits, such as Extend B2B Credit Limits at $79 a month, which can block an order or show a warning at checkout. GoCommerce checks a credit limit inside its own checkout." },
+    { "q": "Does Shopify B2B have credit limits?", "a": "Shopify’s help pages on B2B plan features and payment terms do not describe one. Apps in the Shopify App Store add credit limits, such as Extend B2B Credit Limits at {p:extend-b2b-credit-limits/core-month} a month, which can block an order or show a warning at checkout. GoCommerce checks a credit limit inside its own checkout." },
     { "q": "Is Shopify B2B only on Plus?", "a": "No. Shopify’s help centre says most B2B features are on every plan, including companies, catalogues and net payment terms. Direct company catalogues, more than 3 active B2B catalogues, deposits and partial payments are Plus only." },
     { "q": "Can GoCommerce do company locations like Shopify?", "a": "No. A GoCommerce company has members in roles, terms, a catalogue and a price group, but not separate locations with their own terms. Shopify B2B has them on every plan." },
     { "q": "Can I move my B2B customers from Shopify?", "a": "The catalogue comes across with the Shopify import module. Companies, their terms and catalogues are set up again in GoCommerce, by hand or through its API." },

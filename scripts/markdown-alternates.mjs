@@ -146,6 +146,9 @@ function dropped(el) {
   if (el.tag === 'svg' && el.attrs.role !== 'img') return true
   if (el.tag === 'img' && !(el.attrs.alt || '').trim()) return true
   if (DROP_CLASSES.some((c) => hasClass(el, c))) return true
+  // A price is in the HTML once per currency (src/lib/money.ts); the twin
+  // keeps the rendering shown with JavaScript off.
+  if (el.attrs['data-c'] !== undefined && !el.attrs['data-c'].split(' ').includes('INR')) return true
   // The consent banner lives outside <main> today; this keeps it out if it moves.
   if (/consent/i.test(el.attrs.id || '') || classes(el).some((c) => c.startsWith('consent'))) return true
   return false

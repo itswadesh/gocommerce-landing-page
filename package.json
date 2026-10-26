@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "build": "astro build && node scripts/page-dates.mjs && node scripts/markdown-alternates.mjs",
     "preview": "astro preview",
-    "verify": "node scripts/verify.js && node scripts/verify-dist.js",
+    "verify": "node scripts/check-currency.mjs && node scripts/verify.js && node scripts/verify-dist.js",
     "check": "astro check",
     "og": "node scripts/og-images.mjs"
   },

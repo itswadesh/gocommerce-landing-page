@@ -1,0 +1,818 @@
+{
+  "_comment": "Every rival price, once. A list is one published price list: its currency, the site currency it is for when that differs, its source and the date it was read. Prices name the list they are on. Never an exchange rate: see src/lib/money.ts and docs/decisions.md (26 October 2026). scripts/verify.js fails on a price without a list, or a list without a source.",
+  "rivals": {
+    "shopify": {
+      "name": "Shopify",
+      "lists": {
+        "in": {
+          "currency": "INR",
+          "label": "Shopify pricing, India (INR)",
+          "url": "https://www.shopify.com/in/pricing",
+          "read": "2026-10-26"
+        },
+        "ie": {
+          "currency": "EUR",
+          "label": "Shopify pricing, Ireland (EUR)",
+          "url": "https://www.shopify.com/ie/pricing",
+          "read": "2026-10-26"
+        },
+        "uk": {
+          "currency": "GBP",
+          "label": "Shopify pricing, United Kingdom (GBP)",
+          "url": "https://www.shopify.com/uk/pricing",
+          "read": "2026-10-26"
+        },
+        "au": {
+          "currency": "AUD",
+          "label": "Shopify pricing, Australia (AUD)",
+          "url": "https://www.shopify.com/au/pricing",
+          "read": "2026-10-26"
+        },
+        "ca": {
+          "currency": "CAD",
+          "label": "Shopify pricing, Canada (CAD)",
+          "url": "https://www.shopify.com/ca/pricing",
+          "read": "2026-10-26"
+        },
+        "sg": {
+          "currency": "SGD",
+          "label": "Shopify pricing, Singapore (SGD)",
+          "url": "https://www.shopify.com/sg/pricing",
+          "read": "2026-10-26"
+        },
+        "ae": {
+          "currency": "USD",
+          "for": "AED",
+          "label": "Shopify pricing, United Arab Emirates (in USD)",
+          "url": "https://www.shopify.com/ae/pricing",
+          "read": "2026-10-26"
+        },
+        "us": {
+          "currency": "USD",
+          "label": "Shopify pricing, United States (USD), as archived on 24 October 2026",
+          "url": "https://web.archive.org/web/20261024120530/https://www.shopify.com/pricing",
+          "read": "2026-10-24"
+        }
+      },
+      "prices": {
+        "basic-monthly": { "in": 1994, "ie": 32, "uk": 25, "au": 56, "ca": 49, "sg": 39, "ae": 32, "us": 39 },
+        "grow-monthly": { "in": 7447, "ie": 92, "uk": 65, "au": 149, "ca": 132, "sg": 132, "ae": 92, "us": 105 },
+        "advanced-monthly": { "in": 30164, "ie": 384, "uk": 344, "au": 575, "ca": 517, "sg": 531, "ae": 399, "us": 399 },
+        "basic-yearly": { "in": 1499, "ie": 24, "uk": 19, "au": 42, "ca": 37, "sg": 29, "ae": 24, "us": 29 },
+        "grow-yearly": { "in": 5599, "ie": 69, "uk": 49, "au": 114, "ca": 99, "sg": 99, "ae": 69, "us": 89 },
+        "advanced-yearly": { "in": 22680, "ie": 289, "uk": 259, "au": 431, "ca": 389, "sg": 399, "ae": 299, "us": 359 }
+      },
+      "markets": {
+        "in": {
+          "name": "India",
+          "payments": false,
+          "fees": { "basic": 2, "grow": 1, "advanced": 0.6 },
+          "feeUrl": "https://www.shopify.com/in/pricing",
+          "paymentsUrl": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries",
+          "read": "2026-10-26"
+        },
+        "us": {
+          "name": "the United States",
+          "payments": true,
+          "fees": { "basic": 2, "grow": 1, "advanced": 0.6 },
+          "feeUrl": "https://web.archive.org/web/20261024120530/https://www.shopify.com/pricing",
+          "paymentsUrl": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries",
+          "read": "2026-10-24"
+        },
+        "ie": {
+          "name": "Ireland",
+          "payments": true,
+          "fees": { "basic": 2, "grow": 1, "advanced": 0.6 },
+          "feeUrl": "https://www.shopify.com/ie/pricing",
+          "paymentsUrl": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries",
+          "read": "2026-10-26"
+        },
+        "uk": {
+          "name": "the United Kingdom",
+          "payments": true,
+          "fees": { "basic": 2, "grow": 1, "advanced": 0.6 },
+          "feeUrl": "https://www.shopify.com/uk/pricing",
+          "paymentsUrl": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries",
+          "read": "2026-10-26"
+        },
+        "au": {
+          "name": "Australia",
+          "payments": true,
+          "fees": { "basic": 2, "grow": 1, "advanced": 0.6 },
+          "feeUrl": "https://www.shopify.com/au/pricing",
+          "paymentsUrl": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries",
+          "read": "2026-10-26"
+        },
+        "ca": {
+          "name": "Canada",
+          "payments": true,
+          "fees": { "basic": 2, "grow": 1, "advanced": 0.6 },
+          "feeUrl": "https://www.shopify.com/ca/pricing",
+          "paymentsUrl": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries",
+          "read": "2026-10-26"
+        },
+        "sg": {
+          "name": "Singapore",
+          "payments": true,
+          "fees": { "basic": 2, "grow": 1, "advanced": 0.6 },
+          "feeUrl": "https://www.shopify.com/sg/pricing",
+          "paymentsUrl": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries",
+          "read": "2026-10-26"
+        },
+        "ae": {
+          "name": "the United Arab Emirates",
+          "payments": true,
+          "fees": { "basic": 2, "grow": 1, "advanced": 0.6 },
+          "feeUrl": "https://www.shopify.com/ae/pricing",
+          "paymentsUrl": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries",
+          "read": "2026-10-26"
+        }
+      }
+    },
+    "shopify-plus": {
+      "name": "Shopify Plus",
+      "lists": {
+        "us": {
+          "currency": "USD",
+          "label": "Shopify Help Center: Shopify Plus plan, USD prices",
+          "url": "https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan",
+          "read": "2026-10-26"
+        },
+        "ca": {
+          "currency": "CAD",
+          "label": "Shopify Help Center: Shopify Plus plan, CAD prices",
+          "url": "https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan",
+          "read": "2026-10-26"
+        },
+        "ie": {
+          "currency": "EUR",
+          "label": "Shopify Help Center: Shopify Plus plan, EUR prices",
+          "url": "https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan",
+          "read": "2026-10-26"
+        },
+        "uk": {
+          "currency": "GBP",
+          "label": "Shopify Help Center: Shopify Plus plan, GBP prices",
+          "url": "https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan",
+          "read": "2026-10-26"
+        },
+        "au": {
+          "currency": "AUD",
+          "label": "Shopify Help Center: Shopify Plus plan, AUD prices",
+          "url": "https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan",
+          "read": "2026-10-26"
+        },
+        "in": {
+          "currency": "INR",
+          "label": "Shopify Help Center: Shopify Plus plan, INR prices",
+          "url": "https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "plus-1y": { "us": 2500, "ca": 3650, "ie": 2250, "uk": 1950, "au": 4000, "in": 190000 },
+        "plus-3y": { "us": 2300, "ca": 3400, "ie": 2100, "uk": 1800, "au": 3700, "in": 175000 }
+      }
+    },
+    "dukaan": {
+      "name": "Dukaan",
+      "lists": {
+        "in": {
+          "currency": "INR",
+          "label": "Dukaan pricing, India (INR)",
+          "url": "https://mydukaan.io/pricing",
+          "read": "2026-10-26"
+        },
+        "us": {
+          "currency": "USD",
+          "label": "Dukaan pricing, United States (USD)",
+          "url": "https://mydukaan.io/us/pricing",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "starter-monthly": { "in": 299, "us": 19 },
+        "growth-monthly": { "in": 999, "us": 49 },
+        "infinity-monthly": { "in": 5999, "us": 199 },
+        "starter-yearly": { "in": 2500, "us": 199 },
+        "growth-yearly": { "in": 8000, "us": 499 },
+        "infinity-yearly": { "in": 50000, "us": 1999 },
+        "service-fee-cap": { "in": 200 }
+      }
+    },
+    "instamojo": {
+      "name": "Instamojo",
+      "lists": {
+        "in": {
+          "currency": "INR",
+          "label": "Instamojo pricing (INR)",
+          "url": "https://www.instamojo.com/pricing/",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "starter-year": { "in": 6999 },
+        "growth-year": { "in": 14999 },
+        "growth-month": { "in": 2999 },
+        "fee-fixed": { "in": 3 }
+      }
+    },
+    "storehippo": {
+      "name": "StoreHippo",
+      "lists": {
+        "in": {
+          "currency": "INR",
+          "label": "StoreHippo pricing, INR and USD lists",
+          "url": "https://www.storehippo.com/en/pricing",
+          "read": "2026-10-26"
+        },
+        "us": {
+          "currency": "USD",
+          "label": "StoreHippo pricing, INR and USD lists",
+          "url": "https://www.storehippo.com/en/pricing",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "business-12m": { "in": 12000, "us": 269 },
+        "enterprise-12m": { "in": 25000, "us": 449 },
+        "business-6m": { "in": 15000, "us": 299 },
+        "enterprise-6m": { "in": 30000, "us": 499 },
+        "platinum-from": { "in": 120000, "us": 1999 }
+      }
+    },
+    "zoho-commerce": {
+      "name": "Zoho Commerce",
+      "lists": {
+        "eu": {
+          "currency": "EUR",
+          "label": "Zoho Commerce pricing, in each currency of its own selector",
+          "url": "https://www.zoho.com/commerce/pricing.html",
+          "read": "2026-10-26"
+        },
+        "us": {
+          "currency": "USD",
+          "label": "Zoho Commerce pricing, in each currency of its own selector",
+          "url": "https://www.zoho.com/commerce/pricing.html",
+          "read": "2026-10-26"
+        },
+        "in": {
+          "currency": "INR",
+          "label": "Zoho Commerce pricing, in each currency of its own selector",
+          "url": "https://www.zoho.com/commerce/pricing.html",
+          "read": "2026-10-26"
+        },
+        "uk": {
+          "currency": "GBP",
+          "label": "Zoho Commerce pricing, in each currency of its own selector",
+          "url": "https://www.zoho.com/commerce/pricing.html",
+          "read": "2026-10-26"
+        },
+        "ca": {
+          "currency": "CAD",
+          "label": "Zoho Commerce pricing, in each currency of its own selector",
+          "url": "https://www.zoho.com/commerce/pricing.html",
+          "read": "2026-10-26"
+        },
+        "au": {
+          "currency": "AUD",
+          "label": "Zoho Commerce pricing, in each currency of its own selector",
+          "url": "https://www.zoho.com/commerce/pricing.html",
+          "read": "2026-10-26"
+        },
+        "sg": {
+          "currency": "SGD",
+          "label": "Zoho Commerce pricing, in each currency of its own selector",
+          "url": "https://www.zoho.com/commerce/pricing.html",
+          "read": "2026-10-26"
+        },
+        "ae": {
+          "currency": "AED",
+          "label": "Zoho Commerce pricing, in each currency of its own selector",
+          "url": "https://www.zoho.com/commerce/pricing.html",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "standard-yearly": { "us": 15, "in": 599, "uk": 12, "eu": 15, "ca": 20, "au": 11, "sg": 7, "ae": 59 },
+        "professional-yearly": { "us": 49, "in": 1799, "uk": 42, "eu": 49, "ca": 60, "au": 33, "sg": 27, "ae": 169 },
+        "premium-yearly": { "us": 79, "in": 3499, "uk": 72, "eu": 109, "ca": 99, "au": 66, "sg": 67, "ae": 329 },
+        "plus-yearly": { "us": 129, "in": 4999, "ca": 159 },
+        "standard-monthly": { "us": 19, "in": 999, "uk": 15, "eu": 19, "ca": 25, "au": 13.2, "sg": 9, "ae": 69 },
+        "professional-monthly": { "us": 59, "in": 2999, "uk": 49, "eu": 59, "ca": 75, "au": 46.2, "sg": 39, "ae": 209 },
+        "premium-monthly": { "us": 99, "in": 3999, "uk": 89, "eu": 129, "ca": 119, "au": 79.2, "sg": 79, "ae": 399 },
+        "plus-monthly": { "us": 159, "in": 5999, "ca": 199 },
+        "addon-user-yearly": { "us": 2.5, "in": 150, "uk": 2, "eu": 2.5, "ca": 3, "au": 3.3, "sg": 3, "ae": 8 },
+        "addon-user-monthly": { "us": 3, "in": 180, "uk": 2.5, "eu": 3, "ca": 4, "au": 4.4, "sg": 4, "ae": 10 },
+        "addon-location-yearly": { "us": 10, "in": 600, "uk": 8, "eu": 10, "ca": 12.5, "au": 15.58, "sg": 13, "ae": 36 },
+        "addon-location-monthly": { "us": 12, "in": 720, "uk": 10, "eu": 12, "ca": 15, "au": 18.7, "sg": 16, "ae": 44 },
+        "starter-microstore-yearly": { "in": 99 }
+      }
+    },
+    "bigcommerce": {
+      "name": "BigCommerce",
+      "lists": {
+        "us": {
+          "currency": "USD",
+          "label": "BigCommerce pricing (USD, its only list)",
+          "url": "https://www.bigcommerce.com/pricing/",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "core-yearly": { "us": 29 },
+        "growth-yearly": { "us": 79 },
+        "scale-yearly": { "us": 299 },
+        "core-monthly": { "us": 39 },
+        "growth-monthly": { "us": 105 },
+        "scale-monthly": { "us": 399 },
+        "performance-from": { "us": 1499 },
+        "core-gmv-cap": { "us": 30000 },
+        "growth-gmv-cap": { "us": 100000 },
+        "scale-gmv-cap-month": { "us": 33333 },
+        "performance-threshold": { "us": 2000000 },
+        "storefront-core": { "us": 30 },
+        "storefront-growth": { "us": 50 },
+        "storefront-scale": { "us": 100 }
+      }
+    },
+    "wix": {
+      "name": "Wix",
+      "lists": {
+        "us": {
+          "currency": "USD",
+          "label": "Wix plans (USD)",
+          "url": "https://www.wix.com/plans",
+          "read": "2026-10-26"
+        },
+        "in": {
+          "currency": "INR",
+          "label": "Wix plans, India (INR)",
+          "url": "https://www.wix.com/plans",
+          "read": "2026-10-26"
+        },
+        "uk": {
+          "currency": "GBP",
+          "label": "Wix plans, United Kingdom (GBP)",
+          "url": "https://www.wix.com/plans",
+          "read": "2026-10-26"
+        },
+        "au": {
+          "currency": "AUD",
+          "label": "Wix plans, Australia (AUD)",
+          "url": "https://www.wix.com/plans",
+          "read": "2026-10-26"
+        },
+        "ca": {
+          "currency": "CAD",
+          "label": "Wix plans, Canada (CAD)",
+          "url": "https://www.wix.com/plans",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "light-yearly": { "us": 17, "in": 250, "uk": 9, "au": 21, "ca": 21 },
+        "core-yearly": { "us": 29, "in": 500, "uk": 16, "au": 42, "ca": 33 },
+        "business-yearly": { "us": 39, "in": 900, "uk": 25, "au": 55, "ca": 44 },
+        "business-elite-yearly": { "us": 159, "in": 1800, "uk": 119, "au": 199, "ca": 165 }
+      }
+    },
+    "squarespace": {
+      "name": "Squarespace",
+      "lists": {
+        "ie": {
+          "currency": "EUR",
+          "label": "Squarespace pricing, eurozone (EUR)",
+          "url": "https://www.squarespace.com/pricing",
+          "read": "2026-10-26"
+        },
+        "us": {
+          "currency": "USD",
+          "label": "Squarespace pricing, United States (USD), as archived on 22 October 2026",
+          "url": "https://web.archive.org/web/20261022083006/https://www.squarespace.com/pricing",
+          "read": "2026-10-22"
+        }
+      },
+      "prices": {
+        "basic-yearly-per-month": { "ie": 12, "us": 19 },
+        "basic-monthly": { "ie": 17, "us": 25 },
+        "core-yearly-per-month": { "ie": 18, "us": 29 },
+        "core-monthly": { "ie": 24, "us": 39 },
+        "plus-yearly-per-month": { "ie": 32, "us": 49 },
+        "plus-monthly": { "ie": 42, "us": 65 },
+        "advanced-yearly-per-month": { "ie": 69, "us": 99 },
+        "advanced-monthly": { "ie": 79, "us": 139 },
+        "card-fixed": { "us": 0.3, "ie": 0.25 }
+      }
+    },
+    "woocommerce": {
+      "name": "WooCommerce",
+      "lists": {
+        "subscriptions-usd": {
+          "currency": "USD",
+          "label": "WooCommerce Subscriptions, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-subscriptions/?currency=USD",
+          "read": "2026-10-26"
+        },
+        "subscriptions-eur": {
+          "currency": "EUR",
+          "label": "WooCommerce Subscriptions, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-subscriptions/?currency=EUR",
+          "read": "2026-10-26"
+        },
+        "subscriptions-gbp": {
+          "currency": "GBP",
+          "label": "WooCommerce Subscriptions, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-subscriptions/?currency=GBP",
+          "read": "2026-10-26"
+        },
+        "subscriptions-aud": {
+          "currency": "AUD",
+          "label": "WooCommerce Subscriptions, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-subscriptions/?currency=AUD",
+          "read": "2026-10-26"
+        },
+        "subscriptions-cad": {
+          "currency": "CAD",
+          "label": "WooCommerce Subscriptions, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-subscriptions/?currency=CAD",
+          "read": "2026-10-26"
+        },
+        "subscriptions-inr": {
+          "currency": "INR",
+          "label": "WooCommerce Subscriptions, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-subscriptions/?currency=INR",
+          "read": "2026-10-26"
+        },
+        "bundles-usd": {
+          "currency": "USD",
+          "label": "Product Bundles for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-bundles/?currency=USD",
+          "read": "2026-10-26"
+        },
+        "bundles-eur": {
+          "currency": "EUR",
+          "label": "Product Bundles for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-bundles/?currency=EUR",
+          "read": "2026-10-26"
+        },
+        "bundles-gbp": {
+          "currency": "GBP",
+          "label": "Product Bundles for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-bundles/?currency=GBP",
+          "read": "2026-10-26"
+        },
+        "bundles-aud": {
+          "currency": "AUD",
+          "label": "Product Bundles for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-bundles/?currency=AUD",
+          "read": "2026-10-26"
+        },
+        "bundles-cad": {
+          "currency": "CAD",
+          "label": "Product Bundles for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-bundles/?currency=CAD",
+          "read": "2026-10-26"
+        },
+        "bundles-inr": {
+          "currency": "INR",
+          "label": "Product Bundles for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-bundles/?currency=INR",
+          "read": "2026-10-26"
+        },
+        "memberships-usd": {
+          "currency": "USD",
+          "label": "WooCommerce Memberships, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-memberships/?currency=USD",
+          "read": "2026-10-26"
+        },
+        "memberships-eur": {
+          "currency": "EUR",
+          "label": "WooCommerce Memberships, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-memberships/?currency=EUR",
+          "read": "2026-10-26"
+        },
+        "memberships-gbp": {
+          "currency": "GBP",
+          "label": "WooCommerce Memberships, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-memberships/?currency=GBP",
+          "read": "2026-10-26"
+        },
+        "memberships-aud": {
+          "currency": "AUD",
+          "label": "WooCommerce Memberships, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-memberships/?currency=AUD",
+          "read": "2026-10-26"
+        },
+        "memberships-cad": {
+          "currency": "CAD",
+          "label": "WooCommerce Memberships, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-memberships/?currency=CAD",
+          "read": "2026-10-26"
+        },
+        "memberships-inr": {
+          "currency": "INR",
+          "label": "WooCommerce Memberships, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-memberships/?currency=INR",
+          "read": "2026-10-26"
+        },
+        "bookings-usd": {
+          "currency": "USD",
+          "label": "WooCommerce Bookings, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-bookings/?currency=USD",
+          "read": "2026-10-26"
+        },
+        "bookings-eur": {
+          "currency": "EUR",
+          "label": "WooCommerce Bookings, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-bookings/?currency=EUR",
+          "read": "2026-10-26"
+        },
+        "bookings-gbp": {
+          "currency": "GBP",
+          "label": "WooCommerce Bookings, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-bookings/?currency=GBP",
+          "read": "2026-10-26"
+        },
+        "bookings-aud": {
+          "currency": "AUD",
+          "label": "WooCommerce Bookings, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-bookings/?currency=AUD",
+          "read": "2026-10-26"
+        },
+        "bookings-cad": {
+          "currency": "CAD",
+          "label": "WooCommerce Bookings, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-bookings/?currency=CAD",
+          "read": "2026-10-26"
+        },
+        "bookings-inr": {
+          "currency": "INR",
+          "label": "WooCommerce Bookings, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/woocommerce-bookings/?currency=INR",
+          "read": "2026-10-26"
+        },
+        "vendors-usd": {
+          "currency": "USD",
+          "label": "Product Vendors for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-vendors/?currency=USD",
+          "read": "2026-10-26"
+        },
+        "vendors-eur": {
+          "currency": "EUR",
+          "label": "Product Vendors for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-vendors/?currency=EUR",
+          "read": "2026-10-26"
+        },
+        "vendors-gbp": {
+          "currency": "GBP",
+          "label": "Product Vendors for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-vendors/?currency=GBP",
+          "read": "2026-10-26"
+        },
+        "vendors-aud": {
+          "currency": "AUD",
+          "label": "Product Vendors for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-vendors/?currency=AUD",
+          "read": "2026-10-26"
+        },
+        "vendors-cad": {
+          "currency": "CAD",
+          "label": "Product Vendors for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-vendors/?currency=CAD",
+          "read": "2026-10-26"
+        },
+        "vendors-inr": {
+          "currency": "INR",
+          "label": "Product Vendors for WooCommerce, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/product-vendors/?currency=INR",
+          "read": "2026-10-26"
+        },
+        "b2b-addify-usd": {
+          "currency": "USD",
+          "label": "B2B for WooCommerce by Addify, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/b2b-for-woocommerce/?currency=USD",
+          "read": "2026-10-26"
+        },
+        "b2b-addify-eur": {
+          "currency": "EUR",
+          "label": "B2B for WooCommerce by Addify, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/b2b-for-woocommerce/?currency=EUR",
+          "read": "2026-10-26"
+        },
+        "b2b-addify-gbp": {
+          "currency": "GBP",
+          "label": "B2B for WooCommerce by Addify, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/b2b-for-woocommerce/?currency=GBP",
+          "read": "2026-10-26"
+        },
+        "b2b-addify-aud": {
+          "currency": "AUD",
+          "label": "B2B for WooCommerce by Addify, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/b2b-for-woocommerce/?currency=AUD",
+          "read": "2026-10-26"
+        },
+        "b2b-addify-cad": {
+          "currency": "CAD",
+          "label": "B2B for WooCommerce by Addify, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/b2b-for-woocommerce/?currency=CAD",
+          "read": "2026-10-26"
+        },
+        "b2b-addify-inr": {
+          "currency": "INR",
+          "label": "B2B for WooCommerce by Addify, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/b2b-for-woocommerce/?currency=INR",
+          "read": "2026-10-26"
+        },
+        "dynamic-pricing-usd": {
+          "currency": "USD",
+          "label": "Dynamic Pricing for WooCommerce by Element Stark, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/dynamic-pricing/?currency=USD",
+          "read": "2026-10-26"
+        },
+        "dynamic-pricing-eur": {
+          "currency": "EUR",
+          "label": "Dynamic Pricing for WooCommerce by Element Stark, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/dynamic-pricing/?currency=EUR",
+          "read": "2026-10-26"
+        },
+        "dynamic-pricing-gbp": {
+          "currency": "GBP",
+          "label": "Dynamic Pricing for WooCommerce by Element Stark, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/dynamic-pricing/?currency=GBP",
+          "read": "2026-10-26"
+        },
+        "dynamic-pricing-aud": {
+          "currency": "AUD",
+          "label": "Dynamic Pricing for WooCommerce by Element Stark, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/dynamic-pricing/?currency=AUD",
+          "read": "2026-10-26"
+        },
+        "dynamic-pricing-cad": {
+          "currency": "CAD",
+          "label": "Dynamic Pricing for WooCommerce by Element Stark, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/dynamic-pricing/?currency=CAD",
+          "read": "2026-10-26"
+        },
+        "dynamic-pricing-inr": {
+          "currency": "INR",
+          "label": "Dynamic Pricing for WooCommerce by Element Stark, priced in each currency WooCommerce.com sells in",
+          "url": "https://woocommerce.com/products/dynamic-pricing/?currency=INR",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "subscriptions-year": { "subscriptions-usd": 279, "subscriptions-eur": 249, "subscriptions-gbp": 213, "subscriptions-aud": 406, "subscriptions-cad": 402, "subscriptions-inr": 27050 },
+        "bundles-year": { "bundles-usd": 79, "bundles-eur": 71, "bundles-gbp": 61, "bundles-aud": 115, "bundles-cad": 114, "bundles-inr": 7660 },
+        "memberships-year": { "memberships-usd": 199, "memberships-eur": 178, "memberships-gbp": 152, "memberships-aud": 290, "memberships-cad": 287, "memberships-inr": 19294 },
+        "bookings-year": { "bookings-usd": 249, "bookings-eur": 223, "bookings-gbp": 190, "bookings-aud": 362, "bookings-cad": 359, "bookings-inr": 24141 },
+        "vendors-year": { "vendors-usd": 119, "vendors-eur": 107, "vendors-gbp": 91, "vendors-aud": 173, "vendors-cad": 172, "vendors-inr": 11538 },
+        "b2b-addify-year": { "b2b-addify-usd": 149, "b2b-addify-eur": 133, "b2b-addify-gbp": 114, "b2b-addify-aud": 217, "b2b-addify-cad": 215, "b2b-addify-inr": 14446 },
+        "dynamic-pricing-year": { "dynamic-pricing-usd": 129, "dynamic-pricing-eur": 116, "dynamic-pricing-gbp": 99, "dynamic-pricing-aud": 188, "dynamic-pricing-cad": 186, "dynamic-pricing-inr": 12507 }
+      }
+    },
+    "prestashop": {
+      "name": "PrestaShop",
+      "lists": {
+        "opc-eur": {
+          "currency": "EUR",
+          "label": "PrestaShop Addons: One Page Checkout PS (EUR, USD and GBP)",
+          "url": "https://addons.prestashop.com/en/express-checkout-process/8503-one-page-checkout-ps-the-definitive-checkout.html",
+          "read": "2026-10-26"
+        },
+        "opc-usd": {
+          "currency": "USD",
+          "label": "PrestaShop Addons: One Page Checkout PS (EUR, USD and GBP)",
+          "url": "https://addons.prestashop.com/en/express-checkout-process/8503-one-page-checkout-ps-the-definitive-checkout.html",
+          "read": "2026-10-26"
+        },
+        "opc-gbp": {
+          "currency": "GBP",
+          "label": "PrestaShop Addons: One Page Checkout PS (EUR, USD and GBP)",
+          "url": "https://addons.prestashop.com/en/express-checkout-process/8503-one-page-checkout-ps-the-definitive-checkout.html",
+          "read": "2026-10-26"
+        },
+        "mb-eur": {
+          "currency": "EUR",
+          "label": "PrestaShop Addons: Marketplace Builder (EUR, USD and GBP)",
+          "url": "https://addons.prestashop.com/en/marketplace-builder/32443-marketplace-builder-multi-vendor-multi-seller.html",
+          "read": "2026-10-26"
+        },
+        "mb-usd": {
+          "currency": "USD",
+          "label": "PrestaShop Addons: Marketplace Builder (EUR, USD and GBP)",
+          "url": "https://addons.prestashop.com/en/marketplace-builder/32443-marketplace-builder-multi-vendor-multi-seller.html",
+          "read": "2026-10-26"
+        },
+        "mb-gbp": {
+          "currency": "GBP",
+          "label": "PrestaShop Addons: Marketplace Builder (EUR, USD and GBP)",
+          "url": "https://addons.prestashop.com/en/marketplace-builder/32443-marketplace-builder-multi-vendor-multi-seller.html",
+          "read": "2026-10-26"
+        },
+        "hosted-eur": {
+          "currency": "EUR",
+          "label": "PrestaShop Hosted pricing (EUR, its only list)",
+          "url": "https://prestashop.com/prestashop-offers/hosted/",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "opc-licence": { "opc-eur": 209.99, "opc-usd": 243.99, "opc-gbp": 181.99 },
+        "opc-care-month": { "opc-eur": 5, "opc-usd": 6.17, "opc-gbp": 4.33 },
+        "mb-licence": { "mb-eur": 167.99, "mb-usd": 193.99, "mb-gbp": 146.99 },
+        "mb-care-month": { "mb-eur": 4, "mb-usd": 4.92, "mb-gbp": 3.5 },
+        "hosted-annual-month": { "hosted-eur": 24 },
+        "hosted-annual-year": { "hosted-eur": 290 },
+        "hosted-monthly": { "hosted-eur": 29 }
+      }
+    },
+    "bagisto": {
+      "name": "Bagisto",
+      "lists": {
+        "bagisto-usd": {
+          "currency": "USD",
+          "label": "Bagisto extensions and cloud (USD, its only list)",
+          "url": "https://bagisto.com/en/extensions/",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "marketplace": { "bagisto-usd": 449 },
+        "pos": { "bagisto-usd": 249 },
+        "b2b-marketplace": { "bagisto-usd": 499 },
+        "saas": { "bagisto-usd": 1199 },
+        "theme": { "bagisto-usd": 199 },
+        "cloud-from-month": { "bagisto-usd": 25 }
+      }
+    },
+    "opencart": {
+      "name": "OpenCart",
+      "lists": {
+        "opencart-usd": {
+          "currency": "USD",
+          "label": "OpenCart Marketplace (USD, its only list)",
+          "url": "https://www.opencart.com/index.php?route=cms/download",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "ajax-checkout": { "opencart-usd": 110.99 },
+        "export-import": { "opencart-usd": 132.99 },
+        "seo-url": { "opencart-usd": 78.99 },
+        "theme-min": { "opencart-usd": 19.99 },
+        "theme-max": { "opencart-usd": 34.99 }
+      }
+    },
+    "medusa": {
+      "name": "Medusa",
+      "lists": {
+        "medusa-usd": {
+          "currency": "USD",
+          "label": "Medusa pricing (USD, its only list)",
+          "url": "https://medusajs.com/pricing",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "develop-from": { "medusa-usd": 29 },
+        "launch-from": { "medusa-usd": 99 },
+        "scale-from": { "medusa-usd": 299 },
+        "edge-overage": { "medusa-usd": 0.3 }
+      }
+    },
+    "saleor": {
+      "name": "Saleor",
+      "lists": {
+        "saleor-usd": {
+          "currency": "USD",
+          "label": "Saleor pricing (USD, its only list)",
+          "url": "https://saleor.io/pricing",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "select-month": { "saleor-usd": 1599 },
+        "select-gmv": { "saleor-usd": 200000 },
+        "volume-month": { "saleor-usd": 3999 },
+        "volume-gmv": { "saleor-usd": 1000000 },
+        "accelerator": { "saleor-usd": 6000 },
+        "fde": { "saleor-usd": 12000 }
+      }
+    },
+    "extend-b2b-credit-limits": {
+      "name": "Extend B2B Credit Limits",
+      "lists": {
+        "appstore": {
+          "currency": "USD",
+          "label": "Extend B2B Credit Limits on the Shopify App Store (USD)",
+          "url": "https://apps.shopify.com/extend-b2b-credit-limits",
+          "read": "2026-10-26"
+        }
+      },
+      "prices": {
+        "core-month": { "appstore": 79 }
+      }
+    }
+  }
+}

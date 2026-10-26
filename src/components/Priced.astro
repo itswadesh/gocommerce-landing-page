@@ -1,0 +1,7 @@
+---
+/** A data string with its {p:…} prices rendered in every site currency (src/lib/money.ts). */
+import Variants from './Variants.astro'
+import { parts } from '../lib/money'
+interface Props { s: string }
+---
+{parts(Astro.props.s).map((p) => typeof p === 'string' ? p : <Variants v={p} />)}

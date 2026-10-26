@@ -150,6 +150,25 @@
   })
   applyPictures()
 
+  /* ───────────────────────────────────────────────────── currency */
+
+  // Every price is in the HTML in every currency; <html data-cur> picks which
+  // one CSS shows. The head script set it before first paint; this keeps the
+  // picker in step, stores a change under kc-cur, and tells the fee calculator.
+  var curSelect = $('[data-cur-select]')
+  if (curSelect) {
+    var root = document.documentElement
+    curSelect.value = root.getAttribute('data-cur')
+    curSelect.addEventListener('change', function () {
+      root.setAttribute('data-cur', curSelect.value)
+      try { localStorage.setItem('kc-cur', curSelect.value) } catch (e) { /* stays for this page */ }
+      root.classList.remove('cur-swap')
+      void root.offsetWidth
+      root.classList.add('cur-swap')
+      document.dispatchEvent(new CustomEvent('kc-currency', { detail: curSelect.value }))
+    })
+  }
+
   /* ──────────────────────────────────────────── admin screenshots */
 
   var tablist = $('.tabs')

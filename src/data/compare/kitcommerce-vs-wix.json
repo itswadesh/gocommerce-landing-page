@@ -14,13 +14,13 @@
   "lede": "Wix is a website builder with a store inside it: a drag-and-drop editor, with hosting and upgrades included, priced by location. Its own help centre is plain that a Wix site cannot run anywhere but on Wix. GoCommerce and Svelte Commerce are MIT source you can run yourself for free — on any server, which means somebody has to run it — or a store can be hosted on kitcommerce.store for {hostedFee} of each successful sale.",
   "facts": [
     { "b": "8", "t": "payment providers Wix lists for India — its own Wix Payments is not one of them" },
-    { "b": "$29", "t": "a month, billed yearly: Wix’s cheapest plan that takes payments, at its reference price" },
+    { "b": "{p:wix/core-yearly}", "t": "a month, billed yearly: Wix’s cheapest plan that takes payments, at its reference price" },
     { "b": "1", "t": "site per Wix plan — a second store is a second subscription" }
   ],
   "glanceLede": "Wix’s side comes from its plans page and help centre, linked at the foot of this page; ours from the GoCommerce and Svelte Commerce pages on this site. Wix sets price and currency by location and gives US dollar prices for reference, so the dollar figures here are those reference prices, not rupee quotes.",
   "rows": [
     ["What it is", "A hosted website builder, with a store on its Core, Business and Business Elite plans.", "An open-source platform you run, in two MIT packages: a Go backend with its admin compiled in, and a SvelteKit storefront."],
-    ["Software price", "Light $17, Core $29, Business $39 and Business Elite $159 a month, billed yearly, at Wix’s US dollar reference prices, before tax. What you pay depends on where you are.", "Nothing. Both packages are MIT licensed."],
+    ["Software price", "Light {p:wix/light-yearly}, Core {p:wix/core-yearly}, Business {p:wix/business-yearly} and Business Elite {p:wix/business-elite-yearly} a month, billed yearly, at Wix’s US dollar reference prices, before tax. What you pay depends on where you are.", "Nothing. Both packages are MIT licensed."],
     ["Taking payments", "Not on Light. Core and above.", "On every install: cash on delivery built in, gateways as modules."],
     ["Payments in India", "PayPal, Razorpay, PayU India, Cashfree Payments, Paytm, Easebuzz, airpay and Nimbbl. Wix Payments, Wix’s own processor, serves 15 other countries.", "Razorpay, Stripe, Cashfree, Adyen, Hyperswitch and six more as modules; cash on delivery built in."],
     ["Design", "A drag-and-drop editor and thousands of templates. No code needed.", "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes, changed in code rather than a visual editor."],
@@ -38,7 +38,7 @@
     "caption": "Recurring costs, Wix eCommerce against GoCommerce and Svelte Commerce",
     "head": ["Cost", "Wix eCommerce", "GoCommerce + Svelte Commerce"],
     "rows": [
-      ["Software", "$29 to $159 a month, billed yearly, for the plans that take payments; prices vary by location and exclude tax", "Nothing — MIT; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
+      ["Software", "{p:wix/core-yearly} to {p:wix/business-elite-yearly} a month, billed yearly, for the plans that take payments; prices vary by location and exclude tax", "Nothing — MIT; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
       ["Payment processing", "Your provider’s rate — Wix lists Razorpay’s as from 2% a transaction", "Your gateway’s rate"],
       ["A second storefront", "A second plan, since each covers one site", "Nothing — another channel on the same backend"],
       ["Hosting", "Included", "Run yourself: a server and a PostgreSQL database, from a small VPS upward"],
@@ -74,12 +74,12 @@
   "faq": [
     { "q": "Can I export my Wix site and host it myself?", "a": "No. Wix’s help centre says a Wix site has to run on Wix’s servers; you can connect your own domain, but not move the site. Products and orders can be exported as CSV files." },
     { "q": "Does Wix Payments work in India?", "a": "No. Wix lists 15 countries for Wix Payments, and India is not among them. For India, Wix lists PayPal, Razorpay, PayU India, Cashfree Payments, Paytm, Easebuzz, airpay and Nimbbl as providers." },
-    { "q": "Which Wix plan do I need to sell online?", "a": "Core or above. Wix’s help centre says the Light plan cannot accept payments. At Wix’s US dollar reference prices, Core is $29 a month billed yearly; the price shown in India may differ." },
+    { "q": "Which Wix plan do I need to sell online?", "a": "Core or above. Wix’s help centre says the Light plan cannot accept payments. At Wix’s US dollar reference prices, Core is {p:wix/core-yearly} a month billed yearly; the price shown in India may differ." },
     { "q": "Is GoCommerce easier than Wix?", "a": "No. Wix is built so that someone without a developer can launch a store. GoCommerce and Svelte Commerce need a developer to deploy and change. They are the better choice when control, portability or several storefronts matter more than ease." },
     { "q": "How do I move my products from Wix to GoCommerce?", "a": "Export them from Wix as CSV — up to 5,000 rows a file — and write a script against GoCommerce’s documented REST API. There is no ready-made Wix importer." }
   ],
   "sources": [
-    { "label": "Wix plans and pricing (US dollar reference prices)", "url": "https://www.wix.com/plans" },
+    { "label": "Wix plans and pricing", "url": "https://www.wix.com/plans" },
     { "label": "Wix Help Center — choosing a Premium plan", "url": "https://support.wix.com/en/article/choosing-a-premium-plan" },
     { "label": "Wix Help Center — available payment providers in your country", "url": "https://support.wix.com/en/article/available-payment-providers-in-your-country" },
     { "label": "Wix Help Center — getting started with Wix Payments (supported countries)", "url": "https://support.wix.com/en/article/about-wix-payments" },

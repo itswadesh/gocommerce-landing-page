@@ -4,6 +4,42 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 26 October 2026: prices in the visitor's currency, never converted
+
+The owner: "The site now shows prices only in US dollars, but the customer
+research ranks Indian businesses as the best groups to target first. we need
+to integrate all currencies". This replaces the decision further down,
+"every price on the site is in US dollars", made earlier the same day.
+
+- A visitor picks INR, USD, EUR, GBP, AUD, CAD, SGD or AED. Each rival price
+  is the rival's own published list in that currency. There is still no
+  exchange rate anywhere on the site.
+- A rival with no list in the chosen currency shows its nearest published
+  list (US dollars, then euros, pounds sterling, rupees), in that list's own
+  currency, and a note under the picker says so.
+- Every rival price is typed once, in `src/data/prices.json`, on a list that
+  names its currency, source URL and the date it was read. Pages write
+  `{p:rival/item}`. `scripts/verify.js` fails on a price without a source and
+  on any amount typed anywhere else.
+- With JavaScript off, prices show in rupees. Why: Indian businesses are the
+  first target, and the owner's general standard is rupee prices. With
+  JavaScript, the page uses the visitor's stored choice, else a guess from
+  the time zone (Asia/Kolkata gives INR) and then the browser language, else
+  US dollars. A head script applies it before first paint, so nothing moves.
+- This machine is served euro prices. Shopify's and Squarespace's US lists
+  could not be read directly, so they come from the Internet Archive's
+  captures of their own pricing pages (24 and 22 October 2026), dated with
+  the capture date.
+- A page about one market quotes that market's list whatever the visitor
+  picks: the Shopify India comparison shows Shopify's rupee prices.
+- Worked examples at made-up sales figures are stated in one named currency.
+- The hosted fee is a percentage and needs no currency.
+- `/pricing/fee-calculator/` sets a month's sales and the share paid online
+  against Shopify's plan and its fee on orders that a provider other than
+  Shopify Payments takes, from Shopify's list for the visitor's market. It
+  counts the 1% on every sale, cash on delivery included, and leaves out
+  payment gateway charges and tax on both sides.
+
 ## 26 October 2026: titles lead with the search term; the brand is pending
 
 The owner approved item 4 of the search audit of 26 October 2026: titles and
@@ -93,7 +129,7 @@ both.
 - The software's JSON-LD offers stay at price 0: they describe the MIT
   software, which is free.
 
-## 26 October 2026: every price on the site is in US dollars
+## 26 October 2026: every price on the site is in US dollars (replaced the same day)
 
 The owner: "keep all prices throughout the website in $USD".
 

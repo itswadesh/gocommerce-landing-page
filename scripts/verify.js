@@ -80,6 +80,11 @@ const RULES = [
     why: 'Unfilled token: render this data through fill() from src/lib/pricing.ts.',
   },
   {
+    // A {p:…} price that no page rendered (src/lib/money.ts).
+    re: /\{(p|ex):[^}]*\}/g,
+    why: 'Unrendered price: render this string through <Priced> (src/components/Priced.astro).',
+  },
+  {
     // The hosted fee is typed once, in src/data/pricing.json.
     re: /\b[\d.]+% of each successful sale/gi,
     why: `The hosted fee is ${hostedFee} of each successful sale, from src/data/pricing.json.`,
@@ -159,9 +164,81 @@ if (!llms.includes(signupUrl)) {
   violations++
 }
 
+// ── Prices: every rival price is on a published list, with its source and date
+//
+// Since 26 October 2026 prices are shown in the visitor's currency, never
+// converted (docs/decisions.md). That holds only while every amount sits in
+// src/data/prices.json on a list naming its currency, URL and read date, and
+// no amount is typed anywhere else.
+const CURRENCIES = ['INR', 'USD', 'EUR', 'GBP', 'AUD', 'CAD', 'SGD', 'AED']
+const today = new Date().toISOString().slice(0, 10)
+const { rivals } = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'prices.json'), 'utf8'))
+let priceCount = 0
+for (const [id, r] of Object.entries(rivals)) {
+  for (const [listId, l] of Object.entries(r.lists)) {
+    const bad = !CURRENCIES.includes(l.currency) || (l.for && !CURRENCIES.includes(l.for)) ? `currency ${l.currency} (for ${l.for}) is not one the site shows`
+      : !/^https:\/\//.test(l.url || '') ? 'no https source URL'
+      : !/^\d{4}-\d{2}-\d{2}$/.test(l.read || '') || l.read > today ? 'no read date, or one in the future'
+      : !l.label ? 'no label' : ''
+    if (bad) { console.error(`  prices.json ${id}.lists.${listId}: ${bad}`); violations++ }
+  }
+  for (const [listId, m] of Object.entries(r.markets ?? {})) {
+    if (!r.lists[listId] || !/^https:\/\//.test(m.feeUrl || '') || !/^https:\/\//.test(m.paymentsUrl || '') || !/^\d{4}-\d{2}-\d{2}$/.test(m.read || '')) {
+      console.error(`  prices.json ${id}.markets.${listId}: needs a list of its own, a source for its fees and for Shopify Payments, and a read date`)
+      violations++
+    }
+  }
+  for (const [item, byList] of Object.entries(r.prices)) {
+    for (const [listId, amount] of Object.entries(byList)) {
+      priceCount++
+      if (!r.lists[listId]) { console.error(`  prices.json ${id}.prices.${item}: list "${listId}" does not exist, so the price has no source`); violations++ }
+      if (typeof amount !== 'number' || !(amount >= 0)) { console.error(`  prices.json ${id}.prices.${item}.${listId}: ${amount} is not an amount`); violations++ }
+    }
+  }
+}
+
+// An amount of money with no source: a currency sign or code before a number
+// that is not zero. Zero is what the MIT code costs, not anyone's price.
+const MONEY = /(?:[₹€£]|\b(?:US|CA|A|S|NZ)?\$|\$|\b(?:Rs\.?|INR|USD|EUR|GBP|AUD|CAD|SGD|AED) ?)\s?(?!0(?![\d,.]*[1-9]))\d[\d,.]*/g
+
+// Rival prices live in the comparisons and on /pricing/, so that is where an
+// amount outside a {p:…} or {ex:…} token is a price with no source. Elsewhere
+// amounts are other facts, cited where they stand: a GST threshold, what a
+// module prints for ₹1,234.50, a demo order in a test report.
+const COMPARE = path.join(ROOT, 'src', 'data', 'compare')
+for (const file of fs.readdirSync(COMPARE).filter((f) => f.endsWith('.json')).map((f) => path.join(COMPARE, f))) {
+  const text = fs.readFileSync(file, 'utf8').replace(/\{(p|ex):[^}]+\}/g, '')
+  for (const m of text.matchAll(MONEY)) {
+    console.error(`  ${path.relative(ROOT, file)}  "${m[0]}" is typed by hand. Put it in src/data/prices.json with its source and write {p:rival/item}.`)
+    violations++
+  }
+}
+
+// A comparison's summary, label, h1 and tagline are reused as plain link cards
+// on pages with no currency picker, so they carry no prices.
+for (const f of fs.readdirSync(path.join(ROOT, 'src', 'data', 'compare')).filter((f) => f.endsWith('.json'))) {
+  const c = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'compare', f), 'utf8'))
+  for (const k of ['summary', 'label', 'h1', 'tagline']) {
+    if (/\{(p|ex):/.test(c[k] || '')) { console.error(`  compare/${f} ${k}: no prices here; it is shown as a link card elsewhere`); violations++ }
+  }
+}
+
+// In the built comparison and pricing pages' body text: anything outside a rendered price.
+for (const page of PAGES) {
+  if (!/^(compare|pricing)\//.test(page)) continue
+  const html = fs.readFileSync(path.join(DIST, page), 'utf8')
+  const body = visibleText(html.slice(html.indexOf('<body')))
+    .replace(/<span class="px">(?:<span data-c="[^"]*">[^<]*<\/span>)+<\/span>/g, '')
+    .replace(/<(code|pre)\b[\s\S]*?<\/\1>/g, '')
+  for (const m of body.matchAll(MONEY)) {
+    console.error(`  ${page}  "${m[0]}" is not rendered from src/data/prices.json, so it has no source.`)
+    violations++
+  }
+}
+
 if (violations) {
   console.error(`\n${violations} naming violation(s) across ${scanned} page(s).`)
   process.exit(1)
 }
 
-console.log(`Naming rules hold across ${scanned} pages.`)
+console.log(`Naming rules hold across ${scanned} pages; ${priceCount} published prices, each with its source and date, and none typed by hand.`)

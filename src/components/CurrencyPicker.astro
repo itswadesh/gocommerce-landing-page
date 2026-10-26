@@ -1,0 +1,28 @@
+---
+/**
+ * The currency every price on the page is shown in. A native select: keyboard,
+ * screen reader and touch behaviour come free. app.js applies a change to
+ * <html data-cur> and remembers it; the page must pass `prices` to Base so the
+ * head script picks the currency before first paint. With JavaScript off the
+ * select could do nothing, so it is replaced by a line naming the default.
+ *
+ * `refs` are the page's {p:…} references, for the note on rivals that publish
+ * no list in the chosen currency.
+ */
+import { CURRENCIES, CURRENCY_NAMES, DEFAULT_CURRENCY, fallbackNotes } from '../lib/money'
+import Variants from './Variants.astro'
+interface Props { refs: string[] }
+const notes = fallbackNotes(Astro.props.refs)
+---
+<div class="cur-bar">
+  <div class="cur-pick">
+    <label for="cur">Show prices in</label>
+    <select id="cur" class="field" data-cur-select autocomplete="off">
+      {CURRENCIES.map((c) => <option value={c} selected={c === DEFAULT_CURRENCY}>{c}, {CURRENCY_NAMES[c]}</option>)}
+    </select>
+  </div>
+  <noscript><style>.cur-pick { display: none; }</style><p class="cur-static">Prices are shown in {CURRENCY_NAMES[DEFAULT_CURRENCY]}.</p></noscript>
+  {notes.some((n) => n.text) && (
+    <p class="cur-note fineprint"><Variants v={notes} /></p>
+  )}
+</div>

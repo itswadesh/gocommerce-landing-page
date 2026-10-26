@@ -6,15 +6,15 @@
   "group": "Open-source platforms",
   "summary": "Two MIT engines: a Laravel application with paid extensions against one Go binary with vendors and B2B pricing in its core.",
   "title": "Bagisto alternative in Go: GoCommerce vs Bagisto",
-  "description": "Bagisto vs GoCommerce and Svelte Commerce: Laravel against one Go binary, a $449 marketplace extension against vendors in the core — and where Bagisto wins.",
+  "description": "Bagisto vs GoCommerce and Svelte Commerce: Laravel against one Go binary, a {p:bagisto/marketplace} marketplace extension against vendors in the core — and where Bagisto wins.",
   "ogTitle": "KitCommerce vs Bagisto",
   "ogDescription": "Laravel with paid extensions, or a Go binary with vendors in the core. Stack, marketplace, B2B and costs, sourced.",
   "h1": "Bagisto alternative in Go: GoCommerce vs Bagisto",
   "tagline": "Both are MIT. The difference is what you run, and what you buy on top.",
   "lede": "Bagisto is a Laravel application from Webkul — storefront, admin and APIs in one PHP codebase — with an extension store that sells the marketplace, point of sale and multi-tenant SaaS. GoCommerce is a Go backend with vendors and B2B price lists in its core, and Svelte Commerce is a separate SvelteKit storefront. Neither core has a licence fee. Bagisto has more built and more stores behind it; GoCommerce has less to run.",
   "facts": [
-    { "b": "$449", "t": "Webkul’s price for Bagisto’s multi-vendor marketplace extension" },
-    { "b": "$0", "t": "for vendors in GoCommerce — they are part of the core" },
+    { "b": "{p:bagisto/marketplace}", "t": "Webkul’s price for Bagisto’s multi-vendor marketplace extension" },
+    { "b": "Free", "t": "for vendors in GoCommerce — they are part of the core" },
     { "b": "22/43", "t": "Svelte Commerce services wired for Bagisto, cart and checkout among them" }
   ],
   "glanceLede": "Bagisto’s side is checked against its own site, developer docs, extension store and GitHub, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site.",
@@ -23,13 +23,13 @@
     ["Licence", "MIT.", "MIT, both packages."],
     ["What you run", "On Bagisto 2.4, the current stable line: PHP 8.3 or 8.4, Composer, and MySQL or MariaDB behind Nginx, Apache or OpenLiteSpeed. Bagisto 2.5, in beta, needs PHP 8.4 and adds PostgreSQL 16 to MySQL 8.0 and MariaDB 10.11. Elasticsearch 8 and Redis are optional.", "One Go binary and one PostgreSQL database. No PHP runtime, no Redis and no message broker required."],
     ["API", "REST and GraphQL from one Composer package, bagisto/bagisto-api, kept outside the core and installed separately; Shop and Admin surfaces.", "REST in the core: 342 documented operations, published as OpenAPI, the same API the admin uses."],
-    ["Marketplace", "A paid extension, $449: seller dashboards, per-seller commission, payouts, product approval and sub-sellers.", "In the core: vendors move through pending, approved and suspended, and sell through vendor offers. Commission is recorded per vendor but not settled — payouts are yours to build."],
+    ["Marketplace", "A paid extension, {p:bagisto/marketplace}: seller dashboards, per-seller commission, payouts, product approval and sub-sellers.", "In the core: vendors move through pending, approved and suspended, and sell through vendor offers. Commission is recorded per vendor but not settled — payouts are yours to build."],
     ["B2B", "A free MIT package, the B2B Suite: company accounts and roles, quick order, requisition lists, requests for quote, purchase orders, company catalogues and credit.", "Company accounts and buyer roles, requests for quote, purchase-order numbers, approvals, credit on account, statements and company catalogues in the free b2b module; customer groups, price lists and quantity breaks in the core. No requisition lists."],
-    ["Several stores", "Channels, locales and currencies in the core; a $1,199 module turns one install into a multi-tenant SaaS.", "Channels, with per-channel publishing and price lists. Channels scope publishing and price, not orders."],
-    ["Extensions", "Webkul’s extension store — POS at $249, a B2B marketplace at $499, industry themes at $199 — alongside free packages on GitHub.", "51 MIT modules, compiled in when imported: payments, Indian and global shipping, messaging, search, feeds, MCP. No module is sold separately."],
+    ["Several stores", "Channels, locales and currencies in the core; a {p:bagisto/saas} module turns one install into a multi-tenant SaaS.", "Channels, with per-channel publishing and price lists. Channels scope publishing and price, not orders."],
+    ["Extensions", "Webkul’s extension store — POS at {p:bagisto/pos}, a B2B marketplace at {p:bagisto/b2b-marketplace}, industry themes at {p:bagisto/theme} — alongside free packages on GitHub.", "51 MIT modules, compiled in when imported: payments, Indian and global shipping, messaging, search, feeds, MCP. No module is sold separately."],
     ["Storefront", "Themes inside the application, a Next.js headless storefront and an open-source mobile app.", "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes. Its GoCommerce connector is early, at 0.1.0 — catalogue, cart, checkout and order lookup; its Bagisto connector exists too."],
     ["Agent tooling", "22 agent skills for building on Bagisto, storefront actions declared as WebMCP tools, and an MCP server Webkul describes for products, customers and orders.", "An MCP module with 19 tools that act on a running store; an AGENTS.md of 18 rules and 16 task guides in the repository."],
-    ["Hosting", "Self-host, or Bagisto Cloud: managed hosting in Starter and Pro packs, advertised from $25 a month.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFee} of each successful sale."],
+    ["Hosting", "Self-host, or Bagisto Cloud: managed hosting advertised from {p:bagisto/cloud-from-month} a month.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFee} of each successful sale."],
     ["Track record", "Case studies from Toyota Thailand, DAAWAT, The Sultan Center, Cartlow and Digikala; 28,000+ GitHub stars.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
   ],
   "cost": {
@@ -39,11 +39,11 @@
     "head": ["Cost", "Bagisto", "GoCommerce + Svelte Commerce"],
     "rows": [
       ["Core software", "Nothing — MIT", "Nothing — MIT"],
-      ["Multi-vendor marketplace", "$449 extension, three months’ support included; longer support is extra", "In the core; commission recorded, payouts not settled"],
+      ["Multi-vendor marketplace", "{p:bagisto/marketplace} extension, three months’ support included; longer support is extra", "In the core; commission recorded, payouts not settled"],
       ["B2B quotes and company accounts", "Free B2B Suite package", "Free, in the MIT b2b module"],
-      ["Point of sale", "$249 extension", "Not available"],
-      ["Multi-tenant SaaS", "$1,199 module", "Not available"],
-      ["Managed hosting", "Bagisto Cloud, advertised from $25 a month", "A store hosted on kitcommerce.store pays {hostedFee} of each successful sale; run it yourself and it is a server and PostgreSQL of your own"],
+      ["Point of sale", "{p:bagisto/pos} extension", "Not available"],
+      ["Multi-tenant SaaS", "{p:bagisto/saas} module", "Not available"],
+      ["Managed hosting", "Bagisto Cloud, advertised from {p:bagisto/cloud-from-month} a month", "A store hosted on kitcommerce.store pays {hostedFee} of each successful sale; run it yourself and it is a server and PostgreSQL of your own"],
       ["People", "A PHP and Laravel developer to deploy and extend it", "A developer to deploy it, and Go to extend it"]
     ],
     "note": "Extension prices are Webkul’s list prices in US dollars on the day checked. Compatibility differs by extension: the marketplace lists Bagisto 2.4.8, the POS 2.5.0, the SaaS module 2.4.1 and the B2B marketplace 2.2.2, so check the one you need against the Bagisto version you run."
@@ -73,9 +73,9 @@
     ]
   },
   "faq": [
-    { "q": "Is Bagisto free?", "a": "The core is: Bagisto is MIT licensed, like GoCommerce and Svelte Commerce. Several extensions are paid — the multi-vendor marketplace is $449, the POS $249 and the multi-tenant SaaS module $1,199 on Webkul’s price list — while the B2B Suite and the REST and GraphQL API package are free." },
-    { "q": "Is Bagisto’s multi-vendor marketplace included?", "a": "No. It is a paid extension from Webkul at $449, with three months’ support. It adds seller dashboards, commission and payouts. GoCommerce has vendors in its core at no cost, but records commission without settling it, so payouts are yours to build." },
-    { "q": "Which is easier to host?", "a": "GoCommerce asks for less: one Go binary and one PostgreSQL database. Bagisto 2.4 needs PHP, Composer, MySQL or MariaDB and a web server, with Elasticsearch and Redis optional. Neither has to be run yourself: Bagisto Cloud is managed hosting advertised from $25 a month, and a GoCommerce store hosted on kitcommerce.store pays {hostedFee} of each successful sale. Running GoCommerce yourself stays free." },
+    { "q": "Is Bagisto free?", "a": "The core is: Bagisto is MIT licensed, like GoCommerce and Svelte Commerce. Several extensions are paid — the multi-vendor marketplace is {p:bagisto/marketplace}, the POS {p:bagisto/pos} and the multi-tenant SaaS module {p:bagisto/saas} on Webkul’s price list — while the B2B Suite and the REST and GraphQL API package are free." },
+    { "q": "Is Bagisto’s multi-vendor marketplace included?", "a": "No. It is a paid extension from Webkul at {p:bagisto/marketplace}, with three months’ support. It adds seller dashboards, commission and payouts. GoCommerce has vendors in its core at no cost, but records commission without settling it, so payouts are yours to build." },
+    { "q": "Which is easier to host?", "a": "GoCommerce asks for less: one Go binary and one PostgreSQL database. Bagisto 2.4 needs PHP, Composer, MySQL or MariaDB and a web server, with Elasticsearch and Redis optional. Neither has to be run yourself: Bagisto Cloud is managed hosting advertised from {p:bagisto/cloud-from-month} a month, and a GoCommerce store hosted on kitcommerce.store pays {hostedFee} of each successful sale. Running GoCommerce yourself stays free." },
     { "q": "Does GoCommerce have B2B quotes like Bagisto?", "a": "Yes. GoCommerce’s b2b module has company accounts with buyer roles, requests for quote, purchase-order numbers, approvals over a limit, credit on account and company catalogues, beside customer groups, price lists and quantity breaks in the core. Bagisto’s B2B Suite also has requisition lists, which GoCommerce does not." },
     { "q": "Can Svelte Commerce run on Bagisto?", "a": "Yes. Its Bagisto connector wires 22 of 43 services, cart, checkout and sign-in included. Coupons, CMS pages, payment-method listing and vendors are not wired yet, and like every Svelte Commerce connector it has not been run against a live production store." },
     { "q": "Can I migrate from Bagisto to GoCommerce?", "a": "Yes, but by script. GoCommerce imports from Shopify and Amazon only; for Bagisto you read its API and write to GoCommerce’s documented REST API, which is published as OpenAPI." }

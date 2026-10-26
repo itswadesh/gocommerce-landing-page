@@ -5,6 +5,7 @@
  * sees. details/summary, so every answer is in the DOM with JavaScript off.
  */
 import type { FaqItem } from '../layouts/Base.astro'
+import Priced from './Priced.astro'
 interface Props { items: FaqItem[]; title: string; lede?: string; id?: string; kicker?: string }
 const { items, title, lede, id = 'faq', kicker = 'FAQ' } = Astro.props
 ---
@@ -19,8 +20,8 @@ const { items, title, lede, id = 'faq', kicker = 'FAQ' } = Astro.props
   <div class="faq">
     {items.map((f) => (
       <details>
-        <summary>{f.q}</summary>
-        <p>{f.a}</p>
+        <summary><Priced s={f.q} /></summary>
+        <p><Priced s={f.a} /></p>
       </details>
     ))}
   </div>

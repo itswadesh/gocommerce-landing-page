@@ -408,3 +408,36 @@ h2 + .capwall, h2 + .moddir, h2 + .screens { margin-top: 44px; }
 .ext-mark { margin-left: 4px; font-size: .8125em; color: var(--ink-3); text-decoration: none; }
 .hero-points svg { color: var(--ink); }
 .hero-points span { color: var(--ink-3); }
+
+/* ── currency ────────────────────────────────────────────────────── */
+/* Anything that differs by currency is in the HTML once per rendering, data-c
+   naming the currencies it is shown for (src/lib/money.ts). The ones not
+   matching <html data-cur> are hidden; the head script sets it before first
+   paint, so nothing moves. */
+[data-cur="INR"] [data-c]:not([data-c~="INR"]), [data-cur="USD"] [data-c]:not([data-c~="USD"]),
+[data-cur="EUR"] [data-c]:not([data-c~="EUR"]), [data-cur="GBP"] [data-c]:not([data-c~="GBP"]),
+[data-cur="AUD"] [data-c]:not([data-c~="AUD"]), [data-cur="CAD"] [data-c]:not([data-c~="CAD"]),
+[data-cur="SGD"] [data-c]:not([data-c~="SGD"]), [data-cur="AED"] [data-c]:not([data-c~="AED"]) { display: none; }
+.px { font-variant-numeric: tabular-nums; }
+
+/* A change answers with a short fade of every price: opacity only, so it
+   stays under reduced motion too. */
+.cur-swap [data-c] { animation: cur-in .22s ease both; }
+@keyframes cur-in { from { opacity: 0; } }
+
+.cur-bar { margin-top: 22px; }
+.cur-pick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.cur-pick label, .cur-static { font: 500 .875rem/1.4 var(--sans); color: var(--ink-2); }
+.cur-static { margin: 0; }
+.cur-note { margin-top: 10px; }
+
+/* Fields: one look for the select here and the calculator's inputs. */
+.field {
+  min-height: 44px; padding: 9px 12px; font: 500 1rem/1.4 var(--sans);
+  color: var(--ink); background: var(--paper); border: var(--edge); border-radius: var(--radius-ui);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.field:hover { border-color: var(--ink-3); }
+.field:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-color: var(--ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .field { color-scheme: dark; } }
+:root[data-theme="dark"] .field { color-scheme: dark; }

@@ -15,7 +15,7 @@
   "facts": [
     { "b": "23,000+", "t": "GitHub stars on Saleor, BSD-3 licensed" },
     { "b": "160+", "t": "webhooks Saleor offers its apps" },
-    { "b": "$1,599", "t": "a month for Saleor Cloud’s Select plan, up to $200,000 in monthly sales" }
+    { "b": "{p:saleor/select-month}", "t": "a month for Saleor Cloud’s Select plan, up to {p:saleor/select-gmv} in monthly sales" }
   ],
   "glanceLede": "Saleor’s side is checked against its own site, pricing page, documentation and repository, linked at the foot of this page; ours against the GoCommerce and Svelte Commerce pages on this site.",
   "rows": [
@@ -28,30 +28,30 @@
     ["Selling through AI agents", "Saleor says it was the first open commerce platform to implement the Agentic Commerce Protocol, and lists an app that publishes products to ChatGPT through an ACP feed.", "None. GoCommerce supports no agentic commerce protocol — not ACP, UCP or AP2."],
     ["Agent tooling for developers", "Agent skills for core, apps, storefront and the Configurator CLI, which keeps channels, product types, shipping zones and tax rules in version-controlled YAML.", "An MCP module with 19 tools that act on a running store; an AGENTS.md of 18 rules and 16 task guides in the repository."],
     ["Marketplace and B2B", "Patterns Saleor documents and you build: vendors modelled with attributes and warehouses, payment splitting through apps such as Stripe Connect, per-channel price and stock.", "Vendors built in, with commission recorded but not settled. Customer groups, price lists and quantity breaks, and a b2b module with company accounts, credit on account, approvals and quotes."],
-    ["Hosting", "Self-host with Docker, or Saleor Cloud from $1,599 a month; sandboxes are free for non-commercial use.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFee} of each successful sale."],
+    ["Hosting", "Self-host with Docker, or Saleor Cloud from {p:saleor/select-month} a month; sandboxes are free for non-commercial use.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFee} of each successful sale."],
     ["Storefront", "Paper, Saleor’s open-source storefront foundation, or any front end.", "Svelte Commerce, whose Saleor connector wires 28 of 43 services — not yet cart, checkout or sign-in."],
     ["Track record", "Case studies from Lush, Breitling, PCDIGA and Kencove; Saleor Cloud reports over a billion API requests and 400,000 orders a month.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
   ],
   "cost": {
     "title": "What running each one costs",
-    "lede": "Self-hosted, both are free. Saleor Cloud starts at $1,599 a month and adds a fee on sales above each plan’s allowance. GoCommerce run yourself costs a server and whoever looks after it; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale.",
+    "lede": "Self-hosted, both are free. Saleor Cloud starts at {p:saleor/select-month} a month and adds a fee on sales above each plan’s allowance. GoCommerce run yourself costs a server and whoever looks after it; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale.",
     "caption": "Recurring costs, Saleor against GoCommerce and Svelte Commerce",
     "head": ["Cost", "Saleor", "GoCommerce + Svelte Commerce"],
     "rows": [
       ["Software", "Nothing to self-host — BSD-3", "Nothing — MIT"],
-      ["Managed hosting", "Saleor Cloud: Select $1,599 a month up to $200,000 in monthly sales; Volume $3,999 up to $1,000,000; Enterprise negotiated", "Hosted on kitcommerce.store: {hostedFee} of each successful sale"],
+      ["Managed hosting", "Saleor Cloud: Select {p:saleor/select-month} a month up to {p:saleor/select-gmv} in monthly sales; Volume {p:saleor/volume-month} up to {p:saleor/volume-gmv}; Enterprise negotiated", "Hosted on kitcommerce.store: {hostedFee} of each successful sale"],
       ["Fee on sales", "0.8% on Select, 0.4% on Volume, as low as 0.2% on Enterprise, on sales above the plan’s allowance", "None when you run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
       ["Trying it out", "Cloud sandboxes, free for non-commercial use", "The one-command Docker stack, locally"],
-      ["Onboarding add-ons", "Accelerator $6,000 or Forward Deployed Engineering $12,000, one-time, credited back over the first year after launch", "None"],
+      ["Onboarding add-ons", "Accelerator {p:saleor/accelerator} or Forward Deployed Engineering {p:saleor/fde}, one-time, credited back over the first year after launch", "None"],
       ["Self-hosted infrastructure", "API workers, background workers, a scheduler, PostgreSQL, Redis for cache and queue, and object storage", "One binary and PostgreSQL"]
     ],
-    "note": "A worked example from the figures above: a month with $300,000 in sales on Saleor Cloud’s Select plan costs $1,599 plus 0.8% of the $100,000 above the allowance — $2,399 in all. Self-hosted Saleor carries no platform fee; the infrastructure and the people who run it are the cost instead."
+    "note": "A worked example from the figures above: in US dollars, Saleor’s only currency, a month with {ex:USD 300000} in sales on Saleor Cloud’s Select plan costs {p:saleor/select-month} plus 0.8% of the {ex:USD 100000} above the allowance — {ex:USD 2399} in all. Self-hosted Saleor carries no platform fee; the infrastructure and the people who run it are the cost instead."
   },
   "themWhen": [
     "You want an engine with a long production record — Saleor publishes case studies from Lush, Breitling and PCDIGA.",
     "You want to sell through AI agents now: Saleor implements ACP, and GoCommerce implements no agentic commerce protocol.",
     "You want GraphQL, and apps in any language driven by webhooks.",
-    "You want the makers to run it and help build it, and a Saleor Cloud budget from $1,599 a month fits."
+    "You want the makers to run it and help build it, and a Saleor Cloud budget from {p:saleor/select-month} a month fits."
   ],
   "usWhen": [
     "Python with background workers, a scheduler and Redis in two roles is more infrastructure than the store needs.",
@@ -73,7 +73,7 @@
   },
   "faq": [
     { "q": "Is Saleor better than GoCommerce?", "a": "On maturity, yes. Saleor has 23,000+ GitHub stars, published case studies and agent-commerce support that GoCommerce does not have. GoCommerce is smaller to run — one binary and PostgreSQL — and MIT licensed, but no store we know of runs it in production yet." },
-    { "q": "How much does Saleor Cloud cost?", "a": "Saleor’s pricing page lists Select at $1,599 a month up to $200,000 in monthly sales, with 0.8% above that, and Volume at $3,999 up to $1,000,000, with 0.4% above. Enterprise is negotiated, as low as 0.2%. Sandboxes are free for non-commercial use." },
+    { "q": "How much does Saleor Cloud cost?", "a": "Saleor’s pricing page lists Select at {p:saleor/select-month} a month up to {p:saleor/select-gmv} in monthly sales, with 0.8% above that, and Volume at {p:saleor/volume-month} up to {p:saleor/volume-gmv}, with 0.4% above. Enterprise is negotiated, as low as 0.2%. Sandboxes are free for non-commercial use." },
     { "q": "Does GoCommerce support ACP like Saleor?", "a": "No. GoCommerce supports no agentic commerce protocol — ACP, UCP or AP2. It does have an MCP module that lets an AI agent operate a store through 19 tools, which is a different job from selling through an agent." },
     { "q": "Is Saleor free to self-host?", "a": "Yes. Saleor is BSD-3 licensed. A production deployment runs API workers, background workers and a scheduler, with PostgreSQL, Redis and object storage — more pieces than GoCommerce’s one binary and PostgreSQL." },
     { "q": "Can Svelte Commerce run on Saleor?", "a": "Not for selling yet. Its Saleor connector wires 28 of 43 services, but cart, checkout and sign-in are unwired. Coverage is traced by a script on the backends page, and no connector has been run against a live production store." }

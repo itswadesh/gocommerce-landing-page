@@ -6,12 +6,17 @@
  * (the owner's decision of 26 October 2026, in docs/decisions.md), and the page
  * says nothing about the hosted option beyond that figure and its sign-up.
  *
- * The Shopify figures are its own US price list, in US dollars, read on the
- * date shown; the arithmetic is the only thing added.
+ * The Shopify figures are its own price list for the visitor's currency
+ * (src/data/prices.json), read on the date shown; the arithmetic is the only
+ * thing added.
  */
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
 import LinkCards from '../components/LinkCards.astro'
+import CurrencyPicker from '../components/CurrencyPicker.astro'
+import Priced from '../components/Priced.astro'
+import Variants from '../components/Variants.astro'
+import { byCurrency, formatMoney, shopifyMarkets } from '../lib/money'
 import { hostedFee, signupUrl } from '../lib/pricing'
 import { compareCard, featuredComparisons } from '../lib/related'
 
@@ -20,13 +25,12 @@ const abs = (p: string) => new URL(p, Astro.site!).href
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
 const hosted = `${hostedFee} of each successful sale`
 
-const usd = (n: number) => '$' + n.toLocaleString('en-US')
-// Shopify, billed yearly, per month: shopify.com/pricing (US), 26 Oct 2026.
-const shopify = [
-  { plan: 'Basic', month: 29, fee: '2%' },
-  { plan: 'Grow', month: 89, fee: '1%' },
-  { plan: 'Advanced', month: 359, fee: '0.6%' },
-]
+const markets = shopifyMarkets()
+const plans = ['basic', 'grow', 'advanced']
+const inMarket = byCurrency((c) => markets[c].name)
+const zero = byCurrency((c) => formatMoney(0, markets[c].list.currency))
+const longDate = (iso: string) => new Date(iso + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+const shopifyLists = [...new Map(Object.values(markets).map((m) => [m.list.url, m])).values()]
 
 const graph = [
   {
@@ -55,6 +59,7 @@ const faq = [
   crumbs={[{ name: 'Pricing', href: path }]}
   graph={graph}
   faq={faq}
+  prices
 >
   <section class="wrap price-hero">
     <p class="kicker">Pricing</p>
@@ -96,20 +101,21 @@ const faq = [
 
   <section id="replaces" class="section wrap" aria-labelledby="replaces-title">
     <h2 id="replaces-title">What running it yourself replaces</h2>
-    <p class="section-lede">Shopify’s US price list, in US dollars, billed yearly, added up. Shopify charges the fee per order when a payment provider other than Shopify Payments takes the payment.</p>
+    <p class="section-lede">Shopify’s own price list for <Variants v={inMarket} />, billed yearly, added up. Shopify charges the fee per order when a payment provider other than Shopify Payments takes the payment.</p>
+    <CurrencyPicker refs={['shopify/basic-yearly']} />
     <div class="tbl-scroll">
       <table class="reltable vs">
         <caption>Plan fees alone, before any per-order fee: Shopify against self-hosted GoCommerce and Svelte Commerce</caption>
         <thead><tr><th scope="col"><span class="vh">Plan</span></th><th scope="col">Per month</th><th scope="col">One year</th><th scope="col">Three years</th><th scope="col">Fee per order</th></tr></thead>
         <tbody>
-          {shopify.map((s) => (
-            <tr><th scope="row">Shopify {s.plan}</th><td>{usd(s.month)}</td><td>{usd(s.month * 12)}</td><td>{usd(s.month * 36)}</td><td>{s.fee}</td></tr>
+          {plans.map((p, i) => (
+            <tr><th scope="row">Shopify {markets.INR.plans[i].name}</th><td><Priced s={`{p:shopify/${p}-yearly}`} /></td><td><Priced s={`{p:shopify/${p}-yearly*12}`} /></td><td><Priced s={`{p:shopify/${p}-yearly*36}`} /></td><td><Variants v={byCurrency((c) => `${markets[c].plans[i].fee}%`)} /></td></tr>
           ))}
-          <tr><th scope="row">GoCommerce + Svelte Commerce, self-hosted</th><td>$0</td><td>$0</td><td>$0</td><td>0%</td></tr>
+          <tr><th scope="row">GoCommerce + Svelte Commerce, self-hosted</th><td><Variants v={zero} /></td><td><Variants v={zero} /></td><td><Variants v={zero} /></td><td>0%</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="fineprint">Source: <a href="https://www.shopify.com/pricing" {...ext}>shopify.com/pricing</a>, US prices in US dollars, and Shopify’s <a href="https://help.shopify.com/en/manual/your-account/manage-billing/billing-charges/types-of-charges/third-party-charges/third-party-transaction-fees" {...ext}>third-party transaction fees</a>, read on 26 October 2026. The full comparison, with where Shopify is the better choice, is on <a href="/compare/kitcommerce-vs-shopify/">KitCommerce vs Shopify</a>.</p>
+    <p class="fineprint">Sources: Shopify’s price lists for {shopifyLists.map((m, i) => <>{i > 0 && ', '}<a href={m.list.url} {...ext}>{m.name}</a>{m.list.read !== shopifyLists[0].list.read && ` (as archived on ${longDate(m.list.read)})`}</>)}, read on {longDate(shopifyLists[0].list.read)}, and Shopify’s <a href="https://help.shopify.com/en/manual/your-account/manage-billing/billing-charges/types-of-charges/third-party-charges/third-party-transaction-fees" {...ext}>third-party transaction fees</a>. The full comparison, with where Shopify is the better choice, is on <a href="/compare/kitcommerce-vs-shopify/">KitCommerce vs Shopify</a>.</p>
   </section>
 
   <section id="costs" class="section wrap" aria-labelledby="costs-title">

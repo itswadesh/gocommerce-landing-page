@@ -13,7 +13,7 @@
   "tagline": "Medusa is the bigger engine. GoCommerce is the smaller one to run.",
   "lede": "Medusa is a headless commerce engine in TypeScript: commerce modules, a framework for customising them, and an admin, run on Node.js with PostgreSQL and Redis — and sold as a managed service, Medusa Cloud. GoCommerce is a headless engine in Go: one binary with its admin compiled in and one PostgreSQL database, and Svelte Commerce is a separate SvelteKit storefront. Medusa is far more widely used. GoCommerce asks less of the server it runs on.",
   "facts": [
-    { "b": "$29", "t": "a month, where Medusa Cloud’s plans start" },
+    { "b": "{p:medusa/develop-from}", "t": "a month, where Medusa Cloud’s plans start" },
     { "b": "36,000+", "t": "GitHub stars on Medusa — the far larger community" },
     { "b": "31/43", "t": "Svelte Commerce services wired for Medusa — not yet cart or sign-in" }
   ],
@@ -28,7 +28,7 @@
     ["Admin", "Medusa Admin, extended with your own widgets and UI routes.", "61 Svelte admin screens compiled into the binary."],
     ["Marketplace and B2B", "Marketplace is a recipe you build: a vendor module, links to products and orders, order splitting. B2B uses customer groups, price lists and sales channels, with a B2B starter.", "Vendors built in, with commission recorded but not settled. Customer groups, price lists and quantity breaks, and a b2b module with company accounts, credit on account, approvals and quotes."],
     ["Agent tooling", "Agent skills as Claude Code plugins; a docs MCP server and a development agent for Medusa Cloud users, with agent-led migration guides for Shopify, WooCommerce and Magento.", "An MCP module with 19 tools that act on a running store, with no account needed; an AGENTS.md of 18 rules and 16 task guides in the repository."],
-    ["Hosting", "Self-host anywhere Node.js runs, or Medusa Cloud from $29 a month with no fee on sales.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFee} of each successful sale."],
+    ["Hosting", "Self-host anywhere Node.js runs, or Medusa Cloud from {p:medusa/develop-from} a month with no fee on sales.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFee} of each successful sale."],
     ["Storefront", "A Next.js Starter Storefront, or any front end.", "Svelte Commerce, whose Medusa connector wires 31 of 43 services — not yet cart or sign-in."],
     ["Track record", "36,000+ GitHub stars; Heineken, Mitsubishi Motors and Eight Sleep are among the users named on its home page.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
   ],
@@ -39,16 +39,16 @@
     "head": ["Cost", "Medusa", "GoCommerce + Svelte Commerce"],
     "rows": [
       ["Software", "Nothing under MIT; RBAC and SSO need an Enterprise agreement", "Nothing — MIT"],
-      ["Managed hosting", "Medusa Cloud: Develop from $29, Launch from $99, Scale from $299 a month; Enterprise quoted", "Hosted on kitcommerce.store: {hostedFee} of each successful sale"],
+      ["Managed hosting", "Medusa Cloud: Develop from {p:medusa/develop-from}, Launch from {p:medusa/launch-from}, Scale from {p:medusa/scale-from} a month; Enterprise quoted", "Hosted on kitcommerce.store: {hostedFee} of each successful sale"],
       ["Fee on sales", "None — Medusa Cloud lists a 0% GMV fee on every plan", "None when you run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
       ["Self-hosted infrastructure", "A server instance, a worker instance, PostgreSQL and Redis", "One binary and PostgreSQL"],
       ["People", "A TypeScript developer to deploy and extend it", "A developer to deploy it, and Go to extend it"]
     ],
-    "note": "Medusa Cloud prices are ‘from’ figures in US dollars. Each plan includes an allowance of storefront edge requests — 1, 5 or 10 million a month — and bills $0.30 per million beyond it."
+    "note": "Medusa Cloud prices are ‘from’ figures in US dollars, its only currency. Each plan includes an allowance of storefront edge requests — 1, 5 or 10 million a month — and bills {p:medusa/edge-overage} per million beyond it."
   },
   "themWhen": [
     "Your team writes TypeScript and wants the engine in the same language as the storefront.",
-    "You want the makers to run it for you — Medusa Cloud starts at $29 a month with no fee on sales.",
+    "You want the makers to run it for you — Medusa Cloud starts at {p:medusa/develop-from} a month with no fee on sales.",
     "You want a large community and named production users behind the engine you choose.",
     "You are building unusual commerce flows and want Medusa’s workflow framework, with rollback and retry, to build them in."
   ],
@@ -73,7 +73,7 @@
   "faq": [
     { "q": "Is Medusa open source?", "a": "Yes, with one carve-out. Medusa’s repository is MIT licensed except for its Enterprise Edition materials — role-based access control and single sign-on — which are proprietary and need a commercial agreement. GoCommerce and Svelte Commerce are MIT throughout." },
     { "q": "What does Medusa need to run in production?", "a": "By Medusa’s deployment guide: PostgreSQL, Redis, and the application deployed twice, once in server mode for the API and admin and once in worker mode for background jobs. GoCommerce needs one binary and one PostgreSQL database." },
-    { "q": "How much is Medusa Cloud?", "a": "Medusa’s pricing page lists Develop from $29 a month, Launch from $99 and Scale from $299, with Enterprise quoted, and no GMV fee on any plan. GoCommerce is free to run on your own server, or a store can be hosted on kitcommerce.store for {hostedFee} of each successful sale." },
+    { "q": "How much is Medusa Cloud?", "a": "Medusa’s pricing page lists Develop from {p:medusa/develop-from} a month, Launch from {p:medusa/launch-from} and Scale from {p:medusa/scale-from}, with Enterprise quoted, and no GMV fee on any plan. GoCommerce is free to run on your own server, or a store can be hosted on kitcommerce.store for {hostedFee} of each successful sale." },
     { "q": "Can Svelte Commerce run on Medusa?", "a": "Not for selling yet. Its Medusa connector wires 31 of 43 services, but cart and sign-in are unwired and product, category and search have gaps. Coverage is traced by a script on the backends page, and no connector has been run against a live production store." },
     { "q": "Which API style does each use?", "a": "Both use REST described by OpenAPI. Medusa splits it into a Store API and an Admin API and adds a JavaScript SDK; GoCommerce publishes 342 documented operations in one OpenAPI file, used by its admin and any storefront alike." }
   ],

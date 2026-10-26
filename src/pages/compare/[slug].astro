@@ -17,10 +17,13 @@
  */
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
+import Priced from '../../components/Priced.astro'
+import CurrencyPicker from '../../components/CurrencyPicker.astro'
 import type { Comparison } from '../../data/compare/_schema'
 import LinkCards from '../../components/LinkCards.astro'
 import { fill, hostedFee, signupUrl } from '../../lib/pricing'
 import { compareCard, comparisons, siblingComparisons } from '../../lib/related'
+import { currencyRefs, listsFor, plain, refsIn } from '../../lib/money'
 
 export function getStaticPaths() {
   return comparisons.map((c) => ({ params: { slug: c.slug }, props: { c } }))
@@ -31,7 +34,18 @@ const siblings = siblingComparisons(c).map(compareCard)
 const path = `/compare/${c.slug}/`
 const abs = (p: string) => new URL(p, Astro.site!).href
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
-const checked = new Date(c.checked + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+const longDate = (iso: string) => new Date(iso + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+const checked = longDate(c.checked)
+
+// Prices come from src/data/prices.json in every currency; each price list
+// the page draws on joins its Sources, with the date it was read.
+const refs = refsIn(c)
+const varying = currencyRefs(refs)
+const sources = [
+  ...c.sources,
+  ...listsFor(refs).filter((l) => !c.sources.some((s) => s.url.split('?')[0] === l.url.split('?')[0])).map((l) => ({ label: `${l.label}, read ${longDate(l.read)}`, url: l.url })),
+]
+const faqText = c.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }))
 
 const graph = [
   {
@@ -55,29 +69,31 @@ const takeOn = [
 ]
 ---
 <Base
-  title={c.title}
-  description={c.description}
+  title={plain(c.title)}
+  description={plain(c.description)}
   path={path}
-  ogTitle={c.ogTitle}
-  ogDescription={c.ogDescription}
+  ogTitle={plain(c.ogTitle)}
+  ogDescription={plain(c.ogDescription)}
   crumbs={[{ name: 'Compare', href: '/compare/' }, { name: c.label, href: path }]}
   graph={graph}
-  faq={c.faq}
+  faq={faqText}
+  prices={varying.length > 0}
 >
   <section class="wrap page-head">
     <p class="kicker">{c.label}</p>
-    <h1 class="h1-long">{c.h1}</h1>
-    {c.tagline && <p class="tagline">{c.tagline}</p>}
-    <p class="lede">{c.lede}</p>
+    <h1 class="h1-long"><Priced s={c.h1} /></h1>
+    {c.tagline && <p class="tagline"><Priced s={c.tagline} /></p>}
+    <p class="lede"><Priced s={c.lede} /></p>
     <ul class="head-facts">
-      {c.facts.map((f) => <li><b>{f.b}</b> {f.t}</li>)}
+      {c.facts.map((f) => <li><b><Priced s={f.b} /></b> <Priced s={f.t} /></li>)}
     </ul>
+    {varying.length > 0 && <CurrencyPicker refs={varying} />}
     <p class="fineprint vs-meaning">KitCommerce is an open-source ecommerce platform. Its packages are GoCommerce, the backend and admin, and Svelte Commerce, the storefront — MIT licensed, used together or either one on its own. Run them yourself for free, or <a href={signupUrl} {...ext} data-ev="signup_click">start a store hosted on kitcommerce.store</a> for {hostedFee} of each successful sale. On this page, each claim names the package it is about.</p>
   </section>
 
   <section id="glance" class="section wrap" aria-labelledby="glance-title">
     <h2 id="glance-title">{c.platform} and GoCommerce, side by side</h2>
-    <p class="section-lede">{c.glanceLede}</p>
+    <p class="section-lede"><Priced s={c.glanceLede} /></p>
     <div class="tbl-scroll">
       <table class="reltable vs">
         <caption>{c.platform} compared with GoCommerce and Svelte Commerce, checked {checked}</caption>
@@ -86,7 +102,7 @@ const takeOn = [
         </thead>
         <tbody>
           {c.rows.map(([aspect, them, us]) => (
-            <tr><th scope="row">{aspect}</th><td>{them}</td><td>{us}</td></tr>
+            <tr><th scope="row"><Priced s={aspect} /></th><td><Priced s={them} /></td><td><Priced s={us} /></td></tr>
           ))}
         </tbody>
       </table>
@@ -96,7 +112,7 @@ const takeOn = [
   {c.cost && (
     <section id="cost" class="section wrap" aria-labelledby="cost-title">
       <h2 id="cost-title">{c.cost.title}</h2>
-      <p class="section-lede">{c.cost.lede}</p>
+      <p class="section-lede"><Priced s={c.cost.lede} /></p>
       <div class="tbl-scroll">
         <table class="reltable vs">
           <caption>{c.cost.caption}</caption>
@@ -105,12 +121,12 @@ const takeOn = [
           </thead>
           <tbody>
             {c.cost.rows.map(([first, ...rest]) => (
-              <tr><th scope="row">{first}</th>{rest.map((cell) => <td>{cell}</td>)}</tr>
+              <tr><th scope="row"><Priced s={first} /></th>{rest.map((cell) => <td><Priced s={cell} /></td>)}</tr>
             ))}
           </tbody>
         </table>
       </div>
-      {c.cost.note && <p class="fineprint">{c.cost.note}</p>}
+      {c.cost.note && <p class="fineprint"><Priced s={c.cost.note} /></p>}
     </section>
   )}
 
@@ -119,15 +135,15 @@ const takeOn = [
     <div class="tri">
       <div class="tri-item">
         <h3>Choose {c.platform} when</h3>
-        <ul class="tick">{c.themWhen.map((t) => <li>{t}</li>)}</ul>
+        <ul class="tick">{c.themWhen.map((t) => <li><Priced s={t} /></li>)}</ul>
       </div>
       <div class="tri-item tri-engine">
         <h3>Choose GoCommerce + Svelte Commerce when</h3>
-        <ul class="tick">{c.usWhen.map((t) => <li>{t}</li>)}</ul>
+        <ul class="tick">{c.usWhen.map((t) => <li><Priced s={t} /></li>)}</ul>
       </div>
       <div class="tri-item">
         <h3>What you take on</h3>
-        <ul class="tick">{takeOn.map((t) => <li>{t}</li>)}</ul>
+        <ul class="tick">{takeOn.map((t) => <li><Priced s={t} /></li>)}</ul>
       </div>
     </div>
   </section>
@@ -136,7 +152,7 @@ const takeOn = [
     <section id="move" class="section wrap" aria-labelledby="move-title">
       <h2 id="move-title">{c.move.title}</h2>
       <div class="statement">
-        {c.move.paras.map((p, i) => <p class={i === 0 ? 'statement-lead' : undefined}>{p}</p>)}
+        {c.move.paras.map((p, i) => <p class={i === 0 ? 'statement-lead' : undefined}><Priced s={p} /></p>)}
       </div>
     </section>
   )}
@@ -153,7 +169,7 @@ const takeOn = [
     <h2 id="sources-title" class="vs-sources-title">Sources</h2>
     <p class="fineprint">{c.platform}’s prices and features were checked on {checked} against the pages below. Prices change; when one here disagrees with the source, the source is right and this page is out of date. {c.platform} is a trademark of its owner, named here only to compare; no endorsement or affiliation is implied — see <a href="/about/#trademarks">trademarks</a>.</p>
     <ul class="vs-source-list">
-      {c.sources.map((s) => <li><a href={s.url} {...ext}>{s.label}</a></li>)}
+      {sources.map((s) => <li><a href={s.url} {...ext}>{s.label}</a></li>)}
     </ul>
   </section>
 

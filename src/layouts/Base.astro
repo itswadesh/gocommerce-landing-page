@@ -16,6 +16,8 @@ import Footer from '../components/Footer.astro'
 import Breadcrumbs from '../components/Breadcrumbs.astro'
 import Consent from '../components/Consent.astro'
 import { pageDates } from '../lib/dates.mjs'
+import { CURRENCIES, DEFAULT_CURRENCY } from '../lib/money'
+import { guessCurrency } from '../lib/guess-currency.mjs'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -41,13 +43,15 @@ interface Props {
   noindex?: boolean
   /** og:type — "article" for blog posts, "website" everywhere else. */
   ogType?: 'website' | 'article'
+  /** The page shows rival prices: pick the visitor's currency before first paint (src/lib/money.ts). */
+  prices?: boolean
 }
 
 const {
   title, description, path,
   ogTitle = title, ogDescription = description,
   ogImageAlt = 'GoCommerce and Svelte Commerce — fast, open-source ecommerce you host yourself',
-  nav, crumbs = [], faq = [], graph = [], noindex = false, ogType = 'website',
+  nav, crumbs = [], faq = [], graph = [], noindex = false, ogType = 'website', prices = false,
 } = Astro.props
 
 const site = Astro.site!
@@ -116,10 +120,15 @@ const ogImage = existsSync(join(process.cwd(), 'public', 'og', ogSlug + '.jpg'))
 // the HTML that ignore headers.
 const mdTwin = path === '/' ? '/index.md' : path.replace(/\/$/, '') + '.md'
 
+// The stored choice, else a guess from the time zone and language; with
+// JavaScript off, DEFAULT_CURRENCY stays. Inline and in the head, so prices
+// are in the right currency before anything paints.
+const curScript = `(function(){var d=document.documentElement,c;try{c=localStorage.getItem('kc-cur')}catch(e){}if(${JSON.stringify(CURRENCIES)}.indexOf(c)<0){var z='';try{z=Intl.DateTimeFormat().resolvedOptions().timeZone}catch(e){}c=(${guessCurrency})(z,navigator.language)}d.setAttribute('data-cur',c)})()`
+
 const robots = noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1'
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-cur={prices ? DEFAULT_CURRENCY : undefined}>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -131,6 +140,7 @@ const robots = noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-ima
 {/* The reader's chosen theme, applied before first paint so a dark page never
     flashes white. The choice lives in localStorage under kc-theme. */}
 <script is:inline>(function(){try{var t=localStorage.getItem('kc-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})()</script>
+{prices && <script is:inline set:html={curScript} />}
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 {!noindex && <link rel="canonical" href={canonical}>}

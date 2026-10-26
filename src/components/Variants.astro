@@ -1,0 +1,6 @@
+---
+/** One rendering per currency; CSS shows the one for <html data-cur> (src/lib/money.ts). */
+import type { Variant } from '../lib/money'
+interface Props { v: Variant[] }
+---
+<span class="px">{Astro.props.v.map((v) => <span data-c={v.curs.join(' ')}>{v.text}</span>)}</span>
