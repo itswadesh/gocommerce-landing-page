@@ -1746,6 +1746,22 @@ header { view-transition-name: site-header; }
 .intstrip-more { margin-left: auto; }
 .intstrip-more a { color: var(--ink); font-weight: 500; }
 @media (max-width: 760px) { .intstrip-more { margin-left: 0; } }
+.intstrip a { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; color: inherit; text-decoration: none; transition: color .15s ease, opacity .15s ease; }
+.intstrip a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.intstrip a:active { opacity: .7; }
+.intstrip-next { margin-top: 28px; }
+/* Hover and press answer at once; the colour change stays under reduced motion. */
+.vs-grid a { transition: background-color .15s ease, opacity .15s ease; }
+.vs-grid a:active { opacity: .8; }
+/* The last card stretches over the empty cells of a short last row, which
+   would otherwise show the grid's rule colour as a grey block. */
+@media (min-width: 961px) {
+  .vs-grid:not(.vs-grid-2) li:last-child:nth-child(3n+1) { grid-column: span 3; }
+  .vs-grid:not(.vs-grid-2) li:last-child:nth-child(3n+2) { grid-column: span 2; }
+}
+@media (min-width: 561px) and (max-width: 960px) {
+  .vs-grid li:last-child:nth-child(2n+1) { grid-column: span 2; }
+}
 
 /* Why-this-stack cards carry the technology's own mark. */
 .why-logo { width: 26px; height: 26px; display: block; margin-bottom: 10px; }

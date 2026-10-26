@@ -13,14 +13,17 @@
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
 import { pageDates } from '../../lib/dates.mjs'
+import LinkCards from '../../components/LinkCards.astro'
 import type { Integration } from '../../data/integrations/_schema'
+import { featureFor, integrations, relatedModules } from '../../lib/related'
 
 export function getStaticPaths() {
-  const files = import.meta.glob<Integration>('../../data/integrations/*.json', { eager: true, import: 'default' })
-  return Object.values(files).map((i) => ({ params: { slug: i.slug }, props: { i } }))
+  return integrations.map((i) => ({ params: { slug: i.slug }, props: { i } }))
 }
 
 const { i } = Astro.props as { i: Integration }
+const related = relatedModules(i).map((x) => ({ href: `/integrations/${x.slug}/`, label: x.h1, summary: x.description }))
+const feature = featureFor(i)
 const path = `/integrations/${i.slug}/`
 const abs = (p: string) => new URL(p, Astro.site!).href
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
@@ -165,6 +168,10 @@ const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one :
   </section>
 
   <Faq items={i.faq} title={`Questions about the ${i.name} module`} />
+
+  <LinkCards id="related" title="Related modules" items={related}>
+    <p class="section-lede">Each is a directory under <code>ext/</code>, imported the same way. Where this one fits in the store: <a href={feature.href}>{feature.text}</a>.</p>
+  </LinkCards>
 
   <section class="section wrap vs-sources" aria-labelledby="source-title">
     <h2 id="source-title" class="vs-sources-title">Source</h2>

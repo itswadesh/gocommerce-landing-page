@@ -18,14 +18,16 @@
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
 import type { Comparison } from '../../data/compare/_schema'
+import LinkCards from '../../components/LinkCards.astro'
 import { fill, hostedFee, signupUrl } from '../../lib/pricing'
+import { compareCard, comparisons, siblingComparisons } from '../../lib/related'
 
 export function getStaticPaths() {
-  const files = import.meta.glob<Comparison>('../../data/compare/*.json', { eager: true, import: 'default' })
-  return Object.values(files).map((c) => ({ params: { slug: c.slug }, props: { c } }))
+  return comparisons.map((c) => ({ params: { slug: c.slug }, props: { c } }))
 }
 
 const c = fill((Astro.props as { c: Comparison }).c)
+const siblings = siblingComparisons(c).map(compareCard)
 const path = `/compare/${c.slug}/`
 const abs = (p: string) => new URL(p, Astro.site!).href
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
@@ -140,6 +142,12 @@ const takeOn = [
   )}
 
   <Faq items={c.faq} title={`Questions about ${c.platform} and GoCommerce`} />
+
+  {siblings.length > 0 && (
+    <LinkCards id="more" title={`More comparisons: ${c.group}`} items={siblings}>
+      <p class="section-lede">The same questions, asked of the platforms {c.platform} is usually weighed against. <a href="/compare/">Every comparison</a> is on one page.</p>
+    </LinkCards>
+  )}
 
   <section class="section wrap vs-sources" aria-labelledby="sources-title">
     <h2 id="sources-title" class="vs-sources-title">Sources</h2>

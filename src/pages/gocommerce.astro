@@ -2,6 +2,8 @@
 import Base from '../layouts/Base.astro'
 import { hostedFee } from '../lib/pricing'
 import Faq from '../components/Faq.astro'
+import LinkCards from '../components/LinkCards.astro'
+import { compareCard, featuredComparisons } from '../lib/related'
 
 const path = '/gocommerce/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -300,6 +302,10 @@ const modules = [
       </div>
     </div>
   </section>
+
+  <LinkCards id="compared" title="GoCommerce against the platforms you are weighing" items={featuredComparisons.map(compareCard)}>
+    <p class="section-lede">Each comparison is sourced and dated, and says where the other platform is the better choice. <a href="/compare/">All comparisons</a>.</p>
+  </LinkCards>
 
   <Faq items={faq} title="Questions people actually ask" lede="Direct answers, including the unflattering ones. If a question here has a bad answer, that is the answer." />
 

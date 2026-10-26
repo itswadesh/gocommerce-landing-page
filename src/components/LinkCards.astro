@@ -1,0 +1,23 @@
+---
+/** A section of linked cards: the next pages to read, chosen in src/lib/related.ts. The slot is the lede. */
+interface Props {
+  id: string
+  title: string
+  items: { href: string; label: string; summary: string }[]
+}
+const { id, title, items } = Astro.props
+---
+<section id={id} class="section wrap" aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`}>{title}</h2>
+  <slot />
+  <ul class="vs-grid">
+    {items.map((x) => (
+      <li>
+        <a href={x.href}>
+          <span class="vs-card-label">{x.label}</span>
+          <span class="vs-card-summary">{x.summary}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

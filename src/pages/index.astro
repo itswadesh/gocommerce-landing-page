@@ -20,6 +20,9 @@ import Illustration from '../components/Illustration.astro'
 import demoAccount from '../data/demo.json'
 import live from '../data/live-projects.json'
 import themes from '../data/themes.json'
+import { featuredComparisons, featuredModules } from '../lib/related'
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 
 const path = '/'
 const site = Astro.site!
@@ -127,8 +130,13 @@ const screens = [
 ]
 
 // The strip shows a few marks; the number is the point. All are modules
-// under ext/ in the GoCommerce repository, none is an endorsement.
-const strip = [['Stripe', 'stripe'], ['Razorpay', 'razorpay'], ['Adyen', 'adyen'], ['Shiprocket'], ['Delhivery'], ['Twilio', 'twilio'], ['SendGrid', 'sendgrid'], ['Meilisearch', 'meilisearch']]
+// under ext/ in the GoCommerce repository, none is an endorsement. Each links
+// to its module page; a mark shows when public/assets/brands has one.
+const strip = featuredModules.map((m) => {
+  const mark = m.name.toLowerCase()
+  return { name: m.name, href: `/integrations/${m.slug}/`, mark: existsSync(join(process.cwd(), 'public', 'assets', 'brands', mark + '.svg')) ? mark : undefined }
+})
+const compared = featuredComparisons.map((c) => ({ name: c.platform, href: `/compare/${c.slug}/`, title: c.h1 }))
 
 const solutions = [
   { id: 'sol-marketplace', href: '/solutions/marketplace/', icon: 'i-users', tint: 'tint-sky', title: 'Multi-vendor marketplace', cta: 'Explore marketplace →', points: ['Vendor accounts', 'Vendor offers', 'Moderation states', 'Commission recorded per vendor'] },
@@ -572,8 +580,13 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <div class="wrap">
       <h2 id="int-title" class="kicker">Works with what you already run</h2>
       <ul class="intstrip">
-        {strip.map(([name, mark]) => <li>{mark && <img src={`/assets/brands/${mark}.svg`} width="22" height="22" alt="" loading="lazy">}{name}</li>)}
+        {strip.map((m) => <li><a href={m.href}>{m.mark && <img src={`/assets/brands/${m.mark}.svg`} width="22" height="22" alt="" loading="lazy">}{m.name}</a></li>)}
         <li class="intstrip-more"><a href="/integrations/">51 modules →</a></li>
+      </ul>
+      <h2 id="vs-title" class="kicker intstrip-next">Weighed against</h2>
+      <ul class="intstrip" aria-labelledby="vs-title">
+        {compared.map((c) => <li><a href={c.href} title={c.title}>{c.name}</a></li>)}
+        <li class="intstrip-more"><a href="/compare/">All comparisons →</a></li>
       </ul>
     </div>
   </section>

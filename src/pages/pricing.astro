@@ -11,7 +11,9 @@
  */
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
+import LinkCards from '../components/LinkCards.astro'
 import { hostedFee, signupUrl } from '../lib/pricing'
+import { compareCard, featuredComparisons } from '../lib/related'
 
 const path = '/pricing/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -128,6 +130,10 @@ const faq = [
       </div>
     </div>
   </section>
+
+  <LinkCards id="compared" title="What other platforms charge" items={featuredComparisons.map(compareCard)}>
+    <p class="section-lede">Each comparison prices the other platform from its own page, on the date shown, and says where it is the better choice. <a href="/compare/">All comparisons</a>.</p>
+  </LinkCards>
 
   <Faq items={faq} title="Questions about the price" />
 
