@@ -4,6 +4,34 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 26 October 2026: target Indian suppliers that sell through dealers, by trade
+
+The owner: "find and target the best indian business groups".
+
+- Ranked by how common dealer credit is in the trade, how far it has moved
+  to ordering online, what GoCommerce really does today, what blocks it, and
+  whether people search for it. The top three trades are electricals and
+  consumer durables, building materials (tiles, sanitaryware, plywood,
+  pipes), and auto parts sold by part number. Pumps and motors fit as well
+  but are rarely searched for. The research is kept outside the repo.
+- Pages: `/solutions/b2b-ecommerce-india/` (a hub in plain words),
+  `/solutions/dealer-portal/`, one page per top trade, `/agencies/`, and
+  `/compare/shopify-b2b-vs-kitcommerce/`. Each is linked from `/solutions/`.
+- No jewellery page. For dealer ordering, jewellery ranks near the bottom,
+  because it needs pricing by weight at the day's gold rate and HUID fields,
+  and GoCommerce has neither. Pharma, agri-inputs and FMCG distribution are
+  left out for similar reasons: batch and expiry records, licence checks and
+  ordering by salespeople.
+- What GoCommerce does is written once, in `src/data/b2b/capabilities.json`,
+  and what it does not do once, in `src/data/b2b/gaps.json`. Every page names
+  its gaps. The site does not say "GST-compliant invoices", "Tally
+  integration" or "WhatsApp ordering", because none of them exists.
+- The pages state the fee only as `src/data/pricing.json` does. Whether the
+  1% applies to cash-on-delivery and on-account orders is the owner's open
+  question, so no page says either way.
+- Portal screenshots come from a local GoCommerce 1.2 install with a dealer
+  labelled "(demo)" and sample products. No customer, count or testimonial is
+  invented.
 ## 26 October 2026: release notes are listed on /updates/, not on the blog
 
 Posts that announce or explain one change to GoCommerce
