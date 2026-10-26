@@ -11,8 +11,8 @@
  *   1. src/lib/dates.mjs reads src/data/page-dates.json, so the sitemap's
  *      lastmod, every dateModified and the footer's date come from it.
  *   2. After `astro build`, this script hashes each indexable page: its
- *      title, its description and the text of its <main>, with <time>
- *      elements left out, since some of them print this very date.
+ *      title, its description and the text of its <main>, less the parts
+ *      named in hashPages() below.
  *   3. A page whose hash changed, or that is new, gets today's date; a page
  *      that is gone is dropped. If anything changed, the manifest is
  *      rewritten and the site is built once more so every page carries it.
@@ -44,8 +44,12 @@ export function hashPages(dist = DIST) {
         const html = fs.readFileSync(full, 'utf8')
         if (/name="robots"[^>]*noindex/i.test(html)) continue
         const pick = (re) => (html.match(re) || [, ''])[1]
+        // Left out: <time>, which can print this page's own date, and the
+        // GitHub counts marked data-gh, which are fetched live at build time
+        // and are no reason to re-date a page.
         const main = pick(/<main[^>]*>([\s\S]*?)<\/main>/)
           .replace(/<(script|style|time)\b[\s\S]*?<\/\1>/gi, ' ')
+          .replace(/<(\w+)\b[^>]*\bdata-gh="[^"]*"[^>]*>[^<]*<\/\1>/gi, ' ')
           .replace(/<[^>]+>/g, ' ')
         const text = [pick(/<title>([^<]*)<\/title>/), pick(/<meta name="description" content="([^"]*)"/), main].join('\n').replace(/\s+/g, ' ').trim()
         const url = '/' + path.relative(dist, dir).split(path.sep).join('/') + '/'

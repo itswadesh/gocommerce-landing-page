@@ -1,0 +1,137 @@
+---
+/**
+ * What changed in GoCommerce, a row per commit, newest first, 100 rows to a
+ * page: /updates/ is the newest, /updates/2/ the next, and so on, so the
+ * page stays small as the list grows and every entry stays one link away.
+ *
+ * Nobody edits src/data/updates.json by hand: the Updates workflow in
+ * itswadesh/gocommerce appends to it on every push to main and commits it
+ * here, which deploys the site. It files each commit as a feature or a bug
+ * fix; the gocommerce repository's .github/scripts/publish-update.mjs says
+ * how, and how a commit overrides the guess.
+ *
+ * Above the table on the first page, the release notes: posts that explain
+ * one change at length. They keep their /blog/ URLs and are listed here
+ * instead of on the blog. src/data/release-notes.json names them, and a name
+ * with no post fails the build.
+ */
+import type { GetStaticPaths, Page } from 'astro'
+import { getCollection } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+import updates from '../../data/updates.json'
+import releaseNotes from '../../data/release-notes.json'
+
+type Row = { sha: string; date: string; type: 'feature' | 'fix'; title: string; url: string }
+
+const posts = await getCollection('blog')
+const notes = releaseNotes.map((id) => {
+  const post = posts.find((p) => p.id === id)
+  if (!post) throw new Error(`src/data/release-notes.json names ${id}, and src/content/blog/${id}.md does not exist`)
+  return post
+})
+
+// Astro hoists getStaticPaths out of this file, so its page size is written in it.
+export const getStaticPaths = (({ paginate }) => paginate(updates as Row[], { pageSize: 100 })) satisfies GetStaticPaths
+
+const { page } = Astro.props as { page: Page<Row> }
+const rows = updates as Row[]
+const path = page.url.current.replace(/\/?$/, '/')
+const first = page.currentPage === 1
+const abs = (p: string) => new URL(p, Astro.site!).href
+const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })
+const feats = rows.filter((r) => r.type === 'feature').length
+const fixes = rows.length - feats
+const pageHref = (n: number) => (n === 1 ? '/updates/' : `/updates/${n}/`)
+const span = `${fmt(page.data[page.data.length - 1].date)} to ${fmt(page.data[0].date)}`
+
+const graph = [
+  { '@type': 'CollectionPage', '@id': abs(path + '#page'), url: abs(path), name: first ? 'GoCommerce updates' : `GoCommerce updates, page ${page.currentPage}`, isPartOf: { '@id': abs('/#site') }, inLanguage: 'en' },
+]
+---
+<Base
+  title={first ? 'GoCommerce Updates — Every Feature and Bug Fix, as It Lands' : `GoCommerce Updates, Page ${page.currentPage} of ${page.lastPage}`}
+  description={first
+    ? 'Every change to GoCommerce, filed as a feature or a bug fix and linked to its commit. Updated automatically on each push to the main branch.'
+    : `GoCommerce changes from ${span}, each filed as a feature or a bug fix and linked to its commit.`}
+  path={path}
+  ogTitle="GoCommerce updates"
+  ogDescription="Every feature and bug fix in GoCommerce, as it lands on main, linked to its commit."
+  crumbs={first ? [{ name: 'Updates', href: path }] : [{ name: 'Updates', href: '/updates/' }, { name: `Page ${page.currentPage}`, href: path }]}
+  graph={graph}
+>
+  <section class="wrap page-head">
+    <p class="kicker">Updates</p>
+    <h1>{first ? 'What changed in GoCommerce' : `What changed in GoCommerce, ${span}`}</h1>
+    <p class="lede">Every change that lands on GoCommerce's main branch, newest first — {feats} features and {fixes} bug fixes so far. Each change links its commit, which tells the full story.</p>
+  </section>
+
+  {first && (
+    <section class="wrap" aria-labelledby="notes-title">
+      <h2 id="notes-title">Release notes</h2>
+      <ul class="notes">
+        {notes.map((p) => (
+          <li><a href={`/blog/${p.id}/`}>{p.data.title}</a><p>{p.data.description}</p></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="wrap" aria-label={`Updates ${page.start + 1} to ${page.end + 1} of ${page.total}`}>
+    <div class="tbl-scroll">
+      <table class="matrix updates">
+        <thead><tr><th scope="col">Date</th><th scope="col">Type</th><th scope="col">Change</th><th scope="col" class="c-sha">Commit</th></tr></thead>
+        <tbody>
+          {page.data.map((r) => (
+            <tr>
+              <td class="when"><time datetime={r.date}>{fmt(r.date)}</time></td>
+              <td><span class={`kind ${r.type}`}>{r.type === 'fix' ? 'Bug fix' : 'Feature'}</span></td>
+              <td class="what"><a href={r.url} target="_blank" rel="noopener noreferrer">{r.title}</a></td>
+              <td class="c-sha"><a class="sha" href={r.url} target="_blank" rel="noopener noreferrer"><code>{r.sha.slice(0, 7)}</code></a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    {page.lastPage > 1 && (
+      <nav class="pager" aria-label="Update pages">
+        {page.url.prev && <a class="button secondary" href={page.url.prev.replace(/\/?$/, '/')} rel="prev">Newer</a>}
+        <ol>
+          {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((n) => (
+            <li>{n === page.currentPage ? <span aria-current="page">{n}</span> : <a href={pageHref(n)}>{n}</a>}</li>
+          ))}
+        </ol>
+        {page.url.next && <a class="button secondary" href={page.url.next.replace(/\/?$/, '/')} rel="next">Older</a>}
+      </nav>
+    )}
+  </section>
+
+  <section class="closing wrap">
+    <h2>Read the code behind the changes</h2>
+    <p>GoCommerce is MIT licensed. The full history, with the reasoning in every commit message, is on GitHub.</p>
+    <div class="actions">
+      <a class="button" href="/gocommerce/">Explore GoCommerce</a>
+      <a class="button secondary" href="https://github.com/itswadesh/gocommerce/commits/main" target="_blank" rel="noopener noreferrer">Every commit on GitHub</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .updates .when { white-space: nowrap; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .updates .what a { color: inherit; text-decoration: none; }
+  .updates .what a:hover { text-decoration: underline; }
+  /* On a phone the change gets the width; its link already leads to the commit. */
+  @media (max-width: 640px) { .updates .c-sha { display: none; } }
+  .kind { display: inline-block; white-space: nowrap; font: 500 .75rem/1 var(--sans); padding: 5px 9px; border: 1px solid currentColor; border-radius: var(--radius-ui); }
+  .kind.feature { color: var(--go); }
+  .kind.fix { color: var(--svelte); }
+  .sha code { font-size: .8125rem; }
+  .notes { list-style: none; padding: 0; margin: 1.25rem 0 2.5rem; display: grid; gap: 1rem; }
+  .notes p { margin: .25rem 0 0; color: var(--ink-2); }
+  .pager { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 28px; }
+  .pager ol { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; margin: 0; padding: 0; }
+  .pager li > * { display: inline-grid; place-items: center; min-width: 44px; min-height: 44px; border-radius: var(--radius-ui); font-variant-numeric: tabular-nums; }
+  .pager li a { color: var(--ink-2); text-decoration: none; transition: background-color .15s ease, color .15s ease, opacity .15s ease; }
+  .pager li a:hover { background: var(--paper); color: var(--ink); }
+  .pager li a:active { opacity: .7; }
+  .pager [aria-current] { background: var(--ink); color: var(--surface); font-weight: 600; }
+</style>

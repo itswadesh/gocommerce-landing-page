@@ -1,6 +1,6 @@
 {
   "/": {
-    "hash": "784a440c9c85c05a",
+    "hash": "a9ea263068dfbe96",
     "modified": "2026-10-26"
   },
   "/about/": {
@@ -388,7 +388,7 @@
     "modified": "2026-09-25"
   },
   "/open-source/": {
-    "hash": "867658aa1c4a93ce",
+    "hash": "79a0f14321346fae",
     "modified": "2026-10-26"
   },
   "/pricing/": {
@@ -424,7 +424,7 @@
     "modified": "2026-10-15"
   },
   "/svelte-commerce/": {
-    "hash": "e527d9f8a273e164",
+    "hash": "4aa771202f7536c8",
     "modified": "2026-10-26"
   },
   "/svelte-commerce/backends/": {
@@ -540,8 +540,12 @@
     "modified": "2026-10-26"
   },
   "/updates/": {
-    "hash": "a07a8a524e6341b3",
-    "modified": "2026-10-23"
+    "hash": "97e2362fb5e8f148",
+    "modified": "2026-10-26"
+  },
+  "/updates/2/": {
+    "hash": "6f160aeb34b42fec",
+    "modified": "2026-10-26"
   },
   "/vibe-coding-commerce/": {
     "hash": "52fed080b66dc5f7",
