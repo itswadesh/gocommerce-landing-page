@@ -23,7 +23,6 @@
       "cmd": "npm run dev"
     }
   ],
-  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
   "env": [
     {
       "name": "PUBLIC_SALEOR_API_URL",
@@ -54,17 +53,9 @@
     "Sign-in (auth): not wired — the coverage script does not count it, though the guide describes email sign-in as native GraphQL.",
     "Cart: not wired — the coverage script does not count it, though the guide describes the cart as Saleor-native.",
     "Checkout: not wired — the coverage script does not count it, though the guide describes cash-on-delivery checkout as Saleor-native.",
-    "Orders: not wired.",
-    "Categories: not wired.",
-    "Coupons: not wired.",
-    "Search: not wired.",
-    "Saved addresses: not wired.",
-    "User accounts: not wired.",
     "CMS pages: not wired — CMS-style pages show the connector’s placeholder content.",
-    "Payment-method listing: not wired.",
     "The card gateways — Razorpay, Stripe, PhonePe, PayPal, Cashfree, Affirm — throw “not implemented” in this connector.",
     "No OTP sign-in: `getOtp` throws.",
-    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
     "If the Saleor catalogue has no matching products, product grids render their empty or loading states; the pages still work.",
     "The Conversational Shopping assistant is Litekart-only; its widget stays hidden in Saleor mode without firing requests."
   ],
@@ -72,22 +63,6 @@
     {
       "problem": "Boot fails with “PUBLIC_SALEOR_API_URL is set, but it configures a different backend than the one this build runs on”",
       "fix": "The variable is set while a different connector is installed. Install `@misiki/saleor-connector`, or remove the variable if you meant to run another backend. With more than one connector installed, set `PUBLIC_CONNECTOR='@misiki/saleor-connector'`."
-    },
-    {
-      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
-      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/saleor-connector'`."
-    },
-    {
-      "problem": "`[saleor] no native implementation for get /api/...` in the console",
-      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Saleor has no such feature; if it has one, implement it in the connector’s matching service."
-    },
-    {
-      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
-      "fix": "A Litekart REST path was requested from outside the connector, so neither its guard nor `blockRestFallbacks` saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
-    },
-    {
-      "problem": "The store is called “Test”, or shows the wrong branding",
-      "fix": "Set identity overrides — `name`, `logo`, `favicon`, `currencyCode` and the rest — in the default export of `kitcommerce.config.ts`."
     },
     {
       "problem": "Sign-in or cart works in dev but not when deployed",
@@ -113,5 +88,37 @@
     }
   ],
   "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/SALEOR.md",
-  "read": "2026-09-25"
+  "read": "2026-09-25",
+  "api": {
+    "surface": "The connector calls Saleor’s GraphQL API at the single endpoint given in `PUBLIC_SALEOR_API_URL`, through the `graphql-request` client, with every catalogue query scoped to the channel `default-channel`.",
+    "auth": "The connector sends no store credential, only the endpoint URL; when `localStorage` holds a `saleor_token`, each GraphQL request carries it as `authorization: Bearer <token>`, and Svelte Commerce’s coverage script does not count shopper sign-in as wired.",
+    "calls": [
+      {
+        "service": "product",
+        "what": "`query ListProducts` (`products(first, channel, filter: { search, categories })`, reading `totalCount` and `edges.node`)"
+      },
+      {
+        "service": "product",
+        "what": "`query GetProduct` (`product(slug, channel)`) for a product page"
+      },
+      {
+        "service": "collection",
+        "what": "`query ListCollections` (`collections(first, filter: { search }, channel)`) and `query GetCollection` (`collection(slug, channel)`)"
+      },
+      {
+        "service": "profile",
+        "what": "`query GetMe` (`me`) to read the profile and `mutation AccountUpdate` to save it"
+      }
+    ],
+    "rules": [
+      "The channel is fixed in the source as `default-channel` on every product and collection query, so a Saleor store must have a channel with that slug.",
+      "The product and collection lists send `first` with no cursor, so they return the first 20 records whatever page is asked for, and the total comes from the connection’s `totalCount`.",
+      "The product queries request only `thumbnail` for images and `pricing.priceRange.start.gross` for money, so a product carries one image, its price and `mrp` are the same figure, and stock is reported as 0.",
+      "Saleor returns rich-text descriptions as JSON blocks, and the connector joins the `data.text` of each block and strips HTML tags to make a plain-text description.",
+      "When a GraphQL error mentions an expired or invalid token, the connector sends one `mutation TokenRefresh` with the `saleor_refresh_token` from `localStorage` and retries; if that fails it removes both tokens and clears the `me` and `connect.sid` cookies."
+    ],
+    "repo": "https://github.com/misiki-in/saleor-connector",
+    "commit": "87c3f2e",
+    "commitDate": "2026-08-25"
+  }
 }

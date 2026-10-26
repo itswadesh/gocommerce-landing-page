@@ -23,7 +23,6 @@
       "cmd": "npm run dev"
     }
   ],
-  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
   "env": [
     {
       "name": "PUBLIC_SHOPWARE_API_URL",
@@ -43,50 +42,15 @@
   ],
   "envNote": "`init.ts` hands the connector every `PUBLIC_SHOPWARE_*` variable that is set, camel-cased. The guide also lists `PUBLIC_SHOPWARE_API_SECRET`, `PUBLIC_SHOPWARE_STORE_ID` and `PUBLIC_SHOPWARE_CHANNEL_ID`; the connector’s source does not read them — the sales channel is chosen by the access key alone.",
   "backendSettings": [
-    "Use a sales channel’s access key: the Store API chooses the sales channel by the `sw-access-key` header, and there is no route that picks a store by ID.",
-    "Let the storefront’s origin make cross-origin requests to Shopware (CORS): in production the browser calls `PUBLIC_SHOPWARE_API_URL` directly, not only the server."
+    "Use a sales channel’s access key: the Store API chooses the sales channel by the `sw-access-key` header, and there is no route that picks a store by ID."
   ],
   "howItWorks": [
-    "The connector speaks Shopware’s Store API, the shopper-facing half of Shopware’s API. Every request carries the sales channel’s `sw-access-key`; the cart and the signed-in customer live in the `sw-context-token` header, which the connector captures from responses and replays like a cookie.",
-    "Installing the package is the whole switch. `vite.config.ts` resolves whichever `@misiki/*-connector` is installed, and `src/lib/core/connectors/init.ts` hands it every `PUBLIC_SHOPWARE_*` variable that is set, camel-cased, at boot — in the server hook for server rendering and in the client hook for the browser, which must reach the same URL in production.",
-    "There is no Litekart API behind the storefront here, so store identity — name, logo, currency, menus, plugin toggles, theme colours — comes from `src/lib/core/connectors/default-store.json` merged under the default export of `kitcommerce.config.ts`. Until you override it, the store is called “Test”. Any Litekart REST path the connector still inherits is answered from that local data, or resolved empty, rather than requested."
+    "The connector speaks Shopware’s Store API, the shopper-facing half of Shopware’s API. Every request carries the sales channel’s `sw-access-key`; the cart and the signed-in customer live in the `sw-context-token` header, which the connector captures from responses and replays like a cookie."
   ],
   "limitations": [
-    "Coupons: not wired — the connector found Store API routes to apply and remove a promotion code on a cart, but none to list or validate a code on its own.",
-    "Pages that depend on a service that is not wired render their empty state rather than failing.",
-    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
-    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden when another connector is active."
+    "Coupons: not wired — the connector found Store API routes to apply and remove a promotion code on a cart, but none to list or validate a code on its own."
   ],
-  "troubleshooting": [
-    {
-      "problem": "Boot fails with “the shopware connector is active but PUBLIC_SHOPWARE_API_URL is not set”",
-      "fix": "Add `PUBLIC_SHOPWARE_API_URL` to `.env`. A production Node build and Docker read `PUBLIC_*` from the process environment rather than `.env`, so set it on your deploy platform too."
-    },
-    {
-      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
-      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/shopware-connector'`."
-    },
-    {
-      "problem": "Boot fails with “PUBLIC_…_API_URL is set, but it configures a different backend than the one this build runs on”",
-      "fix": "Another backend’s variable is still set, usually left over from the one you switched from. Remove it, or install that backend’s connector. `PUBLIC_LITEKART_API_URL` is exempt: it only points the dev proxy."
-    },
-    {
-      "problem": "The store is called “Test”, or shows the wrong name and logo",
-      "fix": "Store identity is static on this backend. Set `name`, `logo`, `currencyCode` and the rest in the default export of `kitcommerce.config.ts`; `src/lib/core/connectors/default-store.json` lists every field."
-    },
-    {
-      "problem": "`[shopware] no native implementation for get /api/...` in the console",
-      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Shopware has no such feature; if it has one, the fix belongs in the connector’s matching service."
-    },
-    {
-      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
-      "fix": "A Litekart REST path was requested from outside the connector, so its guard never saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
-    },
-    {
-      "problem": "The build fails on `@misiki/litekart-connector`",
-      "fix": "`@misiki/kitcommerce-core` declares it as a peer, and `vite.config.ts` redirects that specifier to whichever connector is installed. Make sure exactly one `@misiki/*-connector` is listed in `package.json`."
-    }
-  ],
+  "troubleshooting": [],
   "faq": [
     {
       "q": "Can I run a Shopware store on Svelte Commerce today?",
@@ -99,13 +63,57 @@
     {
       "q": "How does the cart keep its session on Shopware?",
       "a": "Through the `sw-context-token` header. Shopware returns it with the cart and the customer session; the connector captures it and sends it back on later requests, the way a browser replays a cookie."
-    },
-    {
-      "q": "Has the Shopware connector been run against a real Shopware store?",
-      "a": "Not against a live production instance — no Svelte Commerce connector has been. It was written by reading Shopware’s authoritative API source, and the Svelte Commerce maintainers ask Shopware’s own maintainers for a sandbox to run it against."
     }
   ],
   "openQuestion": "Is there a Store API route for promotion or voucher lookup — not just applying one to a cart? The connector found apply and remove, but no way to list or validate a code on its own.",
   "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/SHOPWARE.md",
-  "read": "2026-09-25"
+  "read": "2026-09-25",
+  "api": {
+    "surface": "The connector calls Shopware’s Store API, a REST API under the single base path `/store-api`, and leaves the Admin API at `/api` alone because it needs an OAuth client-credentials grant.",
+    "auth": "Every request sends the sales channel’s key as `sw-access-key` (and `sw-language-id` when one is configured), and the shopper’s session and cart ride on `sw-context-token`, which the connector reads from each response header or, when CORS hides the header, from the body’s `token`, then keeps in memory and in `localStorage` under `cart_id`.",
+    "calls": [
+      {
+        "service": "product",
+        "what": "`POST /store-api/product/{id}` for one product, after `POST /store-api/seo-url` turns a handle into its id (`routeName` `frontend.detail.page`), then a second `POST /store-api/product` filtered on `parentId` for the variants"
+      },
+      {
+        "service": "search",
+        "what": "`POST /store-api/search` with `search`, `p`, `page` and `limit` in the body; typeahead uses `POST /store-api/search-suggest`"
+      },
+      {
+        "service": "category",
+        "what": "`POST /store-api/navigation/{type}/{type}` for the menu trees and `POST /store-api/product-listing/{categoryId}` for a category’s products"
+      },
+      {
+        "service": "cart",
+        "what": "`GET /store-api/checkout/cart`, `POST /store-api/checkout/cart/line-item` with `items: [{ type: 'product', referencedId, quantity }]`, `PATCH` on the same path to change a quantity and `POST /store-api/checkout/cart/line-item/delete` with line-item `ids`"
+      },
+      {
+        "service": "checkout",
+        "what": "`PATCH /store-api/context` with the `paymentMethodId`, `POST /store-api/checkout/order`, then `POST /store-api/handle-payment` with `orderId`, `finishUrl` and `errorUrl`, which may return a `redirectUrl`"
+      },
+      {
+        "service": "auth",
+        "what": "`POST /store-api/account/login` with `{ username, password }`, `POST /store-api/account/register`, `POST /store-api/account/logout` and `GET /store-api/context`"
+      },
+      {
+        "service": "order",
+        "what": "`POST /store-api/order` with a criteria body; the list arrives nested under `orders`"
+      },
+      {
+        "service": "address",
+        "what": "`POST /store-api/account/list-address`, `POST /store-api/account/address`, `PATCH` and `DELETE /store-api/account/address/{id}`, and `PATCH /store-api/account/address/default-billing/{id}` or `default-shipping/{id}`"
+      }
+    ],
+    "rules": [
+      "Lists are fetched with a criteria object in the POST body (`page`, `limit`, `filter[]`, `sort[]`, `associations`), and the connector always adds `total-count-mode: exact`, because Shopware’s default of `none` makes every list report a total of 0.",
+      "Every Store API path segment is a 32-character hex id, so a product or category handle is first looked up through `POST /seo-url`, matching the path both with and without a trailing slash.",
+      "Sort tokens are mapped to a fixed list of product fields (price sorts on `cheapestPrice`, popularity on `sales`), and an unknown token is dropped, since Shopware answers an unknown sort field with a 400 error.",
+      "The listing and search routes page with `p` rather than `page`, so the connector sends both with the same value.",
+      "The context token is always overwritten with the newest one seen, because `POST /account/logout` returns a new anonymous token and keeping the old one would restore the session that was just closed."
+    ],
+    "repo": "https://github.com/misiki-in/shopware-connector",
+    "commit": "e0d17b9",
+    "commitDate": "2026-08-25"
+  }
 }

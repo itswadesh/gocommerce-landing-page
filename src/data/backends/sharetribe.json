@@ -23,7 +23,6 @@
       "cmd": "npm run dev"
     }
   ],
-  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
   "env": [
     {
       "name": "PUBLIC_SHARETRIBE_API_URL",
@@ -63,58 +62,19 @@
   ],
   "envNote": "`init.ts` hands the connector every `PUBLIC_SHARETRIBE_*` variable that is set, camel-cased. The guide also lists `PUBLIC_SHARETRIBE_ACCESS_KEY`, `PUBLIC_SHARETRIBE_STORE_ID` and `PUBLIC_SHARETRIBE_CHANNEL_ID`; the connector’s source does not read them.",
   "backendSettings": [
-    "Create a Marketplace API application in Sharetribe; its client ID goes in `PUBLIC_SHARETRIBE_CLIENT_ID`.",
-    "Let the storefront’s origin make cross-origin requests to Sharetribe (CORS): in production the browser calls `PUBLIC_SHARETRIBE_API_URL` directly, not only the server."
+    "Create a Marketplace API application in Sharetribe; its client ID goes in `PUBLIC_SHARETRIBE_CLIENT_ID`."
   ],
   "howItWorks": [
     "The connector maps Sharetribe’s model onto the storefront’s: a listing becomes a product, a transaction becomes an order. It also reads Sharetribe’s Asset Delivery API, which lives on a different host from the Marketplace API.",
-    "Buying on Sharetribe is initiating a transaction on one listing and moving it through the marketplace’s own transaction process, whose aliases and transitions are specific to each marketplace. The connector ships commands for that; it does not guess the process names, because a wrong guess fails. The storefront’s cart and per-gateway checkout have no Sharetribe equivalent, so they throw rather than return a fake receipt.",
-    "Installing the package is the whole switch. `vite.config.ts` resolves whichever `@misiki/*-connector` is installed, and `src/lib/core/connectors/init.ts` hands it every `PUBLIC_SHARETRIBE_*` variable that is set, camel-cased, at boot — in the server hook for server rendering and in the client hook for the browser, which must reach the same URL in production.",
-    "There is no Litekart API behind the storefront here, so store identity — name, logo, currency, menus, plugin toggles, theme colours — comes from `src/lib/core/connectors/default-store.json` merged under the default export of `kitcommerce.config.ts`. Until you override it, the store is called “Test”. Any Litekart REST path the connector still inherits is answered from that local data, or resolved empty, rather than requested."
+    "Buying on Sharetribe is initiating a transaction on one listing and moving it through the marketplace’s own transaction process, whose aliases and transitions are specific to each marketplace. The connector ships commands for that; it does not guess the process names, because a wrong guess fails. The storefront’s cart and per-gateway checkout have no Sharetribe equivalent, so they throw rather than return a fake receipt."
   ],
   "limitations": [
     "The storefront cannot complete a purchase. Its payment step calls one method per gateway, keyed by a cart; Sharetribe has neither, and money moves only through Stripe Connect inside a transaction. Each gateway method throws `NotSupportedError`, and the connector’s Sharetribe-native transaction commands are not called by the storefront yet.",
     "Cart: not wired — deliberately: Sharetribe has no cart, so the storefront’s cart is inert.",
     "Coupons: not wired — deliberately: Sharetribe has no coupons.",
-    "Saved addresses: not wired.",
-    "Countries: not wired.",
-    "States and regions: not wired.",
-    "Wishlist: not wired.",
-    "Pages that depend on a service that is not wired render their empty state rather than failing.",
-    "If you set `PUBLIC_SHARETRIBE_API_SECRET`, the client secret reaches every visitor: SvelteKit sends `PUBLIC_` variables to the browser.",
-    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
-    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden when another connector is active."
+    "If you set `PUBLIC_SHARETRIBE_API_SECRET`, the client secret reaches every visitor: SvelteKit sends `PUBLIC_` variables to the browser."
   ],
-  "troubleshooting": [
-    {
-      "problem": "Boot fails with “the sharetribe connector is active but PUBLIC_SHARETRIBE_API_URL is not set”",
-      "fix": "Add `PUBLIC_SHARETRIBE_API_URL` to `.env`. A production Node build and Docker read `PUBLIC_*` from the process environment rather than `.env`, so set it on your deploy platform too."
-    },
-    {
-      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
-      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/sharetribe-connector'`."
-    },
-    {
-      "problem": "Boot fails with “PUBLIC_…_API_URL is set, but it configures a different backend than the one this build runs on”",
-      "fix": "Another backend’s variable is still set, usually left over from the one you switched from. Remove it, or install that backend’s connector. `PUBLIC_LITEKART_API_URL` is exempt: it only points the dev proxy."
-    },
-    {
-      "problem": "The store is called “Test”, or shows the wrong name and logo",
-      "fix": "Store identity is static on this backend. Set `name`, `logo`, `currencyCode` and the rest in the default export of `kitcommerce.config.ts`; `src/lib/core/connectors/default-store.json` lists every field."
-    },
-    {
-      "problem": "`[sharetribe] no native implementation for get /api/...` in the console",
-      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Sharetribe has no such feature; if it has one, the fix belongs in the connector’s matching service."
-    },
-    {
-      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
-      "fix": "A Litekart REST path was requested from outside the connector, so its guard never saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
-    },
-    {
-      "problem": "The build fails on `@misiki/litekart-connector`",
-      "fix": "`@misiki/kitcommerce-core` declares it as a peer, and `vite.config.ts` redirects that specifier to whichever connector is installed. Make sure exactly one `@misiki/*-connector` is listed in `package.json`."
-    }
-  ],
+  "troubleshooting": [],
   "faq": [
     {
       "q": "Can I run a Sharetribe marketplace on Svelte Commerce today?",
@@ -127,13 +87,57 @@
     {
       "q": "Why is there no cart on Sharetribe?",
       "a": "Because Sharetribe does not have one. Buying is a transaction on a single listing, moved through the marketplace’s own process. The connector maps listings to products and transactions to orders, and leaves the cart and coupons deliberately empty. Its authors have asked Sharetribe’s maintainers whether that mapping is the one they would recommend."
-    },
-    {
-      "q": "Has the Sharetribe connector been run against a real Sharetribe store?",
-      "a": "Not against a live production instance — no Svelte Commerce connector has been. It was written by reading Sharetribe’s authoritative API source, and the Svelte Commerce maintainers ask Sharetribe’s own maintainers for a sandbox to run it against."
     }
   ],
   "openQuestion": "Is `listing` to `Product` the mapping you would recommend, or should a storefront model transactions as the primary entity?",
   "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/SHARETRIBE.md",
-  "read": "2026-09-25"
+  "read": "2026-09-25",
+  "api": {
+    "surface": "The connector calls three Sharetribe surfaces: the Marketplace API under `/v1/api` for every resource route, the Authentication API under `/v1/auth` for `/token` and `/revoke` only, and the Asset Delivery API under `/v1/assets/pub/<client id>` on a separate host for Console-managed content.",
+    "auth": "Every Marketplace API call carries `Authorization: bearer <access_token>`, because Sharetribe has no unauthenticated mode; before the first call the connector posts a form-encoded `client_credentials` grant with `scope=public-read` to `/v1/auth/token`, a shopper signs in with the `password` grant and `scope=user`, and the tokens are kept in the connector’s in-memory credentials, not in a cookie.",
+    "calls": [
+      {
+        "service": "product",
+        "what": "`GET /v1/api/listings/query` with `include=author,images,currentStock`, `fields.image`, `limit.images=4`, `page`, `perPage=24`, `keywords` and `sort`; `GET /v1/api/listings/show?id=<uuid>`"
+      },
+      {
+        "service": "category",
+        "what": "`GET <asset host>/v1/assets/pub/<client id>/a/latest/listings/listing-categories.json` for the tree; products by `pub_categoryLevel1` on `/listings/query`"
+      },
+      {
+        "service": "search",
+        "what": "`GET /v1/api/listings/query` with `keywords`, `pub_` and `meta_` attribute filters and `price=MIN,MAX`"
+      },
+      {
+        "service": "checkout",
+        "what": "`POST /v1/api/transactions/initiate` and `initiate_speculative` with `processAlias`, `transition` and `params`; `POST /v1/api/transactions/transition`; `GET /v1/api/process_transitions/query`"
+      },
+      {
+        "service": "order",
+        "what": "`GET /v1/api/transactions/query` and `GET /v1/api/transactions/show?id=<uuid>` with `include=listing,provider,customer,booking,stockReservation`"
+      },
+      {
+        "service": "auth",
+        "what": "`POST /v1/auth/token` (password grant), then `GET /v1/api/current_user/show`; `POST /v1/api/current_user/create` to register; `POST /v1/auth/revoke` to sign out"
+      },
+      {
+        "service": "payment-method",
+        "what": "`GET /v1/api/current_user/show?include=stripeCustomer,stripeCustomer.defaultPaymentMethod`; `POST /v1/api/stripe_customer/add_payment_method` and `delete_payment_method`"
+      },
+      {
+        "service": "review",
+        "what": "`GET /v1/api/reviews/query` with `page` and `perPage`"
+      }
+    ],
+    "rules": [
+      "The connector sets `Accept: application/json` last on every request, because without it Sharetribe answers in Transit, where ids and prices are typed objects that nothing in the connector decodes.",
+      "Sharetribe’s sort convention is the reverse of the storefront’s: a bare attribute sorts descending and a `-` makes it ascending, so the storefront’s `-createdAt` is sent as `createdAt`, and with a keyword search the default sort is dropped so results stay in relevance order.",
+      "Prices are integers in the currency’s minor unit, so `1590` in USD is shown as 15.90, a price-range filter is converted to minor units before it is sent, and zero-decimal and three-decimal currencies are handled separately.",
+      "Writes go through `?expand=true`, because a Sharetribe command otherwise returns only a bare `{ id, type }` reference.",
+      "Token requests are single-flight so a burst of parallel calls fetches one token, and a 429 is retried up to three times, honouring `Retry-After`, because development marketplaces allow 1 GET per second and 1 POST per 2 seconds per IP."
+    ],
+    "repo": "https://github.com/misiki-in/sharetribe-connector",
+    "commit": "4e3d075",
+    "commitDate": "2026-08-25"
+  }
 }

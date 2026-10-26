@@ -1750,6 +1750,7 @@ header { view-transition-name: site-header; }
 .intstrip a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 .intstrip a:active { opacity: .7; }
 .intstrip-next { margin-top: 28px; }
+.api-rules-title { margin-top: 32px; }
 /* Hover and press answer at once; the colour change stays under reduced motion. */
 .vs-grid a { transition: background-color .15s ease, opacity .15s ease; }
 .vs-grid a:active { opacity: .8; }

@@ -52,7 +52,6 @@
     "Legal and CMS pages render their layout with empty content.",
     "Wishlist shows an empty state, and toggling it says “Wishlist is not available on this store”; the cart’s coupon drawer lists none.",
     "No OTP sign-in: `getOtp` throws.",
-    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
     "If the Vendure catalogue has no matching products, product grids render their empty or loading states; the pages still work.",
     "The Conversational Shopping assistant is Litekart-only; its widget detects the connector and stays hidden without firing requests."
   ],
@@ -60,18 +59,6 @@
     {
       "problem": "Boot fails with “PUBLIC_VENDURE_API_URL is set, but it configures a different backend than the one this build runs on”",
       "fix": "The variable is set while a different connector is installed — the stock Litekart one, say. Install `@misiki/vendure-connector`, or remove the variable if you meant to run Litekart. With more than one connector installed, set `PUBLIC_CONNECTOR='@misiki/vendure-connector'`."
-    },
-    {
-      "problem": "`[vendure] no native implementation for get /api/...` in the console",
-      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Vendure has no such feature; if it has one, implement it in the connector’s matching service."
-    },
-    {
-      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
-      "fix": "A Litekart REST path was requested from outside the connector, so neither its guard nor `blockRestFallbacks` saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
-    },
-    {
-      "problem": "The store is called “Test”, or shows the wrong branding",
-      "fix": "Set identity overrides — `name`, `logo`, `favicon`, `currencyCode` and the rest — in the default export of `kitcommerce.config.ts`."
     },
     {
       "problem": "Sign-in or cart works in dev but not when deployed",
@@ -97,5 +84,53 @@
     }
   ],
   "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/VENDURE.md",
-  "read": "2026-09-25"
+  "read": "2026-09-25",
+  "api": {
+    "surface": "The connector sends every request as a GraphQL `POST` to Vendure’s Shop API at `<PUBLIC_VENDURE_API_URL>/shop-api`, with `credentials: 'include'`.",
+    "auth": "A shopper signs in with the `Login` mutation; the connector takes the session token from the `vendure-auth-token` response header, keeps it in `localStorage` as `vendure_auth_token` and sends it back as `Authorization: Bearer` on each request.",
+    "calls": [
+      {
+        "service": "product",
+        "what": "`GetProducts` (`products`) with `options.skip`, `options.take`, `options.filter.name.contains` and `options.sort.createdAt`; `GetProduct` by `slug` for a product page"
+      },
+      {
+        "service": "category",
+        "what": "`GetCategories` (Vendure collections) with list options, and `GetCategory` by `slug`"
+      },
+      {
+        "service": "search",
+        "what": "`SearchProducts` (`search`) with `term`, `skip`, `take`, `groupByProduct: true` and an optional `collectionSlug`"
+      },
+      {
+        "service": "cart",
+        "what": "`ActiveOrder`, `AddItemToOrder`, `AdjustOrderLine`, `RemoveOrderLine`, `ApplyCouponCode` and `RemoveCouponCode`, all against the session’s active order"
+      },
+      {
+        "service": "checkout",
+        "what": "`SetCustomerForOrder`, `SetOrderShippingAddress` and `SetOrderBillingAddress`, then `TransitionOrderToState` to `ArrangingPayment`, then `AddPaymentToOrder`; the payment-method list is `GetEligiblePaymentMethods`, keeping only methods with `isEligible`"
+      },
+      {
+        "service": "order",
+        "what": "`CustomerOrders` (`activeCustomer.orders`, newest first, 10 a page) and `OrderByCode`"
+      },
+      {
+        "service": "auth",
+        "what": "`Login`, `RegisterCustomerAccount`, `VerifyCustomerAccount`, `RequestPasswordReset`, `ResetPassword`, `Logout` and `GetActiveCustomer`"
+      },
+      {
+        "service": "address",
+        "what": "`ActiveCustomerAddresses`, `CreateCustomerAddress`, `UpdateCustomerAddress` and `DeleteCustomerAddress`"
+      }
+    ],
+    "rules": [
+      "A failed GraphQL operation can still answer HTTP 200, so the connector reads the `errors` array on every response and the `errorCode` of Vendure’s `ErrorResult` on each mutation.",
+      "The connector replaces its stored token whenever a response carries a new `vendure-auth-token` header, and it drops the token on `error.no-customer-found-for-current-user`.",
+      "Before payment the connector reads the active order and stops with a message if it has no customer, then records the order `code`, because `AddPaymentToOrder` returns no order number.",
+      "A second `TransitionOrderToState` to `ArrangingPayment` comes back as `ORDER_STATE_TRANSITION_ERROR`, and the connector treats that case as success and rereads the active order.",
+      "Cash on delivery adds a payment with the method code `standard-payment`, point of sale with `pos`, and Razorpay with `razorpay`, so the Vendure server needs payment methods under those codes."
+    ],
+    "repo": "https://github.com/misiki-in/vendure-connector",
+    "commit": "cb53eb6",
+    "commitDate": "2026-08-24"
+  }
 }

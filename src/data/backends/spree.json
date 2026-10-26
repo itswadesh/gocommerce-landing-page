@@ -23,7 +23,6 @@
       "cmd": "npm run dev"
     }
   ],
-  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
   "env": [
     {
       "name": "PUBLIC_SPREE_API_URL",
@@ -42,50 +41,12 @@
     }
   ],
   "envNote": "`init.ts` hands the connector every `PUBLIC_SPREE_*` variable that is set, camel-cased. The guide also lists `PUBLIC_SPREE_API_KEY`, `PUBLIC_SPREE_API_SECRET`, `PUBLIC_SPREE_ACCESS_KEY`, `PUBLIC_SPREE_STORE_ID` and `PUBLIC_SPREE_CHANNEL_ID`; the connector’s source does not read them.",
-  "backendSettings": [
-    "Let the storefront’s origin make cross-origin requests to Spree (CORS): in production the browser calls `PUBLIC_SPREE_API_URL` directly, not only the server."
-  ],
+  "backendSettings": [],
   "howItWorks": [
-    "Spree answers in JSON:API, with related records in an `included` array; the connector’s deserialiser stitches them back together. (The `jsonapi` file in its source is that helper, not a service.) The API documentation URL its authors were given was dead, so it was written from Spree’s own source instead.",
-    "Installing the package is the whole switch. `vite.config.ts` resolves whichever `@misiki/*-connector` is installed, and `src/lib/core/connectors/init.ts` hands it every `PUBLIC_SPREE_*` variable that is set, camel-cased, at boot — in the server hook for server rendering and in the client hook for the browser, which must reach the same URL in production.",
-    "There is no Litekart API behind the storefront here, so store identity — name, logo, currency, menus, plugin toggles, theme colours — comes from `src/lib/core/connectors/default-store.json` merged under the default export of `kitcommerce.config.ts`. Until you override it, the store is called “Test”. Any Litekart REST path the connector still inherits is answered from that local data, or resolved empty, rather than requested."
+    "Spree answers in JSON:API, with related records in an `included` array; the connector’s deserialiser stitches them back together. (The `jsonapi` file in its source is that helper, not a service.) The API documentation URL its authors were given was dead, so it was written from Spree’s own source instead."
   ],
-  "limitations": [
-    "Reviews: not wired.",
-    "Pages that depend on a service that is not wired render their empty state rather than failing.",
-    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
-    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden when another connector is active."
-  ],
-  "troubleshooting": [
-    {
-      "problem": "Boot fails with “the spree connector is active but PUBLIC_SPREE_API_URL is not set”",
-      "fix": "Add `PUBLIC_SPREE_API_URL` to `.env`. A production Node build and Docker read `PUBLIC_*` from the process environment rather than `.env`, so set it on your deploy platform too."
-    },
-    {
-      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
-      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/spree-connector'`."
-    },
-    {
-      "problem": "Boot fails with “PUBLIC_…_API_URL is set, but it configures a different backend than the one this build runs on”",
-      "fix": "Another backend’s variable is still set, usually left over from the one you switched from. Remove it, or install that backend’s connector. `PUBLIC_LITEKART_API_URL` is exempt: it only points the dev proxy."
-    },
-    {
-      "problem": "The store is called “Test”, or shows the wrong name and logo",
-      "fix": "Store identity is static on this backend. Set `name`, `logo`, `currencyCode` and the rest in the default export of `kitcommerce.config.ts`; `src/lib/core/connectors/default-store.json` lists every field."
-    },
-    {
-      "problem": "`[spree] no native implementation for get /api/...` in the console",
-      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Spree has no such feature; if it has one, the fix belongs in the connector’s matching service."
-    },
-    {
-      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
-      "fix": "A Litekart REST path was requested from outside the connector, so its guard never saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
-    },
-    {
-      "problem": "The build fails on `@misiki/litekart-connector`",
-      "fix": "`@misiki/kitcommerce-core` declares it as a peer, and `vite.config.ts` redirects that specifier to whichever connector is installed. Make sure exactly one `@misiki/*-connector` is listed in `package.json`."
-    }
-  ],
+  "limitations": [],
+  "troubleshooting": [],
   "faq": [
     {
       "q": "Can I run a Spree store on Svelte Commerce today?",
@@ -98,12 +59,56 @@
     {
       "q": "How was the Spree connector written?",
       "a": "From Spree’s own source. The API documentation URL the authors were given was dead, so they read the code instead, and handle Spree’s JSON:API responses with a deserialiser that resolves the `included` relationships."
-    },
-    {
-      "q": "Has the Spree connector been run against a real Spree store?",
-      "a": "Not against a live production instance — no Svelte Commerce connector has been. It was written by reading Spree’s authoritative API source, and the Svelte Commerce maintainers ask Spree’s own maintainers for a sandbox to run it against."
     }
   ],
   "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/SPREE.md",
-  "read": "2026-09-25"
+  "read": "2026-09-25",
+  "api": {
+    "surface": "The connector calls Spree’s Storefront API v2, a JSON:API surface under `/api/v2/storefront`, with Doorkeeper’s token routes at `/spree_oauth/token` and `/spree_oauth/revoke`; its source notes that v2 is deprecated upstream and targets Spree 4.x and 5.x stores that still serve it.",
+    "auth": "A shopper signs in with a Doorkeeper password grant to `POST /spree_oauth/token`, and the access token is then sent as `Authorization: Bearer <token>` and renewed once from the refresh token when a call answers 401; a guest cart is identified by `X-Spree-Order-Token`, read from the cart body’s `data.attributes.token` and kept in `localStorage` and a cookie under `spree_order_token`.",
+    "calls": [
+      {
+        "service": "product",
+        "what": "`GET /api/v2/storefront/products` with `filter[...]`, `sort`, `page`, `per_page` and `include=images,default_variant`, and `GET /api/v2/storefront/products/{slug}` with the variants, option types and images included"
+      },
+      {
+        "service": "category",
+        "what": "`GET /api/v2/storefront/taxons` with `include=image`, and `GET /api/v2/storefront/taxons/{id or permalink}`"
+      },
+      {
+        "service": "search",
+        "what": "`GET /api/v2/storefront/products` with `filter[name]`, `filter[taxons]`, `filter[price]=min,max`, `filter[options][<name>]` and `filter[properties][<name>]`"
+      },
+      {
+        "service": "cart",
+        "what": "`POST /api/v2/storefront/cart`, `GET /api/v2/storefront/cart`, `POST /cart/add_item` with `variant_id`, `PATCH /cart/set_quantity`, `DELETE /cart/remove_line_item/{id}` and `PATCH /cart/apply_coupon_code`"
+      },
+      {
+        "service": "checkout",
+        "what": "`PATCH /api/v2/storefront/checkout` with the `order` addresses, `GET /checkout/shipping_rates`, `POST /checkout/create_payment` with `payment_method_id`, then `PATCH /checkout/advance` and `PATCH /checkout/complete`"
+      },
+      {
+        "service": "payment-method",
+        "what": "`GET /api/v2/storefront/checkout/payment_methods`"
+      },
+      {
+        "service": "auth",
+        "what": "`POST /spree_oauth/token` (`grant_type: password`), `POST /api/v2/storefront/account`, `GET /api/v2/storefront/account`, `PATCH /cart/associate?guest_order_token=` after sign-in and `POST /spree_oauth/revoke` on sign-out"
+      },
+      {
+        "service": "order",
+        "what": "`GET /api/v2/storefront/account/orders` and `/account/orders/{number}` for a signed-in shopper, `GET /order_status/{number}` with the order token otherwise"
+      }
+    ],
+    "rules": [
+      "Without an explicit `include`, Spree returns no images and no variants, only bare `{ id, type }` pointers, so every product, cart and order request names the relationships it needs.",
+      "Filters are nested query parameters, such as `filter[options][color]=red`, and ranges or lists are one comma-separated value, such as `filter[price]=10,100`.",
+      "`sort` is one signed token from a fixed list (`name`, `price`, `available_on`, `created_at`, `updated_at`, `sku`); anything else is dropped, and `GET /taxons` takes no sort and comes back in tree order.",
+      "`filter[taxons]` takes ids, so a category permalink is first resolved through `GET /taxons/{permalink}`.",
+      "Totals come from the JSON:API `meta.total_count` and `meta.total_pages`, not from headers, and there is no `GET /cart/{id}`, so the order token sent as a header is the only way to address a guest cart."
+    ],
+    "repo": "https://github.com/misiki-in/spree-connector",
+    "commit": "9c050b3",
+    "commitDate": "2026-08-25"
+  }
 }

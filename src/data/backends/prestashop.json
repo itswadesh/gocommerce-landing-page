@@ -23,7 +23,6 @@
       "cmd": "npm run dev"
     }
   ],
-  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
   "env": [
     {
       "name": "PUBLIC_PRESTASHOP_API_URL",
@@ -63,57 +62,18 @@
   ],
   "envNote": "`init.ts` hands the connector every `PUBLIC_PRESTASHOP_*` variable that is set, camel-cased. The guide also lists `PUBLIC_PRESTASHOP_API_SECRET`, `PUBLIC_PRESTASHOP_ACCESS_TOKEN`, `PUBLIC_PRESTASHOP_ACCESS_KEY` and `PUBLIC_PRESTASHOP_CHANNEL_ID`; the connector’s source does not read them.",
   "backendSettings": [
-    "Enable the webservice and create a key under Advanced Parameters › Webservice, with access to the resources the storefront reads — and read the limitations first.",
-    "Let the storefront’s origin make cross-origin requests to PrestaShop (CORS): in production the browser calls `PUBLIC_PRESTASHOP_API_URL` directly, not only the server."
+    "Enable the webservice and create a key under Advanced Parameters › Webservice, with access to the resources the storefront reads — and read the limitations first."
   ],
   "howItWorks": [
     "The webservice API is PrestaShop’s back-office API, not a storefront one: it has no customer login and no cart-to-order flow. The connector reads the catalogue and manages carts through it, and lists the shop’s active carriers as shipping options — without prices, because PrestaShop computes those outside the webservice.",
-    "Writes need care: translatable fields must be sent with `<language>` children, and echoing a `display=full` read straight back silently blanks them — a bug the connector hit and fixed.",
-    "Installing the package is the whole switch. `vite.config.ts` resolves whichever `@misiki/*-connector` is installed, and `src/lib/core/connectors/init.ts` hands it every `PUBLIC_PRESTASHOP_*` variable that is set, camel-cased, at boot — in the server hook for server rendering and in the client hook for the browser, which must reach the same URL in production.",
-    "There is no Litekart API behind the storefront here, so store identity — name, logo, currency, menus, plugin toggles, theme colours — comes from `src/lib/core/connectors/default-store.json` merged under the default export of `kitcommerce.config.ts`. Until you override it, the store is called “Test”. Any Litekart REST path the connector still inherits is answered from that local data, or resolved empty, rather than requested."
+    "Writes need care: translatable fields must be sent with `<language>` children, and echoing a `display=full` read straight back silently blanks them — a bug the connector hit and fixed."
   ],
   "limitations": [
     "The storefront cannot place an order. The webservice API has no checkout and no payment resource; placing an order is `PaymentModule::validateOrder()`, which only a front-office payment module can call. So cash on delivery, Razorpay, Stripe and every other way the storefront places an order are placeholders on PrestaShop.",
-    "Sign-in (auth): throws `NotSupportedError` — PrestaShop has no core endpoint that returns a shopper session, and a stub that signed anyone in for any password would be an auth bypass, not a placeholder.",
-    "Reviews: not wired.",
-    "Wishlist: not wired.",
-    "Payment-method listing: not wired.",
-    "Pages that depend on a service that is not wired render their empty state rather than failing.",
     "Shipping options come without prices: PrestaShop works them out from delivery ranges, zones and modules outside the webservice API.",
-    "The webservice key the connector sends on every call comes from `PUBLIC_PRESTASHOP_API_KEY`. SvelteKit sends `PUBLIC_` variables to the browser, so every visitor to the store can read it and use whatever permissions the key has.",
-    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
-    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden when another connector is active."
+    "The webservice key the connector sends on every call comes from `PUBLIC_PRESTASHOP_API_KEY`. SvelteKit sends `PUBLIC_` variables to the browser, so every visitor to the store can read it and use whatever permissions the key has."
   ],
-  "troubleshooting": [
-    {
-      "problem": "Boot fails with “the prestashop connector is active but PUBLIC_PRESTASHOP_API_URL is not set”",
-      "fix": "Add `PUBLIC_PRESTASHOP_API_URL` to `.env`. A production Node build and Docker read `PUBLIC_*` from the process environment rather than `.env`, so set it on your deploy platform too."
-    },
-    {
-      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
-      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/prestashop-connector'`."
-    },
-    {
-      "problem": "Boot fails with “PUBLIC_…_API_URL is set, but it configures a different backend than the one this build runs on”",
-      "fix": "Another backend’s variable is still set, usually left over from the one you switched from. Remove it, or install that backend’s connector. `PUBLIC_LITEKART_API_URL` is exempt: it only points the dev proxy."
-    },
-    {
-      "problem": "The store is called “Test”, or shows the wrong name and logo",
-      "fix": "Store identity is static on this backend. Set `name`, `logo`, `currencyCode` and the rest in the default export of `kitcommerce.config.ts`; `src/lib/core/connectors/default-store.json` lists every field."
-    },
-    {
-      "problem": "`[prestashop] no native implementation for get /api/...` in the console",
-      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if PrestaShop has no such feature; if it has one, the fix belongs in the connector’s matching service."
-    },
-    {
-      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
-      "fix": "A Litekart REST path was requested from outside the connector, so its guard never saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
-    },
-    {
-      "problem": "The build fails on `@misiki/litekart-connector`",
-      "fix": "`@misiki/kitcommerce-core` declares it as a peer, and `vite.config.ts` redirects that specifier to whichever connector is installed. Make sure exactly one `@misiki/*-connector` is listed in `package.json`."
-    }
-  ],
+  "troubleshooting": [],
   "faq": [
     {
       "q": "Can I run a PrestaShop store on Svelte Commerce today?",
@@ -126,13 +86,53 @@
     {
       "q": "Why can’t shoppers sign in on PrestaShop?",
       "a": "The webservice API has no customer login endpoint, so the connector’s `auth` throws rather than fake a session. The Svelte Commerce maintainers have asked PrestaShop’s maintainers whether a supported storefront sign-in path exists over the webservice API."
-    },
-    {
-      "q": "Has the PrestaShop connector been run against a real PrestaShop store?",
-      "a": "Not against a live production instance — no Svelte Commerce connector has been. It was written by reading PrestaShop’s authoritative API source, and the Svelte Commerce maintainers ask PrestaShop’s own maintainers for a sandbox to run it against."
     }
   ],
   "openQuestion": "Is there a supported storefront auth path over the webservice API?",
   "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/PRESTASHOP.md",
-  "read": "2026-09-25"
+  "read": "2026-09-25",
+  "api": {
+    "surface": "The connector calls PrestaShop’s REST webservice through its single `/api` gateway, forcing JSON responses with the `Output-Format: JSON` and `Io-Format: JSON` headers and sending every write as an XML body with `Content-Type: text/xml`, because the webservice reads no JSON input.",
+    "auth": "Every request carries HTTP Basic auth with the webservice key as the username and an empty password, which authenticates the shop rather than a shopper; there is no session or token to refresh, and shopper sign-in is not possible, so every `auth` method that would establish an identity throws `NotSupportedError`.",
+    "calls": [
+      {
+        "service": "product",
+        "what": "`GET /api/products` with `display=full`, `filter[active]=[1]`, `limit=offset,count` and `sort=[col_DIR]`; a slug read is `filter[link_rewrite]=[slug]`, completed by `GET /api/combinations`, `/api/product_option_values`, `/api/product_options` and `/api/stock_availables`"
+      },
+      {
+        "service": "search",
+        "what": "`GET /api/search?query=…&language=…` for product ids, then `GET /api/products?filter[id]=[a|b|c]&display=full`"
+      },
+      {
+        "service": "category",
+        "what": "`GET /api/categories?filter[active]=[1]&sort=[position_ASC]`; `GET /api/categories/{id}?display=full` for the product ids in `associations.products`"
+      },
+      {
+        "service": "cart",
+        "what": "`POST /api/carts` with `id_lang` and `id_currency`; `GET /api/carts/{id}?display=full`; `PUT /api/carts/{id}` with the whole record; `DELETE /api/carts/{id}`"
+      },
+      {
+        "service": "checkout",
+        "what": "`GET /api/carriers?filter[active]=[1]&filter[deleted]=[0]&sort=[position_ASC]` for shipping options"
+      },
+      {
+        "service": "order",
+        "what": "`GET /api/orders?display=full` with `filter[reference]` and `filter[id_customer]`; `GET /api/orders/{id}`; `GET /api/order_histories?filter[id_order]=[id]` for tracking"
+      },
+      {
+        "service": "address",
+        "what": "`GET /api/addresses`; `POST /api/addresses`; `PUT /api/addresses/{id}`; `DELETE /api/addresses/{id}`"
+      }
+    ],
+    "rules": [
+      "PrestaShop has no count route, no pagination envelope and no total header, so the connector pages with `limit=offset,count` from a 0-based offset and takes the total from a second request with the same filters and no limit, counting the ids it returns.",
+      "Sorting is sent as `sort=[date_add_DESC]` and similar, and a sort on `date_add` or `date_upd` also sends `date=1`, without which PrestaShop ignores it.",
+      "`/api/search` returns bare product ids and answers 400 without `language`, so search is two requests, the second a `filter[id]=[a|b|c]` list capped at 600 ids to keep the URL under the default 8 KB request-line limit.",
+      "A cart record carries no totals, so the connector computes them from catalogue prices as a tax-excluded estimate, and every cart change is a `PUT` of the whole record with `associations.cart_rows` as a complete set; the cart id is kept in `localStorage` under `cart_id`.",
+      "The webservice key identifies the application, not a shopper, so `GET /api/orders` with no filter returns every order in the shop; the order list is scoped to one customer only when the caller passes `customerId`, sent as `filter[id_customer]`."
+    ],
+    "repo": "https://github.com/misiki-in/prestashop-connector",
+    "commit": "1d71757",
+    "commitDate": "2026-08-25"
+  }
 }

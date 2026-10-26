@@ -18,8 +18,9 @@
  *     a platform setting, a reason an order cannot be placed — was read in the
  *     connector's own source (github.com/misiki-in/<platform>-connector) or in
  *     the storefront's, never assumed.
- *   - `limitations` names every gap connectors.json records for this backend,
- *     plus the guide's own limitations.
+ *   - `limitations` explains this backend's gaps where there is more to say
+ *     than the page's known-gaps line, which renders connectors.json. Nothing
+ *     every backend shares goes here: that is said once, on the hub.
  *   - `verdict` answers the question a reader arrives with — can I run a store
  *     on this today? — plainly, including when the answer is no.
  *   - Prose names Svelte Commerce, never KitCommerce, and follows the site's
@@ -70,8 +71,24 @@ export interface Backend {
   backendSettings: string[]
   /** Short paragraphs: how the connector talks to the platform. */
   howItWorks: string[]
+  /** This backend's own limits. What every backend shares is said once, on the hub. */
   limitations: string[]
+  /** This backend's own errors. The ones every switch can meet are on the hub. */
   troubleshooting: { problem: string; fix: string }[]
+  /** Read from the connector's own source at `commit`, never from the platform's marketing. */
+  api?: {
+    /** Which API, version and base path the connector calls. */
+    surface: string
+    /** How it authenticates the store and the shopper. */
+    auth: string
+    /** Only services connectors.json counts as wired, so the page never contradicts the coverage. */
+    calls: { service: string; what: string }[]
+    /** Platform rules the code follows: envelopes, filters, tokens, quirks. */
+    rules: string[]
+    repo: string
+    commit: string
+    commitDate: string
+  }
   /** Three to five. Rendered visibly and as FAQPage JSON-LD. */
   faq: { q: string; a: string }[]
   /** The question the guide puts to this platform's maintainers, if it has one. */

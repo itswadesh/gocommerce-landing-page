@@ -23,7 +23,6 @@
       "cmd": "npm run dev"
     }
   ],
-  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
   "env": [
     {
       "name": "PUBLIC_VIRTO_COMMERCE_API_URL",
@@ -63,18 +62,13 @@
   ],
   "envNote": "`init.ts` hands the connector every `PUBLIC_VIRTO_COMMERCE_*` variable that is set, camel-cased — the prefix follows the product, not the package, which is `virto-connector`. The guide also lists `PUBLIC_VIRTO_COMMERCE_API_KEY`, `PUBLIC_VIRTO_COMMERCE_API_SECRET`, `PUBLIC_VIRTO_COMMERCE_ACCESS_KEY` and `PUBLIC_VIRTO_COMMERCE_CHANNEL_ID`; the connector’s source does not read them.",
   "backendSettings": [
-    "Configure the payment methods you want shoppers to use on the Virto store itself: the connector places orders through `cart.availablePaymentMethods`, and refuses a gateway the store does not offer.",
-    "Let the storefront’s origin make cross-origin requests to Virto Commerce (CORS): in production the browser calls `PUBLIC_VIRTO_COMMERCE_API_URL` directly, not only the server."
+    "Configure the payment methods you want shoppers to use on the Virto store itself: the connector places orders through `cart.availablePaymentMethods`, and refuses a gateway the store does not offer."
   ],
   "howItWorks": [
-    "The connector speaks Virto Commerce’s GraphQL API, which wants culture, currency and catalogue as explicit arguments on most operations. Whatever you leave unset is read once from the store’s own record and remembered. Checkout places the order with a payment method the store exposes, matched by name — or, for cash on delivery, by a manual payment method.",
-    "Installing the package is the whole switch. `vite.config.ts` resolves whichever `@misiki/*-connector` is installed, and `src/lib/core/connectors/init.ts` hands it every `PUBLIC_VIRTO_COMMERCE_*` variable that is set, camel-cased, at boot — in the server hook for server rendering and in the client hook for the browser, which must reach the same URL in production.",
-    "There is no Litekart API behind the storefront here, so store identity — name, logo, currency, menus, plugin toggles, theme colours — comes from `src/lib/core/connectors/default-store.json` merged under the default export of `kitcommerce.config.ts`. Until you override it, the store is called “Test”. Any Litekart REST path the connector still inherits is answered from that local data, or resolved empty, rather than requested."
+    "The connector speaks Virto Commerce’s GraphQL API, which wants culture, currency and catalogue as explicit arguments on most operations. Whatever you leave unset is read once from the store’s own record and remembered. Checkout places the order with a payment method the store exposes, matched by name — or, for cash on delivery, by a manual payment method."
   ],
   "limitations": [
-    "No gaps are recorded for Virto Commerce in CONNECTORS.md.",
-    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
-    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden when another connector is active."
+    "No gaps are recorded for Virto Commerce in CONNECTORS.md."
   ],
   "troubleshooting": [
     {
@@ -86,24 +80,8 @@
       "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/virto-connector'`."
     },
     {
-      "problem": "Boot fails with “PUBLIC_…_API_URL is set, but it configures a different backend than the one this build runs on”",
-      "fix": "Another backend’s variable is still set, usually left over from the one you switched from. Remove it, or install that backend’s connector. `PUBLIC_LITEKART_API_URL` is exempt: it only points the dev proxy."
-    },
-    {
-      "problem": "The store is called “Test”, or shows the wrong name and logo",
-      "fix": "Store identity is static on this backend. Set `name`, `logo`, `currencyCode` and the rest in the default export of `kitcommerce.config.ts`; `src/lib/core/connectors/default-store.json` lists every field."
-    },
-    {
       "problem": "`[virto] no native implementation for get /api/...` in the console",
       "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if Virto Commerce has no such feature; if it has one, the fix belongs in the connector’s matching service."
-    },
-    {
-      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
-      "fix": "A Litekart REST path was requested from outside the connector, so its guard never saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
-    },
-    {
-      "problem": "The build fails on `@misiki/litekart-connector`",
-      "fix": "`@misiki/kitcommerce-core` declares it as a peer, and `vite.config.ts` redirects that specifier to whichever connector is installed. Make sure exactly one `@misiki/*-connector` is listed in `package.json`."
     }
   ],
   "faq": [
@@ -118,12 +96,56 @@
     {
       "q": "Which payment methods can shoppers use on Virto Commerce?",
       "a": "The ones your Virto store exposes through `cart.availablePaymentMethods`. Cash on delivery maps to a manual payment method; a gateway the store has not configured is refused with a message saying so, rather than faked."
-    },
-    {
-      "q": "Has the Virto Commerce connector been run against a real Virto Commerce store?",
-      "a": "Not against a live production instance — no Svelte Commerce connector has been. It was written by reading Virto Commerce’s authoritative API source, and the Svelte Commerce maintainers ask Virto Commerce’s own maintainers for a sandbox to run it against."
     }
   ],
   "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/VIRTO-COMMERCE.md",
-  "read": "2026-09-25"
+  "read": "2026-09-25",
+  "api": {
+    "surface": "The connector calls Virto Commerce’s xAPI, a GraphQL schema served at `POST <PUBLIC_VIRTO_COMMERCE_API_URL>/graphql`, and leaves the `/api/...` REST controllers alone because they are the back-office API and need platform permissions a shopper token never holds.",
+    "auth": "A shopper signs in through OpenIddict at `POST /connect/token`, form-encoded, with `grant_type=password`, `scope=offline_access` and the `storeId`; the connector sends the access token back as `Authorization: <token_type> <access_token>` and, on a 401, tries the `refresh_token` grant once before giving up.",
+    "calls": [
+      {
+        "service": "product",
+        "what": "`products` with `storeId`, `userId`, `cultureName`, `currencyCode`, `filter`, `query`, `sort`, `first` and `after`; a product page runs `slugInfo(permalink:)` and then `product(id:)`"
+      },
+      {
+        "service": "category",
+        "what": "`categories` with `storeId`, `filter`, `query`, `sort`, `first` and `after`, and `products` with the filter `category.subtree:{catalogId}/{categoryId}` for a category’s products"
+      },
+      {
+        "service": "search",
+        "what": "`products` with Virto’s `filter` grammar (quoted property values, `price.usd:[100 TO 200)`, `category.subtree:`) plus `facet`"
+      },
+      {
+        "service": "cart",
+        "what": "the `cart` query, and the `addItem`, `changeCartItemQuantity`, `removeCartItem`, `clearCart`, `addCoupon` and `removeCoupon` mutations, each taking a `command` with a non-null `userId`"
+      },
+      {
+        "service": "checkout",
+        "what": "`cart { availablePaymentMethods }`, then `addOrUpdateCartPayment` with the `paymentGatewayCode`, `createOrderFromCart`, `initializePayment` and, on return, `authorizePayment`"
+      },
+      {
+        "service": "order",
+        "what": "`orders` with `userId`, `cultureName`, `filter`, `sort` (default `createddate:desc`), `first` and `after`"
+      },
+      {
+        "service": "auth",
+        "what": "`POST /connect/token`, then `me`; registration through `requestRegistration`, resets through `sendPasswordResetEmail` and `resetPasswordByToken`"
+      },
+      {
+        "service": "address",
+        "what": "`currentCustomerAddresses`, `updateMemberAddresses` and `deleteMemberAddresses`"
+      }
+    ],
+    "rules": [
+      "GraphQL answers HTTP 200 even when an operation fails, so the connector throws on a non-empty `errors` array, and it checks the `validationErrors` that many mutations return inside `data`.",
+      "The `after` argument looks like a cursor but is a numeric offset, `(page - 1) * first`, and page totals come from `totalCount` in the response body.",
+      "Products and categories cannot be fetched by slug, so a product page costs two queries: `slugInfo(permalink:)` for the object id, then `product(id:)`.",
+      "A shopper who has not signed in is Virto’s anonymous user, carried by a cookie, so every request goes out with `credentials: 'include'`, and the platform’s CORS settings must allow credentials from the storefront’s origin or the anonymous cart is lost.",
+      "Sort arguments go out in Virto’s `field:direction` form joined by `;`, with `createdAt` sent as `createddate` and `popularity` as `priority`."
+    ],
+    "repo": "https://github.com/misiki-in/virto-connector",
+    "commit": "2d743bc",
+    "commitDate": "2026-08-25"
+  }
 }

@@ -17,6 +17,31 @@ const faq = [
   { q: 'Can I use Svelte Commerce with GoCommerce?', a: 'Yes, through an early connector: @misiki/gocommerce-connector 0.1.0, on npm, covers catalogue, cart, checkout and order lookup, but not customer accounts or a search index. It sits at the bottom of this table, outside the 26, because the script behind the coverage column has not measured it; the connector status page describes what it does instead.' },
   { q: 'What if my platform is not listed?', a: 'Then there is no adapter for it yet. A connector is a TypeScript package mapping one platform’s API onto the shared service surface, so adding one does not require changing the storefront. The existing 26 are the pattern to follow.' },
 ]
+
+// What every backend page used to repeat, said once. Read from the backend
+// guides in the Svelte Commerce repository, which share these passages.
+const common = [
+  ['Installing the package is the whole switch', '`vite.config.ts` resolves whichever `@misiki/*-connector` is installed, and `src/lib/core/connectors/init.ts` hands it every `PUBLIC_<BACKEND>_*` variable that is set, camel-cased, at boot: in the server hook for server rendering and in the client hook for the browser, which must reach the same URL in production.'],
+  ['One connector at a time', 'A fresh clone’s `package.json` lists `@misiki/litekart-connector` and `@misiki/vendure-connector`. With two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR`, so each backend’s quick start removes both before adding its own.'],
+  ['Store identity is static', 'With no Litekart API behind the storefront, the name, logo, currency, menus, plugin toggles and theme colours come from `src/lib/core/connectors/default-store.json`, merged under the default export of `kitcommerce.config.ts`. Until you override it, the store is called “Test”. Any Litekart REST path a connector still inherits is answered from that local data, or resolved empty, rather than requested.'],
+  ['Cross-origin requests', 'In production the browser calls the backend’s API URL directly, not only the server, so the backend must accept requests from the storefront’s origin (CORS).'],
+]
+const sharedLimits = [
+  'Pages that depend on a service that is not wired render their empty state rather than failing.',
+  'Homepage sections other than the live product list come from the active theme’s static content, the standing rule for themes.',
+  'The Conversational Shopping assistant is Litekart-only; its widget stays hidden when another connector is active.',
+]
+const sharedErrors = [
+  ['Boot fails with “the <backend> connector is active but PUBLIC_<BACKEND>_API_URL is not set”', 'Add that variable to `.env`. A production Node build and Docker read `PUBLIC_*` from the process environment rather than `.env`, so set it on your deploy platform too.'],
+  ['The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”', 'More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run, or set `PUBLIC_CONNECTOR` to the package you do.'],
+  ['Boot fails with “PUBLIC_…_API_URL is set, but it configures a different backend than the one this build runs on”', 'Another backend’s variable is still set, usually left over from the one you switched from. Remove it, or install that backend’s connector. `PUBLIC_LITEKART_API_URL` is exempt: it only points the dev proxy.'],
+  ['The store is called “Test”, or shows the wrong name and logo', 'Set `name`, `logo`, `currencyCode` and the rest in the default export of `kitcommerce.config.ts`; `default-store.json` lists every field.'],
+  ['`[<backend>] no native implementation for get /api/...` in the console', 'The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if the platform has no such feature; if it has one, the fix belongs in the connector’s matching service.'],
+  ['`http proxy error: api/... ECONNREFUSED` in dev', 'A Litekart REST path was requested from outside the connector, so its guard never saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`.'],
+  ['The build fails on `@misiki/litekart-connector`', '`@misiki/kitcommerce-core` declares it as a peer, and `vite.config.ts` redirects that specifier to whichever connector is installed. Make sure exactly one `@misiki/*-connector` is listed in `package.json`.'],
+]
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+const inline = (s: string) => s.split('`').map((part, i) => (i % 2 ? `<code>${esc(part)}</code>` : esc(part))).join('')
 ---
 <Base
   title="Svelte Commerce Backends — 26 Connectors and Their Coverage"
@@ -64,6 +89,28 @@ const faq = [
       <p>Every connector was written by reading its platform’s <b>authoritative source</b> — the OpenAPI spec, the RAML, the router registration, or the controller source. No endpoint was guessed, and where a route could not be verified it was left an explicit placeholder rather than shipped as a plausible path that 404s in a merchant’s store.</p>
       <p>But reading a spec is not running against a real store. <b>None of these connectors has been exercised against a live production instance of its platform.</b> That is the single biggest gap in this table, and it is the thing platform maintainers can help with that we cannot do alone.</p>
       <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce/discussions/new/choose" target="_blank" rel="noopener noreferrer">Offer a sandbox or a correction</a>
+    </div>
+  </section>
+
+  <section id="common" class="section wrap" aria-labelledby="common-title">
+    <h2 id="common-title">What every backend shares</h2>
+    <p class="section-lede">The storefront is the same on all 26, so switching, store identity, a few limits and the common errors are the same too. Each backend’s own page covers only what differs.</p>
+    <ul class="notyet">
+      {common.map(([b, t]) => <li><b>{b}</b><span set:html={inline(t)} /></li>)}
+    </ul>
+    <h3 class="api-rules-title">Limits on every backend but Litekart</h3>
+    <ul class="tick">{sharedLimits.map((l) => <li>{l}</li>)}</ul>
+    <h3 class="api-rules-title">Errors any switch can meet</h3>
+    <div class="tbl-scroll">
+      <table class="reltable vs">
+        <caption>Errors common to every connector, and what fixes them</caption>
+        <thead>
+          <tr><th scope="col">When you see</th><th scope="col">What to do</th></tr>
+        </thead>
+        <tbody>
+          {sharedErrors.map(([problem, fix]) => <tr><th scope="row" set:html={inline(problem)} /><td set:html={inline(fix)} /></tr>)}
+        </tbody>
+      </table>
     </div>
   </section>
 

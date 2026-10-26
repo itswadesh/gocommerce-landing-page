@@ -23,7 +23,6 @@
       "cmd": "npm run dev"
     }
   ],
-  "quickStartNote": "The guide removes only `@misiki/litekart-connector`. A fresh clone’s `package.json` also lists `@misiki/vendure-connector`, and with two connectors installed and neither of them Litekart’s, the build stops and asks for `PUBLIC_CONNECTOR` — so this removes both.",
   "env": [
     {
       "name": "PUBLIC_NOPCOMMERCE_API_URL",
@@ -43,55 +42,19 @@
   ],
   "envNote": "`init.ts` hands the connector every `PUBLIC_NOPCOMMERCE_*` variable that is set, camel-cased. The guide also lists `PUBLIC_NOPCOMMERCE_API_KEY`, `PUBLIC_NOPCOMMERCE_API_SECRET`, `PUBLIC_NOPCOMMERCE_ACCESS_KEY`, `PUBLIC_NOPCOMMERCE_STORE_ID` and `PUBLIC_NOPCOMMERCE_CHANNEL_ID`; the connector’s source does not read them.",
   "backendSettings": [
-    "Install nopCommerce’s Web API Framework and Web API Frontend plugins. Core ships no REST API; the connector targets the Frontend plugin’s v4.50.09 contract.",
-    "Let the storefront’s origin make cross-origin requests to nopCommerce (CORS): in production the browser calls `PUBLIC_NOPCOMMERCE_API_URL` directly, not only the server."
+    "Install nopCommerce’s Web API Framework and Web API Frontend plugins. Core ships no REST API; the connector targets the Frontend plugin’s v4.50.09 contract."
   ],
   "howItWorks": [
     "The connector speaks the Web API Frontend plugin’s contract (v4.50.09, 2022), not nopCommerce core, which has no REST API. A shopper who has not signed in gets a guest token before the first cart call, and tokens travel as `Authorization: Bearer`.",
-    "Checkout in nopCommerce is five steps — billing address, shipping method, payment method, payment info, confirm — with the payment chosen by a payment plugin’s system name, and redirect gateways finishing on the store’s own return URL. The connector wires those steps as nopCommerce-native methods; the storefront’s per-gateway methods throw `NotSupportedError`, because an empty answer from a checkout call reads as “payment started”.",
-    "Installing the package is the whole switch. `vite.config.ts` resolves whichever `@misiki/*-connector` is installed, and `src/lib/core/connectors/init.ts` hands it every `PUBLIC_NOPCOMMERCE_*` variable that is set, camel-cased, at boot — in the server hook for server rendering and in the client hook for the browser, which must reach the same URL in production.",
-    "There is no Litekart API behind the storefront here, so store identity — name, logo, currency, menus, plugin toggles, theme colours — comes from `src/lib/core/connectors/default-store.json` merged under the default export of `kitcommerce.config.ts`. Until you override it, the store is called “Test”. Any Litekart REST path the connector still inherits is answered from that local data, or resolved empty, rather than requested."
+    "Checkout in nopCommerce is five steps — billing address, shipping method, payment method, payment info, confirm — with the payment chosen by a payment plugin’s system name, and redirect gateways finishing on the store’s own return URL. The connector wires those steps as nopCommerce-native methods; the storefront’s per-gateway methods throw `NotSupportedError`, because an empty answer from a checkout call reads as “payment started”."
   ],
   "limitations": [
-    "The storefront cannot place an order. The storefront’s payment step calls one method per gateway — cash on delivery, Razorpay, Stripe and the rest — and nopCommerce has no per-gateway route, so each throws `NotSupportedError`. The connector’s nopCommerce-native checkout steps are not called by the storefront yet.",
-    "Coupons: not wired.",
-    "Currencies: not wired.",
-    "Pages that depend on a service that is not wired render their empty state rather than failing.",
-    "Homepage sections other than the live product list come from the active theme’s static content — the standing rule for themes.",
-    "The Conversational Shopping assistant is Litekart-only; its widget stays hidden when another connector is active."
+    "The storefront cannot place an order. The storefront’s payment step calls one method per gateway — cash on delivery, Razorpay, Stripe and the rest — and nopCommerce has no per-gateway route, so each throws `NotSupportedError`. The connector’s nopCommerce-native checkout steps are not called by the storefront yet."
   ],
   "troubleshooting": [
     {
       "problem": "Every authenticated call returns 401",
       "fix": "The connector sends `Authorization: Bearer <token>`, as the plugin’s security scheme describes; the plugin’s own curl example sends the bare token. If your store expects the bare token, set `BaseService.AUTH_RAW_TOKEN = true` once at startup."
-    },
-    {
-      "problem": "Boot fails with “the nopcommerce connector is active but PUBLIC_NOPCOMMERCE_API_URL is not set”",
-      "fix": "Add `PUBLIC_NOPCOMMERCE_API_URL` to `.env`. A production Node build and Docker read `PUBLIC_*` from the process environment rather than `.env`, so set it on your deploy platform too."
-    },
-    {
-      "problem": "The build stops with “Several commerce connectors are installed … Set PUBLIC_CONNECTOR to pick one”",
-      "fix": "More than one `@misiki/*-connector` is in `package.json` and none is Litekart’s. Uninstall the ones you do not run — a fresh clone also lists `@misiki/vendure-connector` — or set `PUBLIC_CONNECTOR='@misiki/nopcommerce-connector'`."
-    },
-    {
-      "problem": "Boot fails with “PUBLIC_…_API_URL is set, but it configures a different backend than the one this build runs on”",
-      "fix": "Another backend’s variable is still set, usually left over from the one you switched from. Remove it, or install that backend’s connector. `PUBLIC_LITEKART_API_URL` is exempt: it only points the dev proxy."
-    },
-    {
-      "problem": "The store is called “Test”, or shows the wrong name and logo",
-      "fix": "Store identity is static on this backend. Set `name`, `logo`, `currencyCode` and the rest in the default export of `kitcommerce.config.ts`; `src/lib/core/connectors/default-store.json` lists every field."
-    },
-    {
-      "problem": "`[nopcommerce] no native implementation for get /api/...` in the console",
-      "fix": "The connector’s REST guard caught a path inherited from Litekart and answered it empty instead of requesting it. Each path is reported once. Harmless if nopCommerce has no such feature; if it has one, the fix belongs in the connector’s matching service."
-    },
-    {
-      "problem": "`http proxy error: api/... ECONNREFUSED` in dev",
-      "fix": "A Litekart REST path was requested from outside the connector, so its guard never saw it. Vite proxies `/api` to `PUBLIC_LITEKART_API_URL`, or to `localhost:7000`."
-    },
-    {
-      "problem": "The build fails on `@misiki/litekart-connector`",
-      "fix": "`@misiki/kitcommerce-core` declares it as a peer, and `vite.config.ts` redirects that specifier to whichever connector is installed. Make sure exactly one `@misiki/*-connector` is listed in `package.json`."
     }
   ],
   "faq": [
@@ -106,13 +69,57 @@
     {
       "q": "Does nopCommerce need a plugin for Svelte Commerce?",
       "a": "Yes. nopCommerce core ships no REST API, so the connector targets the Web API Frontend plugin’s contract, version 4.50.09 from 2022, which needs the Web API Framework plugin too. If a newer contract is published, the Svelte Commerce maintainers have asked to be pointed at it."
-    },
-    {
-      "q": "Has the nopCommerce connector been run against a real nopCommerce store?",
-      "a": "Not against a live production instance — no Svelte Commerce connector has been. It was written by reading nopCommerce’s authoritative API source, and the Svelte Commerce maintainers ask nopCommerce’s own maintainers for a sandbox to run it against."
     }
   ],
   "openQuestion": "If there is a published API contract newer than Web API Frontend v4.50.09, where is it?",
   "docUrl": "https://github.com/itswadesh/svelte-commerce/blob/main/docs/NOPCOMMERCE.md",
-  "read": "2026-09-25"
+  "read": "2026-09-25",
+  "api": {
+    "surface": "The connector calls the paid Web API Frontend plugin under `/api-frontend`, an RPC-style JSON API shaped `/api-frontend/{Controller}/{Action}[/{id}]` and pinned to the plugin’s published OpenAPI contract v4.50.09.",
+    "auth": "`POST /api-frontend/Authenticate/GetToken` returns a JWT that the connector holds in its credentials and sends as `Authorization: Bearer`; with no token it first requests one with `is_guest: true`, because the token is the whole session and nopCommerce has no cart ID or cart cookie.",
+    "calls": [
+      {
+        "service": "product",
+        "what": "`GET /api-frontend/UrlRecord/GetBySlug?slug=` to turn a slug into an ID, then `GET /api-frontend/Product/GetProductDetails/{id}`; lists use `POST /api-frontend/Catalog/GetCategoryProducts/{id}` with `page_number`, `page_size` and `order_by` in the body"
+      },
+      {
+        "service": "category",
+        "what": "`GET /api-frontend/Catalog/GetCatalogRoot?loadImage=true` for the tree and `POST /api-frontend/Catalog/GetCategory/{id}` for one category"
+      },
+      {
+        "service": "search",
+        "what": "`POST /api-frontend/Catalog/Search?q=` with a paging command, and `GET /api-frontend/Catalog/SearchTermAutoComplete?term=` for suggestions"
+      },
+      {
+        "service": "cart",
+        "what": "`GET /api-frontend/ShoppingCart/Cart`, `POST /api-frontend/ShoppingCart/AddProductToCartFromCatalog/{id}?shoppingCartType=ShoppingCart&quantity=` and `POST /api-frontend/ShoppingCart/UpdateCart` for quantity changes and removals"
+      },
+      {
+        "service": "checkout",
+        "what": "`GET /api-frontend/Checkout/ShippingMethod`, `POST Checkout/SelectShippingMethod?shippingOption=`, `GET Checkout/PaymentMethod`, `POST Checkout/SelectPaymentMethod?paymentMethod=`, `POST Checkout/EnterPaymentInfo` and `GET Checkout/ConfirmOrder`"
+      },
+      {
+        "service": "order",
+        "what": "`GET /api-frontend/Order/CustomerOrders` and `GET /api-frontend/Order/Details/{id}`, both scoped to the token’s customer"
+      },
+      {
+        "service": "auth",
+        "what": "`POST /api-frontend/Authenticate/GetToken` with `email` and `password`, `GET` then `POST /api-frontend/Customer/Register`, `GET /api-frontend/Customer/Info` and `POST /api-frontend/Customer/PasswordRecoverySend`"
+      },
+      {
+        "service": "address",
+        "what": "`GET /api-frontend/Customer/Addresses`, `POST Customer/AddressAdd`, `PUT Customer/AddressEdit` and `DELETE Customer/AddressDelete/{id}`"
+      }
+    ],
+    "rules": [
+      "Detail routes take an integer ID, never a slug, so every slug costs a `UrlRecord/GetBySlug` lookup first; the connector caches the answers, misses included.",
+      "Catalogue lists are `POST` requests with the paging in the JSON body, and the real totals are read from a nested pager block such as `catalog_products_model`; routes that return a bare array are reported as one page of what came back.",
+      "Cart changes are sent as storefront form fields, such as `itemquantity{cartItemId}` and `removefromcart`, because the cart controller has no `DELETE` and removal goes through `ShoppingCart/UpdateCart`.",
+      "A price filter is one `price` string in the form `from-to`, and sorting is a numeric `order_by` in which creation date sorts newest first only.",
+      "On a 401 the connector replaces only a guest token, never a signed-in customer’s, and a failed sign-in is not retried with the username, since each attempt counts towards the store’s lockout limit."
+    ],
+    "repo": "https://github.com/misiki-in/nopcommerce-connector",
+    "commit": "a847d14",
+    "commitDate": "2026-08-25"
+  }
 }
