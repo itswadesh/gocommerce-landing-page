@@ -1,0 +1,53 @@
+{
+  "slug": "banners",
+  "name": "Banners",
+  "category": "Platform",
+  "title": "Storefront Banners for GoCommerce — Slides and Grids",
+  "description": "Keep a GoCommerce storefront’s home page pictures as rows: slides across the top, grids of tiles under a heading, a phone picture, a switch and one saved order.",
+  "ogTitle": "Banners for GoCommerce",
+  "ogDescription": "Slides and grids of tiles for the home page, one row per picture, served already split for the storefront.",
+  "h1": "Banners for GoCommerce",
+  "lede": "A Go package that keeps the pictures on a storefront’s home page as rows, one per picture: slides across the top, and grids of tiles under a heading. Each is a picture, an optional phone picture, a title that is also its alternative text, and a link. The storefront reads them at /x/banners?page=home, already split into slides and grids.",
+  "what": [
+    "In the package’s own words, banners are “the pictures a shop puts on its storefront’s pages: slides across the top of a page, and grids of tiles under a heading, each a picture and a link.” They are kept as rows, one per picture, so a shop adds, reorders and switches off one banner without rewriting a page.",
+    "A banner has a placement, slide or grid, and a grid tile has a heading: tiles with the same heading on a page form one grid. The picture is wide enough for a desktop; an optional narrower crop is for phones, and without one the wide picture is used there too. The order is the shop’s own and runs across the whole page.",
+    "Each banner names its page, so other pages can follow, but only the home page is accepted until a storefront shows banners anywhere else. A store that starts with the sample shop gets three slides and a Shop by collection grid, made from the sample shop’s photographs."
+  ],
+  "configLede": "There is nothing to set in Go: Config is an empty struct, there so a setting can arrive without changing how the module is installed. Banners are rows an operator edits on the admin’s Content › Banners screen or through the API.",
+  "config": [
+    { "field": "banners", "panel": "Banners, on the Plugins screen", "required": false, "note": "The plugin’s switch, on by default. Off, GET /x/banners answers 404 while the Banners screen and its admin routes keep working, so banners can be prepared before they show." }
+  ],
+  "setup": [
+    { "b": "Install the module", "t": "Pass banners.New to gocommerce.New, as below, or start the reference binary with -banners. It adds one table." },
+    { "b": "Add the pictures", "t": "On Content › Banners, add a slide or a grid tile: a picture chosen from Files or typed in as a link, an optional phone picture, a title and a link such as /collections/new-in." },
+    { "b": "Put them in order", "t": "Move banners with the arrows on the screen. The page’s whole order is saved at once, with PUT /api/admin/x/banners/order." },
+    { "b": "Render them", "t": "The storefront reads GET /x/banners?page=home and gets slides and grids, each grid with its heading and its tiles in order. Only switched-on banners are served." }
+  ],
+  "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/banners\"\n)\n\napp, err := gocommerce.New(cfg,\n\t// Config has nothing to set yet.\n\tbanners.New(banners.Config{}),\n)",
+  "codeTitle": "main.go",
+  "codeNote": "The package doc has no example of its own; this is how the reference binary’s -banners flag installs it. cfg is your gocommerce.Config.",
+  "howItWorks": [
+    { "b": "Served already split", "t": "GET /x/banners?page=home answers the page, its slides and its grids, with only switched-on banners and in the shop’s order. Grids come in the order their first tile appears. Each banner carries its id, title, link, picture and phone picture." },
+    { "b": "One order per page", "t": "PUT /api/admin/x/banners/order takes every banner on the page, each once, and rewrites their positions in one transaction. An order that leaves one out or names one twice is refused, so a page is never half sorted. A new banner goes last on its page." },
+    { "b": "Addresses that cannot run", "t": "A picture or a link is a path on the site or an http or https address. javascript:, data:, a protocol-relative //host, /\\ and any whitespace or control character are refused. Addresses are at most 2,048 characters, titles 200." },
+    { "b": "A switch that keeps the banner", "t": "Switching a banner off takes it off the storefront without deleting it. A save that does not mention the switch leaves it as it was." },
+    { "b": "Its own rights", "t": "banners.read for managers and staff, banners.write for managers: changing what every visitor sees on arrival is the manager’s." },
+    { "b": "Sample banners come and go together", "t": "The sample shop’s slides and grid are marked as samples, which only the engine sets, and are erased with the rest of the sample shop. A slide whose sample collection or category the store lacks is left out rather than linking nowhere." }
+  ],
+  "limits": [
+    { "b": "The home page only", "t": "A banner for any page but home is refused. The column is there for other pages; the storefront shows banners on its home page alone." },
+    { "b": "No schedule", "t": "A banner is on or off. There is no start or end date; the switch is the only way to time one." },
+    { "b": "An address, not an upload", "t": "The module stores the picture’s address. Uploading is the Files screen’s job, and the module does not check that a picture exists or how large it is." },
+    { "b": "Two placements", "t": "Slides and grid tiles. There are no other layouts, and a tile’s grid is known only by its heading text." },
+    { "b": "No counts", "t": "Nothing records how often a banner was seen or clicked." }
+  ],
+  "tested": true,
+  "testCount": 6,
+  "apiOps": 6,
+  "faq": [
+    { "q": "What does the storefront read?", "a": "GET /x/banners?page=home on the host that serves your GoCommerce API. It answers the page name, a list of slides and a list of grids, each grid with its heading and tiles, already in the shop’s order." },
+    { "q": "Can a banner show on a collection page?", "a": "No. Only the home page is accepted, because no storefront shows banners anywhere else yet." },
+    { "q": "Can I schedule a banner?", "a": "No. A banner has an on and off switch and no dates. Switch it on when it should show, and off afterwards." },
+    { "q": "What size should the pictures be?", "a": "The module does not say or check. It takes a wide picture for desktops and an optional narrower one for phones; without the phone picture the wide one is used on phones too." }
+  ]
+}
