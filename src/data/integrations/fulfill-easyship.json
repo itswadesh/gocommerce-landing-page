@@ -2,11 +2,11 @@
   "slug": "fulfill-easyship",
   "name": "Easyship",
   "category": "Shipping",
-  "title": "Easyship Shipping for GoCommerce — Open-Source Module",
+  "title": "Easyship API in Go: GoCommerce shipping module",
   "description": "Book Easyship shipments with the label in one call from a GoCommerce order: token, courier service, ship-from address, units, customs items and limits.",
   "ogTitle": "Easyship shipping for GoCommerce",
   "ogDescription": "A shipment and its label in one call, with the parcel’s contents declared for customs. Read from the source.",
-  "h1": "Easyship shipping for GoCommerce",
+  "h1": "Easyship API in Go",
   "lede": "A Go package that creates an Easyship shipment and buys its label in the same call when an operator ships an order. It declares the parcel’s contents for customs and hands the engine a tracking number and the label — or a precise error.",
   "what": [
     "The module registers “easyship” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider easyship — the engine keeps the order’s state and its events, and the module only talks to Easyship.",

@@ -2,11 +2,11 @@
   "slug": "notify-resend",
   "name": "Resend",
   "category": "Messaging",
-  "title": "Resend Email for GoCommerce — Open-Source Module",
+  "title": "Resend API in Go: GoCommerce order email module",
   "description": "Send GoCommerce order emails through Resend with one setting, an API key: the default sender, where the wording lives, what gets logged, and the limits.",
   "ogTitle": "Resend email for GoCommerce",
   "ogDescription": "One setting and the store’s emails go out. Read from the module’s source.",
-  "h1": "Resend email for GoCommerce",
+  "h1": "Resend email API in Go",
   "lede": "A Go package that sends a GoCommerce store’s emails — order confirmations, shipping notices, password resets — through Resend. An API key is the only required setting; until a domain is verified, mail goes from Resend’s onboarding address.",
   "what": [
     "The module registers a notifier on the engine’s email channel. When the engine has something to tell a shopper — an order placed, paid, shipped, delivered, cancelled, refunded or returned — it hands the module the event and flat data such as order_number, items_summary and tracking, and the module sends one plain-text email through Resend’s POST /emails.",

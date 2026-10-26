@@ -2,11 +2,11 @@
   "slug": "payments-creem",
   "name": "Creem",
   "category": "Payments",
-  "title": "Creem Payments for GoCommerce — Open-Source Module",
+  "title": "Creem integration in Go (GoCommerce module)",
   "description": "Sell through Creem as merchant of record from a GoCommerce store: the placeholder product, keys, webhook URL, full-only refunds and the module’s limits.",
   "ogTitle": "Creem payments for GoCommerce",
   "ogDescription": "Hosted checkouts against one placeholder product, and refunds that are whole or not at all.",
-  "h1": "Creem payments for GoCommerce",
+  "h1": "Creem integration in Go",
   "lede": "A Go package that creates a Creem checkout at the order’s price and marks the GoCommerce order paid when a signed checkout.completed event says it was paid. Creem refunds in full only, and the module refuses a partial refund rather than send one.",
   "what": [
     "The module registers “creem” as a payment method. At checkout it creates a Creem checkout against a placeholder product you name, overrides its price with the order’s total in minor units, and answers with a redirect intent carrying the checkout URL. The order id also goes as Creem’s request_id, so a row in Creem’s dashboard can be tied to the store without opening the payload.",

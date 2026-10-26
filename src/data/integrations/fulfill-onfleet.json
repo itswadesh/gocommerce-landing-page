@@ -2,11 +2,11 @@
   "slug": "fulfill-onfleet",
   "name": "Onfleet",
   "category": "Shipping",
-  "title": "Onfleet Local Delivery for GoCommerce — Open-Source Module",
+  "title": "Onfleet API in Go: GoCommerce local delivery module",
   "description": "Turn a GoCommerce shipment into an Onfleet delivery task for your own drivers: the API key, auto-assign, cash-to-collect notes, and what it leaves out.",
   "ogTitle": "Onfleet local delivery for GoCommerce",
   "ogDescription": "Every shipment becomes a delivery task for the store’s own drivers. Read from the module’s source.",
-  "h1": "Onfleet local delivery for GoCommerce",
+  "h1": "Onfleet API in Go",
   "lede": "A Go package that turns a shipment into an Onfleet task for the store’s own drivers. Not a carrier: no label, no waybill — a delivery task with the order on it, and a note to collect money when the order is unpaid.",
   "what": [
     "The module registers “onfleet” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider onfleet — the engine keeps the order’s state and its events, and the module only talks to Onfleet.",

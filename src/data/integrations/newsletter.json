@@ -2,11 +2,11 @@
   "slug": "newsletter",
   "name": "Newsletter",
   "category": "Marketing",
-  "title": "Newsletter Signups for GoCommerce — List and Unsubscribe",
+  "title": "Newsletter signups in Go (GoCommerce module)",
   "description": "Collect newsletter signups in a GoCommerce store: each address with its source and date, an unsubscribe route, and a CSV export. It sends no mail itself.",
   "ogTitle": "Newsletter signups for GoCommerce",
   "ogDescription": "The signup box and its list: addresses kept with their consent, unsubscribed by token, exported as CSV. Read from the source.",
-  "h1": "Newsletter signups for GoCommerce",
+  "h1": "Newsletter signups in Go",
   "lede": "A Go package for the signup box: who asked to hear from the store, and who asked to stop. It keeps each address with where it came from and when, lists and exports them for an operator, and unsubscribes by token. It sends nothing; in its own words, that is a marketing tool’s job.",
   "what": [
     "In the package’s words, “a subscription is an email address and a consent.” The storefront posts the address to POST /x/newsletter/subscribe, with an optional name and a source such as footer. The store keeps it lower-cased, with the date, and answers with the status alone: “an address and a token are not a storefront’s to show.”",

@@ -2,11 +2,11 @@
   "slug": "payments-helcim",
   "name": "Helcim",
   "category": "Payments",
-  "title": "Helcim Payments for GoCommerce — Open-Source Module",
+  "title": "Helcim integration in Go (GoCommerce module)",
   "description": "Take card payments through Helcim’s HelcimPay.js in a GoCommerce store: API token, verifier token, webhook URL, refunds, and what the module leaves out.",
   "ogTitle": "Helcim payments for GoCommerce",
   "ogDescription": "HelcimPay.js in the page, and a webhook that is checked against the transaction before anything settles.",
-  "h1": "Helcim payments for GoCommerce",
+  "h1": "Helcim integration in Go",
   "lede": "A Go package that opens a HelcimPay.js checkout session and marks the GoCommerce order paid only after reading the transaction back from Helcim — because Helcim’s webhook carries an id and a type, and nothing else.",
   "what": [
     "The module registers “helcim” as a payment method. At checkout it asks Helcim for a HelcimPay.js session — a purchase for the order’s total, with the order number as the invoice number — and answers with a client_action intent carrying the checkout token. The storefront loads Helcim’s script and opens the payment modal; that, the package says, is the one thing the module cannot do for it.",

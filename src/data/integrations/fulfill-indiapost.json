@@ -2,11 +2,11 @@
   "slug": "fulfill-indiapost",
   "name": "India Post",
   "category": "Shipping",
-  "title": "India Post Shipments for GoCommerce — Open-Source Module",
+  "title": "India Post API in Go: GoCommerce shipping module",
   "description": "Record India Post consignments on GoCommerce orders, with the S10 number checked before the order ships — and why this module books nothing itself.",
   "ogTitle": "India Post consignments for GoCommerce",
   "ogDescription": "Records the counter booking and refuses a number India Post did not issue. Read from the source.",
-  "h1": "India Post consignments for GoCommerce",
+  "h1": "India Post API in Go",
   "lede": "A Go package that records a parcel you booked at the post office counter or in the Department of Posts’ portal, and refuses a consignment number India Post did not issue. It books nothing, and its own documentation says so.",
   "what": [
     "Registering the module adds “india-post” as a fulfillment provider. An operator ships the usual way — the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"india-post\" and the consignment number from the receipt — and the module checks the number, records the carrier as India Post and hands the shipment to the engine.",

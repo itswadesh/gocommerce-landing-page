@@ -2,11 +2,11 @@
   "slug": "feeds",
   "name": "Product feeds",
   "category": "Marketing",
-  "title": "Google Merchant Center and Meta Feeds for GoCommerce",
+  "title": "Google Merchant Center feed in Go (GoCommerce module)",
   "description": "Publish a GoCommerce catalogue as a Google Merchant Center RSS feed and a Meta catalogue CSV: one item per variant, built live from the catalogue.",
   "ogTitle": "Google Merchant Center and Meta feeds for GoCommerce",
   "ogDescription": "Two feed URLs, one item per variant, built from the live catalogue on every fetch.",
-  "h1": "Google Merchant Center and Meta feeds for GoCommerce",
+  "h1": "Google Merchant Center and Meta feeds in Go",
   "lede": "A Go package that publishes the catalogue in the shapes advertising platforms read: Google Merchant Center’s RSS feed at /x/feeds/google.xml and Meta’s catalogue CSV at /x/feeds/meta.csv. One item per variant, built from the live catalogue on each request. One setting is required — where the storefront lives.",
   "what": [
     "In the package’s own words, a feed is “the storefront’s products, one item per variant, with the fields those platforms require and nothing they do not: an id, a title, a price in the store’s currency, a link to the product page, a picture, availability, a brand, and the group that ties a product’s variants together.”",

@@ -2,11 +2,11 @@
   "slug": "sitemaps",
   "name": "Sitemaps",
   "category": "Marketing",
-  "title": "XML Sitemaps for GoCommerce — Open-Source Module",
+  "title": "XML sitemap generator in Go (GoCommerce module)",
   "description": "Publish a storefront sitemap from the live GoCommerce catalogue: products, collections and CMS pages, the storefront URL and paths, and the 50,000-URL limit.",
   "ogTitle": "Storefront sitemaps for GoCommerce",
   "ogDescription": "Products, collections and pages from the live catalogue, with the day each last changed. Read from the source.",
-  "h1": "Storefront sitemaps for GoCommerce",
+  "h1": "XML sitemaps for a Go store",
   "lede": "A Go package that publishes the storefront’s sitemap from the live catalogue — every active product and collection, and every published page when the cms module is installed. It needs one setting: where the storefront lives.",
   "what": [
     "The module serves a sitemap index at /x/sitemaps/sitemap.xml and the files it points at: products.xml, collections.xml and, with the cms module installed, pages.xml. Every URL carries the day the thing it names last changed.",

@@ -2,11 +2,11 @@
   "slug": "invoices",
   "name": "Invoices",
   "category": "Platform",
-  "title": "Numbered Invoices for GoCommerce — Open-Source Module",
+  "title": "Numbered order invoices in Go (GoCommerce module)",
   "description": "Issue a gapless, numbered invoice for every paid GoCommerce order: seller details, GSTIN or VAT number, the number format, and what the document leaves out.",
   "ogTitle": "Numbered invoices for GoCommerce",
   "ogDescription": "A gapless invoice number the moment an order is paid, with a snapshot of the order. Read from the source.",
-  "h1": "Numbered invoices for GoCommerce",
+  "h1": "Numbered order invoices in Go",
   "lede": "A Go package that issues an invoice, with its own gapless number, the moment an order is paid — and keeps a snapshot of the order as it was. The seller’s name, address and tax id are its settings, set in code.",
   "what": [
     "The module listens for order.paid and issues an invoice for that order: a number from its own per-year sequence, the order’s total and currency, and a snapshot of the whole order as it stood. The admin gets an Invoices screen and a link from each order; the API gets two read-only routes.",

@@ -2,11 +2,11 @@
   "slug": "fulfill-usps",
   "name": "USPS",
   "category": "Shipping",
-  "title": "USPS Shipping Labels for GoCommerce — Open-Source Module",
+  "title": "USPS API in Go: GoCommerce shipping labels module",
   "description": "Buy USPS labels directly from a GoCommerce order: the OAuth app, CRID, MID and payment account, mail class, the stored PDF label, and what is left out.",
   "ogTitle": "USPS labels for GoCommerce",
   "ogDescription": "Labels bought straight from the USPS APIs, stored and served to print. Read from the module’s source.",
-  "h1": "USPS labels for GoCommerce",
+  "h1": "USPS API in Go",
   "lede": "A Go package that buys a label straight from the United States Postal Service’s APIs when an operator ships an order — no aggregator in between. USPS does not host the label, so the module keeps the PDF and serves it from one admin route.",
   "what": [
     "The module registers “usps” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider usps — the engine keeps the order’s state and its events, and the module only talks to USPS.",

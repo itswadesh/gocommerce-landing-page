@@ -2,11 +2,11 @@
   "slug": "cart-recovery",
   "name": "Cart recovery",
   "category": "Marketing",
-  "title": "Cart Recovery for GoCommerce — Abandoned Checkout Emails",
+  "title": "Abandoned cart emails in Go (GoCommerce module)",
   "description": "Remind shoppers about baskets they left in a GoCommerce store: a sequence of emails per kind of basket, a counted link back, and the order each one brings back.",
   "ogTitle": "Cart recovery for GoCommerce",
   "ogDescription": "Abandoned baskets recorded within minutes, up to five reminder emails, and the orders they bring back counted apart. Read from the source.",
-  "h1": "Cart recovery for GoCommerce",
+  "h1": "Abandoned cart emails in Go",
   "lede": "A Go package that records a basket somebody left idle, sends a sequence of reminder emails about it on a schedule the store sets, stops the moment the basket becomes an order, and credits that order to the record. It adds no third-party dependency: the emails go out through whatever email notifier the store installed.",
   "what": [
     "The engine records abandonment and announces it, and deliberately stops there, because when and how often to write to a shopper about a stale basket is, in the package’s words, “a marketing decision with opt-out obligations attached”. This module is the other half of that decision: it owns the schedule, and the engine owns the channels.",

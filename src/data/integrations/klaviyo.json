@@ -2,11 +2,11 @@
   "slug": "klaviyo",
   "name": "Klaviyo",
   "category": "Marketing",
-  "title": "Klaviyo for GoCommerce — Order and Cart Events Module",
+  "title": "Klaviyo API in Go: GoCommerce order and cart events",
   "description": "Send a GoCommerce store’s orders and abandoned carts to Klaviyo as events, under the metric names Klaviyo’s flows know. The key, the delays, the limits.",
   "ogTitle": "Klaviyo events from GoCommerce",
   "ogDescription": "Placed Order, Fulfilled Order, Started Checkout and the rest, from a store’s own events. Read from the source.",
-  "h1": "Klaviyo events from GoCommerce",
+  "h1": "Klaviyo API in Go",
   "lede": "A Go package that tells Klaviyo what happens in the store, so its flows — abandoned cart, post-purchase, win-back — have something to run on. Placed, fulfilled, cancelled and refunded orders, each product ordered, and abandoned carts become events on the shopper’s Klaviyo profile. One key is required.",
   "what": [
     "The package sends orders and abandoned carts “under the metric names Klaviyo’s own Shopify integration uses … so a flow built against those names works unchanged.” In the code that is order.created as Placed Order, with one Ordered Product per line; order.shipped as Fulfilled Order; order.cancelled as Cancelled Order; order.refunded as Refunded Order; and cart.abandoned as Started Checkout.",

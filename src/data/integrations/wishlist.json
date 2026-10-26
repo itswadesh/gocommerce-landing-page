@@ -2,11 +2,11 @@
   "slug": "wishlist",
   "name": "Wishlist",
   "category": "Marketing",
-  "title": "Wishlist for GoCommerce — Saved Products and Demand Module",
+  "title": "Ecommerce wishlist in Go (GoCommerce module)",
   "description": "Let GoCommerce shoppers save products to a list kept by a token, guests included, and see which wished-for products are out of stock. Settings and limits.",
   "ogTitle": "Wishlists for GoCommerce",
   "ogDescription": "A list keyed by a token, the way a cart is, and a ranking of what is wanted most and out of stock. Read from the source.",
-  "h1": "Wishlists for GoCommerce",
+  "h1": "Ecommerce wishlist in Go",
   "lede": "A Go package for what shoppers wanted and did not buy yet. A list is kept by a token the storefront holds, the way a cart is, so a guest can save a product before there is an account. The shop’s side ranks products by how many lists hold them and shows which of those are out of stock. Nothing is required.",
   "what": [
     "In the package’s own words, a wishlist is “what shoppers wanted and did not buy yet.” The storefront creates a list with POST /x/wishlist, which answers with its token, and then adds and removes products under /x/wishlist/{token}. Each item comes back with the product’s title, slug, SKU, price and how many the store could sell this minute.",

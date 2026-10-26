@@ -2,11 +2,11 @@
   "slug": "payments-cashfree",
   "name": "Cashfree",
   "category": "Payments",
-  "title": "Cashfree Payments for GoCommerce — Open-Source Module",
+  "title": "Cashfree integration in Go (GoCommerce module)",
   "description": "Take UPI, cards, netbanking and wallets through Cashfree in a GoCommerce store: two keys, the webhook URL, the return check, refunds, and rupees only.",
   "ogTitle": "Cashfree payments for GoCommerce",
   "ogDescription": "Cashfree’s checkout, a signed webhook, a return-page check and refunds in whole or in part. Read from the module’s source.",
-  "h1": "Cashfree payments for GoCommerce",
+  "h1": "Cashfree integration in Go",
   "lede": "A Go package that opens a Cashfree order at checkout, hands the storefront its payment session for Cashfree’s own checkout, and marks the GoCommerce order paid when Cashfree’s signed webhook says the payment succeeded. Two keys to set, one webhook URL to register, and rupees only.",
   "what": [
     "The module registers “cashfree” as a payment method. At checkout it creates a Cashfree order for the order’s total and answers with the order’s payment_session_id, which Cashfree’s JavaScript checkout opens. The shopper pays on Cashfree’s page, so card numbers never reach the store. In the admin it describes itself as “UPI, cards, netbanking and wallets on Cashfree’s checkout, India, with its signed webhook marking orders paid. Rupees only.”",

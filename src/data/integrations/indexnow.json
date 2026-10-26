@@ -2,11 +2,11 @@
   "slug": "indexnow",
   "name": "IndexNow",
   "category": "Marketing",
-  "title": "IndexNow for GoCommerce — Ping Search Engines on Change",
+  "title": "IndexNow in Go: ping search engines from GoCommerce",
   "description": "Tell Bing, Yandex, Seznam and Naver the moment a GoCommerce product or collection changes, over IndexNow: the setup, the key file, and why Google is not in it.",
   "ogTitle": "IndexNow for GoCommerce",
   "ogDescription": "Changed product and collection pages, batched and submitted to IndexNow. Read from the module’s source.",
-  "h1": "IndexNow for GoCommerce",
+  "h1": "IndexNow in Go",
   "lede": "A Go package that tells search engines a page changed, the moment it does. When a product or collection changes, its storefront URL is batched for 30 seconds and submitted to IndexNow, which Bing, Yandex, Seznam and Naver read. Google does not take part.",
   "what": [
     "In the package’s own words: “IndexNow is a ping and nothing more. One POST carrying the URLs that changed, and Bing, Yandex, Seznam and Naver fetch them rather than waiting to crawl. There is no account, no console and no verification round trip: a key file on the site is the verification.”",

@@ -2,11 +2,11 @@
   "slug": "showcases",
   "name": "Video showcases",
   "category": "Marketing",
-  "title": "Video Showcases for GoCommerce — YouTube and Facebook",
+  "title": "Product video showcases in Go (GoCommerce module)",
   "description": "Put a store’s own YouTube and Facebook videos beside the products they show: no video hosting, a live label the store sets, and counts down to orders.",
   "ogTitle": "Video showcases for GoCommerce",
   "ogDescription": "A YouTube or Facebook link, the products it shows, and the platform’s own player. Read from the module’s source.",
-  "h1": "Video showcases for GoCommerce",
+  "h1": "Product video showcases in Go",
   "lede": "A Go package that puts a store’s own videos beside the products they show. A showcase is a link to a video on YouTube or Facebook, the products in it, and which one is being shown now. The storefront plays the platform’s own player and sells through the ordinary cart. Nothing is uploaded, transcoded or streamed by the store.",
   "what": [
     "In the package’s own words, a showcase is “a store’s own people showing the products it sells, in a video on YouTube or Facebook, beside those products”. A shop already films that for its social pages; the module lets the storefront show it next to those products and sell them through the ordinary cart.",

@@ -6,8 +6,8 @@
  * twenty layouts, and a price that changes is a one-line edit with a commit
  * that re-dates the page (see src/lib/dates.mjs).
  *
- * "KitCommerce" appears in the titles because that is what people search.
- * The body always compares GoCommerce and Svelte Commerce — the two packages
+ * The title and h1 lead with the query people type ("Shopify alternative"),
+ * not the brand, which nobody searches yet. The body always compares GoCommerce and Svelte Commerce — the two packages
  * of KitCommerce — and every page says so under the heading, because a claim
  * names the package it is about.
  *
@@ -64,7 +64,8 @@ const takeOn = [
 >
   <section class="wrap page-head">
     <p class="kicker">{c.label}</p>
-    <h1 class={c.h1.length > 60 ? 'h1-long' : undefined}>{c.h1}</h1>
+    <h1 class="h1-long">{c.h1}</h1>
+    <p class="tagline">{c.tagline}</p>
     <p class="lede">{c.lede}</p>
     <ul class="head-facts">
       {c.facts.map((f) => <li><b>{f.b}</b> {f.t}</li>)}

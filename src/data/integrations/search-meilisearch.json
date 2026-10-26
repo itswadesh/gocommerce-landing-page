@@ -2,11 +2,11 @@
   "slug": "search-meilisearch",
   "name": "Meilisearch",
   "category": "Search",
-  "title": "Meilisearch Search for GoCommerce — Open-Source Module",
+  "title": "Meilisearch in Go: product search for GoCommerce",
   "description": "Typo-tolerant product search for a GoCommerce store: a worker keeps a Meilisearch index in step with the catalogue, and the store proxies the searches.",
   "ogTitle": "Meilisearch product search for GoCommerce",
   "ogDescription": "A sync worker, a rebuild button and a search route that needs no key. Read from the module’s source.",
-  "h1": "Meilisearch product search for GoCommerce",
+  "h1": "Meilisearch product search in Go",
   "lede": "A Go package that keeps a Meilisearch index of the catalogue and answers storefront searches from it. A worker pushes what changed every 30 seconds, an operator can rebuild the index from the admin, and the storefront searches through the store without holding a key of its own.",
   "what": [
     "In the package’s own words it is “the sync and the door”: a worker walks the catalogue and pushes what changed, an operator can ask for a full rebuild, and the storefront searches through the store rather than holding a key — though the search-only key is published for a storefront that wants to talk to Meilisearch directly.",

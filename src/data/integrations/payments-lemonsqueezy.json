@@ -2,11 +2,11 @@
   "slug": "payments-lemonsqueezy",
   "name": "Lemon Squeezy",
   "category": "Payments",
-  "title": "Lemon Squeezy Payments for GoCommerce — Open-Source Module",
+  "title": "Lemon Squeezy integration in Go (GoCommerce module)",
   "description": "Sell through Lemon Squeezy as merchant of record from a GoCommerce store: the placeholder variant, four settings, webhook URL, refunds and limits.",
   "ogTitle": "Lemon Squeezy payments for GoCommerce",
   "ogDescription": "Hosted checkouts at the order’s price, against one placeholder variant. Read from the module’s source.",
-  "h1": "Lemon Squeezy payments for GoCommerce",
+  "h1": "Lemon Squeezy integration in Go",
   "lede": "A Go package that creates a Lemon Squeezy checkout at the order’s price and marks the GoCommerce order paid when a signed order_created webhook says it was paid. It needs one placeholder product in Lemon Squeezy — the one setup step Paddle does not.",
   "what": [
     "The module registers “lemonsqueezy” as a payment method. At checkout it creates a Lemon Squeezy checkout against a store and a variant you name, replaces the variant’s price with the order’s total in minor units, and answers with a redirect intent carrying the checkout URL.",

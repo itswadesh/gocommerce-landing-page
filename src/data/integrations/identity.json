@@ -2,11 +2,11 @@
   "slug": "identity",
   "name": "Identity",
   "category": "Platform",
-  "title": "Shopper Accounts for GoCommerce — Identity Module",
+  "title": "Customer accounts and login in Go (GoCommerce module)",
   "description": "Add shopper accounts to a GoCommerce store: sign-up, sign-in, saved addresses, password reset and order history by claim. Guest checkout keeps working.",
   "ogTitle": "Shopper accounts for GoCommerce",
   "ogDescription": "Sign-in, an address book, password reset and order history, in a module’s own tables. Guest checkout untouched.",
-  "h1": "Shopper accounts for GoCommerce",
+  "h1": "Customer accounts and login in Go",
   "lede": "A Go package that adds shopper accounts to a store whose core has none: registration, sign-in, a saved address book, password reset and an order history. Guest checkout is untouched — an account is somewhere to keep addresses and find orders again, not a gate in front of buying.",
   "what": [
     "The package calls itself the module the design anticipated: “core carries no customer concept and never will, so accounts live here, in their own tables, reached through their own routes.” A shopper with an account still checks out with a cart token and an email.",

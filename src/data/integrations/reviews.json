@@ -2,11 +2,11 @@
   "slug": "reviews",
   "name": "Product reviews",
   "category": "Marketing",
-  "title": "Product Reviews for GoCommerce — Moderated Ratings Module",
+  "title": "Product reviews in Go: moderated ratings for GoCommerce",
   "description": "Ratings and reviews on a GoCommerce product page: held for moderation, marked verified from the store’s own orders, and moved in or out as a CSV file.",
   "ogTitle": "Product reviews for GoCommerce",
   "ogDescription": "A rating out of five and some words, held for an operator and verified against the store’s own orders. Read from the source.",
-  "h1": "Product reviews for GoCommerce",
+  "h1": "Product reviews in Go",
   "lede": "A Go package for what shoppers say about a product: a rating from one to five and some words. A review waits for an operator unless the store approves on sight, and it is marked verified when its email has bought the product. Nothing is required; two switches sit on the Plugins screen.",
   "what": [
     "In the package’s own words, a review is “a rating out of five and some words, moderated before it shows.” The storefront posts one to POST /x/reviews and reads a product’s approved reviews from GET /x/reviews?product_id=, with the count, the average to one decimal and the number at each star beside them. The reviewer’s email is kept for the store and never sent to the storefront.",

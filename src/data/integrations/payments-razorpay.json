@@ -2,11 +2,11 @@
   "slug": "payments-razorpay",
   "name": "Razorpay",
   "category": "Payments",
-  "title": "Razorpay Payments for GoCommerce — Open-Source Module",
+  "title": "Razorpay integration in Go (GoCommerce module)",
   "description": "Take cards, UPI and netbanking through Razorpay in a GoCommerce store: the three keys, the webhook URL, refunds, and what the module does not do yet.",
   "ogTitle": "Razorpay payments for GoCommerce",
   "ogDescription": "Three keys, one webhook URL, signed and idempotent. Read from the module’s source.",
-  "h1": "Razorpay payments for GoCommerce",
+  "h1": "Razorpay integration in Go",
   "lede": "A Go package that creates a Razorpay order at checkout and marks the GoCommerce order paid when Razorpay’s signed webhook says the payment was captured. Three keys to set and one webhook URL to register. Its four tests cover asking Razorpay about a payment and refunds; the webhook and checkout have none.",
   "what": [
     "The module registers “razorpay” as a payment method. At checkout it creates a Razorpay order for the order’s total, in minor units and the store’s currency, and hands the storefront what Razorpay’s checkout needs: the Razorpay order id, the key id, the amount and the currency.",

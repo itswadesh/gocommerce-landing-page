@@ -2,11 +2,11 @@
   "slug": "notify-sendgrid",
   "name": "SendGrid",
   "category": "Messaging",
-  "title": "SendGrid Email for GoCommerce — Open-Source Module",
+  "title": "SendGrid API in Go: GoCommerce order email module",
   "description": "Send GoCommerce order emails through SendGrid’s v3 API: the API key and verified sender, where the wording lives, retries, and what the module leaves out.",
   "ogTitle": "SendGrid email for GoCommerce",
   "ogDescription": "The store’s emails through SendGrid, in the engine’s own wording. Read from the module’s source.",
-  "h1": "SendGrid email for GoCommerce",
+  "h1": "SendGrid email API in Go",
   "lede": "A Go package that sends a GoCommerce store’s emails through SendGrid’s v3 API. Two settings are required — an API key and a verified sender — and the wording is the engine’s, edited in the admin.",
   "what": [
     "The module registers a notifier on the engine’s email channel. When the engine has something to tell a shopper — an order placed, paid, shipped, delivered, cancelled, refunded or returned — it hands the module the event and its flat data, and the module sends one plain-text email through POST /v3/mail/send.",

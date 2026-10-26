@@ -2,11 +2,11 @@
   "slug": "fulfill-shipstation",
   "name": "ShipStation",
   "category": "Shipping",
-  "title": "ShipStation Labels for GoCommerce — Open-Source Module",
+  "title": "ShipStation API in Go: GoCommerce shipping module",
   "description": "Buy ShipStation V2 labels from a GoCommerce order: the API key, service code, ship-from address, how units convert, and what the module does not do.",
   "ogTitle": "ShipStation labels for GoCommerce",
   "ogDescription": "A label from a described parcel on ShipStation’s V2 API, with no order pushed into ShipStation. Read from the source.",
-  "h1": "ShipStation labels for GoCommerce",
+  "h1": "ShipStation API in Go",
   "lede": "A Go package that buys a label through ShipStation’s V2 API when an operator ships an order, and gives the engine back a tracking number and a label to print. The order stays in GoCommerce; nothing is pushed into ShipStation first.",
   "what": [
     "The module registers “shipstation” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider shipstation — the engine keeps the order’s state and its events, and the module only talks to ShipStation.",

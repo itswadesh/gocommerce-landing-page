@@ -2,11 +2,11 @@
   "slug": "contact",
   "name": "Contact form",
   "category": "Platform",
-  "title": "Contact Form and Product Enquiries for GoCommerce",
+  "title": "Contact form API in Go (GoCommerce module)",
   "description": "A GoCommerce contact form and product enquiries in one inbox: announced by email, answered from the admin, rate-limited, with a honeypot against bots.",
   "ogTitle": "Contact form and product enquiries for GoCommerce",
   "ogDescription": "One inbox for the contact form and questions about a product, answered by email from the admin. Read from the module’s source.",
-  "h1": "Contact form and product enquiries for GoCommerce",
+  "h1": "Contact form API in Go",
   "lede": "A Go package that gives the storefront a contact form and an “ask about this product” form, and the admin one inbox behind both. Each new message is announced to the store’s own address. An operator answers from the message’s drawer, and the reply goes to the shopper by email through the store’s own provider.",
   "what": [
     "In the package’s own words it is “the storefront’s contact form, its product enquiries, and the inbox behind both”. A shopper writes, the store keeps the message, and tells its own address by email when the Plugins screen says where.",

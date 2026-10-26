@@ -2,11 +2,11 @@
   "slug": "telegram-alerts",
   "name": "Telegram",
   "category": "Messaging",
-  "title": "Telegram Order Alerts for GoCommerce — Open-Source Module",
+  "title": "Telegram order alerts in Go (GoCommerce module)",
   "description": "Tell a GoCommerce store’s owner about each new order, payment, cancellation and return on Telegram, through a bot of their own: setup, wording, retries, limits.",
   "ogTitle": "Telegram order alerts for GoCommerce",
   "ogDescription": "A bot from @BotFather, a chat, and a message for every new order, payment, cancellation and return. Read from the source.",
-  "h1": "Telegram order alerts for GoCommerce",
+  "h1": "Telegram order alerts in Go",
   "lede": "A Go package that writes to the store’s owner, not its shoppers, on Telegram. The owner makes a bot with @BotFather, sends it a message, picks that chat under Notifications › Setup Telegram, and every new order, payment, cancellation and return arrives there as it happens. No provider account, and no price per message.",
   "what": [
     "In the package’s words it is not a notifier: the engine’s notifiers write to shoppers, on a channel the shopper gave, and this writes to the owner about the shop. It subscribes to four events, order.created, order.paid, order.cancelled and order.returned, and words each one as a short plain-text message: the order number, the total, the items, the customer’s first name, the payment, and a link to the order in the panel when the panel’s address is set.",

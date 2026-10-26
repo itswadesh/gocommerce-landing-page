@@ -2,11 +2,11 @@
   "slug": "fulfill-delhivery",
   "name": "Delhivery",
   "category": "Shipping",
-  "title": "Delhivery Shipping for GoCommerce — Open-Source Module",
+  "title": "Delhivery API in Go: GoCommerce shipping module",
   "description": "Manifest parcels with Delhivery from a GoCommerce order: the API token, pickup warehouse, GSTIN, COD amounts, units, and what the module leaves out.",
   "ogTitle": "Delhivery shipping for GoCommerce",
   "ogDescription": "A parcel manifested with Delhivery and its waybill as the tracking number. Read from the source.",
-  "h1": "Delhivery shipping for GoCommerce",
+  "h1": "Delhivery API in Go",
   "lede": "A Go package that manifests a parcel with Delhivery and takes the waybill Delhivery assigns, from the engine’s own fulfillment call. An API token, a registered warehouse and a seller name are what it needs.",
   "what": [
     "Registering the module adds “delhivery” as a fulfillment provider. An operator ships the usual way — the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"delhivery\" — and the module manifests the parcel with Delhivery and returns the waybill as the tracking number, with the carrier recorded as Delhivery. The engine stores the shipment and moves the order on; the module only talks to Delhivery.",

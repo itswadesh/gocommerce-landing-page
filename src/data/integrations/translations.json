@@ -2,11 +2,11 @@
   "slug": "translations",
   "name": "Translations",
   "category": "Platform",
-  "title": "Multi-Language Catalogues for GoCommerce — Translations",
+  "title": "Multi-language product catalogue in Go (GoCommerce)",
   "description": "Serve GoCommerce product titles, descriptions and SEO fields in the shopper’s language: the translations module, the store’s languages, what stays untranslated.",
   "ogTitle": "Translated product copy for GoCommerce",
   "ogDescription": "Titles, descriptions and SEO fields per language, behind the engine’s own translator port.",
-  "h1": "Translated product copy for GoCommerce",
+  "h1": "Multi-language product catalogue in Go",
   "lede": "A Go package that serves catalogue content in the language a shopper asked for. The engine already negotiates the language and has a port for overrides; this module is the table behind that port — product titles, descriptions and the two SEO fields, per language, written through three admin routes.",
   "what": [
     "In the package’s words, the engine already had every part of this except the words. Config.Languages declares what a store serves, each request is negotiated down to one of them, and every public product read asks a translator port for overrides. Before this module nothing implemented that port, so a store configured for English and French negotiated French correctly and was then handed the English title.",

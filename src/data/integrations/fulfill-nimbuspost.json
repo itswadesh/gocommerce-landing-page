@@ -2,11 +2,11 @@
   "slug": "fulfill-nimbuspost",
   "name": "NimbusPost",
   "category": "Shipping",
-  "title": "NimbusPost Shipping for GoCommerce — Open-Source Module",
+  "title": "NimbusPost API in Go: GoCommerce shipping module",
   "description": "Book shipments across NimbusPost’s couriers from a GoCommerce order: login, warehouse, courier choice, COD, labels, and what the module leaves out.",
   "ogTitle": "NimbusPost shipping for GoCommerce",
   "ogDescription": "One login, the courier NimbusPost picks, its waybill and a label. Read from the source.",
-  "h1": "NimbusPost shipping for GoCommerce",
+  "h1": "NimbusPost API in Go",
   "lede": "A Go package that books a parcel through NimbusPost, which hands it to a courier — Delhivery, XpressBees, Blue Dart and the rest — and returns that courier’s waybill and a label. An account login and a registered warehouse are what it needs.",
   "what": [
     "Registering the module adds “nimbuspost” as a fulfillment provider. An operator ships the usual way — the admin’s ship dialog, or POST /api/admin/create-fulfillment with \"provider\": \"nimbuspost\" — and the module books the parcel, returning the waybill as the tracking number along with NimbusPost’s label URL. The engine stores the shipment and moves the order on; the module only talks to NimbusPost.",

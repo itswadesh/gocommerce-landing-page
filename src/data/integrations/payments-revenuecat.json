@@ -2,11 +2,11 @@
   "slug": "payments-revenuecat",
   "name": "RevenueCat",
   "category": "Payments",
-  "title": "RevenueCat Web Billing for GoCommerce — Open-Source Module",
+  "title": "RevenueCat Web Billing in Go (GoCommerce module)",
   "description": "Sell digital goods through a RevenueCat Web Purchase Link from a GoCommerce store: link token, webhook, price matching, and why refunds are not supported.",
   "ogTitle": "RevenueCat Web Billing for GoCommerce",
   "ogDescription": "A purchase link per order, settled only when RevenueCat’s charge matches the order total. Digital goods only.",
-  "h1": "RevenueCat Web Billing for GoCommerce",
+  "h1": "RevenueCat Web Billing in Go",
   "lede": "A Go package that builds a RevenueCat Web Purchase Link for each order and marks the GoCommerce order paid when RevenueCat’s webhook reports a purchase matching the order total to the minor unit. For digital goods only, and with no refunds through GoCommerce.",
   "what": [
     "The module registers “revenuecat” as a payment method. At checkout it makes no API call at all: it builds the purchase link — your link token, then the order number as RevenueCat’s app user id, with the shopper’s email and the currency as query parameters — and answers with a redirect intent carrying it. A storefront can preselect a package by sending package_id in the checkout’s payment data.",

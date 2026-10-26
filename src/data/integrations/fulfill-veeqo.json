@@ -2,11 +2,11 @@
   "slug": "fulfill-veeqo",
   "name": "Veeqo",
   "category": "Shipping",
-  "title": "Veeqo Shipment Sync for GoCommerce — Open-Source Module",
+  "title": "Veeqo API in Go: GoCommerce shipment sync module",
   "description": "Record a GoCommerce shipment against its Veeqo order so Veeqo’s stock follows: the API key, carrier id, how the allocation is found, and the limits.",
   "ogTitle": "Veeqo shipment sync for GoCommerce",
   "ogDescription": "Tells Veeqo a parcel went out. Buys no label, on purpose. Read from the module’s source.",
-  "h1": "Veeqo shipment sync for GoCommerce",
+  "h1": "Veeqo API in Go",
   "lede": "A Go package that tells Veeqo a parcel went out. It finds the matching Veeqo order and its allocation and records a shipment with your tracking number. It buys no label — on purpose.",
   "what": [
     "The module registers “veeqo” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider veeqo and the tracking number of a parcel that has already gone out.",

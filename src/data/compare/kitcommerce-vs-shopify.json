@@ -5,11 +5,12 @@
   "label": "KitCommerce vs Shopify",
   "group": "Shopify",
   "summary": "A hosted platform you rent against an open-source one you run: fees per order, code ownership, and what each asks of you.",
-  "title": "KitCommerce vs Shopify: Fees, Ownership, Trade-offs",
+  "title": "Open-source Shopify alternative: GoCommerce vs Shopify",
   "description": "Shopify vs GoCommerce and Svelte Commerce: platform fees per order, hosting, code ownership, apps and payments — and where Shopify is the better choice.",
   "ogTitle": "KitCommerce vs Shopify",
   "ogDescription": "Rent a hosted platform, or run an open-source one yourself. Fees, ownership and trade-offs, sourced.",
-  "h1": "Shopify rents you a store. GoCommerce gives you one.",
+  "h1": "Open-source Shopify alternative: GoCommerce vs Shopify",
+  "tagline": "Shopify rents you a store. GoCommerce gives you one.",
   "lede": "Shopify runs the software and the servers and charges a monthly plan, plus a fee on every order taken through a third-party gateway. GoCommerce and Svelte Commerce are MIT source. Run them yourself and there is no plan, no per-order fee, and every line of the checkout is yours to change — along with the server it runs on. Or start a store hosted on kitcommerce.store, which pays {hostedFee} of each successful sale.",
   "facts": [
     {

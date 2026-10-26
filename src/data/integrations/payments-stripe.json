@@ -2,11 +2,11 @@
   "slug": "payments-stripe",
   "name": "Stripe",
   "category": "Payments",
-  "title": "Stripe Payments for GoCommerce — Open-Source Module",
+  "title": "Stripe integration in Go (GoCommerce module)",
   "description": "Take cards and wallets through Stripe PaymentIntents in a GoCommerce store: two keys, the webhook URL, refunds, and what the module does not do.",
   "ogTitle": "Stripe payments for GoCommerce",
   "ogDescription": "Two keys, one webhook URL, signed, timed and idempotent. Read from the module’s source.",
-  "h1": "Stripe payments for GoCommerce",
+  "h1": "Stripe integration in Go",
   "lede": "A Go package that creates a Stripe PaymentIntent at checkout and marks the GoCommerce order paid when Stripe’s signed webhook says the payment succeeded. Two keys to set, one webhook URL to register, and no Stripe SDK in your build.",
   "what": [
     "The module registers “stripe” as a payment method. At checkout — after the order is written, so a slow answer from Stripe never holds a database lock — it creates a PaymentIntent for the order’s total, in minor units, with automatic payment methods switched on, and hands the storefront the client secret to confirm it with.",

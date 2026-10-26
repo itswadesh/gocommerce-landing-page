@@ -2,11 +2,11 @@
   "slug": "payments-clover",
   "name": "Clover",
   "category": "Payments",
-  "title": "Clover Payments for GoCommerce — Open-Source Module",
+  "title": "Clover integration in Go (GoCommerce module)",
   "description": "Take card payments through Clover’s Hosted Checkout in a GoCommerce store: three keys, the webhook URL, refunds, USD or CAD, and what the module leaves out.",
   "ogTitle": "Clover payments for GoCommerce",
   "ogDescription": "Clover’s Hosted Checkout page, a signed webhook, refunds in whole or in part. Read from the module’s source.",
-  "h1": "Clover payments for GoCommerce",
+  "h1": "Clover integration in Go",
   "lede": "A Go package that sends the shopper to Clover’s Hosted Checkout page for the order’s total and marks the GoCommerce order paid when Clover’s signed webhook says the payment was approved. Card numbers never reach the store, and there is no Clover SDK in your build.",
   "what": [
     "The module registers “clover” as a payment method. At checkout it creates a Hosted Checkout session for the order’s total and answers with a redirect intent carrying the session’s URL. The shopper types their card on Clover’s page and comes back to the return URL — which, in the package’s words, proves nothing: the signed webhook is what settles the order.",

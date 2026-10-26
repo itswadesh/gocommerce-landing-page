@@ -2,11 +2,11 @@
   "slug": "webhooks",
   "name": "Webhooks",
   "category": "Platform",
-  "title": "Webhooks for GoCommerce — Signed Events With Retries",
+  "title": "Signed ecommerce webhooks in Go (GoCommerce module)",
   "description": "Send a GoCommerce store’s events to another server: register an https URL and the events it wants, and each is POSTed signed, retried with backoff and logged.",
   "ogTitle": "Webhooks for GoCommerce",
   "ogDescription": "Signed POSTs of the store’s own events, retried with backoff, with a delivery log an operator can read.",
-  "h1": "Webhooks for GoCommerce",
+  "h1": "Signed ecommerce webhooks in Go",
   "lede": "A Go package that delivers the store’s events to somebody else’s server. Register a URL and the events it cares about, and every matching event is POSTed to it, signed with HMAC-SHA256, retried with backoff for up to twelve attempts, and recorded in a delivery log an operator can read.",
   "what": [
     "In the package’s own words it is “the door for a consumer that is not written in Go”. The engine’s events are durable and in-process; this module turns each one into an HTTP POST for every endpoint that asked for it.",

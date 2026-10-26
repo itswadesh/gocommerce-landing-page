@@ -2,11 +2,11 @@
   "slug": "payments-adyen",
   "name": "Adyen",
   "category": "Payments",
-  "title": "Adyen Payments for GoCommerce — Open-Source Module",
+  "title": "Adyen integration in Go (GoCommerce module)",
   "description": "Take card and local payments through Adyen payment links in a GoCommerce store: API key, HMAC key, endpoint, refunds, and what the module leaves out.",
   "ogTitle": "Adyen payments for GoCommerce",
   "ogDescription": "Payment links, HMAC-verified notifications, refunds by PSP reference. Read from the module’s source.",
-  "h1": "Adyen payments for GoCommerce",
+  "h1": "Adyen integration in Go",
   "lede": "A Go package that sends the shopper to an Adyen payment link and marks the GoCommerce order paid when Adyen’s HMAC-signed AUTHORISATION notification arrives — not before. Four required settings, one of which, the endpoint, deliberately has no default.",
   "what": [
     "The module registers “adyen” as a payment method. At checkout it creates an Adyen payment link for the order’s total, in minor units, with the order number as Adyen’s merchant reference, and answers with a redirect intent carrying the link’s URL.",

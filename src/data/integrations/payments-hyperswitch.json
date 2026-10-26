@@ -2,11 +2,11 @@
   "slug": "payments-hyperswitch",
   "name": "Hyperswitch",
   "category": "Payments",
-  "title": "Hyperswitch Payments for GoCommerce — Open-Source Module",
+  "title": "Hyperswitch integration in Go (GoCommerce module)",
   "description": "Route payments through Hyperswitch, the open-source payments router, from a GoCommerce store: keys, payment links, webhook URL, refunds and limits.",
   "ogTitle": "Hyperswitch payments for GoCommerce",
   "ogDescription": "Payment links through an open-source payments router, with a SHA-512-signed webhook. Read from the module’s source.",
-  "h1": "Hyperswitch payments for GoCommerce",
+  "h1": "Hyperswitch integration in Go",
   "lede": "A Go package that creates a Hyperswitch payment link at checkout and marks the GoCommerce order paid when Hyperswitch’s signed webhook says the payment succeeded. Which gateway takes the money is Hyperswitch’s routing decision, not the module’s.",
   "what": [
     "The module registers “hyperswitch” as a payment method. At checkout it creates a payment with payment_link switched on, for the order’s total in minor units, and answers with a redirect intent carrying the hosted link. The client secret comes along too, for a storefront that would rather mount Hyperswitch’s own SDK.",

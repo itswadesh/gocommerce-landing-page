@@ -2,11 +2,11 @@
   "slug": "fulfill-shippo",
   "name": "Shippo",
   "category": "Shipping",
-  "title": "Shippo Shipping Labels for GoCommerce — Open-Source Module",
+  "title": "Shippo API in Go: GoCommerce shipping labels module",
   "description": "Buy Shippo labels from a GoCommerce order in one call: API token, carrier account, service level, ship-from address, and what the module leaves out.",
   "ogTitle": "Shippo shipping labels for GoCommerce",
   "ogDescription": "One synchronous label purchase on the carrier account and service you name. Read from the module’s source.",
-  "h1": "Shippo shipping labels for GoCommerce",
+  "h1": "Shippo API in Go",
   "lede": "A Go package that buys a label through Shippo when an operator ships an order, and hands the engine the tracking number and the label URL. One call, on a carrier account and service level you choose — no rate shopping, by design.",
   "what": [
     "The module registers “shippo” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider shippo — the engine still owns the order’s state and its events, and the module only talks to Shippo.",

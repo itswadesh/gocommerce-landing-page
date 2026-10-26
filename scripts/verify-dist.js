@@ -226,6 +226,19 @@ for (const rel of mdUnder(DIST)) {
   else if (!indexable.has(page.replace(SITE, ''))) fail(`${twin}: its canonical ${page} is not an indexable page in this build — a stale twin`)
 }
 
+// ── 8. a title a results page shows whole
+//
+// Past about 60 characters Google cuts the title, and the cut usually lands
+// on the words that said what the page is for.
+const decode = (s) => s.replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n)).replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16))).replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
+for (const page of pages) {
+  const html = read(page)
+  if (/name="robots"[^>]*noindex/i.test(html)) continue
+  const title = decode((html.match(/<title>([^<]*)<\/title>/) || [])[1] || '')
+  if (!title) fail(`${page}: no <title>`)
+  else if ([...title].length > 60) fail(`${page}: title is ${[...title].length} characters, over 60: "${title}"`)
+}
+
 if (problems.length) {
   console.error(`\n${problems.length} problem(s) in the build:`)
   for (const p of problems) console.error('  ' + p)

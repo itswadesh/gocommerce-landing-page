@@ -28,7 +28,10 @@ export interface Comparison {
   description: string
   ogTitle: string
   ogDescription: string
+  /** Leads with the query people search, like `title`. */
   h1: string
+  /** The one-line contrast shown under the h1. */
+  tagline: string
   lede: string
   /** Three short facts under the heading: a bold figure and its words. */
   facts: { b: string; t: string }[]

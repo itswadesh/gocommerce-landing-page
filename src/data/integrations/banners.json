@@ -2,11 +2,11 @@
   "slug": "banners",
   "name": "Banners",
   "category": "Platform",
-  "title": "Storefront Banners for GoCommerce — Slides and Grids",
+  "title": "Storefront banners in Go (GoCommerce module)",
   "description": "Keep a GoCommerce storefront’s home page pictures as rows: slides across the top, grids of tiles under a heading, a phone picture, a switch and one saved order.",
   "ogTitle": "Banners for GoCommerce",
   "ogDescription": "Slides and grids of tiles for the home page, one row per picture, served already split for the storefront.",
-  "h1": "Banners for GoCommerce",
+  "h1": "Storefront banners in Go",
   "lede": "A Go package that keeps the pictures on a storefront’s home page as rows, one per picture: slides across the top, and grids of tiles under a heading. Each is a picture, an optional phone picture, a title that is also its alternative text, and a link. The storefront reads them at /x/banners?page=home, already split into slides and grids.",
   "what": [
     "In the package’s own words, banners are “the pictures a shop puts on its storefront’s pages: slides across the top of a page, and grids of tiles under a heading, each a picture and a link.” They are kept as rows, one per picture, so a shop adds, reorders and switches off one banner without rewriting a page.",

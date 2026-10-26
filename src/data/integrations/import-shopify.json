@@ -2,11 +2,11 @@
   "slug": "import-shopify",
   "name": "Shopify import",
   "category": "Migration",
-  "title": "Shopify to GoCommerce Catalogue Import — Open-Source Module",
+  "title": "Migrate from Shopify: catalogue import into GoCommerce",
   "description": "Import a whole Shopify catalogue into GoCommerce over the Admin API — products, variants, options, pictures and stock. Running it again updates, not copies.",
   "ogTitle": "Import a Shopify catalogue into GoCommerce",
   "ogDescription": "Products, variants, options, pictures and stock over Shopify’s Admin API, matched on Shopify’s own id.",
-  "h1": "Import a Shopify catalogue into GoCommerce",
+  "h1": "Migrate a Shopify catalogue to GoCommerce",
   "lede": "A Go package that brings a Shopify catalogue across over Shopify’s Admin API: products with their variants, options, pictures and stock, one product at a time, with a progress bar in the admin. Every product remembers its Shopify id, so running it again updates what it imported rather than making copies.",
   "what": [
     "In the package’s own words, registering it adds an “Import from Shopify” drawer to the admin’s products page and three admin routes. An operator puts the shop’s domain and an Admin API access token into the plugin’s settings once, presses the button, and watches a progress bar walk the catalogue.",

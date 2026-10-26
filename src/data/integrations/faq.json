@@ -2,11 +2,11 @@
   "slug": "faq",
   "name": "FAQ",
   "category": "Platform",
-  "title": "FAQ Module for GoCommerce — Questions and Answers",
+  "title": "Ecommerce FAQ API in Go (GoCommerce module)",
   "description": "Give a GoCommerce store a page of questions and answers: grouped into sections, ordered by hand, draft or published, served whole at /x/faq.",
   "ogTitle": "An FAQ for GoCommerce",
   "ogDescription": "The shop’s questions and answers, grouped into sections and ordered by hand, served at /x/faq. Read from the module’s source.",
-  "h1": "An FAQ for GoCommerce",
+  "h1": "Ecommerce FAQ API in Go",
   "lede": "A Go package that holds the questions a shop is asked often, and its answers. Operators write them on the admin’s FAQ screen, group them into sections they name, and drag them into order. The storefront reads the whole published set at /x/faq.",
   "what": [
     "In the package’s words, every storefront has a page of these and every shop writes the same ones, “where is my order, how do I return this, what does delivery cost”, so the engine gives the answers a table, the panel a screen, and the storefront one address to read them from.",

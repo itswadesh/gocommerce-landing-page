@@ -2,11 +2,11 @@
   "slug": "mcp",
   "name": "MCP",
   "category": "Platform",
-  "title": "MCP Server for GoCommerce — Store Tools for AI Agents",
+  "title": "Open-source ecommerce MCP server in Go (GoCommerce)",
   "description": "Let an AI agent operate a GoCommerce store over the Model Context Protocol: 19 tools, per-tool rights, read-only agent keys, a read-only mode and an audit log.",
   "ogTitle": "An MCP server for GoCommerce",
   "ogDescription": "Nineteen tools on the same domain services as REST, rights checked per call, agent keys held to the read tools, and every change audited.",
-  "h1": "An MCP server for GoCommerce",
+  "h1": "Open-source ecommerce MCP server in Go",
   "lede": "A Go package that exposes a GoCommerce store to AI agents over the Model Context Protocol. Nineteen tools, each calling the same domain service a REST request would — so an agent can do what an operator can, under the same rules, and every change it makes is written to an audit table.",
   "what": [
     "In the package’s own words: “The agent never gets database access. Every tool calls the same domain service a REST request would, so there is one state machine and one place where an order becomes paid — whether a human, an application or an agent asked for it.”",

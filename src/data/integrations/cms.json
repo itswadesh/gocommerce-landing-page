@@ -2,11 +2,11 @@
   "slug": "cms",
   "name": "Content pages",
   "category": "Platform",
-  "title": "Content Pages for GoCommerce — About, Terms, Delivery",
+  "title": "CMS content pages in Go (GoCommerce module)",
   "description": "Add about, terms and delivery pages to a GoCommerce store: one page per slug and language, draft or published, served at /x/cms/pages/{slug}.",
   "ogTitle": "Content pages for GoCommerce",
   "ogDescription": "Written pages a storefront reads by slug, in the shopper’s language, edited on the admin’s Pages screen. Read from the module’s source.",
-  "h1": "Content pages for GoCommerce",
+  "h1": "CMS content pages in Go",
   "lede": "A Go package that gives a GoCommerce store its written pages: about, terms, delivery, a landing page. Each page is a slug, a title, a body and a language, draft until it is published. The storefront reads it at /x/cms/pages/{slug}, and operators write it on the admin’s Pages screen.",
   "what": [
     "In the package’s own words it adds “content pages — about, terms, delivery, a landing page — to a gocommerce store”. It is a module rather than part of the engine because a store can sell without it. It owns one table, cms_pages, mounts its own routes, and never touches a commerce table.",

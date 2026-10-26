@@ -4,6 +4,24 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 26 October 2026: titles lead with the search term; the brand is pending
+
+The owner approved item 4 of the search audit of 26 October 2026: titles and
+headings lead with what people type, not with a brand nobody searches yet.
+
+- Comparison pages lead with "<rival> alternative", then "GoCommerce vs
+  <rival>", for example "Open-source Shopify alternative: GoCommerce vs
+  Shopify". The old headline, the one-line contrast, is the subhead. Bodies
+  are unchanged.
+- Module pages lead with the vendor's API or the feature, in Go, for example
+  "Razorpay integration in Go (GoCommerce module)" and "Shiprocket API in Go:
+  GoCommerce shipping module".
+- Every title is 60 characters or fewer; `scripts/verify-dist.js` fails the
+  build on a longer one.
+- Which name the site leads with (KitCommerce, GoCommerce or Svelte Commerce)
+  is still open with the owner. Until the owner decides, names stay exactly
+  as the site already used them; nothing was renamed.
+
 ## 26 October 2026: target Indian suppliers that sell through dealers, by trade
 
 The owner: "find and target the best indian business groups".

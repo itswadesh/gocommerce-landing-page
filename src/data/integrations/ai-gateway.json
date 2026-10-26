@@ -2,11 +2,11 @@
   "slug": "ai-gateway",
   "name": "AI gateway",
   "category": "Platform",
-  "title": "AI Gateway for GoCommerce — Every Model Call, Capped",
+  "title": "AI gateway in Go: capped model calls for GoCommerce",
   "description": "One place a GoCommerce store calls a model: its own Anthropic or OpenAI key, a monthly cap, a price per model, data-sharing switches and an approval queue.",
   "ogTitle": "An AI gateway for GoCommerce",
   "ogDescription": "Every model call recorded, priced in integers and held to a monthly cap. Read from the module’s source.",
-  "h1": "An AI gateway for GoCommerce",
+  "h1": "AI gateway in Go",
   "lede": "A Go package that every model call in a GoCommerce store goes through: the store’s own provider key, a monthly cap in its own currency, a price for each model, a record of every run, and switches for which kinds of data may leave the store. Beside it sits a queue where a person approves what an agent proposes.",
   "what": [
     "In the package’s own words, it “is the one place in the engine that calls a model.” A module that wants model work does not write a prompt and call an API; it registers a named task in Go — its instructions, the JSON Schema its answer must satisfy, a small and a strong model to try in turn, and a check of its own — and the gateway runs it, records it and holds it to the store’s cap.",

@@ -2,11 +2,11 @@
   "slug": "payments-paddle",
   "name": "Paddle",
   "category": "Payments",
-  "title": "Paddle Payments for GoCommerce — Open-Source Module",
+  "title": "Paddle integration in Go (GoCommerce module)",
   "description": "Sell through Paddle Billing as merchant of record from a GoCommerce store: API key, notification secret, sandbox, refunds, and why tax rates stay empty.",
   "ogTitle": "Paddle payments for GoCommerce",
   "ogDescription": "Paddle Billing as merchant of record: one transaction per order, signed notifications, refunds as adjustments.",
-  "h1": "Paddle payments for GoCommerce",
+  "h1": "Paddle integration in Go",
   "lede": "A Go package that creates a Paddle Billing transaction at checkout, sends the shopper to Paddle’s checkout, and marks the GoCommerce order paid when a signed transaction.completed notification arrives. Paddle is the merchant of record, and that changes how you set up tax.",
   "what": [
     "The module registers “paddle” as a payment method. At checkout it creates a Paddle transaction with one ad-hoc line — “Order” and the order number, at the order’s total — and answers with a redirect intent carrying the transaction’s checkout URL.",

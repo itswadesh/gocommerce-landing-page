@@ -2,11 +2,11 @@
   "slug": "navigation",
   "name": "Menus",
   "category": "Platform",
-  "title": "Storefront Menus for GoCommerce — Header and Footer Trees",
+  "title": "Storefront menus API in Go (GoCommerce module)",
   "description": "Keep a GoCommerce storefront’s menus as trees of links by handle, saved whole, resolved to storefront paths, and moved in and out as a CSV file.",
   "ogTitle": "Storefront menus for GoCommerce",
   "ogDescription": "Header, footer and any other menu, as trees of links to products, collections, categories, pages and URLs.",
-  "h1": "Storefront menus for GoCommerce",
+  "h1": "Storefront menus API in Go",
   "lede": "A Go package that keeps the storefront’s menus: a header, a footer, a sidebar, each a tree of items an operator arranges by hand. A storefront reads a menu at /x/navigation/menus/{handle} with every item already resolved to a path, so it renders the tree without knowing what each item points at.",
   "what": [
     "In the package’s own words, it is “the storefront’s menus: a header, a footer, a sidebar, each a tree of items an operator arranges by hand.” An item points at a product, a collection, a category, a content page, the home page, or any URL.",

@@ -2,11 +2,11 @@
   "slug": "fulfill-shippit",
   "name": "Shippit",
   "category": "Shipping",
-  "title": "Shippit Shipping for GoCommerce — Open-Source Module",
+  "title": "Shippit API in Go: GoCommerce shipping module",
   "description": "Book Shippit deliveries from a GoCommerce order: API key, service band, authority to leave, kilograms and metres, the seven-day label link, and the limits.",
   "ogTitle": "Shippit shipping for GoCommerce",
   "ogDescription": "Pick a service band and Shippit picks the courier. Read from the module’s source.",
-  "h1": "Shippit shipping for GoCommerce",
+  "h1": "Shippit API in Go",
   "lede": "A Go package that books an order with Shippit when an operator ships it, then fetches the label. You pick a service band; Shippit picks the courier, and the module records whichever one took the parcel.",
   "what": [
     "The module registers “shippit” as a fulfillment provider. An operator ships through the engine’s own POST /api/admin/create-fulfillment with the provider shippit — the engine keeps the order’s state and its events, and the module only talks to Shippit.",
