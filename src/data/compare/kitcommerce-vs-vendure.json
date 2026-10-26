@@ -28,19 +28,19 @@
     ["Marketplace", "Sellers and channels in the core, and an example multi-vendor plugin that Vendure marks as educational, not production-ready.", "Vendors in the core, moving through pending, approved and suspended; commission recorded per vendor but not settled."],
     ["B2B", "Company accounts, quotes, approvals, credit limits, contract pricing and single sign-on come with Vendure Platform, the commercial subscription.", "Company accounts, quotes, approvals and credit limits in the MIT b2b module, beside customer groups, price lists and quantity breaks in the core. No single sign-on for buyers."],
     ["Agent tooling", "New projects get an AGENTS.md and non-interactive CLI scaffolding for agents; the earlier official MCP server is marked unmaintained.", "An MCP module with 19 tools that act on a running store; an AGENTS.md of 18 rules and 16 task guides in the repository."],
-    ["Hosting and price", "Self-host Core for nothing. Vendure Platform is a flat annual subscription, quoted per project; Vendure Cloud is in a paid design-partner programme.", "Self-host only. No hosted offering and no paid tier."],
+    ["Hosting and price", "Self-host Core for nothing. Vendure Platform is a flat annual subscription, quoted per project; Vendure Cloud is in a paid design-partner programme.", "No paid tier. Self-host for free, or a store hosted on kitcommerce.store for {hostedFee} of each successful sale."],
     ["Track record", "Customer stories from Hans Kohler, Flowtech, SKYdeals and Munch, which Vendure says runs over 10,000 payment transactions a day at peak.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
   ],
   "cost": {
     "title": "What each side costs",
-    "lede": "The open-source cores cost nothing on either side. Vendure’s commercial platform, which carries its B2B features, is quoted rather than listed; GoCommerce has no commercial tier at all.",
+    "lede": "The open-source cores cost nothing on either side. Vendure’s commercial platform, which carries its B2B features, is quoted rather than listed; GoCommerce has no commercial tier, and a store hosted on kitcommerce.store pays {hostedFee} of each successful sale.",
     "caption": "What you pay for, Vendure against GoCommerce and Svelte Commerce",
     "head": ["Cost", "Vendure", "GoCommerce + Svelte Commerce"],
     "rows": [
       ["Core software", "Nothing — Vendure Core under GPLv3", "Nothing — MIT"],
       ["Commercial platform", "Vendure Platform: a flat annual subscription, quoted per project, with no fee on sales, orders or users", "None exists"],
       ["B2B accounts, quotes, approvals", "Included in Vendure Platform", "Free, in the MIT b2b module"],
-      ["Managed hosting", "Vendure Cloud, in a paid design-partner programme; priced by environments and resources", "None offered"],
+      ["Managed hosting", "Vendure Cloud, in a paid design-partner programme; priced by environments and resources", "A store hosted on kitcommerce.store pays {hostedFee} of each successful sale"],
       ["Self-hosted infrastructure", "A server process, a worker process and a SQL database; Redis optional", "One binary and PostgreSQL"]
     ],
     "note": "Vendure publishes no list prices for Platform or Cloud; both are quoted. Formal Cloud SLAs begin at general availability, according to Vendure’s Cloud page."

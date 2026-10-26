@@ -10,7 +10,7 @@
   "ogTitle": "KitCommerce vs BigCommerce",
   "ogDescription": "BigCommerce’s plan now rises with your sales and charges on gateways off its list. GoCommerce has no plan. Sourced.",
   "h1": "BigCommerce’s plan rises with your sales. GoCommerce has no plan.",
-  "lede": "Since 1 June 2026, BigCommerce sets your plan from your last twelve months of sales, moves you up when you cross a threshold, and charges a fee on orders taken through any payment provider not on its embedded list. GoCommerce and Svelte Commerce are MIT source you run yourself: no plan to outgrow, no fee on any gateway — and no one else running the servers.",
+  "lede": "Since 1 June 2026, BigCommerce sets your plan from your last twelve months of sales, moves you up when you cross a threshold, and charges a fee on orders taken through any payment provider not on its embedded list. GoCommerce and Svelte Commerce are MIT source with no plan to outgrow. Run them yourself and there is no fee on any gateway, and no one else running the servers; or host a store on kitcommerce.store for {hostedFee} of each successful sale.",
   "facts": [
     { "b": "2%", "t": "BigCommerce’s fee on Core for orders through a provider off its embedded list" },
     { "b": "$30K", "t": "a year in sales before BigCommerce moves a Core store up to Growth" },
@@ -20,9 +20,9 @@
   "rows": [
     ["What it is", "A hosted platform. BigCommerce runs the software, the servers and the upgrades.", "An open-source platform you run, in two MIT packages: a Go backend with its admin compiled in, and a SvelteKit storefront."],
     ["Software price", "Core $29, Growth $79 and Scale $299 a month billed yearly ($39, $105 and $399 monthly); Performance from $1,499 a month by contract. In US dollars, before tax such as GST; the India site offers a demo, not a price list.", "Nothing. Both packages are MIT licensed."],
-    ["How your plan is set", "By trailing twelve-month GMV — gross order value less 10%. Pass $30K on Core or $100K on Growth and BigCommerce notifies you, then moves you up.", "It isn’t. Sales volume changes nothing you pay for software."],
+    ["How your plan is set", "By trailing twelve-month GMV — gross order value less 10%. Pass $30K on Core or $100K on Growth and BigCommerce notifies you, then moves you up.", "It isn’t: there is no plan. Run it yourself and sales volume changes nothing you pay; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
     ["Above the cap", "Scale covers $33,333 of GMV a month and takes 0.9% of the excess. At $2 million a year the account moves to Performance.", "No cap."],
-    ["Fee on each order", "2.0% on Core, 1.0% on Growth and 0.6% on Scale for orders through Open Payment Providers — any provider not on its embedded list. None through embedded providers.", "None, on any gateway."],
+    ["Fee on each order", "2.0% on Core, 1.0% on Growth and 0.6% on Scale for orders through Open Payment Providers — any provider not on its embedded list. None through embedded providers.", "None when you run it yourself, on any gateway. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
     ["Payments in India", "Its India page lists Adyen, BlueSnap, CCAvenue, Paymetric, NMI and Stripe. CCAvenue, Paymetric and NMI are not on the embedded list, so on self-serve plans they carry the fee.", "Razorpay, Stripe, Cashfree, Adyen, Hyperswitch and six more as modules; cash on delivery built in. No CCAvenue module."],
     ["B2B", "Customer groups from Growth; price lists only on Performance.", "Customer groups, price lists and quantity breaks in core, and company accounts, credit on account, approvals and quotes in the b2b module."],
     ["Inventory locations", "Up to 4, 5 or 8 by plan; custom on Performance.", "Stock per location in core, on hand and reserved, with no plan limit."],
@@ -39,12 +39,12 @@
     "rows": [
       ["Software", "$29 to $299 a month, billed yearly, on self-serve plans; Performance from $1,499 a month", "Nothing"],
       ["Plan upgrades", "Automatic, as twelve-month GMV passes $30K and then $100K", "None"],
-      ["Fee per order", "0.6% to 2% of GMV through a provider off the embedded list", "None"],
+      ["Fee per order", "0.6% to 2% of GMV through a provider off the embedded list", "None when you run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
       ["Sales above the cap", "0.9% of monthly GMV above $33,333 on Scale", "None"],
       ["Extra storefronts", "$30 to $100 a month each", "None — channels on the same backend"],
-      ["Hosting and people", "Hosting included; nobody needed to launch", "A server and PostgreSQL, and a developer to run and extend them"]
+      ["Hosting and people", "Hosting included; nobody needed to launch", "Run yourself: a server and PostgreSQL, and a developer to run and extend them. Or a store hosted on kitcommerce.store"]
     ],
-    "note": "A worked example from the figures above: a new store selling $10,000 a month on Core through a provider off the embedded list has $9,000 of GMV, so pays BigCommerce $180 a month in fees on top of the $29 plan. In its fourth month its twelve-month GMV passes $30K and it moves to Growth: $79 a month, and 1.0% — $90 — in fees. The same sales on GoCommerce pay the gateway alone; the server and the developer are the costs that replace those fees."
+    "note": "A worked example from the figures above: a new store selling $10,000 a month on Core through a provider off the embedded list has $9,000 of GMV, so pays BigCommerce $180 a month in fees on top of the $29 plan. In its fourth month its twelve-month GMV passes $30K and it moves to Growth: $79 a month, and 1.0% — $90 — in fees. The same sales on a GoCommerce store you run yourself pay the gateway alone; the server and the developer are the costs that replace those fees. Hosted on kitcommerce.store, the store pays {hostedFee} of each successful sale instead."
   },
   "themWhen": [
     "You want a hosted platform with an app marketplace, marketplace channels and 24/7 support.",
@@ -53,8 +53,8 @@
     "There is no developer on the team to run servers, backups and upgrades."
   ],
   "usWhen": [
-    "Your gateway is not on BigCommerce’s embedded list, and 0.6–2% of sales costs more than a server and a developer.",
-    "You don’t want your software bill to rise on its own as sales grow.",
+    "Your gateway is not on BigCommerce’s embedded list, and 0.6–2% of sales costs more than running GoCommerce yourself on a server, with a developer.",
+    "You don’t want a plan that moves you up on its own as sales grow.",
     "You need B2B price lists without a contract that starts at $1,499 a month.",
     "You want the backend’s code, not only the storefront’s."
   ],
@@ -79,12 +79,12 @@
     { "q": "Can I move from BigCommerce to GoCommerce?", "a": "Yes, with a script. Export products, customers and orders from BigCommerce as CSV or through its API, and write them in through GoCommerce’s documented REST API. There is no ready-made importer, and passwords do not come across." }
   ],
   "sources": [
-    { "label": "BigCommerce pricing (plans, GMV caps, Open Payment Provider Fee)", "url": "https://www.bigcommerce.com/pricing/" },
+    { "label": "BigCommerce pricing (in USD: plans, GMV caps, Open Payment Provider Fee)", "url": "https://www.bigcommerce.com/pricing/" },
     { "label": "BigCommerce — 2026 plan and pricing updates", "url": "https://www.bigcommerce.com/dm/plan-pricing-updates-2026/" },
     { "label": "BigCommerce — payment gateways in India", "url": "https://www.bigcommerce.com/payments/gateways/india/" },
     { "label": "BigCommerce India", "url": "https://www.bigcommerce.com/india/" },
     { "label": "BigCommerce Help Center — backing up your store", "url": "https://support.bigcommerce.com/s/article/Backing-Up-Your-Store?language=en_US" },
     { "label": "Catalyst on GitHub (MIT licence)", "url": "https://github.com/bigcommerce/catalyst" }
   ],
-  "checked": "2026-09-25"
+  "checked": "2026-10-26"
 }

@@ -10,18 +10,18 @@
   "ogTitle": "KitCommerce vs Shopify",
   "ogDescription": "Rent a hosted platform, or run an open-source one yourself. Fees, ownership and trade-offs, sourced.",
   "h1": "Shopify rents you a store. GoCommerce gives you one.",
-  "lede": "Shopify runs the software and the servers and charges a monthly plan, plus a fee on every order taken through a third-party gateway. GoCommerce and Svelte Commerce are MIT source you run yourself: no plan, no per-order fee, and every line of the checkout is yours to change — along with the server it runs on.",
+  "lede": "Shopify runs the software and the servers and charges a monthly plan, plus a fee on every order taken through a third-party gateway. GoCommerce and Svelte Commerce are MIT source. Run them yourself and there is no plan, no per-order fee, and every line of the checkout is yours to change — along with the server it runs on. Or start a store hosted on kitcommerce.store, which pays {hostedFee} of each successful sale.",
   "facts": [
     {
       "b": "0.2–2%",
       "t": "Shopify’s fee per order on a third-party gateway"
     },
     {
-      "b": "₹0",
-      "t": "GoCommerce licence, and no fee per order"
+      "b": "$0",
+      "t": "to run GoCommerce yourself, with no fee per order; {hostedFee} of each successful sale if kitcommerce.store hosts it"
     },
     {
-      "b": "40",
+      "b": "41",
       "t": "countries where Shopify Payments waives that fee"
     }
   ],
@@ -34,18 +34,18 @@
     ],
     [
       "Software price",
-      "A monthly plan — Basic, Grow, Advanced, or Plus on a one- or three-year term.",
-      "Nothing. Both packages are MIT licensed."
+      "A monthly plan: Basic $29, Grow $89 or Advanced $359 a month billed yearly ($39, $105 or $399 month to month); Plus from $2,300 a month on a one- or three-year term.",
+      "Nothing to run it yourself; both packages are MIT licensed. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."
     ],
     [
       "Fee on each order",
       "2% on Basic, 1% on Grow, 0.6% on Advanced and 0.2% on Plus when a third-party gateway takes the payment; waived with Shopify Payments, and not charged on cash on delivery or other manual payments.",
-      "None. Your payment gateway’s own fee is the only one."
+      "None when you run it yourself: your payment gateway’s own fee is the only one. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."
     ],
     [
       "Hosting",
       "Included in the plan.",
-      "Yours: one Go binary and one PostgreSQL database, on any server."
+      "Yours when you run it: one Go binary and one PostgreSQL database, on any server. Or hosted on kitcommerce.store, for {hostedFee} of each successful sale."
     ],
     [
       "Source code",
@@ -59,7 +59,7 @@
     ],
     [
       "Payments",
-      "Shopify Payments in 40 countries and regions; third-party providers elsewhere, with the fee above.",
+      "Shopify Payments in 41 countries and regions; third-party providers elsewhere, with the fee above.",
       "Razorpay, Stripe, Cashfree, Adyen, Paddle, Hyperswitch and five more as modules; cash on delivery built in."
     ],
     [
@@ -100,13 +100,13 @@
     "rows": [
       [
         "Software",
-        "₹1,499 to ₹22,680 a month, billed yearly, on Shopify’s Indian price list; Plus from ₹1,75,000 a month",
-        "₹0"
+        "$29 to $359 a month, billed yearly, on Basic to Advanced; Plus from $2,300 a month",
+        "$0 to run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"
       ],
       [
         "Platform fee per order",
         "0.2% to 2% of each sale through a third-party gateway",
-        "None"
+        "None when you run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"
       ],
       [
         "Payment processing",
@@ -121,15 +121,15 @@
       [
         "Hosting",
         "Included",
-        "A server and a PostgreSQL database, from a small VPS upward"
+        "A server and a PostgreSQL database when you run it yourself, from a small VPS upward; or a store hosted on kitcommerce.store, for {hostedFee} of each successful sale"
       ],
       [
         "People",
         "None needed to launch",
-        "A developer to deploy, maintain and extend it"
+        "A developer to deploy, maintain and extend it, when you run it yourself"
       ]
     ],
-    "note": "A worked example from the figures above: ₹10 lakh a month in sales through Razorpay on Shopify’s Basic plan pays Shopify ₹20,000 a month in third-party fees — 2% — on top of the plan and Razorpay’s own charge. The same sales on GoCommerce pay Razorpay alone; the server and the developer are the costs that replace that fee."
+    "note": "A worked example from Shopify’s US price list: $10,000 a month in sales through a third-party gateway on Basic pays Shopify $200 a month in third-party fees — 2% — on top of the $29 plan and the gateway’s own charge. The same sales on GoCommerce you run yourself pay the gateway alone; the server and the developer are the costs that replace that fee. On a store hosted on kitcommerce.store, the same sales pay {hostedFee} of each successful sale."
   },
   "themWhen": [
     "You want a store live this week and there is no developer on the team.",
@@ -138,7 +138,8 @@
     "You sell where Shopify Payments is offered, so the per-order fee is waived."
   ],
   "usWhen": [
-    "A per-order fee of 1–2% of revenue costs more than a server and a developer’s time.",
+    "Shopify’s 1–2% of revenue on a third-party gateway costs more than a server and a developer’s time, and you would rather run the store yourself.",
+    "You want a store hosted for you: kitcommerce.store takes {hostedFee} of each successful sale.",
     "You want the code — checkout, pricing, order flow — to be yours to change.",
     "You sell in India, where Shopify Payments is not offered, so every plan pays that fee on online payments — cash on delivery and other manual payments are exempt.",
     "You want B2B price lists, several storefronts or marketplace vendors without a higher plan."
@@ -158,7 +159,7 @@
     },
     {
       "q": "Is it really free?",
-      "a": "The software is. GoCommerce and Svelte Commerce are MIT licensed, with no plan, no per-order fee and no paid tier. The server, the database and the time of whoever runs them are real costs, and for a small store they can exceed a Shopify plan."
+      "a": "The software is. GoCommerce and Svelte Commerce are MIT licensed, with no plan and no paid tier, and running them yourself carries no per-order fee. The server, the database and the time of whoever runs them are real costs, and for a small store they can exceed a Shopify plan. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale instead."
     },
     {
       "q": "Can I keep Shopify and use Svelte Commerce as the storefront?",
@@ -170,7 +171,7 @@
     },
     {
       "q": "Is there a hosted version, like Shopify?",
-      "a": "No. Neither package has a hosted offering, a paid tier or an enterprise edition. You run both, on your own server or a developer’s."
+      "a": "Yes. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale. Running both packages yourself, on your own server or a developer’s, stays free."
     },
     {
       "q": "Why does Shopify charge a fee on my own payment gateway?",
@@ -179,12 +180,12 @@
   ],
   "sources": [
     {
-      "label": "Shopify pricing, India (plans in INR)",
-      "url": "https://www.shopify.com/in/pricing"
+      "label": "Shopify pricing, US (plans in USD)",
+      "url": "https://www.shopify.com/pricing"
     },
     {
-      "label": "Shopify Plus pricing",
-      "url": "https://www.shopify.com/plus/pricing"
+      "label": "Shopify Help Center — Shopify Plus plan (prices by billing currency, in USD)",
+      "url": "https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan"
     },
     {
       "label": "Shopify Help Center — third-party transaction fees",
@@ -195,5 +196,5 @@
       "url": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries"
     }
   ],
-  "checked": "2026-09-25"
+  "checked": "2026-10-26"
 }

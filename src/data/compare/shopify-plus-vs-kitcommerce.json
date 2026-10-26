@@ -6,21 +6,21 @@
   "group": "Shopify",
   "summary": "Enterprise Shopify against running your own: term contracts, revenue-linked fees, API budgets, B2B and checkout control — and where Plus is simply further ahead.",
   "title": "Shopify Plus vs KitCommerce: Pricing, API Limits and B2B",
-  "description": "Shopify Plus vs GoCommerce and Svelte Commerce: term pricing in INR, the variable fee, 0.2% on other gateways — and why Plus is safer for most large brands.",
+  "description": "Shopify Plus vs GoCommerce and Svelte Commerce: term pricing in USD, the variable fee, 0.2% on other gateways — and why Plus is safer for most large brands.",
   "ogTitle": "Shopify Plus vs KitCommerce",
   "ogDescription": "Plus sells scale on a contract with an API budget. GoCommerce gives you the source and no ceiling but your own server. Sourced.",
   "h1": "Shopify Plus is a contract. GoCommerce is a codebase.",
-  "lede": "Plus is Shopify’s enterprise plan: a one- or three-year term, a platform fee that can become a share of revenue, higher API limits and the parts of checkout lower plans cannot touch. GoCommerce is MIT source you deploy — no term, no revenue share, no limit but your own hardware — and, so far, no production store to show for it at any scale.",
+  "lede": "Plus is Shopify’s enterprise plan: a one- or three-year term, a platform fee that can become a share of revenue, higher API limits and the parts of checkout lower plans cannot touch. GoCommerce is MIT source. Run it yourself and there is no term, no revenue share and no limit but your own hardware; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale instead. So far, it has no production store to show at any scale.",
   "facts": [
-    { "b": "₹1,75,000", "t": "a month for Plus in India on a three-year term; ₹1,90,000 on one year" },
+    { "b": "$2,300", "t": "a month for Plus on a three-year term; $2,500 on one year" },
     { "b": "1,000", "t": "GraphQL Admin API points a second per app on Plus, against 100 on standard plans" },
-    { "b": "10", "t": "stores in the Plus fee; each one after that ₹23,000 a month" }
+    { "b": "9", "t": "expansion stores included with Plus, beside the main store" }
   ],
   "glanceLede": "Plus is measured against its own pricing page and developer documentation, linked at the foot of this page. GoCommerce’s side is what the code does today, including what it does not do.",
   "rows": [
-    ["Contract and platform fee", "A one- or three-year term, cancellable when it ends: from ₹1,75,000 a month on three years or ₹1,90,000 on one. More complex, higher-volume businesses move to a variable fee based on revenue and business model.", "No term and no fee. MIT licence, and nothing that rises with your revenue."],
-    ["Fee on third-party gateways", "0.2% of each transaction, for security and compliance costs. It is waived only with Shopify Payments as the primary gateway — not available in India, so every Indian Plus store pays it.", "None."],
-    ["Stores", "A main store and 9 expansion stores in the fee; each additional store ₹23,000 a month or a revenue share. One brand per contract.", "Channels: one GoCommerce database serves several storefronts, each with its own publishing and price lists, at no charge per store or per brand. Orders stay in one pool."],
+    ["Contract and platform fee", "A one- or three-year term, cancellable when it ends: from $2,300 a month on three years or $2,500 on one. More complex, higher-volume businesses move to a variable fee based on revenue and business model.", "Run it yourself under the MIT licence: no term, no plan, and nothing rises with your revenue; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
+    ["Fee on third-party gateways", "0.2% of each transaction, for security and compliance costs. It is waived only with Shopify Payments as the primary gateway — not available in India, so every Indian Plus store pays it.", "None when you run it yourself. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
+    ["Stores", "A main store and up to 9 expansion stores in the fee, each live expansion store needing its own theme licence.", "Channels: one GoCommerce database serves several storefronts, each with its own publishing and price lists, at no charge per store or per brand. Orders stay in one pool."],
     ["API rate limits", "GraphQL Admin API: 1,000 cost points a second per app and store on Plus, against 100 on standard plans, 200 on Advanced and 2,000 for Commerce Components. No single query may cost more than 1,000 points.", "No limit in the software. The ceiling is the server and PostgreSQL you give it — sized by you, and not yet benchmarked by anyone."],
     ["API surface", "The GraphQL Admin API — REST Admin has been legacy since October 2024 — plus the Storefront API, Functions and app extensions.", "342 documented REST operations, published as OpenAPI. API keys carry a role, so a partner’s key can read orders and not refund them."],
     ["Checkout", "Checkout UI extensions for the information, shipping and payment steps are Plus-only, and checkout.liquid is no longer supported on those steps.", "The checkout is Go code in your repository. You change a step by changing the code — and own the testing that comes with it."],
@@ -32,18 +32,18 @@
     ["Proven at scale", "Shopify states 99.99% average uptime across the year’s biggest sales events, and a checkout load-tested past 10,000 checkouts a minute.", "Not yet. No store we know of runs GoCommerce in production, and there are no published benchmarks."]
   ],
   "cost": {
-    "title": "What Plus costs a brand in India",
-    "lede": "At Plus volumes the percentage matters as much as the platform fee. GoCommerce removes both, and replaces them with infrastructure and engineers that are not cheap either.",
-    "caption": "Recurring costs, Shopify Plus in India against GoCommerce and Svelte Commerce",
+    "title": "What Plus costs a brand",
+    "lede": "At Plus volumes the percentage matters as much as the platform fee. GoCommerce run yourself removes both, and replaces them with infrastructure and engineers that are not cheap either.",
+    "caption": "Recurring costs, Shopify Plus against GoCommerce and Svelte Commerce",
     "head": ["Cost", "Shopify Plus", "GoCommerce + Svelte Commerce"],
     "rows": [
-      ["Platform", "₹1,75,000 a month on a three-year term, ₹1,90,000 on one year, or a variable fee based on revenue", "₹0"],
-      ["Per transaction, third-party gateway", "0.2%", "None"],
-      ["Stores beyond ten", "₹23,000 a month each, or a revenue share", "None"],
-      ["Apps and partners", "Third-party apps, one-time theme purchases, and Plus Partners for custom development", "Nothing to buy; the development is yours to do or to hire"],
-      ["Infrastructure", "Included", "Servers and PostgreSQL sized for your peak day, and someone on call for them"]
+      ["Platform", "$2,300 a month on a three-year term, $2,500 on one year, or a variable fee based on revenue", "$0 to run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
+      ["Per transaction", "0.2% on a third-party gateway", "None when you run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
+      ["Expansion stores", "Up to 9 included, each live one with its own theme licence", "None to buy: channels serve several storefronts from one database"],
+      ["Apps and partners", "Third-party apps, one-time theme purchases, and Plus Partners for custom development", "No app store to buy from; the development is yours to do or to hire"],
+      ["Infrastructure", "Included", "Servers and PostgreSQL sized for your peak day, and someone on call for them, when you run it yourself"]
     ],
-    "note": "A worked example from Shopify’s published figures: ₹2 crore a month through a third-party gateway on a three-year term pays ₹1,75,000 plus 0.2% — ₹40,000 — which is ₹2,15,000 a month, or ₹25,80,000 a year, before GST and before the gateway’s own charge. A business Shopify moves to the variable fee pays whatever that contract says."
+    "note": "A worked example from Shopify’s published USD figures: $2,000,000 a month through a third-party gateway on a three-year term pays $2,300 plus 0.2% — $4,000 — which is $6,300 a month, or $75,600 a year, before tax and before the gateway’s own charge. A business Shopify moves to the variable fee pays whatever that contract says."
   },
   "themWhen": [
     "You need certainty on your biggest sale day, and a published record at that scale matters more than owning the code.",
@@ -53,8 +53,8 @@
     "Shoppers’ AI agents matter to you: Shopify stores are reachable over UCP, and GoCommerce speaks none of the agentic commerce protocols."
   ],
   "usWhen": [
-    "At your volume, 0.2% of revenue plus the platform fee — or a revenue-based fee — costs more than the engineers you already employ.",
-    "You run several brands, and one brand per contract would mean several contracts.",
+    "At your volume, 0.2% of revenue plus the platform fee — or a revenue-based fee — costs more than running GoCommerce yourself with the engineers you already employ.",
+    "You run several brands or storefronts and want them on one backend you control, with nothing charged per store.",
     "Your integrations keep hitting throttles, and you would rather size a server than live within a per-app points budget.",
     "You need checkout or pricing logic that no extension point reaches, and a team able to own it."
   ],
@@ -71,15 +71,15 @@
     ]
   },
   "faq": [
-    { "q": "How much does Shopify Plus cost in India?", "a": "Shopify’s Indian Plus page lists ₹1,75,000 a month on a three-year term and ₹1,90,000 a month on a one-year term for standard setups. More complex, higher-volume businesses move to a variable platform fee based on revenue and business model, set by Shopify’s sales team. On top of that, Shopify takes 0.2% of each transaction a third-party processor handles — in India, every one." },
+    { "q": "How much does Shopify Plus cost?", "a": "Shopify’s help centre lists $2,300 a month on a three-year term and $2,500 a month on a one-year term, billed in USD. More complex, higher-volume businesses can move to a variable platform fee based on revenue and business model. On top of that, Shopify takes 0.2% of each transaction a third-party processor handles — in India, where Shopify Payments is not offered, every one." },
     { "q": "What are Shopify Plus’s API rate limits?", "a": "For the GraphQL Admin API, Shopify’s developer documentation gives Plus 1,000 cost points a second per app and store, against 100 on standard plans, 200 on Advanced and 2,000 for Commerce Components, and caps any single query at 1,000 points. The legacy REST Admin API allows 20 requests a second on Plus. GoCommerce has no rate limit in the software; its ceiling is the server and database you give it." },
     { "q": "Does GoCommerce do B2B like Shopify Plus?", "a": "Much of it. GoCommerce’s b2b module has company accounts with buyer roles, payment terms and credit limits, orders held for approval over a threshold, quotes and per-company catalogues, beside customer groups, price lists and quantity breaks in the core and API keys scoped by role. Shopify B2B also has company locations and quantity rules, which GoCommerce does not." },
-    { "q": "Can GoCommerce run several stores like Plus expansion stores?", "a": "Yes, through channels: one GoCommerce database serves several storefronts, each with its own published catalogue and price lists, and nothing is charged per store. Channels scope what is sold and at what price, not orders, which share one pool. Plus includes ten stores for one brand and charges ₹23,000 a month for each one after that." },
+    { "q": "Can GoCommerce run several stores like Plus expansion stores?", "a": "Yes, through channels: one GoCommerce database serves several storefronts, each with its own published catalogue and price lists, and nothing is charged per store. Channels scope what is sold and at what price, not orders, which share one pool. Plus includes up to 9 expansion stores beside the main one." },
     { "q": "Is GoCommerce ready to replace Shopify Plus?", "a": "Not for most Plus merchants today. It has over 1,000 tests and 342 documented operations, but no store we know of runs it in production, and nobody has published a benchmark. A brand leaving Plus for GoCommerce takes on a platform team’s job — worth it when the fees or the limits cost more than that team, and not before." }
   ],
   "sources": [
-    { "label": "Shopify Plus pricing, India", "url": "https://www.shopify.com/in/plus/pricing" },
-    { "label": "Shopify pricing, India — plan comparison", "url": "https://www.shopify.com/in/pricing" },
+    { "label": "Shopify Help Center — Shopify Plus plan (prices by billing currency, in USD)", "url": "https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan" },
+    { "label": "Shopify pricing, US — plan comparison in USD", "url": "https://www.shopify.com/pricing" },
     { "label": "Shopify B2B for enterprise, India", "url": "https://www.shopify.com/in/solutions/b2b/enterprise" },
     { "label": "Shopify.dev — GraphQL Admin API rate limits", "url": "https://shopify.dev/docs/apps/build/apis/graphql-admin/rate-limits" },
     { "label": "Shopify.dev — REST Admin API rate limits", "url": "https://shopify.dev/docs/api/admin-rest/usage/rate-limits" },
@@ -90,5 +90,5 @@
     { "label": "Shopify.dev — Storefront MCP and UCP", "url": "https://shopify.dev/docs/apps/build/storefront-mcp" },
     { "label": "Shopify Help Center — Shopify Payments supported countries", "url": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries" }
   ],
-  "checked": "2026-09-25"
+  "checked": "2026-10-26"
 }

@@ -13,7 +13,7 @@
   "lede": "Magento Open Source is free PHP software that Adobe tests against a long stack — a database, OpenSearch, a message queue, a cache and a proxy. Adobe Commerce is the licensed edition, quoted rather than priced, at a tier set by what you sell. GoCommerce is one Go binary and a PostgreSQL database under MIT, and Svelte Commerce is a SvelteKit storefront that can already front a Magento store. Magento has far more built, B2B above all; GoCommerce has far less to run.",
   "facts": [
     {
-      "b": "₹0",
+      "b": "$0",
       "t": "licence for Magento Open Source and for GoCommerce alike"
     },
     {
@@ -35,7 +35,7 @@
     [
       "Licence and price",
       "Open Source is free under OSL 3.0. Adobe Commerce has no list price: Adobe quotes it, and licenses it at a pricing level of gross merchandise value and average order value tiers, or an order limit.",
-      "MIT, both packages. No paid edition and no pricing tier."
+      "MIT, both packages. No paid edition and no pricing tier: free to run yourself, or {hostedFee} of each successful sale on a store hosted on kitcommerce.store."
     ],
     [
       "What you run",
@@ -90,7 +90,7 @@
   ],
   "cost": {
     "title": "What each side costs",
-    "lede": "Magento Open Source and GoCommerce are both free to license. The difference is the stack each asks you to run, and what Adobe charges once you want its edition.",
+    "lede": "Magento Open Source and GoCommerce are both free to license. The difference is the stack each asks you to run, and what each charges beyond the free code: Adobe quotes its licensed edition, and a GoCommerce store hosted on kitcommerce.store pays {hostedFee} of each successful sale.",
     "caption": "What you pay for, Magento against GoCommerce and Svelte Commerce",
     "head": [
       "Cost",
@@ -106,7 +106,7 @@
       [
         "Hosting",
         "Open Source and on-premises: Linux servers for PHP, the database, OpenSearch and the services around them. Adobe’s cloud editions include hosting",
-        "A server and a PostgreSQL database, from a small VPS upward"
+        "Run yourself: a server and a PostgreSQL database, from a small VPS upward. Hosted on kitcommerce.store: {hostedFee} of each successful sale"
       ],
       [
         "More store views",
@@ -161,7 +161,7 @@
     },
     {
       "q": "Is Magento Open Source free?",
-      "a": "Yes. It is free under the Open Software License 3.0, as GoCommerce and Svelte Commerce are free under MIT. The costs are the servers for its stack and the people who know it."
+      "a": "Yes. It is free under the Open Software License 3.0, as GoCommerce and Svelte Commerce are free under MIT to run yourself. Magento’s costs are the servers for its stack and the people who know it."
     },
     {
       "q": "What does Magento need to run, compared with GoCommerce?",
