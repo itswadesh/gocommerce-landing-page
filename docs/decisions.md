@@ -4,6 +4,37 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 27 October 2026: the hosted fee's terms, tax labels and the domain
+
+The owner answered six open questions with: "yes for all but
+kitcommerce.tech is not mine, its kitcommerce.store".
+
+- The 1% applies to every successful sale, cash-on-delivery and on-account
+  (credit) B2B orders included. Why: the owner confirmed it. The fee
+  calculator and the India pages now state it as a fact, not an assumption.
+  This settles the open question in "target Indian suppliers" below.
+- The 1% is charged in the store's own currency, and GST is added to it for
+  stores in India. The rate, 18%, is the standard rate for online services
+  and lives once, as `gstIndia` in `src/data/pricing.json`, next to the fee.
+  Pages that speak to Indian stores say "plus 18% GST on the fee", rendered
+  from that value. In rupees the fee calculator adds GST to both sides,
+  because Shopify also charges GST on its fees to stores in India (Shopify
+  Help Center, "Navigating GST, SST, and VAT for Shopify billing", read 27
+  October 2026). Why: a fee quoted without its GST undersells the bill, and
+  mixing a figure with GST against one without would flatter kitcommerce.
+- With JavaScript off, prices stay in rupees. Why: Indian businesses are the
+  first target, as decided on 26 October.
+- The Internet Archive captures of Shopify's and Squarespace's US price lists
+  are acceptable sources. Why: this machine is served euro prices, and the
+  captures are the rivals' own pages, dated.
+- A rival price list that includes tax is labelled "incl. tax" wherever it is
+  shown, not dropped. The list carries `"taxIncluded": true` in
+  `src/data/prices.json`, and the label is rendered from it. Why: a
+  tax-inclusive figure next to tax-exclusive ones misleads unless it says so.
+- kitcommerce.tech is not the owner's. The site's domain, and the name it
+  leads with, is kitcommerce.store; nothing is renamed. The site never
+  mentions kitcommerce.tech.
+
 ## 26 October 2026: prices in the visitor's currency, never converted
 
 The owner: "The site now shows prices only in US dollars, but the customer
@@ -82,7 +113,7 @@ The owner: "find and target the best indian business groups".
   integration" or "WhatsApp ordering", because none of them exists.
 - The pages state the fee only as `src/data/pricing.json` does. Whether the
   1% applies to cash-on-delivery and on-account orders is the owner's open
-  question, so no page says either way.
+  question, so no page says either way. Settled on 27 October 2026: it does.
 - Portal screenshots come from a local GoCommerce 1.2 install with a dealer
   labelled "(demo)" and sample products. No customer, count or testimonial is
   invented.
