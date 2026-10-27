@@ -49,7 +49,8 @@
     "/solutions/dealer-portal/",
     "/solutions/b2b-ecommerce-india/",
     "/solutions/electricals/",
-    "/compare/shopify-b2b-vs-kitcommerce/"
+    "/compare/shopify-b2b-vs-kitcommerce/",
+    "/pricing/fee-calculator/"
   ],
   "sources": [
     { "label": "GST Council: Notification 10/2023-Central Tax, e-invoicing from ₹5 crore turnover", "url": "https://gstcouncil.gov.in/node/4365" }

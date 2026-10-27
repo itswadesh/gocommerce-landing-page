@@ -56,7 +56,8 @@
     "/solutions/dealer-portal/",
     "/solutions/b2b-ecommerce-india/",
     "/solutions/electricals/",
-    "/solutions/auto-parts/"
+    "/solutions/auto-parts/",
+    "/pricing/fee-calculator/"
   ],
   "sources": [
     { "label": "The Week (PTI): Morbi leads India’s ceramic exports with up to 90 pc share, Gujarat government, 6 January 2026", "url": "https://www.theweek.in/wire-updates/business/2026/01/06/morbi-leads-indias-ceramic-exports-with-up-to-90-pc-share-gujarat-govt.amp.html" },

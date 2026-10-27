@@ -56,7 +56,8 @@
     "/solutions/dealer-portal/",
     "/solutions/b2b-ecommerce-india/",
     "/solutions/building-materials/",
-    "/compare/shopify-b2b-vs-kitcommerce/"
+    "/compare/shopify-b2b-vs-kitcommerce/",
+    "/pricing/fee-calculator/"
   ],
   "sources": [
     { "label": "Havells RetailOne on the App Store (Havells India Ltd)", "url": "https://apps.apple.com/app/id6761036307" },

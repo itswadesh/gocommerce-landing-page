@@ -30,6 +30,7 @@ const known = new Map<string, { label: string; summary: string }>([
   ...Object.values(compareFiles).map((c) => [`/compare/${c.slug}/`, { label: c.label, summary: c.summary }] as const),
   ['/solutions/b2b/', { label: 'Every B2B feature', summary: 'The full list, feature by feature, for the person who will set it up.' }],
   ['/solutions/multi-store/', { label: 'Multi-store', summary: 'Several storefronts over one catalogue, each with its own prices.' }],
+  ['/pricing/fee-calculator/', { label: 'Shopify fee calculator', summary: `Shopify’s plan and fee on your own month of sales, against ${hostedFee} of each sale hosted, ${plusGst}.` }],
   ['/pricing/', { label: 'Pricing', summary: `Free to run yourself. ${hostedFee} of each successful sale on a store hosted on kitcommerce.store, ${plusGst}.` }],
 ])
 const related = p.related.map((href) => {

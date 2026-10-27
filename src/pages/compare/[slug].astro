@@ -116,6 +116,7 @@ const takeOn = [
         </tbody>
       </table>
     </div>
+    {calcLink && !c.cost && <p class="fineprint"><a href="/pricing/fee-calculator/">Work out Shopify’s fees on your own sales</a>, in your currency, against {hostedFee} of each sale hosted<Variants v={gst} />.</p>}
   </section>
 
   {c.cost && (
