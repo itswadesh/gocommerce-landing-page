@@ -38,7 +38,9 @@ const NEAREST: Currency[] = ['USD', 'EUR', 'GBP', 'INR', 'AUD', 'CAD', 'SGD', 'A
  * is for, when that is not its own: Shopify prices its UAE plans in US dollars,
  * different from its US list, so that list is `"currency": "USD", "for": "AED"`.
  */
-export interface PriceList { currency: Currency; for?: Currency; label: string; url: string; read: string }
+export interface PriceList { currency: Currency; for?: Currency; taxIncluded?: boolean; label: string; url: string; read: string }
+/** An amount as its list publishes it, labelled when the list includes tax. */
+const listed = (amount: number, list: PriceList) => formatMoney(amount, list.currency) + (list.taxIncluded ? ' incl. tax' : '')
 const serves = (l: PriceList) => l.for ?? l.currency
 /**
  * A country Shopify sells in: whether Shopify Payments is offered, and its fee per plan on orders another provider takes.
@@ -92,7 +94,7 @@ function variants(ref: string, times = 1): Variant[] {
   const have = amounts(ref)
   return byCurrency((cur) => {
     const { amount, list } = have[shownIn(have, cur)]!
-    return formatMoney(amount * times, list.currency)
+    return listed(amount * times, list)
   })
 }
 
@@ -110,7 +112,7 @@ function tokenVariants(kind: string, body: string): Variant[] {
   // A page about one market quotes that market's list whatever the visitor picks.
   const e = Object.values(amounts(item)).find((x) => x!.list === rivalOf(item.split('/')[0]).lists[pin])
   if (!e) throw new Error(`prices.json: "${item}" has no amount on list "${pin}"`)
-  return [{ curs: [...CURRENCIES], text: formatMoney(e.amount * Number(times), e.list.currency) }]
+  return [{ curs: [...CURRENCIES], text: listed(e.amount * Number(times), e.list) }]
 }
 
 /** A data string split into text and prices, for <Priced>. */

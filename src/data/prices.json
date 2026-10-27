@@ -1,5 +1,5 @@
 {
-  "_comment": "Every rival price, once. A list is one published price list: its currency, the site currency it is for when that differs, its source and the date it was read. Prices name the list they are on. Never an exchange rate: see src/lib/money.ts and docs/decisions.md (26 October 2026). scripts/verify.js fails on a price without a list, or a list without a source.",
+  "_comment": "Every rival price, once. A list is one published price list: its currency, the site currency it is for when that differs, its source and the date it was read. Prices name the list they are on, and a list whose prices include tax says \"taxIncluded\": true, which pages render as \"incl. tax\" (the owner, 27 October 2026). Never an exchange rate: see src/lib/money.ts and docs/decisions.md (26 October 2026). scripts/verify.js fails on a price without a list, or a list without a source.",
   "rivals": {
     "shopify": {
       "name": "Shopify",
@@ -277,6 +277,7 @@
         },
         "au": {
           "currency": "AUD",
+          "taxIncluded": true,
           "label": "Zoho Commerce pricing, in each currency of its own selector",
           "url": "https://www.zoho.com/commerce/pricing.html",
           "read": "2026-10-26"
