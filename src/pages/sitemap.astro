@@ -18,8 +18,8 @@ const path = '/sitemap/'
 const abs = (p: string) => new URL(p, Astro.site!).href
 
 const compares = Object.values(import.meta.glob<Comparison>('../data/compare/*.json', { eager: true, import: 'default' })).sort((a, b) => a.label.localeCompare(b.label))
-const features = Object.values(import.meta.glob<FeaturePage>('../data/features/*.json', { eager: true, import: 'default' }))
-const allPosts = await getCollection('blog')
+const features = Object.values(import.meta.glob<FeaturePage>('../data/features/*.json', { eager: true, import: 'default' })).sort((a, b) => a.name.localeCompare(b.name))
+const allPosts = (await getCollection('blog')).sort((a, b) => a.id.localeCompare(b.id))
 const posts = allPosts.filter((p) => !releaseNotes.includes(p.id))
 const notes = allPosts.filter((p) => releaseNotes.includes(p.id))
 const backends = Object.values(import.meta.glob<{ slug: string; name: string }>('../data/backends/*.json', { eager: true, import: 'default' })).sort((a, b) => a.name.localeCompare(b.name))
