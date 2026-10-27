@@ -5,6 +5,7 @@
  * that currency (src/data/prices.json): the plan, and its fee on orders that a
  * provider other than Shopify Payments takes. No exchange rate anywhere; a
  * currency Shopify publishes no list in uses its nearest list, and says so.
+ * In rupees both sides add GST, which both charge Indian stores on their fees.
  *
  * The figures for each currency's default inputs are rendered into the HTML,
  * so the page is complete without JavaScript and nothing moves when the
@@ -14,9 +15,9 @@
 import Base from '../../layouts/Base.astro'
 import CurrencyPicker from '../../components/CurrencyPicker.astro'
 import Variants from '../../components/Variants.astro'
-import { hostedFee } from '../../lib/pricing'
+import { gstForRupees, gstIndia, hostedFee } from '../../lib/pricing'
 import { CURRENCIES, CURRENCY_NAMES, byCurrency, formatMoney, shopifyMarkets, type Currency } from '../../lib/money'
-import { monthlyCosts, verdict } from '../../lib/fees.mjs'
+import { monthlyCosts, totalText, verdict } from '../../lib/fees.mjs'
 
 const path = '/pricing/fee-calculator/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -29,13 +30,15 @@ const markets = shopifyMarkets()
 // Indian stores take many orders cash on delivery; elsewhere nearly all are paid online.
 const start = (m: (typeof markets)[Currency]) =>
   ({ sales: m.list.currency === 'INR' ? 500000 : 10000, prepaid: m.list.currency === 'INR' ? 60 : 100, billing: 'yearly', via: 'shopify' })
-const costs = Object.fromEntries(CURRENCIES.map((c) => [c, monthlyCosts(markets[c], start(markets[c]), hostedRate)]))
+// GST where Shopify's own page says it adds GST to its fees: India, where kitcommerce.store adds it too.
+const gstOf = (c: Currency) => (markets[c].gstUrl ? parseFloat(gstIndia) : 0)
+const costs = Object.fromEntries(CURRENCIES.map((c) => [c, monthlyCosts(markets[c], start(markets[c]), hostedRate, gstOf(c))]))
 const money = (c: Currency, n: number) => formatMoney(n, markets[c].list.currency)
 
 // The browser needs only the numbers.
 const data = Object.fromEntries(CURRENCIES.map((c) => {
   const m = markets[c]
-  return [c, { currency: m.list.currency, payments: m.payments, plans: m.plans, start: start(m) }]
+  return [c, { currency: m.list.currency, payments: m.payments, plans: m.plans, gst: gstOf(c), start: start(m) }]
 }))
 
 const inMarket = byCurrency((c) => markets[c].name)
@@ -50,6 +53,7 @@ const sources = [
     label: url.includes('supported-countries') ? 'Shopify Help Center: countries where Shopify Payments is offered' : 'Shopify Help Center: third-party transaction fees',
     url,
   })),
+  ...used.filter((m) => m.gstUrl).map((m) => ({ label: `Shopify Help Center: GST on Shopify’s fees in ${m.name}`, url: m.gstUrl! })),
 ]
 
 const title = `Shopify Fee Calculator: Shopify vs ${hostedFee} on kitcommerce.store`
@@ -91,7 +95,7 @@ const graph = [
           <input id="prepaid" name="prepaid" type="range" min="0" max="100" step="5" value="60" aria-describedby="prepaid-hint">
           <output for="prepaid" id="prepaid-out"><Variants v={byCurrency((c) => `${start(markets[c]).prepaid}%`)} /></output>
         </div>
-        <p id="prepaid-hint" class="calc-hint">The rest is cash on delivery, which Shopify charges no fee on.</p>
+        <p id="prepaid-hint" class="calc-hint">The rest is cash on delivery. Shopify charges no fee on it; the {hostedFee} on kitcommerce.store counts every sale.</p>
       </div>
       <fieldset class="calc-field calc-choice">
         <legend>Shopify billed</legend>
@@ -111,19 +115,19 @@ const graph = [
 
     <div class="tbl-scroll">
       <table class="reltable vs calc-table">
-        <caption>Platform charges a month, before payment gateway charges and tax</caption>
+        <caption><Variants v={byCurrency((c) => gstOf(c) ? `Platform charges a month, before payment gateway charges, with ${gstIndia} GST added to both` : 'Platform charges a month, before payment gateway charges and tax')} /></caption>
         <thead><tr><th scope="col">Platform</th><th scope="col">Total a month</th><th scope="col">Plan</th><th scope="col">Fee on sales</th></tr></thead>
         <tbody>
           <tr class="calc-us">
             <th scope="row">kitcommerce.store, hosted</th>
-            <td data-out="hosted-total"><Variants v={byCurrency((c) => money(c, costs[c].hosted))} /></td>
+            <td data-out="hosted-total"><Variants v={byCurrency((c) => totalText(costs[c].hosted, (n: number) => money(c, n)))} /></td>
             <td>None</td>
-            <td data-out="hosted"><Variants v={byCurrency((c) => money(c, costs[c].hosted))} /></td>
+            <td data-out="hosted"><Variants v={byCurrency((c) => money(c, costs[c].hosted.net))} /></td>
           </tr>
           {[0, 1, 2].map((i) => (
             <tr>
               <th scope="row">Shopify <Variants v={byCurrency((c) => costs[c].shopify[i].name)} /></th>
-              <td data-out={`total-${i}`}><Variants v={byCurrency((c) => money(c, costs[c].shopify[i].total))} /></td>
+              <td data-out={`total-${i}`}><Variants v={byCurrency((c) => totalText(costs[c].shopify[i], (n: number) => money(c, n)))} /></td>
               <td data-out={`plan-${i}`}><Variants v={byCurrency((c) => money(c, costs[c].shopify[i].plan))} /></td>
               <td data-out={`fee-${i}`}><Variants v={byCurrency((c) => money(c, costs[c].shopify[i].fee))} /></td>
             </tr>
@@ -137,9 +141,9 @@ const graph = [
   <section id="counts" class="section wrap" aria-labelledby="counts-title">
     <h2 id="counts-title">What does the calculator count?</h2>
     <ul class="tick">
-      <li>Shopify: the plan’s price on Shopify’s price list for <Variants v={inMarket} />, billed yearly or monthly as you choose, and Shopify’s own fee on orders paid online through a provider other than Shopify Payments: <Variants v={byCurrency((c) => markets[c].plans.map((p) => `${p.fee}% on ${p.name}`).join(', '))} />. Shopify charges no such fee on cash-on-delivery orders.</li>
-      <li>kitcommerce.store: {hostedFee} of each successful sale. The calculator counts it on every sale, cash on delivery included.</li>
-      <li>Left out on both sides: payment gateway charges (Razorpay’s, Stripe’s, or Shopify Payments’ own card rates), taxes such as GST, apps, themes and domains.</li>
+      <li>Shopify: the plan’s price on Shopify’s price list for <Variants v={inMarket} />, billed yearly or monthly as you choose, and Shopify’s own fee on orders paid online through a provider other than Shopify Payments: <Variants v={byCurrency((c) => markets[c].plans.map((p) => `${p.fee}% on ${p.name}`).join(', '))} />. Shopify charges no such fee on cash-on-delivery orders.<Variants v={byCurrency((c) => gstOf(c) ? ` Shopify charges GST on its fees to stores in ${markets[c].name}, so the calculator adds ${gstIndia} to its plan and fee.` : '')} /></li>
+      <li>kitcommerce.store: {hostedFee} of each successful sale, cash-on-delivery and on-account orders included<Variants v={gstForRupees} />.</li>
+      <li>Left out on both sides: payment gateway charges (Razorpay’s, Stripe’s, or Shopify Payments’ own card rates), <Variants v={byCurrency((c) => gstOf(c) ? '' : 'taxes, ')} />apps, themes and domains.</li>
     </ul>
   </section>
 
@@ -169,7 +173,7 @@ const graph = [
 </Base>
 
 <script>
-  import { monthlyCosts, verdict } from '../../lib/fees.mjs'
+  import { monthlyCosts, totalText, verdict } from '../../lib/fees.mjs'
   import { formatMoney } from '../../lib/format-money.mjs'
 
   const form = document.querySelector<HTMLFormElement>('[data-calc]')!
@@ -202,7 +206,7 @@ const graph = [
     if (!ok) return
     const billing = (form.elements.namedItem('billing') as RadioNodeList).value
     const via = (form.elements.namedItem('via') as RadioNodeList).value
-    const r = monthlyCosts(m, { sales: n, prepaid: Number(prepaid.value), billing, via }, hostedRate)
+    const r = monthlyCosts(m, { sales: n, prepaid: Number(prepaid.value), billing, via }, hostedRate, m.gst)
     const money = (x: number) => formatMoney(x, m.currency)
     const set = (key: string, text: string) => {
       const el = out(key)
@@ -213,12 +217,12 @@ const graph = [
       void (el as HTMLElement).offsetWidth
       el.classList.add('tick-in')
     }
-    set('hosted', money(r.hosted))
-    set('hosted-total', money(r.hosted))
+    set('hosted', money(r.hosted.net))
+    set('hosted-total', totalText(r.hosted, money))
     r.shopify.forEach((p, i) => {
       set(`plan-${i}`, money(p.plan))
       set(`fee-${i}`, money(p.fee))
-      set(`total-${i}`, money(p.total))
+      set(`total-${i}`, totalText(p, money))
     })
     set('verdict', verdict(r, money))
   }

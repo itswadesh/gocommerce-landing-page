@@ -30,7 +30,7 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 // dist/ is what Cloudflare serves, so dist/ is what gets audited. Run
 // `npm run build` first, or this checks the previous build.
 const DIST = path.join(ROOT, 'dist')
-const { hostedFee, signupUrl } = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'pricing.json'), 'utf8'))
+const { hostedFee, gstIndia, signupUrl } = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'pricing.json'), 'utf8'))
 
 function htmlUnder(dir, base = '') {
   const out = []
@@ -89,6 +89,12 @@ const RULES = [
     re: /\b[\d.]+% of each successful sale/gi,
     why: `The hosted fee is ${hostedFee} of each successful sale, from src/data/pricing.json.`,
     allow: (line, match) => match.startsWith(hostedFee + ' '),
+  },
+  {
+    // The GST rate on the hosted fee is typed once too, as gstIndia.
+    re: /\b[\d.]+% GST on the fee/gi,
+    why: `Stores in India pay ${gstIndia} GST on the hosted fee, from src/data/pricing.json.`,
+    allow: (line, match) => match.startsWith(gstIndia + ' '),
   },
   {
     // The repository slug is svelte-commerce; the project in prose is two words.
@@ -150,12 +156,44 @@ for (const page of PAGES) {
   }
 }
 
+// Pages written for stores in India (every solution page, and comparisons
+// marked "market": "IN") state the fee with its GST, as the owner decided on
+// 27 October 2026. Tags are dropped first, so "<b>1%</b> of each sale" counts.
+// Pages with a currency picker show the GST to rupee visitors in a variant
+// span, which this cannot tell from the fee's own text, so they are not held here.
+const dataJson = (dir) => fs.readdirSync(path.join(ROOT, 'src', 'data', dir)).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', dir, f), 'utf8')))
+const indiaPages = [
+  ...dataJson('solutions').map((p) => p.path),
+  ...dataJson('compare').filter((c) => c.market === 'IN').map((c) => `/compare/${c.slug}/`),
+].map((p) => p.slice(1) + 'index.html')
+for (const page of indiaPages) {
+  const file = path.join(DIST, page)
+  if (!fs.existsSync(file)) {
+    console.error(`  MISSING  ${page}`)
+    violations++
+    continue
+  }
+  for (const [i, line] of visibleText(fs.readFileSync(file, 'utf8')).split('\n').entries()) {
+    for (const m of line.replace(/<[^>]+>/g, '').matchAll(/\b[\d.]+% of each (successful )?sale\b(?!.{0,120}GST)/g)) {
+      console.error(`  ${page}:${i + 1}  "${m[0]}"`)
+      console.error(`      A page for Indian stores states the fee with its GST: "${hostedFee} of each successful sale, plus ${gstIndia} GST on the fee".`)
+      violations++
+    }
+  }
+}
+
 // llms.txt is out of the rules' scope (see above), so its statement of the
 // price is held to pricing.json here instead.
 const llms = fs.readFileSync(path.join(ROOT, 'public', 'llms.txt'), 'utf8')
 for (const m of llms.matchAll(/\b[\d.]+% of each successful sale/g)) {
   if (!m[0].startsWith(hostedFee + ' ')) {
     console.error(`  llms.txt  "${m[0]}" disagrees with src/data/pricing.json (${hostedFee})`)
+    violations++
+  }
+}
+for (const m of llms.matchAll(/\b[\d.]+% GST/g)) {
+  if (!m[0].startsWith(gstIndia + ' ')) {
+    console.error(`  llms.txt  "${m[0]}" disagrees with src/data/pricing.json (${gstIndia} GST)`)
     violations++
   }
 }

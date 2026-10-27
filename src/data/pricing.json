@@ -1,5 +1,6 @@
 {
-  "_comment": "The price, said once. Stores hosted on kitcommerce.store pay hostedFee of each successful sale; running the MIT code yourself is free. The owner's decision of 26 October 2026, recorded in docs/decisions.md. Data files write {hostedFee} and src/lib/pricing.ts fills it in; scripts/verify.js checks llms.txt against it.",
+  "_comment": "The price, said once. Stores hosted on kitcommerce.store pay hostedFee of each successful sale, cash on delivery and on-account orders included, in the store's own currency; stores in India pay gstIndia GST on that fee. Running the MIT code yourself is free. The owner's decisions of 26 and 27 October 2026, recorded in docs/decisions.md. Data files write {hostedFee} and {plusGst}, and src/lib/pricing.ts fills them in; scripts/verify.js checks the India pages and llms.txt against it.",
   "hostedFee": "1%",
+  "gstIndia": "18%",
   "signupUrl": "https://admin.kitcommerce.store/admin/auth/signup"
 }

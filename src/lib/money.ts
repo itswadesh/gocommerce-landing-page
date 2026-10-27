@@ -40,8 +40,11 @@ const NEAREST: Currency[] = ['USD', 'EUR', 'GBP', 'INR', 'AUD', 'CAD', 'SGD', 'A
  */
 export interface PriceList { currency: Currency; for?: Currency; label: string; url: string; read: string }
 const serves = (l: PriceList) => l.for ?? l.currency
-/** A country Shopify sells in: whether Shopify Payments is offered, and its fee per plan on orders another provider takes. */
-interface MarketFacts { name: string; payments: boolean; fees: Record<string, number>; feeUrl: string; paymentsUrl: string; read: string }
+/**
+ * A country Shopify sells in: whether Shopify Payments is offered, and its fee per plan on orders another provider takes.
+ * `gstUrl` is set where Shopify adds GST to its fees (India): its page saying so.
+ */
+interface MarketFacts { name: string; payments: boolean; fees: Record<string, number>; feeUrl: string; paymentsUrl: string; gstUrl?: string; read: string }
 interface Rival { name: string; lists: Record<string, PriceList>; prices: Record<string, Record<string, number>>; markets?: Record<string, MarketFacts> }
 const rivals = registry.rivals as unknown as Record<string, Rival>
 

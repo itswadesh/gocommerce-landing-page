@@ -12,7 +12,7 @@
   "facts": [
     { "b": "500", "t": "lines in one spreadsheet order" },
     { "b": "1–30 · 31–60 · 61–90", "t": "days late, on every dealer’s statement" },
-    { "b": "{hostedFee}", "t": "of each successful sale hosted on kitcommerce.store; free on your own server" }
+    { "b": "{hostedFee}", "t": "of each successful sale hosted on kitcommerce.store, {plusGst}; free on your own server" }
   ],
   "needsTitle": "What a supplier asks for, and what it does today",
   "needsLede": "The questions owners and sales heads ask first. Each answer is something the software does now.",
@@ -53,7 +53,7 @@
     { "q": "Does it make GST invoices?", "a": "No. The invoice prints your GSTIN, but it has no HSN codes, no CGST, SGST or IGST lines and no place of supply, and it does not generate e-invoices or e-way bills. Keep your billing software for tax invoices." },
     { "q": "Does it connect to Tally?", "a": "Not by itself. Orders, customers and statements export as spreadsheets, and a developer can connect another system through webhooks and the API." },
     { "q": "Do we need a website first?", "a": "No. Dealers sign in at /portal on your store’s own web address. A public website for customers can come later, or never." },
-    { "q": "What does it cost?", "a": "Running the open-source code on your own server is free. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale. If you would rather someone set it up, the team behind GoCommerce builds stores to order." }
+    { "q": "What does it cost?", "a": "Running the open-source code on your own server is free. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale, {plusGst}, cash-on-delivery and on-account orders included. If you would rather someone set it up, the team behind GoCommerce builds stores to order." }
   ],
   "related": [
     "/solutions/dealer-portal/",

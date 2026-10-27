@@ -21,9 +21,10 @@ import Priced from '../../components/Priced.astro'
 import CurrencyPicker from '../../components/CurrencyPicker.astro'
 import type { Comparison } from '../../data/compare/_schema'
 import LinkCards from '../../components/LinkCards.astro'
-import { fill, hostedFee, signupUrl } from '../../lib/pricing'
+import Variants from '../../components/Variants.astro'
+import { fill, gstForRupees, hostedFee, plusGst, signupUrl } from '../../lib/pricing'
 import { compareCard, comparisons, siblingComparisons } from '../../lib/related'
-import { currencyRefs, listsFor, plain, refsIn } from '../../lib/money'
+import { byCurrency, currencyRefs, listsFor, plain, refsIn } from '../../lib/money'
 
 export function getStaticPaths() {
   return comparisons.map((c) => ({ params: { slug: c.slug }, props: { c } }))
@@ -58,10 +59,18 @@ const graph = [
   },
 ]
 
+// A page that prices Shopify links the calculator, under its cost table or, without one, under the side-by-side.
+const calcLink = refs.some((r) => r.startsWith('shopify/'))
+
+// The hosted fee's GST: always on a page for Indian stores; for rupee
+// visitors on a page with a currency picker; elsewhere nothing.
+const india = c.market === 'IN'
+const gst = india ? byCurrency(() => `, ${plusGst}`) : varying.length > 0 ? gstForRupees : []
+
 // What running a self-hosted MIT platform asks of you, said the same way on
 // every page. Page data can add to it; it cannot remove from it.
 const takeOn = [
-  `Run it yourself and you host it: a server, a PostgreSQL database, backups and upgrades are yours, or a developer’s you pay. A store hosted on kitcommerce.store pays ${hostedFee} of each successful sale instead.`,
+  `Run it yourself and you host it: a server, a PostgreSQL database, backups and upgrades are yours, or a developer’s you pay. A store hosted on kitcommerce.store pays ${hostedFee} of each successful sale${india ? `, ${plusGst},` : ''} instead.`,
   'No app store. What a module does not cover, somebody writes.',
   'GoCommerce has over 1,000 tests, but no store we know of runs it in production yet.',
   'Svelte Commerce reaches GoCommerce through an early connector, version 0.1.0: catalogue, cart, checkout and order lookup work; customer accounts and a search index do not.',
@@ -88,7 +97,7 @@ const takeOn = [
       {c.facts.map((f) => <li><b><Priced s={f.b} /></b> <Priced s={f.t} /></li>)}
     </ul>
     {varying.length > 0 && <CurrencyPicker refs={varying} />}
-    <p class="fineprint vs-meaning">KitCommerce is an open-source ecommerce platform. Its packages are GoCommerce, the backend and admin, and Svelte Commerce, the storefront — MIT licensed, used together or either one on its own. Run them yourself for free, or <a href={signupUrl} {...ext} data-ev="signup_click">start a store hosted on kitcommerce.store</a> for {hostedFee} of each successful sale. On this page, each claim names the package it is about.</p>
+    <p class="fineprint vs-meaning">KitCommerce is an open-source ecommerce platform. Its packages are GoCommerce, the backend and admin, and Svelte Commerce, the storefront — MIT licensed, used together or either one on its own. Run them yourself for free, or <a href={signupUrl} {...ext} data-ev="signup_click">start a store hosted on kitcommerce.store</a> for {hostedFee} of each successful sale<Variants v={gst} />. On this page, each claim names the package it is about.</p>
   </section>
 
   <section id="glance" class="section wrap" aria-labelledby="glance-title">
@@ -127,7 +136,7 @@ const takeOn = [
         </table>
       </div>
       {c.cost.note && <p class="fineprint"><Priced s={c.cost.note} /></p>}
-      {refs.some((r) => r.startsWith('shopify/')) && <p class="fineprint"><a href="/pricing/fee-calculator/">Work out Shopify’s fees on your own sales</a>, in your currency, against {hostedFee} of each sale hosted.</p>}
+      {calcLink && <p class="fineprint"><a href="/pricing/fee-calculator/">Work out Shopify’s fees on your own sales</a>, in your currency, against {hostedFee} of each sale hosted<Variants v={gst} />.</p>}
     </section>
   )}
 

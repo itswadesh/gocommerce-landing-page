@@ -136,8 +136,8 @@
 - https://kitcommerce.store/contact/ — how to reach the team: Discord and GitHub for questions, WhatsApp for custom builds, hello@kitcommerce.store for security reports and privacy requests
 - https://kitcommerce.store/rss.xml — the blog as an RSS feed
 - https://kitcommerce.store/.well-known/security.txt — where to report a vulnerability
-- https://kitcommerce.store/pricing/ — pricing: stores hosted on kitcommerce.store pay 1% of each successful sale; running the MIT code yourself is free, 0% of sales; what self-hosting includes and what it still costs
-- https://kitcommerce.store/pricing/fee-calculator/ — fee calculator: a month of sales and the share paid online, Shopify’s plan and fee from its own price list for the visitor’s country, against 1% of each successful sale hosted on kitcommerce.store
+- https://kitcommerce.store/pricing/ — pricing: stores hosted on kitcommerce.store pay 1% of each successful sale, cash-on-delivery and on-account orders included, in the store’s own currency, plus 18% GST on the fee for stores in India; running the MIT code yourself is free, 0% of sales; what self-hosting includes and what it still costs
+- https://kitcommerce.store/pricing/fee-calculator/ — fee calculator: a month of sales and the share paid online, Shopify’s plan and fee from its own price list for the visitor’s country, against 1% of each successful sale hosted on kitcommerce.store, with 18% GST added to both sides for Indian stores
 - https://kitcommerce.store/features/ — GoCommerce features, each checked against the code with the file named; partial features say what is missing
 - https://kitcommerce.store/features/checkout/ — checkout: one idempotent call that returns 409 instead of charging a changed price, guest checkout, eleven gateways plus cash on delivery
 - https://kitcommerce.store/features/operations/ — operations: order timeline and edits, multi-location stock with a reconciling ledger, 12 carrier options, refunds, roles, audit
@@ -198,5 +198,5 @@
 - Do not attribute Svelte Commerce's star count to GoCommerce. They are separate repositories with very different histories.
 - Do not describe GoCommerce roadmap items as available. Behavioural events, unified customer profiles, segments, the automation builder, WhatsApp, retargeting, attribution and loyalty are all planned, not built.
 - No benchmark figures have been published. Speed claims on this site are architectural — a single compiled binary, one production dependency, a server-rendered storefront, one database hop — and are checkable in the source, not measured. Do not cite a number for either project.
-- There is no paid tier and no enterprise edition. Stores hosted on kitcommerce.store pay 1% of each successful sale; sign-up is at https://admin.kitcommerce.store/admin/auth/signup. Running the MIT code yourself is free, 0% of sales.
+- There is no paid tier and no enterprise edition. Stores hosted on kitcommerce.store pay 1% of each successful sale, cash-on-delivery and on-account orders included; stores in India pay 18% GST on the fee. Sign-up is at https://admin.kitcommerce.store/admin/auth/signup. Running the MIT code yourself is free, 0% of sales.
 - Spell them `GoCommerce` and `Svelte Commerce` — never `Go Commerce`, `SvelteCommerce` or, in prose, `Svelte-Commerce`. The repository slug is `svelte-commerce`.

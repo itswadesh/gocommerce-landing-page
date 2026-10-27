@@ -17,7 +17,7 @@ import CurrencyPicker from '../components/CurrencyPicker.astro'
 import Priced from '../components/Priced.astro'
 import Variants from '../components/Variants.astro'
 import { byCurrency, formatMoney, shopifyMarkets } from '../lib/money'
-import { hostedFee, signupUrl } from '../lib/pricing'
+import { gstForRupees, gstIndia, hostedFee, signupUrl } from '../lib/pricing'
 import { compareCard, featuredComparisons } from '../lib/related'
 
 const path = '/pricing/'
@@ -40,7 +40,7 @@ const graph = [
 ]
 
 const faq = [
-  { q: 'What does a store hosted on kitcommerce.store cost?', a: `${hosted}. Start one with the Start a store button on this page.` },
+  { q: 'What does a store hosted on kitcommerce.store cost?', a: `${hosted}, cash-on-delivery and on-account orders included, charged in the store’s own currency. Stores in India pay ${gstIndia} GST on the fee. Start one with the Start a store button on this page.` },
   { q: 'Is running it myself really free?', a: 'Yes. GoCommerce and Svelte Commerce are MIT licensed. The licence has no expiry, no seat count and no revenue cap, takes 0% of your sales, and a copy you have downloaded stays MIT whatever happens to the packages later.' },
   { q: 'Is there a Plus plan, a pro tier or an enterprise edition?', a: `No. A store is either hosted on kitcommerce.store, for ${hosted}, or run on your own server for free. The MIT code has every module, every admin screen and every theme in it; nothing is held back for a higher tier because there is no higher tier.` },
   { q: 'When I run it myself, are there hidden fees: per order, per product, per staff account?', a: 'None. Nobody takes a percentage of your sales, counts your products or charges for another admin user. The fees you pay are your payment gateway’s own, on its own terms.' },
@@ -64,12 +64,12 @@ const faq = [
   <section class="wrap price-hero">
     <p class="kicker">Pricing</p>
     <h1>{hostedFee} of each sale hosted. Free to run yourself.</h1>
-    <p class="lede">Two ways to run a store. Host it on kitcommerce.store and pay {hosted}. Or run GoCommerce and Svelte Commerce on your own server: MIT licensed, no plan, no fee on your orders, no cap on your sales.</p>
+    <p class="lede">Two ways to run a store. Host it on kitcommerce.store and pay {hosted}<Variants v={gstForRupees} />. Or run GoCommerce and Svelte Commerce on your own server: MIT licensed, no plan, no fee on your orders, no cap on your sales.</p>
     <div class="duo-grid">
       <div class="duo-card">
         <p class="duo-card-role">Hosted on kitcommerce.store</p>
         <p class="price-big">{hostedFee}</p>
-        <p class="price-per">of each successful sale</p>
+        <p class="price-per">of each successful sale<Variants v={gstForRupees} /></p>
         <div class="actions">
           <a class="button" href={signupUrl} {...ext} data-ev="signup_click">Start a store</a>
         </div>

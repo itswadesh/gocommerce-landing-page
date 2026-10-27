@@ -69,6 +69,7 @@
           "fees": { "basic": 2, "grow": 1, "advanced": 0.6 },
           "feeUrl": "https://www.shopify.com/in/pricing",
           "paymentsUrl": "https://help.shopify.com/en/manual/payments/shopify-payments/supported-countries",
+          "gstUrl": "https://help.shopify.com/en/manual/your-account/manage-billing/billing-charges/types-of-charges/taxes/billing-taxes-india-malaysia-singapore-thailand",
           "read": "2026-10-26"
         },
         "us": {

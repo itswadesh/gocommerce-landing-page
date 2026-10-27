@@ -22,6 +22,8 @@ export interface Comparison {
   label: string
   /** Hub section this page is listed under. */
   group: 'Shopify' | 'Indian SaaS builders' | 'Open-source platforms' | 'Global SaaS' | 'Headless open source'
+  /** "IN" for a page written for stores in India: every statement of the hosted fee adds its GST. */
+  market?: 'IN'
   /** One line for the hub card. */
   summary: string
   title: string
