@@ -34,7 +34,7 @@
 
 ## Pages
 
-- https://kitcommerce.store/ — both projects, a one-command Docker quick start, admin and storefront screenshots, capabilities, architecture and FAQ
+- https://kitcommerce.store/ — both projects, a backend + admin Docker quick start (no storefront), admin and storefront screenshots, capabilities, architecture and FAQ
 - https://kitcommerce.store/gocommerce/ — the backend and admin: capabilities, modules, admin screenshots, setup, roadmap
 - https://kitcommerce.store/gocommerce/admin/ — every screen of the admin, captured from one seeded store in light and dark, captioned in the panel’s own words
 - https://kitcommerce.store/svelte-commerce/ — the storefront: capabilities, screens, backend preview, setup
@@ -145,7 +145,7 @@
 - https://kitcommerce.store/features/ai/ — AI: a gateway that caps and records every model call, an approval queue with no actions yet, read-only agent keys and MCP; what is not built
 - https://kitcommerce.store/svelte-commerce/themes/ — 79 live Svelte Commerce demo storefronts, each opening as a running store
 - https://kitcommerce.store/live-projects/ — live stores running Svelte Commerce, with the Lighthouse scores each home page received on the date measured
-- https://kitcommerce.store/open-source/ — both repositories, the one-command quick start, the ecosystem, the community, and why there is no paid edition
+- https://kitcommerce.store/open-source/ — both repositories, the backend + admin quick start, the ecosystem, the community, and why there is no paid edition
 - https://kitcommerce.store/vibe-coding-commerce/ — point AI coding tools at the storefront, not the commerce engine; the agent toolkit GoCommerce ships
 - https://kitcommerce.store/blog/ — posts by the people building GoCommerce and Svelte Commerce
 - https://kitcommerce.store/blog/agentic-commerce-open-stack/ — agentic commerce on an open stack: MCP, OpenAPI and feeds today; ACP, UCP and AP2 not built

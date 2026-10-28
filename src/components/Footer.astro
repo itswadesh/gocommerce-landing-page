@@ -13,6 +13,7 @@
  * Comparison lists the Shopify pages by name and the rest through the hub,
  * which links every one — twenty names would drown the other columns.
  */
+import { counts } from '../lib/facts'
 interface Props { updated?: string }
 const { updated } = Astro.props
 const updatedText = updated ? new Date(updated + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) : ''
@@ -49,11 +50,11 @@ const cols = [
     links: [
       { href: 'https://github.com/itswadesh/gocommerce#readme', label: 'Documentation', external: true },
       { href: 'https://github.com/itswadesh/gocommerce/blob/main/core/openapi.json', label: 'API reference (OpenAPI)', external: true },
-      { href: '/#one-command', label: 'One-command Docker stack' },
+      { href: '/#one-command', label: 'Backend + admin quick start' },
       { href: '/gocommerce/#quickstart', label: 'GoCommerce quick start' },
       { href: '/svelte-commerce/#quickstart', label: 'Svelte Commerce quick start' },
       { href: 'https://github.com/itswadesh/gocommerce/tree/main/examples/store', label: 'Example store', external: true },
-      { href: '/svelte-commerce/backends/', label: '26 backend integrations' },
+      { href: '/svelte-commerce/backends/', label: `${counts.backends} backend integrations` },
       { href: '/go-svelte-ecommerce/', label: 'Architecture' },
       { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status' },
       { href: '/open-source/', label: 'Open source' },

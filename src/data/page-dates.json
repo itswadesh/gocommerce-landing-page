@@ -1,6 +1,6 @@
 {
   "/": {
-    "hash": "541b6b7e6c463b10",
+    "hash": "4ce58b499c80d2d9",
     "modified": "2026-10-28"
   },
   "/about/": {
@@ -88,87 +88,87 @@
     "modified": "2026-10-26"
   },
   "/compare/": {
-    "hash": "3f1ac471d020da00",
-    "modified": "2026-10-26"
+    "hash": "d96794e4706e538d",
+    "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-bagisto/": {
-    "hash": "dfa624808d598e88",
+    "hash": "e45223cd96733810",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-bigcommerce/": {
-    "hash": "9486ba6f28e4832e",
+    "hash": "5c15a760f5f3747f",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-dukaan/": {
-    "hash": "487b0ab14db82e31",
+    "hash": "1fa634b956596a5b",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-instamojo/": {
-    "hash": "970cd9240fb35f3e",
+    "hash": "1446542d408c91fb",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-magento/": {
-    "hash": "08e91acd7489389f",
+    "hash": "16442dd0503536cc",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-medusa/": {
-    "hash": "97583d535d7051a8",
+    "hash": "6dc2f1b52c3499dd",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-opencart/": {
-    "hash": "0287565b6a2fc542",
+    "hash": "af4a73a3d70fb4a9",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-prestashop/": {
-    "hash": "ea31658e207492c9",
+    "hash": "11757c984e2f8481",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-saleor/": {
-    "hash": "2f0d6b5bbf663660",
+    "hash": "2c45b50218cfdd27",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-shopify/": {
-    "hash": "a4b84774f90389d0",
+    "hash": "c6009c3e0ec50bcb",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-squarespace/": {
-    "hash": "d16e873d6ef5feb1",
+    "hash": "fc3dddbebd6d1f23",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-storehippo/": {
-    "hash": "9972e239f05ac171",
+    "hash": "c38c3fcb7e84696f",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-vendure/": {
-    "hash": "0a22f62014c1c21b",
+    "hash": "5aa129b8bbdd56fa",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-webnexs/": {
-    "hash": "b678ee4d21f3c66a",
+    "hash": "f296d25a5d1474d3",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-wix/": {
-    "hash": "61e85313197a3bf5",
+    "hash": "e7f6f2672ebf87df",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-woocommerce/": {
-    "hash": "67cfafb37fd31961",
+    "hash": "6b6083a34c887a4c",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-zoho-commerce/": {
-    "hash": "4077e558e9cbdaf7",
+    "hash": "e36964970135c65c",
     "modified": "2026-10-28"
   },
   "/compare/shopify-b2b-vs-kitcommerce/": {
-    "hash": "64f2c9d4a6d6ba15",
+    "hash": "9caf1b95e7e0c143",
     "modified": "2026-10-28"
   },
   "/compare/shopify-india-vs-kitcommerce/": {
-    "hash": "de7790de7485185d",
+    "hash": "0b370eb283fdc687",
     "modified": "2026-10-28"
   },
   "/compare/shopify-plus-vs-kitcommerce/": {
-    "hash": "26e789472855ea3d",
+    "hash": "9ada97c4eb8fb2a6",
     "modified": "2026-10-28"
   },
   "/contact/": {
@@ -176,39 +176,39 @@
     "modified": "2026-09-25"
   },
   "/features/": {
-    "hash": "e208f928e6a6e4c8",
+    "hash": "2210a9f18c784a7a",
     "modified": "2026-10-28"
   },
   "/features/ai/": {
-    "hash": "44778f5de282e85c",
-    "modified": "2026-10-22"
+    "hash": "4d747684ded1c6c4",
+    "modified": "2026-10-28"
   },
   "/features/checkout/": {
-    "hash": "2a0a6f4321fc0b93",
+    "hash": "704ff665afac5cf2",
     "modified": "2026-10-28"
   },
   "/features/development/": {
-    "hash": "3f71e79e624ea174",
+    "hash": "1c0133e4abe4e1eb",
     "modified": "2026-10-28"
   },
   "/features/operations/": {
-    "hash": "b674c000d9f2b06b",
-    "modified": "2026-10-22"
+    "hash": "ab17ee1c7149134f",
+    "modified": "2026-10-28"
   },
   "/go-svelte-ecommerce/": {
-    "hash": "753484201314bfaa",
+    "hash": "8fb78ffab59963b4",
     "modified": "2026-10-28"
   },
   "/gocommerce-svelte-commerce-connector/": {
-    "hash": "6c1a02a1ccd21dc8",
+    "hash": "40c82c301551fd7e",
     "modified": "2026-10-28"
   },
   "/gocommerce/": {
-    "hash": "825dbe307e52b522",
+    "hash": "38bb7b9057816df4",
     "modified": "2026-10-28"
   },
   "/gocommerce/admin/": {
-    "hash": "37fb8bb192eb5084",
+    "hash": "df499f2c03de1f1b",
     "modified": "2026-10-28"
   },
   "/gocommerce/mcp/": {
@@ -216,203 +216,203 @@
     "modified": "2026-10-28"
   },
   "/integrations/": {
-    "hash": "acd4cc997be5cfe4",
+    "hash": "07b10173f1847b79",
     "modified": "2026-10-28"
   },
   "/integrations/ai-gateway/": {
-    "hash": "1c5d3d40d33cae4e",
-    "modified": "2026-10-26"
+    "hash": "5d8fbbe1ce2c4af5",
+    "modified": "2026-10-28"
   },
   "/integrations/banners/": {
-    "hash": "dd09e92590d11eac",
-    "modified": "2026-10-26"
+    "hash": "f79022e6c3edc4cf",
+    "modified": "2026-10-28"
   },
   "/integrations/cart-recovery/": {
-    "hash": "e1de8271b1a0f5bb",
+    "hash": "15550c00a9aa28a5",
     "modified": "2026-10-28"
   },
   "/integrations/cms/": {
-    "hash": "46d54ac0347b9a5f",
-    "modified": "2026-10-26"
+    "hash": "0a81b8d9a449ddf4",
+    "modified": "2026-10-28"
   },
   "/integrations/contact/": {
-    "hash": "74ec1a500b51f378",
-    "modified": "2026-10-26"
+    "hash": "3d6dde6d77ff13e1",
+    "modified": "2026-10-28"
   },
   "/integrations/faq/": {
-    "hash": "98ab05ed4f47c135",
-    "modified": "2026-10-26"
+    "hash": "9da8c9da3816f83c",
+    "modified": "2026-10-28"
   },
   "/integrations/feeds/": {
-    "hash": "6686945c9ba7c5b5",
-    "modified": "2026-10-26"
+    "hash": "757ebc24d039a5f0",
+    "modified": "2026-10-28"
   },
   "/integrations/fulfill-delhivery/": {
-    "hash": "9070e4c10e8ff3db",
-    "modified": "2026-10-26"
+    "hash": "896de8a7641556b9",
+    "modified": "2026-10-28"
   },
   "/integrations/fulfill-easyship/": {
-    "hash": "793ddd77d3f3558f",
-    "modified": "2026-10-26"
+    "hash": "5c602a4ddec4afc5",
+    "modified": "2026-10-28"
   },
   "/integrations/fulfill-indiapost/": {
-    "hash": "3ae8c55a361c014a",
-    "modified": "2026-10-26"
+    "hash": "3c745a08d967f587",
+    "modified": "2026-10-28"
   },
   "/integrations/fulfill-nimbuspost/": {
-    "hash": "ddd45d41167da7ed",
-    "modified": "2026-10-26"
+    "hash": "e4f1df971fc37e3a",
+    "modified": "2026-10-28"
   },
   "/integrations/fulfill-onfleet/": {
-    "hash": "662330faae227dae",
-    "modified": "2026-10-26"
+    "hash": "1d93769e62545a8d",
+    "modified": "2026-10-28"
   },
   "/integrations/fulfill-shippit/": {
-    "hash": "b7671daccd92470c",
-    "modified": "2026-10-26"
+    "hash": "9b493e0833730b44",
+    "modified": "2026-10-28"
   },
   "/integrations/fulfill-shippo/": {
-    "hash": "8b6c814188fe3275",
-    "modified": "2026-10-26"
+    "hash": "64bff577badfe48d",
+    "modified": "2026-10-28"
   },
   "/integrations/fulfill-shiprocket/": {
-    "hash": "725027311e164f7b",
-    "modified": "2026-10-26"
+    "hash": "075379717437067d",
+    "modified": "2026-10-28"
   },
   "/integrations/fulfill-shipstation/": {
-    "hash": "37d1b8c72fa04095",
-    "modified": "2026-10-26"
+    "hash": "b765609a7005d275",
+    "modified": "2026-10-28"
   },
   "/integrations/fulfill-usps/": {
-    "hash": "a40bbe055426ef10",
-    "modified": "2026-10-26"
+    "hash": "26f99fd1f9eb339c",
+    "modified": "2026-10-28"
   },
   "/integrations/fulfill-veeqo/": {
-    "hash": "f37e2acfaebc93d3",
-    "modified": "2026-10-26"
+    "hash": "0218ff5b7154ceb3",
+    "modified": "2026-10-28"
   },
   "/integrations/identity/": {
-    "hash": "a73d4e6979600e0a",
+    "hash": "56d59311f8f5f8bd",
     "modified": "2026-10-28"
   },
   "/integrations/import-shopify/": {
-    "hash": "82508efd9ce67715",
-    "modified": "2026-10-26"
+    "hash": "ae59198687c27419",
+    "modified": "2026-10-28"
   },
   "/integrations/indexnow/": {
-    "hash": "6be414470c99f732",
-    "modified": "2026-10-26"
+    "hash": "2221bde5f27f476a",
+    "modified": "2026-10-28"
   },
   "/integrations/invoices/": {
-    "hash": "4d690b2ee1a84989",
+    "hash": "aed140ebae5af02d",
     "modified": "2026-10-28"
   },
   "/integrations/klaviyo/": {
-    "hash": "078546220d0a1083",
-    "modified": "2026-10-26"
+    "hash": "da0d2ce0c9341591",
+    "modified": "2026-10-28"
   },
   "/integrations/mcp/": {
-    "hash": "33edd0917a06ae08",
+    "hash": "0f5b97ec58fa3843",
     "modified": "2026-10-28"
   },
   "/integrations/navigation/": {
-    "hash": "639baafd6bf49202",
-    "modified": "2026-10-26"
+    "hash": "0012310d0aa99649",
+    "modified": "2026-10-28"
   },
   "/integrations/newsletter/": {
-    "hash": "adf618269a2e7ede",
+    "hash": "85adfb28b635b7b1",
     "modified": "2026-10-28"
   },
   "/integrations/notify-msg91/": {
-    "hash": "ac89d7aaf7388e36",
+    "hash": "ecd60cfbd650ce89",
     "modified": "2026-10-28"
   },
   "/integrations/notify-resend/": {
-    "hash": "7fb84efd9f6bc514",
-    "modified": "2026-10-26"
+    "hash": "fa1e9d25c16e7c7e",
+    "modified": "2026-10-28"
   },
   "/integrations/notify-sendgrid/": {
-    "hash": "041a268bbc7bf894",
-    "modified": "2026-10-26"
+    "hash": "1ba4adc9d3ccb6b9",
+    "modified": "2026-10-28"
   },
   "/integrations/notify-twilio/": {
-    "hash": "2b1e77ef42209ce0",
-    "modified": "2026-10-26"
+    "hash": "c7b7329b5389f0f1",
+    "modified": "2026-10-28"
   },
   "/integrations/payments-adyen/": {
-    "hash": "37004a408be007d3",
-    "modified": "2026-10-26"
+    "hash": "fb6d2fdd213b81ef",
+    "modified": "2026-10-28"
   },
   "/integrations/payments-cashfree/": {
-    "hash": "7a2d61c4e5b20742",
-    "modified": "2026-10-26"
+    "hash": "84a1cbc050b45fb6",
+    "modified": "2026-10-28"
   },
   "/integrations/payments-clover/": {
-    "hash": "204bb9962aca481e",
-    "modified": "2026-10-26"
+    "hash": "8ee0ced3a10fc241",
+    "modified": "2026-10-28"
   },
   "/integrations/payments-creem/": {
-    "hash": "f11903894700ea2c",
-    "modified": "2026-10-26"
+    "hash": "e8a77d935082a4ee",
+    "modified": "2026-10-28"
   },
   "/integrations/payments-helcim/": {
-    "hash": "b868229a24a085b1",
-    "modified": "2026-10-26"
+    "hash": "b7304ef88300e23e",
+    "modified": "2026-10-28"
   },
   "/integrations/payments-hyperswitch/": {
-    "hash": "d95335ee5c32ccca",
-    "modified": "2026-10-26"
+    "hash": "f95fb925f3041ba8",
+    "modified": "2026-10-28"
   },
   "/integrations/payments-lemonsqueezy/": {
-    "hash": "a033905f7af79c95",
-    "modified": "2026-10-26"
+    "hash": "5ddacab1e72777b5",
+    "modified": "2026-10-28"
   },
   "/integrations/payments-paddle/": {
-    "hash": "11966a3eaa008835",
-    "modified": "2026-10-26"
+    "hash": "7a36309f336077a6",
+    "modified": "2026-10-28"
   },
   "/integrations/payments-razorpay/": {
-    "hash": "ef3202ed5ac4bf65",
+    "hash": "8fc3fc044515c9b3",
     "modified": "2026-10-28"
   },
   "/integrations/payments-revenuecat/": {
-    "hash": "4647782bdddc731c",
-    "modified": "2026-10-26"
+    "hash": "b18dcb1f56bc3913",
+    "modified": "2026-10-28"
   },
   "/integrations/payments-stripe/": {
-    "hash": "85222800afa99579",
-    "modified": "2026-10-26"
+    "hash": "3f0a97f86aa9f4aa",
+    "modified": "2026-10-28"
   },
   "/integrations/reviews/": {
-    "hash": "b9212c13d883145e",
-    "modified": "2026-10-26"
+    "hash": "34e127ca8e1e5009",
+    "modified": "2026-10-28"
   },
   "/integrations/search-meilisearch/": {
-    "hash": "6e7550c38ce479a2",
+    "hash": "3b9eabde9abf255b",
     "modified": "2026-10-28"
   },
   "/integrations/showcases/": {
-    "hash": "415e96f2b8b45205",
-    "modified": "2026-10-26"
+    "hash": "f8a6a68f726d16a9",
+    "modified": "2026-10-28"
   },
   "/integrations/sitemaps/": {
-    "hash": "6f0f803a3287c1da",
-    "modified": "2026-10-26"
+    "hash": "de2adbdf06dbd946",
+    "modified": "2026-10-28"
   },
   "/integrations/telegram-alerts/": {
-    "hash": "97259e68c85546e6",
-    "modified": "2026-10-26"
+    "hash": "4e9de17bbb84d6a7",
+    "modified": "2026-10-28"
   },
   "/integrations/translations/": {
-    "hash": "9d448b10cf09ebf1",
-    "modified": "2026-10-26"
+    "hash": "a967652939d2acf8",
+    "modified": "2026-10-28"
   },
   "/integrations/webhooks/": {
-    "hash": "d21f11173c995fd0",
+    "hash": "c7c7960c18d0ebf4",
     "modified": "2026-10-28"
   },
   "/integrations/wishlist/": {
-    "hash": "7a9924dbb32a9184",
+    "hash": "e8eabcb99ad3de0f",
     "modified": "2026-10-28"
   },
   "/live-projects/": {
@@ -420,11 +420,11 @@
     "modified": "2026-09-25"
   },
   "/open-source/": {
-    "hash": "d290400162f3334e",
+    "hash": "3172db179de5ec8e",
     "modified": "2026-10-28"
   },
   "/pricing/": {
-    "hash": "aad5fc0f5ad0af96",
+    "hash": "3fa62a5a26ace3d7",
     "modified": "2026-10-28"
   },
   "/pricing/fee-calculator/": {
@@ -436,11 +436,11 @@
     "modified": "2026-09-26"
   },
   "/sitemap/": {
-    "hash": "3cb33325089126b0",
+    "hash": "a568d6342f628682",
     "modified": "2026-10-28"
   },
   "/solutions/": {
-    "hash": "bf908a03f8496116",
+    "hash": "e3b6e5bf572decdc",
     "modified": "2026-10-28"
   },
   "/solutions/auto-parts/": {
@@ -452,7 +452,7 @@
     "modified": "2026-10-28"
   },
   "/solutions/b2b/": {
-    "hash": "b0fd0b3e275b530c",
+    "hash": "a528bb5cd44973e3",
     "modified": "2026-10-28"
   },
   "/solutions/building-materials/": {
@@ -460,7 +460,7 @@
     "modified": "2026-10-28"
   },
   "/solutions/d2c/": {
-    "hash": "ac821fd0a7419302",
+    "hash": "7e767241326eeb9c",
     "modified": "2026-10-28"
   },
   "/solutions/dealer-portal/": {
@@ -472,12 +472,12 @@
     "modified": "2026-10-28"
   },
   "/solutions/marketplace/": {
-    "hash": "3f2be78dd2701dcc",
-    "modified": "2026-10-26"
+    "hash": "14fa0b45e69a9f36",
+    "modified": "2026-10-28"
   },
   "/solutions/multi-store/": {
-    "hash": "44f81ea4c9d26df6",
-    "modified": "2026-10-15"
+    "hash": "7dee6c132ec0b66a",
+    "modified": "2026-10-28"
   },
   "/svelte-commerce/": {
     "hash": "67d308790c4a34aa",
@@ -604,7 +604,7 @@
     "modified": "2026-10-26"
   },
   "/vibe-coding-commerce/": {
-    "hash": "463fc9d919e2ea6c",
+    "hash": "ec70165800a152f9",
     "modified": "2026-10-28"
   }
 }

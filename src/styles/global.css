@@ -1126,6 +1126,9 @@ footer { border-top: var(--hairline); background: var(--surface); padding-block:
 @media (max-width: 460px) { .outcome { grid-template-columns: 1fr; } }
 .outcome li { background: var(--paper); padding: 15px 16px; display: grid; grid-template-columns: 16px 1fr; gap: 4px 10px; align-items: start; }
 .outcome svg { width: 15px; height: 15px; color: var(--go); margin-top: 3px; grid-row: span 2; }
+.outcome-not { grid-template-columns: 1fr 1fr; }
+@media (max-width: 460px) { .outcome-not { grid-template-columns: 1fr; } }
+.outcome-not svg { color: var(--ink-3); }
 .outcome b { font-size: .9375rem; }
 .outcome span { font-size: .8125rem; color: var(--ink-2); line-height: 1.5; }
 .onecmd-section .urls { margin-top: 26px; }

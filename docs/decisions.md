@@ -4,6 +4,26 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 28 October 2026: the Docker stack is the backend + admin quick start
+
+The audit found "Deploy in minutes" and "one command" used as if they
+started the whole platform. The site's compose file starts PostgreSQL,
+GoCommerce with its admin, and Caddy; Svelte Commerce is an optional
+profile that is not paired with GoCommerce.
+
+- Every "Deploy in minutes" button now reads "Backend + admin quick start",
+  and the header's "Deploy" reads "Quick start". The homepage section says
+  what runs and what does not (no storefront, no AI gateway or MCP module),
+  and the closing band, the hero point, /open-source/ and llms.txt say the
+  same.
+- "Your first store, in about five minutes" on /gocommerce/ became
+  "GoCommerce from source, with Go and PostgreSQL": nothing measured the
+  five minutes, and it starts no storefront.
+- No full-stack recipe is published here. GoCommerce main gained a compose
+  file that starts the storefront too (commit 07fbf55d); the site says
+  nothing about it until that stack has been run end to end with a test
+  order.
+
 ## 28 October 2026: every count is read from GoCommerce, not typed
 
 An outside audit said the homepage claimed 51 modules and /pricing/ 49. The

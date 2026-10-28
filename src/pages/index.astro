@@ -197,11 +197,11 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <li><svg aria-hidden="true"><use href="#i-zap"/></svg><b>Fast by design</b><span>One compiled Go binary, server-rendered pages</span></li>
       <li><svg aria-hidden="true"><use href="#i-db"/></svg><b>Built to scale</b><span>Add servers behind a load balancer, one PostgreSQL</span></li>
       <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Over {counts.testsFloor} tests</b><span>And a documented contract for every route</span></li>
-      <li><svg aria-hidden="true"><use href="#i-terminal"/></svg><b>It just works</b><span>Up on your own server with one command</span></li>
+      <li><svg aria-hidden="true"><use href="#i-terminal"/></svg><b>Backend + admin quick start</b><span>API, admin and PostgreSQL with one Docker command</span></li>
       <li><svg aria-hidden="true"><use href="#i-tag"/></svg><b>Your brand, your code</b><span>MIT licensed, white-label, 0% of sales when self-hosted</span></li>
     </ul>
     <div class="actions hero-actions">
-      <a class="button" href="#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button" href="#one-command" data-ev="quickstart_click">Backend + admin quick start</a>
       <a class="button secondary" href={adminHref} {...ext} data-ev="live_admin_click">{adminLabel}</a>
     </div>
     {/* The numbers, each attributed. Stars belong to Svelte Commerce and say
@@ -507,10 +507,10 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <p class="kicker">One command</p>
-          <h2 id="onecmd-title">Start on your own server in minutes</h2>
+          <p class="kicker">Backend + admin quick start</p>
+          <h2 id="onecmd-title">GoCommerce and its admin on your own server</h2>
         </div>
-        <p class="section-lede">Three services, one command. This compose file is served from this domain and was run end to end before it was published here.</p>
+        <p class="section-lede">One Docker command starts three services: PostgreSQL, GoCommerce with its admin, and Caddy. It does not start a storefront. This compose file is served from this domain and was run end to end before it was published here.</p>
       </div>
 
       <div class="onecmd-grid">
@@ -529,12 +529,18 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         </div>
       </div>
 
-      <h3 class="sub">After one command</h3>
+      <h3 class="sub">What runs</h3>
       <ul class="outcome">
         <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>PostgreSQL</b><span>the database GoCommerce owns</span></li>
         <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Commerce API</b><span>{counts.apiOperations} documented operations</span></li>
         <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Admin panel</b><span>compiled into the same binary</span></li>
         <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Reverse proxy</b><span>Caddy, so it answers on port 80</span></li>
+      </ul>
+
+      <h3 class="sub">What does not</h3>
+      <ul class="outcome outcome-not">
+        <li><svg aria-hidden="true"><use href="#i-store"/></svg><b>A storefront</b><span>Svelte Commerce is separate; see below</span></li>
+        <li><svg aria-hidden="true"><use href="#i-bot"/></svg><b>AI gateway and MCP</b><span>modules this build does not install</span></li>
       </ul>
 
       <div class="urls">
@@ -601,7 +607,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       </div>
     </div>
     <ol class="steps4">
-      <li><b>Download and run</b><span>One command brings up PostgreSQL, the API with its admin, and a proxy on port 80.</span><a href="#one-command">The command</a></li>
+      <li><b>Download and run</b><span>One command brings up PostgreSQL, the API with its admin, and a proxy on port 80. The storefront comes separately.</span><a href="#one-command">Backend + admin quick start</a></li>
       <li><b>Configure your store</b><span>Catalogue, payment methods, shipping zones, tax rates and staff — all from the admin.</span><a href="/features/operations/">What the admin does</a></li>
       <li><b>Customise it</b><span>Import the modules you need, change the storefront’s Svelte components, and let a coding agent read <code>AGENTS.md</code> first.</span><a href="/integrations/">{counts.modules} modules</a></li>
       <li><b>Launch on your infrastructure</b><span>Your server, your domain, your PostgreSQL backups — and your brand on all of it.</span><a href="/open-source/">Open source</a></li>
@@ -692,10 +698,10 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
   {/* ══════════════════════════════════════ 16 — start building */}
   <section id="start" class="closing wrap" aria-labelledby="start-title">
-    <h2 id="start-title">A store on your own server, in one command</h2>
-    <p>PostgreSQL, the API with its admin, and a proxy on port 80.</p>
+    <h2 id="start-title">GoCommerce and its admin on your own server</h2>
+    <p>The backend + admin quick start: PostgreSQL, the API with its admin, and a proxy on port 80. No storefront.</p>
     <div class="actions">
-      <a class="button" href="#one-command" data-ev="quickstart_click">Deploy in minutes</a>
+      <a class="button" href="#one-command" data-ev="quickstart_click">Backend + admin quick start</a>
       <a class="button secondary" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_gocommerce_click">GoCommerce on GitHub</a>
       <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_sveltecommerce_click">Svelte Commerce on GitHub</a>
     </div>

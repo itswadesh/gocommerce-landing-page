@@ -225,7 +225,7 @@ const COUNTS = [
   [/(\d[\d,]*) (?:documented (?:REST |API )?|REST |API |HTTP )?operations\b/g, 100, [facts.apiOperations, facts.coreOperations, facts.moduleOperations], 'apiOperations'],
   [/(\d[\d,]*)\+? tests\b/g, 500, [facts.tests, floor100], 'tests'],
   [/(\d+) (?:Svelte |embedded )?admin screens\b|(\d+)-screen (?:Svelte )?admin\b/g, 0, [facts.adminScreens], 'adminScreens'],
-  [/(\d+) (?:other |measured )?(?:commerce |Svelte Commerce |backend )?(?:backends|connectors|backend connectors)\b/g, 20, [backendCount, backendCount - 1], 'connectors.json'],
+  [/(\d+) (?:other |measured )?(?:commerce |Svelte Commerce |backend )?(?:backends|connectors|backend connectors|backend integrations)\b/g, 20, [backendCount, backendCount - 1], 'connectors.json'],
   [/(\d+) (?:architectural |architecture )?rules\b/g, 10, [facts.agentRules], 'agentRules'],
   [/(\d+) task guides\b/g, 0, [facts.skillGuides], 'skillGuides'],
   [/(\d+) core rights\b/g, 0, [facts.coreRights], 'coreRights'],
