@@ -285,7 +285,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <li><b>{counts.apiOperations}</b><span>documented API operations</span></li>
       <li><b>{counts.modules}</b><span>modules</span></li>
       <li><b>{themes.length}</b><span>storefront themes</span></li>
-      <li><b>{liveCount}</b><span>live stores</span></li>
+      <li><b>{liveCount}</b><span>live Svelte Commerce stores, none on GoCommerce</span></li>
     </ul>
   </section>
 
@@ -330,10 +330,10 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
             </picture>
           </a>
         </div>
-        <figcaption>Real storefront capture · <a href="/assets/admin/storefront-home.webp" {...ext}>Full desktop screenshot ↗</a></figcaption>
+        <figcaption>Svelte Commerce in production, not running on GoCommerce · <a href="/assets/admin/storefront-home.webp" {...ext}>Full desktop screenshot ↗</a></figcaption>
       </figure>
       <div class="store-meta">
-        <div><h3>Arialshop</h3><p class="store-domain">arialshop.com</p><p>A real production jewellery storefront running on Svelte Commerce — lab-grown diamond rings, with variants, sizing and checkout.</p></div>
+        <div><h3>Arialshop</h3><p class="store-domain">arialshop.com</p><p>A real production jewellery storefront running on Svelte Commerce, not on GoCommerce — lab-grown diamond rings, with variants, sizing and checkout.</p></div>
         <a class="button secondary" href="https://arialshop.com" {...ext} data-ev="live_store_click">Visit store</a>
       </div>
     </div>
@@ -620,7 +620,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <div class="sec-head">
       <div>
         <p class="kicker">In production</p>
-        <h2 id="built-title-2">See what stores are running</h2>
+        <h2 id="built-title-2">Svelte Commerce in production, not running on GoCommerce</h2>
       </div>
       <p class="section-lede">{liveCount} live stores run Svelte Commerce today, each with the Lighthouse scores it actually got on {new Date(live.measured + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}. None runs GoCommerce yet.</p>
     </div>

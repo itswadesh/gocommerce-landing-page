@@ -4,6 +4,18 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 28 October 2026: live stores are labelled as Svelte Commerce, not GoCommerce
+
+The audit found live Svelte Commerce stores shown beside GoCommerce
+figures, as if they were GoCommerce proof. They are not: none runs
+GoCommerce.
+
+- Wherever the live stores appear (the homepage's storefront card and
+  "In production" section, /live-projects/, /solutions/d2c/), they carry
+  the label "Svelte Commerce in production, not running on GoCommerce".
+  The homepage's figure strip says "live Svelte Commerce stores, none on
+  GoCommerce" instead of "live stores".
+
 ## 28 October 2026: no "enterprise" claims; the pair is labelled early
 
 The audit found "Enterprise-grade" in the homepage hero and "enterprise
