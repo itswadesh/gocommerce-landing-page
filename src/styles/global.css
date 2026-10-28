@@ -2048,3 +2048,4 @@ html:has(dialog.lightbox[open]) { overflow: hidden; }
 .hero-points b { font-size: .9375rem; }
 .hero-points span { font-size: .875rem; line-height: 1.45; }
 .hero-center .hero-points + .actions { margin-top: 28px; }
+.hero-early { margin: 14px auto 0; text-align: center; }

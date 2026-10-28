@@ -4,6 +4,21 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 28 October 2026: no "enterprise" claims; the pair is labelled early
+
+The audit found "Enterprise-grade" in the homepage hero and "enterprise
+ecommerce" in its title and share title, with nothing behind them: no
+store we know of runs GoCommerce in production.
+
+- Title: "KitCommerce — Open-Source Commerce with Go & SvelteKit". Share
+  title: "Open-source commerce with Go and SvelteKit". The hero point is
+  "Composable foundations: B2B, marketplaces and multiple storefronts in
+  one engine", the audit's suggested wording, which describes what the
+  code has. llms.txt says the same.
+- The homepage hero and /go-svelte-ecommerce/ say that GoCommerce and
+  Svelte Commerce together are early (connector 0.1.0) and link
+  /gocommerce-svelte-commerce-connector/.
+
 ## 28 October 2026: the Docker stack is the backend + admin quick start
 
 The audit found "Deploy in minutes" and "one command" used as if they

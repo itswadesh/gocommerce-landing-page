@@ -168,10 +168,10 @@ const livePreview = live.stores.filter((s) => s.scores).slice(0, 3)
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
 ---
 <Base
-  title="KitCommerce — Open-Source Go & Svelte Enterprise Ecommerce"
-  description={`Open-source ecommerce: GoCommerce is one Go binary, Svelte Commerce renders on the server. Free to self-host under MIT, or hosted for ${hostedFeeShort}.`}
+  title="KitCommerce — Open-Source Commerce with Go & SvelteKit"
+  description={`GoCommerce, an open-source Go commerce backend, and Svelte Commerce, a SvelteKit storefront. Free under MIT, or hosted for ${hostedFeeShort}.`}
   path={path}
-  ogTitle="Open source enterprise ecommerce platform"
+  ogTitle="Open-source commerce with Go and SvelteKit"
   ogDescription={`GoCommerce for backend and admin. Svelte Commerce for the storefront. MIT and free to self-host, or hosted for ${hostedFeeShort}.`}
   graph={graph}
   faq={faq}
@@ -188,12 +188,12 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <a class="pill" href="/pricing/">Open source · MIT licensed · Free to self-host <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
     <h1>Open-source ecommerce platform</h1>
     <p class="lede">Download it and use it free under the MIT licence, or have it hosted on kitcommerce.store for {hostedFeeText}.</p>
-    {/* Enterprise-grade, fast, scalable, tested, working, white-label — each
+    {/* Composable, fast, scalable, tested, quick to start, white-label — each
         word carried by the fact under it rather than asserted on its own.
         "Error free" is said the only way software can honestly say it: as
         the test suite that stands behind the API. */}
     <ul class="hero-points" aria-label="In short">
-      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>Enterprise-grade</b><span>B2B, marketplace and multi-store in one engine</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>Composable foundations</b><span>B2B, marketplaces and multiple storefronts in one engine</span></li>
       <li><svg aria-hidden="true"><use href="#i-zap"/></svg><b>Fast by design</b><span>One compiled Go binary, server-rendered pages</span></li>
       <li><svg aria-hidden="true"><use href="#i-db"/></svg><b>Built to scale</b><span>Add servers behind a load balancer, one PostgreSQL</span></li>
       <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Over {counts.testsFloor} tests</b><span>And a documented contract for every route</span></li>
@@ -204,6 +204,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <a class="button" href="#one-command" data-ev="quickstart_click">Backend + admin quick start</a>
       <a class="button secondary" href={adminHref} {...ext} data-ev="live_admin_click">{adminLabel}</a>
     </div>
+    <p class="fineprint hero-early">GoCommerce and Svelte Commerce together are early: the connector between them is at 0.1.0. <a href="/gocommerce-svelte-commerce-connector/">See what works and what does not</a>.</p>
     {/* The numbers, each attributed. Stars belong to Svelte Commerce and say
         so; GitHub publishes no download count for a repository without
         releases, so the second figure is forks, which it does. */}
