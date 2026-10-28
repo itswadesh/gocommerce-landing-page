@@ -29,12 +29,12 @@
     ["Extensions", "Webkul’s extension store — POS at {p:bagisto/pos}, a B2B marketplace at {p:bagisto/b2b-marketplace}, industry themes at {p:bagisto/theme} — alongside free packages on GitHub.", "51 MIT modules, compiled in when imported: payments, Indian and global shipping, messaging, search, feeds, MCP. No module is sold separately."],
     ["Storefront", "Themes inside the application, a Next.js headless storefront and an open-source mobile app.", "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes. Its GoCommerce connector is early, at 0.1.0 — catalogue, cart, checkout and order lookup; its Bagisto connector exists too."],
     ["Agent tooling", "22 agent skills for building on Bagisto, storefront actions declared as WebMCP tools, and an MCP server Webkul describes for products, customers and orders.", "An MCP module with 19 tools that act on a running store; an AGENTS.md of 18 rules and 16 task guides in the repository."],
-    ["Hosting", "Self-host, or Bagisto Cloud: managed hosting advertised from {p:bagisto/cloud-from-month} a month.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFee} of each successful sale."],
+    ["Hosting", "Self-host, or Bagisto Cloud: managed hosting advertised from {p:bagisto/cloud-from-month} a month.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFeeText}."],
     ["Track record", "Case studies from Toyota Thailand, DAAWAT, The Sultan Center, Cartlow and Digikala; 28,000+ GitHub stars.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
   ],
   "cost": {
     "title": "What each side costs",
-    "lede": "Both cores are free. Bagisto charges for several of the extensions that make a store a marketplace, a till or a SaaS; GoCommerce sells no extensions, and has less of that built. Run yourself, it costs nothing; hosted on kitcommerce.store, a store pays {hostedFee} of each successful sale.",
+    "lede": "Both cores are free. Bagisto charges for several of the extensions that make a store a marketplace, a till or a SaaS; GoCommerce sells no extensions, and has less of that built. Run yourself, it costs nothing; hosted on kitcommerce.store, a store pays {hostedFeeText}.",
     "caption": "What you pay for, Bagisto against GoCommerce and Svelte Commerce",
     "head": ["Cost", "Bagisto", "GoCommerce + Svelte Commerce"],
     "rows": [
@@ -43,7 +43,7 @@
       ["B2B quotes and company accounts", "Free B2B Suite package", "Free, in the MIT b2b module"],
       ["Point of sale", "{p:bagisto/pos} extension", "Not available"],
       ["Multi-tenant SaaS", "{p:bagisto/saas} module", "Not available"],
-      ["Managed hosting", "Bagisto Cloud, advertised from {p:bagisto/cloud-from-month} a month", "A store hosted on kitcommerce.store pays {hostedFee} of each successful sale; run it yourself and it is a server and PostgreSQL of your own"],
+      ["Managed hosting", "Bagisto Cloud, advertised from {p:bagisto/cloud-from-month} a month", "A store hosted on kitcommerce.store pays {hostedFeeText}; run it yourself and it is a server and PostgreSQL of your own"],
       ["People", "A PHP and Laravel developer to deploy and extend it", "A developer to deploy it, and Go to extend it"]
     ],
     "note": "Extension prices are Webkul’s list prices in US dollars on the day checked. Compatibility differs by extension: the marketplace lists Bagisto 2.4.8, the POS 2.5.0, the SaaS module 2.4.1 and the B2B marketplace 2.2.2, so check the one you need against the Bagisto version you run."
@@ -75,7 +75,7 @@
   "faq": [
     { "q": "Is Bagisto free?", "a": "The core is: Bagisto is MIT licensed, like GoCommerce and Svelte Commerce. Several extensions are paid — the multi-vendor marketplace is {p:bagisto/marketplace}, the POS {p:bagisto/pos} and the multi-tenant SaaS module {p:bagisto/saas} on Webkul’s price list — while the B2B Suite and the REST and GraphQL API package are free." },
     { "q": "Is Bagisto’s multi-vendor marketplace included?", "a": "No. It is a paid extension from Webkul at {p:bagisto/marketplace}, with three months’ support. It adds seller dashboards, commission and payouts. GoCommerce has vendors in its core at no cost, but records commission without settling it, so payouts are yours to build." },
-    { "q": "Which is easier to host?", "a": "GoCommerce asks for less: one Go binary and one PostgreSQL database. Bagisto 2.4 needs PHP, Composer, MySQL or MariaDB and a web server, with Elasticsearch and Redis optional. Neither has to be run yourself: Bagisto Cloud is managed hosting advertised from {p:bagisto/cloud-from-month} a month, and a GoCommerce store hosted on kitcommerce.store pays {hostedFee} of each successful sale. Running GoCommerce yourself stays free." },
+    { "q": "Which is easier to host?", "a": "GoCommerce asks for less: one Go binary and one PostgreSQL database. Bagisto 2.4 needs PHP, Composer, MySQL or MariaDB and a web server, with Elasticsearch and Redis optional. Neither has to be run yourself: Bagisto Cloud is managed hosting advertised from {p:bagisto/cloud-from-month} a month, and a GoCommerce store hosted on kitcommerce.store pays {hostedFeeText}. Running GoCommerce yourself stays free." },
     { "q": "Does GoCommerce have B2B quotes like Bagisto?", "a": "Yes. GoCommerce’s b2b module has company accounts with buyer roles, requests for quote, purchase-order numbers, approvals over a limit, credit on account and company catalogues, beside customer groups, price lists and quantity breaks in the core. Bagisto’s B2B Suite also has requisition lists, which GoCommerce does not." },
     { "q": "Can Svelte Commerce run on Bagisto?", "a": "Yes. Its Bagisto connector wires 22 of 43 services, cart, checkout and sign-in included. Coupons, CMS pages, payment-method listing and vendors are not wired yet, and like every Svelte Commerce connector it has not been run against a live production store." },
     { "q": "Can I migrate from Bagisto to GoCommerce?", "a": "Yes, but by script. GoCommerce imports from Shopify and Amazon only; for Bagisto you read its API and write to GoCommerce’s documented REST API, which is published as OpenAPI." }

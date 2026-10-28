@@ -30,7 +30,7 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 // dist/ is what Cloudflare serves, so dist/ is what gets audited. Run
 // `npm run build` first, or this checks the previous build.
 const DIST = path.join(ROOT, 'dist')
-const { hostedFee, gstIndia, signupUrl } = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'pricing.json'), 'utf8'))
+const { hostedFee, feeBasis, gstIndia, signupUrl } = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'pricing.json'), 'utf8'))
 
 function htmlUnder(dir, base = '') {
   const out = []
@@ -69,14 +69,14 @@ const RULES = [
   },
   {
     // Until 26 October 2026 the site said there was nothing to pay at all.
-    // Since then a store hosted on kitcommerce.store pays a share of each
-    // successful sale (src/data/pricing.json), so these phrasings are false.
+    // Since then a store hosted on kitcommerce.store pays a share of every
+    // successful order (src/data/pricing.json), so these phrasings are false.
     re: /\b(free,? for life|no hosted (offering|version|tier|option)|hosted tier|nothing to (buy|pay)|no customer pays|no paid editions?)\b/gi,
-    why: 'Stores hosted on kitcommerce.store pay a share of each successful sale; only self-hosting is free. See src/data/pricing.json.',
+    why: 'Stores hosted on kitcommerce.store pay a share of every successful order; only self-hosting is free. See src/data/pricing.json.',
   },
   {
-    // A data file's {hostedFee} that no page filled in (src/lib/pricing.ts).
-    re: /\{hostedFee\}/g,
+    // A data file's {hostedFee} or kin that no page filled in (src/lib/pricing.ts).
+    re: /\{(hostedFee|hostedFeeText|hostedFeeShort|feeBasis|plusGst)\}/g,
     why: 'Unfilled token: render this data through fill() from src/lib/pricing.ts.',
   },
   {
@@ -86,9 +86,16 @@ const RULES = [
   },
   {
     // The hosted fee is typed once, in src/data/pricing.json.
-    re: /\b[\d.]+% of each successful sale/gi,
-    why: `The hosted fee is ${hostedFee} of each successful sale, from src/data/pricing.json.`,
+    re: /\b[\d.]+% of every successful order/gi,
+    why: `The hosted fee is ${hostedFee} of ${feeBasis}, from src/data/pricing.json.`,
     allow: (line, match) => match.startsWith(hostedFee + ' '),
+  },
+  {
+    // Until 28 October 2026 the fee was worded "of each successful sale". The
+    // owner's own words are "every successful order", and the site uses one wording.
+    re: /\b[\d.]+% of each (successful )?sale\b/gi,
+    why: `Word the fee as pricing.json does: "${hostedFee} of ${feeBasis}".`,
+    allow: (line, match) => !match.startsWith(hostedFee + ' '),
   },
   {
     // The GST rate on the hosted fee is typed once too, as gstIndia.
@@ -158,7 +165,7 @@ for (const page of PAGES) {
 
 // Pages written for stores in India (every solution page, and comparisons
 // marked "market": "IN") state the fee with its GST, as the owner decided on
-// 27 October 2026. Tags are dropped first, so "<b>1%</b> of each sale" counts.
+// 27 October 2026. Tags are dropped first, so "<b>1%</b> of every order" counts.
 // Pages with a currency picker show the GST to rupee visitors in a variant
 // span, which this cannot tell from the fee's own text, so they are not held here.
 const dataJson = (dir) => fs.readdirSync(path.join(ROOT, 'src', 'data', dir)).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', dir, f), 'utf8')))
@@ -174,9 +181,9 @@ for (const page of indiaPages) {
     continue
   }
   for (const [i, line] of visibleText(fs.readFileSync(file, 'utf8')).split('\n').entries()) {
-    for (const m of line.replace(/<[^>]+>/g, '').matchAll(/\b[\d.]+% of each (successful )?sale\b(?!.{0,120}GST)/g)) {
+    for (const m of line.replace(/<[^>]+>/g, '').matchAll(new RegExp(`(?<![\\d.])${hostedFee.replace('.', '\\.')} of every (successful )?order\\b(?!.{0,120}GST)`, 'g'))) {
       console.error(`  ${page}:${i + 1}  "${m[0]}"`)
-      console.error(`      A page for Indian stores states the fee with its GST: "${hostedFee} of each successful sale, plus ${gstIndia} GST on the fee".`)
+      console.error(`      A page for Indian stores states the fee with its GST: "${hostedFee} of ${feeBasis}, plus ${gstIndia} GST on the fee".`)
       violations++
     }
   }
@@ -185,9 +192,9 @@ for (const page of indiaPages) {
 // llms.txt is out of the rules' scope (see above), so its statement of the
 // price is held to pricing.json here instead.
 const llms = fs.readFileSync(path.join(ROOT, 'public', 'llms.txt'), 'utf8')
-for (const m of llms.matchAll(/\b[\d.]+% of each successful sale/g)) {
-  if (!m[0].startsWith(hostedFee + ' ')) {
-    console.error(`  llms.txt  "${m[0]}" disagrees with src/data/pricing.json (${hostedFee})`)
+for (const m of llms.matchAll(/\b[\d.]+% of (every successful order|each (successful )?sale)/g)) {
+  if (m[0] !== `${hostedFee} of ${feeBasis}`) {
+    console.error(`  llms.txt  "${m[0]}" disagrees with src/data/pricing.json (${hostedFee} of ${feeBasis})`)
     violations++
   }
 }

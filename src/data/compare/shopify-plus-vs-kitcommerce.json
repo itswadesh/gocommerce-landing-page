@@ -11,7 +11,7 @@
   "ogDescription": "Plus sells scale on a contract with an API budget. GoCommerce gives you the source and no ceiling but your own server. Sourced.",
   "h1": "Shopify Plus alternative: GoCommerce vs Shopify Plus",
   "tagline": "Shopify Plus is a contract. GoCommerce is a codebase.",
-  "lede": "Plus is Shopify’s enterprise plan: a one- or three-year term, a platform fee that can become a share of revenue, higher API limits and the parts of checkout lower plans cannot touch. GoCommerce is MIT source. Run it yourself and there is no term, no revenue share and no limit but your own hardware; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale instead. So far, it has no production store to show at any scale.",
+  "lede": "Plus is Shopify’s enterprise plan: a one- or three-year term, a platform fee that can become a share of revenue, higher API limits and the parts of checkout lower plans cannot touch. GoCommerce is MIT source. Run it yourself and there is no term, no revenue share and no limit but your own hardware; a store hosted on kitcommerce.store pays {hostedFeeText} instead. So far, it has no production store to show at any scale.",
   "facts": [
     { "b": "{p:shopify-plus/plus-3y}", "t": "a month for Plus on a three-year term; {p:shopify-plus/plus-1y} on one year" },
     { "b": "1,000", "t": "GraphQL Admin API points a second per app on Plus, against 100 on standard plans" },
@@ -19,8 +19,8 @@
   ],
   "glanceLede": "Plus is measured against its own pricing page and developer documentation, linked at the foot of this page. GoCommerce’s side is what the code does today, including what it does not do.",
   "rows": [
-    ["Contract and platform fee", "A one- or three-year term, cancellable when it ends: from {p:shopify-plus/plus-3y} a month on three years or {p:shopify-plus/plus-1y} on one. More complex, higher-volume businesses move to a variable fee based on revenue and business model.", "Run it yourself under the MIT licence: no term, no plan, and nothing rises with your revenue; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
-    ["Fee on third-party gateways", "0.2% of each transaction, for security and compliance costs. It is waived only with Shopify Payments as the primary gateway — not available in India, so every Indian Plus store pays it.", "None when you run it yourself. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
+    ["Contract and platform fee", "A one- or three-year term, cancellable when it ends: from {p:shopify-plus/plus-3y} a month on three years or {p:shopify-plus/plus-1y} on one. More complex, higher-volume businesses move to a variable fee based on revenue and business model.", "Run it yourself under the MIT licence: no term, no plan, and nothing rises with your revenue; a store hosted on kitcommerce.store pays {hostedFeeText}."],
+    ["Fee on third-party gateways", "0.2% of each transaction, for security and compliance costs. It is waived only with Shopify Payments as the primary gateway — not available in India, so every Indian Plus store pays it.", "None when you run it yourself. A store hosted on kitcommerce.store pays {hostedFeeText}."],
     ["Stores", "A main store and up to 9 expansion stores in the fee, each live expansion store needing its own theme licence.", "Channels: one GoCommerce database serves several storefronts, each with its own publishing and price lists, at no charge per store or per brand. Orders stay in one pool."],
     ["API rate limits", "GraphQL Admin API: 1,000 cost points a second per app and store on Plus, against 100 on standard plans, 200 on Advanced and 2,000 for Commerce Components. No single query may cost more than 1,000 points.", "No limit in the software. The ceiling is the server and PostgreSQL you give it — sized by you, and not yet benchmarked by anyone."],
     ["API surface", "The GraphQL Admin API — REST Admin has been legacy since October 2024 — plus the Storefront API, Functions and app extensions.", "342 documented REST operations, published as OpenAPI. API keys carry a role, so a partner’s key can read orders and not refund them."],
@@ -38,8 +38,8 @@
     "caption": "Recurring costs, Shopify Plus against GoCommerce and Svelte Commerce",
     "head": ["Cost", "Shopify Plus", "GoCommerce + Svelte Commerce"],
     "rows": [
-      ["Platform", "{p:shopify-plus/plus-3y} a month on a three-year term, {p:shopify-plus/plus-1y} on one year, or a variable fee based on revenue", "Free to run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
-      ["Per transaction", "0.2% on a third-party gateway", "None when you run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
+      ["Platform", "{p:shopify-plus/plus-3y} a month on a three-year term, {p:shopify-plus/plus-1y} on one year, or a variable fee based on revenue", "Free to run it yourself; {hostedFeeText} on a store hosted on kitcommerce.store"],
+      ["Per transaction", "0.2% on a third-party gateway", "None when you run it yourself; {hostedFeeText} on a store hosted on kitcommerce.store"],
       ["Expansion stores", "Up to 9 included, each live one with its own theme licence", "None to buy: channels serve several storefronts from one database"],
       ["Apps and partners", "Third-party apps, one-time theme purchases, and Plus Partners for custom development", "No app store to buy from; the development is yours to do or to hire"],
       ["Infrastructure", "Included", "Servers and PostgreSQL sized for your peak day, and someone on call for them, when you run it yourself"]

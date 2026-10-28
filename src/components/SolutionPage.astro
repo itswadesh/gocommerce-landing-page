@@ -14,7 +14,7 @@ import type { Comparison } from '../data/compare/_schema'
 import capabilityData from '../data/b2b/capabilities.json'
 import gapData from '../data/b2b/gaps.json'
 import shotData from '../data/b2b/portal-shots.json'
-import { fill, hostedFee, plusGst, signupUrl } from '../lib/pricing'
+import { fill, hostedFeeShort, hostedFeeText, plusGst, signupUrl } from '../lib/pricing'
 
 interface Props { page: SolutionPage }
 const p = fill(Astro.props.page)
@@ -30,8 +30,8 @@ const known = new Map<string, { label: string; summary: string }>([
   ...Object.values(compareFiles).map((c) => [`/compare/${c.slug}/`, { label: c.label, summary: c.summary }] as const),
   ['/solutions/b2b/', { label: 'Every B2B feature', summary: 'The full list, feature by feature, for the person who will set it up.' }],
   ['/solutions/multi-store/', { label: 'Multi-store', summary: 'Several storefronts over one catalogue, each with its own prices.' }],
-  ['/pricing/fee-calculator/', { label: 'Shopify fee calculator', summary: `Shopify’s plan and fee on your own month of sales, against ${hostedFee} of each sale hosted, ${plusGst}.` }],
-  ['/pricing/', { label: 'Pricing', summary: `Free to run yourself. ${hostedFee} of each successful sale on a store hosted on kitcommerce.store, ${plusGst}.` }],
+  ['/pricing/fee-calculator/', { label: 'Shopify fee calculator', summary: `Shopify’s plan and fee on your own month of sales, against ${hostedFeeShort} hosted, ${plusGst}.` }],
+  ['/pricing/', { label: 'Pricing', summary: `Free to run yourself. ${hostedFeeText} on a store hosted on kitcommerce.store, ${plusGst}.` }],
 ])
 const related = p.related.map((href) => {
   const k = known.get(href)
@@ -151,7 +151,7 @@ const graph = [
 
   <section class="closing wrap">
     <h2>See it with your own catalogue</h2>
-    <p>Start a store hosted on kitcommerce.store for {hostedFee} of each successful sale, {plusGst}, or run the open-source code on your own server for free. Either way the admin and the trade portal are on the store’s own web address.</p>
+    <p>Start a store hosted on kitcommerce.store for {hostedFeeText}, {plusGst}, or run the open-source code on your own server for free. Either way the admin and the trade portal are on the store’s own web address.</p>
     <div class="actions">
       <a class="button" href={signupUrl} {...ext} data-ev="signup_click">Start a hosted store</a>
       <a class="button secondary" href="/contact/">Have it built for you</a>

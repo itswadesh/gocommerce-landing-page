@@ -18,7 +18,7 @@
   ],
   "glanceLede": "Shopify’s side is from its B2B help pages and pricing page, listed under Sources. GoCommerce’s side is what its b2b module does today, including what it does not.",
   "rows": [
-    ["What you pay", "A monthly plan: Basic {p:shopify/basic-yearly}, Grow {p:shopify/grow-yearly} or Advanced {p:shopify/advanced-yearly} a month billed yearly; Plus from {p:shopify-plus/plus-3y} a month on a term. B2B features come with the plan.", "No plan. Run it yourself for free, or host it on kitcommerce.store for {hostedFee} of each successful sale. The B2B module is in the same MIT repository as the engine."],
+    ["What you pay", "A monthly plan: Basic {p:shopify/basic-yearly}, Grow {p:shopify/grow-yearly} or Advanced {p:shopify/advanced-yearly} a month billed yearly; Plus from {p:shopify-plus/plus-3y} a month on a term. B2B features come with the plan.", "No plan. Run it yourself for free, or host it on kitcommerce.store for {hostedFeeText}. The B2B module is in the same MIT repository as the engine."],
     ["Companies and buyers", "Companies with company locations, on every plan.", "Companies with three buyer roles: admin, approver and buyer. No company locations."],
     ["Payment terms", "Net 7, 15, 30, 45, 60 or 90 days, due on fulfilment, or a fixed date on a draft order.", "Net days per company. An order on account is confirmed with a due date and counts against the limit until it is marked paid."],
     ["Credit limits", "Not described on Shopify’s B2B plan-features or payment-terms pages. App Store apps add them, such as Extend B2B Credit Limits at {p:extend-b2b-credit-limits/core-month} a month, which blocks or warns at checkout.", "Checked inside the checkout against what the company owes plus the order’s final total, under a lock per company, so two orders at once cannot both fit under one limit."],
@@ -42,7 +42,7 @@
     "Your accounts team wants each dealer’s statement and overdue amounts without a spreadsheet of its own.",
     "Dealers ask for quotes, and staff orders above an amount must wait for the dealer’s owner.",
     "You want the code: MIT licensed, on your own server, with no plan or app fees.",
-    "You want a store hosted for you at {hostedFee} of each successful sale instead of a monthly plan."
+    "You want a store hosted for you at {hostedFeeText} instead of a monthly plan."
   ],
   "takeOnExtra": [
     "No GST tax invoice, e-invoice or e-way bill, and no Tally connection: keep your billing software for tax invoices.",

@@ -11,7 +11,7 @@
   "ogDescription": "Modules bought per store, or MIT modules compiled in. Editions, costs and a storefront path, sourced.",
   "h1": "PrestaShop alternative: GoCommerce vs PrestaShop",
   "tagline": "PrestaShop sells modules by the store. GoCommerce has none to sell.",
-  "lede": "PrestaShop is a PHP store application — front office, back office and modules — free to download as Classic, or run for you as Hosted from {p:prestashop/hosted-annual-month} a month. Its Addons marketplace sells modules with a licence for one store and a year of the developer’s support, then a monthly support fee billed yearly. GoCommerce is one Go binary and PostgreSQL under MIT, free to run yourself or hosted on kitcommerce.store for {hostedFee} of each successful sale, and Svelte Commerce is a SvelteKit storefront that can already front a PrestaShop store.",
+  "lede": "PrestaShop is a PHP store application — front office, back office and modules — free to download as Classic, or run for you as Hosted from {p:prestashop/hosted-annual-month} a month. Its Addons marketplace sells modules with a licence for one store and a year of the developer’s support, then a monthly support fee billed yearly. GoCommerce is one Go binary and PostgreSQL under MIT, free to run yourself or hosted on kitcommerce.store for {hostedFeeText}, and Svelte Commerce is a SvelteKit storefront that can already front a PrestaShop store.",
   "facts": [
     { "b": "50 GB", "t": "of hosting through Gandi with PrestaShop Hosted; the Classic download is free" },
     { "b": "{p:prestashop/opc-licence}", "t": "for One Page Checkout PS on Addons, then {p:prestashop/opc-care-month} a month for support" },
@@ -21,7 +21,7 @@
   "rows": [
     ["What it is", "A PHP store application — front office, back office and modules — from PrestaShop SA and its community.", "An open-source platform in two MIT packages: a Go backend with its admin compiled in, and a separate SvelteKit storefront."],
     ["Licence", "Core under OSL 3.0; modules under AFL 3.0.", "MIT, both packages."],
-    ["Editions", "Classic, a free download you host; Hosted, {p:prestashop/hosted-annual-month} a month billed yearly or {p:prestashop/hosted-monthly} month to month, built on PrestaShop 8 with 50 GB of hosting through Gandi.", "One MIT edition and no paid tier. Self-host it for free, or host a store on kitcommerce.store for {hostedFee} of each successful sale."],
+    ["Editions", "Classic, a free download you host; Hosted, {p:prestashop/hosted-annual-month} a month billed yearly or {p:prestashop/hosted-monthly} month to month, built on PrestaShop 8 with 50 GB of hosting through Gandi.", "One MIT edition, with nothing held back. Self-host it for free, or host a store on kitcommerce.store for {hostedFeeText}."],
     ["What you run", "PrestaShop 9.1: PHP 8.1 to 8.5, with 8.5 recommended; MySQL 5.7+ or MariaDB 10.2+; Apache 2.4 or Nginx; a PHP memory_limit of 512M. Windows is not actively supported.", "One Go binary and one PostgreSQL database. No PHP runtime, no Redis, no message broker required."],
     ["Modules", "PrestaShop Addons, where a module is a lifetime licence for one store plus a year of its developer’s support, then a monthly support fee billed yearly.", "51 MIT modules, compiled in when imported. No module is sold per store or renewed."],
     ["Marketplace", "Third-party modules, such as Marketplace Builder at {p:prestashop/mb-licence}, then {p:prestashop/mb-care-month} a month for support from the second year.", "In the core: vendors move through pending, approved and suspended, and sell through vendor offers. Commission is recorded, not settled."],
@@ -33,14 +33,14 @@
   ],
   "cost": {
     "title": "What each side costs",
-    "lede": "PrestaShop Classic and GoCommerce are both free to run yourself. PrestaShop’s costs arrive as modules, each bought for one store with support to renew, or as the Hosted subscription; GoCommerce’s arrive as a server and a developer, or as {hostedFee} of each successful sale on a store hosted on kitcommerce.store.",
+    "lede": "PrestaShop Classic and GoCommerce are both free to run yourself. PrestaShop’s costs arrive as modules, each bought for one store with support to renew, or as the Hosted subscription; GoCommerce’s arrive as a server and a developer, or as {hostedFeeText} on a store hosted on kitcommerce.store.",
     "caption": "What you pay for, PrestaShop against GoCommerce and Svelte Commerce",
     "head": ["Cost", "PrestaShop", "GoCommerce + Svelte Commerce"],
     "rows": [
       ["Software", "Classic: nothing. Hosted: {p:prestashop/hosted-annual-year} a year, or {p:prestashop/hosted-monthly} a month without commitment", "Nothing — MIT"],
       ["Modules", "Bought per store — {p:prestashop/mb-licence} for Marketplace Builder, {p:prestashop/opc-licence} for One Page Checkout PS", "None to buy — 51 MIT modules"],
       ["Module support", "Business Care: first year included, then {p:prestashop/mb-care-month} or {p:prestashop/opc-care-month} a month per module, billed yearly and renewed automatically", "None sold"],
-      ["Hosting", "Classic: yours. Hosted: 50 GB through Gandi, included in the subscription", "Run yourself: a server and a PostgreSQL database, from a small VPS upward. Hosted on kitcommerce.store: {hostedFee} of each successful sale"],
+      ["Hosting", "Classic: yours. Hosted: 50 GB through Gandi, included in the subscription", "Run yourself: a server and a PostgreSQL database, from a small VPS upward. Hosted on kitcommerce.store: {hostedFeeText}"],
       ["People", "A PHP developer for modules and upgrades", "A developer to deploy it, and Go to extend it"]
     ],
     "note": "Addons prices are its US dollar prices, excluding tax, on the day checked. Business Care renews each year unless it is cancelled from your PrestaShop Marketplace account."
@@ -70,7 +70,7 @@
     ]
   },
   "faq": [
-    { "q": "Is PrestaShop free?", "a": "PrestaShop Classic is: a free download, with the core under OSL 3.0 and modules under AFL 3.0. PrestaShop Hosted costs {p:prestashop/hosted-annual-month} a month billed yearly, or {p:prestashop/hosted-monthly} month to month, before VAT. Modules on Addons are sold per store — {p:prestashop/mb-licence} and {p:prestashop/opc-licence} for the two checked here. GoCommerce is free to run yourself; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale." },
+    { "q": "Is PrestaShop free?", "a": "PrestaShop Classic is: a free download, with the core under OSL 3.0 and modules under AFL 3.0. PrestaShop Hosted costs {p:prestashop/hosted-annual-month} a month billed yearly, or {p:prestashop/hosted-monthly} month to month, before VAT. Modules on Addons are sold per store — {p:prestashop/mb-licence} and {p:prestashop/opc-licence} for the two checked here. GoCommerce is free to run yourself; a store hosted on kitcommerce.store pays {hostedFeeText}." },
     { "q": "What is Business Care on PrestaShop Addons?", "a": "The support subscription that comes with an Addons module. The first year is included; after that it is {p:prestashop/mb-care-month} or {p:prestashop/opc-care-month} a month for the modules checked here, billed yearly and renewed automatically unless you cancel. The module licence itself is lifetime, for one store." },
     { "q": "Does Razorpay work with PrestaShop 9?", "a": "Razorpay’s documentation lists its PrestaShop module for 1.6, 1.7, 8.0 and 8.1. PrestaShop 9 is not on that list, so check with Razorpay before upgrading. GoCommerce has a Razorpay payments module in its own repository." },
     { "q": "Can Svelte Commerce run on PrestaShop?", "a": "Yes, partly. Its PrestaShop connector wires 24 of 43 services, cart and checkout included. Shopper sign-in, reviews, wishlists and payment-method listing are not wired yet, and no Svelte Commerce connector has been run against a live production store." },

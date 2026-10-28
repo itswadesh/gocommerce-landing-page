@@ -28,12 +28,12 @@
     ["Payments in India", "Bank transfer, cheque and cash on delivery in core; Razorpay publishes extensions for OpenCart 4, 3, 2 and 1.5.", "Razorpay, Stripe, Cashfree, Adyen, Hyperswitch and six more as modules; cash on delivery is the core’s default."],
     ["Storefront", "Themes inside the application; the marketplace themes on its download page cost {p:opencart/theme-min} to {p:opencart/theme-max}.", "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes. Its GoCommerce connector is early, at 0.1.0 — catalogue, cart, checkout and order lookup, not yet customer accounts or search."],
     ["Headless storefront", "Not with Svelte Commerce yet: 9 of 43 services are wired for OpenCart, and the catalogue and search are not among them.", "Svelte Commerce through its early GoCommerce connector, or one written against the REST API."],
-    ["Hosting", "Self-hosted — a download, Softaculous or AWS — with a partner host linked from the download page.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFee} of each successful sale."],
+    ["Hosting", "Self-hosted — a download, Softaculous or AWS — with a partner host linked from the download page.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFeeText}."],
     ["Help when it breaks", "Community forums, and paid support from approved partners.", "GitHub issues, discussions and Discord. No support contract."]
   ],
   "cost": {
     "title": "What each side costs",
-    "lede": "Neither core costs anything. OpenCart’s money goes on extensions and themes, each tied to the releases its author supports; GoCommerce’s goes on the server and the developer when you run it yourself, or on {hostedFee} of each successful sale when a store is hosted on kitcommerce.store.",
+    "lede": "Neither core costs anything. OpenCart’s money goes on extensions and themes, each tied to the releases its author supports; GoCommerce’s goes on the server and the developer when you run it yourself, or on {hostedFeeText} when a store is hosted on kitcommerce.store.",
     "caption": "What you pay for, OpenCart against GoCommerce and Svelte Commerce",
     "head": ["Cost", "OpenCart", "GoCommerce + Svelte Commerce"],
     "rows": [
@@ -41,7 +41,7 @@
       ["Paid extensions", "{p:opencart/seo-url} to {p:opencart/export-import} each for the three featured, with 12 months’ free support", "None to buy — 51 MIT modules"],
       ["Themes", "{p:opencart/theme-min} to {p:opencart/theme-max} for the featured marketplace themes", "Svelte Commerce’s 79 demo themes are MIT"],
       ["Razorpay", "Razorpay’s own extension; Razorpay’s own rate", "Razorpay module; Razorpay’s own rate"],
-      ["Hosting", "PHP and MySQL hosting", "Run yourself: a server and a PostgreSQL database, from a small VPS upward. Hosted on kitcommerce.store: {hostedFee} of each successful sale"],
+      ["Hosting", "PHP and MySQL hosting", "Run yourself: a server and a PostgreSQL database, from a small VPS upward. Hosted on kitcommerce.store: {hostedFeeText}"],
       ["People", "A PHP developer for extensions and upgrades", "A developer to deploy it, and Go to extend it"]
     ],
     "note": "Prices are in US dollars as listed on the OpenCart marketplace on the day checked. Check an extension’s compatibility list against your release before buying: of the three featured on the download page, only AJAX Quick Checkout PRO lists a 4.1 release, and none yet lists 4.1.0.4."

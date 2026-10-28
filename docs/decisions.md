@@ -4,6 +4,31 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 28 October 2026: the price in the owner's words, as two columns
+
+The owner restated the pricing: "MIT license - download and use it free.
+hosted(saas version is 1% on evey successful order)".
+
+- /pricing/ shows two columns. "MIT licence": download it and use it free.
+  "Hosted (SaaS)": 1% of every successful order, with the facts of 27
+  October under it (cash-on-delivery and on-account orders included,
+  charged in the store's currency, 18% GST on the fee for stores in India).
+  Nothing else is said about hosting: no plans, refunds or SLAs, because
+  none were given.
+- The fee is worded one way everywhere: "1% of every successful order", and
+  "1% of every order" where a title has no room. Both are built from
+  `feeBasis` and `feeBasisShort` in `src/data/pricing.json`; data files
+  write `{hostedFeeText}` or `{hostedFeeShort}`. Why: the site said "each
+  successful sale", the owner says "order", and two wordings for one price
+  read as two prices. `scripts/verify.js` fails on the old wording for the
+  hosted fee.
+- "No paid tier" and "there is no paid plan" are gone. Hosting is paid, so
+  the site says the software has one edition and no paid or enterprise
+  edition, which stays true. The rule against "no paid edition" (26 October)
+  stands, so the wording avoids it.
+- The homepage FAQ "Is there a platform fee or a paid plan?" now answers
+  "Only when it is hosted", where it used to say "There is no paid plan".
+
 ## 27 October 2026: the hosted fee's terms, tax labels and the domain
 
 The owner answered six open questions with: "yes for all but

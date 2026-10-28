@@ -34,7 +34,7 @@
   ],
   "cost": {
     "title": "What each side costs",
-    "lede": "Both cores are free. WooCommerce’s bill arrives as extensions renewed every year; GoCommerce sells no extensions, and has less of that built. Run yourself, GoCommerce costs a server; hosted on kitcommerce.store, a store pays {hostedFee} of each successful sale.",
+    "lede": "Both cores are free. WooCommerce’s bill arrives as extensions renewed every year; GoCommerce sells no extensions, and has less of that built. Run yourself, GoCommerce costs a server; hosted on kitcommerce.store, a store pays {hostedFeeText}.",
     "caption": "Yearly costs, WooCommerce against GoCommerce and Svelte Commerce",
     "head": ["Cost", "WooCommerce", "GoCommerce + Svelte Commerce"],
     "rows": [
@@ -42,7 +42,7 @@
       ["Multi-vendor marketplace", "{p:woocommerce/vendors-year} a year — Product Vendors", "In the core; commission recorded, payouts not settled"],
       ["B2B pricing", "{p:woocommerce/b2b-addify-year} a year — B2B for WooCommerce by Addify", "In the core: customer groups, price lists, quantity breaks"],
       ["Razorpay", "Free plugin; Razorpay’s own rate", "Free module; Razorpay’s own rate"],
-      ["Hosting", "A PHP and MySQL host that meets WooCommerce’s recommendations", "Yours: a server and a PostgreSQL database, from a small VPS upward. Or hosted on kitcommerce.store for {hostedFee} of each successful sale"],
+      ["Hosting", "A PHP and MySQL host that meets WooCommerce’s recommendations", "Yours: a server and a PostgreSQL database, from a small VPS upward. Or hosted on kitcommerce.store for {hostedFeeText}"],
       ["People", "A WordPress and PHP developer for anything past configuration", "A developer to deploy it, and Go to extend it"]
     ],
     "note": "Extension prices are WooCommerce.com’s US dollar prices for a one-year plan on the day checked; a two-year plan saves 20%. The subscription buys updates and support for its term, so keeping them means renewing it."
@@ -72,7 +72,7 @@
     ]
   },
   "faq": [
-    { "q": "Is WooCommerce free?", "a": "The plugin is: WooCommerce is GPL and costs nothing, as GoCommerce and Svelte Commerce cost nothing under MIT when you run them yourself. A GoCommerce store hosted on kitcommerce.store pays {hostedFee} of each successful sale instead. Many extensions on WooCommerce.com are paid yearly — Subscriptions is {p:woocommerce/subscriptions-year}, Product Vendors {p:woocommerce/vendors-year} and Product Bundles {p:woocommerce/bundles-year} for a one-year plan — and hosting that meets its requirements is yours to pay for." },
+    { "q": "Is WooCommerce free?", "a": "The plugin is: WooCommerce is GPL and costs nothing, as GoCommerce and Svelte Commerce cost nothing under MIT when you run them yourself. A GoCommerce store hosted on kitcommerce.store pays {hostedFeeText} instead. Many extensions on WooCommerce.com are paid yearly — Subscriptions is {p:woocommerce/subscriptions-year}, Product Vendors {p:woocommerce/vendors-year} and Product Bundles {p:woocommerce/bundles-year} for a one-year plan — and hosting that meets its requirements is yours to pay for." },
     { "q": "Can I keep WooCommerce and use Svelte Commerce as the storefront?", "a": "Yes. Svelte Commerce’s WooCommerce connector wires 27 of 43 services, cart and checkout among them. Shopper sign-in is not wired, because WooCommerce’s core has no endpoint for it, and wishlists are not either. No Svelte Commerce connector has been run against a live production store yet." },
     { "q": "Which is easier to host?", "a": "GoCommerce asks for less: one Go binary and one PostgreSQL database. WooCommerce 10.8 and later wants WordPress 6.9+, PHP 8.3+, MySQL 8.0+ or MariaDB 10.6+ and a 256 MB memory limit, though Woo notes any server that supports PHP and MySQL will run it." },
     { "q": "Does Razorpay work with both?", "a": "Yes. Razorpay’s official WooCommerce plugin is free on WordPress.org and takes cards, netbanking, wallets and UPI. GoCommerce has a Razorpay payments module. WooPayments, Woo’s own gateway, is not offered to businesses in India." },

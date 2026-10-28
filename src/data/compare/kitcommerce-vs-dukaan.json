@@ -11,24 +11,24 @@
   "ogDescription": "Dukaan starts free and takes a service fee as you sell. GoCommerce takes nothing per sale when you run it yourself, and asks for a developer. Sourced.",
   "h1": "Open-source Dukaan alternative: GoCommerce vs Dukaan",
   "tagline": "Dukaan is free to start and charges as you sell. GoCommerce run yourself is the other way round.",
-  "lede": "Dukaan gets a store online from the web or its Android and iOS apps, with a free plan — then takes a service fee of 0.99% to 4.99% of sales, by plan, on top of the payment gateway’s charge. Run GoCommerce and Svelte Commerce yourself and they take nothing per sale, but ask for a server and a developer before the first one. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale.",
+  "lede": "Dukaan gets a store online from the web or its Android and iOS apps, with a free plan — then takes a service fee of 0.99% to 4.99% of sales, by plan, on top of the payment gateway’s charge. Run GoCommerce and Svelte Commerce yourself and they take nothing per sale, but ask for a server and a developer before the first one. A store hosted on kitcommerce.store pays {hostedFeeText}.",
   "facts": [
     { "b": "Free", "t": "Dukaan’s entry plan, with a 4.99% service fee on sales" },
     { "b": "0.99–4.99%", "t": "Dukaan’s service fee by plan, capped at {p:dukaan/service-fee-cap} an order" },
-    { "b": "{hostedFee}", "t": "of each successful sale on a store hosted on kitcommerce.store; nothing per sale when you run GoCommerce yourself" }
+    { "b": "{hostedFee}", "t": "of {feeBasis} on a store hosted on kitcommerce.store; nothing per order when you run GoCommerce yourself" }
   ],
   "glanceLede": "Dukaan’s side is taken from its pricing page — plan cards, comparison table and FAQ — linked at the foot of this page. Ours is what GoCommerce and Svelte Commerce do today.",
   "rows": [
     ["What it is", "A hosted store builder, run from the web or Dukaan’s Android and iOS apps on every plan.", "An open-source platform in two MIT packages: GoCommerce for the backend and a web admin, Svelte Commerce for the storefront. Run it yourself, or start a store hosted on kitcommerce.store."],
-    ["Plans", "Free; Starter {p:dukaan/starter-monthly}, Growth {p:dukaan/growth-monthly} and Infinity {p:dukaan/infinity-monthly} a month billed monthly, or {p:dukaan/starter-yearly}, {p:dukaan/growth-yearly} and {p:dukaan/infinity-yearly} a year billed yearly.", "None. Run it yourself and the software costs nothing; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
-    ["Service fee on sales", "4.99% on Free, 3.99% on Starter, 1.99% on Growth and 0.99% on Infinity — capped at {p:dukaan/service-fee-cap} an order, not charged on manual orders, and on top of gateway charges.", "None when you run it yourself. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
+    ["Plans", "Free; Starter {p:dukaan/starter-monthly}, Growth {p:dukaan/growth-monthly} and Infinity {p:dukaan/infinity-monthly} a month billed monthly, or {p:dukaan/starter-yearly}, {p:dukaan/growth-yearly} and {p:dukaan/infinity-yearly} a year billed yearly.", "None. Run it yourself and the software costs nothing; a store hosted on kitcommerce.store pays {hostedFeeText}."],
+    ["Service fee on sales", "4.99% on Free, 3.99% on Starter, 1.99% on Growth and 0.99% on Infinity — capped at {p:dukaan/service-fee-cap} an order, not charged on manual orders, and on top of gateway charges.", "None when you run it yourself. A store hosted on kitcommerce.store pays {hostedFeeText}."],
     ["Payment gateways", "Cashfree, Razorpay, PayPal and Stripe.", "Eleven payment modules, Cashfree, Razorpay and Stripe among them; cash on delivery is the core’s default method."],
     ["Shipping", "Dukaan Delivery built in; Shiprocket and Shippo, or your own Blue Dart, Delhivery, DTDC or Xpressbees account.", "Shiprocket, Delhivery and NimbusPost modules book shipments; India Post consignments are recorded; Shippo, ShipStation and others for parcels abroad."],
     ["Stores and staff", "1 store on Free and Starter, 3 on Growth, 10 on Infinity; 1, 2, 5 and 20 staff accounts.", "Channels for several storefronts and roles for staff, with no count set by a plan."],
     ["Customising", "Themes from Dukaan’s marketplace, and a code editor for fonts, colours and theme sections.", "The source — storefront, checkout and backend."],
     ["Moving in", "Imports catalogues from Shopify, WooCommerce, Gumroad or a CSV file, and can keep your old URL structure.", "Imports a whole Shopify catalogue, safely re-runnable; from anything else, a script against the documented API."],
     ["Running it from a phone", "Dukaan’s Android and iOS apps, on every plan.", "No app. The admin is a web app compiled into the GoCommerce binary."],
-    ["Hosting", "Dukaan’s.", "Yours when you run it — a single Go binary beside a PostgreSQL database, on any server you choose. Or hosted on kitcommerce.store, for {hostedFee} of each successful sale."],
+    ["Hosting", "Dukaan’s.", "Yours when you run it — a single Go binary beside a PostgreSQL database, on any server you choose. Or hosted on kitcommerce.store, for {hostedFeeText}."],
     ["Who it is for", "Dukaan says it is tailored to online businesses that depend on repeat purchases.", "Stores with a developer, and developers building stores for others."]
   ],
   "cost": {
@@ -42,7 +42,7 @@
       ["Dukaan Growth", "1.99%"],
       ["Dukaan Infinity", "0.99%"],
       ["GoCommerce + Svelte Commerce, run yourself", "None; the server and the developer are the costs instead"],
-      ["A store hosted on kitcommerce.store", "{hostedFee} of each successful sale"]
+      ["A store hosted on kitcommerce.store", "{hostedFeeText}"]
     ],
     "note": "From Dukaan’s plan table. Dukaan’s fee is capped at {p:dukaan/service-fee-cap} an order and not charged on manual orders; the paid plans add a monthly or yearly price on top. The gateway’s own charge is paid on every set-up and left out; Razorpay lists 2% + GST. Dukaan’s FAQ, on the same page, quotes different rates for differently named plans; we have used the plan table."
   },
@@ -63,7 +63,7 @@
     "No built-in delivery service: you bring your own Shiprocket, Delhivery or NimbusPost account."
   ],
   "faq": [
-    { "q": "Does Dukaan charge a fee on sales?", "a": "Yes. Dukaan’s plan table lists a service fee of 4.99% on Free, 3.99% on Starter, 1.99% on Growth and 0.99% on Infinity, capped at {p:dukaan/service-fee-cap} an order and not charged on manual orders. Its FAQ adds that the fee is exclusive of payment gateway charges. GoCommerce charges no fee on sales when you run it yourself; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale." },
+    { "q": "Does Dukaan charge a fee on sales?", "a": "Yes. Dukaan’s plan table lists a service fee of 4.99% on Free, 3.99% on Starter, 1.99% on Growth and 0.99% on Infinity, capped at {p:dukaan/service-fee-cap} an order and not charged on manual orders. Its FAQ adds that the fee is exclusive of payment gateway charges. GoCommerce charges no fee on sales when you run it yourself; a store hosted on kitcommerce.store pays {hostedFeeText}." },
     { "q": "What plans does Dukaan have?", "a": "Free, Starter, Growth and Infinity. Starter is {p:dukaan/starter-monthly}, Growth {p:dukaan/growth-monthly} and Infinity {p:dukaan/infinity-monthly} a month billed monthly, or {p:dukaan/starter-yearly}, {p:dukaan/growth-yearly} and {p:dukaan/infinity-yearly} a year billed yearly, and each step up lowers the service fee; the higher plans also allow more stores and staff accounts." },
     { "q": "Which payment gateways work on each?", "a": "Dukaan lists Cashfree, Razorpay, PayPal and Stripe. GoCommerce has eleven payment modules, Cashfree, Razorpay and Stripe among them, and cash on delivery in the core; PayPal is not among its modules." },
     { "q": "Can I move from Dukaan to GoCommerce?", "a": "There is no Dukaan importer, so moving means a script against GoCommerce’s documented API. The one catalogue importer GoCommerce has is for Shopify." },

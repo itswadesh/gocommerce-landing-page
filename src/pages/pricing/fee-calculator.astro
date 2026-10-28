@@ -15,7 +15,7 @@
 import Base from '../../layouts/Base.astro'
 import CurrencyPicker from '../../components/CurrencyPicker.astro'
 import Variants from '../../components/Variants.astro'
-import { gstForRupees, gstIndia, hostedFee } from '../../lib/pricing'
+import { gstForRupees, gstIndia, hostedFee, hostedFeeShort, hostedFeeText } from '../../lib/pricing'
 import { CURRENCIES, CURRENCY_NAMES, byCurrency, formatMoney, shopifyMarkets, type Currency } from '../../lib/money'
 import { monthlyCosts, totalText, verdict } from '../../lib/fees.mjs'
 
@@ -64,10 +64,10 @@ const graph = [
 ---
 <Base
   title={title}
-  description={`Enter a month’s sales and the share paid online. See Shopify’s plan and fee, from its own price list for your country, against ${hostedFee} of each sale hosted.`}
+  description={`Enter a month’s sales and the share paid online. See Shopify’s plan and fee, from its own price list for your country, against ${hostedFeeShort} hosted.`}
   path={path}
   ogTitle="What Shopify takes from your sales, and what 1% takes"
-  ogDescription="Shopify’s plan and fees from its own price list for your country, against 1% of each successful sale on kitcommerce.store."
+  ogDescription={`Shopify’s plan and fees from its own price list for your country, against ${hostedFeeText} on kitcommerce.store.`}
   nav="pricing"
   crumbs={[{ name: 'Pricing', href: '/pricing/' }, { name: 'Fee calculator', href: path }]}
   graph={graph}
@@ -75,8 +75,8 @@ const graph = [
 >
   <section class="wrap page-head">
     <p class="kicker">Fee calculator</p>
-    <h1>Shopify’s plan and fees against {hostedFee} of each sale</h1>
-    <p class="lede">Enter a month’s sales and how much of it is paid online. The calculator adds Shopify’s plan to Shopify’s fee on those orders, from Shopify’s own price list for <Variants v={inMarket} />, and sets it against {hostedFee} of each successful sale on a store hosted on kitcommerce.store.</p>
+    <h1>Shopify’s plan and fees against {hostedFeeShort}</h1>
+    <p class="lede">Enter a month’s sales and how much of it is paid online. The calculator adds Shopify’s plan to Shopify’s fee on those orders, from Shopify’s own price list for <Variants v={inMarket} />, and sets it against {hostedFeeText} on a store hosted on kitcommerce.store.</p>
     <CurrencyPicker refs={['shopify/basic-monthly']} />
   </section>
 
@@ -95,7 +95,7 @@ const graph = [
           <input id="prepaid" name="prepaid" type="range" min="0" max="100" step="5" value="60" aria-describedby="prepaid-hint">
           <output for="prepaid" id="prepaid-out"><Variants v={byCurrency((c) => `${start(markets[c]).prepaid}%`)} /></output>
         </div>
-        <p id="prepaid-hint" class="calc-hint">The rest is cash on delivery. Shopify charges no fee on it; the {hostedFee} on kitcommerce.store counts every sale.</p>
+        <p id="prepaid-hint" class="calc-hint">The rest is cash on delivery. Shopify charges no fee on it; the {hostedFee} on kitcommerce.store counts every order.</p>
       </div>
       <fieldset class="calc-field calc-choice">
         <legend>Shopify billed</legend>
@@ -142,7 +142,7 @@ const graph = [
     <h2 id="counts-title">What does the calculator count?</h2>
     <ul class="tick">
       <li>Shopify: the plan’s price on Shopify’s price list for <Variants v={inMarket} />, billed yearly or monthly as you choose, and Shopify’s own fee on orders paid online through a provider other than Shopify Payments: <Variants v={byCurrency((c) => markets[c].plans.map((p) => `${p.fee}% on ${p.name}`).join(', '))} />. Shopify charges no such fee on cash-on-delivery orders.<Variants v={byCurrency((c) => gstOf(c) ? ` Shopify charges GST on its fees to stores in ${markets[c].name}, so the calculator adds ${gstIndia} to its plan and fee.` : '')} /></li>
-      <li>kitcommerce.store: {hostedFee} of each successful sale, cash-on-delivery and on-account orders included<Variants v={gstForRupees} />.</li>
+      <li>kitcommerce.store: {hostedFeeText}, cash-on-delivery and on-account orders included<Variants v={gstForRupees} />.</li>
       <li>Left out on both sides: payment gateway charges (Razorpay’s, Stripe’s, or Shopify Payments’ own card rates), <Variants v={byCurrency((c) => gstOf(c) ? '' : 'taxes, ')} />apps, themes and domains.</li>
     </ul>
   </section>
@@ -161,7 +161,7 @@ const graph = [
   </section>
 
   <section class="closing wrap">
-    <h2>Hosted for {hostedFee} of each sale, or free to run yourself</h2>
+    <h2>Hosted for {hostedFeeShort}, or free to run yourself</h2>
     <p>Running GoCommerce and Svelte Commerce on your own server takes 0% of your sales.</p>
     <div class="actions">
       <a class="button" href="/pricing/">See pricing</a>

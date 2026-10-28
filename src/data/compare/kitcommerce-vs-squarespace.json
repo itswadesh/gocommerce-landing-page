@@ -11,7 +11,7 @@
   "ogDescription": "A website builder with a store in it, or a store you run. Plans, fees and payments from India, sourced.",
   "h1": "Squarespace alternative: GoCommerce vs Squarespace",
   "tagline": "Squarespace builds the website. In India, the checkout is the hard part.",
-  "lede": "Squarespace Commerce is a hosted website builder with a shop inside it: templates, an editor, hosting and support for a monthly plan. For a merchant in India the question is payment — Squarespace Payments is not offered here, PayPal cannot take rupees on Squarespace, and Stripe lists India only as a preview country. GoCommerce and Svelte Commerce are MIT source, free to run yourself or hosted on kitcommerce.store for {hostedFee} of each successful sale, with Razorpay as a module and cash on delivery in the core.",
+  "lede": "Squarespace Commerce is a hosted website builder with a shop inside it: templates, an editor, hosting and support for a monthly plan. For a merchant in India the question is payment — Squarespace Payments is not offered here, PayPal cannot take rupees on Squarespace, and Stripe lists India only as a preview country. GoCommerce and Svelte Commerce are MIT source, free to run yourself or hosted on kitcommerce.store for {hostedFeeText}, with Razorpay as a module and cash on delivery in the core.",
   "facts": [
     { "b": "2%", "t": "Squarespace’s fee on store sales on its Basic plan" },
     { "b": "No UPI", "t": "and no cash on delivery among Squarespace’s payment methods" },
@@ -21,7 +21,7 @@
   "rows": [
     ["What it is", "A hosted website builder with a shop inside it — alongside blogs, scheduling and email campaigns — run by Squarespace.", "An open-source platform you run, in two MIT packages: a Go backend with its admin compiled in, and a SvelteKit storefront."],
     ["Software price", "Basic, Core, Plus and Advanced plans. Squarespace prices by location and does not bill in rupees; its US prices run from {p:squarespace/basic-yearly-per-month} to {p:squarespace/advanced-yearly-per-month} a month, billed yearly.", "Nothing. Both packages are MIT licensed."],
-    ["Fee on each order", "2% of online store sales on Basic; none on Core, Plus or Advanced.", "None when you run it yourself. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
+    ["Fee on each order", "2% of online store sales on Basic; none on Core, Plus or Advanced.", "None when you run it yourself. A store hosted on kitcommerce.store pays {hostedFeeText}."],
     ["Payments from India", "Squarespace Payments is not offered in India, and PayPal cannot take rupees on Squarespace. An Indian bank account can take rupees through Stripe, which lists India as a preview country.", "Razorpay, Stripe, Cashfree, Adyen, Hyperswitch and six more as modules; cash on delivery is the core’s default."],
     ["Payment methods", "Cards, Apple Pay, Afterpay or Clearpay, Klarna, PayPal and Venmo, depending on processor and country. No UPI and no cash on delivery on the list.", "Whatever your gateway module’s provider supports, plus cash on delivery."],
     ["Shipping", "Real-time carrier rates and label printing, from the Core plan up.", "11 fulfilment modules, Shiprocket, Delhivery, NimbusPost and India Post among them; manual fulfilment built in."],
@@ -33,12 +33,12 @@
   ],
   "cost": {
     "title": "What each side costs",
-    "lede": "Squarespace’s plan buys the website, the hosting and the support in one bill. Ours has no bill for software. Run it yourself and the server and the developer are where the money goes; host a store on kitcommerce.store and it pays {hostedFee} of each successful sale.",
+    "lede": "Squarespace’s plan buys the website, the hosting and the support in one bill. Ours has no bill for software. Run it yourself and the server and the developer are where the money goes; host a store on kitcommerce.store and it pays {hostedFeeText}.",
     "caption": "Recurring costs, Squarespace Commerce against GoCommerce and Svelte Commerce",
     "head": ["Cost", "Squarespace Commerce", "GoCommerce + Svelte Commerce"],
     "rows": [
       ["Plan", "{p:squarespace/basic-yearly-per-month}, {p:squarespace/core-yearly-per-month}, {p:squarespace/plus-yearly-per-month} or {p:squarespace/advanced-yearly-per-month} a month billed yearly; {p:squarespace/basic-monthly}, {p:squarespace/core-monthly}, {p:squarespace/plus-monthly} or {p:squarespace/advanced-monthly} month to month, at Squarespace’s US prices", "No plan"],
-      ["Fee on store sales", "2% on Basic; none on Core and above", "None when you run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
+      ["Fee on store sales", "2% on Basic; none on Core and above", "None when you run it yourself; {hostedFeeText} on a store hosted on kitcommerce.store"],
       ["Payment processing", "Stripe’s or PayPal’s own rate from India; Squarespace Payments, 2.5% to 2.9% + {p:squarespace/card-fixed@us} a card payment in the US, is not offered here", "Your gateway’s rate"],
       ["Billing currency", "26 currencies, and the rupee is not one of them", "No subscription to bill"],
       ["Hosting", "Included", "Run yourself: a server and a PostgreSQL database, from a small VPS upward. Or hosted on kitcommerce.store"],

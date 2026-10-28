@@ -41,7 +41,7 @@ What stays true, and what the verifier still holds the prose to:
 
 - There is **no KitCommerce edition, tier, cloud or enterprise version**. Both
   packages are MIT and free to run yourself, at 0% of sales. **Stores hosted on
-  kitcommerce.store pay 1% of each successful sale** (since 26 October 2026);
+  kitcommerce.store pay 1% of every successful order** (since 26 October 2026);
   that figure and the sign-up URL live once, in `src/data/pricing.json`, and
   pages render them from there. Every price on the site is in US dollars, with
   no conversion: a rival that publishes only rupee prices is compared without

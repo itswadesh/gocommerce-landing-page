@@ -11,7 +11,7 @@
   "ogDescription": "Zoho Commerce takes no fee per order, and neither does GoCommerce run yourself. The difference is plan limits, the Zoho suite, and who runs the store. Sourced.",
   "h1": "Zoho Commerce alternative: GoCommerce vs Zoho Commerce",
   "tagline": "Zoho Commerce takes no cut of your sales. It counts your products instead.",
-  "lede": "Zoho Commerce is a hosted store builder in Zoho’s family of business apps, priced from {p:zoho-commerce/standard-yearly} a month billed yearly, with no transaction fee on any paid plan. What its plans ration is products, users, currencies and inventory locations. GoCommerce and Svelte Commerce are MIT source. Run them yourself and nothing is rationed, and nothing is run for you; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale instead.",
+  "lede": "Zoho Commerce is a hosted store builder in Zoho’s family of business apps, priced from {p:zoho-commerce/standard-yearly} a month billed yearly, with no transaction fee on any paid plan. What its plans ration is products, users, currencies and inventory locations. GoCommerce and Svelte Commerce are MIT source. Run them yourself and nothing is rationed, and nothing is run for you; a store hosted on kitcommerce.store pays {hostedFeeText} instead.",
   "facts": [
     { "b": "0%", "t": "Zoho Commerce’s transaction fee on paid plans, the same as GoCommerce run yourself" },
     { "b": "500", "t": "product listings on Zoho’s Standard plan; 10,000 on Premium and Plus" },
@@ -20,8 +20,8 @@
   "glanceLede": "Zoho Commerce’s side is taken from its pricing page and help centre, linked at the foot of this page; ours from the GoCommerce and Svelte Commerce pages on this site. Where the two are level, the row says so.",
   "rows": [
     ["What it is", "A hosted store builder, one of Zoho’s finance apps alongside Zoho Inventory, Billing, Invoice and Checkout.", "An open-source platform you run, in two MIT packages: a Go backend with its admin compiled in, and a SvelteKit storefront."],
-    ["Software price", "{p:zoho-commerce/standard-yearly}, {p:zoho-commerce/professional-yearly}, {p:zoho-commerce/premium-yearly} or {p:zoho-commerce/plus-yearly} a month on Standard, Professional, Premium and Plus, billed yearly ({p:zoho-commerce/standard-monthly} to {p:zoho-commerce/plus-monthly} month to month). Enterprise is a custom build with no listed price.", "Nothing to run it yourself; both packages are MIT licensed. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
-    ["Fee on each order", "None on any paid plan, by Zoho’s own pricing FAQ. Level with GoCommerce run yourself.", "None when you run it yourself: your gateway’s fee is the only one. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
+    ["Software price", "{p:zoho-commerce/standard-yearly}, {p:zoho-commerce/professional-yearly}, {p:zoho-commerce/premium-yearly} or {p:zoho-commerce/plus-yearly} a month on Standard, Professional, Premium and Plus, billed yearly ({p:zoho-commerce/standard-monthly} to {p:zoho-commerce/plus-monthly} month to month). Enterprise is a custom build with no listed price.", "Nothing to run it yourself; both packages are MIT licensed. A store hosted on kitcommerce.store pays {hostedFeeText}."],
+    ["Fee on each order", "None on any paid plan, by Zoho’s own pricing FAQ. Level with GoCommerce run yourself.", "None when you run it yourself: your gateway’s fee is the only one. A store hosted on kitcommerce.store pays {hostedFeeText}."],
     ["Plan limits", "Set per plan: 500 products, 2 users and 2,000 customer accounts on Standard; 2,500 products and 5 users on Professional; 10,000 products and 10 users on Premium and Plus. Extra users are {p:zoho-commerce/addon-user-yearly} each a month billed yearly, or {p:zoho-commerce/addon-user-monthly} billed monthly.", "None in the software. Products and customers are rows in your PostgreSQL; the server is the limit."],
     ["Inventory locations", "3 on Premium and Plus, then {p:zoho-commerce/addon-location-yearly} a month for each extra one billed yearly, or {p:zoho-commerce/addon-location-monthly} billed monthly. Not offered on lower plans.", "Stock per location in core — on hand and reserved — on every install."],
     ["B2B", "Price lists, quote requests and credit limits for business customers, from Premium.", "Customer groups, price lists and quantity breaks in core; quote requests, credit limits, approvals and company accounts in the b2b module."],
@@ -38,14 +38,14 @@
     "caption": "Recurring costs, Zoho Commerce against GoCommerce and Svelte Commerce",
     "head": ["Cost", "Zoho Commerce", "GoCommerce + Svelte Commerce"],
     "rows": [
-      ["Software", "{p:zoho-commerce/standard-yearly} to {p:zoho-commerce/plus-yearly} a month, billed yearly; in India a Starter micro-store plan covers 25 products for {p:zoho-commerce/starter-microstore-yearly@in} a month", "Nothing to run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
-      ["Fee per order", "None", "None when you run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
+      ["Software", "{p:zoho-commerce/standard-yearly} to {p:zoho-commerce/plus-yearly} a month, billed yearly; in India a Starter micro-store plan covers 25 products for {p:zoho-commerce/starter-microstore-yearly@in} a month", "Nothing to run it yourself; {hostedFeeText} on a store hosted on kitcommerce.store"],
+      ["Fee per order", "None", "None when you run it yourself; {hostedFeeText} on a store hosted on kitcommerce.store"],
       ["Payment processing", "Your gateway’s rate; Zoho’s Razorpay help page says Zoho adds nothing", "Your gateway’s rate"],
       ["Growing past a plan", "Extra users and inventory locations as monthly add-ons; more products means a higher plan", "A bigger server when you need one, if you run it yourself"],
       ["Hosting", "Included", "A server and a PostgreSQL database when you run it yourself, from a small VPS upward; or a store hosted on kitcommerce.store"],
       ["People", "None needed to launch", "A developer to deploy, maintain and extend it"]
     ],
-    "note": "Zoho Commerce’s case is strongest here. At {p:zoho-commerce/standard-yearly} to {p:zoho-commerce/plus-yearly} a month with no fee per order, the plan costs less than a developer’s time for most small stores. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale, where Zoho takes none. The reasons to choose GoCommerce over Zoho are control and limits, not price."
+    "note": "Zoho Commerce’s case is strongest here. At {p:zoho-commerce/standard-yearly} to {p:zoho-commerce/plus-yearly} a month with no fee per order, the plan costs less than a developer’s time for most small stores. A store hosted on kitcommerce.store pays {hostedFeeText}, where Zoho takes none. The reasons to choose GoCommerce over Zoho are control and limits, not price."
   },
   "themWhen": [
     "You already use Zoho Inventory or Zoho Billing and want the store inside the same suite.",
@@ -71,12 +71,12 @@
     ]
   },
   "faq": [
-    { "q": "Does Zoho Commerce charge a fee on each order?", "a": "No. Zoho’s pricing page says it charges no transaction fee on any paid plan, and its Razorpay help page says Zoho adds no fee of its own. That puts it level with GoCommerce run yourself on this point, while a store hosted on kitcommerce.store pays {hostedFee} of each successful sale. The other differences are plan limits, hosting and code." },
+    { "q": "Does Zoho Commerce charge a fee on each order?", "a": "No. Zoho’s pricing page says it charges no transaction fee on any paid plan, and its Razorpay help page says Zoho adds no fee of its own. That puts it level with GoCommerce run yourself on this point, while a store hosted on kitcommerce.store pays {hostedFeeText}. The other differences are plan limits, hosting and code." },
     { "q": "Is Zoho Commerce cheaper than running GoCommerce?", "a": "For a small store without a developer, usually yes. Zoho’s plans run from {p:zoho-commerce/standard-yearly} to {p:zoho-commerce/plus-yearly} a month billed yearly. GoCommerce costs nothing to license, but a server and a developer’s time are real costs." },
     { "q": "Zoho Commerce has an MCP server too. What is different?", "a": "Zoho’s MCP server is run by Zoho and reached through its MCP hub. GoCommerce’s MCP module is compiled into your own binary and exposes 19 tools — orders, stock, prices, refunds, reports — through the same domain services as the REST API, never the database directly." },
     { "q": "Can GoCommerce connect to Zoho Inventory or Zoho Billing?", "a": "Not out of the box: there is no Zoho module. The webhooks module and the documented REST API are where such a sync would start, and somebody has to write it." },
     { "q": "How do I move my store from Zoho Commerce?", "a": "Export it — Zoho offers CSV or XLS backups and a product export API — and write a script against GoCommerce’s documented API. There is no ready-made importer for Zoho." },
-    { "q": "Is there a hosted version of GoCommerce, like Zoho Commerce?", "a": "Yes. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale. Running both packages yourself, on your own server or a developer’s, stays free." }
+    { "q": "Is there a hosted version of GoCommerce, like Zoho Commerce?", "a": "Yes. A store hosted on kitcommerce.store pays {hostedFeeText}. Running both packages yourself, on your own server or a developer’s, stays free." }
   ],
   "sources": [
     { "label": "Zoho Commerce pricing", "url": "https://www.zoho.com/commerce/pricing.html" },

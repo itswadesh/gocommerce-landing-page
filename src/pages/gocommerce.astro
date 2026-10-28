@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro'
-import { hostedFee } from '../lib/pricing'
+import { hostedFeeText } from '../lib/pricing'
 import Faq from '../components/Faq.astro'
 import LinkCards from '../components/LinkCards.astro'
 import { compareCard, featuredComparisons } from '../lib/related'
@@ -23,7 +23,7 @@ const faq = [
   { q: 'How fast is it?', a: 'No benchmark figures are published, so this page does not quote one. Architecturally: a single compiled binary, one production dependency, the API and admin in one process, no runtime plugin loading, and integer arithmetic for money. Benchmarking is on the contribution list.' },
   { q: 'Does it handle B2B, or marketplaces?', a: 'Both have engine support. B2B pricing resolves by customer group and quantity through price lists. Marketplaces have vendors as first-class sellers with pending, approved and suspended states. Neither is as deep as a dedicated platform; read core/pricing.go and core/vendors.go before committing to one.' },
   { q: 'How do I migrate an existing catalogue?', a: 'The import-shopify module brings a whole Shopify catalogue across and matches on Shopify’s own product id, so re-running it updates rather than duplicates (titles, descriptions, status and tags; not variants, prices or stock). An Amazon importer exists for single listings and creates a new product each time. There is also an order importer that takes a created_at, fires no events unless asked and moves no stock, because loading history should not send two hundred confirmation emails.' },
-  { q: 'Is there a hosted version, a paid tier or an enterprise edition?', a: `There is a hosted option: stores on kitcommerce.store pay ${hostedFee} of each successful sale. There is no paid tier and no enterprise edition, and the MIT source stays free to run yourself.` },
+  { q: 'Is there a hosted version, a paid tier or an enterprise edition?', a: `There is a hosted option: stores on kitcommerce.store pay ${hostedFeeText}. There is no paid or enterprise edition, and the MIT source stays free to run yourself.` },
 ]
 
 const composeCode = `<span class="k">import</span> (

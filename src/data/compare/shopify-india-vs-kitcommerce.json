@@ -12,16 +12,16 @@
   "ogDescription": "No Shopify Payments in India means a fee on every prepaid order. What that takes by plan, against running GoCommerce yourself or hosting it on kitcommerce.store.",
   "h1": "Shopify alternative in India: GoCommerce vs Shopify",
   "tagline": "In India, Shopify charges a plan and a cut of every prepaid order.",
-  "lede": "Shopify Payments is not offered in India, so an Indian store takes online payments through a third-party gateway such as Razorpay — and Shopify adds its own fee of 2%, 1% or 0.6% of each of those orders, by plan, on top of what the gateway charges. Run GoCommerce yourself and it talks to Razorpay directly, with the gateway’s charge the only one per order. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale, {plusGst}.",
+  "lede": "Shopify Payments is not offered in India, so an Indian store takes online payments through a third-party gateway such as Razorpay — and Shopify adds its own fee of 2%, 1% or 0.6% of each of those orders, by plan, on top of what the gateway charges. Run GoCommerce yourself and it talks to Razorpay directly, with the gateway’s charge the only one per order. A store hosted on kitcommerce.store pays {hostedFeeText}, {plusGst}.",
   "facts": [
     { "b": "2% · 1% · 0.6%", "t": "Shopify’s cut of each prepaid order on Basic, Grow and Advanced" },
     { "b": "No", "t": "Shopify Payments in India, so nothing waives that cut" },
-    { "b": "{hostedFee}", "t": "of each successful sale on a store hosted on kitcommerce.store, {plusGst}; nothing per order when you run GoCommerce yourself" }
+    { "b": "{hostedFee}", "t": "of {feeBasis} on a store hosted on kitcommerce.store, {plusGst}; nothing per order when you run GoCommerce yourself" }
   ],
   "glanceLede": "Only what changes when the store is in India. Shopify’s side comes from its pricing page and help centre, listed under Sources; ours from the GoCommerce modules named in each row.",
   "rows": [
-    ["Plan", "Basic {p:shopify/basic-yearly@in}, Grow {p:shopify/grow-yearly@in} or Advanced {p:shopify/advanced-yearly@in} a month billed yearly ({p:shopify/basic-monthly@in}, {p:shopify/grow-monthly@in} or {p:shopify/advanced-monthly@in} month to month), or Plus from {p:shopify-plus/plus-3y@in} a month. Indian stores are billed from Shopify’s Indian price list, before GST.", "No plan. Run it yourself and the MIT software costs nothing; the server is billed by whichever host you choose. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale, {plusGst}."],
-    ["Shopify’s fee on a prepaid order", "Basic 2%, Grow 1%, Advanced 0.6%, Plus 0.2% — worked out on the order total, tax and shipping included. Shopify Payments would waive it, and India does not have it.", "None when you run it yourself: GoCommerce adds nothing to the cost of an order. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale, {plusGst}."],
+    ["Plan", "Basic {p:shopify/basic-yearly@in}, Grow {p:shopify/grow-yearly@in} or Advanced {p:shopify/advanced-yearly@in} a month billed yearly ({p:shopify/basic-monthly@in}, {p:shopify/grow-monthly@in} or {p:shopify/advanced-monthly@in} month to month), or Plus from {p:shopify-plus/plus-3y@in} a month. Indian stores are billed from Shopify’s Indian price list, before GST.", "No plan. Run it yourself and the MIT software costs nothing; the server is billed by whichever host you choose. A store hosted on kitcommerce.store pays {hostedFeeText}, {plusGst}."],
+    ["Shopify’s fee on a prepaid order", "Basic 2%, Grow 1%, Advanced 0.6%, Plus 0.2% — worked out on the order total, tax and shipping included. Shopify Payments would waive it, and India does not have it.", "None when you run it yourself: GoCommerce adds nothing to the cost of an order. A store hosted on kitcommerce.store pays {hostedFeeText}, {plusGst}."],
     ["Cash on delivery", "A manual payment method, and Shopify’s help centre says the fee does not apply to it.", "Built into the core: “cod” is the default payment method, with nothing to install."],
     ["Razorpay", "Connected as a third-party provider: Razorpay’s own charge, then Shopify’s fee on the same order.", "The payments-razorpay module calls Razorpay’s API directly. Razorpay lists 2% + GST as its standard rate, UPI included, and on a store you run yourself that is the whole payment cost."],
     ["Features tied to Shopify Payments", "Shopify’s plan table marks showing prices in local currencies and accepting local payment methods through Markets as requiring Shopify Payments.", "No feature waits on a particular gateway: price lists, discounts and channels behave the same whichever payment module you import."],
@@ -39,7 +39,7 @@
     "head": ["Charge", "Shopify", "GoCommerce + Svelte Commerce"],
     "rows": [
       ["Monthly plan", "Basic {p:shopify/basic-yearly@in}, Grow {p:shopify/grow-yearly@in} or Advanced {p:shopify/advanced-yearly@in} billed yearly; Plus from {p:shopify-plus/plus-3y@in}", "None"],
-      ["Fee on a prepaid order", "2% on Basic, 1% on Grow, 0.6% on Advanced and 0.2% on Plus, on the order total with tax and shipping", "None when you run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store, {plusGst}"],
+      ["Fee on a prepaid order", "2% on Basic, 1% on Grow, 0.6% on Advanced and 0.2% on Plus, on the order total with tax and shipping", "None when you run it yourself; {hostedFeeText} on a store hosted on kitcommerce.store, {plusGst}"],
       ["Fee on a cash-on-delivery order", "None — a manual payment method", "None when you run it yourself"],
       ["Gateway charge", "Razorpay’s, before Shopify’s fee", "Razorpay’s 2% + GST, or another gateway’s rate"],
       ["GST on the platform’s bill", "Charged on Shopify’s fees until you register your GSTIN", "None when you run it yourself; your host’s invoice carries its own"],
@@ -56,7 +56,7 @@
   "usWhen": [
     "Most of your revenue is prepaid — UPI and cards through Razorpay — so Shopify’s fee lands on nearly every sale.",
     "Prepaid sales are large enough that 1–2% of them costs more than a server and a developer’s time, and you would rather run the store yourself.",
-    "You want a store hosted for you: kitcommerce.store takes {hostedFee} of each successful sale, {plusGst}.",
+    "You want a store hosted for you: kitcommerce.store takes {hostedFeeText}, {plusGst}.",
     "You ship through Shiprocket, Delhivery or NimbusPost and send order SMS through MSG91 — each a GoCommerce module you compile in.",
     "You want to decide in code how your store treats COD — limits, extra charges, confirmation before dispatch."
   ],
@@ -69,7 +69,7 @@
     { "q": "Does Shopify charge its fee on cash-on-delivery orders?", "a": "No. Shopify’s help centre lists manual payment methods — cash on delivery, bank deposits, cheques — among the payments the fee does not apply to, along with POS orders. It does apply to store credit and gift card payments on stores created on or after 12 May 2025." },
     { "q": "Does Shopify add GST to its bill?", "a": "Yes, for a store located in India, unless you give Shopify your GSTIN. Shopify’s help centre says the exemption applies only to invoices issued after you submit it, and GST already charged on earlier invoices cannot be reversed or refunded." },
     { "q": "Which Shopify plan is cheapest for an Indian store?", "a": "It depends on prepaid sales. Each step up costs more a month and takes a smaller cut of each prepaid order: 2% on Basic, 1% on Grow, 0.6% on Advanced. A store with small prepaid sales pays least on Basic, and the higher plans pay off only as prepaid sales grow — before GST, and before the gateway’s own charge." },
-    { "q": "Can I have a GoCommerce store without running a server?", "a": "Yes. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale, {plusGst}. Running GoCommerce yourself stays free, and then the gateway’s charge is the only cost per order." },
+    { "q": "Can I have a GoCommerce store without running a server?", "a": "Yes. A store hosted on kitcommerce.store pays {hostedFeeText}, {plusGst}. Running GoCommerce yourself stays free, and then the gateway’s charge is the only cost per order." },
     { "q": "What does GoCommerce use for payments and shipping in India?", "a": "Razorpay through the payments-razorpay module, and cash on delivery in the core. Shipments are booked through the Shiprocket, Delhivery and NimbusPost modules, and the India Post module records consignment numbers. Order SMS go out through MSG91 as DLT-registered templates. Each module is compiled in only if you import it." },
     { "q": "Does GoCommerce produce GST invoices?", "a": "Partly. The invoices module gives every paid order a numbered invoice in a gapless sequence and prints your GSTIN, but it shows no tax breakdown — no HSN codes, no CGST, SGST or IGST. Shopify says it does not create GST-compliant bills either, and points merchants to an invoicing app or service." }
   ],

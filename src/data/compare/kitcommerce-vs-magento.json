@@ -36,7 +36,7 @@
     [
       "Licence and price",
       "Open Source is free under OSL 3.0. Adobe Commerce has no list price: Adobe quotes it, and licenses it at a pricing level of gross merchandise value and average order value tiers, or an order limit.",
-      "MIT, both packages: free to run yourself, or {hostedFee} of each successful sale on a store hosted on kitcommerce.store."
+      "MIT, both packages: free to run yourself, or {hostedFeeText} on a store hosted on kitcommerce.store."
     ],
     [
       "What you run",
@@ -91,7 +91,7 @@
   ],
   "cost": {
     "title": "What each side costs",
-    "lede": "Magento Open Source and GoCommerce are both free to license. The difference is the stack each asks you to run, and what each charges beyond the free code: Adobe quotes its licensed edition, and a GoCommerce store hosted on kitcommerce.store pays {hostedFee} of each successful sale.",
+    "lede": "Magento Open Source and GoCommerce are both free to license. The difference is the stack each asks you to run, and what each charges beyond the free code: Adobe quotes its licensed edition, and a GoCommerce store hosted on kitcommerce.store pays {hostedFeeText}.",
     "caption": "What you pay for, Magento against GoCommerce and Svelte Commerce",
     "head": [
       "Cost",
@@ -107,7 +107,7 @@
       [
         "Hosting",
         "Open Source and on-premises: Linux servers for PHP, the database, OpenSearch and the services around them. Adobe’s cloud editions include hosting",
-        "Run yourself: a server and a PostgreSQL database, from a small VPS upward. Hosted on kitcommerce.store: {hostedFee} of each successful sale"
+        "Run yourself: a server and a PostgreSQL database, from a small VPS upward. Hosted on kitcommerce.store: {hostedFeeText}"
       ],
       [
         "More store views",

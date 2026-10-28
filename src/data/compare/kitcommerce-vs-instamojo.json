@@ -11,7 +11,7 @@
   "ogDescription": "A free store with payments built in, at a fee per payment — or your own backend and your own gateway. Sourced.",
   "h1": "Instamojo store alternative: GoCommerce vs Instamojo",
   "tagline": "Instamojo sells payments and gives you a store. GoCommerce is the store, and you pick the payments.",
-  "lede": "Instamojo is a payment gateway first, and its online store comes with that gateway built in: nothing to connect, and a fee of 5% + {p:instamojo/fee-fixed} on each payment — 2% + {p:instamojo/fee-fixed} on the Growth plan. GoCommerce is a backend you run, paired with a gateway you choose, or a store hosted on kitcommerce.store for {hostedFee} of each successful sale. On Growth the fees are close; the difference is who owns the store.",
+  "lede": "Instamojo is a payment gateway first, and its online store comes with that gateway built in: nothing to connect, and a fee of 5% + {p:instamojo/fee-fixed} on each payment — 2% + {p:instamojo/fee-fixed} on the Growth plan. GoCommerce is a backend you run, paired with a gateway you choose, or a store hosted on kitcommerce.store for {hostedFeeText}. On Growth the fees are close; the difference is who owns the store.",
   "facts": [
     { "b": "Free", "t": "Instamojo’s Lite store plan" },
     { "b": "5% + {p:instamojo/fee-fixed}", "t": "Instamojo’s charge per payment on Lite and Starter, plus GST" },
@@ -20,8 +20,8 @@
   "glanceLede": "Instamojo’s side is taken from its pricing, online store and payment gateway pages, linked at the foot of this page. Ours is what GoCommerce and Svelte Commerce do today.",
   "rows": [
     ["What it is", "An online store from a payments company, with Instamojo’s own gateway built in.", "A Go backend and admin plus a SvelteKit storefront, both MIT, that you host — or a store hosted on kitcommerce.store."],
-    ["Plans", "Lite, free; Starter {p:instamojo/starter-year} a year; Growth {p:instamojo/growth-year} a year or {p:instamojo/growth-month} a month; and a store built for you, priced on request. GST extra.", "No plans. Run it yourself and the software costs nothing; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
-    ["Fee per payment", "5% + {p:instamojo/fee-fixed} on Lite and Starter, 2% + {p:instamojo/fee-fixed} on Growth, each plus GST — and covering the gateway, which Instamojo says comes at no additional charge.", "None from GoCommerce when you run it yourself: the gateway charges its own rate, and Razorpay lists 2% + GST. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."],
+    ["Plans", "Lite, free; Starter {p:instamojo/starter-year} a year; Growth {p:instamojo/growth-year} a year or {p:instamojo/growth-month} a month; and a store built for you, priced on request. GST extra.", "No plans. Run it yourself and the software costs nothing; a store hosted on kitcommerce.store pays {hostedFeeText}."],
+    ["Fee per payment", "5% + {p:instamojo/fee-fixed} on Lite and Starter, 2% + {p:instamojo/fee-fixed} on Growth, each plus GST — and covering the gateway, which Instamojo says comes at no additional charge.", "None from GoCommerce when you run it yourself: the gateway charges its own rate, and Razorpay lists 2% + GST. A store hosted on kitcommerce.store pays {hostedFeeText}."],
     ["Payment methods", "UPI, cards, netbanking, wallets, pay later and EMI through Instamojo, with an option to pass the fee on to the buyer.", "Whatever your gateway offers, through one of eleven payment modules — Razorpay, Cashfree, Stripe and Adyen among them."],
     ["Cash on delivery", "Included from the free plan.", "The core’s default payment method."],
     ["Shipping", "Shipway, Shiprocket, Vamaship, Pickrr and others; Instamojo says pickup and delivery cover 26,000 pin codes.", "Shiprocket, Delhivery and NimbusPost modules book shipments; India Post consignments are recorded against the order."],
@@ -29,7 +29,7 @@
     ["Catalogue", "Unlimited products, categories and variants; 1, 3 or 10 images per product by plan.", "No plan limits. Stock is tracked per location, as on hand and reserved."],
     ["Marketing", "Abandoned cart recovery, discount coupons and advanced analytics from Growth; Google Shopping and Facebook catalogue sync.", "Discounts in the core; cart recovery, Google Merchant Center and Meta catalogue feeds, Klaviyo and newsletters as modules."],
     ["Integrations", "Webhooks when a customer completes a purchase.", "Webhooks, 342 documented REST operations, and an MCP server that lets AI agents work the store."],
-    ["Hosting", "Instamojo’s.", "Yours when you run it — a single Go binary beside a PostgreSQL database, on any server you choose. Or hosted on kitcommerce.store, for {hostedFee} of each successful sale."]
+    ["Hosting", "Instamojo’s.", "Yours when you run it — a single Go binary beside a PostgreSQL database, on any server you choose. Or hosted on kitcommerce.store, for {hostedFeeText}."]
   ],
   "cost": {
     "title": "Fees side by side",
@@ -41,7 +41,7 @@
       ["Instamojo Starter", "{p:instamojo/starter-year} a year", "5% + {p:instamojo/fee-fixed}"],
       ["Instamojo Growth", "{p:instamojo/growth-year} a year", "2% + {p:instamojo/fee-fixed}"],
       ["GoCommerce + Razorpay, run yourself", "None", "Razorpay’s 2%"],
-      ["A store hosted on kitcommerce.store", "None", "{hostedFee} of each successful sale"]
+      ["A store hosted on kitcommerce.store", "None", "{hostedFeeText}"]
     ],
     "note": "From the published fees; GST is added on both sides. On Lite and Starter, Instamojo’s 5% is more than twice Razorpay’s standard 2%, before its {p:instamojo/fee-fixed} per payment. On Growth the percentages match, and the gap is that fixed fee plus the plan — a sum that hosting and upkeep can easily outweigh. Against Instamojo, GoCommerce’s case is ownership, not fees."
   },
@@ -63,7 +63,7 @@
   "faq": [
     { "q": "What does Instamojo charge per sale?", "a": "Instamojo’s online store charges 5% + {p:instamojo/fee-fixed} per payment on Lite and Starter, and 2% + {p:instamojo/fee-fixed} on the Growth plan, each plus GST. Its pricing page says the payment gateway comes integrated with no additional charges, so that fee covers payment processing." },
     { "q": "What store plans does Instamojo have?", "a": "Lite is free. Starter is {p:instamojo/starter-year} a year, and Growth {p:instamojo/growth-year} a year or {p:instamojo/growth-month} a month; a store built for you by Instamojo’s team is priced on request. GST is charged on top of the plan prices." },
-    { "q": "Is GoCommerce cheaper than Instamojo?", "a": "Against Lite and Starter, once prepaid sales grow, if you run it yourself: Razorpay lists 2% + GST, against Instamojo’s 5% + {p:instamojo/fee-fixed}. Against Growth, barely — the difference is the fixed fee per payment plus the plan, and a server can cost more than that. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale. Choose GoCommerce for ownership and depth, not to save on fees." },
+    { "q": "Is GoCommerce cheaper than Instamojo?", "a": "Against Lite and Starter, once prepaid sales grow, if you run it yourself: Razorpay lists 2% + GST, against Instamojo’s 5% + {p:instamojo/fee-fixed}. Against Growth, barely — the difference is the fixed fee per payment plus the plan, and a server can cost more than that. A store hosted on kitcommerce.store pays {hostedFeeText}. Choose GoCommerce for ownership and depth, not to save on fees." },
     { "q": "Can I use Razorpay with GoCommerce?", "a": "Yes, through the payments-razorpay module, which calls Razorpay’s API directly. Eight other payment modules — Stripe, Adyen and Hyperswitch among them — are there if you choose differently, and cash on delivery needs none." },
     { "q": "Can Svelte Commerce be the storefront for an Instamojo store?", "a": "No. Instamojo is not among the 26 backends Svelte Commerce connects to. Paired with GoCommerce, Svelte Commerce reaches it through an early connector, 0.1.0, covering catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet." }
   ],

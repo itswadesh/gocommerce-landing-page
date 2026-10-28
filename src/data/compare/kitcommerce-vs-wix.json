@@ -11,7 +11,7 @@
   "ogDescription": "Wix designs, hosts and keeps your store. GoCommerce runs wherever you put it. Trade-offs, sourced.",
   "h1": "Open-source Wix alternative: GoCommerce vs Wix eCommerce",
   "tagline": "A Wix store lives on Wix’s servers. GoCommerce runs on any server.",
-  "lede": "Wix is a website builder with a store inside it: a drag-and-drop editor, with hosting and upgrades included, priced by location. Its own help centre is plain that a Wix site cannot run anywhere but on Wix. GoCommerce and Svelte Commerce are MIT source you can run yourself for free — on any server, which means somebody has to run it — or a store can be hosted on kitcommerce.store for {hostedFee} of each successful sale.",
+  "lede": "Wix is a website builder with a store inside it: a drag-and-drop editor, with hosting and upgrades included, priced by location. Its own help centre is plain that a Wix site cannot run anywhere but on Wix. GoCommerce and Svelte Commerce are MIT source you can run yourself for free — on any server, which means somebody has to run it — or a store can be hosted on kitcommerce.store for {hostedFeeText}.",
   "facts": [
     { "b": "8", "t": "payment providers Wix lists for India — its own Wix Payments is not one of them" },
     { "b": "{p:wix/core-yearly}", "t": "a month, billed yearly: Wix’s cheapest plan that takes payments, at its reference price" },
@@ -24,7 +24,7 @@
     ["Taking payments", "Not on Light. Core and above.", "On every install: cash on delivery built in, gateways as modules."],
     ["Payments in India", "PayPal, Razorpay, PayU India, Cashfree Payments, Paytm, Easebuzz, airpay and Nimbbl. Wix Payments, Wix’s own processor, serves 15 other countries.", "Razorpay, Stripe, Cashfree, Adyen, Hyperswitch and six more as modules; cash on delivery built in."],
     ["Design", "A drag-and-drop editor and thousands of templates. No code needed.", "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes, changed in code rather than a visual editor."],
-    ["Hosting", "Included, and required: Wix says a Wix site has to run on Wix’s servers and cannot be moved to another host.", "Yours, anywhere: one Go binary and one PostgreSQL database. Or a store hosted on kitcommerce.store, for {hostedFee} of each successful sale."],
+    ["Hosting", "Included, and required: Wix says a Wix site has to run on Wix’s servers and cannot be moved to another host.", "Yours, anywhere: one Go binary and one PostgreSQL database. Or a store hosted on kitcommerce.store, for {hostedFeeText}."],
     ["Code", "Closed. Custom code goes through Wix’s own developer platform, with the advanced tier on Business Elite.", "Open. Checkout, pricing and order flow are Go source you can change."],
     ["Your data", "Products export to CSV, up to 5,000 rows a file, digital products excepted; orders export to CSV.", "Rows in your own PostgreSQL, which you can query, back up and move."],
     ["More than one store", "Each plan covers a single site.", "Channels: several storefronts on one backend, each with its own published catalogue and price lists."],
@@ -34,11 +34,11 @@
   ],
   "cost": {
     "title": "What each side costs",
-    "lede": "Wix’s bill is a plan for each site. Ours, run yourself, is a server and a developer; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale instead. The dollar figures below are Wix’s reference prices — its checkout shows the price for your country.",
+    "lede": "Wix’s bill is a plan for each site. Ours, run yourself, is a server and a developer; a store hosted on kitcommerce.store pays {hostedFeeText} instead. The dollar figures below are Wix’s reference prices — its checkout shows the price for your country.",
     "caption": "Recurring costs, Wix eCommerce against GoCommerce and Svelte Commerce",
     "head": ["Cost", "Wix eCommerce", "GoCommerce + Svelte Commerce"],
     "rows": [
-      ["Software", "{p:wix/core-yearly} to {p:wix/business-elite-yearly} a month, billed yearly, for the plans that take payments; prices vary by location and exclude tax", "Nothing — MIT; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
+      ["Software", "{p:wix/core-yearly} to {p:wix/business-elite-yearly} a month, billed yearly, for the plans that take payments; prices vary by location and exclude tax", "Nothing — MIT; {hostedFeeText} on a store hosted on kitcommerce.store"],
       ["Payment processing", "Your provider’s rate — Wix lists Razorpay’s as from 2% a transaction", "Your gateway’s rate"],
       ["A second storefront", "A second plan, since each covers one site", "Nothing — another channel on the same backend"],
       ["Hosting", "Included", "Run yourself: a server and a PostgreSQL database, from a small VPS upward"],

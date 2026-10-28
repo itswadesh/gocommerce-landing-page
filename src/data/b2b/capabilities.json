@@ -94,7 +94,7 @@
   },
   "open-source": {
     "name": "Open source, so it stays yours",
-    "text": "GoCommerce is MIT licensed. Run it on your own server for free, or have it hosted on kitcommerce.store for {hostedFee} of each successful sale, {plusGst}, and take the code with you if you leave."
+    "text": "GoCommerce is MIT licensed. Run it on your own server for free, or have it hosted on kitcommerce.store for {hostedFeeText}, {plusGst}, and take the code with you if you leave."
   },
   "white-label": {
     "name": "Your brand on it",

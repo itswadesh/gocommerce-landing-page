@@ -11,7 +11,7 @@
   "ogDescription": "Rent a hosted platform, or run an open-source one yourself. Fees, ownership and trade-offs, sourced.",
   "h1": "Open-source Shopify alternative: GoCommerce vs Shopify",
   "tagline": "Shopify rents you a store. GoCommerce gives you one.",
-  "lede": "Shopify runs the software and the servers and charges a monthly plan, plus a fee on every order taken through a third-party gateway. GoCommerce and Svelte Commerce are MIT source. Run them yourself and there is no plan, no per-order fee, and every line of the checkout is yours to change — along with the server it runs on. Or start a store hosted on kitcommerce.store, which pays {hostedFee} of each successful sale.",
+  "lede": "Shopify runs the software and the servers and charges a monthly plan, plus a fee on every order taken through a third-party gateway. GoCommerce and Svelte Commerce are MIT source. Run them yourself and there is no plan, no per-order fee, and every line of the checkout is yours to change — along with the server it runs on. Or start a store hosted on kitcommerce.store, which pays {hostedFeeText}.",
   "facts": [
     {
       "b": "0.2–2%",
@@ -19,7 +19,7 @@
     },
     {
       "b": "Free",
-      "t": "to run GoCommerce yourself, with no fee per order; {hostedFee} of each successful sale if kitcommerce.store hosts it"
+      "t": "to run GoCommerce yourself, with no fee per order; {hostedFeeText} if kitcommerce.store hosts it"
     },
     {
       "b": "41",
@@ -36,17 +36,17 @@
     [
       "Software price",
       "A monthly plan: Basic {p:shopify/basic-yearly}, Grow {p:shopify/grow-yearly} or Advanced {p:shopify/advanced-yearly} a month billed yearly ({p:shopify/basic-monthly}, {p:shopify/grow-monthly} or {p:shopify/advanced-monthly} month to month); Plus from {p:shopify-plus/plus-3y} a month on a one- or three-year term.",
-      "Nothing to run it yourself; both packages are MIT licensed. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."
+      "Nothing to run it yourself; both packages are MIT licensed. A store hosted on kitcommerce.store pays {hostedFeeText}."
     ],
     [
       "Fee on each order",
       "2% on Basic, 1% on Grow, 0.6% on Advanced and 0.2% on Plus when a third-party gateway takes the payment; waived with Shopify Payments, and not charged on cash on delivery or other manual payments.",
-      "None when you run it yourself: your payment gateway’s own fee is the only one. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale."
+      "None when you run it yourself: your payment gateway’s own fee is the only one. A store hosted on kitcommerce.store pays {hostedFeeText}."
     ],
     [
       "Hosting",
       "Included in the plan.",
-      "Yours when you run it: one Go binary and one PostgreSQL database, on any server. Or hosted on kitcommerce.store, for {hostedFee} of each successful sale."
+      "Yours when you run it: one Go binary and one PostgreSQL database, on any server. Or hosted on kitcommerce.store, for {hostedFeeText}."
     ],
     [
       "Source code",
@@ -102,12 +102,12 @@
       [
         "Software",
         "{p:shopify/basic-yearly} to {p:shopify/advanced-yearly} a month, billed yearly, on Basic to Advanced; Plus from {p:shopify-plus/plus-3y} a month",
-        "Free to run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"
+        "Free to run it yourself; {hostedFeeText} on a store hosted on kitcommerce.store"
       ],
       [
         "Platform fee per order",
         "0.2% to 2% of each sale through a third-party gateway",
-        "None when you run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"
+        "None when you run it yourself; {hostedFeeText} on a store hosted on kitcommerce.store"
       ],
       [
         "Payment processing",
@@ -122,7 +122,7 @@
       [
         "Hosting",
         "Included",
-        "A server and a PostgreSQL database when you run it yourself, from a small VPS upward; or a store hosted on kitcommerce.store, for {hostedFee} of each successful sale"
+        "A server and a PostgreSQL database when you run it yourself, from a small VPS upward; or a store hosted on kitcommerce.store, for {hostedFeeText}"
       ],
       [
         "People",
@@ -130,7 +130,7 @@
         "A developer to deploy, maintain and extend it, when you run it yourself"
       ]
     ],
-    "note": "A worked example, in US dollars: {ex:USD 10000} a month in sales through a third-party gateway on Basic pays Shopify {ex:USD 200} a month in third-party fees — 2% — on top of the plan and the gateway’s own charge. The same sales on GoCommerce you run yourself pay the gateway alone; the server and the developer are the costs that replace that fee. On a store hosted on kitcommerce.store, the same sales pay {hostedFee} of each successful sale."
+    "note": "A worked example, in US dollars: {ex:USD 10000} a month in sales through a third-party gateway on Basic pays Shopify {ex:USD 200} a month in third-party fees — 2% — on top of the plan and the gateway’s own charge. The same sales on GoCommerce you run yourself pay the gateway alone; the server and the developer are the costs that replace that fee. On a store hosted on kitcommerce.store, the same sales pay {hostedFeeText}."
   },
   "themWhen": [
     "You want a store live this week and there is no developer on the team.",
@@ -140,7 +140,7 @@
   ],
   "usWhen": [
     "Shopify’s 1–2% of revenue on a third-party gateway costs more than a server and a developer’s time, and you would rather run the store yourself.",
-    "You want a store hosted for you: kitcommerce.store takes {hostedFee} of each successful sale.",
+    "You want a store hosted for you: kitcommerce.store takes {hostedFeeText}.",
     "You want the code — checkout, pricing, order flow — to be yours to change.",
     "You sell in India, where Shopify Payments is not offered, so every plan pays that fee on online payments — cash on delivery and other manual payments are exempt.",
     "You want B2B price lists, several storefronts or marketplace vendors without a higher plan."
@@ -160,7 +160,7 @@
     },
     {
       "q": "Is it really free?",
-      "a": "The software is. GoCommerce and Svelte Commerce are MIT licensed, with no plan and no paid tier, and running them yourself carries no per-order fee. The server, the database and the time of whoever runs them are real costs, and for a small store they can exceed a Shopify plan. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale instead."
+      "a": "The software is. GoCommerce and Svelte Commerce are MIT licensed, with no plan and one edition for everyone, and running them yourself carries no per-order fee. The server, the database and the time of whoever runs them are real costs, and for a small store they can exceed a Shopify plan. A store hosted on kitcommerce.store pays {hostedFeeText} instead."
     },
     {
       "q": "Can I keep Shopify and use Svelte Commerce as the storefront?",
@@ -172,7 +172,7 @@
     },
     {
       "q": "Is there a hosted version, like Shopify?",
-      "a": "Yes. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale. Running both packages yourself, on your own server or a developer’s, stays free."
+      "a": "Yes. A store hosted on kitcommerce.store pays {hostedFeeText}. Running both packages yourself, on your own server or a developer’s, stays free."
     },
     {
       "q": "Why does Shopify charge a fee on my own payment gateway?",

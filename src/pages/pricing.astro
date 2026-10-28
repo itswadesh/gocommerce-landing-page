@@ -1,9 +1,9 @@
 ---
 /**
  * Two prices, one each for the two ways to run a store. A store hosted on
- * kitcommerce.store pays a share of each successful sale; the MIT code, run on
+ * kitcommerce.store pays a share of every successful order; the MIT code, run on
  * your own server, costs nothing. Both figures come from src/data/pricing.json
- * (the owner's decision of 26 October 2026, in docs/decisions.md), and the page
+ * (the owner's decisions of 26 to 28 October 2026, in docs/decisions.md), and the page
  * says nothing about the hosted option beyond that figure and its sign-up.
  *
  * The Shopify figures are its own price list for the visitor's currency
@@ -17,13 +17,13 @@ import CurrencyPicker from '../components/CurrencyPicker.astro'
 import Priced from '../components/Priced.astro'
 import Variants from '../components/Variants.astro'
 import { byCurrency, formatMoney, shopifyMarkets } from '../lib/money'
-import { gstForRupees, gstIndia, hostedFee, signupUrl } from '../lib/pricing'
+import { feeBasis, gstForRupees, gstIndia, hostedFee, hostedFeeShort, hostedFeeText, signupUrl } from '../lib/pricing'
 import { compareCard, featuredComparisons } from '../lib/related'
 
 const path = '/pricing/'
 const abs = (p: string) => new URL(p, Astro.site!).href
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
-const hosted = `${hostedFee} of each successful sale`
+const hosted = hostedFeeText
 
 const markets = shopifyMarkets()
 const plans = ['basic', 'grow', 'advanced']
@@ -41,7 +41,7 @@ const graph = [
 
 const faq = [
   { q: 'What does a store hosted on kitcommerce.store cost?', a: `${hosted}, cash-on-delivery and on-account orders included, charged in the store’s own currency. Stores in India pay ${gstIndia} GST on the fee. Start one with the Start a store button on this page.` },
-  { q: 'Is running it myself really free?', a: 'Yes. GoCommerce and Svelte Commerce are MIT licensed. The licence has no expiry, no seat count and no revenue cap, takes 0% of your sales, and a copy you have downloaded stays MIT whatever happens to the packages later.' },
+  { q: 'Is running it myself really free?', a: 'Yes. GoCommerce and Svelte Commerce are MIT licensed. The licence has no expiry, no seat count and no revenue cap, takes 0% of your orders, and a copy you have downloaded stays MIT whatever happens to the packages later.' },
   { q: 'Is there a Plus plan, a pro tier or an enterprise edition?', a: `No. A store is either hosted on kitcommerce.store, for ${hosted}, or run on your own server for free. The MIT code has every module, every admin screen and every theme in it; nothing is held back for a higher tier because there is no higher tier.` },
   { q: 'When I run it myself, are there hidden fees: per order, per product, per staff account?', a: 'None. Nobody takes a percentage of your sales, counts your products or charges for another admin user. The fees you pay are your payment gateway’s own, on its own terms.' },
   { q: 'Can I white-label it and sell it to my clients?', a: 'Yes. MIT lets you rename both packages, restyle the storefront and the admin, and ship them under your own brand, for yourself or for clients. Keep the copyright notice in the source; that is the only condition.' },
@@ -50,10 +50,10 @@ const faq = [
 ]
 ---
 <Base
-  title={`Pricing: ${hostedFee} of Each Sale Hosted, Free to Self-Host`}
-  description={`Stores hosted on kitcommerce.store pay ${hosted}. GoCommerce and Svelte Commerce stay free and MIT licensed to run yourself, at 0% of your sales.`}
+  title={`Pricing: free under MIT, ${hostedFeeShort} hosted`}
+  description={`Download GoCommerce and Svelte Commerce and use them free under MIT. Stores hosted on kitcommerce.store pay ${hosted}.`}
   path={path}
-  ogTitle={`${hostedFee} of each sale, hosted. Free to run yourself.`}
+  ogTitle={`Free under MIT. ${hostedFeeShort}, hosted.`}
   ogDescription={`Start a store on kitcommerce.store for ${hosted}, or run the MIT code on your own server for free.`}
   nav="pricing"
   crumbs={[{ name: 'Pricing', href: path }]}
@@ -63,26 +63,39 @@ const faq = [
 >
   <section class="wrap price-hero">
     <p class="kicker">Pricing</p>
-    <h1>{hostedFee} of each sale hosted. Free to run yourself.</h1>
-    <p class="lede">Two ways to run a store. Host it on kitcommerce.store and pay {hosted}<Variants v={gstForRupees} />. Or run GoCommerce and Svelte Commerce on your own server: MIT licensed, no plan, no fee on your orders, no cap on your sales.</p>
+    <h1>Free to download under MIT. {hostedFeeShort} when hosted.</h1>
+    <p class="lede">Two ways to run a store. Download GoCommerce and Svelte Commerce and use them free under the MIT licence, on your own server: no plan, no fee on your orders. Or have the store hosted on kitcommerce.store and pay {hosted}<Variants v={gstForRupees} />.</p>
     <div class="duo-grid">
-      <div class="duo-card">
-        <p class="duo-card-role">Hosted on kitcommerce.store</p>
-        <p class="price-big">{hostedFee}</p>
-        <p class="price-per">of each successful sale<Variants v={gstForRupees} /></p>
-        <div class="actions">
-          <a class="button" href={signupUrl} {...ext} data-ev="signup_click">Start a store</a>
-        </div>
-      </div>
-      <div class="duo-card duo-card-engine">
-        <p class="duo-card-role">Self-hosted, MIT licensed</p>
+      <section class="duo-card duo-card-engine" aria-labelledby="self-title">
+        <h2 id="self-title">MIT licence</h2>
         <p class="price-big">Free</p>
-        <p class="price-per">0% of your sales, no expiry</p>
+        <p class="price-per">Download it and use it free</p>
+        <ul class="tick">
+          <li>GoCommerce and Svelte Commerce, self-hosted</li>
+          <li>0% of your orders, no plan, no expiry</li>
+          <li>Every module, admin screen and theme in the code</li>
+          <li>Your server, your database, your payment gateway’s own fee</li>
+          <li>Help on GitHub and Discord</li>
+        </ul>
         <div class="actions">
           <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
           <a class="button secondary" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_click">Get the source</a>
         </div>
-      </div>
+      </section>
+      <section class="duo-card" aria-labelledby="hosted-title">
+        <h2 id="hosted-title">Hosted (SaaS)</h2>
+        <p class="price-big">{hostedFee}</p>
+        <p class="price-per">of {feeBasis}<Variants v={gstForRupees} /></p>
+        <ul class="tick">
+          <li>Your store runs on kitcommerce.store</li>
+          <li>Cash-on-delivery and on-account orders included</li>
+          <li>Charged in the store’s own currency</li>
+          <li>Stores in India pay {gstIndia} GST on the fee</li>
+        </ul>
+        <div class="actions">
+          <a class="button" href={signupUrl} {...ext} data-ev="signup_click">Start a store</a>
+        </div>
+      </section>
     </div>
   </section>
 
@@ -145,7 +158,7 @@ const faq = [
   <Faq items={faq} title="Questions about the price" />
 
   <section class="closing wrap">
-    <h2>Hosted for {hostedFee} of each sale, or yours to run</h2>
+    <h2>Hosted for {hostedFeeShort}, or yours to run</h2>
     <p>Start a store on kitcommerce.store, or bring up the API and the admin on your own machine with one command.</p>
     <div class="actions">
       <a class="button" href={signupUrl} {...ext} data-ev="signup_click">Start a store</a>

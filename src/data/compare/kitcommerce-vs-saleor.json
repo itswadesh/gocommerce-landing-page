@@ -28,19 +28,19 @@
     ["Selling through AI agents", "Saleor says it was the first open commerce platform to implement the Agentic Commerce Protocol, and lists an app that publishes products to ChatGPT through an ACP feed.", "None. GoCommerce supports no agentic commerce protocol — not ACP, UCP or AP2."],
     ["Agent tooling for developers", "Agent skills for core, apps, storefront and the Configurator CLI, which keeps channels, product types, shipping zones and tax rules in version-controlled YAML.", "An MCP module with 19 tools that act on a running store; an AGENTS.md of 18 rules and 16 task guides in the repository."],
     ["Marketplace and B2B", "Patterns Saleor documents and you build: vendors modelled with attributes and warehouses, payment splitting through apps such as Stripe Connect, per-channel price and stock.", "Vendors built in, with commission recorded but not settled. Customer groups, price lists and quantity breaks, and a b2b module with company accounts, credit on account, approvals and quotes."],
-    ["Hosting", "Self-host with Docker, or Saleor Cloud from {p:saleor/select-month} a month; sandboxes are free for non-commercial use.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFee} of each successful sale."],
+    ["Hosting", "Self-host with Docker, or Saleor Cloud from {p:saleor/select-month} a month; sandboxes are free for non-commercial use.", "Self-host for free, or a store hosted on kitcommerce.store for {hostedFeeText}."],
     ["Storefront", "Paper, Saleor’s open-source storefront foundation, or any front end.", "Svelte Commerce, whose Saleor connector wires 28 of 43 services — not yet cart, checkout or sign-in."],
     ["Track record", "Case studies from Lush, Breitling, PCDIGA and Kencove; Saleor Cloud reports over a billion API requests and 400,000 orders a month.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
   ],
   "cost": {
     "title": "What running each one costs",
-    "lede": "Self-hosted, both are free. Saleor Cloud starts at {p:saleor/select-month} a month and adds a fee on sales above each plan’s allowance. GoCommerce run yourself costs a server and whoever looks after it; a store hosted on kitcommerce.store pays {hostedFee} of each successful sale.",
+    "lede": "Self-hosted, both are free. Saleor Cloud starts at {p:saleor/select-month} a month and adds a fee on sales above each plan’s allowance. GoCommerce run yourself costs a server and whoever looks after it; a store hosted on kitcommerce.store pays {hostedFeeText}.",
     "caption": "Recurring costs, Saleor against GoCommerce and Svelte Commerce",
     "head": ["Cost", "Saleor", "GoCommerce + Svelte Commerce"],
     "rows": [
       ["Software", "Nothing to self-host — BSD-3", "Nothing — MIT"],
-      ["Managed hosting", "Saleor Cloud: Select {p:saleor/select-month} a month up to {p:saleor/select-gmv} in monthly sales; Volume {p:saleor/volume-month} up to {p:saleor/volume-gmv}; Enterprise negotiated", "Hosted on kitcommerce.store: {hostedFee} of each successful sale"],
-      ["Fee on sales", "0.8% on Select, 0.4% on Volume, as low as 0.2% on Enterprise, on sales above the plan’s allowance", "None when you run it yourself; {hostedFee} of each successful sale on a store hosted on kitcommerce.store"],
+      ["Managed hosting", "Saleor Cloud: Select {p:saleor/select-month} a month up to {p:saleor/select-gmv} in monthly sales; Volume {p:saleor/volume-month} up to {p:saleor/volume-gmv}; Enterprise negotiated", "Hosted on kitcommerce.store: {hostedFeeText}"],
+      ["Fee on sales", "0.8% on Select, 0.4% on Volume, as low as 0.2% on Enterprise, on sales above the plan’s allowance", "None when you run it yourself; {hostedFeeText} on a store hosted on kitcommerce.store"],
       ["Trying it out", "Cloud sandboxes, free for non-commercial use", "The one-command Docker stack, locally"],
       ["Onboarding add-ons", "Accelerator {p:saleor/accelerator} or Forward Deployed Engineering {p:saleor/fde}, one-time, credited back over the first year after launch", "None"],
       ["Self-hosted infrastructure", "API workers, background workers, a scheduler, PostgreSQL, Redis for cache and queue, and object storage", "One binary and PostgreSQL"]

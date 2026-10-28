@@ -21,7 +21,7 @@
         { "title": "One binary and PostgreSQL", "status": "yes", "text": "The API and the 61-screen Svelte admin compile into one binary with go:embed. No Node.js at runtime, no cgo; it cross-compiles for Linux, Windows and macOS, and a distroless Docker image is provided.", "source": "admin/embed.go · Dockerfile" },
         { "title": "One production dependency", "status": "yes", "text": "go.mod requires only the pgx PostgreSQL driver, and modules add no third-party dependencies — CI enforces it.", "source": "go.mod · AGENTS.md" },
         { "title": "Headless REST, documented", "status": "yes", "text": "342 operations — 238 in the core, the rest from modules — in OpenAPI 3.0.3, served at /doc and printed by gocommerce spec. The admin is itself a client of the same API.", "source": "core/openapi.json" },
-        { "title": "MIT, all of it", "status": "yes", "text": "The licence covers the whole repository. There is no closed edition and no paid tier.", "source": "LICENSE" }
+        { "title": "MIT, all of it", "status": "yes", "text": "The licence covers the whole repository. There is no closed or paid edition.", "source": "LICENSE" }
       ]
     },
     {

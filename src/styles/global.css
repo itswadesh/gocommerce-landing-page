@@ -752,7 +752,7 @@ footer { border-top: var(--hairline); background: var(--surface); padding-block:
 .duo-card-engine { border-top-color: var(--go-mark); }
 .duo-card-store { border-top-color: var(--svelte-mark); }
 .duo-card-role { font: 500 .875rem/1.4 var(--sans); color: var(--ink-3); }
-.duo-card h3 { margin-top: 6px; font-size: 1.375rem; letter-spacing: -.02em; }
+.duo-card h3, .duo-card > h2 { margin-top: 6px; font-size: 1.375rem; letter-spacing: -.02em; }
 .duo-card h3 a { color: inherit; text-decoration: none; border-bottom: var(--edge); }
 .duo-card h3 a:hover { border-bottom-color: currentColor; }
 .duo-card > p { margin-top: 12px; font-size: .9375rem; color: var(--ink-2); }

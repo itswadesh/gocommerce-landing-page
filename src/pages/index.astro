@@ -13,7 +13,7 @@
  * a serif title with the lede alongside, hairline cards, one dark closing band.
  */
 import Base from '../layouts/Base.astro'
-import { hostedFee } from '../lib/pricing'
+import { hostedFeeShort, hostedFeeText } from '../lib/pricing'
 import Faq from '../components/Faq.astro'
 import ProductShot from '../components/ProductShot.astro'
 import Illustration from '../components/Illustration.astro'
@@ -67,9 +67,9 @@ const graph = [
 const faq = [
   { q: 'What is GoCommerce?', a: 'GoCommerce is an open-source, headless ecommerce backend built with Go and PostgreSQL, with a Svelte-based admin compiled into the same binary. It serves 342 documented operations over REST.' },
   { q: 'What is Svelte Commerce?', a: 'Svelte Commerce is an open-source headless ecommerce storefront built with Svelte and SvelteKit. It reaches a commerce backend through a connector package, and 26 connectors exist today.' },
-  { q: 'What is KitCommerce?', a: `KitCommerce is an open-source ecommerce platform. Its packages are GoCommerce, the backend and admin, and Svelte Commerce, the storefront — MIT licensed, used together or either one on its own. It is free to run yourself, and a store hosted on kitcommerce.store pays ${hostedFee} of each successful sale.` },
+  { q: 'What is KitCommerce?', a: `KitCommerce is an open-source ecommerce platform. Its packages are GoCommerce, the backend and admin, and Svelte Commerce, the storefront — MIT licensed, used together or either one on its own. It is free to run yourself, and a store hosted on kitcommerce.store pays ${hostedFeeText}.` },
   { q: 'Can I self-host them?', a: 'Yes. Both packages are MIT licensed and designed to run on your own infrastructure: GoCommerce is one binary and one PostgreSQL, Svelte Commerce is a Node server. The compose file on this site runs the backend, its admin and a proxy on port 80 in one command.' },
-  { q: 'Is there a platform fee or a paid plan?', a: `There is no paid plan. Running it yourself is free, with no fee on your orders; your own servers, domains and third-party services still cost what they cost. A store hosted on kitcommerce.store pays ${hostedFee} of each successful sale.` },
+  { q: 'Is there a platform fee or a paid plan?', a: `Only when it is hosted. Under the MIT licence you download it and use it free, with no fee on your orders; your own servers, domains and third-party services still cost what they cost. A store hosted on kitcommerce.store (SaaS) pays ${hostedFeeText}.` },
   { q: 'Can I white-label it?', a: 'Yes. Both packages are MIT, so you can rename them, restyle the storefront and the admin, and ship them under your own brand for yourself or for clients. Keeping the copyright notice in the source is the only condition.' },
   { q: 'Can GoCommerce and Svelte Commerce work together?', a: 'Through an early connector: @misiki/gocommerce-connector 0.1.0 lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Customer accounts and a search index are not covered yet. Either package also works alone: GoCommerce with any HTTP client, Svelte Commerce with 26 other backends.' },
   { q: 'How do I get started?', a: 'Download docker-compose.yml and env.example from this site, set your secrets in .env, then run docker compose up -d. The admin answers on http://localhost/, the OpenAPI docs on /docs and the catalogue on /api/products. Everything deeper — your own PostgreSQL, modules, the storefront profile — is in the GoCommerce README.' },
@@ -168,10 +168,10 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 ---
 <Base
   title="KitCommerce — Open-Source Go & Svelte Enterprise Ecommerce"
-  description={`Open-source ecommerce: GoCommerce is one Go binary, Svelte Commerce renders on the server. Free to self-host under MIT, or hosted for ${hostedFee} of each sale.`}
+  description={`Open-source ecommerce: GoCommerce is one Go binary, Svelte Commerce renders on the server. Free to self-host under MIT, or hosted for ${hostedFeeShort}.`}
   path={path}
   ogTitle="Open source enterprise ecommerce platform"
-  ogDescription={`GoCommerce for backend and admin. Svelte Commerce for the storefront. MIT and free to self-host, or hosted for ${hostedFee} of each sale.`}
+  ogDescription={`GoCommerce for backend and admin. Svelte Commerce for the storefront. MIT and free to self-host, or hosted for ${hostedFeeShort}.`}
   graph={graph}
   faq={faq}
 >
@@ -186,7 +186,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
   <section class="hero-center wrap">
     <a class="pill" href="/pricing/">Open source · MIT licensed · Free to self-host <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
     <h1>Open-source ecommerce platform</h1>
-    <p class="lede">Free to run yourself, or hosted on kitcommerce.store for {hostedFee} of each successful sale.</p>
+    <p class="lede">Download it and use it free under the MIT licence, or have it hosted on kitcommerce.store for {hostedFeeText}.</p>
     {/* Enterprise-grade, fast, scalable, tested, working, white-label — each
         word carried by the fact under it rather than asserted on its own.
         "Error free" is said the only way software can honestly say it: as
@@ -641,7 +641,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
           <p class="kicker">Ownership</p>
           <h2 id="own-title">Keep the freedom of self-hosting</h2>
         </div>
-        <p class="section-lede">Running it yourself is free: the software costs nothing, and hosting and third-party services still cost what they cost. A store hosted on kitcommerce.store pays {hostedFee} of each successful sale instead.</p>
+        <p class="section-lede">Running it yourself is free: the software costs nothing, and hosting and third-party services still cost what they cost. A store hosted on kitcommerce.store pays {hostedFeeText} instead.</p>
       </div>
       <ul class="ownwall">
         <li><svg aria-hidden="true"><use href="#i-source"/></svg>MIT licensed</li>
