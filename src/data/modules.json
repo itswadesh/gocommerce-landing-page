@@ -176,6 +176,10 @@
     "doc": "takes card payments through Stripe."
   },
   {
+    "dir": "photo-products",
+    "doc": "creates draft products from a shop's own photographs."
+  },
+  {
     "dir": "reviews",
     "doc": "is what shoppers say about a product: a rating out of five and some words, moderated before it shows."
   },

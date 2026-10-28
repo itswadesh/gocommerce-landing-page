@@ -7,8 +7,8 @@ decision needs the owner.
 ## 28 October 2026: every count is read from GoCommerce, not typed
 
 An outside audit said the homepage claimed 51 modules and /pricing/ 49. The
-build said 51 in both places by then, but GoCommerce main had 52 modules,
-and other figures had drifted further: 1,036 tests (now 1,965), 342 API
+build said 51 in both places by then, but GoCommerce main had 52 modules (53 by evening),
+and other figures had drifted further: 1,036 tests (now over 1,900), 342 API
 operations (532), 61 admin screens (92), "10 gateway modules" on the
 checkout features page (11), and AGENTS.md described as 14 rules on one
 page and 18 on another (16).
@@ -27,8 +27,9 @@ page and 18 on another (16).
   directories less the `alltest` harness; admin screens are pages of the
   operator panel (`admin/src/routes/dash`), not sign-in pages or the trade
   portal; tests are Go `Test` and `Example` functions less `TestMain`;
-  operations are path and method pairs in every `openapi.json`. Prose that
-  says "over N tests" uses the count rounded down to the hundred.
+  operations are path and method pairs in every `openapi.json`. The site
+  states tests as "over N", the count rounded down to the hundred, so a new
+  test is not drift; the verify check compares tests by the hundred too.
 - Each module page's test and operation counts come from facts.json too,
   instead of numbers typed into its JSON, ten of which were behind.
 - llms.txt is now built (`src/pages/llms.txt.ts`) from `src/data/llms.txt`,

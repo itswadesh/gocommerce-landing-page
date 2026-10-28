@@ -2,17 +2,17 @@
   "_comment": "GoCommerce figures the site states, read by scripts/read-facts.mjs from the commit named here. Pages read them through src/lib/facts.ts, data files write {token}s that fill() replaces, and scripts/verify.js fails on a page that states another figure. \"how\" says what each one counts.",
   "repository": "itswadesh/gocommerce",
   "ref": "origin/main",
-  "commit": "0b6c0aa2",
+  "commit": "622f8cdc",
   "committed": "2026-10-28",
-  "modules": 52,
+  "modules": 53,
   "paymentModules": 11,
   "fulfilmentModules": 11,
-  "binaryModules": 49,
-  "apiOperations": 532,
+  "binaryModules": 50,
+  "apiOperations": 540,
   "coreOperations": 286,
-  "moduleOperations": 246,
-  "adminScreens": 92,
-  "tests": 1965,
+  "moduleOperations": 254,
+  "adminScreens": 93,
+  "tests": 1972,
   "mcpTools": 19,
   "mcpWriteTools": 10,
   "coreRights": 50,
@@ -197,6 +197,10 @@
     "payments-stripe": {
       "tests": 13,
       "operations": 0
+    },
+    "photo-products": {
+      "tests": 7,
+      "operations": 8
     },
     "reviews": {
       "tests": 6,

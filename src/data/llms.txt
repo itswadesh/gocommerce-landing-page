@@ -19,7 +19,7 @@
 - The Svelte admin is compiled into the Go binary with `//go:embed`; one process serves the API and the admin.
 - Documented GoCommerce API operations: {apiOperations}, {coreOperations} in the core and {moduleOperations} across modules, all in OpenAPI.
 - Of those, 142 are admin endpoints. They are privileged, not private: the admin uses the same published contract an integration reads.
-- GoCommerce: {tests} tests, {adminScreens} admin screens, {modules} modules, {migrations} migrations, {events} commerce events (read from GoCommerce main, commit {factsCommit} of {factsDate}).
+- GoCommerce: over {testsFloor} tests, {adminScreens} admin screens, {modules} modules, {migrations} migrations, {events} commerce events (read from GoCommerce main, commit {factsCommit} of {factsDate}).
 - Money is stored and returned as integer minor units plus a currency code, never a float and never a formatted string.
 - Go module path: `github.com/itswadesh/gocommerce`, the same as the repository. Install with `go get github.com/itswadesh/gocommerce@latest`; tagged releases start at v1.0.0.
 - Svelte Commerce reaches a backend through a connector package implementing a shared 43-service surface.
@@ -28,7 +28,7 @@
 - Cart is wired on 23 of {backends} connectors, checkout on 25, auth on 20.
 - No connector has been exercised against a live production instance of its platform.
 
-- Positioning: speed and open source. Highlights the site makes, each linked to its evidence: open source (MIT), open API (OpenAPI, {apiOperations} operations), free to self-host with no platform fees (stores hosted on kitcommerce.store pay 1% of every successful order), enterprise-grade operations, scalable, robust ({tests} tests), fast (compiled Go, server-rendered Svelte), portable (one binary + PostgreSQL), 1-command deploy (Docker Compose), detachable (either project alone), headless, Discord community.
+- Positioning: speed and open source. Highlights the site makes, each linked to its evidence: open source (MIT), open API (OpenAPI, {apiOperations} operations), free to self-host with no platform fees (stores hosted on kitcommerce.store pay 1% of every successful order), enterprise-grade operations, scalable, robust (over {testsFloor} tests), fast (compiled Go, server-rendered Svelte), portable (one binary + PostgreSQL), 1-command deploy (Docker Compose), detachable (either project alone), headless, Discord community.
 - Solutions covered on the home page: headless ecommerce, multi-vendor marketplace, B2B pricing, direct-to-consumer, several storefronts on one catalogue.
 - Analytics: Google Analytics 4 loads only after the visitor clicks "Accept analytics"; "Essential only" loads nothing. The GA4 property is shared with litekart.in. The site sets no cookie of its own.
 
