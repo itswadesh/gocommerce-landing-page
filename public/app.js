@@ -422,11 +422,17 @@
 
   // The events worth knowing: which project a visitor chose, whether they
   // copied the compose command, whether they went to GitHub, which question
-  // they opened. Named once, in the markup, as data-ev.
+  // they opened. Named once, in the markup, as data-ev; each data-ev-<name>
+  // beside it becomes a property (data-ev-track="backend" sends track). Only
+  // the markup's own words are sent, never anything a visitor typed.
   document.addEventListener('click', function (e) {
     var el = e.target && e.target.closest ? e.target.closest('[data-ev]') : null
     if (!el) return
-    track(el.dataset.ev, { text: (el.textContent || '').trim().slice(0, 40) })
+    var detail = { text: (el.textContent || '').trim().slice(0, 40) }
+    for (var k in el.dataset) {
+      if (k.length > 2 && k.indexOf('ev') === 0) detail[k.charAt(2).toLowerCase() + k.slice(3)] = el.dataset[k]
+    }
+    track(el.dataset.ev, detail)
   })
 
   $$('.faq details').forEach(function (d) {

@@ -36,10 +36,10 @@ const product = [
 ]
 const developers = [
   { href: '/#one-command', label: 'Backend + admin quick start', note: 'Docker: Postgres, GoCommerce with admin, Caddy; no storefront' },
-  { href: '/gocommerce/#quickstart', label: 'GoCommerce quick start', note: 'Go 1.27 and a PostgreSQL' },
-  { href: '/svelte-commerce/#quickstart', label: 'Svelte Commerce quick start', note: 'Node and a backend to point at' },
-  { href: 'https://github.com/itswadesh/gocommerce#readme', label: 'Docs', note: 'The GoCommerce README and OpenAPI', external: true },
-  { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status', note: `Early (${counts.connectorVersion}): what works, what does not` },
+  { href: '/gocommerce/#quickstart', label: 'GoCommerce quick start', note: 'Go 1.27 and a PostgreSQL', ev: 'docs_quickstart_opened' },
+  { href: '/svelte-commerce/#quickstart', label: 'Svelte Commerce quick start', note: 'Node and a backend to point at', ev: 'docs_quickstart_opened' },
+  { href: 'https://github.com/itswadesh/gocommerce#readme', label: 'Docs', note: 'The GoCommerce README and OpenAPI', external: true, ev: 'docs_quickstart_opened' },
+  { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status', note: `Early (${counts.connectorVersion}): what works, what does not`, ev: 'connector_limitations_opened' },
   { href: '/integrations/', label: `${counts.modules} modules`, note: 'Payments, shipping, messaging, migration' },
   { href: '/svelte-commerce/backends/', label: `${counts.backends} backend integrations`, note: 'Measured coverage, per connector' },
   { href: '/gocommerce/mcp/', label: 'MCP server', note: `${counts.mcpTools} tools that let an AI agent run the store` },

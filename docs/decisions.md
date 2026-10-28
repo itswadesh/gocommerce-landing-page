@@ -4,6 +4,32 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 28 October 2026: the audit's funnel events, on the links that exist
+
+The site already names its events in the markup (`data-ev`) and sends
+them only after a visitor accepts analytics (GA4 with Consent Mode, the
+IDs in the build environment). The audit's events were added where their
+element exists, with no new script:
+
+- `hero_start_clicked` with `track` (backend, storefront, full_stack) on
+  the hero's button and the three starting points. The audit listed
+  backend, full_stack and other; the storefront path has its own value
+  because it is its own path.
+- `demo_admin_opened` on every live-admin link (was `live_admin_click`).
+- `docs_quickstart_opened` on the header's Docs and quick-start links.
+- `compose_downloaded` on the docker-compose.yml and env.example links.
+- `github_repository_opened` with `repo` (backend, storefront) on links to
+  the two repositories (was `github_gocommerce_click`,
+  `github_sveltecommerce_click` and `github_click`).
+- `connector_limitations_opened` on the hero's and the header's links to
+  the connector status.
+- Not added: `demo_storefront_opened` and `contact_custom_build_clicked`.
+  There is no storefront demo, and the custom-build link already sends
+  `whatsapp_click` when WhatsApp is configured.
+- Any `data-ev-<name>` attribute is sent as a property. Events carry the
+  link's own words and those properties, never anything a visitor typed.
+  The privacy page says so.
+
 ## 28 October 2026: five items in the header, and "Start building"
 
 The audit asked for a simpler first level. The header now has Product,

@@ -112,8 +112,8 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <h1>The open-source commerce engine for builders</h1>
     <p class="lede">GoCommerce is the engine: catalogue, carts, checkout, orders and inventory in one Go binary, with its admin compiled in. Svelte Commerce is the storefront, in SvelteKit. Both are MIT licensed and developed on GitHub, and there is nothing to sign up for — you clone them, run them and change them.</p>
     <div class="actions">
-      <a class="button" href={repo.go} {...ext} data-ev="github_gocommerce_click">GoCommerce on GitHub</a>
-      <a class="button secondary" href={repo.sv} {...ext} data-ev="github_sveltecommerce_click">Svelte Commerce on GitHub</a>
+      <a class="button" href={repo.go} {...ext} data-ev="github_repository_opened" data-ev-repo="backend">GoCommerce on GitHub</a>
+      <a class="button secondary" href={repo.sv} {...ext} data-ev="github_repository_opened" data-ev-repo="storefront">Svelte Commerce on GitHub</a>
       <a class="button secondary" href={discord} {...ext} data-ev="discord_click">Join the Discord</a>
     </div>
     {/* Each count sits with the project it belongs to; app.js refreshes both. */}
@@ -149,7 +149,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <button class="copy" data-copy="code-first-steps" data-ev="docker_compose_copy">Copy commands</button>
       </div>
       <pre id="code-first-steps"><code set:html={stepsCode} /></pre>
-      <p class="code-note"><a href="/docker-compose.yml">docker-compose.yml</a> · <a href="/env.example">env.example</a> — both plain text, commented line by line, readable before you run them.</p>
+      <p class="code-note"><a href="/docker-compose.yml" data-ev="compose_downloaded">docker-compose.yml</a> · <a href="/env.example" data-ev="compose_downloaded">env.example</a> — both plain text, commented line by line, readable before you run them.</p>
     </div>
 
     <div class="urls">
@@ -215,7 +215,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         </ul>
         <div class="part-cta actions">
           <a class="button" href="/gocommerce/" data-ev="gocommerce_explore">Explore GoCommerce</a>
-          <a class="button secondary" href={repo.go} {...ext} data-ev="github_gocommerce_click">GitHub</a>
+          <a class="button secondary" href={repo.go} {...ext} data-ev="github_repository_opened" data-ev-repo="backend">GitHub</a>
         </div>
       </div>
       <div class="part part-store">
@@ -231,7 +231,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <div class="part-cta actions">
           <a class="button" href="/svelte-commerce/" data-ev="sveltecommerce_explore">Explore Svelte Commerce</a>
           <a class="button secondary" href="/svelte-commerce/themes/">79 themes</a>
-          <a class="button secondary" href={repo.sv} {...ext} data-ev="github_sveltecommerce_click">GitHub</a>
+          <a class="button secondary" href={repo.sv} {...ext} data-ev="github_repository_opened" data-ev-repo="storefront">GitHub</a>
         </div>
       </div>
     </div>
@@ -348,8 +348,8 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <p>Two MIT repositories, five steps to a running store, and a Discord if you get stuck.</p>
     <div class="actions">
       <a class="button" href="#first-steps" data-ev="quickstart_click">Start in five steps</a>
-      <a class="button secondary" href={repo.go} {...ext} data-ev="github_gocommerce_click">GoCommerce on GitHub</a>
-      <a class="button secondary" href={repo.sv} {...ext} data-ev="github_sveltecommerce_click">Svelte Commerce on GitHub</a>
+      <a class="button secondary" href={repo.go} {...ext} data-ev="github_repository_opened" data-ev-repo="backend">GoCommerce on GitHub</a>
+      <a class="button secondary" href={repo.sv} {...ext} data-ev="github_repository_opened" data-ev-repo="storefront">Svelte Commerce on GitHub</a>
       <a class="button secondary" href={discord} {...ext} data-ev="discord_click">Join the Discord</a>
     </div>
   </section>

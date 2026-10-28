@@ -192,10 +192,10 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <h1>Build commerce on your own terms.</h1>
     <p class="lede">KitCommerce brings together a Go commerce backend and a SvelteKit storefront. Run either project on its own, or connect them to build a store you control. Free under the MIT licence, or hosted on kitcommerce.store for {hostedFeeText}.</p>
     <div class="actions hero-actions">
-      <a class="button" href="#one-command" data-ev="quickstart_click">Get started with GoCommerce</a>
-      <a class="button secondary" href={adminHref} {...ext} data-ev="live_admin_click">Explore the live admin</a>
+      <a class="button" href="#one-command" data-ev="hero_start_clicked" data-ev-track="backend">Get started with GoCommerce</a>
+      <a class="button secondary" href={adminHref} {...ext} data-ev="demo_admin_opened">Explore the live admin</a>
     </div>
-    <p class="fineprint hero-early"><a href="/go-svelte-ecommerce/">See how GoCommerce and Svelte Commerce work together</a>. Together they are early: the connector between them is at {counts.connectorVersion}. <a href="/gocommerce-svelte-commerce-connector/">See what works and what does not</a>.</p>
+    <p class="fineprint hero-early"><a href="/go-svelte-ecommerce/">See how GoCommerce and Svelte Commerce work together</a>. Together they are early: the connector between them is at {counts.connectorVersion}. <a href="/gocommerce-svelte-commerce-connector/" data-ev="connector_limitations_opened">See what works and what does not</a>.</p>
     {/* The numbers, each attributed. Stars belong to Svelte Commerce and say
         so; GitHub publishes no download count for a repository without
         releases, so the second figure is forks, which it does. */}
@@ -232,17 +232,17 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <div class="tri-item tri-engine">
         <h3>GoCommerce backend</h3>
         <p>A Go commerce API with its admin compiled in, on PostgreSQL. Use it behind any storefront or app.</p>
-        <a class="button" href="#one-command" data-ev="quickstart_click">Backend + admin quick start</a>
+        <a class="button" href="#one-command" data-ev="hero_start_clicked" data-ev-track="backend">Backend + admin quick start</a>
       </div>
       <div class="tri-item tri-store">
         <h3>Svelte Commerce storefront</h3>
         <p>A server-rendered SvelteKit storefront that runs against {counts.backends} commerce backends.</p>
-        <a class="button secondary" href="/svelte-commerce/#quickstart">Svelte Commerce quick start</a>
+        <a class="button secondary" href="/svelte-commerce/#quickstart" data-ev="hero_start_clicked" data-ev-track="storefront">Svelte Commerce quick start</a>
       </div>
       <div class="tri-item">
         <h3>Both together <span class="badge">Early</span></h3>
         <p>Svelte Commerce on GoCommerce through connector {counts.connectorVersion}: {counts.connectorTested} worked end to end in a test. Sign-in, the address book and order history need GoCommerce’s identity module.</p>
-        <a class="button secondary" href="/gocommerce-svelte-commerce-connector/">Connector status</a>
+        <a class="button secondary" href="/gocommerce-svelte-commerce-connector/" data-ev="hero_start_clicked" data-ev-track="full_stack">Connector status</a>
       </div>
     </div>
   </section>
@@ -285,7 +285,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       ))}
 
       <div class="actions">
-        <a class="button" href={adminHref} {...ext} data-ev="live_admin_click">{demo ? 'Open live demo' : 'Open admin sign-in'}</a>
+        <a class="button" href={adminHref} {...ext} data-ev="demo_admin_opened">{demo ? 'Open live demo' : 'Open admin sign-in'}</a>
         <a class="button secondary" href="/gocommerce/admin/" data-ev="gocommerce_explore">Every screen, captured</a>
       </div>
       <p class="fineprint">Where these come from: the live demo signs in to the GoCommerce admin at admin.kitcommerce.store with a public demo account. The screenshots are from a separate seeded instance: 64 products, 260 orders across 150 days. Every screen is one of the {counts.adminScreens} in the admin.</p>
@@ -443,8 +443,8 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         </ul>
         <div class="part-cta actions">
           <a class="button" href="/gocommerce/" data-ev="gocommerce_explore">Explore GoCommerce</a>
-          <a class="button secondary" href={adminHref} {...ext} data-ev="live_admin_click">{adminLabel}</a>
-          <a class="button secondary" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_gocommerce_click">GitHub</a>
+          <a class="button secondary" href={adminHref} {...ext} data-ev="demo_admin_opened">{adminLabel}</a>
+          <a class="button secondary" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_repository_opened" data-ev-repo="backend">GitHub</a>
         </div>
       </div>
       <div class="part part-store">
@@ -459,7 +459,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         </ul>
         <div class="part-cta actions">
           <a class="button" href="/svelte-commerce/" data-ev="sveltecommerce_explore">Explore Svelte Commerce</a>
-          <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_sveltecommerce_click">GitHub</a>
+          <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_repository_opened" data-ev-repo="storefront">GitHub</a>
         </div>
       </div>
     </div>
@@ -555,7 +555,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
             <button class="copy" data-copy="code-compose-run" data-ev="docker_compose_copy">Copy commands</button>
           </div>
           <pre id="code-compose-run"><code set:html={composeCmd} /></pre>
-          <p class="code-note"><a href="/docker-compose.yml">docker-compose.yml</a> · <a href="/env.example">env.example</a></p>
+          <p class="code-note"><a href="/docker-compose.yml" data-ev="compose_downloaded">docker-compose.yml</a> · <a href="/env.example" data-ev="compose_downloaded">env.example</a></p>
         </div>
 
         <div class="terminal" role="img" aria-label="Terminal output: postgres, gocommerce and web containers started, then a 200 from localhost.">
@@ -712,7 +712,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <div class="tri-item tri-engine">
         <h3>Download and build</h3>
         <p>Both repositories are public and MIT. Clone them, run them, change anything.</p>
-        <a class="button" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_gocommerce_click">Get the source</a>
+        <a class="button" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_repository_opened" data-ev-repo="backend">Get the source</a>
       </div>
       <div class="tri-item tri-store">
         <h3>Ask the community</h3>
@@ -737,8 +737,8 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <p>The backend + admin quick start: PostgreSQL, the API with its admin, and a proxy on port 80. No storefront.</p>
     <div class="actions">
       <a class="button" href="#one-command" data-ev="quickstart_click">Backend + admin quick start</a>
-      <a class="button secondary" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_gocommerce_click">GoCommerce on GitHub</a>
-      <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_sveltecommerce_click">Svelte Commerce on GitHub</a>
+      <a class="button secondary" href="https://github.com/itswadesh/gocommerce" {...ext} data-ev="github_repository_opened" data-ev-repo="backend">GoCommerce on GitHub</a>
+      <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_repository_opened" data-ev-repo="storefront">Svelte Commerce on GitHub</a>
     </div>
   </section>
 </Base>
