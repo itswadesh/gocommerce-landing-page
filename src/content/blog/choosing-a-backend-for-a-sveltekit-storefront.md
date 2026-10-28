@@ -105,7 +105,7 @@ One qualification from this site’s own evidence: the stores on the [live proje
 
 ## Where GoCommerce’s connector sits
 
-GoCommerce is not one of the 26. Its connector, `@misiki/gocommerce-connector`, is early — 0.1.0 on npm — and the coverage script has not measured it, so there is no number to rank.
+GoCommerce is not one of the 26. Its connector, `@misiki/gocommerce-connector`, is early ([status](/gocommerce-svelte-commerce-connector/)), and the coverage script has not measured it, so there is no number to rank.
 
 What it covers is the path from shelf to placed order: catalogue, cart, checkout and order lookup. It does not cover customer accounts, because GoCommerce checkout is guest checkout, and it has no search index. A service it does not map throws `UnsupportedByGoCommerce`, naming the service, rather than returning empty. No store we know of runs the pair in production.
 

@@ -68,7 +68,7 @@ Agents are not the first machines to read a catalogue. Google Merchant Center an
 
 On the storefront side, Svelte Commerce renders finished HTML on the server. A crawler, or an AI reader fetching a product page, gets the product, its price and its description in the response, not an empty shell waiting for JavaScript.
 
-A caveat: the Svelte Commerce connector for GoCommerce is early — 0.1.0 on npm, covering catalogue, cart, checkout and order lookup. Customer accounts and search are not covered yet, and no store we know of runs the pair in production. Svelte Commerce also runs against 26 other commerce backends, and a GoCommerce store’s storefront can instead be one you write against the API.
+A caveat: the Svelte Commerce connector for GoCommerce is early ([its status page](/gocommerce-svelte-commerce-connector/) gives the current version and what has been tested end to end). Shopper sign-in needs GoCommerce’s identity module, and no store we know of runs the pair in production. Svelte Commerce also runs against 26 other commerce backends, and a GoCommerce store’s storefront can instead be one you write against the API.
 
 ## What is not built: ACP, UCP and AP2
 

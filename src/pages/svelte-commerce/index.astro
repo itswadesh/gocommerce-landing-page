@@ -14,7 +14,7 @@ const graph = [
 
 const faq = [
   { q: 'Which commerce backends does Svelte Commerce support?', a: `${counts.backends} connectors exist today. Litekart and Vendure are the most complete at 39 of 43 services; Medusa is at 31, Broadleaf, Saleor, Shopware and Virto Commerce at 28, WooCommerce at 27, and the rest range down to OpenCart at 9. Coverage is measured by a script rather than asserted.` },
-  { q: 'Can I use Svelte Commerce with GoCommerce today?', a: 'Yes, through an early connector. @misiki/gocommerce-connector 0.1.0, on npm, lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Customer accounts and a search index are not covered, and no store is known to run the pair in production. Install it in place of the connectors Svelte Commerce ships with and set PUBLIC_GOCOMMERCE_API_URL.' },
+  { q: 'Can I use Svelte Commerce with GoCommerce today?', a: `Yes, through an early connector. @misiki/gocommerce-connector ${counts.connectorVersion}, on npm, lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Sign-in, the address book and order history need GoCommerce’s identity module, and no store is known to run the pair in production. Install it in place of the connectors Svelte Commerce ships with and set PUBLIC_GOCOMMERCE_API_URL.` },
   { q: 'Does Svelte Commerce need GoCommerce?', a: `No. Svelte Commerce is a standalone storefront and predates GoCommerce by years. It runs against any of the ${counts.backends} backends it supports today; GoCommerce is not one of those, and is reached through a separate, early connector.` },
   { q: 'Is it production-ready?', a: 'It has been public for years and runs production stores — arialshop.com is one of them, and it is linked on this page so you can judge it yourself rather than take our word for it. The connectors are a separate question: none of the 26 has been exercised against a live production instance of its platform.' },
   { q: 'How do I switch backends?', a: 'Remove one connector package and add another. Nothing in the storefront imports a connector by name — the active one resolves from package.json, with PUBLIC_CONNECTOR to override — so switching is a dependency change rather than a rewrite.' },
@@ -125,9 +125,9 @@ const top6 = [['Litekart', '39/43'], ['Vendure', '39/43'], ['Medusa', '31/43'], 
   <section id="connector" class="section wrap" aria-labelledby="connector-title">
     <h2 id="connector-title">Using it with GoCommerce</h2>
     <div class="connector">
-      <div class="connector-head"><h3>GoCommerce ↔ Svelte Commerce</h3><p class="badge">Connector: early (0.1.0)</p></div>
-      <p>GoCommerce is not one of the {counts.backends} measured backends. Its connector, <code>@misiki/gocommerce-connector</code>, lives in the GoCommerce repository and has been on npm at 0.1.0 since 2 September 2026.</p>
-      <p>It covers the path from a shelf to a placed order: catalogue, cart, checkout and order lookup. Customer accounts and a search index are not covered, a service it does not map throws an error naming that service rather than rendering empty, and no store is known to run the pair in production.</p>
+      <div class="connector-head"><h3>GoCommerce ↔ Svelte Commerce</h3><p class="badge">Connector: early ({counts.connectorVersion})</p></div>
+      <p>GoCommerce is not one of the {counts.backends} measured backends. Its connector, <code>@misiki/gocommerce-connector</code>, lives in its own repository, misiki-in/gocommerce-connector, and is on npm at {counts.connectorVersion}.</p>
+      <p>It covers the path from a shelf to a placed order: catalogue, cart, checkout and order lookup. Sign-in, the address book and order history need GoCommerce’s identity module, a service it does not map throws an error naming that service rather than rendering empty, and no store is known to run the pair in production.</p>
       <div class="actions">
         <a class="button secondary" href="/gocommerce-svelte-commerce-connector/">Connector status</a>
         <a class="button secondary" href="/gocommerce/">Read about GoCommerce</a>

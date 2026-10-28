@@ -50,6 +50,6 @@
     { "q": "How is a signed-in shopper’s order added to their history?", "a": "By claim. Checkout returns an access token for the order, and the storefront posts the order number and that token to /x/identity/me/orders. Only whoever placed the order holds the token, so nobody can claim someone else’s purchases by registering their email." },
     { "q": "Where does the password-reset email come from?", "a": "From the store’s own email notifier — the Resend or SendGrid module — using a template an operator can reword in the admin. It links to Config.ResetURL with the token filled in, or carries the token as a code when no URL is set." },
     { "q": "Can an operator see or delete accounts?", "a": "Yes. The admin’s Accounts screen lists them for anyone with accounts.read. Deleting one — with its sessions, address book and order links, but not the orders themselves — needs accounts.erase, which no role but the owner holds until it is granted." },
-    { "q": "Does Svelte Commerce use these accounts?", "a": "Not yet. Svelte Commerce’s GoCommerce connector, version 0.1.0, covers catalogue, cart, checkout and order lookup, not customer accounts. A storefront you write can call these routes directly." }
+    { "q": "Does Svelte Commerce use these accounts?", "a": "Yes. Svelte Commerce’s GoCommerce connector, version {connectorVersion}, signs shoppers in and keeps their addresses and order history through this module’s routes. Without the module installed, the storefront has guest checkout only. A storefront you write can call the same routes." }
   ]
 }

@@ -74,7 +74,7 @@ const takeOn = [
   `Run it yourself and you host it: a server, a PostgreSQL database, backups and upgrades are yours, or a developer’s you pay. A store hosted on kitcommerce.store pays ${hostedFeeText}${india ? `, ${plusGst},` : ''} instead.`,
   'No app store. What a module does not cover, somebody writes.',
   `GoCommerce has over ${counts.testsFloor} tests, but no store we know of runs it in production yet.`,
-  'Svelte Commerce reaches GoCommerce through an early connector, version 0.1.0: catalogue, cart, checkout and order lookup work; customer accounts and a search index do not.',
+  `Svelte Commerce reaches GoCommerce through an early connector, version ${counts.connectorVersion}: ${counts.connectorTested} work; ${counts.connectorNeedsIdentity} need GoCommerce’s identity module.`,
   ...(c.takeOnExtra ?? []),
 ]
 ---

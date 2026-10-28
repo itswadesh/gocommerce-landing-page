@@ -275,7 +275,7 @@ const modules = [
         <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Klaviyo, newsletter, reviews, wishlists</b> — installable modules.</p></li>
         <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Product feeds, sitemaps, IndexNow</b> — discovery for Google and Meta.</p></li>
         <li><span class="dot dot-ship" aria-hidden="true"></span><p><b>Webhooks</b> — so anything not on this list can be built outside the engine today.</p></li>
-        <li><span class="dot dot-dev" aria-hidden="true"></span><p><b>Svelte Commerce connector</b> — early (0.1.0). <code>@misiki/gocommerce-connector</code> maps this API onto the storefront’s data layer, from a shelf to a placed order; customer accounts and a search index are not covered. <a href="/gocommerce-svelte-commerce-connector/">Connector status</a>.</p></li>
+        <li><span class="dot dot-dev" aria-hidden="true"></span><p><b>Svelte Commerce connector</b> — early ({counts.connectorVersion}). <code>@misiki/gocommerce-connector</code> maps this API onto the storefront’s data layer, from a shelf to a placed order; {counts.connectorNeedsIdentity} need GoCommerce’s identity module. <a href="/gocommerce-svelte-commerce-connector/">Connector status</a>.</p></li>
         <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>One engine for every store</b> — every install serves many stores from one set of tables, each row kept to its store by PostgreSQL row security, with one sign-in and a store switcher that keeps your place. Replaces platform mode. <a href="/blog/one-engine-for-every-store/">The plan</a>.</p></li>
         <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Behavioural events</b> — product viewed, search performed, checkout started, payment failed. The engine emits order and catalog events only, so the intent half of a customer profile has no source yet.</p></li>
         <li><span class="dot dot-plan" aria-hidden="true"></span><p><b>Unified customer profile</b> — visits, searches, carts, orders and messages on one timeline.</p></li>
@@ -290,7 +290,7 @@ const modules = [
     <p class="fineprint">Consent, frequency caps and quiet hours are part of that design rather than an afterthought: a messaging feature that cannot be told to stop is a liability, not a feature.</p>
     <div class="contrib">
       <ul class="contrib-list">
-        <li><b>The Svelte Commerce connector</b> — 0.1.0 is published; running it against a real store is the highest-value work on this project.</li>
+        <li><b>The Svelte Commerce connector</b> — {counts.connectorVersion} is published; running it against a real store is the highest-value work on this project.</li>
         <li><b>Behavioural events</b> — the piece most of the planned list waits on.</li>
         <li><b>Payment providers</b> for regions the eleven current modules do not reach.</li>
         <li><b>Shipping carriers</b>, on the same pattern as the eleven that exist.</li>

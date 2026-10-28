@@ -75,7 +75,7 @@ const faq = [
   { q: 'Can I self-host them?', a: 'Yes. Both packages are MIT licensed and designed to run on your own infrastructure: GoCommerce is one binary and one PostgreSQL, Svelte Commerce is a Node server. The compose file on this site runs the backend, its admin and a proxy on port 80 in one command.' },
   { q: 'Is there a platform fee or a paid plan?', a: `Only when it is hosted. Under the MIT licence you download it and use it free, with no fee on your orders; your own servers, domains and third-party services still cost what they cost. A store hosted on kitcommerce.store (SaaS) pays ${hostedFeeText}.` },
   { q: 'Can I white-label it?', a: 'Yes. Both packages are MIT, so you can rename them, restyle the storefront and the admin, and ship them under your own brand for yourself or for clients. Keeping the copyright notice in the source is the only condition.' },
-  { q: 'Can GoCommerce and Svelte Commerce work together?', a: `Through an early connector: @misiki/gocommerce-connector 0.1.0 lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Customer accounts and a search index are not covered yet. Either package also works alone: GoCommerce with any HTTP client, Svelte Commerce with ${counts.backends} other backends.` },
+  { q: 'Can GoCommerce and Svelte Commerce work together?', a: `Through an early connector: @misiki/gocommerce-connector ${counts.connectorVersion} lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Sign-in, the address book and order history need GoCommerce’s identity module. Either package also works alone: GoCommerce with any HTTP client, Svelte Commerce with ${counts.backends} other backends.` },
   { q: 'How do I get started?', a: 'Download docker-compose.yml and env.example from this site, set your secrets in .env, then run docker compose up -d. The admin answers on http://localhost/, the OpenAPI docs on /docs and the catalogue on /api/products. Everything deeper — your own PostgreSQL, modules, the storefront profile — is in the GoCommerce README.' },
 ]
 
@@ -195,7 +195,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <a class="button" href="#one-command" data-ev="quickstart_click">Get started with GoCommerce</a>
       <a class="button secondary" href={adminHref} {...ext} data-ev="live_admin_click">Explore the live admin</a>
     </div>
-    <p class="fineprint hero-early"><a href="/go-svelte-ecommerce/">See how GoCommerce and Svelte Commerce work together</a>. Together they are early: the connector between them is at 0.1.0. <a href="/gocommerce-svelte-commerce-connector/">See what works and what does not</a>.</p>
+    <p class="fineprint hero-early"><a href="/go-svelte-ecommerce/">See how GoCommerce and Svelte Commerce work together</a>. Together they are early: the connector between them is at {counts.connectorVersion}. <a href="/gocommerce-svelte-commerce-connector/">See what works and what does not</a>.</p>
     {/* The numbers, each attributed. Stars belong to Svelte Commerce and say
         so; GitHub publishes no download count for a repository without
         releases, so the second figure is forks, which it does. */}
@@ -241,7 +241,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       </div>
       <div class="tri-item">
         <h3>Both together <span class="badge">Early</span></h3>
-        <p>Svelte Commerce on GoCommerce through a 0.1.0 connector: catalogue, cart, checkout and order lookup. No customer accounts or search yet.</p>
+        <p>Svelte Commerce on GoCommerce through connector {counts.connectorVersion}: {counts.connectorTested} worked end to end in a test. Sign-in, the address book and order history need GoCommerce’s identity module.</p>
         <a class="button secondary" href="/gocommerce-svelte-commerce-connector/">Connector status</a>
       </div>
     </div>
@@ -587,9 +587,9 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <p class="fineprint">
         <b>The storefront is separate:</b> this stack does not pair Svelte Commerce
         with GoCommerce. To do that, install the early GoCommerce connector
-        (<code>@misiki/gocommerce-connector</code>, 0.1.0) in a Svelte Commerce checkout
-        and point it at this stack — it covers catalogue, cart, checkout and order lookup,
-        not customer accounts or search. <a href="/gocommerce-svelte-commerce-connector/">See the connector status</a>.
+        (<code>@misiki/gocommerce-connector</code>, {counts.connectorVersion}) in a Svelte Commerce checkout
+        and point it at this stack. In a test, {counts.connectorTested} worked end to
+        end; sign-in, the address book and order history need GoCommerce’s identity module, which this stack does not install. <a href="/gocommerce-svelte-commerce-connector/">See the connector status</a>.
         GoCommerce builds from source on first run, because no image is published yet.
       </p>
     </div>

@@ -1,6 +1,6 @@
 {
   "/": {
-    "hash": "df03b2b47822d88a",
+    "hash": "b78a6a46e72650fa",
     "modified": "2026-10-28"
   },
   "/about/": {
@@ -12,8 +12,8 @@
     "modified": "2026-10-28"
   },
   "/blog/": {
-    "hash": "d6d9fa181e4cea42",
-    "modified": "2026-10-26"
+    "hash": "878dc146c0e9b2b1",
+    "modified": "2026-10-28"
   },
   "/blog/abandoned-checkout-recovery/": {
     "hash": "2390cc15349bf1e8",
@@ -24,12 +24,12 @@
     "modified": "2026-10-26"
   },
   "/blog/agentic-commerce-open-stack/": {
-    "hash": "2ca2eb4f1b47e202",
-    "modified": "2026-10-26"
+    "hash": "d8119e1bc171f064",
+    "modified": "2026-10-28"
   },
   "/blog/choosing-a-backend-for-a-sveltekit-storefront/": {
-    "hash": "80ce9ce9b274e165",
-    "modified": "2026-09-25"
+    "hash": "f24859f4b07fb84b",
+    "modified": "2026-10-28"
   },
   "/blog/commerce-platform-changes-12-18-october-2026/": {
     "hash": "02634329cef5cc3a",
@@ -92,83 +92,83 @@
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-bagisto/": {
-    "hash": "e45223cd96733810",
+    "hash": "5ab37be5e1cb3223",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-bigcommerce/": {
-    "hash": "5c15a760f5f3747f",
+    "hash": "fd4f393b1b173525",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-dukaan/": {
-    "hash": "1fa634b956596a5b",
+    "hash": "8d8e85698b11b1ac",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-instamojo/": {
-    "hash": "1446542d408c91fb",
+    "hash": "e66ae35a60be7e5b",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-magento/": {
-    "hash": "16442dd0503536cc",
+    "hash": "456fe7b3244b56f2",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-medusa/": {
-    "hash": "6dc2f1b52c3499dd",
+    "hash": "906dce52f63babfb",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-opencart/": {
-    "hash": "af4a73a3d70fb4a9",
+    "hash": "7e8f81ea182c98d7",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-prestashop/": {
-    "hash": "11757c984e2f8481",
+    "hash": "f1f8397d0b495fa0",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-saleor/": {
-    "hash": "2c45b50218cfdd27",
+    "hash": "bb013bca8a497f28",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-shopify/": {
-    "hash": "c6009c3e0ec50bcb",
+    "hash": "bf0124016919ee2a",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-squarespace/": {
-    "hash": "fc3dddbebd6d1f23",
+    "hash": "5873aac3a9ef4cb4",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-storehippo/": {
-    "hash": "c38c3fcb7e84696f",
+    "hash": "7ef92e67ae0aa41e",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-vendure/": {
-    "hash": "5aa129b8bbdd56fa",
+    "hash": "b2d871d3008f9b39",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-webnexs/": {
-    "hash": "f296d25a5d1474d3",
+    "hash": "8f88ef8d64a33eef",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-wix/": {
-    "hash": "e7f6f2672ebf87df",
+    "hash": "88f924c13d22e076",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-woocommerce/": {
-    "hash": "6b6083a34c887a4c",
+    "hash": "17b5191bdf186cca",
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-zoho-commerce/": {
-    "hash": "e36964970135c65c",
+    "hash": "a24390ef5e11d665",
     "modified": "2026-10-28"
   },
   "/compare/shopify-b2b-vs-kitcommerce/": {
-    "hash": "9caf1b95e7e0c143",
+    "hash": "b8a2459ca42362bb",
     "modified": "2026-10-28"
   },
   "/compare/shopify-india-vs-kitcommerce/": {
-    "hash": "0b370eb283fdc687",
+    "hash": "0395757470af7489",
     "modified": "2026-10-28"
   },
   "/compare/shopify-plus-vs-kitcommerce/": {
-    "hash": "9ada97c4eb8fb2a6",
+    "hash": "e14d9b1deb96e723",
     "modified": "2026-10-28"
   },
   "/contact/": {
@@ -184,7 +184,7 @@
     "modified": "2026-10-28"
   },
   "/features/checkout/": {
-    "hash": "704ff665afac5cf2",
+    "hash": "506de055eed72cb0",
     "modified": "2026-10-28"
   },
   "/features/development/": {
@@ -196,15 +196,15 @@
     "modified": "2026-10-28"
   },
   "/go-svelte-ecommerce/": {
-    "hash": "78c12f6a5ec90a0a",
+    "hash": "62269c56536f4ada",
     "modified": "2026-10-28"
   },
   "/gocommerce-svelte-commerce-connector/": {
-    "hash": "40c82c301551fd7e",
+    "hash": "5dd78ace0ae4f2c9",
     "modified": "2026-10-28"
   },
   "/gocommerce/": {
-    "hash": "38bb7b9057816df4",
+    "hash": "3c85503eaf1c12db",
     "modified": "2026-10-28"
   },
   "/gocommerce/admin/": {
@@ -292,7 +292,7 @@
     "modified": "2026-10-28"
   },
   "/integrations/identity/": {
-    "hash": "56d59311f8f5f8bd",
+    "hash": "31213a43a6394c0f",
     "modified": "2026-10-28"
   },
   "/integrations/import-shopify/": {
@@ -388,7 +388,7 @@
     "modified": "2026-10-28"
   },
   "/integrations/search-meilisearch/": {
-    "hash": "3b9eabde9abf255b",
+    "hash": "3959e1f90d8775f5",
     "modified": "2026-10-28"
   },
   "/integrations/showcases/": {
@@ -420,7 +420,7 @@
     "modified": "2026-10-28"
   },
   "/open-source/": {
-    "hash": "3172db179de5ec8e",
+    "hash": "3e6402661e49c583",
     "modified": "2026-10-28"
   },
   "/pricing/": {
@@ -440,7 +440,7 @@
     "modified": "2026-10-28"
   },
   "/solutions/": {
-    "hash": "e3b6e5bf572decdc",
+    "hash": "8c8e3fb8de74490c",
     "modified": "2026-10-28"
   },
   "/solutions/auto-parts/": {
@@ -460,7 +460,7 @@
     "modified": "2026-10-28"
   },
   "/solutions/d2c/": {
-    "hash": "94b1dccc908b1534",
+    "hash": "17ecfb1bff116293",
     "modified": "2026-10-28"
   },
   "/solutions/dealer-portal/": {
@@ -476,16 +476,16 @@
     "modified": "2026-10-28"
   },
   "/solutions/multi-store/": {
-    "hash": "7dee6c132ec0b66a",
+    "hash": "96f970462f33ae07",
     "modified": "2026-10-28"
   },
   "/svelte-commerce/": {
-    "hash": "1153ef3a9e8eb128",
+    "hash": "b4face2568585498",
     "modified": "2026-10-28"
   },
   "/svelte-commerce/backends/": {
-    "hash": "bee4aa5599a59f50",
-    "modified": "2026-10-26"
+    "hash": "2ffd42317e6ef20c",
+    "modified": "2026-10-28"
   },
   "/svelte-commerce/backends/bagisto/": {
     "hash": "117c5bbdfb0ad83c",
@@ -592,8 +592,8 @@
     "modified": "2026-10-26"
   },
   "/svelte-commerce/themes/": {
-    "hash": "ff691c3e81a2b429",
-    "modified": "2026-10-26"
+    "hash": "ba83888123b70cf3",
+    "modified": "2026-10-28"
   },
   "/updates/": {
     "hash": "970b46e9d64eac84",
@@ -604,7 +604,7 @@
     "modified": "2026-10-26"
   },
   "/vibe-coding-commerce/": {
-    "hash": "ec70165800a152f9",
+    "hash": "9ccb9f76517e1370",
     "modified": "2026-10-28"
   }
 }

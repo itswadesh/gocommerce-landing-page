@@ -11,7 +11,7 @@ import { counts } from '../lib/facts'
  * Three caveats are drawn on purpose. The scalable caption names the one
  * thing instances do share — a volume for uploads, which live on local disk.
  * The headless caption says how far the Svelte Commerce connector reaches
- * (0.1.0: catalogue, cart, checkout, order lookup). And the fast drawing keeps
+ * (early; src/data/connector.json says what works). And the fast drawing keeps
  * Svelte Commerce and GoCommerce in separate rows with no wire between them:
  * it compares ways of rendering a page, not a deployment, and an early
  * connector is no reason to draw one.
@@ -68,7 +68,7 @@ const { kind } = Astro.props
       <h3 class="illus-title">One API, any front end.</h3>
       <svg viewBox="0 0 360 254" role="img" aria-labelledby="illus-headless-title illus-headless-desc">
         <title id="illus-headless-title">One GoCommerce API serving every front end</title>
-        <desc id="illus-headless-desc">A storefront (Svelte Commerce or your own), a mobile app, the admin compiled into the binary, an AI agent over MCP, and Google and Meta product feeds all call GoCommerce, which serves {counts.apiOperations} documented operations over REST with an OpenAPI description. Svelte Commerce reaches GoCommerce through an early connector (0.1.0) covering catalogue, cart, checkout and order lookup.</desc>
+        <desc id="illus-headless-desc">A storefront (Svelte Commerce or your own), a mobile app, the admin compiled into the binary, an AI agent over MCP, and Google and Meta product feeds all call GoCommerce, which serves {counts.apiOperations} documented operations over REST with an OpenAPI description. Svelte Commerce reaches GoCommerce through an early connector ({counts.connectorVersion}) covering {counts.connectorTested}.</desc>
         <defs><marker id="illus-headless-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path class="head" d="M1 1 6 4 1 7"/></marker></defs>
         <rect class="box" x="2" y="2" width="228" height="52" rx="6"/>
         <text class="name c" x="116" y="24">Storefront</text>
@@ -93,7 +93,7 @@ const { kind } = Astro.props
         <text class="name c" x="292" y="222">Feeds</text>
         <text class="c" x="292" y="242">Google &amp; Meta</text>
       </svg>
-      <figcaption>The storefront, the admin, an app and an agent all use the same API. Svelte Commerce reaches GoCommerce through an early connector (0.1.0) covering catalogue, cart, checkout and order lookup.</figcaption>
+      <figcaption>The storefront, the admin, an app and an agent all use the same API. Svelte Commerce reaches GoCommerce through an early connector ({counts.connectorVersion}) covering {counts.connectorTested}.</figcaption>
     </>
   )}
   {kind === 'modular' && (

@@ -7,6 +7,7 @@
  * hand, so a wrong "wired" mark cannot be a transcription error.
  */
 import data from '../data/connectors.json'
+import { counts } from '../lib/facts'
 
 type State = 'wired' | 'unsupported' | 'unwired'
 interface Connector { name: string; url: string; pkg: string; version: string; wired: number; total: number; cart: State; checkout: State; auth: State; gaps: string }
@@ -57,17 +58,17 @@ const slug = (name: string) => name.toLowerCase().replace(/[ .]+/g, '-')
         )
       })}
       {/* Not in the data because the coverage script has not measured it: the
-          connector lives in the GoCommerce repository, not in Svelte
-          Commerce's. Listed last, on purpose, so the page answers the question
-          everyone arrives with. Marks are from its README: cart and checkout
-          are mapped; shopper sign-in is not (checkout is guest checkout). */}
+          connector lives in its own repository, not in Svelte Commerce's.
+          Listed last, on purpose, so the page answers the question everyone
+          arrives with. Cart and checkout worked end to end in a test
+          (src/data/connector.json); sign-in needs the identity module. */}
       <tr class="row-pending">
         <th scope="row"><a href="/gocommerce-svelte-commerce-connector/">GoCommerce</a></th>
         <td class="cov"><span class="num none">—</span></td>
         <td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
         <td class="mark ok"><span aria-hidden="true">●</span><span class="vh">wired</span></td>
-        <td class="mark pending"><span aria-hidden="true">○</span><span class="vh">not yet wired</span></td>
-        <td class="gaps">early connector, 0.1.0 — not measured by the coverage script; no customer accounts or search index</td>
+        <td class="mark pending"><span aria-hidden="true">○</span><span class="vh">needs the identity module</span></td>
+        <td class="gaps">early connector, {counts.connectorVersion} — not measured by the coverage script; sign-in needs GoCommerce’s identity module</td>
       </tr>
     </tbody>
   </table>

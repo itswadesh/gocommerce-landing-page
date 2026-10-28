@@ -76,7 +76,7 @@
     [
       "Storefront",
       "Magento’s own storefront, or a headless one over its APIs.",
-      "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes. It can front Magento today; its GoCommerce connector is early, at 0.1.0 — catalogue, cart, checkout and order lookup, not yet customer accounts or search."
+      "Svelte Commerce, server-rendered SvelteKit with 79 live demo themes. It can front Magento today; its GoCommerce connector is early, at {connectorVersion} — {connectorTested} worked end to end in a test on {connectorTestedOn}; {connectorNeedsIdentity} need GoCommerce’s identity module."
     ],
     [
       "Upgrades",

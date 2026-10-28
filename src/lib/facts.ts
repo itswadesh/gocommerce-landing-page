@@ -1,7 +1,10 @@
 import facts from '../data/facts.json'
 import connectors from '../data/connectors.json'
 
+import connector from '../data/connector.json'
+
 const n = (x: number) => x.toLocaleString('en')
+const longDate = (iso: string) => new Date(iso + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
 
 /**
  * Every count the site states, formatted, keyed by the {token} a data file
@@ -33,7 +36,13 @@ export const counts = {
   otherBackends: n(connectors.connectors.length - 1),
   /** Which GoCommerce commit the figures were read from, for text that says so. */
   factsCommit: facts.commit,
-  factsDate: new Date(facts.committed + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }),
+  factsDate: longDate(facts.committed),
+  connectorVersion: connector.version,
+  connectorTested: connector.tested,
+  connectorNeedsIdentity: connector.needsIdentity,
+  connectorTestedOn: longDate(connector.testedOn),
 }
+
+export { connector }
 
 export const perModule = facts.perModule as Record<string, { tests: number; operations: number }>

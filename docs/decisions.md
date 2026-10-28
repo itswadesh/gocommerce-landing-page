@@ -4,6 +4,31 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 28 October 2026: the connector's version is npm's, said once
+
+The site said the GoCommerce connector for Svelte Commerce was 0.1.0, with
+no customer accounts or search. npm's latest `@misiki/gocommerce-connector`
+is 0.14.0, and a full-stack run on 28 October 2026 used it.
+
+- The version, the package, its repository (misiki-in/gocommerce-connector,
+  not the GoCommerce repository) and what the run showed live once, in
+  `src/data/connector.json`. Pages render them through `src/lib/facts.ts`
+  and `{connectorVersion}`-style tokens. `scripts/verify.js` fails on any
+  other version stated next to the GoCommerce connector, and when npm's
+  latest differs from the file (it skips that check, saying so, offline).
+- What the site now says: in a test on 28 October 2026, catalogue, cart,
+  cash-on-delivery checkout and order lookup by token worked end to end,
+  and the order-success page showed the full order. Shopper sign-in, the
+  address book and order history need GoCommerce's identity module; they
+  did not work in that stack, which ran without it. Search, reviews,
+  wishlists and the other storefront modules are described as the
+  connector's README maps them, marked not yet tested end to end. The
+  pairing stays labelled early, and no production store is claimed.
+- The run is not published (GoCommerce PR #163 is not merged), so the site
+  neither links it nor offers a full-stack recipe.
+- The two blog posts that named 0.1.0 now link the status page instead of
+  naming a version, so they cannot go stale again.
+
 ## 28 October 2026: the homepage's top third, in the audit's order
 
 The audit found too many proof points before a visitor learns what to do.

@@ -14,6 +14,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
+import { execSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
 // __dirname does not exist in an ES module; derive it from this file's URL.
@@ -251,6 +252,28 @@ for (const page of PAGES) {
   checkCounts(page, visibleText(fs.readFileSync(path.join(DIST, page), 'utf8')).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '))
 }
 checkCounts('llms.txt', llms)
+
+// ── The connector's version is said once, in src/data/connector.json, and is
+// npm's latest. A version near "GoCommerce … connector" anywhere else is a stale
+// copy. The npm check is skipped, saying so, when npm cannot be reached.
+const connector = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'connector.json'), 'utf8'))
+const checkConnector = (where, text) => {
+  for (const m of text.matchAll(/(?:GoCommerce[^.]{0,60}?connector|gocommerce-connector|connector between them)[^.]{0,60}?\b(\d+\.\d+\.\d+)\b/gi)) {
+    if (m[1] !== connector.version) {
+      console.error(`  ${where}  "${m[0].slice(-60)}" names connector ${m[1]}; src/data/connector.json says ${connector.version}.`)
+      violations++
+    }
+  }
+}
+for (const page of PAGES) checkConnector(page, visibleText(fs.readFileSync(path.join(DIST, page), 'utf8')).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '))
+checkConnector('llms.txt', llms)
+let npmVersion = ''
+try { npmVersion = execSync(`npm view ${connector.package} version`, { encoding: 'utf8', timeout: 30000, stdio: ['ignore', 'pipe', 'ignore'] }).trim() } catch {}
+if (!npmVersion) console.log(`npm not reached; connector.json's ${connector.version} not checked against it.`)
+else if (npmVersion !== connector.version) {
+  console.error(`  connector.json says ${connector.package} ${connector.version}; npm's latest is ${npmVersion}. Check what changed, then update it.`)
+  violations++
+}
 
 // ── Prices: every rival price is on a published list, with its source and date
 //

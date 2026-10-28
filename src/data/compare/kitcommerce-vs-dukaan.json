@@ -67,7 +67,7 @@
     { "q": "What plans does Dukaan have?", "a": "Free, Starter, Growth and Infinity. Starter is {p:dukaan/starter-monthly}, Growth {p:dukaan/growth-monthly} and Infinity {p:dukaan/infinity-monthly} a month billed monthly, or {p:dukaan/starter-yearly}, {p:dukaan/growth-yearly} and {p:dukaan/infinity-yearly} a year billed yearly, and each step up lowers the service fee; the higher plans also allow more stores and staff accounts." },
     { "q": "Which payment gateways work on each?", "a": "Dukaan lists Cashfree, Razorpay, PayPal and Stripe. GoCommerce has {paymentModules} payment modules, Cashfree, Razorpay and Stripe among them, and cash on delivery in the core; PayPal is not among its modules." },
     { "q": "Can I move from Dukaan to GoCommerce?", "a": "There is no Dukaan importer, so moving means a script against GoCommerce’s documented API. The one catalogue importer GoCommerce has is for Shopify." },
-    { "q": "Can Svelte Commerce be the storefront for a Dukaan store?", "a": "No. Dukaan is not among the {backends} backends Svelte Commerce connects to. Svelte Commerce reaches GoCommerce through an early connector, 0.1.0, covering catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet." }
+    { "q": "Can Svelte Commerce be the storefront for a Dukaan store?", "a": "No. Dukaan is not among the {backends} backends Svelte Commerce connects to. Svelte Commerce reaches GoCommerce through an early connector, {connectorVersion}, covering {connectorTested} worked end to end in a test on {connectorTestedOn}; {connectorNeedsIdentity} need GoCommerce’s identity module." }
   ],
   "sources": [
     { "label": "Dukaan pricing (plans, comparison table and FAQ)", "url": "https://mydukaan.io/pricing" },

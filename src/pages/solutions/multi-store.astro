@@ -7,6 +7,7 @@
  */
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
+import { counts } from '../../lib/facts'
 
 const path = '/solutions/multi-store/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -18,7 +19,7 @@ const graph = [
 const faq = [
   { q: 'What is a channel?', a: 'A named storefront over the one catalogue: a code, a name, an active flag and a count of the products published to it. Exactly one channel is the default — enforced by a partial unique index — and a request that names no channel is served from it, which is why a store that never creates a second channel never notices the feature.' },
   { q: 'What differs between channels?', a: 'Two things: which products are published to each, set per product with a list of channel ids, and which price lists apply, since a price list can be limited to one channel. Orders, customers and inventory are not partitioned by channel; a second storefront sells from the same stock.' },
-  { q: 'How does a storefront pick its channel?', a: 'By naming it on the request. Any HTTP client can, so a Next.js site and a native app can each be a channel of the same backend, and the admin sees all of them. Svelte Commerce’s early GoCommerce connector, 0.1.0, does not send a channel, so a Svelte Commerce storefront on it is served from the default one.' },
+  { q: 'How does a storefront pick its channel?', a: `By naming it on the request. Any HTTP client can, so a Next.js site and a native app can each be a channel of the same backend, and the admin sees all of them. Svelte Commerce’s early GoCommerce connector, ${counts.connectorVersion}, names one with PUBLIC_GOCOMMERCE_CHANNEL; without it, the storefront is served from the default channel.` },
   { q: 'Can I run separate brands from one install?', a: 'Yes, two ways. Brands that share a catalogue, staff and books are channels of one store: publish each product to its brand’s channel and price it per channel. Brands or merchants that need their own staff, customers, orders and books are separate stores in platform mode, still one install and one database.' },
   { q: 'Is GoCommerce multi-tenant?', a: 'Yes, since GoCommerce 1.1. Run gocommerce platform and one process and one PostgreSQL database serve many stores. Each store lives in a schema of its own, with its own operators, admin panel, media, modules and domains. Channels are a different thing: storefronts of one merchant.' },
   { q: 'Is platform mode changing?', a: 'Yes, by design and not yet in a release. The plan merges platform mode into the ordinary engine: one set of tables where every row carries its store, PostgreSQL row security as the safety net, one sign-in across stores, and a store switcher in the admin. A single-store install upgrades in place. Installs running platform mode today will not be converted automatically; the release notes will say how to move.' },
@@ -124,7 +125,7 @@ const faq = [
     <div class="tri">
       <div class="tri-item"><h3>Channels are one merchant’s</h3><p>A channel shares the store’s catalogue, staff and books. Unrelated stores belong in <a href="#platform">platform mode</a>, each in a schema of its own.</p></div>
       <div class="tri-item"><h3>No per-channel staff or ledger</h3><p>Rights, customers, orders and payouts are store-wide. A channel is a shop window, not a subsidiary.</p></div>
-      <div class="tri-item"><h3>The storefront side is yours</h3><p>A channel is named on the request, so a second storefront is a second client of the API — anything HTTP. Svelte Commerce’s <a href="/gocommerce-svelte-commerce-connector/">early connector</a> (0.1.0) does not send a channel, so it is served from the default one.</p></div>
+      <div class="tri-item"><h3>The storefront side is yours</h3><p>A channel is named on the request, so a second storefront is a second client of the API — anything HTTP. Svelte Commerce’s <a href="/gocommerce-svelte-commerce-connector/">early connector</a> ({counts.connectorVersion}) names one with <code>PUBLIC_GOCOMMERCE_CHANNEL</code>; without it, the storefront is served from the default channel.</p></div>
     </div>
   </section>
 

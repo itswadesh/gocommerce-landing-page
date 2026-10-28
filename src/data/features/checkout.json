@@ -68,7 +68,7 @@
     {
       "name": "Storefront",
       "tiles": [
-        { "title": "A Svelte Commerce connector", "status": "partial", "text": "@misiki/gocommerce-connector 0.1.0, published on npm, covers catalogue, cart, shipping rates, checkout and order lookup. Missing: customer accounts and a search index.", "source": "connectors/svelte-commerce" },
+        { "title": "A Svelte Commerce connector", "status": "partial", "text": "@misiki/gocommerce-connector {connectorVersion}, published on npm, covers catalogue, cart, shipping rates, checkout and order lookup. Sign-in, the address book and order history need GoCommerce’s identity module.", "source": "misiki-in/gocommerce-connector" },
         { "title": "Several carts at once", "status": "partial", "text": "Carts are anonymous tokens, so a client can hold any number. Missing: carts owned by a customer account.", "source": "core/cart.go" }
       ]
     }

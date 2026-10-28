@@ -11,26 +11,26 @@ const graph = [
 ]
 
 const faq = [
-  { q: 'Can I connect Svelte Commerce to GoCommerce today?', a: 'Yes, through an early connector. @misiki/gocommerce-connector 0.1.0 has been on npm since 2 September 2026. Install it in a Svelte Commerce checkout, set PUBLIC_GOCOMMERCE_API_URL to your GoCommerce instance, and the storefront can browse the catalogue, fill a cart, check out and look up an order. Customer accounts and a search index are not covered, and no store is known to run the pair in production.' },
-  { q: 'What does “early” mean here?', a: 'It is 0.1.0, the first release. The path from a shelf to a placed order works, and its tests run against a real GoCommerce engine rather than a mock. What it lacks is production mileage: no store is known to run Svelte Commerce on GoCommerce in production, so nothing has yet met a real catalogue or real shoppers. Build on it deliberately, and place test orders before real ones.' },
-  { q: 'What does it not do?', a: 'Two absences change what you can build. There are no customer accounts, because GoCommerce checkout is guest checkout — an order is read back with the access token checkout returned, which is why orderService has getOne and no list. And there is no search index: product search is the engine’s own filter, not a Meilisearch relevance ranking. The services the connector does not map — blogs, reels, banners, CMS pages, wishlists, reviews, chat, warranties, vendor commissions — throw UnsupportedByGoCommerce, naming the service, rather than returning empty.' },
+  { q: 'Can I connect Svelte Commerce to GoCommerce today?', a: `Yes, through an early connector. @misiki/gocommerce-connector ${counts.connectorVersion} is on npm, first published on 2 September 2026. Install it in a Svelte Commerce checkout, set PUBLIC_GOCOMMERCE_API_URL to your GoCommerce instance, and the storefront can browse the catalogue, fill a cart, check out and look up an order. Sign-in, the address book and order history need GoCommerce’s identity module, and no store is known to run the pair in production.` },
+  { q: 'What does “early” mean here?', a: `It is ${counts.connectorVersion}, first published on 2 September 2026. The path from a shelf to a placed order works, and its tests run against a real GoCommerce engine rather than a mock. What it lacks is production mileage: no store is known to run Svelte Commerce on GoCommerce in production, so nothing has yet met a real catalogue or real shoppers. Build on it deliberately, and place test orders before real ones.` },
+  { q: 'What does it not do?', a: `Shopper sign-in, the address book and order history go through GoCommerce’s identity module; without it, as in a test stack on ${counts.connectorTestedOn}, they do not work, and an order is read back with the access token checkout returned. Its README lists phone sign-in by code, account deletion and guest order lookup by email and code as engine gaps that throw, naming the service, rather than returning empty.` },
   { q: 'How do I install it?', a: 'Run npm i @misiki/gocommerce-connector in your Svelte Commerce checkout and set PUBLIC_GOCOMMERCE_API_URL to where GoCommerce answers, for example http://127.0.0.1:8080. Install one connector at a time: the backend is whichever @misiki/*-connector package.json has, so remove the Litekart and Vendure connectors Svelte Commerce ships with.' },
-  { q: `Is GoCommerce one of the ${counts.backends} backends?`, a: `No. The ${counts.backends} are the connectors whose coverage the backends page measures with a script, and the GoCommerce connector is not in that set. It lives in the GoCommerce repository, under connectors/svelte-commerce, and this page describes it instead.` },
+  { q: `Is GoCommerce one of the ${counts.backends} backends?`, a: `No. The ${counts.backends} are the connectors whose coverage the backends page measures with a script, and the GoCommerce connector is not in that set. It lives in its own repository, misiki-in/gocommerce-connector, and this page describes it instead.` },
   { q: 'Does this mean the two packages are now one wired stack?', a: `They are two packages of one platform with an early connector between them. Both are still useful on their own — GoCommerce behind any client, Svelte Commerce in front of ${counts.backends} other backends — and the connector is the newest and least proven of the three.` },
 ]
 
 // The ledger. One state per line, and the states mean what the legend says.
 const ledger = [
-  { state: 'ship', title: 'Published to npm', body: '@misiki/gocommerce-connector 0.1.0, since 2 September 2026. The source is under connectors/svelte-commerce in the GoCommerce repository.' },
-  { state: 'ship', title: 'Catalogue', body: 'productService lists, filters, sorts and paginates, and fetches by slug, id or SKU, with variants. categoryService walks the tree a level at a time; collectionService serves curated lists and a collection page.' },
+  { state: 'ship', title: 'Published to npm', body: `@misiki/gocommerce-connector ${counts.connectorVersion}, first published on 2 September 2026. The source is in its own repository, misiki-in/gocommerce-connector.` },
+  { state: 'ship', title: 'Catalogue', body: 'productService lists, filters, sorts and paginates, and fetches by slug, id or SKU, with variants. categoryService serves the tree and category pages; collectionService serves curated lists and a collection page.' },
   { state: 'ship', title: 'Cart', body: 'open, add, change quantity, remove, apply a discount code, set the email.' },
-  { state: 'ship', title: 'Checkout', body: 'payment methods, shipping rates, and placing the order.' },
-  { state: 'ship', title: 'Order lookup', body: 'one order, by its number and the access token checkout returned.' },
-  { state: 'ship', title: 'Money and missing fields', body: 'prices are converted from the engine’s minor units per currency, not by a constant 100. Fields the engine lacks are not invented: popularity is 0, and mrp equals the price.' },
+  { state: 'ship', title: 'Checkout', body: `payment methods, shipping rates, and placing the order. Cash on delivery worked end to end in a test on ${counts.connectorTestedOn}.` },
+  { state: 'ship', title: 'Order lookup', body: `one order, by its number and the access token checkout returned. In the same test the order-success page showed the full order.` },
+  { state: 'ship', title: 'Money and missing fields', body: 'prices are converted from the engine’s minor units per currency, not by a constant 100. Fields the engine lacks are not invented: with no popularity score, “most popular” sorts nothing, and mrp equals the price.' },
   { state: 'dev', title: 'Production use', body: 'none known. No store is known to run Svelte Commerce on GoCommerce in production; the tests run against a real engine, not a real shop.' },
-  { state: 'plan', title: 'Customer accounts', body: 'GoCommerce checkout is guest checkout, so there is no sign-in, address book or order history. orderService has getOne and no list.' },
-  { state: 'plan', title: 'A search index', body: 'a search term goes through the engine’s own filter — fine for a few thousand products, not a relevance ranking. There is no Meilisearch.' },
-  { state: 'plan', title: 'Everything else Svelte Commerce asks for', body: 'blogs, reels, banners, CMS pages, wishlists, reviews, chat, warranties and vendor commissions throw UnsupportedByGoCommerce, naming the service, rather than returning empty.' },
+  { state: 'dev', title: 'Shopper accounts', body: 'sign-in, the address book and order history, through GoCommerce’s identity module. They did not work in the test stack, which ran without it.' },
+  { state: 'dev', title: 'Search and the storefront modules', body: 'its README maps search (Meilisearch when the store switches it on), reviews, wishlists, content pages, menus, FAQ and contact to the matching GoCommerce modules. Not yet tested end to end here.' },
+  { state: 'plan', title: 'What the engine does not do', body: 'phone sign-in by code, account deletion, and guest order lookup by email and code throw, naming the service, rather than returning empty.' },
 ]
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
@@ -43,10 +43,10 @@ npm i @misiki/gocommerce-connector
 ---
 <Base
   title="GoCommerce ↔ Svelte Commerce Connector — Status"
-  description="The Svelte Commerce connector for GoCommerce: early, 0.1.0 on npm. What works from shelf to placed order, what does not, how to install it, and how to help."
+  description={`The Svelte Commerce connector for GoCommerce: early, ${counts.connectorVersion} on npm. What works from shelf to placed order, what does not, how to install it, and how to help.`}
   path={path}
   ogTitle="GoCommerce ↔ Svelte Commerce Connector — Status"
-  ogDescription="Early, 0.1.0 on npm. What works, what does not, how to install it, and how to help."
+  ogDescription={`Early, ${counts.connectorVersion} on npm. What works, what does not, how to install it, and how to help.`}
   ogImageAlt="Status of the connector between GoCommerce and Svelte Commerce"
   nav="connector"
   crumbs={[{ name: 'Connector status', href: path }]}
@@ -56,8 +56,8 @@ npm i @misiki/gocommerce-connector
   <section class="wrap page-head">
     <h1>GoCommerce ↔ Svelte Commerce connector</h1>
     <div class="status-banner">
-      <p class="status-line"><span class="dot dot-dev" aria-hidden="true"></span><b>Status: early (0.1.0).</b> Published on npm as <code>@misiki/gocommerce-connector</code>.</p>
-      <p>It covers the path from a shelf to a placed order: catalogue, cart, checkout and order lookup. It does not cover customer accounts or a search index, and no store is known to run Svelte Commerce on GoCommerce in production.</p>
+      <p class="status-line"><span class="dot dot-dev" aria-hidden="true"></span><b>Status: early ({counts.connectorVersion}).</b> Published on npm as <code>@misiki/gocommerce-connector</code>.</p>
+      <p>In a test on {counts.connectorTestedOn}, {counts.connectorTested} worked end to end. Sign-in, the address book and order history need GoCommerce’s identity module. No store is known to run Svelte Commerce on GoCommerce in production.</p>
     </div>
     <p class="lede">This page exists so the answer is one link rather than an inference: what the connector does, what it does not, and how to try it.</p>
   </section>
@@ -80,7 +80,7 @@ npm i @misiki/gocommerce-connector
         <h3>Svelte Commerce</h3>
         <p>Calls a connector package. Imports none by name — <code>$connector</code> resolves from <code>package.json</code>.</p>
       </div>
-      <p class="arch-wire arch-wire-gap"><span>@misiki/gocommerce-connector 0.1.0 — early</span></p>
+      <p class="arch-wire arch-wire-gap"><span>@misiki/gocommerce-connector {counts.connectorVersion} — early</span></p>
       <div class="arch-row arch-engine">
         <h3>GoCommerce</h3>
         <p>Serves {counts.apiOperations} documented operations over REST, published as OpenAPI.</p>
@@ -92,9 +92,9 @@ npm i @misiki/gocommerce-connector
   <section id="ledger" class="section wrap" aria-labelledby="ledger-title">
     <h2 id="ledger-title">What exists, what does not</h2>
     <ul class="legend">
-      <li><span class="dot dot-ship" aria-hidden="true"></span>Works — in 0.1.0 today</li>
-      <li><span class="dot dot-dev" aria-hidden="true"></span>Early — not yet proven in production</li>
-      <li><span class="dot dot-plan" aria-hidden="true"></span>Not covered in 0.1.0</li>
+      <li><span class="dot dot-ship" aria-hidden="true"></span>Works in {counts.connectorVersion}</li>
+      <li><span class="dot dot-dev" aria-hidden="true"></span>Early — needs a module, or not yet proven</li>
+      <li><span class="dot dot-plan" aria-hidden="true"></span>Not covered: throws, naming the service</li>
     </ul>
     <div class="mkt">
       <ul class="growth-list">
@@ -110,7 +110,7 @@ npm i @misiki/gocommerce-connector
 
   <section id="limitations" class="section wrap" aria-labelledby="lim-title">
     <h2 id="lim-title">Known limitations</h2>
-    <p class="section-lede">What is true of 0.1.0 as published.</p>
+    <p class="section-lede">What is true of {counts.connectorVersion} as published.</p>
     <div class="tri">
       <div class="tri-item">
         <h3>A stable contract, not a proven one</h3>
@@ -118,7 +118,7 @@ npm i @misiki/gocommerce-connector
       </div>
       <div class="tri-item">
         <h3>Partial, and loud about it</h3>
-        <p>The connector covers what a shop needs to take an order and refuses the rest with an error that names the service. It has no score on the backends page, because the script that measures the 26 has not measured it, so its coverage is described here rather than numbered.</p>
+        <p>The connector refuses what the engine does not do with an error that names the service, rather than returning empty. It has no score on the backends page, because the script that measures the 26 has not measured it, so its coverage is described here rather than numbered.</p>
       </div>
       <div class="tri-item">
         <h3>No benchmarks either way</h3>
