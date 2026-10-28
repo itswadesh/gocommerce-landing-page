@@ -247,7 +247,6 @@ header {
 .navlinks { display: flex; align-items: center; gap: 22px; }
 .navlinks a { text-decoration: none; font-size: .9375rem; color: var(--ink-2); }
 .navlinks a:hover { color: var(--ink); }
-.navlinks .nav-git { font-family: var(--sans); font-size: .85rem; }
 
 .menu { display: none; color: var(--ink); background: none; border: var(--edge); border-radius: var(--radius-ui); padding: 7px 12px; font-size: .875rem; font-weight: 500; }
 /* Drawer furniture: exists only below 860px, where the block below turns it on. */

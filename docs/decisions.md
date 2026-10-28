@@ -4,6 +4,25 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 28 October 2026: five items in the header, and "Start building"
+
+The audit asked for a simpler first level. The header now has Product,
+Developers and Solutions as menus, Open source and Pricing as links, and
+one button, "Start building", which opens the homepage's three starting
+points (`/#start-here`).
+
+- Product: how it works, GoCommerce, Svelte Commerce, features, the admin's
+  screens, live projects. Developers: the three quick starts, the docs, the
+  connector status, modules, backend integrations, MCP, coding agents,
+  vibe-coding, the blog and GitHub. Solutions as before.
+- Every link the old menus had is still in one of them; no route changed.
+  The header's Documentation button and GitHub link moved into Developers.
+- The button shows from 861px up and at the foot of the phone drawer.
+  Buttons press in and lift on hover, a menu's panel settles in when it
+  opens, and under reduced motion only the colours change and the panel
+  fades. The phone drawer's Developers list is one column (it had been
+  squeezed into two), and the drawer's button text is light on dark again.
+
 ## 28 October 2026: the connector's version is npm's, said once
 
 The site said the GoCommerce connector for Svelte Commerce was 0.1.0, with

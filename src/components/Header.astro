@@ -1,26 +1,53 @@
 ---
 import { counts } from '../lib/facts'
 /**
- * Two of the five items are disclosure menus — Solutions and Develop — in
- * the StoreHippo shape. They are native <details>, so they open on Enter and
- * Space, are reachable by Tab, work on touch, and work with JavaScript off.
- * app.js adds only what <details> lacks: Escape closes, and so does a click
- * anywhere else. Nothing is hover-only.
+ * Five items at the first level, in the audit of 28 October 2026's shape:
+ * Product, Developers and Solutions are disclosure menus, Open source and
+ * Pricing are links, and one call to action, "Start building", opens the
+ * homepage's three starting points. Every route the old menus linked is
+ * still linked from one of them.
+ *
+ * The menus are native <details>, so they open on Enter and Space, are
+ * reachable by Tab, work on touch, and work with JavaScript off. app.js adds
+ * only what <details> lacks: Escape closes, and so does a click anywhere
+ * else. Nothing is hover-only.
  *
  * Below 860px the same list becomes a drawer that slides in from the right;
  * the drawer head and the scrim exist only there. With JavaScript off the
  * list stays in flow, visible, and there is nothing to slide.
  *
- * `current` marks the page you are on with aria-current on the item.
+ * `current` marks the page you are on: aria-current on a link, or on the
+ * menu that holds it.
  */
-type Current = 'gocommerce' | 'svelte-commerce' | 'solutions' | 'develop' | 'architecture' | 'live-admin' | 'connector' | 'backends' | 'pricing'
+type Current = 'gocommerce' | 'svelte-commerce' | 'solutions' | 'develop' | 'architecture' | 'live-admin' | 'connector' | 'backends' | 'pricing' | 'open-source'
 interface Props { current?: Current }
 const { current } = Astro.props
 
-// Pages that live under a menu light that menu up.
-const inDevelop = ['develop', 'architecture', 'live-admin', 'connector', 'backends'] as const
-const developOpen = inDevelop.includes(current as (typeof inDevelop)[number])
+const inProduct: Current[] = ['gocommerce', 'svelte-commerce', 'architecture', 'live-admin']
+const inDevelopers: Current[] = ['develop', 'connector', 'backends']
 
+const product = [
+  { href: '/go-svelte-ecommerce/', label: 'How it works', note: 'How the backend and the storefront fit together' },
+  { href: '/gocommerce/', label: 'GoCommerce', note: 'The Go backend, with its admin built in' },
+  { href: '/svelte-commerce/', label: 'Svelte Commerce', note: `The SvelteKit storefront, on ${counts.backends} backends` },
+  { href: '/features/', label: 'Features', note: 'Checkout, operations, development, AI — checked in the code' },
+  { href: '/gocommerce/admin/', label: 'The admin, every screen', note: 'Captured from one seeded store, light and dark' },
+  { href: '/live-projects/', label: 'Live projects', note: 'Stores running Svelte Commerce, with Lighthouse scores' },
+]
+const developers = [
+  { href: '/#one-command', label: 'Backend + admin quick start', note: 'Docker: Postgres, GoCommerce with admin, Caddy; no storefront' },
+  { href: '/gocommerce/#quickstart', label: 'GoCommerce quick start', note: 'Go 1.27 and a PostgreSQL' },
+  { href: '/svelte-commerce/#quickstart', label: 'Svelte Commerce quick start', note: 'Node and a backend to point at' },
+  { href: 'https://github.com/itswadesh/gocommerce#readme', label: 'Docs', note: 'The GoCommerce README and OpenAPI', external: true },
+  { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status', note: `Early (${counts.connectorVersion}): what works, what does not` },
+  { href: '/integrations/', label: `${counts.modules} modules`, note: 'Payments, shipping, messaging, migration' },
+  { href: '/svelte-commerce/backends/', label: `${counts.backends} backend integrations`, note: 'Measured coverage, per connector' },
+  { href: '/gocommerce/mcp/', label: 'MCP server', note: `${counts.mcpTools} tools that let an AI agent run the store` },
+  { href: '/#agents', label: 'Coding agents', note: 'AGENTS.md, skills, MCP' },
+  { href: '/vibe-coding-commerce/', label: 'Vibe-coding commerce', note: 'Point AI tools at the storefront, not the engine' },
+  { href: '/blog/', label: 'Blog', note: 'Notes from the people building it' },
+  { href: 'https://github.com/itswadesh', label: 'GitHub', note: 'GoCommerce and Svelte Commerce, MIT', external: true, ev: 'github_nav_click' },
+]
 const solutions = [
   { href: '/solutions/marketplace/', label: 'Multi-vendor marketplace', note: 'Vendors as first-class sellers, with moderation states' },
   { href: '/solutions/b2b/', label: 'B2B commerce', note: 'Customer groups, price lists, quantity breaks' },
@@ -29,26 +56,13 @@ const solutions = [
   { href: '/solutions/dealer-portal/', label: 'Dealer portal', note: 'Dealers order on credit on your own web address' },
   { href: '/agencies/', label: 'For agencies', note: 'Your brand, every client store from one install' },
   { href: '/#headless', label: 'Headless ecommerce', note: 'Any storefront, app or agent on one API' },
-  { href: '/solutions/', label: 'All solutions', note: 'Which shape of store fits, and what does the work' },
-  { href: '/features/', label: 'Features', note: 'Checkout, operations, development, AI — checked in the code' },
-  { href: '/live-projects/', label: 'Live projects', note: 'Stores running Svelte Commerce, with Lighthouse scores' },
   { href: '/go-svelte-ecommerce/#when', label: 'Which project to start with', note: 'Backend, storefront, or both' },
+  { href: '/solutions/', label: 'All solutions', note: 'Which shape of store fits, and what does the work' },
 ]
-const develop = [
-  { href: '/#one-command', label: 'Backend + admin quick start', note: 'Docker: Postgres, GoCommerce with admin, Caddy; no storefront' },
-  { href: '/gocommerce/#quickstart', label: 'GoCommerce quick start', note: 'Go 1.27 and a PostgreSQL' },
-  { href: '/svelte-commerce/#quickstart', label: 'Svelte Commerce quick start', note: 'Node and a backend to point at' },
-  { href: '/gocommerce/admin/', label: 'The admin, every screen', note: 'Captured from one seeded store, light and dark' },
-  { href: '/integrations/', label: `${counts.modules} modules`, note: 'Payments, shipping, messaging, migration' },
-  { href: '/svelte-commerce/backends/', label: `${counts.backends} backend integrations`, note: 'Measured coverage, per connector' },
-  { href: '/go-svelte-ecommerce/', label: 'Architecture', note: 'How the packages fit together' },
-  { href: '/gocommerce-svelte-commerce-connector/', label: 'Connector status', note: `Early (${counts.connectorVersion}): what works, what does not` },
-  { href: '/#agents', label: 'Coding agents', note: 'AGENTS.md, skills, MCP' },
-  { href: '/gocommerce/mcp/', label: 'MCP server', note: `${counts.mcpTools} tools that let an AI agent run the store` },
-  { href: '/vibe-coding-commerce/', label: 'Vibe-coding commerce', note: 'Point AI tools at the storefront, not the engine' },
-  { href: '/open-source/', label: 'Open source', note: 'Both repositories, the community, the licence' },
-  { href: '/blog/', label: 'Blog', note: 'Notes from the people building it' },
-  { href: 'https://github.com/itswadesh/gocommerce#readme', label: 'GoCommerce docs', note: 'README and OpenAPI', external: true },
+const menus = [
+  { label: 'Product', items: product, on: inProduct.includes(current!) },
+  { label: 'Developers', items: developers, on: inDevelopers.includes(current!), wide: true },
+  { label: 'Solutions', items: solutions, on: current === 'solutions' },
 ]
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
 ---
@@ -69,34 +83,23 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <button class="drawer-close" type="button" aria-label="Close navigation menu">Close</button>
       </div>
 
-      <a href="/gocommerce/" aria-current={current === 'gocommerce' ? 'page' : undefined}>GoCommerce</a>
-      <a href="/svelte-commerce/" aria-current={current === 'svelte-commerce' ? 'page' : undefined}>Svelte Commerce</a>
+      {menus.map((m) => (
+        <details class:list={['navmenu', { 'navmenu-wide': m.wide }]}>
+          <summary aria-current={m.on ? 'true' : undefined}>{m.label}</summary>
+          <ul class="navpanel">
+            {m.items.map((i) => (
+              <li><a href={i.href} {...(i.external ? ext : {})} data-ev={i.ev}><b>{i.label}</b><span>{i.note}</span></a></li>
+            ))}
+          </ul>
+        </details>
+      ))}
 
-      <details class="navmenu">
-        <summary aria-current={current === 'solutions' ? 'true' : undefined}>Solutions</summary>
-        <ul class="navpanel">
-          {solutions.map((i) => (
-            <li><a href={i.href}><b>{i.label}</b><span>{i.note}</span></a></li>
-          ))}
-        </ul>
-      </details>
-
-      <details class="navmenu navmenu-wide">
-        <summary aria-current={developOpen ? 'true' : undefined}>Develop</summary>
-        <ul class="navpanel">
-          {develop.map((i) => (
-            <li><a href={i.href} {...(i.external ? ext : {})}><b>{i.label}</b><span>{i.note}</span></a></li>
-          ))}
-        </ul>
-      </details>
-
+      <a href="/open-source/" aria-current={current === 'open-source' ? 'page' : undefined}>Open source</a>
       <a href="/pricing/" aria-current={current === 'pricing' ? 'page' : undefined}>Pricing</a>
-      <a class="nav-git" href="https://github.com/itswadesh" {...ext} data-ev="github_nav_click">GitHub</a>
 
-      {/* In the drawer only: the two actions the header shows at full width. */}
+      {/* In the drawer only: the action the header shows at full width. */}
       <div class="drawer-cta">
-        <a class="button secondary" href="https://github.com/itswadesh/gocommerce#readme" {...ext}>Documentation</a>
-        <a class="button" href="/#one-command" data-ev="quickstart_click">Quick start</a>
+        <a class="button" href="/#start-here">Start building</a>
       </div>
     </div>
 
@@ -105,8 +108,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       </button>
-      <a class="button secondary nav-doc" href="https://github.com/itswadesh/gocommerce#readme" {...ext}>Documentation</a>
-      <a class="button" href="/#one-command" data-ev="quickstart_click">Quick start</a>
+      <a class="button" href="/#start-here">Start building</a>
     </div>
     <div class="scrim" aria-hidden="true"></div>
   </nav>
