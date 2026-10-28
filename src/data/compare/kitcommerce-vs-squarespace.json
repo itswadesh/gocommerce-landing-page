@@ -24,10 +24,10 @@
     ["Fee on each order", "2% of online store sales on Basic; none on Core, Plus or Advanced.", "None when you run it yourself. A store hosted on kitcommerce.store pays {hostedFeeText}."],
     ["Payments from India", "Squarespace Payments is not offered in India, and PayPal cannot take rupees on Squarespace. An Indian bank account can take rupees through Stripe, which lists India as a preview country.", "Razorpay, Stripe, Cashfree, Adyen, Hyperswitch and six more as modules; cash on delivery is the core’s default."],
     ["Payment methods", "Cards, Apple Pay, Afterpay or Clearpay, Klarna, PayPal and Venmo, depending on processor and country. No UPI and no cash on delivery on the list.", "Whatever your gateway module’s provider supports, plus cash on delivery."],
-    ["Shipping", "Real-time carrier rates and label printing, from the Core plan up.", "11 fulfilment modules, Shiprocket, Delhivery, NimbusPost and India Post among them; manual fulfilment built in."],
+    ["Shipping", "Real-time carrier rates and label printing, from the Core plan up.", "{fulfilmentModules} fulfilment modules, Shiprocket, Delhivery, NimbusPost and India Post among them; manual fulfilment built in."],
     ["Design", "Designer templates and a drag-and-drop editor; custom CSS and JavaScript from Core up.", "Svelte Commerce: server-rendered SvelteKit with 79 live demo themes, every component yours to edit."],
-    ["API", "Commerce APIs for products, orders, inventory, discounts, contacts and webhooks; API integrations are listed from Core up.", "342 documented REST operations, published as OpenAPI — the same API the admin uses."],
-    ["Extensions", "Squarespace Extensions: third-party tools that connect to your site.", "51 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No app store."],
+    ["API", "Commerce APIs for products, orders, inventory, discounts, contacts and webhooks; API integrations are listed from Core up.", "{apiOperations} documented REST operations, published as OpenAPI — the same API the admin uses."],
+    ["Extensions", "Squarespace Extensions: third-party tools that connect to your site.", "{modules} modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No app store."],
     ["Your data", "Products export to CSV, up to 10,000 at a time, without reviews, featured images or variant images.", "Rows in your own PostgreSQL, which you can query, back up and move."],
     ["Help when it breaks", "Squarespace’s own customer support, included in every plan.", "GitHub issues, discussions and Discord. No support contract."]
   ],
@@ -66,7 +66,7 @@
     "paras": [
       "One path, through a spreadsheet and a script.",
       "GoCommerce has no Squarespace importer — its import modules cover Shopify and Amazon only. Squarespace exports products to CSV, up to 10,000 at a time, and GoCommerce’s core imports product CSV in its own column layout, so the catalogue becomes a column-mapping job. The export leaves out featured and variant images; those come from Squarespace’s Products API.",
-      "Orders and customers need a script that reads Squarespace’s Commerce APIs — which it lists from the Core plan up — and writes to GoCommerce’s documented REST API. There is no keep-Squarespace option: Svelte Commerce has no Squarespace connector among its 26 backends."
+      "Orders and customers need a script that reads Squarespace’s Commerce APIs — which it lists from the Core plan up — and writes to GoCommerce’s documented REST API. There is no keep-Squarespace option: Svelte Commerce has no Squarespace connector among its {backends} backends."
     ]
   },
   "faq": [

@@ -1,4 +1,5 @@
 ---
+import { counts } from '../lib/facts'
 /**
  * Four explanatory drawings for the home page: how GoCommerce scales, why it
  * is headless, what a module is, and why a server-rendered page reaches a
@@ -67,7 +68,7 @@ const { kind } = Astro.props
       <h3 class="illus-title">One API, any front end.</h3>
       <svg viewBox="0 0 360 254" role="img" aria-labelledby="illus-headless-title illus-headless-desc">
         <title id="illus-headless-title">One GoCommerce API serving every front end</title>
-        <desc id="illus-headless-desc">A storefront (Svelte Commerce or your own), a mobile app, the admin compiled into the binary, an AI agent over MCP, and Google and Meta product feeds all call GoCommerce, which serves 342 documented operations over REST with an OpenAPI description. Svelte Commerce reaches GoCommerce through an early connector (0.1.0) covering catalogue, cart, checkout and order lookup.</desc>
+        <desc id="illus-headless-desc">A storefront (Svelte Commerce or your own), a mobile app, the admin compiled into the binary, an AI agent over MCP, and Google and Meta product feeds all call GoCommerce, which serves {counts.apiOperations} documented operations over REST with an OpenAPI description. Svelte Commerce reaches GoCommerce through an early connector (0.1.0) covering catalogue, cart, checkout and order lookup.</desc>
         <defs><marker id="illus-headless-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path class="head" d="M1 1 6 4 1 7"/></marker></defs>
         <rect class="box" x="2" y="2" width="228" height="52" rx="6"/>
         <text class="name c" x="116" y="24">Storefront</text>
@@ -78,7 +79,7 @@ const { kind } = Astro.props
         <path class="wire" d="M300 54V97" marker-end="url(#illus-headless-arrow)"/>
         <rect class="go" x="2" y="98" width="356" height="58" rx="6"/>
         <text class="name big go-ink c" x="180" y="122">GoCommerce</text>
-        <text class="c" x="180" y="144">342 documented operations · REST + OpenAPI</text>
+        <text class="c" x="180" y="144">{counts.apiOperations} documented operations · REST + OpenAPI</text>
         <path class="wire" d="M53 200V157" marker-end="url(#illus-headless-arrow)"/>
         <path class="wire" d="M165 200V157" marker-end="url(#illus-headless-arrow)"/>
         <path class="wire" d="M292 200V157" marker-end="url(#illus-headless-arrow)"/>
@@ -133,7 +134,7 @@ const { kind } = Astro.props
         <text class="faint c" x="248" y="228">not imported →</text>
         <text class="faint c" x="248" y="247">not in the binary</text>
       </svg>
-      <figcaption>51 modules, each a directory under <code>ext/</code>. Import one and it’s compiled in; leave it out and none of its code ships.</figcaption>
+      <figcaption>{counts.modules} modules, each a directory under <code>ext/</code>. Import one and it’s compiled in; leave it out and none of its code ships.</figcaption>
     </>
   )}
   {kind === 'fast' && (

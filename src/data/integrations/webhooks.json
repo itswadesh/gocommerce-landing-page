@@ -42,9 +42,6 @@
     { "b": "Only the events the engine emits", "t": "Orders, abandoned carts, products and collections. There is no event for a new customer or a stock change, so there is no webhook for either." },
     { "b": "Nothing to tune per endpoint", "t": "The retry count, backoff, batch size and poll interval are constants in the package. Changing them is an edit to the code." }
   ],
-  "tested": true,
-  "testCount": 23,
-  "apiOps": 8,
   "faq": [
     { "q": "Which events can I subscribe to?", "a": "Every event the engine emits: order.created, order.paid, order.shipped, order.delivered, order.cancelled, order.refunded, order.edited and order.returned, the reversals order.unpaid, order.unshipped, order.undelivered and order.unreturned, cart.abandoned, product.created, product.updated, product.deleted and collection.updated. An endpoint names exact events, prefixes such as order.*, or * for all." },
     { "q": "How do I verify a delivery?", "a": "Split X-GoCommerce-Signature into t and v1, compute HMAC-SHA256 with the endpoint’s secret over t, a dot and the raw request body, and compare it with v1 in constant time. Refuse a t that is too old, so a captured request cannot be replayed." },

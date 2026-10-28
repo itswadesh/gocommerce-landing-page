@@ -42,9 +42,6 @@
     { "b": "Better than manual, narrowly", "t": "The package doc’s own verdict: it is better than the built-in manual provider only in that it refuses a number India Post did not issue." },
     { "b": "An agreement needs its own module", "t": "A store with a Department of Posts integration agreement should, the doc says, write a module against the endpoints in that agreement." }
   ],
-  "tested": true,
-  "testCount": 6,
-  "apiOps": 0,
   "vendorUrl": "https://www.indiapost.gov.in",
   "vendorType": "Organization",
   "trademark": "India Post is named here only to identify the carrier; this module calls no India Post system and implies no endorsement.",

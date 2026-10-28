@@ -7,13 +7,14 @@
  * because a feature page that only lists presences reads as a claim about
  * the absences too.
  */
+import { fill } from '../../lib/pricing'
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
 import type { FeaturePage } from '../../data/features/_schema'
 
 export function getStaticPaths() {
   const files = import.meta.glob<FeaturePage>('../../data/features/*.json', { eager: true, import: 'default' })
-  return Object.values(files).map((f) => ({ params: { slug: f.slug }, props: { f } }))
+  return Object.values(files).map((f) => ({ params: { slug: f.slug }, props: { f: fill(f) } }))
 }
 
 const { f } = Astro.props as { f: FeaturePage }

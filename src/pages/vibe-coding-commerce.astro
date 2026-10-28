@@ -9,6 +9,7 @@
  */
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
+import { counts } from '../lib/facts'
 
 const path = '/vibe-coding-commerce/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -76,7 +77,7 @@ const pairs = [
     go: {
       h: 'The shopper pays in the provider’s own form',
       p: [
-        'Eleven payment modules — Stripe, Razorpay, Adyen, Paddle and seven more — plus cash on delivery in the core. The Stripe module creates a PaymentIntent and hands the storefront its client secret; the Razorpay module creates a Razorpay order. The card is entered with the provider, not posted to your server.',
+        `${counts.paymentModules} payment modules — Stripe, Razorpay, Adyen, Paddle and the rest — plus cash on delivery in the core. The Stripe module creates a PaymentIntent and hands the storefront its client secret; the Razorpay module creates a Razorpay order. The card is entered with the provider, not posted to your server.`,
         'In both modules a webhook marks the order paid only with a valid signature, and a repeated event cannot settle an order twice. A refund is recorded as pending before the gateway is asked, so two refunds cannot spend the same money.',
       ],
     },
@@ -93,7 +94,7 @@ const pairs = [
     go: {
       h: 'The contract is written down',
       p: [
-        '342 operations across the engine and its modules, every one in a published OpenAPI document that a running store serves at <code>/docs</code>. A rule in <code>AGENTS.md</code> says every served route must appear there.',
+        `${counts.apiOperations} operations across the engine and its modules, every one in a published OpenAPI document that a running store serves at <code>/docs</code>. A rule in <code>AGENTS.md</code> says every served route must appear there.`,
         'An agent reads the contract instead of guessing from handler code. The admin panel uses the same contract, so there is no private channel it can call and your client cannot.',
       ],
     },
@@ -129,10 +130,10 @@ const mcpChange = ['update_variant_inventory', 'set_variant_price', 'create_prod
 
 const faq = [
   { q: 'Can’t an AI coding agent just write the commerce engine?', a: 'It can write one that works in a demo, and quickly. The argument here is about which mistakes you find, and when. A storefront bug shows on the screen the day it ships. An oversold unit, a discount rounded the wrong way or a webhook handled twice shows up later, in a reconciliation, as money that is not where it should be. That is the layer worth building against something written and tested in advance.' },
-  { q: 'So an agent should never change GoCommerce itself?', a: 'It can, and the repository is set up for it. GoCommerce is MIT and meant to be modified: AGENTS.md holds 14 architectural rules and 4 notes for AI agents, skills/ holds 15 task guides, and over 1,000 tests run against a real PostgreSQL to catch a wrong edit. The difference is between changing an engine whose rules are written down and whose behaviour is tested, and improvising one that has neither.' },
-  { q: 'Can I vibe-code a Svelte Commerce storefront against GoCommerce today?', a: 'Yes, through an early connector — Svelte Commerce’s GoCommerce connector is at 0.1.0 and covers catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet. Svelte Commerce also runs against 26 other backends, and a GoCommerce storefront can instead be one you write against the documented API. That is experience-layer work: visible, testable in a browser and easy to throw away, which is exactly the work this page suggests handing to an agent.' },
-  { q: 'Can AI shopping agents buy from a GoCommerce store?', a: 'Not through an agentic commerce protocol: ACP, UCP and AP2 are not supported. The MCP module is for running a store, not shopping in one — it inherits admin authentication, and its 19 tools read and change orders, stock, products, prices and discounts. A buying agent can use the same public catalogue, cart and checkout routes a storefront does, and building that entry point is experience-layer work.' },
-  { q: 'Is GoCommerce ready for production?', a: 'No store we know of runs it in production yet. It has over 1,000 tests and a documented contract for every route, but not production mileage. Treat it as something to build on deliberately, and test your own store against it before it takes real orders.' },
+  { q: 'So an agent should never change GoCommerce itself?', a: `It can, and the repository is set up for it. GoCommerce is MIT and meant to be modified: AGENTS.md holds ${counts.agentRules} architectural rules and ${counts.agentNotes} notes for AI agents, skills/ holds ${counts.skillGuides} task guides, and over ${counts.testsFloor} tests run against a real PostgreSQL to catch a wrong edit. The difference is between changing an engine whose rules are written down and whose behaviour is tested, and improvising one that has neither.` },
+  { q: 'Can I vibe-code a Svelte Commerce storefront against GoCommerce today?', a: `Yes, through an early connector — Svelte Commerce’s GoCommerce connector is at 0.1.0 and covers catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet. Svelte Commerce also runs against ${counts.backends} other backends, and a GoCommerce storefront can instead be one you write against the documented API. That is experience-layer work: visible, testable in a browser and easy to throw away, which is exactly the work this page suggests handing to an agent.` },
+  { q: 'Can AI shopping agents buy from a GoCommerce store?', a: `Not through an agentic commerce protocol: ACP, UCP and AP2 are not supported. The MCP module is for running a store, not shopping in one — it inherits admin authentication, and its ${counts.mcpTools} tools read and change orders, stock, products, prices and discounts. A buying agent can use the same public catalogue, cart and checkout routes a storefront does, and building that entry point is experience-layer work.` },
+  { q: 'Is GoCommerce ready for production?', a: `No store we know of runs it in production yet. It has over ${counts.testsFloor} tests and a documented contract for every route, but not production mileage. Treat it as something to build on deliberately, and test your own store against it before it takes real orders.` },
   { q: 'Does GoCommerce make me PCI compliant?', a: 'GoCommerce makes no compliance claim. What its Stripe and Razorpay modules do is keep card entry on the provider’s side: the engine creates a payment with the provider and hands the storefront what it needs to finish it there, and neither module asks the engine to handle a card number. Your compliance position depends on your provider and on how your storefront is built — ask your provider what applies to you.' },
 ]
 ---
@@ -151,9 +152,9 @@ const faq = [
     <h1>Vibe-code the storefront, not the engine</h1>
     <p class="lede">AI coding agents are good now. The question is what to point them at: the layer where a mistake shows on the screen — the storefront, the landing page, the integration. A commerce engine is where prices are worked out, stock is promised and money changes hands, and its mistakes surface later, as money. Build that layer against an engine that already exists. GoCommerce is an open-source one, documented to the operation and written to be read by an agent.</p>
     <ul class="head-facts">
-      <li><b>342</b> documented operations</li>
+      <li><b>{counts.apiOperations}</b> documented operations</li>
       <li><b>19</b> MCP tools</li>
-      <li><b>1,000+</b> tests</li>
+      <li><b>{counts.testsFloor}+</b> tests</li>
       <li><b>1</b> production dependency</li>
     </ul>
   </section>
@@ -217,7 +218,7 @@ const faq = [
     <div class="statement">
       <p class="statement-lead">The rule: vibe-code the layer where you can see a mistake. Build against an engine for the layer where you can’t.</p>
       <p>A misaligned button is on the screen the moment it ships. An oversold unit, a discount rounded the wrong way or a refund paid twice turns up weeks later as money that is not where the books say it is, and the trail back to the cause is weeks old too.</p>
-      <p class="statement-note">Svelte Commerce’s GoCommerce connector is <a href="/gocommerce-svelte-commerce-connector/">early, at 0.1.0</a>: catalogue, cart, checkout and order lookup, not yet customer accounts or search. Svelte Commerce also runs against <a href="/svelte-commerce/backends/">26 other backends</a>, and a GoCommerce storefront can instead be one you write against the API.</p>
+      <p class="statement-note">Svelte Commerce’s GoCommerce connector is <a href="/gocommerce-svelte-commerce-connector/">early, at 0.1.0</a>: catalogue, cart, checkout and order lookup, not yet customer accounts or search. Svelte Commerce also runs against <a href="/svelte-commerce/backends/">{counts.backends} other backends</a>, and a GoCommerce storefront can instead be one you write against the API.</p>
     </div>
   </section>
 
@@ -255,16 +256,16 @@ const faq = [
       <p class="section-lede">Don’t vibe-code an engine from nothing. When you do change this one — it is MIT, and changing it is expected — the rules are written down, the contract is published, and a test suite is waiting for the wrong edit.</p>
     </div>
     <ul class="evidence">
-      <li><svg aria-hidden="true"><use href="#i-braces"/></svg><b>342 operations in OpenAPI</b><span>The engine and its modules in one contract, served by a running store at <code>/docs</code>. A storefront agent’s first read.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-bot"/></svg><b>An MCP module with 19 tools</b><span>Operates a running store through the same services a REST call uses, never the database. <code>ReadOnly</code> withholds the 10 that change anything.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-source"/></svg><b><code>AGENTS.md</code> — 14 rules, 4 agent notes</b><span>Money is integer minor units. A state change and its event commit together. No transaction is held across a network call.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-package"/></svg><b><code>skills/</code> — 15 task guides</b><span>Checkout, discounts, inventory, orders, payments and the rest. An agent loads the one for its job instead of reading everything.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>1,000+ tests</b><span>Run against a real PostgreSQL, not a mock, so a wrong edit fails in the suite instead of in a customer’s checkout.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-braces"/></svg><b>{counts.apiOperations} operations in OpenAPI</b><span>The engine and its modules in one contract, served by a running store at <code>/docs</code>. A storefront agent’s first read.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-bot"/></svg><b>An MCP module with {counts.mcpTools} tools</b><span>Operates a running store through the same services a REST call uses, never the database. <code>ReadOnly</code> withholds the 10 that change anything.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-source"/></svg><b><code>AGENTS.md</code> — {counts.agentRules} rules, {counts.agentNotes} agent notes</b><span>Money is integer minor units. A state change and its event commit together. No transaction is held across a network call.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-package"/></svg><b><code>skills/</code> — {counts.skillGuides} task guides</b><span>Checkout, discounts, inventory, orders, payments and the rest. An agent loads the one for its job instead of reading everything.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>{counts.testsFloor}+ tests</b><span>Run against a real PostgreSQL, not a mock, so a wrong edit fails in the suite instead of in a customer’s checkout.</span></li>
       <li><svg aria-hidden="true"><use href="#i-git"/></svg><b>One production dependency</b><span>The Postgres driver, pgx. A graph small enough for an agent to hold, with little underneath it to upgrade.</span></li>
     </ul>
     <div class="tbl-scroll">
       <table class="reltable">
-        <caption>The MCP module’s 19 tools</caption>
+        <caption>The MCP module’s {counts.mcpTools} tools</caption>
         <tbody>
           <tr><th scope="row">Read (9)</th><td>{mcpRead.map((t, i) => <>{i > 0 && ', '}<code>{t}</code></>)}</td></tr>
           <tr><th scope="row">Change (10) — withheld under <code>ReadOnly</code></th><td>{mcpChange.map((t, i) => <>{i > 0 && ', '}<code>{t}</code></>)}</td></tr>
@@ -309,7 +310,7 @@ const faq = [
     </div>
     <div class="statement">
       <p class="statement-lead">No store we know of runs GoCommerce in production yet.</p>
-      <p>It carries over 1,000 tests, a documented contract for every route and the engine behaviour described on this page — but not production mileage, which only time and real stores provide. Build on it deliberately, and test your own store against it before it takes real orders.</p>
+      <p>It carries over {counts.testsFloor} tests, a documented contract for every route and the engine behaviour described on this page — but not production mileage, which only time and real stores provide. Build on it deliberately, and test your own store against it before it takes real orders.</p>
       <p>Help comes from the <a href="https://github.com/itswadesh/gocommerce/issues" target="_blank" rel="noopener noreferrer">issue tracker</a> and the <a href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
       <p class="statement-note">Svelte Commerce runs arialshop.com in production, against a different backend. Its GoCommerce connector is <a href="/gocommerce-svelte-commerce-connector/">early, at 0.1.0</a>, and no store we know of runs the pair in production. A GoCommerce storefront built on it, or written against the API, is the experience layer — exactly the work this page says to hand an agent.</p>
     </div>

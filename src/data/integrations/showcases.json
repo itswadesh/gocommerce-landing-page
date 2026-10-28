@@ -47,9 +47,6 @@
     { "b": "Counts per showcase only", "t": "The event route accepts a product id and does not keep it, so there are no per-product counts. The rate limit is held in each process’s memory, so several instances each count their own. The event route is public, so counts can be inflated up to that limit." },
     { "b": "Three places on the storefront", "t": "The public list filters for the home page, a product’s page or a collection’s page, or lists every published showcase. A showcase is listed on a collection’s page only when its products come from that collection." }
   ],
-  "tested": true,
-  "testCount": 21,
-  "apiOps": 11,
   "trademark": "YouTube and Facebook are trademarks of their owners; this module embeds their published video players and asks YouTube’s public oEmbed endpoint about a pasted link, and implies no endorsement.",
   "faq": [
     { "q": "Does the store host the videos?", "a": "No. The video stays on YouTube or Facebook. The module keeps a reference to it and builds the platform’s own player from that reference, so there is nothing to upload and no video traffic through the store." },

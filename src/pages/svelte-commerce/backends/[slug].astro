@@ -15,19 +15,21 @@
  * production instance of its platform. A backend page that read like an
  * advert for a connector that cannot take an order would be worse than none.
  */
+import { fill } from '../../../lib/pricing'
 import Base from '../../../layouts/Base.astro'
 import Faq from '../../../components/Faq.astro'
 import data from '../../../data/connectors.json'
 import { pageDates } from '../../../lib/dates.mjs'
 import type { Backend } from '../../../data/backends/_schema'
 import type { Comparison } from '../../../data/compare/_schema'
+import { counts } from '../../../lib/facts'
 
 type State = 'wired' | 'unsupported' | 'unwired'
 interface Connector { name: string; url: string; pkg: string; version: string; wired: number; total: number; cart: State; checkout: State; auth: State; gaps: string }
 
 export function getStaticPaths() {
   const files = import.meta.glob<Backend>('../../../data/backends/*.json', { eager: true, import: 'default' })
-  return Object.values(files).map((b) => ({ params: { slug: b.slug }, props: { b } }))
+  return Object.values(files).map((b) => ({ params: { slug: b.slug }, props: { b: fill(b) } }))
 }
 
 const { b } = Astro.props as { b: Backend }
@@ -248,7 +250,7 @@ const graph = [
     <h2>Read the whole guide</h2>
     <div class="actions">
       <a class="button" href={b.docUrl} {...ext}>The {b.name} guide on GitHub</a>
-      <a class="button secondary" href="/svelte-commerce/backends/">All 26 backends</a>
+      <a class="button secondary" href="/svelte-commerce/backends/">All {counts.backends} backends</a>
       {comparisons.map((x) => <a class="button secondary" href={`/compare/${x.slug}/`}>{x.label}</a>)}
     </div>
   </section>

@@ -1,5 +1,6 @@
 import pricing from '../data/pricing.json'
 import { byCurrency } from './money'
+import { counts } from './facts'
 
 export const { hostedFee, feeBasis, gstIndia, signupUrl } = pricing
 
@@ -15,7 +16,10 @@ export const plusGst = `plus ${gstIndia} GST on the fee`
 /** ", plus 18% GST on the fee" for rupee visitors only, on a page with a currency picker. */
 export const gstForRupees = byCurrency((c) => (c === 'INR' ? `, ${plusGst}` : ''))
 
-const tokens: Record<string, string> = { hostedFeeText, hostedFeeShort, feeBasis, hostedFee, plusGst }
+const tokens: Record<string, string> = { hostedFeeText, hostedFeeShort, feeBasis, hostedFee, plusGst, ...counts }
 
-/** Fills a data file's {hostedFeeText}, {feeBasis}, {plusGst} and the rest, so the figures are typed once, in pricing.json. */
-export const fill = <T>(data: T): T => JSON.parse(JSON.stringify(data).replace(/\{(\w+)\}/g, (m, k) => tokens[k] ?? m))
+/** Fills {hostedFeeText}, {plusGst}, {modules}, {mcpTools} and the rest in a string, so each figure is typed once: in pricing.json, or read into facts.json. Unknown {names} are left alone. */
+export const fillText = (s: string) => s.replace(/\{(\w+)\}/g, (m, k) => tokens[k] ?? m)
+
+/** fillText over every string in a data file. */
+export const fill = <T>(data: T): T => JSON.parse(fillText(JSON.stringify(data)))

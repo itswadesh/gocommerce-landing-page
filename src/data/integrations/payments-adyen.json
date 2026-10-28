@@ -47,9 +47,6 @@
     { "b": "Chargebacks are only logged", "t": "CHARGEBACK, NOTIFICATION_OF_CHARGEBACK and SECOND_CHARGEBACK are logged as warnings. The engine has no chargeback state, so the order does not change." },
     { "b": "Failed refunds are not undone", "t": "A REFUND notification with success=false, after the engine recorded the refund, is logged and nothing more. The two sets of books need a person to reconcile them." }
   ],
-  "tested": true,
-  "testCount": 8,
-  "apiOps": 0,
   "vendorUrl": "https://www.adyen.com",
   "vendorType": "Organization",
   "faq": [

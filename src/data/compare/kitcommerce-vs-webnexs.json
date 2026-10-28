@@ -29,7 +29,7 @@
     ["Payments", "Cards, UPI, net banking, wallets, bank transfer, cash on delivery and pay-later, depending on which gateways a market offers. No gateway is named.", "Razorpay, Stripe, Cashfree, Adyen, Hyperswitch and six more as modules; cash on delivery built in."],
     ["Marketplace", "Multi-vendor built in: commission by category, seller tier or agreement, and payouts split on a schedule.", "Vendors with pending, approved and suspended states, and vendor offers. Commission is recorded per vendor but not settled — payouts are yours to build."],
     ["Apps and POS", "Native iOS and Android apps and POS integration, included in its small-business offer.", "Neither. Svelte Commerce for the web, or any client that speaks HTTP."],
-    ["Before you pay", "Demo screens and sites, arranged with sales; the terms ask you to check them carefully before buying.", "Everything: the code on GitHub, over 1,000 tests, and 342 REST operations documented in OpenAPI."],
+    ["Before you pay", "Demo screens and sites, arranged with sales; the terms ask you to check them carefully before buying.", "Everything: the code on GitHub, over {testsFloor} tests, and {apiOperations} REST operations documented in OpenAPI."],
     ["Track record", "Case studies on its site, among them spirits, grocery, sweets and fashion retailers.", "Svelte Commerce runs arialshop.com in production. GoCommerce has no production store yet."]
   ],
   "cost": {
@@ -57,7 +57,7 @@
     "You want to read and run the code before you pay anyone.",
     "You run more than one store, or expect to, on the same code.",
     "You have a developer and would rather pay for their time than for a licence.",
-    "You want a published API contract — 342 documented REST operations — to build against."
+    "You want a published API contract — {apiOperations} documented REST operations — to build against."
   ],
   "takeOnExtra": [
     "No mobile apps and no POS. Webnexs includes both; GoCommerce does not.",

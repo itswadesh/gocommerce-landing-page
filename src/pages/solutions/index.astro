@@ -8,6 +8,7 @@
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
 import type { SolutionPage } from '../../data/solutions/_schema'
+import { counts } from '../../lib/facts'
 
 const path = '/solutions/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -52,7 +53,7 @@ const faq = [
     <ul class="head-facts">
       <li><b>1</b> binary, all four</li>
       <li><b>0</b> modules required for the default store</li>
-      <li><b>342</b> documented operations behind each</li>
+      <li><b>{counts.apiOperations}</b> documented operations behind each</li>
     </ul>
   </section>
 
@@ -111,12 +112,12 @@ const faq = [
     <div class="tri">
       <div class="tri-item tri-store">
         <h3>Svelte Commerce</h3>
-        <p>A server-rendered SvelteKit storefront that runs against <a href="/svelte-commerce/backends/">26 commerce backends</a> — arialshop.com is it in production, on one of them. Its GoCommerce connector is <a href="/gocommerce-svelte-commerce-connector/">early, at 0.1.0</a>: catalogue, cart, checkout and order lookup, not customer accounts or a search index.</p>
+        <p>A server-rendered SvelteKit storefront that runs against <a href="/svelte-commerce/backends/">{counts.backends} commerce backends</a> — arialshop.com is it in production, on one of them. Its GoCommerce connector is <a href="/gocommerce-svelte-commerce-connector/">early, at 0.1.0</a>: catalogue, cart, checkout and order lookup, not customer accounts or a search index.</p>
         <a class="button secondary" href="/svelte-commerce/">Explore Svelte Commerce</a>
       </div>
       <div class="tri-item tri-engine">
         <h3>Anything that speaks HTTP</h3>
-        <p>GoCommerce holds no templates. Any client can drive its 342 operations — a Next.js site, a native app, a coding agent over MCP. The admin uses the same contract.</p>
+        <p>GoCommerce holds no templates. Any client can drive its {counts.apiOperations} operations — a Next.js site, a native app, a coding agent over MCP. The admin uses the same contract.</p>
         <a class="button secondary" href="/#headless">Headless, on the home page</a>
       </div>
       <div class="tri-item">
@@ -135,7 +136,7 @@ const faq = [
     <div class="actions">
       <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
       <a class="button secondary" href="/gocommerce/">Explore GoCommerce</a>
-      <a class="button secondary" href="/integrations/">51 modules</a>
+      <a class="button secondary" href="/integrations/">{counts.modules} modules</a>
     </div>
   </section>
 </Base>

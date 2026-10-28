@@ -12,6 +12,7 @@
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
 import captured from '../../data/admin-screens.json'
+import { counts } from '../../lib/facts'
 
 // Sections captured but not shown. The files and the manifest rows stay, so
 // taking a name out of this set brings a section back without a re-shoot.
@@ -40,7 +41,7 @@ const faq = [
 ---
 <Base
   title="GoCommerce Admin — Every Screen, From One Seeded Store"
-  description={`All ${screens.length} screens of the GoCommerce admin, from one seeded store in light and dark: orders, products, customers, discounts, reports and settings.`}
+  description={`${screens.length} screens of the GoCommerce admin, from one seeded store in light and dark: orders, products, customers, discounts, reports and settings.`}
   path={path}
   ogTitle="The GoCommerce admin, every screen"
   ogDescription={`${screens.length} real screens from one seeded store, in both colour schemes, captioned in the panel’s own words.`}
@@ -92,7 +93,7 @@ const faq = [
     <div class="actions">
       <a class="button" href="/#one-command" data-ev="quickstart_click">Deploy in minutes</a>
       <a class="button secondary" href="/gocommerce/">Explore GoCommerce</a>
-      <a class="button secondary" href="/integrations/">51 modules</a>
+      <a class="button secondary" href="/integrations/">{counts.modules} modules</a>
     </div>
   </section>
 </Base>

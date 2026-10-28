@@ -23,12 +23,12 @@
     ["Licence", "Vendure Core is GPLv3, with an exception that lets plugins carry their own licence; Vendure GmbH also sells a commercial licence.", "MIT, both packages."],
     ["Language", "TypeScript on Node.js v20, v22 or v24.", "Go, compiled to one binary with one production dependency, the PostgreSQL driver."],
     ["What production runs", "Two Node.js processes from one codebase — a server and a worker — on PostgreSQL, MySQL or MariaDB. The job queue and cache can live in the database; Redis is an option for both.", "One binary and one PostgreSQL database. No Node.js server, no Redis, no separate worker process."],
-    ["API", "GraphQL: a Shop API and an Admin API, both extensible and introspectable, with codegen for typed clients.", "REST: 342 documented operations, published as OpenAPI, the same API the admin uses."],
-    ["Extending it", "Plugins as NestJS modules, strategies that swap default behaviour, custom fields and entities, typed events and jobs.", "51 modules, each compiled in only when imported. Anything else is Go you write."],
-    ["Admin", "The Vendure Dashboard, extended with your own pages, blocks and widgets.", "61 Svelte admin screens compiled into the binary."],
+    ["API", "GraphQL: a Shop API and an Admin API, both extensible and introspectable, with codegen for typed clients.", "REST: {apiOperations} documented operations, published as OpenAPI, the same API the admin uses."],
+    ["Extending it", "Plugins as NestJS modules, strategies that swap default behaviour, custom fields and entities, typed events and jobs.", "{modules} modules, each compiled in only when imported. Anything else is Go you write."],
+    ["Admin", "The Vendure Dashboard, extended with your own pages, blocks and widgets.", "{adminScreens} Svelte admin screens compiled into the binary."],
     ["Marketplace", "Sellers and channels in the core, and an example multi-vendor plugin that Vendure marks as educational, not production-ready.", "Vendors in the core, moving through pending, approved and suspended; commission recorded per vendor but not settled."],
     ["B2B", "Company accounts, quotes, approvals, credit limits, contract pricing and single sign-on come with Vendure Platform, the commercial subscription.", "Company accounts, quotes, approvals and credit limits in the MIT b2b module, beside customer groups, price lists and quantity breaks in the core. No single sign-on for buyers."],
-    ["Agent tooling", "New projects get an AGENTS.md and non-interactive CLI scaffolding for agents; the earlier official MCP server is marked unmaintained.", "An MCP module with 19 tools that act on a running store; an AGENTS.md of 18 rules and 16 task guides in the repository."],
+    ["Agent tooling", "New projects get an AGENTS.md and non-interactive CLI scaffolding for agents; the earlier official MCP server is marked unmaintained.", "An MCP module with {mcpTools} tools that act on a running store; an AGENTS.md of {agentRules} rules and {skillGuides} task guides in the repository."],
     ["Hosting and price", "Self-host Core for nothing. Vendure Platform is a flat annual subscription, quoted per project; Vendure Cloud is in a paid design-partner programme.", "One MIT edition. Self-host for free, or a store hosted on kitcommerce.store for {hostedFeeText}."],
     ["Track record", "Customer stories from Hans Kohler, Flowtech, SKYdeals and Munch, which Vendure says runs over 10,000 payment transactions a day at peak.", "Svelte Commerce runs arialshop.com in production. No store we know of runs GoCommerce yet."]
   ],
@@ -66,7 +66,7 @@
     "title": "Keep Vendure, and use Svelte Commerce",
     "paras": [
       "Of every comparison on this site, this one has the strongest path that needs no migration.",
-      "Svelte Commerce’s Vendure connector wires 39 of its 43 services, with cart, checkout and sign-in all wired — level with Litekart as the most complete of its 26 connectors, because Vendure’s GraphQL Shop API covers almost the whole surface. Keep Vendure as the backend and the SvelteKit storefront, with its 79 live demo themes, sits in front of it.",
+      "Svelte Commerce’s Vendure connector wires 39 of its 43 services, with cart, checkout and sign-in all wired — level with Litekart as the most complete of its {backends} connectors, because Vendure’s GraphQL Shop API covers almost the whole surface. Keep Vendure as the backend and the SvelteKit storefront, with its 79 live demo themes, sits in front of it.",
       "One caution: no Svelte Commerce connector has yet been run against a live production instance of its platform, Vendure’s included, so test against a copy of your own store before launch.",
       "Moving the backend to GoCommerce instead is a script, not an import: GoCommerce’s import modules cover Shopify and Amazon only, so you read Vendure’s Admin API and write to GoCommerce’s REST API."
     ]

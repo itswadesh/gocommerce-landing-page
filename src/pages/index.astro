@@ -23,6 +23,7 @@ import themes from '../data/themes.json'
 import { featuredComparisons, featuredModules } from '../lib/related'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
+import { counts } from '../lib/facts'
 
 const path = '/'
 const site = Astro.site!
@@ -60,18 +61,18 @@ const adminLabel = demo ? 'Live demo' : 'Open admin'
 
 const graph = [
   { '@type': 'SoftwareApplication', '@id': abs('/gocommerce/#app'), name: 'GoCommerce', url: abs('/gocommerce/'), applicationCategory: 'DeveloperApplication', applicationSubCategory: 'Headless ecommerce backend', operatingSystem: 'Cross-platform', runtimePlatform: 'Go 1.27', softwareRequirements: 'Docker, or Go 1.27 and PostgreSQL', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, description: 'A headless open-source ecommerce backend built with Go, with a Svelte admin compiled into the same binary. Catalog, carts, checkout, orders, payments, inventory and fulfillment over a documented REST API.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
-  { '@type': 'SoftwareApplication', '@id': abs('/svelte-commerce/#app'), name: 'Svelte Commerce', url: abs('/svelte-commerce/'), applicationCategory: 'DeveloperApplication', applicationSubCategory: 'Headless ecommerce storefront', operatingSystem: 'Cross-platform', runtimePlatform: 'SvelteKit', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, description: 'A headless open-source ecommerce storefront built with SvelteKit, running against 26 commerce backends through connector packages.', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
+  { '@type': 'SoftwareApplication', '@id': abs('/svelte-commerce/#app'), name: 'Svelte Commerce', url: abs('/svelte-commerce/'), applicationCategory: 'DeveloperApplication', applicationSubCategory: 'Headless ecommerce storefront', operatingSystem: 'Cross-platform', runtimePlatform: 'SvelteKit', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, description: `A headless open-source ecommerce storefront built with SvelteKit, running against ${counts.backends} commerce backends through connector packages.`, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
   { '@type': 'SoftwareApplication', '@id': abs('/#platform'), name: 'KitCommerce', url: abs('/'), applicationCategory: 'BusinessApplication', applicationSubCategory: 'Open-source ecommerce platform', operatingSystem: 'Cross-platform', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, publisher: { '@id': abs('/#org') }, description: 'An open-source ecommerce platform, free to run yourself. Its packages are GoCommerce, a Go backend with its admin built in, and Svelte Commerce, a SvelteKit storefront — MIT licensed, used together or either one on its own.', hasPart: [{ '@id': abs('/gocommerce/#app') }, { '@id': abs('/svelte-commerce/#app') }], offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
 ]
 
 const faq = [
-  { q: 'What is GoCommerce?', a: 'GoCommerce is an open-source, headless ecommerce backend built with Go and PostgreSQL, with a Svelte-based admin compiled into the same binary. It serves 342 documented operations over REST.' },
-  { q: 'What is Svelte Commerce?', a: 'Svelte Commerce is an open-source headless ecommerce storefront built with Svelte and SvelteKit. It reaches a commerce backend through a connector package, and 26 connectors exist today.' },
+  { q: 'What is GoCommerce?', a: `GoCommerce is an open-source, headless ecommerce backend built with Go and PostgreSQL, with a Svelte-based admin compiled into the same binary. It serves ${counts.apiOperations} documented operations over REST.` },
+  { q: 'What is Svelte Commerce?', a: `Svelte Commerce is an open-source headless ecommerce storefront built with Svelte and SvelteKit. It reaches a commerce backend through a connector package, and ${counts.backends} connectors exist today.` },
   { q: 'What is KitCommerce?', a: `KitCommerce is an open-source ecommerce platform. Its packages are GoCommerce, the backend and admin, and Svelte Commerce, the storefront — MIT licensed, used together or either one on its own. It is free to run yourself, and a store hosted on kitcommerce.store pays ${hostedFeeText}.` },
   { q: 'Can I self-host them?', a: 'Yes. Both packages are MIT licensed and designed to run on your own infrastructure: GoCommerce is one binary and one PostgreSQL, Svelte Commerce is a Node server. The compose file on this site runs the backend, its admin and a proxy on port 80 in one command.' },
   { q: 'Is there a platform fee or a paid plan?', a: `Only when it is hosted. Under the MIT licence you download it and use it free, with no fee on your orders; your own servers, domains and third-party services still cost what they cost. A store hosted on kitcommerce.store (SaaS) pays ${hostedFeeText}.` },
   { q: 'Can I white-label it?', a: 'Yes. Both packages are MIT, so you can rename them, restyle the storefront and the admin, and ship them under your own brand for yourself or for clients. Keeping the copyright notice in the source is the only condition.' },
-  { q: 'Can GoCommerce and Svelte Commerce work together?', a: 'Through an early connector: @misiki/gocommerce-connector 0.1.0 lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Customer accounts and a search index are not covered yet. Either package also works alone: GoCommerce with any HTTP client, Svelte Commerce with 26 other backends.' },
+  { q: 'Can GoCommerce and Svelte Commerce work together?', a: `Through an early connector: @misiki/gocommerce-connector 0.1.0 lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Customer accounts and a search index are not covered yet. Either package also works alone: GoCommerce with any HTTP client, Svelte Commerce with ${counts.backends} other backends.` },
   { q: 'How do I get started?', a: 'Download docker-compose.yml and env.example from this site, set your secrets in .env, then run docker compose up -d. The admin answers on http://localhost/, the OpenAPI docs on /docs and the catalogue on /api/products. Everything deeper — your own PostgreSQL, modules, the storefront profile — is in the GoCommerce README.' },
 ]
 
@@ -153,11 +154,11 @@ const featureGroups = [
   { name: 'Search and discovery', items: ['Filtering and sorting in the engine', 'Meilisearch module', 'Sitemaps and IndexNow modules', 'Google Merchant and Meta feeds'] },
   { name: 'Cart and checkout', items: ['Guest carts and checkout', 'Idempotent, never-repricing checkout', 'Discount codes', 'Abandoned-cart recovery'] },
   { name: 'Orders and fulfilment', items: ['Order timeline and edits', 'Shipping in parcels, 12 carrier options', 'Returns with per-line restock', 'Invoices, picking sheets, packing slips'] },
-  { name: 'Payments', items: ['Eleven gateway modules', 'Cash on delivery built in', 'Refunds through the gateway', 'Payouts by payment method'] },
+  { name: 'Payments', items: [`${counts.paymentModules} gateway modules`, 'Cash on delivery built in', 'Refunds through the gateway', 'Payouts by payment method'] },
   { name: 'Customers and B2B', items: ['Shopper accounts (identity module)', 'Customer groups and price lists', 'Quantity breaks', 'Reviews and wishlists'] },
   { name: 'Marketplace and multi-store', items: ['Vendors, moderated, with their own logins', 'Channels with their own price lists', 'Roles and scoped API keys', 'Stock across locations'] },
   { name: 'Content and messaging', items: ['CMS pages, menus and FAQ', 'Newsletter and Klaviyo', 'Email: Resend, SendGrid', 'SMS: Twilio, MSG91'] },
-  { name: 'Infrastructure', items: ['One Go binary and PostgreSQL', '342 operations in OpenAPI', 'Signed webhooks, events never lost', 'gocommerce doctor and an MCP server'] },
+  { name: 'Infrastructure', items: ['One Go binary and PostgreSQL', `${counts.apiOperations} operations in OpenAPI`, 'Signed webhooks, events never lost', 'gocommerce doctor and an MCP server'] },
 ]
 
 // Rendered only when a number is configured; never a placeholder.
@@ -195,7 +196,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>Enterprise-grade</b><span>B2B, marketplace and multi-store in one engine</span></li>
       <li><svg aria-hidden="true"><use href="#i-zap"/></svg><b>Fast by design</b><span>One compiled Go binary, server-rendered pages</span></li>
       <li><svg aria-hidden="true"><use href="#i-db"/></svg><b>Built to scale</b><span>Add servers behind a load balancer, one PostgreSQL</span></li>
-      <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Over 1,000 tests</b><span>And a documented contract for every route</span></li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Over {counts.testsFloor} tests</b><span>And a documented contract for every route</span></li>
       <li><svg aria-hidden="true"><use href="#i-terminal"/></svg><b>It just works</b><span>Up on your own server with one command</span></li>
       <li><svg aria-hidden="true"><use href="#i-tag"/></svg><b>Your brand, your code</b><span>MIT licensed, white-label, 0% of sales when self-hosted</span></li>
     </ul>
@@ -272,16 +273,16 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <a class="button" href={adminHref} {...ext} data-ev="live_admin_click">{demo ? 'Open live demo' : 'Open admin sign-in'}</a>
         <a class="button secondary" href="/gocommerce/admin/" data-ev="gocommerce_explore">Every screen, captured</a>
       </div>
-      <p class="fineprint">Screenshots from a seeded instance: 64 products, 260 orders across 150 days. Every screen is one of the 61 in the admin.</p>
+      <p class="fineprint">Screenshots from a seeded instance: 64 products, 260 orders across 150 days. Every screen is one of the {counts.adminScreens} in the admin.</p>
     </div>
   </section>
 
   {/* ══════════════════════════════════════════ 3 — proof strip */}
   <section class="proofbar wrap" aria-label="What is in the box">
     <ul>
-      <li><b>61</b><span>admin screens</span></li>
-      <li><b>342</b><span>documented API operations</span></li>
-      <li><b>51</b><span>modules</span></li>
+      <li><b>{counts.adminScreens}</b><span>admin screens</span></li>
+      <li><b>{counts.apiOperations}</b><span>documented API operations</span></li>
+      <li><b>{counts.modules}</b><span>modules</span></li>
       <li><b>{themes.length}</b><span>storefront themes</span></li>
       <li><b>{liveCount}</b><span>live stores</span></li>
     </ul>
@@ -348,14 +349,14 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <p class="kicker">Manage</p>
         <h2 id="ops-title">Run the business from one admin</h2>
       </div>
-      <p class="section-lede">Orders, stock, customers, refunds and staff, from the 61-screen admin compiled into the GoCommerce binary. Each of these is a thing in the code, not an adjective.</p>
+      <p class="section-lede">Orders, stock, customers, refunds and staff, from the {counts.adminScreens}-screen admin compiled into the GoCommerce binary. Each of these is a thing in the code, not an adjective.</p>
     </div>
     <ul class="evidence">
-      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>Rights, per resource</b><span>50 core rights, read and write gated separately, plus those modules add — for the admin and the API alike.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><b>Rights, per resource</b><span>{counts.coreRights} core rights, read and write gated separately, plus those modules add — for the admin and the API alike.</span></li>
       <li><svg aria-hidden="true"><use href="#i-braces"/></svg><b>Scoped API keys</b><span>A key carries a role, a prefix for the log line, a last-used time and a revocation.</span></li>
       <li><svg aria-hidden="true"><use href="#i-bag"/></svg><b>Order timeline and edits</b><span>Every change on the record; edit lines and stock moves with them.</span></li>
       <li><svg aria-hidden="true"><use href="#i-warehouse"/></svg><b>Multi-location inventory</b><span>Stock on hand per location, reserved separately, every movement on a ledger.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-card"/></svg><b>11 payment modules</b><span>Money as integer minor units, never a float.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-card"/></svg><b>{counts.paymentModules} payment modules</b><span>Money as integer minor units, never a float.</span></li>
       <li><svg aria-hidden="true"><use href="#i-return"/></svg><b>Idempotent writes</b><span>Repeat a checkout request safely; a changed price answers 409 instead of charging.</span></li>
     </ul>
     <div class="actions">
@@ -400,10 +401,10 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <p class="part-name"><a href="/gocommerce/" data-ev="gocommerce_explore">GoCommerce</a></p>
         <p class="part-role">Headless Go backend + Svelte admin. One binary, one dependency, PostgreSQL.</p>
         <ul class="part-figures">
-          <li><b>51</b> modules</li>
-          <li><b>342</b> API operations</li>
-          <li><b>1,000+</b> tests</li>
-          <li><b>61</b> admin screens</li>
+          <li><b>{counts.modules}</b> modules</li>
+          <li><b>{counts.apiOperations}</b> API operations</li>
+          <li><b>{counts.testsFloor}+</b> tests</li>
+          <li><b>{counts.adminScreens}</b> admin screens</li>
         </ul>
         <div class="part-cta actions">
           <a class="button" href="/gocommerce/" data-ev="gocommerce_explore">Explore GoCommerce</a>
@@ -414,7 +415,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <div class="part part-store">
         <p class="part-id">itswadesh/svelte-commerce</p>
         <p class="part-name"><a href="/svelte-commerce/" data-ev="sveltecommerce_explore">Svelte Commerce</a></p>
-        <p class="part-role">Headless Svelte/SvelteKit storefront. Server-rendered, 26 backends.</p>
+        <p class="part-role">Headless Svelte/SvelteKit storefront. Server-rendered, {counts.backends} backends.</p>
         <ul class="part-figures">
           <li><b>26</b> backends</li>
           <li><b>{themes.length}</b> themes</li>
@@ -448,16 +449,16 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <p class="code-note">Every route is in <a href="https://github.com/itswadesh/gocommerce/blob/main/core/openapi.json" {...ext}>core/openapi.json</a> and served live at <code>/docs</code>.</p>
       </div>
       <ul class="devint-facts">
-        <li><b>342 operations, one contract</b><span>238 in the core and 104 from modules, all in OpenAPI 3.0.3. The admin uses the same API a storefront does.</span></li>
+        <li><b>{counts.apiOperations} operations, one contract</b><span>{counts.coreOperations} in the core and {counts.moduleOperations} from modules, all in OpenAPI 3.0.3. The admin uses the same API a storefront does.</span></li>
         <li><b>Signed webhooks</b><span>Every event POSTed with an <code>X-GoCommerce-Signature</code> HMAC-SHA256, retried up to 12 times with backoff, each delivery logged.</span></li>
         <li><b>No SDK to wait for</b><span>Anything that speaks JSON over HTTP is a client — or generate one in your language from the spec.</span></li>
         <li><b>Safe to retry</b><span>Send an <code>Idempotency-Key</code> and a repeated checkout returns the same order; a changed price answers 409 instead of charging.</span></li>
-        <li><b>Agents too</b><span>The <a href="/gocommerce/mcp/">MCP server</a> gives an AI agent 19 tools over the same services and rights.</span></li>
+        <li><b>Agents too</b><span>The <a href="/gocommerce/mcp/">MCP server</a> gives an AI agent {counts.mcpTools} tools over the same services and rights.</span></li>
       </ul>
     </div>
     <div class="actions">
       <a class="button secondary" href="/features/development/">Developer features</a>
-      <a class="button secondary" href="/integrations/">51 modules</a>
+      <a class="button secondary" href="/integrations/">{counts.modules} modules</a>
       <a class="button secondary" href="/gocommerce/mcp/">MCP server</a>
     </div>
   </section>
@@ -475,14 +476,14 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <h3>Instructions are explicit</h3>
         <ul class="tick">
           <li><code>AGENTS.md</code></li>
-          <li>14 architecture rules, 4 notes for agents</li>
-          <li>15 task guides in <code>skills/</code></li>
+          <li>{counts.agentRules} architecture rules, {counts.agentNotes} notes for agents</li>
+          <li>{counts.skillGuides} task guides in <code>skills/</code></li>
         </ul>
       </div>
       <div class="tri-item">
         <h3>Changes are testable</h3>
         <ul class="tick">
-          <li>Over 1,000 tests</li>
+          <li>Over {counts.testsFloor} tests</li>
           <li>Modular packages</li>
           <li>Predictable service boundaries</li>
         </ul>
@@ -490,7 +491,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <div class="tri-item">
         <h3>Runtime agents are supported</h3>
         <ul class="tick">
-          <li>MCP module, 19 tools</li>
+          <li>MCP module, {counts.mcpTools} tools</li>
           <li>Same domain services as REST</li>
           <li>Read-only mode</li>
         </ul>
@@ -531,7 +532,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <h3 class="sub">After one command</h3>
       <ul class="outcome">
         <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>PostgreSQL</b><span>the database GoCommerce owns</span></li>
-        <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Commerce API</b><span>342 documented operations</span></li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Commerce API</b><span>{counts.apiOperations} documented operations</span></li>
         <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Admin panel</b><span>compiled into the same binary</span></li>
         <li><svg aria-hidden="true"><use href="#i-check"/></svg><b>Reverse proxy</b><span>Caddy, so it answers on port 80</span></li>
       </ul>
@@ -581,7 +582,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <h2 id="int-title" class="kicker">Works with what you already run</h2>
       <ul class="intstrip">
         {strip.map((m) => <li><a href={m.href}>{m.mark && <img src={`/assets/brands/${m.mark}.svg`} width="22" height="22" alt="" loading="lazy">}{m.name}</a></li>)}
-        <li class="intstrip-more"><a href="/integrations/">51 modules →</a></li>
+        <li class="intstrip-more"><a href="/integrations/">{counts.modules} modules →</a></li>
       </ul>
       <h2 id="vs-title" class="kicker intstrip-next">Weighed against</h2>
       <ul class="intstrip" aria-labelledby="vs-title">
@@ -602,7 +603,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <ol class="steps4">
       <li><b>Download and run</b><span>One command brings up PostgreSQL, the API with its admin, and a proxy on port 80.</span><a href="#one-command">The command</a></li>
       <li><b>Configure your store</b><span>Catalogue, payment methods, shipping zones, tax rates and staff — all from the admin.</span><a href="/features/operations/">What the admin does</a></li>
-      <li><b>Customise it</b><span>Import the modules you need, change the storefront’s Svelte components, and let a coding agent read <code>AGENTS.md</code> first.</span><a href="/integrations/">51 modules</a></li>
+      <li><b>Customise it</b><span>Import the modules you need, change the storefront’s Svelte components, and let a coding agent read <code>AGENTS.md</code> first.</span><a href="/integrations/">{counts.modules} modules</a></li>
       <li><b>Launch on your infrastructure</b><span>Your server, your domain, your PostgreSQL backups — and your brand on all of it.</span><a href="/open-source/">Open source</a></li>
     </ol>
   </section>

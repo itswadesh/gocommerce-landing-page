@@ -56,7 +56,7 @@
     [
       "Extensions",
       "The Shopify App Store, where each app sets its own price.",
-      "51 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No app store."
+      "{modules} modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No app store."
     ],
     [
       "Payments",
@@ -71,7 +71,7 @@
     [
       "Admin",
       "Shopify’s admin, on the web and in its mobile app.",
-      "61 admin screens compiled into the GoCommerce binary, on the same API a storefront uses."
+      "{adminScreens} admin screens compiled into the GoCommerce binary, on the same API a storefront uses."
     ],
     [
       "Your data",
@@ -164,7 +164,7 @@
     },
     {
       "q": "Can I keep Shopify and use Svelte Commerce as the storefront?",
-      "a": "Yes. Svelte Commerce has a Shopify connector, with cart, checkout and sign-in wired. It is one of 26 backend connectors, and coverage for each is measured on the backends page rather than claimed."
+      "a": "Yes. Svelte Commerce has a Shopify connector, with cart, checkout and sign-in wired. It is one of {backends} backend connectors, and coverage for each is measured on the backends page rather than claimed."
     },
     {
       "q": "How do I move my catalogue from Shopify?",

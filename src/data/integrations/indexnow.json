@@ -48,9 +48,6 @@
     { "b": "Off until switched on", "t": "Installing the module does not enable it, and with no storefront URL set it submits nothing." },
     { "b": "The panel’s hint is wrong", "t": "The Storefront URL field’s help says the key file is served from the engine. It is not: as the package doc explains, the storefront serves it." }
   ],
-  "tested": true,
-  "testCount": 11,
-  "apiOps": 0,
   "vendorUrl": "https://www.indexnow.org",
   "vendorType": "CreativeWork",
   "trademark": "Bing, Yandex, Seznam and Naver are trademarks of their owners; this module submits URLs to the shared IndexNow endpoint and implies no endorsement by any of them.",

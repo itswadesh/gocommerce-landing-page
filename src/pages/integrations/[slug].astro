@@ -16,12 +16,14 @@ import { pageDates } from '../../lib/dates.mjs'
 import LinkCards from '../../components/LinkCards.astro'
 import type { Integration } from '../../data/integrations/_schema'
 import { featureFor, integrations, relatedModules } from '../../lib/related'
+import { perModule } from '../../lib/facts'
 
 export function getStaticPaths() {
   return integrations.map((i) => ({ params: { slug: i.slug }, props: { i } }))
 }
 
 const { i } = Astro.props as { i: Integration }
+const own = perModule[i.slug]
 const related = relatedModules(i).map((x) => ({ href: `/integrations/${x.slug}/`, label: x.h1, summary: x.description }))
 const feature = featureFor(i)
 const path = `/integrations/${i.slug}/`
@@ -98,8 +100,8 @@ const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one :
     <ul class="head-facts">
       <li><b>{i.category}</b> module</li>
       <li><b>{i.config.length}</b> {i.config.length === 1 ? 'setting' : 'settings'}</li>
-      {i.tested ? <li><b>{i.testCount}</b> {i.testCount === 1 ? 'test' : 'tests'}</li> : <li><b>no</b> tests</li>}
-      {i.apiOps > 0 && <li><b>{i.apiOps}</b> API {i.apiOps === 1 ? 'operation' : 'operations'}</li>}
+      {own.tests ? <li><b>{own.tests}</b> {own.tests === 1 ? 'test' : 'tests'}</li> : <li><b>no</b> tests</li>}
+      {own.operations > 0 && <li><b>{own.operations}</b> API {own.operations === 1 ? 'operation' : 'operations'}</li>}
       <li><b>ext/{i.slug}</b></li>
     </ul>
   </section>

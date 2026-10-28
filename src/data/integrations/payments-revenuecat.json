@@ -45,9 +45,6 @@
     { "b": "One customer per order", "t": "The order number is the app user id, so each order is a new RevenueCat customer. A project that also sells subscriptions to the same people would need to alias them in RevenueCat; the module does not." },
     { "b": "Cancellations are only logged", "t": "A CANCELLATION — how RevenueCat reports a refund — is logged, and the GoCommerce order keeps reading as paid." }
   ],
-  "tested": true,
-  "testCount": 11,
-  "apiOps": 0,
   "vendorUrl": "https://www.revenuecat.com",
   "vendorType": "Organization",
   "faq": [

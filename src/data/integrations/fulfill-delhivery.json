@@ -51,9 +51,6 @@
     { "b": "One HSN code for the store", "t": "HSNCode is a single setting sent with every parcel. A catalogue with goods under several codes cannot vary it per product." },
     { "b": "Rupees only, in practice", "t": "Amounts are minor units divided by 100. The code notes that is exact for INR, the only currency Delhivery settles cash on delivery in." }
   ],
-  "tested": true,
-  "testCount": 9,
-  "apiOps": 0,
   "vendorUrl": "https://www.delhivery.com",
   "vendorType": "Organization",
   "faq": [

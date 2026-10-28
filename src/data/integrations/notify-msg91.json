@@ -46,9 +46,6 @@
     { "b": "A refusal is logged as sent", "t": "The module cannot register or check a DLT template. When MSG91 refuses a message, the refusal goes to the process log, but the engine’s notification log records the message as sent." },
     { "b": "SMS only", "t": "It registers on the SMS channel. MSG91’s email, WhatsApp and voice products are not used." }
   ],
-  "tested": true,
-  "testCount": 2,
-  "apiOps": 0,
   "vendorUrl": "https://msg91.com",
   "vendorType": "Organization",
   "faq": [

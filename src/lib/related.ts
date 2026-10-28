@@ -9,7 +9,7 @@ import { fill } from './pricing'
 
 const bySlug = <T extends { slug: string }>(a: T, b: T) => a.slug.localeCompare(b.slug)
 export const comparisons = Object.values(import.meta.glob<Comparison>('../data/compare/*.json', { eager: true, import: 'default' })).sort(bySlug)
-export const integrations = Object.values(import.meta.glob<Integration>('../data/integrations/*.json', { eager: true, import: 'default' })).sort(bySlug)
+export const integrations = Object.values(import.meta.glob<Integration>('../data/integrations/*.json', { eager: true, import: 'default' })).map(fill).sort(bySlug)
 
 const find = <T extends { slug: string }>(list: T[], slug: string) => {
   const hit = list.find((x) => x.slug === slug)

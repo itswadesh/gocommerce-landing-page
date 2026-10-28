@@ -47,9 +47,6 @@
     { "b": "Refunds follow the webhook", "t": "A refund goes against the Lemon Squeezy order id that only the paid order_created webhook records." },
     { "b": "Dashboard refunds are only logged", "t": "order_refunded is logged, not applied. A refund made in Lemon Squeezy does not change the GoCommerce order." }
   ],
-  "tested": true,
-  "testCount": 7,
-  "apiOps": 0,
   "vendorUrl": "https://www.lemonsqueezy.com",
   "vendorType": "Organization",
   "faq": [

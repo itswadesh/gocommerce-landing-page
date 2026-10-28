@@ -120,20 +120,22 @@ The homepage uses focused derivatives; project pages retain the complete origina
 
 ## Where the numbers come from
 
-Every figure was measured against the repositories on **21 September 2026**,
-not estimated.
+GoCommerce figures are read from a commit, not typed: `node scripts/read-facts.mjs`
+reads GoCommerce `origin/main` through git and writes `src/data/facts.json`,
+whose `how` block says what each figure counts (modules are `ext/` directories
+less `alltest`; admin screens are `+page.svelte` files under
+`admin/src/routes/dash`; tests are `Test`/`Example` functions less `TestMain`;
+operations are path and method pairs in every `openapi.json`). Pages render them
+through `src/lib/facts.ts`, data files write `{modules}`-style tokens, and
+`npm run verify` fails when a page states another figure, or when a local
+`../gocommerce` checkout has moved past the file.
 
 | Claim | Measured from |
 | --- | --- |
-| 1 production dependency | the non-indirect `require` block in `go.mod` — `jackc/pgx/v5` |
-| 342 documented API operations | 238 in `core/openapi.json` plus 104 across `ext/*/openapi.json` |
-| 142 admin endpoints | paths under `/api/admin` in `core/openapi.json` |
-| 1,036 tests | `Test`/`Example` functions across `*_test.go` |
-| 44 modules | directories in `ext/` |
-| 61 admin screens | `+page.svelte` files under `admin/src/routes` |
-| 48 migrations | migration markers in `core/schema.go` |
-| 17 commerce events | event constants in `core/events.go` |
-| 26 connectors, and every coverage score | `svelte-commerce/docs/CONNECTORS.md`, vendored to `data/connectors.json` |
+| 1 production dependency | the non-indirect `require` block in `go.mod`: `jackc/pgx/v5` |
+| 142 admin endpoints | paths under `/api/admin` in `core/openapi.json`, 21 September 2026 |
+| Modules, operations, tests, admin screens, MCP tools, rights, migrations, events, AGENTS.md rules, skills guides | `src/data/facts.json` |
+| 26 connectors, and every coverage score | `svelte-commerce/docs/CONNECTORS.md`, vendored to `src/data/connectors.json` |
 | Star and fork counts | the GitHub API, per repository |
 
 **The site said "6 backends" until 21 September 2026. That was wrong.** There are

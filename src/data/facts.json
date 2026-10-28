@@ -1,0 +1,250 @@
+{
+  "_comment": "GoCommerce figures the site states, read by scripts/read-facts.mjs from the commit named here. Pages read them through src/lib/facts.ts, data files write {token}s that fill() replaces, and scripts/verify.js fails on a page that states another figure. \"how\" says what each one counts.",
+  "repository": "itswadesh/gocommerce",
+  "ref": "origin/main",
+  "commit": "0b6c0aa2",
+  "committed": "2026-10-28",
+  "modules": 52,
+  "paymentModules": 11,
+  "fulfilmentModules": 11,
+  "binaryModules": 49,
+  "apiOperations": 532,
+  "coreOperations": 286,
+  "moduleOperations": 246,
+  "adminScreens": 92,
+  "tests": 1965,
+  "mcpTools": 19,
+  "mcpWriteTools": 10,
+  "coreRights": 50,
+  "migrations": 81,
+  "events": 17,
+  "agentRules": 16,
+  "agentNotes": 4,
+  "skillGuides": 16,
+  "perModule": {
+    "ai-gateway": {
+      "tests": 76,
+      "operations": 12
+    },
+    "b2b": {
+      "tests": 49,
+      "operations": 64
+    },
+    "banners": {
+      "tests": 6,
+      "operations": 6
+    },
+    "cart-recovery": {
+      "tests": 39,
+      "operations": 10
+    },
+    "cms": {
+      "tests": 8,
+      "operations": 7
+    },
+    "contact": {
+      "tests": 9,
+      "operations": 7
+    },
+    "faq": {
+      "tests": 3,
+      "operations": 6
+    },
+    "feeds": {
+      "tests": 3,
+      "operations": 3
+    },
+    "fulfill-delhivery": {
+      "tests": 9,
+      "operations": 0
+    },
+    "fulfill-easyship": {
+      "tests": 8,
+      "operations": 0
+    },
+    "fulfill-indiapost": {
+      "tests": 6,
+      "operations": 0
+    },
+    "fulfill-nimbuspost": {
+      "tests": 9,
+      "operations": 0
+    },
+    "fulfill-onfleet": {
+      "tests": 8,
+      "operations": 0
+    },
+    "fulfill-shippit": {
+      "tests": 9,
+      "operations": 0
+    },
+    "fulfill-shippo": {
+      "tests": 9,
+      "operations": 0
+    },
+    "fulfill-shiprocket": {
+      "tests": 5,
+      "operations": 0
+    },
+    "fulfill-shipstation": {
+      "tests": 7,
+      "operations": 0
+    },
+    "fulfill-usps": {
+      "tests": 10,
+      "operations": 1
+    },
+    "fulfill-veeqo": {
+      "tests": 7,
+      "operations": 0
+    },
+    "identity": {
+      "tests": 43,
+      "operations": 28
+    },
+    "import-amazon": {
+      "tests": 34,
+      "operations": 3
+    },
+    "import-shopify": {
+      "tests": 16,
+      "operations": 4
+    },
+    "indexnow": {
+      "tests": 11,
+      "operations": 0
+    },
+    "invoices": {
+      "tests": 43,
+      "operations": 5
+    },
+    "klaviyo": {
+      "tests": 2,
+      "operations": 1
+    },
+    "layouts": {
+      "tests": 39,
+      "operations": 13
+    },
+    "mcp": {
+      "tests": 24,
+      "operations": 2
+    },
+    "navigation": {
+      "tests": 7,
+      "operations": 10
+    },
+    "newsletter": {
+      "tests": 4,
+      "operations": 7
+    },
+    "notify-msg91": {
+      "tests": 8,
+      "operations": 0
+    },
+    "notify-resend": {
+      "tests": 7,
+      "operations": 0
+    },
+    "notify-sendgrid": {
+      "tests": 5,
+      "operations": 0
+    },
+    "notify-twilio": {
+      "tests": 6,
+      "operations": 0
+    },
+    "payments-adyen": {
+      "tests": 8,
+      "operations": 0
+    },
+    "payments-cashfree": {
+      "tests": 28,
+      "operations": 1
+    },
+    "payments-clover": {
+      "tests": 16,
+      "operations": 0
+    },
+    "payments-creem": {
+      "tests": 12,
+      "operations": 0
+    },
+    "payments-helcim": {
+      "tests": 9,
+      "operations": 0
+    },
+    "payments-hyperswitch": {
+      "tests": 8,
+      "operations": 0
+    },
+    "payments-lemonsqueezy": {
+      "tests": 7,
+      "operations": 0
+    },
+    "payments-paddle": {
+      "tests": 7,
+      "operations": 0
+    },
+    "payments-razorpay": {
+      "tests": 9,
+      "operations": 0
+    },
+    "payments-revenuecat": {
+      "tests": 11,
+      "operations": 0
+    },
+    "payments-stripe": {
+      "tests": 13,
+      "operations": 0
+    },
+    "reviews": {
+      "tests": 6,
+      "operations": 7
+    },
+    "search-meilisearch": {
+      "tests": 8,
+      "operations": 3
+    },
+    "showcases": {
+      "tests": 21,
+      "operations": 11
+    },
+    "sitemaps": {
+      "tests": 4,
+      "operations": 5
+    },
+    "telegram-alerts": {
+      "tests": 23,
+      "operations": 10
+    },
+    "translations": {
+      "tests": 13,
+      "operations": 4
+    },
+    "webhooks": {
+      "tests": 28,
+      "operations": 9
+    },
+    "wishlist": {
+      "tests": 7,
+      "operations": 7
+    }
+  },
+  "how": {
+    "modules": "directories under ext/, not counting the ext/alltest test harness",
+    "paymentModules": "ext/payments-* directories",
+    "fulfilmentModules": "ext/fulfill-* directories",
+    "binaryModules": "modules cmd/gocommerce, the reference binary, imports and can install",
+    "apiOperations": "operations (path and method pairs) in core/openapi.json plus every ext/*/openapi.json",
+    "adminScreens": "+page.svelte files under admin/src/routes/dash, the operator panel; sign-in pages and the trade portal are not counted",
+    "tests": "func Test… and func Example… in *_test.go, less TestMain",
+    "mcpTools": "tools defined in ext/mcp/tools.go; mcpWriteTools are those marked Mutates",
+    "coreRights": "Right constants in core/rights.go",
+    "migrations": "core migrations listed in core/schema.go",
+    "events": "event constants in core/events.go",
+    "agentRules": "numbered rules in AGENTS.md; agentNotes are the bullets under \"For AI agents specifically\"",
+    "skillGuides": "task guides in skills/, not counting its README",
+    "perModule": "per ext/ directory: func Test…(t *testing.T) in its *_test.go, and operations in its openapi.json"
+  }
+}

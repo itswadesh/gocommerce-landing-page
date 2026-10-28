@@ -43,9 +43,6 @@
     { "b": "Not in search or feeds", "t": "The Meilisearch index and the product feeds carry the stored text. Translated copy reaches the storefront’s product reads and nothing else." },
     { "b": "Nothing automatic", "t": "It stores and serves text somebody wrote. There is no machine translation." }
   ],
-  "tested": true,
-  "testCount": 13,
-  "apiOps": 4,
   "faq": [
     { "q": "How does the store pick a language?", "a": "An explicit ?lang= wins, then Accept-Language in the client’s order of preference, then the default. Only languages in Config.Languages are considered, and a ?lang= the store does not serve falls back to the default." },
     { "q": "What exactly is translated?", "a": "Four product fields: title, description, seo_title and seo_description. Anything without a translation keeps the product’s stored text." },

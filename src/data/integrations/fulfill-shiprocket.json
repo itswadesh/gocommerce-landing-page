@@ -48,9 +48,6 @@
     { "b": "Two-decimal money", "t": "Prices are sent as minor units divided by 100 — right for rupees, wrong for a currency with none or three decimals." },
     { "b": "The label is best effort", "t": "If Shiprocket cannot generate a label, the shipment is still recorded, without a label URL. Print it from Shiprocket’s dashboard instead." }
   ],
-  "tested": true,
-  "testCount": 5,
-  "apiOps": 0,
   "vendorUrl": "https://www.shiprocket.in",
   "vendorType": "Organization",
   "faq": [

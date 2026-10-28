@@ -46,9 +46,6 @@
     { "b": "No credit notes", "t": "A refund issues nothing and changes nothing: the module listens for order.paid only." },
     { "b": "500 at a time on start-up", "t": "The start-up catch-up issues invoices for at most 500 paid orders. A larger backlog is cleared over several restarts." }
   ],
-  "tested": true,
-  "testCount": 11,
-  "apiOps": 2,
   "faq": [
     { "q": "Is it a GST invoice?", "a": "It prints your GSTIN if you set TaxID, and nothing more GST-specific: no HSN or SAC codes, no place of supply, no CGST, SGST or IGST lines — and, as it stands, no tax line at all. Whether a document meets your invoicing rules is a question for your accountant; the template in invoices.go is where to change it." },
     { "q": "When does a cash-on-delivery order get its invoice?", "a": "When it is marked paid, because the module listens for order.paid. A cash-on-delivery order has no invoice until an operator records the payment." },

@@ -49,9 +49,6 @@
     { "b": "Dashboard refunds and disputes", "t": "The module acts on PAYMENT notifications only. A refund made in Clover’s dashboard, or a dispute, does not change the GoCommerce order." },
     { "b": "Nothing travels with the session", "t": "Extra data the storefront sends at checkout is not passed to Clover: a Hosted Checkout session has nowhere to carry it. The order’s email goes as the customer’s." }
   ],
-  "tested": true,
-  "testCount": 16,
-  "apiOps": 0,
   "vendorUrl": "https://www.clover.com",
   "vendorType": "Organization",
   "faq": [

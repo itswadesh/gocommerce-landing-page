@@ -48,9 +48,6 @@
     { "b": "Config.Index is ignored", "t": "The panel’s index field has a default of its own, and the module reads the panel first — so an index name set only in Config never takes effect. Name the index on the Plugins screen." },
     { "b": "Five query parameters", "t": "The search route passes q, limit, offset, filter and sort, and nothing else — facet counts and highlighting mean querying Meilisearch directly with the search-only key." }
   ],
-  "tested": true,
-  "testCount": 6,
-  "apiOps": 3,
   "vendorUrl": "https://www.meilisearch.com",
   "vendorType": "SoftwareApplication",
   "faq": [

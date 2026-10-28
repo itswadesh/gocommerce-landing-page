@@ -45,9 +45,6 @@
     { "b": "The proxy is yours", "t": "The files are served by GoCommerce under /x/sitemaps/. The storefront has to proxy or redirect its /sitemap.xml; the module cannot answer at the storefront’s address." },
     { "b": "No change pings", "t": "It tells no search engine that something changed. That is the indexnow module’s job." }
   ],
-  "tested": true,
-  "testCount": 4,
-  "apiOps": 5,
   "vendorUrl": "https://www.sitemaps.org/protocol.html",
   "vendorType": "CreativeWork",
   "vendorName": "Sitemaps XML protocol",

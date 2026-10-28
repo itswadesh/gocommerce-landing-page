@@ -28,7 +28,7 @@
     ["B2B", "Customer groups from Growth; price lists only on Performance.", "Customer groups, price lists and quantity breaks in core, and company accounts, credit on account, approvals and quotes in the b2b module."],
     ["Inventory locations", "Up to 4, 5 or 8 by plan; custom on Performance.", "Stock per location in core, on hand and reserved, with no plan limit."],
     ["More storefronts", "{p:bigcommerce/storefront-core}, {p:bigcommerce/storefront-growth} or {p:bigcommerce/storefront-scale} a month each, up to 3, 5 or 8 by plan.", "Channels, each with its own published catalogue and price lists, at no charge."],
-    ["Extensions", "An app marketplace of over 1,200 apps; Amazon, eBay and Walmart channels on every plan.", "51 modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No marketplace channels."],
+    ["Extensions", "An app marketplace of over 1,200 apps; Amazon, eBay and Walmart channels on every plan.", "{modules} modules — payments, shipping, messaging, search, feeds, MCP — each compiled in when you import it. No marketplace channels."],
     ["Code", "Catalyst, its Next.js storefront, is MIT on GitHub. The backend it runs against is closed.", "Both halves open: the GoCommerce backend and admin, and the Svelte Commerce storefront."],
     ["Your data", "Products, customers (not passwords) and orders export to CSV; themes download as a zip. Orders cannot be imported back by CSV.", "Rows in your own PostgreSQL, which you can query, back up and move."]
   ],
@@ -67,8 +67,8 @@
     "title": "Moving from BigCommerce",
     "paras": [
       "There is no importer for BigCommerce, and no storefront-only halfway house.",
-      "BigCommerce exports products, customers — without passwords — and orders to CSV, and its API can export the same. The move is a script that reads those and writes through GoCommerce’s 342 documented REST operations. Customers will need to set new passwords.",
-      "Svelte Commerce has no BigCommerce connector among its 26 backends, so, unlike Shopify, you cannot keep BigCommerce and swap only the storefront. If that is what you want, Catalyst is BigCommerce’s own answer."
+      "BigCommerce exports products, customers — without passwords — and orders to CSV, and its API can export the same. The move is a script that reads those and writes through GoCommerce’s {apiOperations} documented REST operations. Customers will need to set new passwords.",
+      "Svelte Commerce has no BigCommerce connector among its {backends} backends, so, unlike Shopify, you cannot keep BigCommerce and swap only the storefront. If that is what you want, Catalyst is BigCommerce’s own answer."
     ]
   },
   "faq": [

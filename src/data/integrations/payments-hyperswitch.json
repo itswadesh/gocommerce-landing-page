@@ -48,9 +48,6 @@
     { "b": "No routing settings here", "t": "Which connector takes a payment, retries and 3DS are set in Hyperswitch. The module has no settings for them, by design." },
     { "b": "No test switch", "t": "There is no sandbox flag. In Hyperswitch the environment is the host you talk to, so it is BaseURL." }
   ],
-  "tested": true,
-  "testCount": 8,
-  "apiOps": 0,
   "vendorUrl": "https://hyperswitch.io",
   "vendorType": "SoftwareApplication",
   "faq": [

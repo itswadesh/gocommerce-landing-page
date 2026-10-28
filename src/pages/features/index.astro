@@ -3,6 +3,7 @@
  * The map of the features pages, built from the same data files, so a page
  * is listed here the moment its file exists.
  */
+import { fill } from '../../lib/pricing'
 import Base from '../../layouts/Base.astro'
 import type { FeaturePage } from '../../data/features/_schema'
 import modules from '../../data/modules.json'
@@ -13,7 +14,7 @@ const files = import.meta.glob<FeaturePage>('../../data/features/*.json', { eage
 const order = ['checkout', 'operations', 'development', 'ai']
 // A page missing from the order goes last rather than first.
 const rank = (slug: string) => (order.includes(slug) ? order.indexOf(slug) : order.length)
-const pages = Object.values(files).sort((a, b) => rank(a.slug) - rank(b.slug))
+const pages = Object.values(files).map(fill).sort((a, b) => rank(a.slug) - rank(b.slug))
 const count = (p: FeaturePage, s: 'yes' | 'partial') => p.groups.reduce((n, g) => n + g.tiles.filter((t) => t.status === s).length, 0)
 
 const graph = [

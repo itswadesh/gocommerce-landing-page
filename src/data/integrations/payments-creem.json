@@ -47,9 +47,6 @@
     { "b": "No currency is sent", "t": "The checkout carries custom_price in minor units and no currency code. Check that Creem charges in the currency your store settles in." },
     { "b": "No failure path", "t": "The module never marks a payment failed, and dashboard refunds and disputes are only logged. An abandoned checkout leaves the order unpaid." }
   ],
-  "tested": true,
-  "testCount": 12,
-  "apiOps": 0,
   "vendorUrl": "https://www.creem.io",
   "vendorType": "Organization",
   "faq": [

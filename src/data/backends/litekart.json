@@ -48,7 +48,7 @@
     "Choose the theme in the Litekart admin. The API serves that theme’s content, layout and CSS, and `store.theme` wins over `PUBLIC_STOREFRONT_THEME`; `src/lib/theme/index.ts` has the full order of precedence."
   ],
   "howItWorks": [
-    "Litekart is the REST API the other 25 connectors inherit their paths from. `kitcommerce.config.ts` exports its services from `src/lib/core/connectors/active`, which on Litekart is a plain re-export of `@misiki/litekart-connector` — the one backend that needs no service overrides.",
+    "Litekart is the REST API the other {otherBackends} connectors inherit their paths from. `kitcommerce.config.ts` exports its services from `src/lib/core/connectors/active`, which on Litekart is a plain re-export of `@misiki/litekart-connector` — the one backend that needs no service overrides.",
     "The active backend is named by a `connectorName` marker — `litekart` here — and that is what `/health`, `init` and the shopping assistant read to know which backend is running.",
     "Because the API is authoritative for the store record, the static `src/lib/core/connectors/default-store.json` that other backends fall back on is never read in Litekart mode."
   ],

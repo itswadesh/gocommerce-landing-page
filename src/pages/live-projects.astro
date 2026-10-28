@@ -14,6 +14,7 @@
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
 import data from '../data/live-projects.json'
+import { counts } from '../lib/facts'
 
 const path = '/live-projects/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -89,7 +90,7 @@ const faq = [
 
   <section class="closing wrap">
     <h2>The storefront behind every one of them</h2>
-    <p>Svelte Commerce is MIT licensed and runs against 26 commerce backends. Start from the same code these stores did.</p>
+    <p>Svelte Commerce is MIT licensed and runs against {counts.backends} commerce backends. Start from the same code these stores did.</p>
     <div class="actions">
       <a class="button" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_click">Download the storefront</a>
       <a class="button secondary" href="/svelte-commerce/themes/">79 live themes</a>

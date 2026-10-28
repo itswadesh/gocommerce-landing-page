@@ -42,9 +42,6 @@
     { "b": "Flat pages", "t": "A page has no parent and no position. The public list is newest first; linking pages into the storefront’s header or footer is the menus’ job." },
     { "b": "No switch in the Plugins screen", "t": "The module registers no plugin. Once installed, the public routes answer for every published page." }
   ],
-  "tested": true,
-  "testCount": 8,
-  "apiOps": 7,
   "faq": [
     { "q": "Where does the storefront read a page?", "a": "GET /x/cms/pages/{slug} on the host that serves your GoCommerce API, which answers with the published page in the request’s language. GET /x/cms/pages lists the published pages in that language, a page at a time." },
     { "q": "What happens when a page has no translation?", "a": "The module tries the store’s other languages, main first, and answers with the first published page it finds at that slug. A shopper reading in a language nobody has written the page in sees it in the main language rather than a 404." },

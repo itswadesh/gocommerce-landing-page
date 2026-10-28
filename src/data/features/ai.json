@@ -12,7 +12,7 @@
   "facts": [
     { "b": "2", "t": "model providers, Anthropic and OpenAI" },
     { "b": "5", "t": "kinds of store data, each a switch the owner sets" },
-    { "b": "19", "t": "MCP tools, the 9 that read offered to an agent key" }
+    { "b": "{mcpTools}", "t": "MCP tools, the {mcpReadTools} that read offered to an agent key" }
   ],
   "groups": [
     {
@@ -51,7 +51,7 @@
     {
       "name": "MCP",
       "tiles": [
-        { "title": "Store tools for agents", "status": "yes", "text": "19 tools over the same domain services as the REST API, each checked against the caller’s rights, with every change written to an audit table. Over HTTP or stdio.", "source": "ext/mcp" },
+        { "title": "Store tools for agents", "status": "yes", "text": "{mcpTools} tools over the same domain services as the REST API, each checked against the caller’s rights, with every change written to an audit table. Over HTTP or stdio.", "source": "ext/mcp" },
         { "title": "A read-only mode", "status": "yes", "text": "Config.ReadOnly withholds all ten tools that change things from every caller, the admin token included, and tools/list marks each tool with readOnlyHint.", "source": "ext/mcp/mcp.go · Config.ReadOnly" },
         { "title": "Agent keys get the read tools", "status": "yes", "text": "An agent key is offered the read tools only. A tool that changes the store, a module’s own included, is left out of its list and refused and audited if called.", "source": "ext/mcp/mcp.go · callTool" }
       ]

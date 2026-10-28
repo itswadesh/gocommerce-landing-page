@@ -48,9 +48,6 @@
     { "b": "No contents sent", "t": "The booking carries the parcel’s weight and size, the address and the order number — not the items in it or their values." },
     { "b": "A guessed box for several items", "t": "For anything but a single unit, the size sent is the configured default, not a measurement. The engine does not pack cartons." }
   ],
-  "tested": true,
-  "testCount": 9,
-  "apiOps": 0,
   "vendorUrl": "https://www.shippit.com",
   "vendorType": "Organization",
   "faq": [

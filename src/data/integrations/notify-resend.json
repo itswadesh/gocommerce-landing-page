@@ -49,9 +49,6 @@
     { "b": "Refusals count as sent", "t": "A message Resend refuses returns no error, so the engine’s notification log records it as sent. The refusal is only in the application log." },
     { "b": "No bounce tracking", "t": "The module registers no webhook. Bounces, complaints and opens stay in Resend." }
   ],
-  "tested": true,
-  "testCount": 7,
-  "apiOps": 0,
   "vendorUrl": "https://resend.com",
   "vendorType": "Organization",
   "faq": [

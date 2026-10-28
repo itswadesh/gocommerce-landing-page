@@ -44,9 +44,6 @@
     { "b": "Lists are never cleared", "t": "There is no route to delete a list and no expiry. A shopper can remove items one at a time and clear the email by sending an empty one; an operator can remove neither." },
     { "b": "Products, not variants, in the ranking", "t": "The ranking groups by product: which variant was wished for is on the list but not in the count, and out of stock means no active variant has any to sell. It reads as JSON pages; there is no CSV export." }
   ],
-  "tested": true,
-  "testCount": 6,
-  "apiOps": 7,
   "faq": [
     { "q": "Does a shopper need an account?", "a": "No. A list is created with POST /x/wishlist and kept by the token it returns, the way a cart is, so a guest can save products. The module has no link to customer accounts." },
     { "q": "Does it email shoppers when something is back in stock?", "a": "No. It keeps the emails shoppers give and counts, for each product, how many lists with an email hold it. Sending the notice is left to something else." },

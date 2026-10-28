@@ -45,9 +45,6 @@
     { "b": "Refunds need the transaction", "t": "The refund goes against the transaction id the webhook recorded. An order without one has nothing to refund against, and the module says so." },
     { "b": "Dashboard refunds are not applied", "t": "A refund made in Helcim reaches the webhook as a non-purchase transaction and does not change the GoCommerce order." }
   ],
-  "tested": true,
-  "testCount": 9,
-  "apiOps": 0,
   "vendorUrl": "https://www.helcim.com",
   "vendorType": "Organization",
   "faq": [

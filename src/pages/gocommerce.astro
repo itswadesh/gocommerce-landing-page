@@ -4,6 +4,7 @@ import { hostedFeeText } from '../lib/pricing'
 import Faq from '../components/Faq.astro'
 import LinkCards from '../components/LinkCards.astro'
 import { compareCard, featuredComparisons } from '../lib/related'
+import { counts } from '../lib/facts'
 
 const path = '/gocommerce/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -15,11 +16,11 @@ const graph = [
 ]
 
 const faq = [
-  { q: 'Is GoCommerce production-ready?', a: 'It is 1.0, so the exported API and the HTTP contract are stable and breaking either takes a major version. The engine carries 1,036 tests and a documented contract for every route. What 1.0 does not supply is production mileage: no store we know of is running it yet. Treat it as something to build on deliberately.' },
+  { q: 'Is GoCommerce production-ready?', a: `It is 1.0, so the exported API and the HTTP contract are stable and breaking either takes a major version. The engine carries ${counts.tests} tests and a documented contract for every route. What 1.0 does not supply is production mileage: no store we know of is running it yet. Treat it as something to build on deliberately.` },
   { q: 'What do I have to run in production?', a: 'One Go binary and one PostgreSQL database. The Svelte admin is compiled into the binary, so there is no Node.js server, no Redis, no message broker and no second deployment to keep in step. Add infrastructure later if a real requirement asks for it.' },
-  { q: 'Does GoCommerce need Svelte Commerce?', a: 'No. GoCommerce is a standalone backend. It serves 342 documented operations over REST, published as OpenAPI, so any storefront or application that can call HTTP can drive it. Svelte Commerce is one option in front of it, not a requirement.' },
+  { q: 'Does GoCommerce need Svelte Commerce?', a: `No. GoCommerce is a standalone backend. It serves ${counts.apiOperations} documented operations over REST, published as OpenAPI, so any storefront or application that can call HTTP can drive it. Svelte Commerce is one option in front of it, not a requirement.` },
   { q: 'Can I rebrand it and sell what I build?', a: 'Yes. GoCommerce is MIT. Rename it, restyle the admin, cut what you do not need, and ship it under your own name and domain. Nothing phones home and there is no plan to outgrow.' },
-  { q: 'How well does it work with AI coding agents?', a: 'The repository is written for it: AGENTS.md holds 18 architectural rules for anyone changing the code, human or agent, and skills/ holds 16 task guides so an agent loads the one matching its job instead of reading everything. There is one production dependency, so the graph an agent must understand is small, and 1,036 tests to catch a wrong edit. Separately, the MCP module lets an agent operate a running store through the same domain services a REST call uses — never the database directly.' },
+  { q: 'How well does it work with AI coding agents?', a: `The repository is written for it: AGENTS.md holds ${counts.agentRules} architectural rules for anyone changing the code, human or agent, and skills/ holds ${counts.skillGuides} task guides so an agent loads the one matching its job instead of reading everything. There is one production dependency, so the graph an agent must understand is small, and ${counts.tests} tests to catch a wrong edit. Separately, the MCP module lets an agent operate a running store through the same domain services a REST call uses — never the database directly.` },
   { q: 'How fast is it?', a: 'No benchmark figures are published, so this page does not quote one. Architecturally: a single compiled binary, one production dependency, the API and admin in one process, no runtime plugin loading, and integer arithmetic for money. Benchmarking is on the contribution list.' },
   { q: 'Does it handle B2B, or marketplaces?', a: 'Both have engine support. B2B pricing resolves by customer group and quantity through price lists. Marketplaces have vendors as first-class sellers with pending, approved and suspended states. Neither is as deep as a dedicated platform; read core/pricing.go and core/vendors.go before committing to one.' },
   { q: 'How do I migrate an existing catalogue?', a: 'The import-shopify module brings a whole Shopify catalogue across and matches on Shopify’s own product id, so re-running it updates rather than duplicates (titles, descriptions, status and tags; not variants, prices or stock). An Amazon importer exists for single listings and creates a new product each time. There is also an order importer that takes a created_at, fires no events unless asked and moves no stock, because loading history should not send two hundred confirmation emails.' },
@@ -63,13 +64,13 @@ createdb mystore
 go run ./cmd/gocommerce serve`
 
 const treeCode = `gocommerce
-├── Commerce API            <span class="c">238 operations</span>
-├── Embedded Svelte admin   <span class="c">61 screens</span>
+├── Commerce API            <span class="c">${counts.coreOperations} operations</span>
+├── Embedded Svelte admin   <span class="c">${counts.adminScreens} screens</span>
 ├── Payments
 ├── Orders and fulfillment
 ├── Inventory
 ├── Events and outbox
-└── Installed modules       <span class="c">104 operations</span>
+└── Installed modules       <span class="c">${counts.moduleOperations} operations</span>
         │
         ▼
     PostgreSQL`
@@ -79,9 +80,9 @@ const screens = [
   ['right', 'x-products', 'products', 'GET /api/admin/products', 'admin', 'Manage products with their variants in view', 'The products list showing sixty-four products with status, variant count, price, available stock and last-updated time.', 'Status, variant count, price and available stock on one row, so the list answers most questions without opening a product. Sixty-four here, from the seeder.', 'Products, variants, per-location stock'],
   ['left', 'x-orders', 'orders', 'GET /api/admin/orders', 'admin', 'Track payment and fulfillment as separate facts', 'The orders list showing two hundred and sixty orders with order number, customer, fulfillment status, payment status, item count and total.', 'Payment state and fulfillment state are separate columns because they are separate facts: an order can be paid and unshipped, or shipped and awaiting settlement. The list does not collapse them.', 'Orders, payment state, fulfillment state, totals in minor units'],
   ['right', 'x-inventory', 'inventory', 'GET /api/admin/inventory/low-stock', 'admin', 'Hold stock per location', 'The inventory screen showing stock on hand for each SKU across several warehouse locations.', 'Stock is held per location, so a store with two warehouses does not have to fake it with one number. Low-stock is a query, not a flag somebody remembers to set.', 'Inventory levels, locations, low-stock query'],
-  ['left', 'x-plugins', 'integrations', 'GET /api/plugins', 'public', 'Turn modules on, not marketplaces', 'The plugins screen listing storefront, marketing and analytics features grouped by category, each with an activate button and settings link.', 'Only the modules compiled into this build appear. There is no marketplace to browse and nothing downloaded at runtime — a module you did not import is not in your binary.', '51 modules, installed by import'],
+  ['left', 'x-plugins', 'integrations', 'GET /api/plugins', 'public', 'Turn modules on, not marketplaces', 'The plugins screen listing storefront, marketing and analytics features grouped by category, each with an activate button and settings link.', 'Only the modules compiled into this build appear. There is no marketplace to browse and nothing downloaded at runtime — a module you did not import is not in your binary.', `${counts.modules} modules, installed by import`],
   ['right', 'x-payments', 'payments', 'GET /api/admin/settings', 'admin', 'Configure payments from the panel', 'The payments settings screen showing which payment providers are installed in this build, with their configuration.', 'Ten payment modules exist; this screen shows the ones the running binary was built with. Cash on delivery is built into the engine and needs no module at all.', 'Stripe, Razorpay, Adyen, Paddle and five more'],
-  ['left', 'x-shipping', 'shipping', 'GET /api/admin/shipping/zones', 'admin', 'Define zones and rates before any carrier', 'The shipping screen showing delivery zones and the rates configured within them.', 'Zones and rates are engine concepts, so manual fulfillment works before a carrier module is installed. Add Shiprocket or USPS when you need labels, not to get started.', 'Zones, rates, 11 carrier modules'],
+  ['left', 'x-shipping', 'shipping', 'GET /api/admin/shipping/zones', 'admin', 'Define zones and rates before any carrier', 'The shipping screen showing delivery zones and the rates configured within them.', 'Zones and rates are engine concepts, so manual fulfillment works before a carrier module is installed. Add Shiprocket or USPS when you need labels, not to get started.', `Zones, rates, ${counts.fulfilmentModules} carrier modules`],
 ]
 
 const modules = [
@@ -96,7 +97,7 @@ const modules = [
 ---
 <Base
   title="GoCommerce — Open Source Ecommerce Backend + Admin in Go"
-  description="An open-source ecommerce backend and admin in Go: commerce APIs, PostgreSQL, an embedded Svelte admin, 51 modules, 342 documented operations. Self-hosted, MIT."
+  description={`An open-source ecommerce backend and admin in Go: commerce APIs, PostgreSQL, an embedded Svelte admin, ${counts.modules} modules, ${counts.apiOperations} documented operations. Self-hosted, MIT.`}
   path={path}
   ogTitle="GoCommerce — Ecommerce Backend + Admin in Go"
   ogDescription="A standalone open-source ecommerce backend: commerce APIs, PostgreSQL, an admin compiled into the binary. One dependency, one database."
@@ -148,9 +149,9 @@ const modules = [
     <div class="why-grid">
       <div class="why-item"><h3>Native Go</h3><p>Ordinary packages, interfaces and modules. “Go to definition” works on every part of your store, including the parts you did not write.</p></div>
       <div class="why-item"><h3>Self-hosted</h3><p>Your server, your database, your backups. Nothing phones home, and there is no plan to outgrow.</p></div>
-      <div class="why-item"><h3>Modular</h3><p>51 modules exist and a store installs the ones it needs. With none installed the engine still sells: cash on delivery and manual fulfillment are built in, because they need no third party.</p></div>
+      <div class="why-item"><h3>Modular</h3><p>{counts.modules} modules exist and a store installs the ones it needs. With none installed the engine still sells: cash on delivery and manual fulfillment are built in, because they need no third party.</p></div>
       <div class="why-item"><h3>Embedded admin</h3><p>The Svelte admin compiles into the binary. One artifact to build, ship and roll back.</p></div>
-      <div class="why-item"><h3>API-first</h3><p>342 operations across the engine and its modules, every one in a published OpenAPI document. The admin is a client of that contract, not an exception to it.</p></div>
+      <div class="why-item"><h3>API-first</h3><p>{counts.apiOperations} operations across the engine and its modules, every one in a published OpenAPI document. The admin is a client of that contract, not an exception to it.</p></div>
       <div class="why-item"><h3>PostgreSQL-first</h3><p>Money is integer minor units plus a currency code, never a float and never a formatted string. Migrations are append-only. The schema is one you could read and query yourself.</p></div>
     </div>
   </section>
@@ -211,7 +212,7 @@ const modules = [
 
   <section id="modules" class="section wrap" aria-labelledby="modules-title">
     <h2 id="modules-title">Start small. Add what you need.</h2>
-    <p class="section-lede">51 modules live in the GoCommerce repository. Every one is an ordinary Go package: import it, pass it a config struct, and it is installed. Leave it out and none of its code is in your binary.</p>
+    <p class="section-lede">{counts.modules} modules live in the GoCommerce repository. Every one is an ordinary Go package: import it, pass it a config struct, and it is installed. Leave it out and none of its code is in your binary.</p>
     <div class="modgrid">
       {modules.map(([id, title, items]) => (
         <section class="modgroup" aria-labelledby={id}>
@@ -232,9 +233,9 @@ const modules = [
     <p class="section-lede">The alternative to a commerce platform is usually months of building one, then months of finding the bugs that only appear once real money moves. This is the other option: a working backend you clone, rename and modify — with a coding agent doing much of the modifying.</p>
     <div class="wl-grid">
       <div class="wl-item"><h3>A codebase an agent can hold</h3><p>One production dependency and a flat package layout, so the graph an agent has to understand is small. Comments explain <em>why</em>, because the code already says what.</p></div>
-      <div class="wl-item"><h3>Rules that are written down</h3><p><code>AGENTS.md</code> carries 18 architectural rules and <code>skills/</code> carries 16 task guides — load the one that matches the job instead of reading the whole repository. Cursor, Claude, Codex and Antigravity all read these the same way.</p></div>
-      <div class="wl-item"><h3>A suite that catches the agent</h3><p><b>1,036 tests.</b> This is the part that makes agent-assisted change safe rather than fast: a wrong edit fails here instead of in a customer’s checkout.</p></div>
-      <div class="wl-item"><h3>Machine-readable everything</h3><p>342 operations in OpenAPI, and <code>gocommerce doctor -json</code> for diagnostics an agent can parse rather than screen-scrape.</p></div>
+      <div class="wl-item"><h3>Rules that are written down</h3><p><code>AGENTS.md</code> carries {counts.agentRules} architectural rules and <code>skills/</code> carries {counts.skillGuides} task guides — load the one that matches the job instead of reading the whole repository. Cursor, Claude, Codex and Antigravity all read these the same way.</p></div>
+      <div class="wl-item"><h3>A suite that catches the agent</h3><p><b>{counts.tests} tests.</b> This is the part that makes agent-assisted change safe rather than fast: a wrong edit fails here instead of in a customer’s checkout.</p></div>
+      <div class="wl-item"><h3>Machine-readable everything</h3><p>{counts.apiOperations} operations in OpenAPI, and <code>gocommerce doctor -json</code> for diagnostics an agent can parse rather than screen-scrape.</p></div>
       <div class="wl-item"><h3>Agents can run the store too</h3><p>The MCP module exposes the store over the Model Context Protocol. Every tool calls the same service a REST request would, so there is one place an order becomes paid, whether a person, an app or an agent asked. <code>ReadOnly</code> withholds every mutating tool while you are still deciding how much to trust it.</p></div>
       <div class="wl-item"><h3>Yours under MIT</h3><p>Rename it, restyle it, sell what you build with it. There is no hosted control plane to depend on and no plan to outgrow.</p></div>
     </div>
@@ -253,7 +254,7 @@ const modules = [
         <div class="url"><p class="url-what">API documentation</p><p class="url-where"><code>localhost:8080/docs</code></p><p class="url-note">The OpenAPI contract this build actually serves.</p></div>
         <div class="url"><p class="url-what">The catalog</p><p class="url-where"><code>localhost:8080/api/products</code></p><p class="url-note">Public and unauthenticated — the route a storefront calls.</p></div>
       </div>
-      <p class="fineprint"><code>./cmd/gocommerce</code> is the reference binary and can install 48 of the 51 modules, each behind a flag of its own — all but import-shopify, indexnow and mcp — which makes it useful for reading the API contract. A real store is its own small <code>main()</code> that installs only what it needs — that is <code>examples/store</code>.</p>
+      <p class="fineprint"><code>./cmd/gocommerce</code> is the reference binary and can install {counts.binaryModules} of the {counts.modules} modules, each behind a flag of its own — all but import-shopify, indexnow and mcp — which makes it useful for reading the API contract. A real store is its own small <code>main()</code> that installs only what it needs — that is <code>examples/store</code>.</p>
     </div>
   </section>
 
@@ -296,7 +297,7 @@ const modules = [
         <li><b>Benchmarks</b> — so this page can eventually say something measured about speed.</li>
       </ul>
       <div class="contrib-cta">
-        <p>The engine carries <b>1,036 tests</b> and a documented contract for every route, so a pull request has something to prove itself against.</p>
+        <p>The engine carries <b>{counts.tests} tests</b> and a documented contract for every route, so a pull request has something to prove itself against.</p>
         <a class="button" href="https://github.com/itswadesh/gocommerce/issues" target="_blank" rel="noopener noreferrer">View open issues</a>
         <a class="button secondary" href="https://discord.gg/GgdAeccwDR" target="_blank" rel="noopener noreferrer">Join the Discord</a>
       </div>

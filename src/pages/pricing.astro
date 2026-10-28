@@ -19,6 +19,7 @@ import Variants from '../components/Variants.astro'
 import { byCurrency, formatMoney, shopifyMarkets } from '../lib/money'
 import { feeBasis, gstForRupees, gstIndia, hostedFee, hostedFeeShort, hostedFeeText, signupUrl } from '../lib/pricing'
 import { compareCard, featuredComparisons } from '../lib/related'
+import { counts } from '../lib/facts'
 
 const path = '/pricing/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -103,11 +104,11 @@ const faq = [
     <h2 id="includes-title">Everything is in the MIT code</h2>
     <p class="section-lede">Run it yourself and you get all of it. There is no higher plan for anything to be missing from.</p>
     <ul class="evidence">
-      <li><svg aria-hidden="true"><use href="#i-server"/></svg><b>GoCommerce</b><span>The backend: catalogue, carts, checkout, orders, inventory, discounts, price lists, channels — with 61 admin screens compiled in.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-store"/></svg><b>Svelte Commerce</b><span>The storefront: server-rendered SvelteKit, running against 26 commerce backends.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-plug"/></svg><b>51 modules</b><span>Razorpay, Stripe, Shiprocket, Delhivery, India Post, MSG91, search, feeds and more — <a href="/integrations/">all of them</a>.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-server"/></svg><b>GoCommerce</b><span>The backend: catalogue, carts, checkout, orders, inventory, discounts, price lists, channels — with {counts.adminScreens} admin screens compiled in.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-store"/></svg><b>Svelte Commerce</b><span>The storefront: server-rendered SvelteKit, running against {counts.backends} commerce backends.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-plug"/></svg><b>{counts.modules} modules</b><span>Razorpay, Stripe, Shiprocket, Delhivery, India Post, MSG91, search, feeds and more — <a href="/integrations/">all of them</a>.</span></li>
       <li><svg aria-hidden="true"><use href="#i-tag"/></svg><b>79 themes</b><span>Live storefront demos you can <a href="/svelte-commerce/themes/">open and copy</a>.</span></li>
-      <li><svg aria-hidden="true"><use href="#i-bot"/></svg><b>The MCP module</b><span>19 tools that let an AI agent run the store through the same services as the API.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-bot"/></svg><b>The MCP module</b><span>{counts.mcpTools} tools that let an AI agent run the store through the same services as the API.</span></li>
       <li><svg aria-hidden="true"><use href="#i-git"/></svg><b>Every future commit</b><span>Updates are commits to public repositories. Pull them when you choose.</span></li>
     </ul>
   </section>

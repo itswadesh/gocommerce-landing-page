@@ -46,9 +46,6 @@
     { "b": "The cart token leaves the store", "t": "Started Checkout carries the cart’s token as CartToken, for a recovery link. The engine treats that token as a credential for the basket, and it now sits in Klaviyo too." },
     { "b": "Config.PublicKey is not read", "t": "Only a public key typed on the Plugins screen reaches the storefront. The reference binary reads KLAVIYO_PUBLIC_KEY into Config, where nothing uses it." }
   ],
-  "tested": true,
-  "testCount": 2,
-  "apiOps": 1,
   "vendorUrl": "https://www.klaviyo.com",
   "vendorType": "Organization",
   "faq": [

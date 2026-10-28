@@ -48,9 +48,6 @@
     { "b": "Payment events only", "t": "Only PAYMENT_SUCCESS_WEBHOOK and PAYMENT_FAILED_WEBHOOK are acted on. A refund made in Cashfree’s dashboard, a dropped-out shopper or any other event is acknowledged and does not change the GoCommerce order." },
     { "b": "The rationing is per process", "t": "The verify route’s 15-second spacing is kept in memory. After a restart, or on another instance, the first call asks Cashfree again." }
   ],
-  "tested": true,
-  "testCount": 28,
-  "apiOps": 1,
   "vendorUrl": "https://www.cashfree.com",
   "vendorType": "Organization",
   "faq": [

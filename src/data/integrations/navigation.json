@@ -45,9 +45,6 @@
     { "b": "A title, a kind and a target", "t": "That is all an item holds. There is no icon, picture or new-tab flag, and item titles are not translated." },
     { "b": "Every menu is public", "t": "GET /x/navigation/menus lists every menu’s handle and title to anyone, so a menu kept for later is visible by its handle." }
   ],
-  "tested": true,
-  "testCount": 7,
-  "apiOps": 10,
   "faq": [
     { "q": "What does the storefront read?", "a": "GET /x/navigation/menus/{handle}, such as header or footer, on the host that serves your GoCommerce API. It answers the menu with its items nested, each with its title, kind, target and resolved url, and an empty children list on a leaf." },
     { "q": "Why point at a handle and not an id?", "a": "So a menu survives a re-import of the catalogue and reads sensibly in an export. The handle is the product’s, collection’s, category’s or page’s slug, put into the matching path pattern." },

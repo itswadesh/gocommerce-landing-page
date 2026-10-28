@@ -44,9 +44,6 @@
     { "b": "API version pinned to 2024-10", "t": "The package pins Shopify’s Admin API version rather than tracking the latest, and by its own note Shopify retires each version after a year. Moving the pin is a deliberate edit to shopify.go." },
     { "b": "An interrupted job still says running", "t": "Imports run in the background. A restart mid-import leaves that job marked running; starting another updates what arrived and adds the rest." }
   ],
-  "tested": true,
-  "testCount": 16,
-  "apiOps": 4,
   "vendorUrl": "https://www.shopify.com",
   "vendorType": "Organization",
   "vendorName": "Shopify",

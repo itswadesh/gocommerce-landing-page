@@ -75,8 +75,8 @@ const RULES = [
     why: 'Stores hosted on kitcommerce.store pay a share of every successful order; only self-hosting is free. See src/data/pricing.json.',
   },
   {
-    // A data file's {hostedFee} or kin that no page filled in (src/lib/pricing.ts).
-    re: /\{(hostedFee|hostedFeeText|hostedFeeShort|feeBasis|plusGst)\}/g,
+    // A data file's {hostedFee}, {modules} or kin that no page filled in (src/lib/pricing.ts).
+    re: /\{(hostedFee|hostedFeeText|hostedFeeShort|feeBasis|plusGst|modules|binaryModules|paymentModules|fulfilmentModules|apiOperations|coreOperations|moduleOperations|adminScreens|tests|testsFloor|mcpTools|mcpReadTools|mcpWriteTools|coreRights|migrations|events|agentRules|agentNotes|skillGuides|backends|otherBackends)\}/g,
     why: 'Unfilled token: render this data through fill() from src/lib/pricing.ts.',
   },
   {
@@ -191,7 +191,7 @@ for (const page of indiaPages) {
 
 // llms.txt is out of the rules' scope (see above), so its statement of the
 // price is held to pricing.json here instead.
-const llms = fs.readFileSync(path.join(ROOT, 'public', 'llms.txt'), 'utf8')
+const llms = fs.readFileSync(path.join(DIST, 'llms.txt'), 'utf8')
 for (const m of llms.matchAll(/\b[\d.]+% of (every successful order|each (successful )?sale)/g)) {
   if (m[0] !== `${hostedFee} of ${feeBasis}`) {
     console.error(`  llms.txt  "${m[0]}" disagrees with src/data/pricing.json (${hostedFee} of ${feeBasis})`)
@@ -208,6 +208,49 @@ if (!llms.includes(signupUrl)) {
   console.error(`  llms.txt  does not name the sign-up page, ${signupUrl}`)
   violations++
 }
+
+// ── Counts: every figure the site states about the two packages agrees with
+// src/data/facts.json (scripts/read-facts.mjs reads it from GoCommerce) and
+// src/data/connectors.json. Each rule names a phrase, the figures it may
+// carry, and a floor under which the phrase means something else ("2
+// modules"). Blog posts are dated and keep the figures of their day.
+const facts = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'facts.json'), 'utf8'))
+const backendCount = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'connectors.json'), 'utf8')).connectors.length
+const floor100 = Math.floor(facts.tests / 100) * 100
+const COUNTS = [
+  [/(\d[\d,]*) (?:MIT |GoCommerce |Go )?modules\b/g, 20, [facts.modules], 'modules'],
+  [/(\d+) (?:payment|gateway) modules\b/g, 0, [facts.paymentModules], 'paymentModules'],
+  [/(\d+) (?:fulfilment|shipping|carrier) modules\b/g, 0, [facts.fulfilmentModules], 'fulfilmentModules'],
+  [/(\d+) (?:store |built-in |MCP )?tools\b/g, 15, [facts.mcpTools], 'mcpTools'],
+  [/(\d[\d,]*) (?:documented (?:REST |API )?|REST |API |HTTP )?operations\b/g, 100, [facts.apiOperations, facts.coreOperations, facts.moduleOperations], 'apiOperations'],
+  [/(\d[\d,]*)\+? tests\b/g, 500, [facts.tests, floor100], 'tests'],
+  [/(\d+) (?:Svelte |embedded )?admin screens\b|(\d+)-screen (?:Svelte )?admin\b/g, 0, [facts.adminScreens], 'adminScreens'],
+  [/(\d+) (?:other |measured )?(?:commerce |Svelte Commerce |backend )?(?:backends|connectors|backend connectors)\b/g, 20, [backendCount, backendCount - 1], 'connectors.json'],
+  [/(\d+) (?:architectural |architecture )?rules\b/g, 10, [facts.agentRules], 'agentRules'],
+  [/(\d+) task guides\b/g, 0, [facts.skillGuides], 'skillGuides'],
+  [/(\d+) core rights\b/g, 0, [facts.coreRights], 'coreRights'],
+  [/(\d+) migrations\b/g, 10, [facts.migrations], 'migrations'],
+  [/(\d+) commerce events\b/g, 0, [facts.events], 'events'],
+]
+let countsChecked = 0
+const checkCounts = (where, text) => {
+  for (const [re, min, allowed, key] of COUNTS) {
+    for (const m of text.matchAll(re)) {
+      const value = Number((m[1] ?? m[2]).replace(/,/g, ''))
+      if (value < min) continue
+      countsChecked++
+      if (!allowed.includes(value)) {
+        console.error(`  ${where}  "${m[0]}" disagrees with ${key} (${allowed.join(' or ')}). Render it from src/lib/facts.ts.`)
+        violations++
+      }
+    }
+  }
+}
+for (const page of PAGES) {
+  if (page.startsWith('blog/')) continue
+  checkCounts(page, visibleText(fs.readFileSync(path.join(DIST, page), 'utf8')).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '))
+}
+checkCounts('llms.txt', llms)
 
 // ── Prices: every rival price is on a published list, with its source and date
 //
@@ -286,4 +329,4 @@ if (violations) {
   process.exit(1)
 }
 
-console.log(`Naming rules hold across ${scanned} pages; ${priceCount} published prices, each with its source and date, and none typed by hand.`)
+console.log(`Naming rules hold across ${scanned} pages; ${priceCount} published prices, each with its source and date, and none typed by hand; ${countsChecked} stated counts agree with facts.json (GoCommerce ${facts.commit}).`)

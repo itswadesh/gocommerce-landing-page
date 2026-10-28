@@ -44,9 +44,6 @@
     { "b": "Sample reviews show until erased", "t": "The sample shop adds one approved review to each sample product, written by a sample customer whose sample order bought it. They are flagged as samples and erased with the rest of the sample shop, which the package says to do before opening." },
     { "b": "The file has no button", "t": "Export and import are API routes, GET /api/admin/x/reviews/export and POST /api/admin/x/reviews/import. The Reviews screen does not offer them." }
   ],
-  "tested": true,
-  "testCount": 6,
-  "apiOps": 7,
   "faq": [
     { "q": "Does the store ever show a review nobody wrote?", "a": "Only the sample shop’s. Its reviews are flagged as samples, and erasing the sample shop removes them and no shopper’s. In the package’s words, “a review nobody wrote is not one to show a real shopper.” The module adds no other reviews of its own." },
     { "q": "What makes a review verified?", "a": "An order for the product placed with the reviewer’s email, in the confirmed, partial, shipped or delivered status. It is decided when the review is posted. An imported review takes the file’s verified column if it has one, and the orders’ answer if it does not." },

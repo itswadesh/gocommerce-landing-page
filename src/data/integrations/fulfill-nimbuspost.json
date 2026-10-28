@@ -50,9 +50,6 @@
     { "b": "A password, not a key", "t": "NimbusPost’s API has no long-lived key, so the module has to hold the account’s email and password to log in with." },
     { "b": "Two-decimal money", "t": "Prices and the order amount are minor units divided by 100 — right for rupees, wrong for a currency with none or three decimals." }
   ],
-  "tested": true,
-  "testCount": 9,
-  "apiOps": 0,
   "vendorUrl": "https://nimbuspost.com",
   "vendorType": "Organization",
   "faq": [

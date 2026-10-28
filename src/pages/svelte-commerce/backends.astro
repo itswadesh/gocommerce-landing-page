@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
 import ConnectorMatrix from '../../components/ConnectorMatrix.astro'
+import { counts } from '../../lib/facts'
 
 const path = '/svelte-commerce/backends/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -11,7 +12,7 @@ const graph = [
 ]
 
 const faq = [
-  { q: 'How many backends does Svelte Commerce support?', a: '26 connectors exist today, covering Litekart, Vendure, Medusa, Broadleaf, Saleor, Shopware, Virto Commerce, WooCommerce, Magento, Spree, X-Cart, EverShop, Spryker, nopCommerce, PrestaShop, Sylius, Swell, Bagisto, commercetools, OroCommerce, Sharetribe, CS-Cart, Shuup, Shopify, Django Oscar and OpenCart. They differ a great deal in how complete they are, which is what the coverage column on this page is for.' },
+  { q: 'How many backends does Svelte Commerce support?', a: `${counts.backends} connectors exist today, covering Litekart, Vendure, Medusa, Broadleaf, Saleor, Shopware, Virto Commerce, WooCommerce, Magento, Spree, X-Cart, EverShop, Spryker, nopCommerce, PrestaShop, Sylius, Swell, Bagisto, commercetools, OroCommerce, Sharetribe, CS-Cart, Shuup, Shopify, Django Oscar and OpenCart. They differ a great deal in how complete they are, which is what the coverage column on this page is for.` },
   { q: 'Which connectors are the most complete?', a: 'Litekart and Vendure, both at 39 of 43 services, with cart, checkout and auth all wired. Litekart is the reference implementation and Vendure’s GraphQL Shop API covers essentially the whole surface.' },
   { q: 'Is the coverage number reliable?', a: 'It is measured rather than asserted. A script traces which service methods transitively reach the HTTP layer, following each connector’s own request helpers, and a service counts as wired only if it genuinely issues a request or delegates to one that does. What the number does not tell you is whether the connector has been run against a live store, because none of them has.' },
   { q: 'Can I use Svelte Commerce with GoCommerce?', a: 'Yes, through an early connector: @misiki/gocommerce-connector 0.1.0, on npm, covers catalogue, cart, checkout and order lookup, but not customer accounts or a search index. It sits at the bottom of this table, outside the 26, because the script behind the coverage column has not measured it; the connector status page describes what it does instead.' },
@@ -45,10 +46,10 @@ const inline = (s: string) => s.split('`').map((part, i) => (i % 2 ? `<code>${es
 ---
 <Base
   title="Svelte Commerce Backends — 26 Connectors and Their Coverage"
-  description="Svelte Commerce’s 26 backend connectors, and how complete each is: script-measured coverage of 43 services, cart, checkout and auth status, and known gaps."
+  description={`Svelte Commerce’s ${counts.backends} backend connectors, and how complete each is: script-measured coverage of 43 services, cart, checkout and auth status, and known gaps.`}
   path={path}
   ogTitle="Svelte Commerce Backend Integrations"
-  ogDescription="26 connectors, with measured coverage of a 43-service surface. Cart, checkout and auth status per platform, and the gaps."
+  ogDescription={`${counts.backends} connectors, with measured coverage of a 43-service surface. Cart, checkout and auth status per platform, and the gaps.`}
   ogImageAlt="Svelte Commerce backend connector coverage"
   nav="backends"
   crumbs={[{ name: 'Svelte Commerce', href: '/svelte-commerce/' }, { name: 'Backends', href: path }]}

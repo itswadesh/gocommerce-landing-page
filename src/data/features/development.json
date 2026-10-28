@@ -3,31 +3,31 @@
   "name": "Development",
   "summary": "One Go binary and PostgreSQL, one dependency, a documented REST API, modules compiled in, and an MCP server — with no cloud in the way.",
   "title": "Developer Experience — GoCommerce, Feature by Feature",
-  "description": "GoCommerce for developers: one Go binary and PostgreSQL, one dependency, 342 documented REST operations, signed webhooks, an MCP server and agent guides.",
+  "description": "GoCommerce for developers: one Go binary and PostgreSQL, one dependency, {apiOperations} documented REST operations, signed webhooks, an MCP server and agent guides.",
   "ogTitle": "Building on GoCommerce, feature by feature",
-  "ogDescription": "One binary, one dependency, 342 documented operations, signed webhooks, MCP — and no cloud in the way.",
+  "ogDescription": "One binary, one dependency, {apiOperations} documented operations, signed webhooks, MCP — and no cloud in the way.",
   "kicker": "Features · Development",
   "h1": "One binary, one database, one dependency",
   "lede": "GoCommerce is a Go program with its admin compiled in, talking to one PostgreSQL. Everything else — payments, carriers, search, an AI agent — is a module you import, and the whole API is written down in OpenAPI.",
   "facts": [
-    { "b": "342", "t": "documented REST operations" },
+    { "b": "{apiOperations}", "t": "documented REST operations" },
     { "b": "1", "t": "production dependency (pgx)" },
-    { "b": "51", "t": "modules, compiled in only when imported" }
+    { "b": "{modules}", "t": "modules, compiled in only when imported" }
   ],
   "groups": [
     {
       "name": "The shape of it",
       "tiles": [
-        { "title": "One binary and PostgreSQL", "status": "yes", "text": "The API and the 61-screen Svelte admin compile into one binary with go:embed. No Node.js at runtime, no cgo; it cross-compiles for Linux, Windows and macOS, and a distroless Docker image is provided.", "source": "admin/embed.go · Dockerfile" },
+        { "title": "One binary and PostgreSQL", "status": "yes", "text": "The API and the {adminScreens}-screen Svelte admin compile into one binary with go:embed. No Node.js at runtime, no cgo; it cross-compiles for Linux, Windows and macOS, and a distroless Docker image is provided.", "source": "admin/embed.go · Dockerfile" },
         { "title": "One production dependency", "status": "yes", "text": "go.mod requires only the pgx PostgreSQL driver, and modules add no third-party dependencies — CI enforces it.", "source": "go.mod · AGENTS.md" },
-        { "title": "Headless REST, documented", "status": "yes", "text": "342 operations — 238 in the core, the rest from modules — in OpenAPI 3.0.3, served at /doc and printed by gocommerce spec. The admin is itself a client of the same API.", "source": "core/openapi.json" },
+        { "title": "Headless REST, documented", "status": "yes", "text": "{apiOperations} operations — {coreOperations} in the core, the rest from modules — in OpenAPI 3.0.3, served at /doc and printed by gocommerce spec. The admin is itself a client of the same API.", "source": "core/openapi.json" },
         { "title": "MIT, all of it", "status": "yes", "text": "The licence covers the whole repository. There is no closed or paid edition.", "source": "LICENSE" }
       ]
     },
     {
       "name": "Extending it",
       "tiles": [
-        { "title": "Modules, compiled in", "status": "partial", "text": "51 modules plug into a small set of ports; import one and it is in your binary. Narrower than a plugin store: modules are Go, compiled in, not installed at runtime.", "source": "core/ports.go · ext/" },
+        { "title": "Modules, compiled in", "status": "partial", "text": "{modules} modules plug into a small set of ports; import one and it is in your binary. Narrower than a plugin store: modules are Go, compiled in, not installed at runtime.", "source": "core/ports.go · ext/" },
         { "title": "Signed webhooks", "status": "yes", "text": "The webhooks module posts signed events to any public https URL, with retries and a delivery log. Go code can also subscribe in-process.", "source": "ext/webhooks · core/events.go" },
         { "title": "Custom data", "status": "yes", "text": "Fifteen core tables — products, variants, orders, carts, discounts, vendors and more — carry a free-form metadata object. Product attributes follow Shopify’s taxonomy, embedded in the binary, and can be filtered.", "source": "core/types.go · Metadata" },
         { "title": "Admin screens from modules", "status": "partial", "text": "A module adds an admin screen by describing a list and a form, gated by rights. Missing: shipping your own front-end code into the admin.", "source": "core/screens.go" },
@@ -56,9 +56,9 @@
     {
       "name": "Working with AI agents",
       "tiles": [
-        { "title": "An MCP server", "status": "yes", "text": "19 tools that call the same domain services as the API — never the database — each checked against the caller’s rights. Read-only mode withholds every tool that changes anything, an agent key is offered the read tools only, and changes are logged. Over HTTP or stdio.", "source": "ext/mcp" },
+        { "title": "An MCP server", "status": "yes", "text": "{mcpTools} tools that call the same domain services as the API — never the database — each checked against the caller’s rights. Read-only mode withholds every tool that changes anything, an agent key is offered the read tools only, and changes are logged. Over HTTP or stdio.", "source": "ext/mcp" },
         { "title": "An AI gateway", "status": "yes", "text": "Every model call a store makes goes through one module, which holds it to the store’s own key, a monthly cap and the kinds of data its owner lets out, and records what it cost.", "source": "ext/ai-gateway" },
-        { "title": "Guides for coding agents", "status": "yes", "text": "AGENTS.md sets 14 architectural rules and four notes for AI agents; skills/ holds 15 task guides and an index, so an agent reads the part of the domain it is about to change.", "source": "AGENTS.md · skills/" },
+        { "title": "Guides for coding agents", "status": "yes", "text": "AGENTS.md sets {agentRules} architectural rules and four notes for AI agents; skills/ holds {skillGuides} task guides and an index, so an agent reads the part of the domain it is about to change.", "source": "AGENTS.md · skills/" },
         { "title": "A test kit for module authors", "status": "yes", "text": "gctest gives each test its own isolated database schema, and over a thousand tests catch a wrong edit.", "source": "gctest/gctest.go" }
       ]
     }
@@ -78,6 +78,6 @@
     { "q": "Can I scale it horizontally?", "a": "Yes. Several instances can run behind a load balancer with no coordination between them; background work is claimed with row locks. Give them a shared volume for uploaded media, and size your PostgreSQL connection pooling." },
     { "q": "Is there a GraphQL API?", "a": "No. The API is REST and JSON, documented in OpenAPI 3.0.3, so any language can generate a client from the spec." },
     { "q": "How do I add a feature the core does not have?", "a": "Write a module: a Go package under ext/ that plugs into the core’s ports and is compiled in when imported. Or keep it outside GoCommerce entirely and listen to its signed webhooks." },
-    { "q": "Can an AI agent run the store?", "a": "Through the MCP module: 19 tools that go through the same services and rights checks as the API. Read-only mode lets an agent look without changing anything, and so does an agent key, which reaches the read tools only." }
+    { "q": "Can an AI agent run the store?", "a": "Through the MCP module: {mcpTools} tools that go through the same services and rights checks as the API. Read-only mode lets an agent look without changing anything, and so does an agent key, which reaches the read tools only." }
   ]
 }

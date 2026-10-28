@@ -46,9 +46,6 @@
     { "b": "Adjustments are only logged", "t": "adjustment.created and adjustment.updated are logged, not applied. A refund made in Paddle’s dashboard does not change the GoCommerce order." },
     { "b": "Orders, not subscriptions", "t": "The module sells an order once. Events for anything this store did not start, such as a renewal billed in Paddle, are acknowledged and ignored." }
   ],
-  "tested": true,
-  "testCount": 7,
-  "apiOps": 0,
   "vendorUrl": "https://www.paddle.com",
   "vendorType": "Organization",
   "faq": [

@@ -47,9 +47,6 @@
     { "b": "Hosted mode returns no URL", "t": "With Hosted on, the intent is a redirect carrying the Razorpay order id, the key id and your return URL as callback_url. There is no page URL in it; the storefront still sends the shopper to Razorpay itself." },
     { "b": "The store’s one currency", "t": "The total goes to Razorpay in the store’s single settlement currency, unconverted. Which currencies Razorpay accepts is Razorpay’s decision, not the module’s." }
   ],
-  "tested": true,
-  "testCount": 4,
-  "apiOps": 0,
   "vendorUrl": "https://razorpay.com",
   "vendorType": "Organization",
   "faq": [

@@ -45,9 +45,6 @@
     { "b": "Config.ProductPath is ignored", "t": "The panel’s product-path field has a default of its own, and the module reads the panel first — so a path set only in Config never takes effect. Set it on the Plugins screen." },
     { "b": "Two formats", "t": "Google Merchant Center’s RSS and Meta’s CSV. Other platforms that read one of those formats may take them; no other format is produced." }
   ],
-  "tested": true,
-  "testCount": 3,
-  "apiOps": 3,
   "trademark": "Google Merchant Center and Meta are trademarks of their owners; this module publishes feeds in their documented formats and implies no endorsement.",
   "faq": [
     { "q": "What are the feed URLs?", "a": "GET /x/feeds/google.xml for Google Merchant Center and GET /x/feeds/meta.csv for Meta’s catalogue, both on the host that serves your GoCommerce API. They answer only while the plugin is switched on and a storefront URL is set." },

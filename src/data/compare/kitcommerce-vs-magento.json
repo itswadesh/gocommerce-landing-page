@@ -61,12 +61,12 @@
     [
       "API",
       "One REST framework across Open Source and every Adobe Commerce edition, for administrators, customers and guest shoppers.",
-      "342 documented REST operations, published as OpenAPI — the same API the admin uses."
+      "{apiOperations} documented REST operations, published as OpenAPI — the same API the admin uses."
     ],
     [
       "Extensions",
       "A marketplace of third-party extensions and connectors.",
-      "51 MIT modules, compiled in when imported. No marketplace."
+      "{modules} MIT modules, compiled in when imported. No marketplace."
     ],
     [
       "Payments in India",
@@ -117,7 +117,7 @@
       [
         "Extensions",
         "Priced by each vendor on the marketplace",
-        "None to buy — 51 MIT modules"
+        "None to buy — {modules} MIT modules"
       ],
       [
         "Support",

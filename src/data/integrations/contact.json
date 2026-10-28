@@ -47,9 +47,6 @@
     { "b": "Deleting takes the thread", "t": "Deleting a message deletes its replies with it. There is no undo." },
     { "b": "A link to the product needs PanelURL", "t": "The enquiry email links to the product in the admin only when the engine’s PanelURL is set. Without it the email names the product and carries no link." }
   ],
-  "tested": true,
-  "testCount": 9,
-  "apiOps": 7,
   "faq": [
     { "q": "What does the storefront post?", "a": "POST /x/contact/messages takes name, email and body, with an optional phone, subject and order_number. POST /x/contact/enquiries takes name, email and body with product_id or product_slug, and an optional phone, variant_id and quantity. Both answer 201 with the status new." },
     { "q": "What happens with no email provider set up?", "a": "Messages and enquiries are still kept in the inbox. The announcement to the store’s address is best effort, so nobody is told by email. A reply is refused with 409, the drawer says why beside the button, and the text stays in the box." },

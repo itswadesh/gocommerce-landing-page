@@ -59,9 +59,6 @@
     { "b": "No cancel call", "t": "There is no call to cancel a label. Deleting the fulfillment in GoCommerce does not touch the label or its postage at USPS." },
     { "b": "A guessed box for several items", "t": "For anything but a single unit, the size sent is the configured default, not a measurement. The engine does not pack cartons." }
   ],
-  "tested": true,
-  "testCount": 10,
-  "apiOps": 1,
   "vendorUrl": "https://www.usps.com",
   "vendorType": "Organization",
   "faq": [

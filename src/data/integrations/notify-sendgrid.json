@@ -49,9 +49,6 @@
     { "b": "No successful-send log line", "t": "Unlike the Resend module, a message SendGrid accepts leaves no line in the application log; the engine’s notification log is the record." },
     { "b": "No bounce tracking", "t": "The module registers no webhook. Bounces, complaints and opens stay in SendGrid." }
   ],
-  "tested": true,
-  "testCount": 5,
-  "apiOps": 0,
   "vendorUrl": "https://sendgrid.com",
   "vendorType": "Organization",
   "faq": [

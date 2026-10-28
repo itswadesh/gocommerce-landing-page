@@ -46,9 +46,6 @@
     { "b": "Nothing flows back", "t": "Stock levels, cancellations and delivery events stay in Veeqo; the module writes to Veeqo and reads nothing into GoCommerce but the carrier’s name." },
     { "b": "One page of search results", "t": "The search reads 25 results. An order number that fuzzily matches more orders than that may be missed — pass the ids instead." }
   ],
-  "tested": true,
-  "testCount": 7,
-  "apiOps": 0,
   "vendorUrl": "https://www.veeqo.com",
   "vendorType": "Organization",
   "faq": [

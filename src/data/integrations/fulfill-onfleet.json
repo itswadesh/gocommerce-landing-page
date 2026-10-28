@@ -46,9 +46,6 @@
     { "b": "No cancel call", "t": "There is no call to delete a task. Deleting the fulfillment in GoCommerce leaves the task in Onfleet." },
     { "b": "Assignment by distance only", "t": "Auto-assign asks Onfleet for its distance mode. Any other assignment rule is set up by hand in Onfleet, with auto-assign off." }
   ],
-  "tested": true,
-  "testCount": 8,
-  "apiOps": 0,
   "vendorUrl": "https://onfleet.com",
   "vendorType": "Organization",
   "faq": [

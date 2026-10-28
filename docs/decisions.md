@@ -4,6 +4,36 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 28 October 2026: every count is read from GoCommerce, not typed
+
+An outside audit said the homepage claimed 51 modules and /pricing/ 49. The
+build said 51 in both places by then, but GoCommerce main had 52 modules,
+and other figures had drifted further: 1,036 tests (now 1,965), 342 API
+operations (532), 61 admin screens (92), "10 gateway modules" on the
+checkout features page (11), and AGENTS.md described as 14 rules on one
+page and 18 on another (16).
+
+- `scripts/read-facts.mjs` reads GoCommerce `origin/main` through git and
+  writes `src/data/facts.json`, with the commit and what each figure counts.
+  It is checked in because Workers Builds has no GoCommerce checkout. Pages
+  render the figures through `src/lib/facts.ts`; data files and llms.txt
+  write `{modules}`-style tokens.
+- `npm run verify` fails when a page states a different figure for modules,
+  operations, tests, admin screens, MCP tools, backends, AGENTS.md rules,
+  skills guides, rights, migrations or events, and when the local
+  `../gocommerce` checkout has moved past facts.json. Blog posts are dated
+  and keep the figures of their day.
+- Definitions, chosen to be the plainest true reading: modules are `ext/`
+  directories less the `alltest` harness; admin screens are pages of the
+  operator panel (`admin/src/routes/dash`), not sign-in pages or the trade
+  portal; tests are Go `Test` and `Example` functions less `TestMain`;
+  operations are path and method pairs in every `openapi.json`. Prose that
+  says "over N tests" uses the count rounded down to the hundred.
+- Each module page's test and operation counts come from facts.json too,
+  instead of numbers typed into its JSON, ten of which were behind.
+- llms.txt is now built (`src/pages/llms.txt.ts`) from `src/data/llms.txt`,
+  so its figures follow the same file.
+
 ## 28 October 2026: the price in the owner's words, as two columns
 
 The owner restated the pricing: "MIT license - download and use it free.

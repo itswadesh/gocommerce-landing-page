@@ -41,9 +41,6 @@
     { "b": "Two placements", "t": "Slides and grid tiles. There are no other layouts, and a tile’s grid is known only by its heading text." },
     { "b": "No counts", "t": "Nothing records how often a banner was seen or clicked." }
   ],
-  "tested": true,
-  "testCount": 6,
-  "apiOps": 6,
   "faq": [
     { "q": "What does the storefront read?", "a": "GET /x/banners?page=home on the host that serves your GoCommerce API. It answers the page name, a list of slides and a list of grids, each grid with its heading and tiles, already in the shop’s order." },
     { "q": "Can a banner show on a collection page?", "a": "No. Only the home page is accepted, because no storefront shows banners anywhere else yet." },

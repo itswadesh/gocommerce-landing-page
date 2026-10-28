@@ -10,6 +10,7 @@
 import Base from '../layouts/Base.astro'
 import { hostedFeeText } from '../lib/pricing'
 import Faq from '../components/Faq.astro'
+import { counts } from '../lib/facts'
 
 const path = '/open-source/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -43,7 +44,7 @@ const faq = [
   { q: 'What licence are GoCommerce and Svelte Commerce under?', a: 'MIT, both of them. You may use, copy, modify, merge, publish, distribute, sublicense and sell copies, commercially or not. The one condition is that the MIT copyright and permission notice is included with copies of the software. There is no second licence, no source-available clause and no commercial edition on different terms.' },
   { q: 'Can I white-label or rebrand them?', a: 'Yes. Rename either package, restyle the GoCommerce admin, change the storefront’s theme and ship the result under your own name and domain — for your own shop or for clients. The licence asks for its notice to travel with copies of the software, as a file in the source or the distribution; it does not ask for a credit in your storefront or your admin.' },
   { q: 'Is there a cloud or a hosted version?', a: `Yes, one: stores hosted on kitcommerce.store pay ${hostedFeeText}. There is no paid or enterprise edition, and running both yourself stays free: the compose file on this site starts PostgreSQL, GoCommerce with its admin, and a proxy on port 80 on any machine with Docker.` },
-  { q: 'Is it ready for production?', a: 'Svelte Commerce is: arialshop.com runs it in production, against one of its 26 backends. GoCommerce carries over 1,000 tests and 342 documented operations, but no store we know of runs it in production yet, so treat it as something to build on deliberately — run the suite against your changes and place test orders before real ones. Svelte Commerce reaches GoCommerce through an early connector, 0.1.0, covering catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet, and no store we know of runs the pair in production.' },
+  { q: 'Is it ready for production?', a: `Svelte Commerce is: arialshop.com runs it in production, against one of its ${counts.backends} backends. GoCommerce carries over ${counts.testsFloor} tests and ${counts.apiOperations} documented operations, but no store we know of runs it in production yet, so treat it as something to build on deliberately — run the suite against your changes and place test orders before real ones. Svelte Commerce reaches GoCommerce through an early connector, 0.1.0, covering catalogue, cart, checkout and order lookup; customer accounts and search are not covered yet, and no store we know of runs the pair in production.` },
   { q: 'Why does GoCommerce have so few GitHub stars?', a: 'Because its repository is new: it was created on GitHub on 30 August 2026. Svelte Commerce has been there since October 2019, which is where its count comes from. A star count says how long a project has been noticed, not whether its code is right — the test suite is the better evidence. Both numbers on this page are read from the GitHub API, not typed in.' },
   { q: 'How do I contribute?', a: 'For anything large, ask in the Discord first. For GoCommerce, read AGENTS.md — the rules every contributor works under, human or agent — and docs/writing-a-module.md if you are adding an integration, then open an issue or a pull request. For Svelte Commerce, docs/CONNECTORS.md lists every backend connector and what it covers. The most useful work right now is the GoCommerce connector for Svelte Commerce.' },
 ]
@@ -174,7 +175,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
     <div class="tri">
       <div class="tri-item tri-engine">
         <h3>Build from source instead</h3>
-        <p>No Docker: Go and a PostgreSQL you can reach. The GoCommerce quick start clones the repository and runs the reference binary, which can install 48 of the 51 modules, each behind a flag of its own.</p>
+        <p>No Docker: Go and a PostgreSQL you can reach. The GoCommerce quick start clones the repository and runs the reference binary, which can install {counts.binaryModules} of the {counts.modules} modules, each behind a flag of its own.</p>
         <a class="button secondary" href="/gocommerce/#quickstart">GoCommerce quick start</a>
       </div>
       <div class="tri-item tri-store">
@@ -206,10 +207,10 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <p class="part-name"><a href="/gocommerce/" data-ev="gocommerce_explore">GoCommerce</a></p>
         <p class="part-role">The engine and its admin. One Go binary and one PostgreSQL; the Svelte admin is compiled into the same binary, so there is no second service to deploy.</p>
         <ul class="part-figures">
-          <li><b>61</b> admin screens</li>
-          <li><b>342</b> API operations</li>
-          <li><b>1,000+</b> tests</li>
-          <li><b>51</b> modules</li>
+          <li><b>{counts.adminScreens}</b> admin screens</li>
+          <li><b>{counts.apiOperations}</b> API operations</li>
+          <li><b>{counts.testsFloor}+</b> tests</li>
+          <li><b>{counts.modules}</b> modules</li>
         </ul>
         <div class="part-cta actions">
           <a class="button" href="/gocommerce/" data-ev="gocommerce_explore">Explore GoCommerce</a>
@@ -219,7 +220,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
       <div class="part part-store">
         <p class="part-id">itswadesh/svelte-commerce</p>
         <p class="part-name"><a href="/svelte-commerce/" data-ev="sveltecommerce_explore">Svelte Commerce</a></p>
-        <p class="part-role">The storefront. Server-rendered SvelteKit — browse, search, cart, checkout, account — against 26 commerce backends. arialshop.com runs it in production.</p>
+        <p class="part-role">The storefront. Server-rendered SvelteKit — browse, search, cart, checkout, account — against {counts.backends} commerce backends. arialshop.com runs it in production.</p>
         <ul class="part-figures">
           <li><b>26</b> backends</li>
           <li><b>79</b> demo themes</li>
@@ -238,22 +239,22 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
     <div class="tri">
       <div class="tri-item">
-        <h3>51 modules, compiled in only when imported</h3>
+        <h3>{counts.modules} modules, compiled in only when imported</h3>
         <p>Payments, carriers, email and SMS, search, content, feeds and importers — each a directory under <code>ext/</code>. Import one and it is in your binary; leave it out and none of its code is.</p>
         <ul class="tick">
-          <li>11 payment modules, Razorpay, Cashfree and Stripe among them</li>
-          <li>11 shipping modules, Shiprocket and Delhivery among them</li>
+          <li>{counts.paymentModules} payment modules, Razorpay, Cashfree and Stripe among them</li>
+          <li>{counts.fulfilmentModules} shipping modules, Shiprocket and Delhivery among them</li>
           <li>Shopify and Amazon importers</li>
         </ul>
-        <a class="button secondary" href="/integrations/">Browse the 51 modules</a>
+        <a class="button secondary" href="/integrations/">Browse the {counts.modules} modules</a>
       </div>
       <div class="tri-item">
         <h3>Written for coding agents</h3>
         <p>The repository tells an agent how it is built, and the MCP module lets an agent operate a running store.</p>
         <ul class="tick">
-          <li><code>AGENTS.md</code> — 14 architectural rules and 4 notes for agents</li>
-          <li><code>skills/</code> — 15 task guides and an index</li>
-          <li>MCP — 19 tools, through the same services as REST</li>
+          <li><code>AGENTS.md</code> — {counts.agentRules} architectural rules and {counts.agentNotes} notes for agents</li>
+          <li><code>skills/</code> — {counts.skillGuides} task guides and an index</li>
+          <li>MCP — {counts.mcpTools} tools, through the same services as REST</li>
         </ul>
         <a class="button secondary" href="/vibe-coding-commerce/">Build with coding agents</a>
       </div>
@@ -329,7 +330,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
         <li><b>Changelog</b> — Svelte Commerce records its changes in <a href="https://github.com/itswadesh/svelte-commerce/blob/main/docs/CHANGELOG.md" {...ext}><code>docs/CHANGELOG.md</code></a>. GoCommerce has no tagged releases yet, so its <a href="https://github.com/itswadesh/gocommerce/commits/main" {...ext}>commit history</a> is the record.</li>
       </ul>
       <div class="contrib-cta">
-        <p>GoCommerce carries <b>1,000+ tests</b> and a documented contract for every route, so a pull request has something to prove itself against.</p>
+        <p>GoCommerce carries <b>{counts.testsFloor}+ tests</b> and a documented contract for every route, so a pull request has something to prove itself against.</p>
         <a class="button" href={discord} {...ext} data-ev="discord_click">Join the Discord</a>
         <a class="button secondary" href="https://github.com/itswadesh/gocommerce/issues" {...ext}>GoCommerce issues</a>
         <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce/discussions" {...ext}>Svelte Commerce discussions</a>

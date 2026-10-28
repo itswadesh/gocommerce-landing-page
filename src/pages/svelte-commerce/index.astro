@@ -1,20 +1,21 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
+import { counts } from '../../lib/facts'
 
 const path = '/svelte-commerce/'
 const abs = (p: string) => new URL(p, Astro.site!).href
 
 const graph = [
   { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'Svelte Commerce — Open Source Ecommerce Storefront for Svelte', isPartOf: { '@id': abs('/#site') }, primaryTopic: { '@id': abs(path + '#app') }, inLanguage: 'en' },
-  { '@type': 'SoftwareApplication', '@id': abs(path + '#app'), name: 'Svelte Commerce', url: abs(path), applicationCategory: 'DeveloperApplication', applicationSubCategory: 'Headless ecommerce storefront', operatingSystem: 'Cross-platform', runtimePlatform: 'SvelteKit', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, publisher: { '@id': abs('/#org') }, description: 'An open-source ecommerce storefront built with SvelteKit: browse, search, cart, checkout and account. Headless across 26 commerce backends through connector packages.', featureList: ['Product browsing', 'Search', 'Cart', 'Checkout', 'Customer account', 'Headless backend connectors', 'Customizable Svelte components', 'Server-side rendering'], offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
+  { '@type': 'SoftwareApplication', '@id': abs(path + '#app'), name: 'Svelte Commerce', url: abs(path), applicationCategory: 'DeveloperApplication', applicationSubCategory: 'Headless ecommerce storefront', operatingSystem: 'Cross-platform', runtimePlatform: 'SvelteKit', license: 'https://opensource.org/licenses/MIT', isAccessibleForFree: true, publisher: { '@id': abs('/#org') }, description: `An open-source ecommerce storefront built with SvelteKit: browse, search, cart, checkout and account. Headless across ${counts.backends} commerce backends through connector packages.`, featureList: ['Product browsing', 'Search', 'Cart', 'Checkout', 'Customer account', 'Headless backend connectors', 'Customizable Svelte components', 'Server-side rendering'], offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
   { '@type': 'SoftwareSourceCode', '@id': 'https://github.com/itswadesh/svelte-commerce', name: 'Svelte Commerce', codeRepository: 'https://github.com/itswadesh/svelte-commerce', programmingLanguage: 'TypeScript', runtimePlatform: 'SvelteKit', license: 'https://opensource.org/licenses/MIT', targetProduct: { '@id': abs(path + '#app') } },
 ]
 
 const faq = [
-  { q: 'Which commerce backends does Svelte Commerce support?', a: '26 connectors exist today. Litekart and Vendure are the most complete at 39 of 43 services; Medusa is at 31, Broadleaf, Saleor, Shopware and Virto Commerce at 28, WooCommerce at 27, and the rest range down to OpenCart at 9. Coverage is measured by a script rather than asserted.' },
+  { q: 'Which commerce backends does Svelte Commerce support?', a: `${counts.backends} connectors exist today. Litekart and Vendure are the most complete at 39 of 43 services; Medusa is at 31, Broadleaf, Saleor, Shopware and Virto Commerce at 28, WooCommerce at 27, and the rest range down to OpenCart at 9. Coverage is measured by a script rather than asserted.` },
   { q: 'Can I use Svelte Commerce with GoCommerce today?', a: 'Yes, through an early connector. @misiki/gocommerce-connector 0.1.0, on npm, lets Svelte Commerce browse a GoCommerce catalogue, fill a cart, check out and look up an order. Customer accounts and a search index are not covered, and no store is known to run the pair in production. Install it in place of the connectors Svelte Commerce ships with and set PUBLIC_GOCOMMERCE_API_URL.' },
-  { q: 'Does Svelte Commerce need GoCommerce?', a: 'No. Svelte Commerce is a standalone storefront and predates GoCommerce by years. It runs against any of the 26 backends it supports today; GoCommerce is not one of those, and is reached through a separate, early connector.' },
+  { q: 'Does Svelte Commerce need GoCommerce?', a: `No. Svelte Commerce is a standalone storefront and predates GoCommerce by years. It runs against any of the ${counts.backends} backends it supports today; GoCommerce is not one of those, and is reached through a separate, early connector.` },
   { q: 'Is it production-ready?', a: 'It has been public for years and runs production stores — arialshop.com is one of them, and it is linked on this page so you can judge it yourself rather than take our word for it. The connectors are a separate question: none of the 26 has been exercised against a live production instance of its platform.' },
   { q: 'How do I switch backends?', a: 'Remove one connector package and add another. Nothing in the storefront imports a connector by name — the active one resolves from package.json, with PUBLIC_CONNECTOR to override — so switching is a dependency change rather than a rewrite.' },
   { q: 'Can I change the design?', a: 'Yes. The storefront is ordinary Svelte components rather than a theme DSL, so changing a template means editing that template. It is MIT licensed, so you can rebrand it and ship it for a client.' },
@@ -43,10 +44,10 @@ const top6 = [['Litekart', '39/43'], ['Vendure', '39/43'], ['Medusa', '31/43'], 
 ---
 <Base
   title="Svelte Commerce — Open Source Ecommerce Storefront in Svelte"
-  description="Svelte Commerce is an open-source SvelteKit ecommerce storefront: browse, search, cart, checkout and account, headless across 26 backends. MIT licensed."
+  description={`Svelte Commerce is an open-source SvelteKit ecommerce storefront: browse, search, cart, checkout and account, headless across ${counts.backends} backends. MIT licensed.`}
   path={path}
   ogTitle="Svelte Commerce — Ecommerce Storefront for Svelte"
-  ogDescription="A standalone open-source storefront built with SvelteKit, headless across 26 commerce backends. MIT licensed."
+  ogDescription={`A standalone open-source storefront built with SvelteKit, headless across ${counts.backends} commerce backends. MIT licensed.`}
   ogImageAlt="Svelte Commerce — open-source ecommerce storefront built with Svelte"
   nav="svelte-commerce"
   crumbs={[{ name: 'Svelte Commerce', href: path }]}
@@ -103,8 +104,8 @@ const top6 = [['Litekart', '39/43'], ['Vendure', '39/43'], ['Medusa', '31/43'], 
     <ul class="feature-grid">
       <li><b>Product discovery</b><span>Categories, collections, listing pages.</span></li>
       <li><b>Search</b><span>Over the backend’s own search service.</span></li>
-      <li><b>Cart</b><span>Wired on 23 of the 26 connectors.</span></li>
-      <li><b>Checkout</b><span>Wired on 25 of the 26 connectors.</span></li>
+      <li><b>Cart</b><span>Wired on 23 of the {counts.backends} connectors.</span></li>
+      <li><b>Checkout</b><span>Wired on 25 of the {counts.backends} connectors.</span></li>
       <li><b>Responsive UI</b><span>Ordinary Svelte components, not a theme DSL. See <a href="/svelte-commerce/themes/">79 live themes</a>.</span></li>
       <li><b>Backend adapters</b><span>One shared 43-service surface, 26 implementations.</span></li>
     </ul>
@@ -113,7 +114,7 @@ const top6 = [['Litekart', '39/43'], ['Vendure', '39/43'], ['Medusa', '31/43'], 
 
   <section id="backends" class="section wrap" aria-labelledby="backends-title">
     <h2 id="backends-title">Backend compatibility</h2>
-    <p class="section-lede">26 connectors exist. These are the six most complete, by measured coverage of the 43-service surface.</p>
+    <p class="section-lede">{counts.backends} connectors exist. These are the six most complete, by measured coverage of the 43-service surface.</p>
     <ul class="backend-preview">
       {top6.map(([n, c]) => <li><span class="bp-name">{n}</span><span class="bp-cov">{c}</span></li>)}
     </ul>
@@ -125,7 +126,7 @@ const top6 = [['Litekart', '39/43'], ['Vendure', '39/43'], ['Medusa', '31/43'], 
     <h2 id="connector-title">Using it with GoCommerce</h2>
     <div class="connector">
       <div class="connector-head"><h3>GoCommerce ↔ Svelte Commerce</h3><p class="badge">Connector: early (0.1.0)</p></div>
-      <p>GoCommerce is not one of the 26 measured backends. Its connector, <code>@misiki/gocommerce-connector</code>, lives in the GoCommerce repository and has been on npm at 0.1.0 since 2 September 2026.</p>
+      <p>GoCommerce is not one of the {counts.backends} measured backends. Its connector, <code>@misiki/gocommerce-connector</code>, lives in the GoCommerce repository and has been on npm at 0.1.0 since 2 September 2026.</p>
       <p>It covers the path from a shelf to a placed order: catalogue, cart, checkout and order lookup. Customer accounts and a search index are not covered, a service it does not map throws an error naming that service rather than rendering empty, and no store is known to run the pair in production.</p>
       <div class="actions">
         <a class="button secondary" href="/gocommerce-svelte-commerce-connector/">Connector status</a>
@@ -150,7 +151,7 @@ const top6 = [['Litekart', '39/43'], ['Vendure', '39/43'], ['Medusa', '31/43'], 
 
   <section class="closing wrap">
     <h2>Build the storefront, keep the backend you have</h2>
-    <p>SvelteKit in front of any of 26 commerce backends. Yours under MIT.</p>
+    <p>SvelteKit in front of any of {counts.backends} commerce backends. Yours under MIT.</p>
     <div class="actions">
       <a class="button" href="#quickstart">Run Svelte Commerce locally</a>
       <a class="button secondary" href="/svelte-commerce/backends/">Backend integrations</a>

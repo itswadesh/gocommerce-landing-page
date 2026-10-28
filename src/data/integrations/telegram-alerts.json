@@ -46,9 +46,6 @@
     { "b": "The order link needs the panel’s address", "t": "The link into the panel is built from the install’s panel URL, GOCOMMERCE_PANEL_URL. Without it the alert carries no link rather than a guessed one." },
     { "b": "The log holds no text", "t": "Recent alerts shows each alert’s event, state, attempts and Telegram’s last answer, not the message, because it carries a customer’s name." }
   ],
-  "tested": true,
-  "testCount": 23,
-  "apiOps": 10,
   "vendorUrl": "https://telegram.org",
   "vendorType": "Organization",
   "faq": [

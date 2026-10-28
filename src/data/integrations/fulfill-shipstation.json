@@ -51,9 +51,6 @@
     { "b": "No customs declaration", "t": "The request carries no customs items, so a cross-border parcel that needs a declaration is not covered by the module as written." },
     { "b": "A guessed box for several items", "t": "For anything but a single unit, the size sent is the configured default, not a measurement. The engine does not pack cartons." }
   ],
-  "tested": true,
-  "testCount": 7,
-  "apiOps": 0,
   "vendorUrl": "https://www.shipstation.com",
   "vendorType": "Organization",
   "faq": [

@@ -64,9 +64,6 @@
     { "b": "Not on the Docker stack", "t": "The one-command Docker stack does not pass -ai-gateway, so a store on it — the live admin this site links to included — cannot switch the gateway on. It is a module you install when you run GoCommerce yourself." },
     { "b": "Not tried against a live provider", "t": "The tests run against PostgreSQL, with each provider answered by a recorded response from a local test server; none calls Anthropic’s or OpenAI’s real API." }
   ],
-  "tested": true,
-  "testCount": 76,
-  "apiOps": 12,
   "trademark": "Anthropic, Claude and OpenAI are trademarks of their owners; this module calls their public APIs with a key the store supplies and implies no endorsement by either company.",
   "faq": [
     { "q": "Which models can it use?", "a": "Whatever the store’s key reaches, named in the Small model and Strong model settings: claude-haiku-4-5 and claude-sonnet-5-5 by default, on Anthropic. On OpenAI, name its models instead. Check connection on the AI usage screen says whether the provider offers each name." },

@@ -42,9 +42,6 @@
     { "b": "Length is counted in bytes", "t": "A question is at most 300 and an answer at most 8,000, counted in bytes. Text in a script that takes several bytes a character, such as Devanagari, reaches the limit sooner." },
     { "b": "Plain text, all at once", "t": "The answer is text from a textarea, stored and served as written; the module does not render or clean it. Every entry is returned in one response, with no paging." }
   ],
-  "tested": true,
-  "testCount": 3,
-  "apiOps": 6,
   "faq": [
     { "q": "What does the storefront get from /x/faq?", "a": "One response with heading, blurb and sections. Each section has its name and its published entries, each with an id, a question and an answer, in the order the shop arranged them within the section." },
     { "q": "Can I hide the FAQ without deleting it?", "a": "Yes. Switch the FAQ plugin off on the Plugins screen and /x/faq answers 404; the entries stay and the FAQ screen still works. A single entry can be hidden by saving it with published off." },

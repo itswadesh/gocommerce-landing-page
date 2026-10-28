@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
+import { counts } from '../lib/facts'
 
 const path = '/gocommerce-svelte-commerce-connector/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -14,8 +15,8 @@ const faq = [
   { q: 'What does “early” mean here?', a: 'It is 0.1.0, the first release. The path from a shelf to a placed order works, and its tests run against a real GoCommerce engine rather than a mock. What it lacks is production mileage: no store is known to run Svelte Commerce on GoCommerce in production, so nothing has yet met a real catalogue or real shoppers. Build on it deliberately, and place test orders before real ones.' },
   { q: 'What does it not do?', a: 'Two absences change what you can build. There are no customer accounts, because GoCommerce checkout is guest checkout — an order is read back with the access token checkout returned, which is why orderService has getOne and no list. And there is no search index: product search is the engine’s own filter, not a Meilisearch relevance ranking. The services the connector does not map — blogs, reels, banners, CMS pages, wishlists, reviews, chat, warranties, vendor commissions — throw UnsupportedByGoCommerce, naming the service, rather than returning empty.' },
   { q: 'How do I install it?', a: 'Run npm i @misiki/gocommerce-connector in your Svelte Commerce checkout and set PUBLIC_GOCOMMERCE_API_URL to where GoCommerce answers, for example http://127.0.0.1:8080. Install one connector at a time: the backend is whichever @misiki/*-connector package.json has, so remove the Litekart and Vendure connectors Svelte Commerce ships with.' },
-  { q: 'Is GoCommerce one of the 26 backends?', a: 'No. The 26 are the connectors whose coverage the backends page measures with a script, and the GoCommerce connector is not in that set. It lives in the GoCommerce repository, under connectors/svelte-commerce, and this page describes it instead.' },
-  { q: 'Does this mean the two packages are now one wired stack?', a: 'They are two packages of one platform with an early connector between them. Both are still useful on their own — GoCommerce behind any client, Svelte Commerce in front of 26 other backends — and the connector is the newest and least proven of the three.' },
+  { q: `Is GoCommerce one of the ${counts.backends} backends?`, a: `No. The ${counts.backends} are the connectors whose coverage the backends page measures with a script, and the GoCommerce connector is not in that set. It lives in the GoCommerce repository, under connectors/svelte-commerce, and this page describes it instead.` },
+  { q: 'Does this mean the two packages are now one wired stack?', a: `They are two packages of one platform with an early connector between them. Both are still useful on their own — GoCommerce behind any client, Svelte Commerce in front of ${counts.backends} other backends — and the connector is the newest and least proven of the three.` },
 ]
 
 // The ledger. One state per line, and the states mean what the legend says.
@@ -82,7 +83,7 @@ npm i @misiki/gocommerce-connector
       <p class="arch-wire arch-wire-gap"><span>@misiki/gocommerce-connector 0.1.0 — early</span></p>
       <div class="arch-row arch-engine">
         <h3>GoCommerce</h3>
-        <p>Serves 342 documented operations over REST, published as OpenAPI.</p>
+        <p>Serves {counts.apiOperations} documented operations over REST, published as OpenAPI.</p>
       </div>
     </div>
     <p class="fineprint">Svelte Commerce reaches every backend through a connector implementing a shared 43-service surface — <code>product</code>, <code>cart</code>, <code>checkout</code>, <code>order</code>, <code>auth</code>, <code>address</code> and the rest. The <a href="/svelte-commerce/backends/">backends page measures 26 of them</a>; the GoCommerce connector is not in that set. It implements the commerce path and refuses the rest by name. The two halves are described on the <a href="/go-svelte-ecommerce/">architecture page</a>.</p>
@@ -136,7 +137,7 @@ npm i @misiki/gocommerce-connector
         <li><b>Do not stub auth.</b> The convention across every connector is to throw rather than mint a session — a stub that logs anyone in is an auth bypass, not a placeholder.</li>
       </ul>
       <div class="contrib-cta">
-        <p>The backend carries <b>1,036 tests</b> and a documented contract for every route, so the connector has something precise to build against.</p>
+        <p>The backend carries <b>{counts.tests} tests</b> and a documented contract for every route, so the connector has something precise to build against.</p>
         <a class="button" href="https://github.com/itswadesh/gocommerce/issues" {...ext}>GoCommerce issues</a>
         <a class="button secondary" href="https://github.com/itswadesh/svelte-commerce/discussions/new/choose" {...ext}>Svelte Commerce discussions</a>
         <a class="button secondary" href="https://discord.gg/GgdAeccwDR" {...ext}>Discord</a>
@@ -152,7 +153,7 @@ npm i @misiki/gocommerce-connector
     <div class="actions">
       <a class="button" href="/gocommerce/">Explore GoCommerce</a>
       <a class="button" href="/svelte-commerce/">Explore Svelte Commerce</a>
-      <a class="button secondary" href="/svelte-commerce/backends/">See the other 26 backends</a>
+      <a class="button secondary" href="/svelte-commerce/backends/">See the other {counts.backends} backends</a>
     </div>
   </section>
 </Base>

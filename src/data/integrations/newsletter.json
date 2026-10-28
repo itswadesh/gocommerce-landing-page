@@ -44,9 +44,6 @@
     { "b": "Nothing comes back from the mailer", "t": "There is no import and no route for a mailing tool to call. An address that unsubscribes inside the mailing tool stays subscribed here until an operator removes it or the store’s own link is used." },
     { "b": "Removing is deleting", "t": "Removing an address deletes its row, and the record of when it signed up and left goes with it. Switching the plugin off closes the signup only: unsubscribing and the admin routes keep working." }
   ],
-  "tested": true,
-  "testCount": 3,
-  "apiOps": 7,
   "faq": [
     { "q": "Does it send newsletters?", "a": "No. It collects signups and unsubscribes and keeps the list. Sending is left to a mailing tool, which gets the list from the CSV export." },
     { "q": "What is in the export?", "a": "One row per address, with email, name, source, status, subscribed_at and unsubscribed_at, the dates in RFC 3339 and UTC. By default only subscribed addresses; ?status=unsubscribed gives the ones who left." },

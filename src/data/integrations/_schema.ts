@@ -59,12 +59,6 @@ export interface Integration {
   howItWorks: { b: string; t: string }[]
   /** What it does not do, and anything a store should know before relying on it. */
   limits: { b: string; t: string }[]
-  /** Whether the package has a *_test.go file. */
-  tested: boolean
-  /** Top-level Test functions across the package's *_test.go files. */
-  testCount: number
-  /** Operations in the package's openapi.json; 0 when it mounts no routes of its own. */
-  apiOps: number
   /** The vendor's own site. Omitted when the module talks to no third party. */
   vendorUrl?: string
   /** How the vendor is described in JSON-LD. Required with vendorUrl. */

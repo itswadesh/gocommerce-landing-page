@@ -11,6 +11,7 @@
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
 import themes from '../../data/themes.json'
+import { counts } from '../../lib/facts'
 
 const path = '/svelte-commerce/themes/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -80,10 +81,10 @@ const faq = [
 
   <section class="closing wrap">
     <h2>Pick one, then make it yours</h2>
-    <p>The storefront behind every demo is on GitHub, MIT licensed, and runs against 26 commerce backends.</p>
+    <p>The storefront behind every demo is on GitHub, MIT licensed, and runs against {counts.backends} commerce backends.</p>
     <div class="actions">
       <a class="button" href="https://github.com/itswadesh/svelte-commerce" {...ext} data-ev="github_click">Download the storefront</a>
-      <a class="button secondary" href="/svelte-commerce/backends/">26 backends it runs on</a>
+      <a class="button secondary" href="/svelte-commerce/backends/">{counts.backends} backends it runs on</a>
       <a class="button secondary" href="https://discord.gg/GgdAeccwDR" {...ext}>Ask for a custom theme</a>
     </div>
   </section>

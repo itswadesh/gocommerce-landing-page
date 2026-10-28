@@ -100,6 +100,10 @@
     "doc": "tells Klaviyo what happens in this store, so its flows — abandoned cart, post-purchase, win-back — have something to run on."
   },
   {
+    "dir": "layouts",
+    "doc": "is the storefront's home page as the shop arranges it: an ordered list of sections — a hero, product grids, image and text, benefits — any type any number of times at any position, edited as a draft and published without a deployment (D125)."
+  },
+  {
     "dir": "mcp",
     "doc": "exposes a gocommerce store to AI agents over the Model Context Protocol."
   },

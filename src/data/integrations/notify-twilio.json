@@ -46,9 +46,6 @@
     { "b": "No delivery receipts", "t": "No status callback is registered, so a text Twilio accepts and later fails to deliver is not reported back." },
     { "b": "Not the India module", "t": "The package’s own comparison: India requires SMS wording to be registered first, which is what the MSG91 module sends. This one sends free text." }
   ],
-  "tested": true,
-  "testCount": 6,
-  "apiOps": 0,
   "vendorUrl": "https://www.twilio.com",
   "vendorType": "Organization",
   "faq": [

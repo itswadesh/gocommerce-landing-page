@@ -18,12 +18,14 @@
 import Base from '../../layouts/Base.astro'
 import Faq from '../../components/Faq.astro'
 import { pageDates } from '../../lib/dates.mjs'
+import { counts, perModule } from '../../lib/facts'
+import facts from '../../data/facts.json'
 
 const path = '/gocommerce/mcp/'
 const abs = (p: string) => new URL(p, Astro.site!).href
 
 const title = 'GoCommerce MCP Server: Let an AI Agent Run Your Store'
-const description = 'An open-source ecommerce MCP server: 19 tools that let an AI agent read and run a GoCommerce store through its own domain services, with an audit trail.'
+const description = `An open-source ecommerce MCP server: ${counts.mcpTools} tools that let an AI agent read and run a GoCommerce store through its own domain services, with an audit trail.`
 
 const dates = pageDates(path)
 const graph = [
@@ -72,6 +74,8 @@ const changeTools: [string, string, string][] = [
   ['create_discount', 'Create a discount code: a percentage in basis points or a fixed amount, for the whole order or scoped to products, collections or categories.', 'discounts.write'],
   ['refund_order', 'Refund an order, fully or in part. The payment method must be able to refund — cash on delivery cannot.', 'orders.refund'],
 ]
+
+if (readTools.length + changeTools.length !== facts.mcpTools || changeTools.length !== facts.mcpWriteTools) throw new Error(`mcp.astro lists ${readTools.length} + ${changeTools.length} tools; ext/mcp has ${facts.mcpTools}, ${facts.mcpWriteTools} marked Mutates (src/data/facts.json)`)
 
 // The module's own end-to-end test, TestScriptedAgentFlow in ext/mcp/mcp_test.go.
 const session: [string, string][] = [
@@ -144,7 +148,7 @@ const faq = [
   description={description}
   path={path}
   ogTitle="Let an AI agent run your store"
-  ogDescription="GoCommerce’s MCP module: 19 tools over the store’s own services, per-tool rights, a read-only mode and an audit of every change."
+  ogDescription={`GoCommerce’s MCP module: ${counts.mcpTools} tools over the store’s own services, per-tool rights, a read-only mode and an audit of every change.`}
   ogImageAlt="The GoCommerce MCP server"
   nav="gocommerce"
   crumbs={[{ name: 'GoCommerce', href: '/gocommerce/' }, { name: 'MCP server', href: path }]}
@@ -154,7 +158,7 @@ const faq = [
   <section class="wrap page-head">
     <p class="kicker">GoCommerce MCP server</p>
     <h1>Let an AI agent run your store</h1>
-    <p class="lede">GoCommerce’s <code>mcp</code> module is an open-source ecommerce MCP server, compiled into the store’s own binary. It gives an AI agent 19 tools — nine that read the store and ten that change it — and every one calls the same domain service the REST API calls. There is no SQL tool, no second copy of the rules, and a record of every change the agent makes.</p>
+    <p class="lede">GoCommerce’s <code>mcp</code> module is an open-source ecommerce MCP server, compiled into the store’s own binary. It gives an AI agent {counts.mcpTools} tools — {readTools.length} that read the store and {changeTools.length} that change it — and every one calls the same domain service the REST API calls. There is no SQL tool, no second copy of the rules, and a record of every change the agent makes.</p>
     <ul class="head-facts">
       <li><b>19</b> tools</li>
       <li><b>10</b> that change state</li>
@@ -183,13 +187,13 @@ const faq = [
     <div class="sec-head">
       <div>
         <p class="kicker">The tools</p>
-        <h2 id="tools-title">Nine that read, ten that change</h2>
+        <h2 id="tools-title">{readTools.length} that read, {changeTools.length} that change</h2>
       </div>
-      <p class="section-lede">Names exactly as an agent sees them in <code>tools/list</code>. Each tool names the right its REST equivalent requires. The ten that change state are marked <code>Mutates</code> in the source: withheld under <code>ReadOnly</code>, and written to the audit table whenever they are called.</p>
+      <p class="section-lede">Names exactly as an agent sees them in <code>tools/list</code>. Each tool names the right its REST equivalent requires. The {changeTools.length} that change state are marked <code>Mutates</code> in the source: withheld under <code>ReadOnly</code>, and written to the audit table whenever they are called.</p>
     </div>
     <div class="tbl-scroll">
       <table class="reltable vs">
-        <caption>Read — 9 tools, offered in every mode, not audited</caption>
+        <caption>Read — {readTools.length} tools, offered in every mode, not audited</caption>
         <thead>
           <tr><th scope="col">Tool</th><th scope="col">What it returns</th><th scope="col">Right</th></tr>
         </thead>
@@ -202,7 +206,7 @@ const faq = [
     </div>
     <div class="tbl-scroll">
       <table class="reltable vs">
-        <caption>Change — 10 tools marked Mutates: withheld under ReadOnly, every call audited</caption>
+        <caption>Change — {changeTools.length} tools marked Mutates: withheld under ReadOnly, every call audited</caption>
         <thead>
           <tr><th scope="col">Tool</th><th scope="col">What it does</th><th scope="col">Right</th></tr>
         </thead>
@@ -222,7 +226,7 @@ const faq = [
         <p class="kicker">In practice</p>
         <h2 id="session-title">A session, as the module’s own test runs it</h2>
       </div>
-      <p class="section-lede">The module carries 24 tests of its own. One plays an agent end to end against a real PostgreSQL: a shopper places a cash-on-delivery order, and the agent takes it from there.</p>
+      <p class="section-lede">The module carries {perModule.mcp.tests} tests of its own. One plays an agent end to end against a real PostgreSQL: a shopper places a cash-on-delivery order, and the agent takes it from there.</p>
     </div>
     <div class="tbl-scroll">
       <table class="reltable vs">

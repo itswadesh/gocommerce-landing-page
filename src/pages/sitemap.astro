@@ -13,6 +13,7 @@ import { getCollection } from 'astro:content'
 import releaseNotes from '../data/release-notes.json'
 import type { Comparison } from '../data/compare/_schema'
 import type { FeaturePage } from '../data/features/_schema'
+import { counts } from '../lib/facts'
 
 const path = '/sitemap/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -47,7 +48,7 @@ const groups: { name: string; links: { href: string; label: string }[] }[] = [
     { href: '/live-projects/', label: 'Live projects' },
   ] },
   { name: 'Storefront backends', links: backends.map((b) => ({ href: `/svelte-commerce/backends/${b.slug}/`, label: b.name })) },
-  { name: 'Integrations', links: [{ href: '/integrations/', label: 'All 51 modules' }, ...integrations.map((m) => ({ href: `/integrations/${m.slug}/`, label: m.name }))] },
+  { name: 'Integrations', links: [{ href: '/integrations/', label: `All ${counts.modules} modules` }, ...integrations.map((m) => ({ href: `/integrations/${m.slug}/`, label: m.name }))] },
   { name: 'Solutions', links: [
     { href: '/solutions/', label: 'All solutions' },
     { href: '/solutions/marketplace/', label: 'Multi-vendor marketplace' },

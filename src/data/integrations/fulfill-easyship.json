@@ -53,9 +53,6 @@
     { "b": "Thin customs items", "t": "Items carry title, SKU, quantity and value only — no HS code and no country of origin, although the package comment lists origin country among them." },
     { "b": "A guessed box for several items", "t": "For anything but a single unit, the size sent is the configured default, not a measurement. The engine does not pack cartons." }
   ],
-  "tested": true,
-  "testCount": 8,
-  "apiOps": 0,
   "vendorUrl": "https://www.easyship.com",
   "vendorType": "Organization",
   "faq": [

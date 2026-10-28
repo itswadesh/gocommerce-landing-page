@@ -44,9 +44,6 @@
     { "b": "The link opens the basket", "t": "A recovery link is as much a credential for the basket as its cart token. Copying it from the admin is a POST, and recorded; the notification log shows it as hidden." },
     { "b": "Figures in the store’s currency", "t": "A basket left before the store changed its currency still counts as a basket, but its money is not added to the store’s figures." }
   ],
-  "tested": true,
-  "testCount": 33,
-  "apiOps": 10,
   "faq": [
     { "q": "When does a basket count as abandoned?", "a": "When it has sat untouched for the threshold its kind has: 10 minutes by default for a basket with an email on it, 30 for one without. Each can be set from 1 minute to a week on the automation screen, and the module checks once a minute." },
     { "q": "Which email service does it use?", "a": "Whichever the store installed as its email notifier. The module hands the engine a notification and the engine delivers it; with no notifier that delivers, nothing is sent and each record says it is waiting for a provider." },

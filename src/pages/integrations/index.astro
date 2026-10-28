@@ -28,7 +28,7 @@ const names: Record<string, string> = {
   'notify-resend': 'Resend', 'notify-sendgrid': 'SendGrid', 'notify-twilio': 'Twilio', 'notify-msg91': 'MSG91', 'telegram-alerts': 'Telegram alerts',
   'cart-recovery': 'Cart recovery', 'klaviyo': 'Klaviyo', 'newsletter': 'Newsletter', 'reviews': 'Reviews', 'wishlist': 'Wishlist', 'feeds': 'Product feeds',
   'cms': 'CMS', 'identity': 'Identity', 'navigation': 'Navigation', 'search-meilisearch': 'Search (Meilisearch)', 'sitemaps': 'Sitemaps', 'translations': 'Translations', 'invoices': 'Invoices', 'webhooks': 'Webhooks', 'contact': 'Contact', 'faq': 'FAQ', 'indexnow': 'IndexNow',
-  'b2b': 'B2B', 'banners': 'Banners', 'showcases': 'Video showcases',
+  'b2b': 'B2B', 'banners': 'Banners', 'layouts': 'Home page layouts', 'showcases': 'Video showcases',
   'ai-gateway': 'AI gateway', 'mcp': 'MCP',
   'import-shopify': 'Shopify import', 'import-amazon': 'Amazon import',
 }
@@ -37,7 +37,7 @@ const groups: [string, string, (d: string) => boolean][] = [
   ['fulfillment', 'Fulfillment', (d) => d.startsWith('fulfill-')],
   ['messaging', 'Email, SMS and Telegram', (d) => d.startsWith('notify-') || d === 'telegram-alerts'],
   ['retention', 'Retention', (d) => ['cart-recovery', 'klaviyo', 'newsletter', 'reviews', 'wishlist', 'feeds'].includes(d)],
-  ['commerce', 'Commerce and content', (d) => ['cms', 'identity', 'navigation', 'search-meilisearch', 'sitemaps', 'translations', 'invoices', 'webhooks', 'contact', 'faq', 'indexnow', 'b2b', 'banners', 'showcases'].includes(d)],
+  ['commerce', 'Commerce and content', (d) => ['cms', 'identity', 'navigation', 'search-meilisearch', 'sitemaps', 'translations', 'invoices', 'webhooks', 'contact', 'faq', 'indexnow', 'b2b', 'banners', 'layouts', 'showcases'].includes(d)],
   ['ai', 'AI and agents', (d) => ['ai-gateway', 'mcp'].includes(d)],
   ['migration', 'Migration', (d) => d.startsWith('import-')],
 ]

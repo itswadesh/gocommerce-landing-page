@@ -25,6 +25,7 @@ import Variants from '../../components/Variants.astro'
 import { fill, gstForRupees, hostedFeeShort, hostedFeeText, plusGst, signupUrl } from '../../lib/pricing'
 import { compareCard, comparisons, siblingComparisons } from '../../lib/related'
 import { byCurrency, currencyRefs, listsFor, plain, refsIn } from '../../lib/money'
+import { counts } from '../../lib/facts'
 
 export function getStaticPaths() {
   return comparisons.map((c) => ({ params: { slug: c.slug }, props: { c } }))
@@ -72,7 +73,7 @@ const gst = india ? byCurrency(() => `, ${plusGst}`) : varying.length > 0 ? gstF
 const takeOn = [
   `Run it yourself and you host it: a server, a PostgreSQL database, backups and upgrades are yours, or a developer’s you pay. A store hosted on kitcommerce.store pays ${hostedFeeText}${india ? `, ${plusGst},` : ''} instead.`,
   'No app store. What a module does not cover, somebody writes.',
-  'GoCommerce has over 1,000 tests, but no store we know of runs it in production yet.',
+  `GoCommerce has over ${counts.testsFloor} tests, but no store we know of runs it in production yet.`,
   'Svelte Commerce reaches GoCommerce through an early connector, version 0.1.0: catalogue, cart, checkout and order lookup work; customer accounts and a search index do not.',
   ...(c.takeOnExtra ?? []),
 ]
