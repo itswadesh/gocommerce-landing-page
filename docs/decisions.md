@@ -4,6 +4,26 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 28 October 2026: the homepage's top third, in the audit's order
+
+The audit found too many proof points before a visitor learns what to do.
+The top third now runs: what it is, three starting points, the live admin
+to try, then the technical proof, then capabilities as before. Nothing was
+redesigned: the same tokens, components, screenshots and type.
+
+- H1 "Build commerce on your own terms.", with the audit's subhead and the
+  owner's price. Buttons "Get started with GoCommerce" (the backend + admin
+  quick start) and "Explore the live admin", and a link to how the two
+  projects work together, next to the note that together they are early.
+- "Choose your starting point": GoCommerce backend, Svelte Commerce
+  storefront, and both together, marked Early, linking the connector
+  status.
+- The live admin section says where the demo and the screenshots come
+  from: a public demo account on admin.kitcommerce.store, and a separate
+  seeded instance.
+- The six short claims that sat in the hero moved under the figure strip,
+  as technical proof. No claim was added.
+
 ## 28 October 2026: live stores are labelled as Svelte Commerce, not GoCommerce
 
 The audit found live Svelte Commerce stores shown beside GoCommerce
