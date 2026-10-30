@@ -1,0 +1,81 @@
+{
+  "slug": "storefront",
+  "name": "Storefront and themes",
+  "summary": "The home page, page templates, header, footer and theme a shop sets in its panel, drawn by Svelte Commerce, with the connector release that brings each.",
+  "title": "Storefront theme editor: GoCommerce sections and templates",
+  "description": "GoCommerce’s theme editor, checked against the code: a home page built from sections, theme settings, templates, header, footer and contact page.",
+  "ogTitle": "GoCommerce storefront and themes, feature by feature",
+  "ogDescription": "Sections, theme settings, templates, header and footer, set in GoCommerce and drawn by Svelte Commerce. And what is not built yet.",
+  "kicker": "Features · Storefront",
+  "h1": "Set the shop’s look in the panel, and the storefront draws it",
+  "lede": "GoCommerce keeps each store’s home page, page templates, header, footer and theme settings, edited in its panel with the live storefront beside the editor. Svelte Commerce draws them through @misiki/gocommerce-connector. Each tile names the connector release that brought it. Where Svelte Commerce draws something only on its gocomm branch, not yet merged into main, the tile or its group says so. The last end-to-end test of the pair ran on {connectorTestedOn}.",
+  "facts": [
+    { "b": "0", "t": "deployments to publish a change" },
+    { "b": "1", "t": "renderer: the editor frames the real storefront" },
+    { "b": "{connectorVersion}", "t": "the connector release that carries all of it" }
+  ],
+  "groups": [
+    {
+      "name": "Pages the shop arranges",
+      "lede": "ext/layouts, installed with -layouts. Its Theme editor plugin is on for every store from the start; switched off, the storefront draws its built-in pages.",
+      "tiles": [
+        { "title": "A home page built from sections", "status": "yes", "text": "Announcement bar, hero, product grid, picture beside words, text, benefits strip, slideshow, collection list, video, newsletter sign-up, questions and answers, and columns: any of them, any number of times, in any order. A product grid shows a collection, products the shop picks or the newest products. Connector 0.6.0 brought the page, and 0.8.0 the slideshow and the five types after it.", "source": "ext/layouts/registry.go · Sections" },
+        { "title": "Saved as you go, with the storefront beside it", "status": "yes", "text": "Every edit saves itself, with undo, redo and Reset back to what is published. On a computer the editor frames the store’s own storefront, draws each edit there before it is saved and opens the section clicked in it. Each publish is a revision, and rolling back publishes an earlier one again.", "source": "admin/src/lib/components/PageEditor.svelte · ext/layouts/layouts.go" },
+        { "title": "Product and collection templates", "status": "yes", "text": "One product page and one collection page per store, drawn for every product and every collection. The shop moves the core (the gallery, price and buy box, or the grid) and arranges sections around it, such as reviews, related products and suggestions. Connector 0.9.0.", "source": "ext/layouts/registry.go · Pages" },
+        { "title": "Publish at a time", "status": "yes", "text": "Any page’s saved draft can be set to publish at a time up to a year ahead, exactly as it was when the time was set. Publishing by hand in the meantime leaves the schedule alone, so fixing a typo today does not call off a page set for Friday.", "source": "ext/layouts/schedule.go" },
+        { "title": "A starting home page with pictures", "status": "yes", "text": "Until a shop publishes its own, the storefront shows the starting page: a hero on a colour block, four tiles, the newest products, a picture beside words and the benefits strip, with the pictures built into the engine and yellow buttons with near-black words. Svelte Commerce draws its bold look on the gocomm branch.", "source": "ext/layouts/http.go · Starter" },
+        { "title": "An icon for each benefit", "status": "yes", "text": "Each item on the benefits strip can carry an icon from a fixed set, such as delivery, returns, secure payment or cash on delivery, drawn in the storefront’s own line style. Carried since connector 0.6.0; Svelte Commerce draws the icons on its gocomm branch.", "source": "ext/layouts/registry.go · BenefitIcons" }
+      ]
+    },
+    {
+      "name": "Theme settings",
+      "lede": "Saved, previewed and published with the home page, and applied to every page the storefront draws. An unset one keeps the storefront’s own look. All of them reach Svelte Commerce from connector 0.8.0; its main branch draws the colours, fonts, corners and picture shape, and its gocomm branch the text, card, list and product page settings.",
+      "tiles": [
+        { "title": "Colours, fonts and corners", "status": "yes", "text": "Background, text, buttons, text on buttons and quiet backgrounds as #rrggbb, heading and body fonts from a fixed list of Google fonts, and corners from none to large. The editor warns, and still saves, when a pair of colours reads below 4.5:1.", "source": "ext/layouts/registry.go · ThemeSettings" },
+        { "title": "Picture shape and fit", "status": "yes", "text": "Product pictures in lists square, portrait (3:4), tall (2:3) or landscape (4:3), either cropped to fill the frame or shown whole.", "source": "ext/layouts/registry.go · product_image_ratio" },
+        { "title": "Text size, weight and spacing", "status": "yes", "text": "Text at 14, 16 or 18px, headings from medium to extra bold, compact, comfortable or spacious room around sections, cards and lists, and a colour for savings and offers.", "source": "ext/layouts/registry.go · type_scale" },
+        { "title": "Product cards", "status": "yes", "text": "What each card shows: a badge on the picture, the brand line, one or two title lines, the star rating when there are reviews, % off when there is a compare-at price, the wishlist button, quick add and a second picture on hover.", "source": "ext/layouts/registry.go · card_badge" },
+        { "title": "Product lists", "status": "yes", "text": "One or two products across on a phone and three to five on a computer, sub-category pictures, quick filter chips, filters beside the products or in a drawer, and a sort and filter bar on phones.", "source": "ext/layouts/registry.go · list_columns_mobile" },
+        { "title": "The product page", "status": "yes", "text": "A buy button that stays on screen on phones, pictures one at a time or in a grid, highlights as a grid, a delivery check by PIN code, “only N left” from a number the shop picks, and a link to its size guide.", "source": "ext/layouts/registry.go · pdp_sticky_buy" },
+        { "title": "Match to logo", "status": "yes", "text": "One button reads the store’s logo in the browser and offers palettes from its colours: the accent, black or white text that reads on it at 4.5:1, and a pale tint. It calls no AI model, and a palette is an ordinary edit until the shop publishes.", "source": "admin/src/lib/logo-palette.js" }
+      ]
+    },
+    {
+      "name": "Header, footer and the shop’s pages",
+      "lede": "The header and footer are pages of ext/layouts, published like the home page. Their menus come from the navigation module (-menus) and the standard pages from the CMS module (-cms). Svelte Commerce draws this group on its gocomm branch.",
+      "tiles": [
+        { "title": "The header", "status": "yes", "text": "The announcement strip, on or off, with its words, its link and whether it shows on every page or the home page only; the header menu, or no menu at all. The logo, search, account and basket stay where the storefront puts them. Connector 0.11.0.", "source": "ext/layouts/registry.go · header" },
+        { "title": "The footer", "status": "yes", "text": "The footer menu drawn as columns, a few words about the shop, the newsletter sign-up on or off, up to eight social links and the copyright line. Menus are read live, so a change made in Content › Menus needs no publish. Connector 0.11.0.", "source": "ext/layouts/registry.go · footer" },
+        { "title": "The store’s logo, dark logo and icon", "status": "yes", "text": "Set under Settings › Store from the media library: a logo, one for dark backgrounds, and a square icon for the browser tab and home screen. One storefront serving many stores shows each its own. Connector 0.15.0, not yet run end to end.", "source": "core/store_profile.go · logo_url" },
+        { "title": "Standard pages and a footer that links them", "status": "yes", "text": "A new store gets About us, Contact us, privacy, terms, shipping and refund pages as drafts to finish, and a footer linking all six. Until the shop publishes them, shoppers see only Contact us, which is the storefront’s own form. An existing store adds the six to its footer with one button on the Pages screen.", "source": "ext/cms/standard.go · ext/navigation/navigation.go" },
+        { "title": "The contact page", "status": "partial", "text": "A store chooses to show its address, private until it does, and sets a map location and its opening hours, under Settings › Store › Contact page. Svelte Commerce draws them beside the WhatsApp chat number and loads the map only when a shopper taps it. Connector 0.16.0, not yet run end to end. Missing: a second opening range in a day, such as after a lunch break.", "source": "core/store_profile.go · show_address" }
+      ]
+    },
+    {
+      "name": "Finding and showing products",
+      "lede": "Svelte Commerce’s main branch draws these with the connector release named, except the badge, which it draws on its gocomm branch.",
+      "tiles": [
+        { "title": "Typo-tolerant search", "status": "yes", "text": "With -meilisearch installed and a store’s Meilisearch plugin switched on, a shopper’s words are searched in the store’s own index, so a misspelt word still finds the product. The database answers when the index cannot, and still supplies the filters beside the hits. Connector 0.14.0.", "source": "ext/search-meilisearch/meilisearch.go" },
+        { "title": "Filters with real counts", "status": "partial", "text": "The listing counts its own filters over every matching product, not one page: tags, brand, product type, category, category attributes and the price range, each group counted with every other choice applied but its own. Connector 0.10.0. Missing: filters on variant options such as size.", "source": "core/catalog_facets.go" },
+        { "title": "Pictures at the size shown", "status": "partial", "text": "The engine resizes a store’s pictures to the width the storefront asks for and keeps each size, so a small card downloads a small picture. Connector 0.15.0 asks for them, not yet run end to end. Missing: pictures in home page sections and banners, which load at full size.", "source": "core/images.go" },
+        { "title": "A badge on each product", "status": "partial", "text": "One line of up to 24 characters, typed in the product editor and shown on the product’s picture wherever the theme’s card badge is set to it, as it is for new stores. Connector 0.8.0. Missing: the product CSV does not carry it.", "source": "core/product_extras.go · MetaBadge" }
+      ]
+    }
+  ],
+  "notYetLede": "Named here so nobody has to find out at launch. Each is absent from the code; the last is absent by design.",
+  "notYet": [
+    { "name": "Other themes", "why": "One theme, the storefront’s default. No theme families and no theme store." },
+    { "name": "A layout per product", "why": "One product template draws every product." },
+    { "name": "Arranging other pages", "why": "Category listings, content pages, the basket and checkout keep the storefront’s own layout." },
+    { "name": "Your own fonts", "why": "Headings and text use fonts from a fixed list of Google fonts; a shop cannot upload one." },
+    { "name": "Moving the logo, search or basket", "why": "The header’s words, links and menu are the shop’s; where the logo, search, account and basket sit is the storefront’s." },
+    { "name": "Your own HTML, CSS or scripts", "why": "Every setting is a plain value, so nothing a shop types reaches the storefront as markup, style or script." }
+  ],
+  "faq": [
+    { "q": "Do I need a developer to change how my shop looks?", "a": "No, once the storefront is running. The home page, the product and collection templates, the header, the footer and the theme settings are edited and published in GoCommerce’s panel, with no deployment. Svelte Commerce draws what is published." },
+    { "q": "Which storefront draws these settings?", "a": "Svelte Commerce, through @misiki/gocommerce-connector. GoCommerce serves the published pages and settings on public routes under /x/layouts, so another storefront could read them, but it would have to draw them itself. Svelte Commerce draws the newer settings on its gocomm branch so far." },
+    { "q": "Can I see a change before shoppers do?", "a": "Yes. On a computer the editor shows your storefront beside the settings and draws each edit there before it is saved, and a preview link shows the draft for 30 minutes. Shoppers see nothing until you publish, or until a time you scheduled." },
+    { "q": "Can a theme change my prices or stock?", "a": "No. A page names collections and products, never their prices or stock, so a shopper always sees the catalogue’s own figures. Settings are plain values, so nothing typed in the editor reaches the storefront as code." },
+    { "q": "Can I undo a published change?", "a": "Yes. Every publish is kept as a revision, and rolling back publishes an earlier one again. Reset throws away edits that are not published yet." }
+  ]
+}

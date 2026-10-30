@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro'
 import Faq from '../components/Faq.astro'
-import { counts } from '../lib/facts'
+import { counts, connector } from '../lib/facts'
 
 const path = '/gocommerce-svelte-commerce-connector/'
 const abs = (p: string) => new URL(p, Astro.site!).href
@@ -13,7 +13,7 @@ const graph = [
 const faq = [
   { q: 'Can I connect Svelte Commerce to GoCommerce today?', a: `Yes, through an early connector. @misiki/gocommerce-connector ${counts.connectorVersion} is on npm, first published on 2 September 2026. Install it in a Svelte Commerce checkout, set PUBLIC_GOCOMMERCE_API_URL to your GoCommerce instance, and the storefront can browse the catalogue, fill a cart, check out and look up an order. Sign-in, the address book and order history need GoCommerce’s identity module, and no store is known to run the pair in production.` },
   { q: 'What does “early” mean here?', a: `It is ${counts.connectorVersion}, first published on 2 September 2026. The path from a shelf to a placed order works, and its tests run against a real GoCommerce engine rather than a mock. What it lacks is production mileage: no store is known to run Svelte Commerce on GoCommerce in production, so nothing has yet met a real catalogue or real shoppers. Build on it deliberately, and place test orders before real ones.` },
-  { q: 'What does it not do?', a: `Shopper sign-in, the address book and order history go through GoCommerce’s identity module; without it, as in a test stack on ${counts.connectorTestedOn}, they do not work, and an order is read back with the access token checkout returned. Its README lists phone sign-in by code, account deletion and guest order lookup by email and code as engine gaps that throw, naming the service, rather than returning empty.` },
+  { q: 'What does it not do?', a: `Shopper sign-in, the address book and order history go through GoCommerce’s identity module; without it, as in a test stack on ${counts.connectorTestedOn}, they do not work, and an order is read back with the access token checkout returned. Account deletion, blogs, banners, reels, chat, warranties, deals and uploads are not mapped: a list of them answers empty, and a write or a single record throws, naming the service. At checkout it offers cash on delivery, Razorpay and the store’s first hosted-page gateway.` },
   { q: 'How do I install it?', a: 'Run npm i @misiki/gocommerce-connector in your Svelte Commerce checkout and set PUBLIC_GOCOMMERCE_API_URL to where GoCommerce answers, for example http://127.0.0.1:8080. Install one connector at a time: the backend is whichever @misiki/*-connector package.json has, so remove the Litekart and Vendure connectors Svelte Commerce ships with.' },
   { q: `Is GoCommerce one of the ${counts.backends} backends?`, a: `No. The ${counts.backends} are the connectors whose coverage the backends page measures with a script, and the GoCommerce connector is not in that set. It lives in its own repository, misiki-in/gocommerce-connector, and this page describes it instead.` },
   { q: 'Does this mean the two packages are now one wired stack?', a: `They are two packages of one platform with an early connector between them. Both are still useful on their own — GoCommerce behind any client, Svelte Commerce in front of ${counts.backends} other backends — and the connector is the newest and least proven of the three.` },
@@ -24,13 +24,17 @@ const ledger = [
   { state: 'ship', title: 'Published to npm', body: `@misiki/gocommerce-connector ${counts.connectorVersion}, first published on 2 September 2026. The source is in its own repository, misiki-in/gocommerce-connector.` },
   { state: 'ship', title: 'Catalogue', body: 'productService lists, filters, sorts and paginates, and fetches by slug, id or SKU, with variants. categoryService serves the tree and category pages; collectionService serves curated lists and a collection page.' },
   { state: 'ship', title: 'Cart', body: 'open, add, change quantity, remove, apply a discount code, set the email.' },
-  { state: 'ship', title: 'Checkout', body: `payment methods, shipping rates, and placing the order. Cash on delivery worked end to end in a test on ${counts.connectorTestedOn}.` },
+  { state: 'ship', title: 'Checkout', body: `cash on delivery, Razorpay and the store’s first hosted-page gateway (Adyen, Paddle, Lemon Squeezy, Creem, Hyperswitch or RevenueCat), shipping rates, and placing the order. Cash on delivery worked end to end in a test on ${counts.connectorTestedOn}.` },
   { state: 'ship', title: 'Order lookup', body: `one order, by its number and the access token checkout returned. In the same test the order-success page showed the full order.` },
   { state: 'ship', title: 'Money and missing fields', body: 'prices are converted from the engine’s minor units per currency, not by a constant 100. Fields the engine lacks are not invented: with no popularity score, “most popular” sorts nothing, and mrp equals the price.' },
   { state: 'dev', title: 'Production use', body: 'none known. No store is known to run Svelte Commerce on GoCommerce in production; the tests run against a real engine, not a real shop.' },
-  { state: 'dev', title: 'Shopper accounts', body: 'sign-in, the address book and order history, through GoCommerce’s identity module. They did not work in the test stack, which ran without it.' },
-  { state: 'dev', title: 'Search and the storefront modules', body: 'its README maps search (Meilisearch when the store switches it on), reviews, wishlists, content pages, menus, FAQ and contact to the matching GoCommerce modules. Not yet tested end to end here.' },
-  { state: 'plan', title: 'What the engine does not do', body: 'phone sign-in by code, account deletion, and guest order lookup by email and code throw, naming the service, rather than returning empty.' },
+  { state: 'dev', title: 'Shopper accounts', body: 'sign-in by email and password or by a code texted to a phone, the address book and order history, through GoCommerce’s identity module. They did not work in the test stack, which ran without it.' },
+  { state: 'dev', title: 'Guest orders', body: 'opening an order with its number and the email or phone on it, with a 4-digit code sent to either, or from the link in its emails. Not yet tested end to end here.' },
+  { state: 'dev', title: 'Pages and theme', body: 'the home page, the product and collection templates, the header, the footer and the theme settings a shop sets in GoCommerce’s Themes, with the editor’s live preview; the store’s own logo, dark logo and icon; its address, map and opening hours on the contact page. Not yet tested end to end here.' },
+  { state: 'dev', title: 'Basket and product page extras', body: 'add-ons, suggestions, the codes a shop lists, the free-delivery bar, highlights, a free gift, product videos, the sold count and PIN code autofill. Not yet tested end to end here.' },
+  { state: 'dev', title: 'Search, pictures and the storefront modules', body: 'search through Meilisearch when the store switches it on, and the database when it cannot answer; pictures resized by the engine to the width shown; reviews, wishlists, content pages, menus, FAQ, newsletter and contact through the matching GoCommerce modules. Not yet tested end to end here.' },
+  { state: 'plan', title: 'What it does not map', body: 'account deletion, blogs, banners, reels, chat, warranties, deals and uploads. Their lists answer empty, and anything that writes or opens one record throws, naming the service.' },
+  { state: 'plan', title: 'Other payment methods', body: 'the storefront’s checkout offers no Stripe, Cashfree, Clover or Helcim, nor a second hosted-page gateway, and its Stripe and Cashfree flows throw, naming the service. checkoutService.checkout(code) reaches every method the engine has switched on, for a storefront that draws its own payment step.' },
 ]
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
@@ -56,7 +60,7 @@ npm i @misiki/gocommerce-connector
   <section class="wrap page-head">
     <h1>GoCommerce ↔ Svelte Commerce connector</h1>
     <div class="status-banner">
-      <p class="status-line"><span class="dot dot-dev" aria-hidden="true"></span><b>Status: early ({counts.connectorVersion}).</b> Published on npm as <code>@misiki/gocommerce-connector</code>.</p>
+      <p class="status-line"><span class="dot dot-dev" aria-hidden="true"></span><span><b>Status: early ({counts.connectorVersion}).</b> Published on npm as <code>@misiki/gocommerce-connector</code>.</span></p>
       <p>In a test on {counts.connectorTestedOn}, {counts.connectorTested} worked end to end. Sign-in, the address book and order history need GoCommerce’s identity module. No store is known to run Svelte Commerce on GoCommerce in production.</p>
     </div>
     <p class="lede">This page exists so the answer is one link rather than an inference: what the connector does, what it does not, and how to try it.</p>
@@ -69,7 +73,7 @@ npm i @misiki/gocommerce-connector
       <div class="code-head"><p>Swap the connector, point it at GoCommerce</p><button class="copy" data-copy="code-connector-install">Copy</button></div>
       <pre id="code-connector-install"><code set:html={installCode} /></pre>
     </div>
-    <p class="fineprint">Install one connector at a time: the backend is whichever <code>@misiki/*-connector</code> <code>package.json</code> has, and two would fight over the same alias. The package’s <a href="https://github.com/itswadesh/gocommerce/tree/main/connectors/svelte-commerce" {...ext}>README</a> is the authority on its details; the package itself is on <a href="https://www.npmjs.com/package/@misiki/gocommerce-connector" {...ext}>npm</a>.</p>
+    <p class="fineprint">Install one connector at a time: the backend is whichever <code>@misiki/*-connector</code> <code>package.json</code> has, and two would fight over the same alias. The package’s <a href={`${connector.repository}#readme`} {...ext}>README</a> is the authority on its details; the package itself is on <a href="https://www.npmjs.com/package/@misiki/gocommerce-connector" {...ext}>npm</a>.</p>
   </section>
 
   <section id="architecture" class="section wrap" aria-labelledby="arch-title">
@@ -106,6 +110,7 @@ npm i @misiki/gocommerce-connector
         ))}
       </ul>
     </div>
+    <p class="fineprint">Which release brought each page and theme setting, and which Svelte Commerce branch draws it, is on <a href="/features/storefront/">storefront and themes</a>.</p>
   </section>
 
   <section id="limitations" class="section wrap" aria-labelledby="lim-title">
