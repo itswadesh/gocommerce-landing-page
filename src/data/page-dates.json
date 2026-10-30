@@ -1,6 +1,6 @@
 {
   "/": {
-    "hash": "3249df226e8a432c",
+    "hash": "88f7148e62aa1035",
     "modified": "2026-10-30"
   },
   "/about/": {
@@ -176,24 +176,24 @@
     "modified": "2026-09-25"
   },
   "/features/": {
-    "hash": "30bb1e3c906da3d3",
+    "hash": "31979a868af320fa",
     "modified": "2026-10-30"
   },
   "/features/ai/": {
-    "hash": "4d747684ded1c6c4",
-    "modified": "2026-10-28"
+    "hash": "e4c9e1050e83ad73",
+    "modified": "2026-10-30"
   },
   "/features/checkout/": {
     "hash": "1b358e54e225f4d9",
     "modified": "2026-10-30"
   },
   "/features/development/": {
-    "hash": "43f2cdf3ea2689e8",
+    "hash": "5a1f454e46deabb9",
     "modified": "2026-10-30"
   },
   "/features/operations/": {
-    "hash": "ab17ee1c7149134f",
-    "modified": "2026-10-28"
+    "hash": "56a667e7be2282c8",
+    "modified": "2026-10-30"
   },
   "/go-svelte-ecommerce/": {
     "hash": "4f0731526c4d999d",
