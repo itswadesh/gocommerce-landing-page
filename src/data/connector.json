@@ -1,10 +1,11 @@
 {
-  "_comment": "The GoCommerce connector for Svelte Commerce, said once. version is npm's latest (npm view @misiki/gocommerce-connector version); scripts/verify.js fails when npm has moved on, and on any other version the site states. tested is what a full-stack run on testedOn showed working end to end; needsIdentity is what did not work there because GoCommerce ran without its identity module. Pages write {connectorVersion}, {connectorTested} and {connectorNeedsIdentity}, or read this file through src/lib/facts.ts.",
+  "_comment": "The GoCommerce connector for Svelte Commerce, said once. version is npm's latest (npm view @misiki/gocommerce-connector version); scripts/verify.js fails when npm has moved on, and on any other version the site states. tested is what a full-stack run of testedVersion on testedOn showed working end to end; needsIdentity is what did not work there because GoCommerce ran without its identity module. Pages write {connectorVersion}, {connectorTested} and {connectorNeedsIdentity}, or read this file through src/lib/facts.ts.",
   "package": "@misiki/gocommerce-connector",
-  "version": "0.14.0",
+  "version": "0.16.0",
   "firstPublished": "2026-09-02",
   "repository": "https://github.com/misiki-in/gocommerce-connector",
   "testedOn": "2026-10-28",
+  "testedVersion": "0.14.0",
   "tested": "catalogue, cart, cash-on-delivery checkout and order lookup",
   "needsIdentity": "shopper sign-in, the address book and order history"
 }

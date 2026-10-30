@@ -40,7 +40,8 @@ export const counts = {
   connectorVersion: connector.version,
   connectorTested: connector.tested,
   connectorNeedsIdentity: connector.needsIdentity,
-  connectorTestedOn: longDate(connector.testedOn),
+  // The end-to-end test is of one version; a later release names it until it is tested again.
+  connectorTestedOn: longDate(connector.testedOn) + (connector.testedVersion === connector.version ? '' : ` with version ${connector.testedVersion}`),
 }
 
 export { connector }
