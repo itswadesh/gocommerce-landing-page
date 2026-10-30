@@ -28,7 +28,7 @@
     ["Indian couriers", "Shopify’s plan table lists live third-party shipping rates at checkout from Advanced upward.", "Shiprocket, Delhivery and NimbusPost modules book shipments. The India Post module records the consignment number from the counter receipt, because India Post publishes no booking API."],
     ["Order SMS", "Pay-per-send SMS campaigns sit in every plan’s marketing tools.", "The MSG91 module texts customers when an order is placed, paid, shipped, delivered or cancelled, sent as DLT-registered templates as Indian rules require."],
     ["GST on the platform’s bill", "Charged on Shopify’s fees to a store in India unless you register your GSTIN; GST on invoices issued before you do cannot be reversed.", "No platform bill to tax when you run it yourself. Your host’s invoice carries whatever GST it charges."],
-    ["GST invoices for your orders", "Shopify says it does not create GST-compliant bills, and points to a local invoicing service or an App Store app.", "The invoices module gives every paid order a numbered invoice and prints your GSTIN, but shows no CGST, SGST or IGST split."],
+    ["GST invoices for your orders", "Shopify says it does not create GST-compliant bills, and points to a local invoicing service or an App Store app.", "A store with a valid GSTIN that sells in rupees issues a GST tax invoice for every paid order, with HSN codes, the place of supply and the CGST, SGST or IGST split from what checkout charged, and exports them to TallyPrime. No e-invoices or e-way bills."],
     ["Trying it", "3 days free, then a reduced price for the first 3 months on most plans.", "Free for as long as you like: the one-command Docker stack runs the API and admin on your own machine."],
     ["Plus in India", "A one- or three-year term, plus 0.2% of every order a third-party gateway takes — which, here, is every prepaid one.", "The same software as any other GoCommerce store. The Shopify Plus comparison covers that side in full."]
   ],
@@ -58,10 +58,11 @@
     "Prepaid sales are large enough that 1–2% of them costs more than a server and a developer’s time, and you would rather run the store yourself.",
     "You want a store hosted for you: kitcommerce.store takes {hostedFeeText}, {plusGst}.",
     "You ship through Shiprocket, Delhivery or NimbusPost and send order SMS through MSG91 — each a GoCommerce module you compile in.",
-    "You want to decide in code how your store treats COD — limits, extra charges, confirmation before dispatch."
+    "You want to decide in code how your store treats COD — limits, extra charges, confirmation before dispatch.",
+    "You want a GST tax invoice for every paid order, and files your accountant imports into TallyPrime, without an App Store app."
   ],
   "takeOnExtra": [
-    "GST invoicing is unfinished: the invoices module numbers every paid order’s invoice and prints your GSTIN, but has no HSN codes and no CGST, SGST or IGST lines.",
+    "GST invoicing stops at the tax invoice: no e-invoices, e-way bills or GST credit notes, and delivery is printed without GST, because checkout does not charge it.",
     "India Post shipments are recorded, not booked — the module stores the consignment number you read off the receipt."
   ],
   "faq": [
@@ -71,7 +72,7 @@
     { "q": "Which Shopify plan is cheapest for an Indian store?", "a": "It depends on prepaid sales. Each step up costs more a month and takes a smaller cut of each prepaid order: 2% on Basic, 1% on Grow, 0.6% on Advanced. A store with small prepaid sales pays least on Basic, and the higher plans pay off only as prepaid sales grow — before GST, and before the gateway’s own charge." },
     { "q": "Can I have a GoCommerce store without running a server?", "a": "Yes. A store hosted on kitcommerce.store pays {hostedFeeText}, {plusGst}. Running GoCommerce yourself stays free, and then the gateway’s charge is the only cost per order." },
     { "q": "What does GoCommerce use for payments and shipping in India?", "a": "Razorpay through the payments-razorpay module, and cash on delivery in the core. Shipments are booked through the Shiprocket, Delhivery and NimbusPost modules, and the India Post module records consignment numbers. Order SMS go out through MSG91 as DLT-registered templates. Each module is compiled in only if you import it." },
-    { "q": "Does GoCommerce produce GST invoices?", "a": "Partly. The invoices module gives every paid order a numbered invoice in a gapless sequence and prints your GSTIN, but it shows no tax breakdown — no HSN codes, no CGST, SGST or IGST. Shopify says it does not create GST-compliant bills either, and points merchants to an invoicing app or service." }
+    { "q": "Does GoCommerce produce GST invoices?", "a": "Yes, for a store in India with a valid GSTIN that sells in rupees. The invoices module gives every paid order a GST tax invoice in a gapless series counted by financial year, with HSN codes, the place of supply and the CGST, SGST or IGST split, and exports the invoices to TallyPrime. It makes no e-invoices or e-way bills, and delivery is printed without GST. Shopify says it does not create GST-compliant bills, and points merchants to an invoicing app or service." }
   ],
   "sources": [
     { "label": "Shopify pricing, India", "url": "https://www.shopify.com/in/pricing" },

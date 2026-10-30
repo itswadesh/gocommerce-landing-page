@@ -4,6 +4,34 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 30 October 2026: GST tax invoices and the TallyPrime export, as built
+
+This updates the entry of 26 October, "target Indian suppliers that sell
+through dealers, by trade", which kept GST invoices and Tally off the site
+because neither existed. GoCommerce now issues GST tax invoices (PR #141,
+D137) and exports them for TallyPrime (PRs #126 and #142, D138), read in
+the code at a6e3fee5.
+
+- The India solution pages, the agencies page, the Shopify B2B and Shopify
+  India comparisons, /integrations/invoices/ and llms.txt say what the code
+  does: a store in India with a valid GSTIN that sells in rupees issues a
+  GST tax invoice for every paid order, and downloads a period's invoices as
+  two TallyPrime import files. The text is said once, in
+  `src/data/b2b/capabilities.json` (`gst-invoices`, `tally-export`) and
+  `src/data/b2b/gaps.json` (`e-invoice`, which replaced `gst-invoice`, and
+  `tally`).
+- They say what is missing as plainly: no e-invoices, e-way bills or GST
+  credit notes; delivery printed without GST, because checkout does not
+  charge it; an order on account invoiced only when it is marked paid; and
+  Tally files that have not been test-imported into TallyPrime itself.
+- The site still does not say "GST-compliant" or "Tally integration". The
+  missing pieces above make "compliant" an overstatement, and the export is
+  a file someone imports, not a connection. Shopify's own words, that it
+  "does not create GST-compliant bills", stay on the comparisons as
+  Shopify's.
+- WhatsApp ordering still does not exist; that part of the 26 October entry
+  stands.
+
 ## 30 October 2026: AI on a hosted store is paid from its AI credit
 
 The owner decided in GoCommerce (D151, 29 October 2026) that AI features
@@ -338,6 +366,8 @@ The owner: "find and target the best indian business groups".
   and what it does not do once, in `src/data/b2b/gaps.json`. Every page names
   its gaps. The site does not say "GST-compliant invoices", "Tally
   integration" or "WhatsApp ordering", because none of them exists.
+  Updated 30 October 2026: GST tax invoices and a TallyPrime export now
+  exist, and the pages describe them; see that entry.
 - The pages state the fee only as `src/data/pricing.json` does. Whether the
   1% applies to cash-on-delivery and on-account orders is the owner's open
   question, so no page says either way. Settled on 27 October 2026: it does.

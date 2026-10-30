@@ -46,7 +46,7 @@
 - https://kitcommerce.store/solutions/b2b/ — B2B: customer groups, price lists, quantity breaks, scoped API keys, invoices
 - https://kitcommerce.store/solutions/d2c/ — direct-to-consumer: the default store, guest checkout, cash on delivery, manual fulfillment, the Svelte Commerce storefront
 - https://kitcommerce.store/solutions/multi-store/ — several storefronts on one catalogue: channels, per-channel publishing and pricing
-- https://kitcommerce.store/solutions/b2b-ecommerce-india/ — B2B ecommerce for Indian manufacturers and distributors, in plain words: dealer prices, credit limits, statements, and what is missing (no GST tax invoice, e-invoice or Tally sync)
+- https://kitcommerce.store/solutions/b2b-ecommerce-india/ — B2B ecommerce for Indian manufacturers and distributors, in plain words: dealer prices, credit limits, statements, GST tax invoices and a TallyPrime export, and what is missing (no e-invoices, e-way bills or GST credit notes; the Tally files not yet test-imported into TallyPrime)
 - https://kitcommerce.store/solutions/dealer-portal/ — the dealer ordering portal at /portal on the store's own address, with screenshots: quick order, credit, statements, approvals, quotes
 - https://kitcommerce.store/solutions/electricals/ — dealer ordering for wire, switch, fan, lighting and switchgear brands
 - https://kitcommerce.store/solutions/building-materials/ — dealer ordering for tile, sanitaryware, plywood and pipe makers; no pack-size or shade tracking yet
@@ -83,7 +83,7 @@
 - https://kitcommerce.store/svelte-commerce/backends/woocommerce/ — Svelte Commerce on WooCommerce: setup, environment variables, coverage and limits
 - https://kitcommerce.store/svelte-commerce/backends/x-cart/ — Svelte Commerce on X-Cart: setup, environment variables, coverage and limits
 - https://kitcommerce.store/integrations/payments-adyen/ — Adyen module for GoCommerce: Take card and local payments through Adyen payment links in a GoCommerce store: API key, HMAC key, endpoint, refunds, and what the module le
-- https://kitcommerce.store/integrations/ai-gateway/ — AI gateway module for GoCommerce: One place a GoCommerce store calls a model: its own Anthropic or OpenAI key, a monthly cap, a price per model, data-sharing switches and an approval queue.
+- https://kitcommerce.store/integrations/ai-gateway/ — AI gateway module for GoCommerce: One place a GoCommerce store calls a model: the install’s Anthropic key paid from the store’s AI credit, or the store’s own Anthropic or OpenAI key and monthly cap, data-sharing switches and an approval queue.
 - https://kitcommerce.store/integrations/banners/ — Banners module for GoCommerce: Keep a GoCommerce storefront’s home page pictures as rows: slides across the top, grids of tiles under a heading, a phone picture, a switch and one saved order.
 - https://kitcommerce.store/integrations/cart-recovery/ — Cart recovery module for GoCommerce: Remind shoppers about baskets they left in a GoCommerce store: a sequence of emails per kind of basket, a counted link back, and the order each one brings back.
 - https://kitcommerce.store/integrations/payments-cashfree/ — Cashfree module for GoCommerce: Take UPI, cards, netbanking and wallets through Cashfree in a GoCommerce store: two keys, the webhook URL, the return check, refunds, and rupees only.
@@ -99,7 +99,7 @@
 - https://kitcommerce.store/integrations/identity/ — Identity module for GoCommerce: Add shopper accounts to a GoCommerce store: sign-up, sign-in, saved addresses, password reset and order history by claim. Guest checkout kee
 - https://kitcommerce.store/integrations/indexnow/ — IndexNow module for GoCommerce: Tell Bing, Yandex, Seznam and Naver the moment a GoCommerce product or collection changes, over IndexNow: the setup, the key file, and why G
 - https://kitcommerce.store/integrations/fulfill-indiapost/ — India Post module for GoCommerce: Record India Post consignments on GoCommerce orders, with the S10 number checked before the order ships — and why this module books nothing 
-- https://kitcommerce.store/integrations/invoices/ — Invoices module for GoCommerce: Issue a gapless, numbered invoice for every paid GoCommerce order: seller details, GSTIN or VAT number, the number format, and what the docu
+- https://kitcommerce.store/integrations/invoices/ — Invoices module for GoCommerce: A numbered invoice for every paid GoCommerce order and, for Indian stores, a GST tax invoice with HSN codes and the tax split, exported to TallyPrime; no e-invoices or e-way bills
 - https://kitcommerce.store/integrations/klaviyo/ — Klaviyo module for GoCommerce: Send a GoCommerce store’s orders and abandoned carts to Klaviyo as events, under the metric names Klaviyo’s flows know. The key, the delays,
 - https://kitcommerce.store/integrations/payments-lemonsqueezy/ — Lemon Squeezy module for GoCommerce: Sell through Lemon Squeezy as merchant of record from a GoCommerce store: the placeholder variant, four settings, webhook URL, refunds and l
 - https://kitcommerce.store/integrations/mcp/ — MCP module for GoCommerce: Let an AI agent operate a GoCommerce store over the Model Context Protocol: {mcpTools} tools, per-tool rights, read-only agent keys, a read-only mode and an audit log.
@@ -140,9 +140,9 @@
 - https://kitcommerce.store/pricing/fee-calculator/ — fee calculator: a month of sales and the share paid online, Shopify’s plan and fee from its own price list for the visitor’s country, against 1% of every successful order hosted on kitcommerce.store, with 18% GST added to both sides for Indian stores
 - https://kitcommerce.store/features/ — GoCommerce features, each checked against the code with the file named; partial features say what is missing
 - https://kitcommerce.store/features/checkout/ — checkout: one idempotent call that returns 409 instead of charging a changed price, guest checkout, eleven gateways plus cash on delivery
-- https://kitcommerce.store/features/operations/ — operations: order timeline and edits, multi-location stock with a reconciling ledger, 12 carrier options, refunds, roles, audit
+- https://kitcommerce.store/features/operations/ — operations: order timeline and edits, multi-location stock with a reconciling ledger, 12 carrier options, refunds, GST tax invoices and a TallyPrime export, roles, audit
 - https://kitcommerce.store/features/development/ — development: one binary and PostgreSQL, one dependency, {apiOperations} documented operations, signed webhooks, MCP; no cloud
-- https://kitcommerce.store/features/ai/ — AI: a gateway that caps and records every model call, an approval queue with no actions yet, read-only agent keys and MCP; what is not built
+- https://kitcommerce.store/features/ai/ — AI: products drafted from photos, listing rewrites and review summaries, on a gateway that records every model call and runs on the install’s Anthropic key paid from each store’s AI credit, or a store’s own key and cap; an approval queue with no actions yet, read-only agent keys and MCP; what is not built
 - https://kitcommerce.store/svelte-commerce/themes/ — 79 live Svelte Commerce demo storefronts, each opening as a running store
 - https://kitcommerce.store/live-projects/ — live stores running Svelte Commerce, with the Lighthouse scores each home page received on the date measured
 - https://kitcommerce.store/open-source/ — both repositories, the backend + admin quick start, the ecosystem, the community, and why there is no paid edition

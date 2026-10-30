@@ -44,7 +44,7 @@
   "gapsLede": "What dealers or your accounts team may expect that the portal does not do yet.",
   "gaps": [
     { "id": "portal-payments" },
-    { "id": "gst-invoice" },
+    { "id": "e-invoice", "note": "Dealers cannot see or download their invoices in the portal: your team opens and prints them in the admin." },
     { "id": "languages" },
     { "id": "approval-levels" },
     { "id": "dealer-locator" },

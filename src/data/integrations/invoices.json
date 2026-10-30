@@ -2,55 +2,62 @@
   "slug": "invoices",
   "name": "Invoices",
   "category": "Platform",
-  "title": "Numbered order invoices in Go (GoCommerce module)",
-  "description": "Issue a gapless, numbered invoice for every paid GoCommerce order: seller details, GSTIN or VAT number, the number format, and what the document leaves out.",
-  "ogTitle": "Numbered invoices for GoCommerce",
-  "ogDescription": "A gapless invoice number the moment an order is paid, with a snapshot of the order. Read from the source.",
-  "h1": "Numbered order invoices in Go",
-  "lede": "A Go package that issues an invoice, with its own gapless number, the moment an order is paid — and keeps a snapshot of the order as it was. The seller’s name, address and tax id are its settings, set in code.",
+  "title": "Order and GST tax invoices in Go (GoCommerce module)",
+  "description": "A numbered invoice for every paid GoCommerce order and, for Indian stores, a GST tax invoice with HSN codes and the tax split, exported to TallyPrime.",
+  "ogTitle": "Invoices and GST tax invoices for GoCommerce",
+  "ogDescription": "A gapless invoice number the moment an order is paid. In India, a GST tax invoice with HSN codes and tax heads, and files for TallyPrime. Read from the source.",
+  "h1": "Order and GST tax invoices in Go",
+  "lede": "A Go package that issues an invoice, with its own gapless number, the moment an order is paid, and keeps a snapshot of the order as it was. A store in India with a valid GSTIN that sells in rupees issues a GST tax invoice instead, and downloads its invoices as files for TallyPrime.",
   "what": [
-    "The module listens for order.paid and issues an invoice for that order: a number from its own per-year sequence, the order’s total and currency, and a snapshot of the whole order as it stood. The admin gets an Invoices screen and a link from each order; the API gets two read-only routes.",
-    "The package doc explains why it is a module at all: an order is what a shopper asked for, while an invoice is an accounting document with its own gapless sequence and its own retention rules. Keeping them apart is why this is a module and not a column on the order.",
-    "It needs no third party and talks to nothing outside the store. It prints a tax id beside the seller — a GSTIN, a VAT number, whatever applies — and serves the invoice as a page to print or as JSON."
+    "The module listens for order.paid and issues an invoice for that order: a number from its own yearly sequence, the order’s total and currency, and a snapshot of the whole order as it stood. The admin gets an Invoices screen and a link from each order. The API gets five routes: the list, one invoice, the Tally export, and reading and setting the Tally ledger names.",
+    "A store whose profile is in India, whose tax registration is a valid GSTIN and which sells in rupees issues a GST tax invoice instead. It is built once, from what checkout charged, and stored as a document that does not change: supplier and buyer with their GSTINs, each variant’s HSN code, the place of supply from the delivery address, CGST and SGST (UTGST in a union territory without a legislature) within a state and IGST between states and for exports, a summary by rate and the totals. Every other store gets the plain invoice it always did.",
+    "On a GST store the Invoices screen also has an Export for Tally card. A period’s tax invoices download as two TallyPrime “Import Data” XML files, ledgers then vouchers. Each invoice becomes one sales voucher, a buyer with a GSTIN becomes a Sundry Debtors ledger named by legal name and GSTIN, and the ledger names are set once to match the accountant’s company.",
+    "The package doc explains why it is a module at all: an order is what a shopper asked for, while an invoice is an accounting document with its own gapless sequence and its own retention rules. It needs no third party and talks to nothing outside the store."
   ],
-  "configLede": "One setting is required: the seller’s name. All five are Config fields — this module has no settings in the admin’s panel — so they are set in your own main(), or through the reference binary’s -invoices flag and its three environment variables.",
+  "configLede": "One setting is required: the seller’s name. All five are Config fields, set in your own main() or through the reference binary’s -invoices flag and its three environment variables. A GST store takes its seller details from the store’s profile under Settings instead, and keeps its Tally ledger names on the Invoices screen.",
   "config": [
-    { "field": "SellerName", "env": "INVOICES_SELLER_NAME", "required": true, "note": "Heads the document. Without it the module refuses to register and the store does not start; the reference binary falls back to “This store”." },
-    { "field": "SellerAddress", "env": "INVOICES_SELLER_ADDRESS", "required": false, "note": "Printed under the seller’s name. The code’s comment calls it required, but only the name is checked." },
-    { "field": "TaxID", "env": "INVOICES_TAX_ID", "required": false, "note": "Printed beside the seller, for jurisdictions that need it — a GSTIN, a VAT number, whatever applies." },
-    { "field": "NumberFormat", "required": false, "note": "Builds the number from {year} and {seq}; {seq:05} pads to five digits. Defaults to INV-{year}-{seq:05}." },
-    { "field": "Footer", "required": false, "note": "Printed at the bottom of every invoice." }
+    { "field": "SellerName", "env": "INVOICES_SELLER_NAME", "required": true, "note": "Heads the plain invoice. Without it the module refuses to register and the store does not start; the reference binary falls back to “This store”. A GST tax invoice names the supplier from the store’s profile instead." },
+    { "field": "SellerAddress", "env": "INVOICES_SELLER_ADDRESS", "required": false, "note": "Printed under the seller’s name on the plain invoice. The code’s comment calls it required, but only the name is checked." },
+    { "field": "TaxID", "env": "INVOICES_TAX_ID", "required": false, "note": "Printed beside the seller on the plain invoice: a VAT number or whatever applies. A store’s GST mode comes from the tax registration in its profile, not from this field." },
+    { "field": "NumberFormat", "required": false, "note": "Builds the number from {year}, {fy} and {seq}; {seq:05} pads to five digits. Defaults to INV-{year}-{seq:05}. On a GST store the count restarts on 1 April, {year} is the year the financial year began and {fy} prints it as 26-27, and a number longer than 16 characters, or with anything other than letters, digits, / and -, is refused: no invoice is issued." },
+    { "field": "Footer", "required": false, "note": "Printed at the bottom of every plain invoice." }
   ],
   "setup": [
-    { "b": "Choose the number format", "t": "The default is INV-{year}-{seq:05}, which gives INV-2026-00001. Settle yours before the first invoice; the count restarts at 1 each calendar year." },
-    { "b": "Install the module", "t": "Import it and pass invoices.New to gocommerce.New with at least SellerName, as below — or run the reference binary with -invoices and the INVOICES_ variables." },
-    { "b": "Take a payment", "t": "Every order that reaches paid gets its invoice. On start-up, paid orders that have none are caught up." },
-    { "b": "Print or fetch it", "t": "Open it from the order or the Invoices screen in the admin, or GET /api/admin/x/invoices/{orderId} — HTML to print, or JSON with Accept: application/json." }
+    { "b": "Choose the number format", "t": "The default is INV-{year}-{seq:05}, which gives INV-2026-00001. Settle yours before the first invoice. A plain store’s count restarts each calendar year, a GST store’s on 1 April; INV/{fy}/{seq:05} is the usual Indian shape." },
+    { "b": "Install the module", "t": "Import it and pass invoices.New to gocommerce.New with at least SellerName, as below, or run the reference binary with -invoices and the INVOICES_ variables." },
+    { "b": "For GST, fill in the profile", "t": "Under Settings: India, rupees, the GSTIN as the tax registration, the legal name and the address. Give each variant its HS code, which a GST invoice prints as the HSN." },
+    { "b": "Print, fetch or export", "t": "Open an invoice from its order or the Invoices screen, or GET /api/admin/x/invoices/{orderId}: HTML to print, or JSON with Accept: application/json. A GST store downloads its Tally files from the same screen." }
   ],
   "code": "import (\n\t\"github.com/itswadesh/gocommerce/core\"\n\t\"github.com/itswadesh/gocommerce/ext/invoices\"\n)\n\napp, err := gocommerce.New(cfg,\n\tinvoices.New(invoices.Config{\n\t\tSellerName:   \"Example Ltd\",\n\t\tNumberFormat: \"INV-{year}-{seq:05}\",\n\t}),\n)",
   "codeTitle": "main.go",
   "codeNote": "The package doc’s own example, with its imports; cfg is your gocommerce.Config. Add SellerAddress, TaxID and Footer the same way.",
   "howItWorks": [
-    { "b": "Issued on payment, once", "t": "The module subscribes to order.paid. Event delivery is at least once, so a unique constraint on the order id turns a repeated event into a no-op rather than a second invoice." },
-    { "b": "Gapless, per year", "t": "The number comes from a counter row per year, taken under a lock inside the transaction that writes the invoice. A rollback gives the number back, which a PostgreSQL sequence would not." },
-    { "b": "Your format", "t": "NumberFormat expands {year} — the UTC calendar year — and {seq}, with {seq:05} padding to five digits. Two deliveries at once queue for the counter rather than share a number." },
-    { "b": "A snapshot of the order", "t": "The order is stored as JSON as it stood when the invoice was issued, so later edits to the order do not change the invoice’s lines or totals." },
-    { "b": "Nothing missed at start-up", "t": "When the store starts, the module looks for paid orders with no invoice and issues them — the safety net under at-least-once delivery." },
-    { "b": "HTML or JSON, behind a right", "t": "The invoice route answers with a printable page, or JSON when asked. Reading needs the invoices.read right, which the manager and staff roles hold by default." }
+    { "b": "Issued on payment, once", "t": "The module subscribes to order.paid. Event delivery is at least once, so a unique constraint on the order id turns a repeated event into a no-op rather than a second invoice. A sample order gets none." },
+    { "b": "Gapless, per year", "t": "The number comes from a counter row per year, taken under a lock inside the transaction that writes the invoice. A rollback gives the number back, which a PostgreSQL sequence would not. A GST store counts by financial year, on the store’s clock." },
+    { "b": "GST from what checkout charged", "t": "A GST invoice works out no tax of its own: each line’s rate and tax are what checkout charged, and a tax rate can apply to one product. Within a state CGST is half the tax rounded down and SGST or UTGST the rest, so the heads always add up; between states it is all IGST." },
+    { "b": "Refused rather than wrong", "t": "A GST invoice whose lines do not add up to the order total, or whose Indian delivery address names no state GST knows, is not issued. The paid order stays without one, logged, until the cause is fixed. Checkout on a GST store refuses a buyer GSTIN that does not parse, and an Indian address with no state." },
+    { "b": "A snapshot of the order", "t": "The order is stored as JSON as it stood when the invoice was issued, so later edits to the order do not change the invoice’s lines or totals. A GST invoice keeps its whole document, seller included, as issued." },
+    { "b": "Nothing missed at start-up", "t": "When the store starts, the module looks for paid orders with no invoice and issues them: the safety net under at-least-once delivery." },
+    { "b": "Tally files that import once", "t": "The export reads only the issued GST documents and adds them up, at most a year at a time. Each voucher carries a REMOTEID, gocommerce:<store>:<invoice number>, so importing the same file again with Tally’s overwrite option replaces vouchers instead of duplicating them. A voucher whose entries do not sum to zero is refused." },
+    { "b": "Behind its own rights", "t": "Reading invoices and downloading the Tally files needs invoices.read, which the manager and staff roles hold by default. Setting the Tally ledger names needs invoices.configure, which managers hold." }
   ],
   "limits": [
-    { "b": "No tax line", "t": "The order’s tax is in the snapshot, but the printed invoice shows subtotal, shipping, discount and total only. With tax-exclusive prices, the lines shown do not add up to the total." },
-    { "b": "Amounts in minor units", "t": "The page prints every amount as a whole number of minor units — INR 123450 for ₹1,234.50 — and says so at its foot." },
-    { "b": "Seller details are read live", "t": "The seller block comes from Config when an invoice is viewed, not from the snapshot. Change the address and every past invoice shows the new one." },
-    { "b": "No PDF, no email", "t": "The invoice is an HTML page to print or JSON to process. The module renders no PDF and does not send the invoice to the shopper." },
-    { "b": "No credit notes", "t": "A refund issues nothing and changes nothing: the module listens for order.paid only." },
+    { "b": "No e-invoices or e-way bills", "t": "A GST invoice carries no IRN or signed QR code, and no e-way bill is made. Both need an account with a GST Suvidha Provider or the Invoice Registration Portal." },
+    { "b": "Delivery without GST", "t": "Checkout does not charge GST on delivery, so a GST invoice prints delivery as an untaxed line and flags it for the accountant." },
+    { "b": "No credit notes", "t": "A refund issues nothing and changes nothing: the module listens for order.paid only. There are no GST credit notes, no bills of supply and no cess, and every line’s unit is NOS." },
+    { "b": "Tally files not yet imported", "t": "The files follow Tally’s published format, but they have not yet been test-imported into TallyPrime itself. Tally’s help does not show a party ledger’s GST registration or a voucher’s GST tags as XML, so the party ledger carries none, and the accountant sets each tax ledger’s duty head in Tally once." },
+    { "b": "No tax line on the plain invoice", "t": "Outside GST mode, the order’s tax is in the snapshot, but the printed invoice shows subtotal, shipping, discount and total only. With tax-exclusive prices, the lines shown do not add up to the total." },
+    { "b": "Minor units on the plain invoice", "t": "The plain invoice prints every amount as a whole number of minor units, INR 123450 for ₹1,234.50, and says so at its foot. The GST invoice prints rupees and paise." },
+    { "b": "Plain seller details are read live", "t": "On the plain invoice the seller block comes from Config when the invoice is viewed, not from the snapshot. Change the address and every past plain invoice shows the new one." },
+    { "b": "No PDF, no email", "t": "The invoice is an HTML page to print or JSON to process. The module renders no PDF and does not send the invoice to the shopper, and buyers in the dealer portal do not see it." },
     { "b": "500 at a time on start-up", "t": "The start-up catch-up issues invoices for at most 500 paid orders. A larger backlog is cleared over several restarts." }
   ],
+  "trademark": "TallyPrime is a trademark of its owner; the export writes Tally’s published import format and implies no endorsement.",
   "faq": [
-    { "q": "Is it a GST invoice?", "a": "It prints your GSTIN if you set TaxID, and nothing more GST-specific: no HSN or SAC codes, no place of supply, no CGST, SGST or IGST lines — and, as it stands, no tax line at all. Whether a document meets your invoicing rules is a question for your accountant; the template in invoices.go is where to change it." },
-    { "q": "When does a cash-on-delivery order get its invoice?", "a": "When it is marked paid, because the module listens for order.paid. A cash-on-delivery order has no invoice until an operator records the payment." },
-    { "q": "Can the numbering have gaps?", "a": "Not from this module. The counter is taken under a row lock inside the transaction that writes the invoice, so a failed write gives its number back. The count restarts at 1 each calendar year, in UTC." },
-    { "q": "Does the shopper receive the invoice?", "a": "Not from this module. It issues the invoice, stores it and serves it to the admin and the API; sending it to the shopper is not in the code." },
-    { "q": "Why is an invoice not just a field on the order?", "a": "The package doc answers it: an order is what a shopper asked for, while an invoice is an accounting document with its own gapless sequence and its own retention rules. Keeping them apart is why this is a module." }
+    { "q": "Is it a GST invoice?", "a": "Yes, on a store in India with a valid GSTIN that sells in rupees: a tax invoice with both GSTINs, HSN codes, the place of supply and the CGST, SGST or IGST split from what checkout charged, numbered by financial year. It is not an e-invoice: there is no IRN and no e-way bill. Every other store gets a plain invoice that prints the seller’s tax id and no tax line." },
+    { "q": "Does it connect to Tally?", "a": "It exports to it. A GST store downloads a period’s tax invoices as two TallyPrime import files, at most a year at a time, and the accountant imports the ledgers first, then the vouchers. Nothing is sent to Tally by itself, and the files have not yet been test-imported into TallyPrime." },
+    { "q": "When does a cash-on-delivery order get its invoice?", "a": "When it is marked paid, because the module listens for order.paid. A cash-on-delivery order, or a dealer’s order on account, has no invoice until someone records the payment." },
+    { "q": "Can the numbering have gaps?", "a": "Not from this module. The counter is taken under a row lock inside the transaction that writes the invoice, so a failed write gives its number back. A plain store’s count restarts at 1 each calendar year, in UTC; a GST store’s on 1 April, on the store’s clock." },
+    { "q": "Does the shopper receive the invoice?", "a": "Not from this module. It issues the invoice, stores it and serves it to the admin and the API; sending it to the shopper is not in the code." }
   ]
 }

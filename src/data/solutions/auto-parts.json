@@ -26,7 +26,8 @@
     { "need": "Fewer calls about outstanding amounts", "does": "statements" },
     { "need": "Each buyer sees only the ranges they deal in", "does": "catalogue" },
     { "need": "Stock in several warehouses", "does": "locations" },
-    { "need": "A fleet operator’s large order", "does": "quotes" }
+    { "need": "A fleet operator’s large order", "does": "quotes" },
+    { "need": "GST tax invoices with HSN codes", "does": "gst-invoices" }
   ],
   "shots": ["quick-order"],
   "gapsLede": "What a parts business will ask about that is not there yet.",
@@ -34,7 +35,7 @@
     { "id": "fitment" },
     { "id": "pack-sizes" },
     { "id": "sales-rep" },
-    { "id": "gst-invoice" },
+    { "id": "e-invoice" },
     { "id": "tally" },
     { "id": "no-reference" }
   ],
@@ -43,7 +44,7 @@
     { "q": "Can a mechanic search by vehicle?", "a": "No. The catalogue is searched by product name or part number. A vehicle make, model and year search is not built." },
     { "q": "Can workshops and retailers see different prices?", "a": "Yes. Put each kind of buyer in a group with its own price list, with lower prices at quantities you choose." },
     { "q": "Can our salesmen take orders on a retailer’s credit?", "a": "Not yet. Your team can enter a phone order at the retailer’s prices, but it cannot go on the retailer’s credit account. Retailers place credit orders themselves in the portal." },
-    { "q": "Does it handle GST?", "a": "Not the tax invoice. The invoice prints your GSTIN only, with no HSN codes or CGST, SGST and IGST lines, and there is no e-invoice or e-way bill. Keep your billing software for those." }
+    { "q": "Does it handle GST?", "a": "Yes, for a store in India with a valid GSTIN that sells in rupees: every paid order gets a tax invoice with HSN codes and the CGST, SGST or IGST split, and the invoices export to TallyPrime. There is no e-invoice, e-way bill or GST credit note, and delivery is printed without GST." }
   ],
   "related": [
     "/solutions/dealer-portal/",

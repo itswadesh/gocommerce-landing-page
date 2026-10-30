@@ -1,5 +1,5 @@
 {
-  "_comment": "What GoCommerce does for a supplier and its dealers, in plain words, each said once. Checked against the GoCommerce code (ext/b2b, core, the modules) at commit 4c230ff5 on 26 October 2026, and the portal checked by running it. Pages in src/data/solutions/ point at these by key.",
+  "_comment": "What GoCommerce does for a supplier and its dealers, in plain words, each said once. Checked against the GoCommerce code (ext/b2b, core, the modules) at commit 4c230ff5 on 26 October 2026, and the portal checked by running it. gst-invoices and tally-export checked against a6e3fee5 (ext/invoices, D137, D138) on 30 October 2026. Pages in src/data/solutions/ point at these by key.",
   "portal": {
     "name": "A dealer portal on your own web address",
     "text": "Dealers sign in at /portal on your store’s own address. They see their payment terms and what they owe, order, approve their staff’s orders, accept quotes and download statements. There is no separate website to build first, and it works in a phone’s browser."
@@ -79,6 +79,14 @@
   "connect": {
     "name": "Connect your other systems",
     "text": "Export orders, products, customers and stock as spreadsheets. Webhooks send each new and changed order to another system, and API keys let a system you trust read or place orders without a person signing in."
+  },
+  "gst-invoices": {
+    "name": "GST tax invoices",
+    "text": "A store in India with a valid GSTIN that sells in rupees issues a GST tax invoice for every paid order, numbered by financial year. It carries your GSTIN and the dealer’s, HSN codes and the place of supply, with CGST and SGST within a state and IGST between states, all from what checkout charged. A product can have its own tax rate, so mixed rates come out right. Delivery is printed without GST, because checkout does not charge GST on it. Your team opens and prints invoices in the admin; dealers do not see them in the portal."
+  },
+  "tally-export": {
+    "name": "Invoices ready for TallyPrime",
+    "text": "Download a period’s GST tax invoices as two TallyPrime import files, ledgers first and then vouchers, so nobody types them in again. Each invoice becomes one sales voucher that matches it to the paisa, each dealer with a GSTIN gets a ledger of its own, and you set the ledger names once to match your accountant’s company."
   },
   "variants": {
     "name": "Sizes, colours and product codes",

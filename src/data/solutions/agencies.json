@@ -24,6 +24,7 @@
     { "need": "Indian payments", "does": "gateways" },
     { "need": "Cash on delivery", "does": "cod" },
     { "need": "Indian couriers", "does": "couriers" },
+    { "need": "GST invoices for Indian clients", "does": "gst-invoices" },
     { "need": "B2B clients with dealers", "does": "portal" },
     { "need": "Product text in Indian languages", "does": "catalogue-languages" },
     { "need": "Connecting a client’s other systems", "does": "connect" },
@@ -34,7 +35,7 @@
     { "id": "no-partner-programme" },
     { "id": "go-skills" },
     { "id": "no-reference" },
-    { "id": "gst-invoice" },
+    { "id": "e-invoice" },
     { "id": "whatsapp" },
     { "id": "tally" }
   ],

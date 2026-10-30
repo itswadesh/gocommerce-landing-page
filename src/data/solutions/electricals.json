@@ -26,7 +26,8 @@
     { "need": "Special prices for a contractor’s or builder’s order", "does": "quotes" },
     { "need": "The counter clerk orders, the owner approves", "does": "approvals" },
     { "need": "Fan and lighting enquiries sent to a local dealer", "does": "territories" },
-    { "need": "Stock in regional warehouses", "does": "locations" }
+    { "need": "Stock in regional warehouses", "does": "locations" },
+    { "need": "GST tax invoices with HSN codes", "does": "gst-invoices" }
   ],
   "shots": ["quick-order"],
   "story": {
@@ -38,7 +39,7 @@
   },
   "gapsLede": "What an electrical brand will ask about that is not there yet.",
   "gaps": [
-    { "id": "gst-invoice" },
+    { "id": "e-invoice" },
     { "id": "tally" },
     { "id": "pack-sizes", "note": "Selling cable only in full coils, or switches only in boxes of 20, has to be done by listing the coil or the box as the product." },
     { "id": "sales-rep" },
@@ -50,7 +51,7 @@
     { "q": "Can a dealer order 40 product codes at once?", "a": "Yes. They type or paste product codes and quantities, or upload a spreadsheet of up to 500 lines. Codes that cannot be ordered come back with the row number and the reason." },
     { "q": "How do we stop a dealer who has not paid?", "a": "Set a credit limit, and an order that would take them over it is refused at checkout. Put the account on hold and they cannot order on credit at all until you lift it." },
     { "q": "Can customers who want a fan find their nearest dealer?", "a": "Your website can send their enquiry to GoCommerce, which passes it to the dealer whose state or PIN code area fits best and emails them. There is no ready-made dealer-finder page, so the form on your website has to be built." },
-    { "q": "Does it handle GST?", "a": "Not the tax invoice. The invoice prints your GSTIN only, with no HSN codes or CGST, SGST and IGST lines, and there is no e-invoice or e-way bill. Keep your billing software for those." }
+    { "q": "Does it handle GST?", "a": "Yes, for a store in India with a valid GSTIN that sells in rupees: every paid order gets a tax invoice with HSN codes and the CGST, SGST or IGST split, and the invoices export to TallyPrime. There is no e-invoice, e-way bill or GST credit note, and delivery is printed without GST." }
   ],
   "related": [
     "/solutions/dealer-portal/",

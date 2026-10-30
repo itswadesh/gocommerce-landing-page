@@ -1,12 +1,12 @@
 {
-  "_comment": "What GoCommerce does not do for an Indian supplier, in plain words, each said once. Checked against the GoCommerce code at commit 4c230ff5 on 26 October 2026. The e-invoice threshold is from Notification 10/2023-Central Tax (https://gstcouncil.gov.in/node/4365); the GST Council's 57th meeting on 8 October 2026 did not change it. When a gap closes, delete it here and every page that named it stops saying so.",
-  "gst-invoice": {
-    "name": "No GST tax invoice yet",
-    "text": "The invoice prints your GSTIN and nothing more GST-specific: no HSN codes, no CGST, SGST or IGST lines and no place of supply. It does not generate e-invoices (IRN) or e-way bills, and an order on account gets its invoice only once you mark it paid. A supplier whose turnover has passed ₹5 crore in any year since 2017-18 must e-invoice its sales to registered businesses, so keep issuing tax invoices from your billing software."
+  "_comment": "What GoCommerce does not do for an Indian supplier, in plain words, each said once. Checked against the GoCommerce code at commit 4c230ff5 on 26 October 2026; e-invoice and tally against a6e3fee5 on 30 October 2026, after GST tax invoices and the TallyPrime export (D137, D138). The e-invoice threshold is from Notification 10/2023-Central Tax (https://gstcouncil.gov.in/node/4365); the GST Council's 57th meeting on 8 October 2026 did not change it. When a gap closes, delete it here and every page that named it stops saying so.",
+  "e-invoice": {
+    "name": "No e-invoices, e-way bills or credit notes",
+    "text": "The GST tax invoice has no IRN or signed QR code, and no e-way bill is made: both need an account with a GST Suvidha Provider or the Invoice Registration Portal. A supplier whose turnover has passed ₹5 crore in any year since 2017-18 must e-invoice its sales to registered businesses, and still needs its billing software for that. A return or refund issues no GST credit note, and an order on account gets its tax invoice only when you mark it paid, not when it ships."
   },
   "tally": {
-    "name": "No Tally connection",
-    "text": "Orders do not flow into Tally or another accounting system by themselves. You can export orders, customers and statements as spreadsheets, and a developer can use the webhooks and API to connect them."
+    "name": "Tally files not yet tried in TallyPrime",
+    "text": "Tax invoices download as TallyPrime import files that follow Tally’s published format, but they have not yet been test-imported into TallyPrime itself. Someone downloads the files and imports them: nothing flows into Tally by itself. Other accounting systems get spreadsheets of orders, customers and statements, or the webhooks and API."
   },
   "whatsapp": {
     "name": "No WhatsApp ordering or alerts",

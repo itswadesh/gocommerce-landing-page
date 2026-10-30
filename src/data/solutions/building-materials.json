@@ -26,7 +26,8 @@
     { "need": "Fewer calls about outstanding amounts", "does": "statements" },
     { "need": "Stock in several depots", "does": "locations" },
     { "need": "Homeowner enquiries sent to the nearest dealer", "does": "territories" },
-    { "need": "Repeat orders for fast movers", "does": "reorder" }
+    { "need": "Repeat orders for fast movers", "does": "reorder" },
+    { "need": "GST tax invoices with HSN codes", "does": "gst-invoices" }
   ],
   "shots": ["statements"],
   "story": {
@@ -40,7 +41,7 @@
   "gaps": [
     { "id": "pack-sizes", "note": "Tiles sold only by the box, or plywood only by the sheet, have to be listed as the box or the sheet." },
     { "id": "batch-expiry", "note": "A dealer cannot ask for the same shade as their last order." },
-    { "id": "gst-invoice" },
+    { "id": "e-invoice" },
     { "id": "tally" },
     { "id": "sales-rep" },
     { "id": "dealer-locator" }
@@ -50,7 +51,7 @@
     { "q": "Can a dealer ask for a project price?", "a": "Yes. The dealer asks for a quote on quantities, your team prices each line and sets an expiry date, and when the dealer accepts, the order is placed at exactly those prices." },
     { "q": "Can we sell tiles only in full boxes?", "a": "Not as a rule the software enforces. List the box as the product, with its price per box. A minimum quantity or a fixed pack size is not built yet." },
     { "q": "Does it track tile shades or batches?", "a": "No. Stock is counted per product and per depot, with no shade, batch or lot." },
-    { "q": "Does it handle GST?", "a": "Not the tax invoice. The invoice prints your GSTIN only, with no HSN codes or CGST, SGST and IGST lines, and there is no e-invoice or e-way bill. Keep your billing software for those." }
+    { "q": "Does it handle GST?", "a": "Yes, for a store in India with a valid GSTIN that sells in rupees: every paid order gets a tax invoice with HSN codes and the CGST, SGST or IGST split, and the invoices export to TallyPrime. There is no e-invoice, e-way bill or GST credit note, and delivery is printed without GST." }
   ],
   "related": [
     "/solutions/dealer-portal/",

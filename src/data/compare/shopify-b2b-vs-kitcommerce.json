@@ -10,7 +10,7 @@
   "ogTitle": "Shopify B2B vs KitCommerce",
   "ogDescription": "Shopify B2B has net terms and catalogues on every plan, and credit limits through apps. GoCommerce checks a credit limit inside checkout and prints statements. Sourced.",
   "h1": "A Shopify B2B alternative with credit limits built in",
-  "lede": "Shopify now puts most B2B features on every plan: companies, net payment terms, catalogues, quantity rules and price breaks. Its help pages on B2B do not describe a credit limit, and apps in the Shopify App Store add one for a monthly fee. GoCommerce, the backend of KitCommerce, checks each dealer’s credit limit inside its checkout, prints statements with overdue amounts, and gives dealers a trade portal on your own web address. It has no company locations, quantity rules or deposits, and no GST tax invoice.",
+  "lede": "Shopify now puts most B2B features on every plan: companies, net payment terms, catalogues, quantity rules and price breaks. Its help pages on B2B do not describe a credit limit, and apps in the Shopify App Store add one for a monthly fee. GoCommerce, the backend of KitCommerce, checks each dealer’s credit limit inside its checkout, prints statements with overdue amounts, and gives dealers a trade portal on your own web address. A store in India with a GSTIN also issues GST tax invoices. It has no company locations, quantity rules, deposits or e-invoices.",
   "facts": [
     { "b": "Every plan", "t": "carries Shopify’s companies, net terms and catalogues; direct company catalogues and deposits are Plus only" },
     { "b": "{p:extend-b2b-credit-limits/core-month}", "t": "a month for one Shopify App Store app that adds B2B credit limits" },
@@ -29,7 +29,7 @@
     ["Statements", "Not listed on Shopify’s B2B plan-features page.", "A statement for any period with opening and closing balances and amounts 1–30, 31–60, 61–90 and over 90 days late, as a page or a spreadsheet."],
     ["Deposits and part payments", "Deposits, partial payments and payment per fulfilment on Plus only.", "None. Payment is recorded per whole order."],
     ["Where buyers order", "The Shopify store, with B2B customer accounts.", "A trade portal at /portal on the store’s own address: quick order by code or spreadsheet, basket, orders, statements, approvals, quotes and team."],
-    ["In India", "Shopify Payments is not offered, so a third-party gateway’s orders carry Shopify’s 2%, 1% or 0.6% fee by plan. Shopify says it does not create GST-compliant bills.", "Razorpay and Cashfree on the store’s checkout, though not yet inside the portal’s basket. The invoice prints your GSTIN, with no HSN codes or CGST, SGST and IGST lines."]
+    ["In India", "Shopify Payments is not offered, so a third-party gateway’s orders carry Shopify’s 2%, 1% or 0.6% fee by plan. Shopify says it does not create GST-compliant bills.", "Razorpay and Cashfree on the store’s checkout, though not yet inside the portal’s basket. A GST tax invoice for every paid order, with HSN codes and the CGST, SGST or IGST split, and an export for TallyPrime."]
   ],
   "themWhen": [
     "Your wholesale buyers have several locations each, or you need quantity minimums and increments.",
@@ -42,10 +42,11 @@
     "Your accounts team wants each dealer’s statement and overdue amounts without a spreadsheet of its own.",
     "Dealers ask for quotes, and staff orders above an amount must wait for the dealer’s owner.",
     "You want the code: MIT licensed, on your own server, with no plan or app fees.",
-    "You want a store hosted for you at {hostedFeeText} instead of a monthly plan."
+    "You want a store hosted for you at {hostedFeeText} instead of a monthly plan.",
+    "You need a GST tax invoice for every paid order, and files your accountant imports into TallyPrime."
   ],
   "takeOnExtra": [
-    "No GST tax invoice, e-invoice or e-way bill, and no Tally connection: keep your billing software for tax invoices.",
+    "No e-invoice, e-way bill or GST credit note, and the TallyPrime files have not yet been test-imported into TallyPrime itself.",
     "Dealers pay on account in the portal; paying by UPI or card from the portal’s basket is not finished yet."
   ],
   "faq": [
@@ -53,7 +54,7 @@
     { "q": "Is Shopify B2B only on Plus?", "a": "No. Shopify’s help centre says most B2B features are on every plan, including companies, catalogues and net payment terms. Direct company catalogues, more than 3 active B2B catalogues, deposits and partial payments are Plus only." },
     { "q": "Can GoCommerce do company locations like Shopify?", "a": "No. A GoCommerce company has members in roles, terms, a catalogue and a price group, but not separate locations with their own terms. Shopify B2B has them on every plan." },
     { "q": "Can I move my B2B customers from Shopify?", "a": "The catalogue comes across with the Shopify import module. Companies, their terms and catalogues are set up again in GoCommerce, by hand or through its API." },
-    { "q": "Which one makes GST invoices?", "a": "Neither does on its own. Shopify says it does not create GST-compliant bills and points merchants to an app or service. GoCommerce’s invoice prints your GSTIN only, with no tax split." }
+    { "q": "Which one makes GST invoices?", "a": "GoCommerce does, for a store in India with a valid GSTIN that sells in rupees: every paid order gets a tax invoice with HSN codes, the place of supply and the CGST, SGST or IGST split, and the invoices export to TallyPrime. It makes no e-invoices or e-way bills. Shopify says it does not create GST-compliant bills and points merchants to an app or service." }
   ],
   "sources": [
     { "label": "Shopify Help Center: B2B features by plan", "url": "https://help.shopify.com/en/manual/b2b/getting-started/plan-features" },

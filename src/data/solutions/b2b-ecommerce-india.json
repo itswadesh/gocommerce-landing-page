@@ -5,10 +5,10 @@
   "title": "B2B Ecommerce Platform in India for Dealer Orders",
   "description": "A B2B ecommerce platform for Indian suppliers: dealers order online at their own prices, on credit within your limit, and download statements. What it lacks, too.",
   "ogTitle": "A B2B ecommerce platform for Indian suppliers and their dealers",
-  "ogDescription": "Dealer prices, credit limits that stop an order, statements, approvals and quotes on your own web address. No GST invoices or Tally sync yet, and the page says so.",
+  "ogDescription": "Dealer prices, credit limits that stop an order, statements, quotes and GST tax invoices on your own web address. No e-invoices yet, and the page says so.",
   "kicker": "B2B ecommerce in India",
   "h1": "A B2B ecommerce platform for Indian suppliers and their dealers",
-  "lede": "GoCommerce lets a manufacturer or distributor take its dealers’ orders online. Each dealer signs in on your own web address, orders by product code at their own prices, buys on credit up to the limit you set, and downloads a statement of what they owe. It is open source. It does not make GST tax invoices or connect to Tally yet, and this page lists what else is missing.",
+  "lede": "GoCommerce lets a manufacturer or distributor take its dealers’ orders online. Each dealer signs in on your own web address, orders by product code at their own prices, buys on credit up to the limit you set, and downloads a statement of what they owe. It is open source. A store with a GSTIN issues GST tax invoices and exports them for TallyPrime, though not e-invoices, and this page lists what else is missing.",
   "facts": [
     { "b": "500", "t": "lines in one spreadsheet order" },
     { "b": "1–30 · 31–60 · 61–90", "t": "days late, on every dealer’s statement" },
@@ -22,6 +22,8 @@
     { "need": "No dealer ordering past their credit", "does": "credit-limit" },
     { "need": "Credit on 30, 45 or 60 days", "does": "net-terms" },
     { "need": "Dealers asking what they owe", "does": "statements" },
+    { "need": "GST tax invoices with HSN codes", "does": "gst-invoices" },
+    { "need": "Invoices into our accountant’s Tally", "does": "tally-export" },
     { "need": "Big orders from a dealer’s staff", "does": "approvals" },
     { "need": "Special prices for a large order", "does": "quotes" },
     { "need": "Orders sent as a spreadsheet", "does": "quick-order" },
@@ -40,7 +42,7 @@
   },
   "gapsLede": "What an Indian supplier will ask about that is not there yet. Read these before you plan a launch.",
   "gaps": [
-    { "id": "gst-invoice" },
+    { "id": "e-invoice" },
     { "id": "tally" },
     { "id": "whatsapp" },
     { "id": "languages" },
@@ -50,8 +52,8 @@
   "faq": [
     { "q": "What is a B2B ecommerce platform?", "a": "Software that lets businesses order from you online instead of by phone, email or a salesperson. Here that means your dealers and distributors sign in, see their own prices and credit, place orders and download statements, while you set the terms in an admin." },
     { "q": "Can our dealers buy on credit?", "a": "Yes. Give each dealer a credit limit and payment days. An order on account is confirmed straight away with a due date, and an order that would take the dealer past their limit is refused at checkout, before it exists." },
-    { "q": "Does it make GST invoices?", "a": "No. The invoice prints your GSTIN, but it has no HSN codes, no CGST, SGST or IGST lines and no place of supply, and it does not generate e-invoices or e-way bills. Keep your billing software for tax invoices." },
-    { "q": "Does it connect to Tally?", "a": "Not by itself. Orders, customers and statements export as spreadsheets, and a developer can connect another system through webhooks and the API." },
+    { "q": "Does it make GST invoices?", "a": "Yes, when your store’s profile is in India with a valid GSTIN and it sells in rupees. Every paid order gets a tax invoice with both GSTINs, HSN codes, the place of supply and the CGST, SGST or IGST split. It does not make e-invoices, e-way bills or credit notes, and delivery is printed without GST. An order on account gets its invoice when you mark it paid." },
+    { "q": "Does it connect to Tally?", "a": "It exports to TallyPrime. A store that issues GST tax invoices downloads a period’s invoices as two import files, ledgers then vouchers, for your accountant to import. The files follow Tally’s published format but have not yet been test-imported into TallyPrime itself. Orders, customers and statements also export as spreadsheets, and a developer can connect another system through webhooks and the API." },
     { "q": "Do we need a website first?", "a": "No. Dealers sign in at /portal on your store’s own web address. A public website for customers can come later, or never." },
     { "q": "What does it cost?", "a": "Running the open-source code on your own server is free. A store hosted on kitcommerce.store pays {hostedFeeText}, {plusGst}, cash-on-delivery and on-account orders included. If you would rather someone set it up, the team behind GoCommerce builds stores to order." }
   ],
