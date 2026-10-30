@@ -8,7 +8,7 @@
     "modified": "2026-10-28"
   },
   "/agencies/": {
-    "hash": "09c1b3989e043f7e",
+    "hash": "a612c4eb1ff6b67a",
     "modified": "2026-10-30"
   },
   "/blog/": {
@@ -160,11 +160,11 @@
     "modified": "2026-10-30"
   },
   "/compare/shopify-b2b-vs-kitcommerce/": {
-    "hash": "a8da8d22407165e1",
+    "hash": "8cad866ec65292f5",
     "modified": "2026-10-30"
   },
   "/compare/shopify-india-vs-kitcommerce/": {
-    "hash": "e7d972f14161aeb8",
+    "hash": "341b05aa5b3331de",
     "modified": "2026-10-30"
   },
   "/compare/shopify-plus-vs-kitcommerce/": {
@@ -224,7 +224,7 @@
     "modified": "2026-10-30"
   },
   "/integrations/ai-gateway/": {
-    "hash": "da5822a51c592a20",
+    "hash": "591c2bf8a312b27e",
     "modified": "2026-10-30"
   },
   "/integrations/banners/": {
@@ -236,16 +236,16 @@
     "modified": "2026-10-30"
   },
   "/integrations/cms/": {
-    "hash": "b0c0806072b93952",
+    "hash": "69117614791dc716",
     "modified": "2026-10-30"
   },
   "/integrations/contact/": {
-    "hash": "e3cfa851eff52217",
+    "hash": "52aaeadaca460d51",
     "modified": "2026-10-30"
   },
   "/integrations/faq/": {
-    "hash": "9da8c9da3816f83c",
-    "modified": "2026-10-28"
+    "hash": "1dc462dec2364c72",
+    "modified": "2026-10-30"
   },
   "/integrations/feeds/": {
     "hash": "757ebc24d039a5f0",
@@ -296,32 +296,32 @@
     "modified": "2026-10-28"
   },
   "/integrations/identity/": {
-    "hash": "f01b60228f6b4acb",
+    "hash": "d9c5c3eca93d1035",
     "modified": "2026-10-30"
   },
   "/integrations/import-shopify/": {
-    "hash": "ae59198687c27419",
-    "modified": "2026-10-28"
+    "hash": "84884dfb7811b8d4",
+    "modified": "2026-10-30"
   },
   "/integrations/indexnow/": {
     "hash": "2221bde5f27f476a",
     "modified": "2026-10-28"
   },
   "/integrations/invoices/": {
-    "hash": "aed140ebae5af02d",
-    "modified": "2026-10-28"
+    "hash": "336d5f196213535e",
+    "modified": "2026-10-30"
   },
   "/integrations/klaviyo/": {
     "hash": "da0d2ce0c9341591",
     "modified": "2026-10-28"
   },
   "/integrations/mcp/": {
-    "hash": "0f5b97ec58fa3843",
-    "modified": "2026-10-28"
+    "hash": "968497bfbfdd8111",
+    "modified": "2026-10-30"
   },
   "/integrations/navigation/": {
-    "hash": "0012310d0aa99649",
-    "modified": "2026-10-28"
+    "hash": "49429c90c7fbc4cc",
+    "modified": "2026-10-30"
   },
   "/integrations/newsletter/": {
     "hash": "85adfb28b635b7b1",
@@ -408,12 +408,12 @@
     "modified": "2026-10-28"
   },
   "/integrations/translations/": {
-    "hash": "a967652939d2acf8",
-    "modified": "2026-10-28"
+    "hash": "018ce536e605cdfa",
+    "modified": "2026-10-30"
   },
   "/integrations/webhooks/": {
-    "hash": "c7c7960c18d0ebf4",
-    "modified": "2026-10-28"
+    "hash": "92e683b340d67823",
+    "modified": "2026-10-30"
   },
   "/integrations/wishlist/": {
     "hash": "e8eabcb99ad3de0f",
@@ -448,11 +448,11 @@
     "modified": "2026-10-30"
   },
   "/solutions/auto-parts/": {
-    "hash": "41b7b54e5b4bd3b0",
+    "hash": "0782decbe5e38cba",
     "modified": "2026-10-30"
   },
   "/solutions/b2b-ecommerce-india/": {
-    "hash": "05566f3ec7dfc7ed",
+    "hash": "4930e81c88b65652",
     "modified": "2026-10-30"
   },
   "/solutions/b2b/": {
@@ -460,19 +460,19 @@
     "modified": "2026-10-28"
   },
   "/solutions/building-materials/": {
-    "hash": "104ad65176688653",
-    "modified": "2026-10-28"
+    "hash": "44aa6dfc2659704e",
+    "modified": "2026-10-30"
   },
   "/solutions/d2c/": {
     "hash": "2ff64c59c579f967",
     "modified": "2026-10-30"
   },
   "/solutions/dealer-portal/": {
-    "hash": "a7c4d49d40ede3dd",
-    "modified": "2026-10-28"
+    "hash": "799816fcd26bb64d",
+    "modified": "2026-10-30"
   },
   "/solutions/electricals/": {
-    "hash": "c849e083bf5ed4d2",
+    "hash": "ed2db3a1acc22b76",
     "modified": "2026-10-30"
   },
   "/solutions/marketplace/": {
