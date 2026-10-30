@@ -1,5 +1,957 @@
 [
   {
+    "sha": "c3a9e695c16ff1e17e716536f8935923a93e3681",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "AI credit is granted by the platform, and the platform's account stays private",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c3a9e695c16ff1e17e716536f8935923a93e3681"
+  },
+  {
+    "sha": "78806fcac928077920bf43b3795f8700d9751741",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Every store gets AI on the platform's Anthropic key, paid from its AI credit",
+    "url": "https://github.com/itswadesh/gocommerce/commit/78806fcac928077920bf43b3795f8700d9751741"
+  },
+  {
+    "sha": "2ca06a0af2698d5216ef79bf866724192880799e",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "New stores start with yellow buttons",
+    "url": "https://github.com/itswadesh/gocommerce/commit/2ca06a0af2698d5216ef79bf866724192880799e"
+  },
+  {
+    "sha": "c70833819c9354b7727fc52c7d9281270a8001a2",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Give each product a badge of its own for the label on its picture",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c70833819c9354b7727fc52c7d9281270a8001a2"
+  },
+  {
+    "sha": "30b627fb509731e2383580cfda9d5f5167ec99f0",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Let a store show its address, a map and its opening hours on its contact page",
+    "url": "https://github.com/itswadesh/gocommerce/commit/30b627fb509731e2383580cfda9d5f5167ec99f0"
+  },
+  {
+    "sha": "0d957e4b4a1dddc9a2b51826e9d8fa14bd329e7a",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "The theme editor offers the new look settings and warns beside an unreadable colour",
+    "url": "https://github.com/itswadesh/gocommerce/commit/0d957e4b4a1dddc9a2b51826e9d8fa14bd329e7a"
+  },
+  {
+    "sha": "a2c62f121fabe1c636608ac4e9453a83a33cd73a",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Theme settings cover text size, spacing, product cards, lists and the product page",
+    "url": "https://github.com/itswadesh/gocommerce/commit/a2c62f121fabe1c636608ac4e9453a83a33cd73a"
+  },
+  {
+    "sha": "0ccd890cc096b81f18134164d8c7885baeade121",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "The theme editor tells two stores of one name apart, and opens no settings a role can't change",
+    "url": "https://github.com/itswadesh/gocommerce/commit/0ccd890cc096b81f18134164d8c7885baeade121"
+  },
+  {
+    "sha": "7b4baea8e9027f0927af35870454eae7021ff7e7",
+    "date": "2026-10-29",
+    "type": "fix",
+    "title": "Fix a reloaded tab drawing with the rights of the store another tab used last",
+    "url": "https://github.com/itswadesh/gocommerce/commit/7b4baea8e9027f0927af35870454eae7021ff7e7"
+  },
+  {
+    "sha": "2892f5794dca169b852f68b673cb1301738faeaa",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "The theme editor says why it is view only or closed, naming the store and role",
+    "url": "https://github.com/itswadesh/gocommerce/commit/2892f5794dca169b852f68b673cb1301738faeaa"
+  },
+  {
+    "sha": "5c822b996ee624eac5b7b67249d2d1dbe7820209",
+    "date": "2026-10-29",
+    "type": "fix",
+    "title": "Fix a store link opening whichever store the browser used last",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5c822b996ee624eac5b7b67249d2d1dbe7820209"
+  },
+  {
+    "sha": "151ec73a078aaff163e0f26356cabe747af7ea7f",
+    "date": "2026-10-29",
+    "type": "fix",
+    "title": "Fix Save being impossible to tap on a phone",
+    "url": "https://github.com/itswadesh/gocommerce/commit/151ec73a078aaff163e0f26356cabe747af7ea7f"
+  },
+  {
+    "sha": "874532b840f855e7f093488714741ee2ba09cf8f",
+    "date": "2026-10-29",
+    "type": "fix",
+    "title": "Fix Automations saying no storefront address is set when reminders already link to the store",
+    "url": "https://github.com/itswadesh/gocommerce/commit/874532b840f855e7f093488714741ee2ba09cf8f"
+  },
+  {
+    "sha": "fc84b6b979b44bfb2e5e9205a71b4cb88009aa77",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Keep the editor-only notes off the read-only theme preview",
+    "url": "https://github.com/itswadesh/gocommerce/commit/fc84b6b979b44bfb2e5e9205a71b4cb88009aa77"
+  },
+  {
+    "sha": "259b0a9c32b5ea80ee075a801b6547b106ffd40f",
+    "date": "2026-10-29",
+    "type": "fix",
+    "title": "Fix the theme preview saying a store with a domain has no address",
+    "url": "https://github.com/itswadesh/gocommerce/commit/259b0a9c32b5ea80ee075a801b6547b106ffd40f"
+  },
+  {
+    "sha": "414d6f1fe84a866e08e09c5daf6a011970fb512e",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Show review summaries on the Reviews screen",
+    "url": "https://github.com/itswadesh/gocommerce/commit/414d6f1fe84a866e08e09c5daf6a011970fb512e"
+  },
+  {
+    "sha": "70575141f70ffbb11445baf23407d15f6c1b5a4a",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Summarize what shoppers praise and complain about in a product's reviews",
+    "url": "https://github.com/itswadesh/gocommerce/commit/70575141f70ffbb11445baf23407d15f6c1b5a4a"
+  },
+  {
+    "sha": "2dc77db8180c2835cf9c3c610473abcb2e7e0ac8",
+    "date": "2026-10-29",
+    "type": "fix",
+    "title": "Fix the Reviews screen's buttons missing on a phone",
+    "url": "https://github.com/itswadesh/gocommerce/commit/2dc77db8180c2835cf9c3c610473abcb2e7e0ac8"
+  },
+  {
+    "sha": "6aac5ab2ffb1865fb025ec9a311d563a61bf89c1",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "The AI gateway's small model is now Claude Haiku 5.5",
+    "url": "https://github.com/itswadesh/gocommerce/commit/6aac5ab2ffb1865fb025ec9a311d563a61bf89c1"
+  },
+  {
+    "sha": "b57d78d84331e080579642b19c0ad1fd8ab8db22",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Improve a product's listing with AI from its page",
+    "url": "https://github.com/itswadesh/gocommerce/commit/b57d78d84331e080579642b19c0ad1fd8ab8db22"
+  },
+  {
+    "sha": "4d0ea4979db856892eab38d9af0eb7723925c8e3",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Floor the shown AI balance at zero",
+    "url": "https://github.com/itswadesh/gocommerce/commit/4d0ea4979db856892eab38d9af0eb7723925c8e3"
+  },
+  {
+    "sha": "7c03e77bccbaa7880097aa5fa5f026fdd5a3bbbd",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Say why the theme editor cannot preview a store yet",
+    "url": "https://github.com/itswadesh/gocommerce/commit/7c03e77bccbaa7880097aa5fa5f026fdd5a3bbbd"
+  },
+  {
+    "sha": "4544808baab01c8235176ebb68cda70cdb95f424",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Charge AI features to a prepaid credit with a free trial",
+    "url": "https://github.com/itswadesh/gocommerce/commit/4544808baab01c8235176ebb68cda70cdb95f424"
+  },
+  {
+    "sha": "9bf91517e89fd0cf29ae98460ca44faf63ec14ed",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Match to logo is free on every store",
+    "url": "https://github.com/itswadesh/gocommerce/commit/9bf91517e89fd0cf29ae98460ca44faf63ec14ed"
+  },
+  {
+    "sha": "7f980bd9f564e131855587d624984c705b77360e",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Set the theme colours from the store's logo in one click",
+    "url": "https://github.com/itswadesh/gocommerce/commit/7f980bd9f564e131855587d624984c705b77360e"
+  },
+  {
+    "sha": "5d41591ae6e18b9aadfe9ffbd20b73ed54045810",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Call the category taxonomy just \"taxonomy\", not \"Shopify taxonomy\"",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5d41591ae6e18b9aadfe9ffbd20b73ed54045810"
+  },
+  {
+    "sha": "4c965532b9751aa665bf9dbffcfd3ed6c483eb50",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Keep the store's logo safe from stale saves and from Files clean-ups",
+    "url": "https://github.com/itswadesh/gocommerce/commit/4c965532b9751aa665bf9dbffcfd3ed6c483eb50"
+  },
+  {
+    "sha": "d39c3af317704ef0dfae218ff9aefa7dfa24e93f",
+    "date": "2026-10-29",
+    "type": "feature",
+    "title": "Shops can upload their own logo, dark logo and icon",
+    "url": "https://github.com/itswadesh/gocommerce/commit/d39c3af317704ef0dfae218ff9aefa7dfa24e93f"
+  },
+  {
+    "sha": "01a99e3f0fc325bdb87d81f9161b13fb2b3db671",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "The Pages screen puts the standard pages in an existing store's footer",
+    "url": "https://github.com/itswadesh/gocommerce/commit/01a99e3f0fc325bdb87d81f9161b13fb2b3db671"
+  },
+  {
+    "sha": "f580f493c5f7d73254c06c8d87c9afcd1593e5ed",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Answer 404 for /backend itself on the shop's origin",
+    "url": "https://github.com/itswadesh/gocommerce/commit/f580f493c5f7d73254c06c8d87c9afcd1593e5ed"
+  },
+  {
+    "sha": "fd7afb56348620aed63328e112b3a3f31027454c",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Build the smoke image instead of trying to pull it first",
+    "url": "https://github.com/itswadesh/gocommerce/commit/fd7afb56348620aed63328e112b3a3f31027454c"
+  },
+  {
+    "sha": "8562d2711802b2b55286e7800f69e7bd62738398",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Set prices straight from the products list, and find what needs one",
+    "url": "https://github.com/itswadesh/gocommerce/commit/8562d2711802b2b55286e7800f69e7bd62738398"
+  },
+  {
+    "sha": "dc1f6641b8e969b7a9b4a09f4ae89febcac50a2b",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "A new store starts with its standard pages and a footer that links them",
+    "url": "https://github.com/itswadesh/gocommerce/commit/dc1f6641b8e969b7a9b4a09f4ae89febcac50a2b"
+  },
+  {
+    "sha": "5e994eb9c03639945aedb329ca1a01ce3b7951ba",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Create draft products from a batch of photos",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5e994eb9c03639945aedb329ca1a01ce3b7951ba"
+  },
+  {
+    "sha": "3118468b2672626ba0c7be53702aee545cb904bf",
+    "date": "2026-10-28",
+    "type": "fix",
+    "title": "Fix AI gateway calls to Claude Sonnet 5.5 and Opus 5.5",
+    "url": "https://github.com/itswadesh/gocommerce/commit/3118468b2672626ba0c7be53702aee545cb904bf"
+  },
+  {
+    "sha": "132323f7f1405b7541d8ccf3cdba108bff59df94",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Wait for PostgreSQL over TCP before the engine's login is made",
+    "url": "https://github.com/itswadesh/gocommerce/commit/132323f7f1405b7541d8ccf3cdba108bff59df94"
+  },
+  {
+    "sha": "6c4af224b65f7f1852fadeaa480e85fe39148456",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "A shop that has not published its home page shows the starting page",
+    "url": "https://github.com/itswadesh/gocommerce/commit/6c4af224b65f7f1852fadeaa480e85fe39148456"
+  },
+  {
+    "sha": "1ac915f3dfed41e965bdc4a986fd455bf0fe47bb",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "The starting home page opens with pictures",
+    "url": "https://github.com/itswadesh/gocommerce/commit/1ac915f3dfed41e965bdc4a986fd455bf0fe47bb"
+  },
+  {
+    "sha": "087d7d80b9f61f3d40a88b21d37b3b402abd4f7b",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Add a full-stack example that proves a sale end to end",
+    "url": "https://github.com/itswadesh/gocommerce/commit/087d7d80b9f61f3d40a88b21d37b3b402abd4f7b"
+  },
+  {
+    "sha": "523e3d5f374ecdec2d5399aaf701be1a73c9d12c",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Pin the Node, Go and base images the engine's image is built from",
+    "url": "https://github.com/itswadesh/gocommerce/commit/523e3d5f374ecdec2d5399aaf701be1a73c9d12c"
+  },
+  {
+    "sha": "5f7161812c17c54f15cdef13f0d59e4d1aa5c208",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "The Categories screen browses the Shopify taxonomy",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5f7161812c17c54f15cdef13f0d59e4d1aa5c208"
+  },
+  {
+    "sha": "5581b84f26cf9b8b79eed5c7bd623855144a95b7",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Stores switch on the Shopify categories they want",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5581b84f26cf9b8b79eed5c7bd623855144a95b7"
+  },
+  {
+    "sha": "07fbf55d0ab5d1239a1af8bf0a604f10348b1dfb",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "One docker compose up -d starts the whole platform, storefront and HTTPS included",
+    "url": "https://github.com/itswadesh/gocommerce/commit/07fbf55d0ab5d1239a1af8bf0a604f10348b1dfb"
+  },
+  {
+    "sha": "d9116b583667c69e7f1b48330c17fd54eae63271",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Caddy can ask the engine whether a name is a store's before getting it a certificate",
+    "url": "https://github.com/itswadesh/gocommerce/commit/d9116b583667c69e7f1b48330c17fd54eae63271"
+  },
+  {
+    "sha": "8a0cfd260502cc7e50e1b49d6d437d6becdcc0a5",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Feeds fills in the storefront URL from the store's domain",
+    "url": "https://github.com/itswadesh/gocommerce/commit/8a0cfd260502cc7e50e1b49d6d437d6becdcc0a5"
+  },
+  {
+    "sha": "2de8efd7e267d437c522b0cf7562de0651804bce",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Offer the pages a storefront links to on the Pages screen",
+    "url": "https://github.com/itswadesh/gocommerce/commit/2de8efd7e267d437c522b0cf7562de0651804bce"
+  },
+  {
+    "sha": "575293b9652231920d3aff13d58be97c6ae23603",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Storefront pictures load at the size they are shown",
+    "url": "https://github.com/itswadesh/gocommerce/commit/575293b9652231920d3aff13d58be97c6ae23603"
+  },
+  {
+    "sha": "6c430d5d12c8ec64e45748b5fa8ab468a4ca49e9",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Deployments run Meilisearch beside the store engine",
+    "url": "https://github.com/itswadesh/gocommerce/commit/6c430d5d12c8ec64e45748b5fa8ab468a4ca49e9"
+  },
+  {
+    "sha": "5f188b6459d478928cec21c13484dd50017ff30b",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "The Meilisearch plugin shows its last sync and a Rebuild index button",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5f188b6459d478928cec21c13484dd50017ff30b"
+  },
+  {
+    "sha": "672ce420f6b58633d4a7a902279150f54d60eda6",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Meilisearch stays off until a shop switches it on, and search survives it being down",
+    "url": "https://github.com/itswadesh/gocommerce/commit/672ce420f6b58633d4a7a902279150f54d60eda6"
+  },
+  {
+    "sha": "715e6332426f7d66ba4b24f2fe027e79bfab60f7",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "New stores start from a bold, bright home page",
+    "url": "https://github.com/itswadesh/gocommerce/commit/715e6332426f7d66ba4b24f2fe027e79bfab60f7"
+  },
+  {
+    "sha": "dd0cf5166e53a8ed4f950bf150dc4d2699226e84",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Shops can hide the header menu",
+    "url": "https://github.com/itswadesh/gocommerce/commit/dd0cf5166e53a8ed4f950bf150dc4d2699226e84"
+  },
+  {
+    "sha": "df767cd18b385d5e6606172a7e7054a6aa5c2c7f",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Switches in the theme editor show their help text",
+    "url": "https://github.com/itswadesh/gocommerce/commit/df767cd18b385d5e6606172a7e7054a6aa5c2c7f"
+  },
+  {
+    "sha": "73e953497aa110b3bb536f46640ffc0ed78905b4",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "The chosen benefit icon stays visible in high-contrast mode",
+    "url": "https://github.com/itswadesh/gocommerce/commit/73e953497aa110b3bb536f46640ffc0ed78905b4"
+  },
+  {
+    "sha": "6764d6e68a7c2c3bf70a7bda8b84ddc4072d972d",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "The theme editor picks a benefit's icon from a grid",
+    "url": "https://github.com/itswadesh/gocommerce/commit/6764d6e68a7c2c3bf70a7bda8b84ddc4072d972d"
+  },
+  {
+    "sha": "59d838fe2ff1ffd33d5555fe5740de440a0cf4ef",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "A benefit in the Benefits strip can carry an icon",
+    "url": "https://github.com/itswadesh/gocommerce/commit/59d838fe2ff1ffd33d5555fe5740de440a0cf4ef"
+  },
+  {
+    "sha": "1f387c045d78374829b7d1950e45a1ea10f8f8f5",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "The Tally export waits for ledger names to be saved",
+    "url": "https://github.com/itswadesh/gocommerce/commit/1f387c045d78374829b7d1950e45a1ea10f8f8f5"
+  },
+  {
+    "sha": "16774ac3b9e3ffa7a9df5f33936c4ac26d5be695",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Tally ledger names cannot put one ledger under two groups",
+    "url": "https://github.com/itswadesh/gocommerce/commit/16774ac3b9e3ffa7a9df5f33936c4ac26d5be695"
+  },
+  {
+    "sha": "02f39346c8cbcfc198e5550b9086fff8cd5d3069",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "The Invoices screen exports to Tally on a GST store",
+    "url": "https://github.com/itswadesh/gocommerce/commit/02f39346c8cbcfc198e5550b9086fff8cd5d3069"
+  },
+  {
+    "sha": "36bc2ce01f05400869c756606facc80e860a446d",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "A GST store exports its tax invoices to TallyPrime",
+    "url": "https://github.com/itswadesh/gocommerce/commit/36bc2ce01f05400869c756606facc80e860a446d"
+  },
+  {
+    "sha": "c25fff6edfe731049ce64ce00294d0262fea7936",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "A GST invoice without a delivery address is supplied in the store's state",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c25fff6edfe731049ce64ce00294d0262fea7936"
+  },
+  {
+    "sha": "fdaf189d000f795462ded3a3f96f4ece8c07bbaf",
+    "date": "2026-10-28",
+    "type": "fix",
+    "title": "Fix an invoice number lost when two deliveries issue one order",
+    "url": "https://github.com/itswadesh/gocommerce/commit/fdaf189d000f795462ded3a3f96f4ece8c07bbaf"
+  },
+  {
+    "sha": "cef42541a0edb6d4c16c596a2dad8993fbb94239",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "The panel sets a tax rate for one product and marks GST invoices",
+    "url": "https://github.com/itswadesh/gocommerce/commit/cef42541a0edb6d4c16c596a2dad8993fbb94239"
+  },
+  {
+    "sha": "8904e23bff88b1d6d601040fd7c546196f6a56ad",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "A company's GSTIN goes on its orders for the tax invoice",
+    "url": "https://github.com/itswadesh/gocommerce/commit/8904e23bff88b1d6d601040fd7c546196f6a56ad"
+  },
+  {
+    "sha": "71a4c12ffdc7c73bef1231339cb93dc33f02e93f",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Indian stores issue GST tax invoices",
+    "url": "https://github.com/itswadesh/gocommerce/commit/71a4c12ffdc7c73bef1231339cb93dc33f02e93f"
+  },
+  {
+    "sha": "6295bb83bf565dac7722ef11e038214f986f7269",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "An Indian store's GSTIN is checked when it is saved",
+    "url": "https://github.com/itswadesh/gocommerce/commit/6295bb83bf565dac7722ef11e038214f986f7269"
+  },
+  {
+    "sha": "f52b6bb4517fd47d7f1c78cdd651ed3b3206a273",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "An HS code can be 4 digits, as India's HSN often is",
+    "url": "https://github.com/itswadesh/gocommerce/commit/f52b6bb4517fd47d7f1c78cdd651ed3b3206a273"
+  },
+  {
+    "sha": "e5c2e75a4067b3cb887f60bdd8d66049f42eb8fa",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "A tax rate can apply to one product",
+    "url": "https://github.com/itswadesh/gocommerce/commit/e5c2e75a4067b3cb887f60bdd8d66049f42eb8fa"
+  },
+  {
+    "sha": "041d98b425ab445e60f7397830702a891dcca051",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "The engine can check an Indian GST number",
+    "url": "https://github.com/itswadesh/gocommerce/commit/041d98b425ab445e60f7397830702a891dcca051"
+  },
+  {
+    "sha": "83de8a7139d2e28d3e0336431c626e6a935b6cf5",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Every store in India fills the city and state from a PIN code, with nothing to set up",
+    "url": "https://github.com/itswadesh/gocommerce/commit/83de8a7139d2e28d3e0336431c626e6a935b6cf5"
+  },
+  {
+    "sha": "cf1e89de7132345e43e132742fbab45129f1e892",
+    "date": "2026-10-28",
+    "type": "fix",
+    "title": "Fix the order status link on an order opening the lookup form instead of the order",
+    "url": "https://github.com/itswadesh/gocommerce/commit/cf1e89de7132345e43e132742fbab45129f1e892"
+  },
+  {
+    "sha": "ddcc388aa148421c6b20cd4e168de231f1ecb41f",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "The Import screen takes four modes and several files at once",
+    "url": "https://github.com/itswadesh/gocommerce/commit/ddcc388aa148421c6b20cd4e168de231f1ecb41f"
+  },
+  {
+    "sha": "c8e847a8790adc32e508ac5debbbd93f5619e02d",
+    "date": "2026-10-28",
+    "type": "feature",
+    "title": "Imports choose insert only, update only, upsert or delete",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c8e847a8790adc32e508ac5debbbd93f5619e02d"
+  },
+  {
+    "sha": "3ac324eea66f1d1e9e2a8863dd00ac8d7d24b80f",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The product editor writes highlights and a free gift note; the extras screen gains two",
+    "url": "https://github.com/itswadesh/gocommerce/commit/3ac324eea66f1d1e9e2a8863dd00ac8d7d24b80f"
+  },
+  {
+    "sha": "877c0223fb337af39f052073f362daf573865899",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "A checkout can fill the city and state from an Indian PIN code",
+    "url": "https://github.com/itswadesh/gocommerce/commit/877c0223fb337af39f052073f362daf573865899"
+  },
+  {
+    "sha": "d01eb0f98a0ed842b0162518b156f08496305631",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "A shop can choose one collection the basket suggests from",
+    "url": "https://github.com/itswadesh/gocommerce/commit/d01eb0f98a0ed842b0162518b156f08496305631"
+  },
+  {
+    "sha": "5d0834506657b4633742e596d0a4990f250f818e",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Product pages can say how many have sold, counted from real orders",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5d0834506657b4633742e596d0a4990f250f818e"
+  },
+  {
+    "sha": "617df85e33f5f8b24f6c59210867d2ff86f5a319",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Products can carry highlights, a free gift note and their videos",
+    "url": "https://github.com/itswadesh/gocommerce/commit/617df85e33f5f8b24f6c59210867d2ff86f5a319"
+  },
+  {
+    "sha": "bc7aa2309e6e57b119a9e7cec309398b2971573e",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The product editor sets a product's add-ons and suggestions",
+    "url": "https://github.com/itswadesh/gocommerce/commit/bc7aa2309e6e57b119a9e7cec309398b2971573e"
+  },
+  {
+    "sha": "d2f912a5991bd9a5a3c1baad6644c30f8f6aa6e6",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Shops can offer add-ons with a product at a special price, and suggest others",
+    "url": "https://github.com/itswadesh/gocommerce/commit/d2f912a5991bd9a5a3c1baad6644c30f8f6aa6e6"
+  },
+  {
+    "sha": "2dab96b73f0b129811819e5d53657396a2251286",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Plugins lists only add-ons; banners and storefront extras move under Themes",
+    "url": "https://github.com/itswadesh/gocommerce/commit/2dab96b73f0b129811819e5d53657396a2251286"
+  },
+  {
+    "sha": "09a1761783d82a6f94ce969e1f29f3883696d426",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Built-in features say which screen they are set up on, so Plugins can list only add-ons",
+    "url": "https://github.com/itswadesh/gocommerce/commit/09a1761783d82a6f94ce969e1f29f3883696d426"
+  },
+  {
+    "sha": "9e6699d2043db90e71a7b41bb0a77c78f04d9f7d",
+    "date": "2026-10-27",
+    "type": "fix",
+    "title": "Fix switches on shipping, channels and pricing showing as bare checkboxes",
+    "url": "https://github.com/itswadesh/gocommerce/commit/9e6699d2043db90e71a7b41bb0a77c78f04d9f7d"
+  },
+  {
+    "sha": "1f608344eeedc927be71a7525212a9aaed909209",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Your account sums up what you may do, and folds the full list away",
+    "url": "https://github.com/itswadesh/gocommerce/commit/1f608344eeedc927be71a7525212a9aaed909209"
+  },
+  {
+    "sha": "bbba9cc8b300bbce602882c8ce280c80120c8947",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Every plugin shows an icon beside its name",
+    "url": "https://github.com/itswadesh/gocommerce/commit/bbba9cc8b300bbce602882c8ce280c80120c8947"
+  },
+  {
+    "sha": "f0cb7619836b84f2212aaa43feb37ce1c4de8835",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Webhooks: tick the events to send from a list, and change them later",
+    "url": "https://github.com/itswadesh/gocommerce/commit/f0cb7619836b84f2212aaa43feb37ce1c4de8835"
+  },
+  {
+    "sha": "71e6b13fc828a1bd4a5047647d0ddebb3a23aa0c",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The engine lists the events a webhook can subscribe to, and refuses a typo",
+    "url": "https://github.com/itswadesh/gocommerce/commit/71e6b13fc828a1bd4a5047647d0ddebb3a23aa0c"
+  },
+  {
+    "sha": "d50e08cc87b09cd10fe96b044b4752a2af51ca79",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The theme editor edits the header and footer",
+    "url": "https://github.com/itswadesh/gocommerce/commit/d50e08cc87b09cd10fe96b044b4752a2af51ca79"
+  },
+  {
+    "sha": "71ef320f6a008fdb001036aabc9ea1093ee92795",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Shops set the storefront's header and footer in Themes, and publish them like a page",
+    "url": "https://github.com/itswadesh/gocommerce/commit/71ef320f6a008fdb001036aabc9ea1093ee92795"
+  },
+  {
+    "sha": "b07eee2d9774fd3fa284cddce908e0d8e5b1d17f",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Shops' product listings count their own filters",
+    "url": "https://github.com/itswadesh/gocommerce/commit/b07eee2d9774fd3fa284cddce908e0d8e5b1d17f"
+  },
+  {
+    "sha": "a443c3394424d4f2d3fe113580b0049a4667d938",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The theme editor arranges the product and collection pages, and schedules a publish",
+    "url": "https://github.com/itswadesh/gocommerce/commit/a443c3394424d4f2d3fe113580b0049a4667d938"
+  },
+  {
+    "sha": "c3ad794d2ff5f29436f64ae5ac4eb7b68927e970",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Shops arrange their product and collection pages, and can schedule a page to publish",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c3ad794d2ff5f29436f64ae5ac4eb7b68927e970"
+  },
+  {
+    "sha": "0320aeec650c1e05ccf81efef1af0cfeda0aa8d6",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "A shop sets the shape of its product pictures and how they fit",
+    "url": "https://github.com/itswadesh/gocommerce/commit/0320aeec650c1e05ccf81efef1af0cfeda0aa8d6"
+  },
+  {
+    "sha": "cb5dc1ab2422dd39e957855bfe65d2940e4c029b",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Shops set their colours, fonts and corners, and get six more home sections",
+    "url": "https://github.com/itswadesh/gocommerce/commit/cb5dc1ab2422dd39e957855bfe65d2940e4c029b"
+  },
+  {
+    "sha": "012e515ee7639af6ad8b74e317bbe4b17a6f9756",
+    "date": "2026-10-27",
+    "type": "fix",
+    "title": "Fix cart reminders showing a cart reference instead of a link back",
+    "url": "https://github.com/itswadesh/gocommerce/commit/012e515ee7639af6ad8b74e317bbe4b17a6f9756"
+  },
+  {
+    "sha": "cbe1335242f914b9bfa494d7a1b58d9e1e2ff800",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "A section's settings open on the right on a wide screen, as in Shopify",
+    "url": "https://github.com/itswadesh/gocommerce/commit/cbe1335242f914b9bfa494d7a1b58d9e1e2ff800"
+  },
+  {
+    "sha": "513926f0339c7ced4ed936d39279b2b105783d59",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The homepage editor saves as you go, and shows the live storefront beside it",
+    "url": "https://github.com/itswadesh/gocommerce/commit/513926f0339c7ced4ed936d39279b2b105783d59"
+  },
+  {
+    "sha": "d9b83504e23b96a765a6961c7705731ab44be2df",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The panel may show the store's own storefront in a frame",
+    "url": "https://github.com/itswadesh/gocommerce/commit/d9b83504e23b96a765a6961c7705731ab44be2df"
+  },
+  {
+    "sha": "910e97be9c2701a45524d2860db5ec86411ccb97",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The homepage draft can be reset to what is published",
+    "url": "https://github.com/itswadesh/gocommerce/commit/910e97be9c2701a45524d2860db5ec86411ccb97"
+  },
+  {
+    "sha": "ae4b4c2a6859ed47d3983c46511c6deb1757dbac",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The link in order emails opens the order, with nothing to type",
+    "url": "https://github.com/itswadesh/gocommerce/commit/ae4b4c2a6859ed47d3983c46511c6deb1757dbac"
+  },
+  {
+    "sha": "15db54d7f09cdaeb0314ba5aaae30ca5c8dce118",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "A customer opens their order with its number and email, no code",
+    "url": "https://github.com/itswadesh/gocommerce/commit/15db54d7f09cdaeb0314ba5aaae30ca5c8dce118"
+  },
+  {
+    "sha": "3b5ff188b728d98bcc41134e457bc3d8fea2bc91",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "An order's history shows the latest event first",
+    "url": "https://github.com/itswadesh/gocommerce/commit/3b5ff188b728d98bcc41134e457bc3d8fea2bc91"
+  },
+  {
+    "sha": "59b8f1e63b8a18f0e038010d1d0f8352d5e2e313",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The menu says Themes, and the homepage is an element inside it",
+    "url": "https://github.com/itswadesh/gocommerce/commit/59b8f1e63b8a18f0e038010d1d0f8352d5e2e313"
+  },
+  {
+    "sha": "da6c8418e6478228031c012eea78b441a6c56310",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Commit the landing page's page dates with each update",
+    "url": "https://github.com/itswadesh/gocommerce/commit/da6c8418e6478228031c012eea78b441a6c56310"
+  },
+  {
+    "sha": "194472e26c4f69d6ca5349a4cd35d4eafee393b8",
+    "date": "2026-10-27",
+    "type": "fix",
+    "title": "leave an event that matches no order unclaimed",
+    "url": "https://github.com/itswadesh/gocommerce/commit/194472e26c4f69d6ca5349a4cd35d4eafee393b8"
+  },
+  {
+    "sha": "bc8c22983f16a4c4f2452f63b0b9b441cda46770",
+    "date": "2026-10-27",
+    "type": "fix",
+    "title": "find the order by its Razorpay order when notes are empty",
+    "url": "https://github.com/itswadesh/gocommerce/commit/bc8c22983f16a4c4f2452f63b0b9b441cda46770"
+  },
+  {
+    "sha": "ec5ee4bc27fad581e51bd45a8809a32040d9c193",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Link with ?order=, which the storefront's tracking page already fills in from",
+    "url": "https://github.com/itswadesh/gocommerce/commit/ec5ee4bc27fad581e51bd45a8809a32040d9c193"
+  },
+  {
+    "sha": "f5740abd78cea959cf28a3646f6b6882fefebdbb",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The order page shows the customer's order status link, with a copy button",
+    "url": "https://github.com/itswadesh/gocommerce/commit/f5740abd78cea959cf28a3646f6b6882fefebdbb"
+  },
+  {
+    "sha": "13d4754a3c670ba75cafd072ab4061e8f67a2fb1",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Order emails and texts link to the page where a customer checks the order",
+    "url": "https://github.com/itswadesh/gocommerce/commit/13d4754a3c670ba75cafd072ab4061e8f67a2fb1"
+  },
+  {
+    "sha": "bc786b179d66cc7d87c586d73c8fed6404584f97",
+    "date": "2026-10-27",
+    "type": "fix",
+    "title": "accept empty notes and acknowledge a late failure",
+    "url": "https://github.com/itswadesh/gocommerce/commit/bc786b179d66cc7d87c586d73c8fed6404584f97"
+  },
+  {
+    "sha": "4fde65b2de8beffbc3cbef505afade3d9caee7d0",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "Razorpay webhook tests: empty notes and a late failure",
+    "url": "https://github.com/itswadesh/gocommerce/commit/4fde65b2de8beffbc3cbef505afade3d9caee7d0"
+  },
+  {
+    "sha": "7f3d5c5607bcad442c36c9d419ded13a49380eeb",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The homepage editor is on for every store from the start",
+    "url": "https://github.com/itswadesh/gocommerce/commit/7f3d5c5607bcad442c36c9d419ded13a49380eeb"
+  },
+  {
+    "sha": "48093a372a26d70463cc74281932753a6940eb01",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "The panel arranges the home page: add, move, hide and publish sections",
+    "url": "https://github.com/itswadesh/gocommerce/commit/48093a372a26d70463cc74281932753a6940eb01"
+  },
+  {
+    "sha": "76ad54d46358f28be69fc1d45fdeb6a5c0b91d32",
+    "date": "2026-10-27",
+    "type": "feature",
+    "title": "A shop can arrange its home page from sections, and publish it",
+    "url": "https://github.com/itswadesh/gocommerce/commit/76ad54d46358f28be69fc1d45fdeb6a5c0b91d32"
+  },
+  {
+    "sha": "aaa36e19012214c66e92c51da09c3c1ca945fc7d",
+    "date": "2026-10-26",
+    "type": "feature",
+    "title": "Sign-in codes can fill themselves in on Android",
+    "url": "https://github.com/itswadesh/gocommerce/commit/aaa36e19012214c66e92c51da09c3c1ca945fc7d"
+  },
+  {
+    "sha": "29f960d496a120b56c2fa8ac086293c0565839fc",
+    "date": "2026-10-26",
+    "type": "fix",
+    "title": "Fix sign-in codes MSG91 reported sent that never arrived",
+    "url": "https://github.com/itswadesh/gocommerce/commit/29f960d496a120b56c2fa8ac086293c0565839fc"
+  },
+  {
+    "sha": "740800b907f7f9a445bc275e49ae484f7ebca432",
+    "date": "2026-10-26",
+    "type": "feature",
+    "title": "Send the code to MSG91 as ##OTP## as well as ##otp##",
+    "url": "https://github.com/itswadesh/gocommerce/commit/740800b907f7f9a445bc275e49ae484f7ebca432"
+  },
+  {
+    "sha": "c2ef55715019e1f2ad9ff457f4dbad7130c15828",
+    "date": "2026-10-26",
+    "type": "feature",
+    "title": "Log each text MSG91 takes, as each email Resend takes",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c2ef55715019e1f2ad9ff457f4dbad7130c15828"
+  },
+  {
+    "sha": "41eb06850c715159e0cd11e7047dfb0120c87c9f",
+    "date": "2026-10-26",
+    "type": "feature",
+    "title": "A new phone asks \"already have an account?\" before opening one",
+    "url": "https://github.com/itswadesh/gocommerce/commit/41eb06850c715159e0cd11e7047dfb0120c87c9f"
+  },
+  {
+    "sha": "d0b6cd9859451daec9ec6a1cc8dbb5f2aa072893",
+    "date": "2026-10-26",
+    "type": "feature",
+    "title": "Name the sign-in text's template SMS_OTP_TEMPLATE_ID, and send from SMS_SENDER_ID",
+    "url": "https://github.com/itswadesh/gocommerce/commit/d0b6cd9859451daec9ec6a1cc8dbb5f2aa072893"
+  },
+  {
+    "sha": "eb8fad4dd7c860fbd9b62fc7118cc742ab0f6d31",
+    "date": "2026-10-26",
+    "type": "feature",
+    "title": "Sign-in texts use the store's DLT OTP wording",
+    "url": "https://github.com/itswadesh/gocommerce/commit/eb8fad4dd7c860fbd9b62fc7118cc742ab0f6d31"
+  },
+  {
+    "sha": "25f6eb521340d5d5c826ca05e087e64e44d2d268",
+    "date": "2026-10-26",
+    "type": "feature",
+    "title": "Basket reminders name the shopper and price each item",
+    "url": "https://github.com/itswadesh/gocommerce/commit/25f6eb521340d5d5c826ca05e087e64e44d2d268"
+  },
+  {
+    "sha": "1bbc4bf698f047aee8df4115246ee8358810f628",
+    "date": "2026-10-26",
+    "type": "fix",
+    "title": "Fix a shopper getting each basket reminder several times at once",
+    "url": "https://github.com/itswadesh/gocommerce/commit/1bbc4bf698f047aee8df4115246ee8358810f628"
+  },
+  {
+    "sha": "cb52cd6a9d24f79e1d34d4c4be66bde63e2a6dcf",
+    "date": "2026-10-26",
+    "type": "feature",
+    "title": "The team page works on a phone",
+    "url": "https://github.com/itswadesh/gocommerce/commit/cb52cd6a9d24f79e1d34d4c4be66bde63e2a6dcf"
+  },
+  {
+    "sha": "6020a92fe7fbb4e8a2fb8f89329a372727ea425a",
+    "date": "2026-10-26",
+    "type": "fix",
+    "title": "Fix sign-in codes going nowhere when MSG91 is the SMS provider",
+    "url": "https://github.com/itswadesh/gocommerce/commit/6020a92fe7fbb4e8a2fb8f89329a372727ea425a"
+  },
+  {
+    "sha": "a8d3b6faa13b29791db99615bf491c24fb094945",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "Phone sign-in is free for Indian numbers and Pro elsewhere",
+    "url": "https://github.com/itswadesh/gocommerce/commit/a8d3b6faa13b29791db99615bf491c24fb094945"
+  },
+  {
+    "sha": "d4c42bfa1f28f8263476c1224dc0bf65e776451f",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "One account can be signed in to by email or by phone",
+    "url": "https://github.com/itswadesh/gocommerce/commit/d4c42bfa1f28f8263476c1224dc0bf65e776451f"
+  },
+  {
+    "sha": "c59f744047cbcabd3eafb00d15fceb0834d61be6",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "Checkout offers only the countries the store delivers to",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c59f744047cbcabd3eafb00d15fceb0834d61be6"
+  },
+  {
+    "sha": "0fa3a26835e9e42322878af23dc1467852bb7017",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "Home sets out its sections in two columns on a wide screen",
+    "url": "https://github.com/itswadesh/gocommerce/commit/0fa3a26835e9e42322878af23dc1467852bb7017"
+  },
+  {
+    "sha": "4ce9004a590a45b00ab6b4f7fe190e674ddd2487",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "A store chooses whether customers sign in by email or by phone",
+    "url": "https://github.com/itswadesh/gocommerce/commit/4ce9004a590a45b00ab6b4f7fe190e674ddd2487"
+  },
+  {
+    "sha": "cecdc2932ad5a0c4c226325662287b7586d752b6",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "A guest opens their order with a 4-digit code instead of a link",
+    "url": "https://github.com/itswadesh/gocommerce/commit/cecdc2932ad5a0c4c226325662287b7586d752b6"
+  },
+  {
+    "sha": "44a45df24029d4ad8bde75aff2e221a513a173a0",
+    "date": "2026-10-24",
+    "type": "fix",
+    "title": "Fix a carrier at a private address being reported as unreachable",
+    "url": "https://github.com/itswadesh/gocommerce/commit/44a45df24029d4ad8bde75aff2e221a513a173a0"
+  },
+  {
+    "sha": "7fc98fc928de18360159cc399fd284b5d28d2d92",
+    "date": "2026-10-24",
+    "type": "fix",
+    "title": "A payment marked by mistake can be taken back after the order is cancelled",
+    "url": "https://github.com/itswadesh/gocommerce/commit/7fc98fc928de18360159cc399fd284b5d28d2d92"
+  },
+  {
+    "sha": "5ca955f94e74da7dfc117383e8ad603bab9a289f",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "A store whose orders were all cancelled unpaid can change its currency",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5ca955f94e74da7dfc117383e8ad603bab9a289f"
+  },
+  {
+    "sha": "1bbfe1a68831b203e77e21fbd7df5a28fea83776",
+    "date": "2026-10-24",
+    "type": "fix",
+    "title": "Show the carrier's own reason when a shipment cannot be booked",
+    "url": "https://github.com/itswadesh/gocommerce/commit/1bbfe1a68831b203e77e21fbd7df5a28fea83776"
+  },
+  {
+    "sha": "c4a8c85c5d974bbb799c2bb810f673ecaed2e84e",
+    "date": "2026-10-24",
+    "type": "feature",
+    "title": "A storefront can name a store by its own domain",
+    "url": "https://github.com/itswadesh/gocommerce/commit/c4a8c85c5d974bbb799c2bb810f673ecaed2e84e"
+  },
+  {
     "sha": "bd4e970cbfa1ca2617ec7ca4b1713dceea088f8c",
     "date": "2026-10-24",
     "type": "feature",
