@@ -176,7 +176,7 @@
     "modified": "2026-09-25"
   },
   "/features/": {
-    "hash": "b8e79f8e8d9c3036",
+    "hash": "2d9240b49841c845",
     "modified": "2026-10-30"
   },
   "/features/ai/": {
@@ -195,12 +195,16 @@
     "hash": "56a667e7be2282c8",
     "modified": "2026-10-30"
   },
+  "/features/storefront/": {
+    "hash": "41f97878939ba470",
+    "modified": "2026-10-30"
+  },
   "/go-svelte-ecommerce/": {
     "hash": "4f0731526c4d999d",
     "modified": "2026-10-30"
   },
   "/gocommerce-svelte-commerce-connector/": {
-    "hash": "30bd922500aab384",
+    "hash": "a262cf353a4163cd",
     "modified": "2026-10-30"
   },
   "/gocommerce/": {
@@ -436,7 +440,7 @@
     "modified": "2026-10-28"
   },
   "/sitemap/": {
-    "hash": "e3b88737af9e1486",
+    "hash": "2abf2992c281ed31",
     "modified": "2026-10-30"
   },
   "/solutions/": {

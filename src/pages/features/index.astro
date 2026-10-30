@@ -11,7 +11,7 @@ import modules from '../../data/modules.json'
 const path = '/features/'
 const abs = (p: string) => new URL(p, Astro.site!).href
 const files = import.meta.glob<FeaturePage>('../../data/features/*.json', { eager: true, import: 'default' })
-const order = ['checkout', 'operations', 'development', 'ai']
+const order = ['checkout', 'storefront', 'operations', 'development', 'ai']
 // A page missing from the order goes last rather than first.
 const rank = (slug: string) => (order.includes(slug) ? order.indexOf(slug) : order.length)
 const pages = Object.values(files).map(fill).sort((a, b) => rank(a.slug) - rank(b.slug))
@@ -23,7 +23,7 @@ const graph = [
 ---
 <Base
   title="Features — What GoCommerce Does, Checked Against Its Code"
-  description="GoCommerce’s checkout, operations, developer and AI features, each checked against the code with the file doing the work named — and what is not built yet."
+  description="GoCommerce’s checkout, storefront, operations, developer and AI features, each checked against the code with the file doing the work named, and what is not built yet."
   path={path}
   ogTitle="GoCommerce features, checked against the code"
   ogDescription="Checkout, operations, development and AI — every tile names the file that does the work."
@@ -50,7 +50,7 @@ const graph = [
         </li>
       ))}
     </ul>
-    <p class="fineprint">Checkout, operations and development were checked against GoCommerce at commit 1498c68, 21 September 2026; the AI page, the security tiles and the counts corrected since, at commit c891952, 21 October 2026. The shapes of store these add up to are on the <a href="/solutions/">solutions pages</a>; the {modules.length} modules are on <a href="/integrations/">integrations</a>.</p>
+    <p class="fineprint">Checkout, operations and development were checked against GoCommerce at commit 1498c68, 21 September 2026; the AI page, the security tiles and the counts corrected since, at commit c891952, 21 October 2026; the storefront page and what shipped from 20 to 29 October, at commit a6e3fee5, 29 October 2026. The shapes of store these add up to are on the <a href="/solutions/">solutions pages</a>; the {modules.length} modules are on <a href="/integrations/">integrations</a>.</p>
   </section>
 
   <section class="closing wrap">

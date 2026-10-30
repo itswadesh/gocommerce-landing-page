@@ -7,7 +7,8 @@
  * never in a tile. Source of truth for the first three pages: a tile-by-tile
  * audit of GoCommerce at commit 1498c68 (21 September 2026). The AI page, the
  * Security group on development and the counts corrected since were checked
- * at commit c891952 (21 October 2026).
+ * at commit c891952 (21 October 2026). The storefront page and the tiles for what
+ * shipped from 20 to 29 October were checked at commit a6e3fee5 (29 October 2026).
  */
 export interface FeaturePage {
   slug: string
