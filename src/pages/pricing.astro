@@ -17,7 +17,7 @@ import CurrencyPicker from '../components/CurrencyPicker.astro'
 import Priced from '../components/Priced.astro'
 import Variants from '../components/Variants.astro'
 import { byCurrency, formatMoney, shopifyMarkets } from '../lib/money'
-import { feeBasis, gstForRupees, gstIndia, hostedFee, hostedFeeShort, hostedFeeText, signupUrl } from '../lib/pricing'
+import { aiFeatures, feeBasis, gstForRupees, gstIndia, hostedFee, hostedFeeShort, hostedFeeText, signupUrl } from '../lib/pricing'
 import { compareCard, featuredComparisons } from '../lib/related'
 import { counts } from '../lib/facts'
 
@@ -42,6 +42,7 @@ const graph = [
 
 const faq = [
   { q: 'What does a store hosted on kitcommerce.store cost?', a: `${hosted}, cash-on-delivery and on-account orders included, charged in the store’s own currency. Stores in India pay ${gstIndia} GST on the fee. Start one with the Start a store button on this page.` },
+  { q: 'Do AI features cost extra?', a: `On a hosted store, yes. ${aiFeatures}. Drafting products from photos, improving a listing and summarising reviews draw on it. A store that enters its own model key is billed by that provider and draws no credit.` },
   { q: 'Is running it myself really free?', a: 'Yes. GoCommerce and Svelte Commerce are MIT licensed. The licence has no expiry, no seat count and no revenue cap, takes 0% of your orders, and a copy you have downloaded stays MIT whatever happens to the packages later.' },
   { q: 'Is there a Plus plan, a pro tier or an enterprise edition?', a: `No. A store is either hosted on kitcommerce.store, for ${hosted}, or run on your own server for free. The MIT code has every module, every admin screen and every theme in it; nothing is held back for a higher tier because there is no higher tier.` },
   { q: 'When I run it myself, are there hidden fees: per order, per product, per staff account?', a: 'None. Nobody takes a percentage of your sales, counts your products or charges for another admin user. The fees you pay are your payment gateway’s own, on its own terms.' },
@@ -92,6 +93,7 @@ const faq = [
           <li>Cash-on-delivery and on-account orders included</li>
           <li>Charged in the store’s own currency</li>
           <li>Stores in India pay {gstIndia} GST on the fee</li>
+          <li>{aiFeatures}</li>
         </ul>
         <div class="actions">
           <a class="button" href={signupUrl} {...ext} data-ev="signup_click">Start a store</a>

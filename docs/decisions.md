@@ -4,6 +4,20 @@ Owner decisions for kitcommerce.store, newest first. Each one says what was
 decided, the owner's words where they were given, and why. Changing a settled
 decision needs the owner.
 
+## 30 October 2026: AI on a hosted store is paid from its AI credit
+
+The owner decided in GoCommerce (D151, 29 October 2026) that AI features
+are pay-per-use with a free trial, so a store can "see what AI can do". The
+pricing page's hosted column, a pricing FAQ and llms.txt now say so, from
+`aiFeatures` in `src/data/pricing.json`. No amounts are shown: the free
+trial's size is still a placeholder in GoCommerce, and there is no
+self-serve purchase yet.
+
+Open with the owner: GoCommerce D119 puts phone sign-in outside India on a
+"Pro" plan, while D151 says every non-AI feature stays free. The pricing
+FAQ still says there is no higher tier. It changes when the owner says
+which decision stands.
+
 ## 28 October 2026: the audit's funnel events, on the links that exist
 
 The site already names its events in the markup (`data-ev`) and sends

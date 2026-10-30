@@ -2,7 +2,7 @@ import pricing from '../data/pricing.json'
 import { byCurrency } from './money'
 import { counts } from './facts'
 
-export const { hostedFee, feeBasis, gstIndia, signupUrl } = pricing
+export const { hostedFee, feeBasis, gstIndia, signupUrl, aiFeatures } = pricing
 
 /** "1% of every successful order": the fee in the owner's words. */
 export const hostedFeeText = `${hostedFee} of ${feeBasis}`
@@ -16,7 +16,7 @@ export const plusGst = `plus ${gstIndia} GST on the fee`
 /** ", plus 18% GST on the fee" for rupee visitors only, on a page with a currency picker. */
 export const gstForRupees = byCurrency((c) => (c === 'INR' ? `, ${plusGst}` : ''))
 
-const tokens: Record<string, string> = { hostedFeeText, hostedFeeShort, feeBasis, hostedFee, plusGst, ...counts }
+const tokens: Record<string, string> = { hostedFeeText, hostedFeeShort, feeBasis, hostedFee, plusGst, aiFeatures, ...counts }
 
 /** Fills {hostedFeeText}, {plusGst}, {modules}, {mcpTools} and the rest in a string, so each figure is typed once: in pricing.json, or read into facts.json. Unknown {names} are left alone. */
 export const fillText = (s: string) => s.replace(/\{(\w+)\}/g, (m, k) => tokens[k] ?? m)

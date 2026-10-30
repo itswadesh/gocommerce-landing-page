@@ -1,8 +1,9 @@
 {
-  "_comment": "The price, said once. Stores hosted on kitcommerce.store pay hostedFee of feeBasis, cash on delivery and on-account orders included, in the store's own currency; stores in India pay gstIndia GST on that fee. Running the MIT code yourself is free. The owner's decisions of 26, 27 and 28 October 2026, recorded in docs/decisions.md. feeBasisShort is for titles too short for the whole phrase. Data files write {hostedFeeText}, {hostedFeeShort}, {feeBasis}, {hostedFee} and {plusGst}, and src/lib/pricing.ts fills them in; scripts/verify.js checks the pages and llms.txt against it.",
+  "_comment": "The price, said once. Stores hosted on kitcommerce.store pay hostedFee of feeBasis, cash on delivery and on-account orders included, in the store's own currency; stores in India pay gstIndia GST on that fee. Running the MIT code yourself is free. aiFeatures is what AI costs a hosted store (D151 in GoCommerce, the owner, 29 October 2026): no amounts until the owner sets them. The owner's decisions of 26, 27 and 28 October 2026, recorded in docs/decisions.md. feeBasisShort is for titles too short for the whole phrase. Data files write {hostedFeeText}, {hostedFeeShort}, {feeBasis}, {hostedFee} and {plusGst}, and src/lib/pricing.ts fills them in; scripts/verify.js checks the pages and llms.txt against it.",
   "hostedFee": "1%",
   "feeBasis": "every successful order",
   "feeBasisShort": "every order",
   "gstIndia": "18%",
+  "aiFeatures": "AI features are pay-per-use from the store’s AI credit, after a free trial",
   "signupUrl": "https://admin.kitcommerce.store/admin/auth/signup"
 }
