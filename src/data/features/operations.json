@@ -1,24 +1,24 @@
 {
   "slug": "operations",
   "name": "Operations",
-  "summary": "Order timelines and edits, stock across locations with a ledger that reconciles, twelve ways to ship, and an audit of who changed what.",
+  "summary": "Order timelines and edits, stock across locations with a ledger that reconciles, twelve ways to ship, GST invoices for Indian stores, and an audit of who changed what.",
   "title": "Order Management — GoCommerce Operations, Feature by Feature",
-  "description": "Running a store on GoCommerce: order timelines and edits, multi-location stock with a movement ledger, multi-parcel shipping, refunds, returns, roles, audit.",
+  "description": "Running a store on GoCommerce: order edits, stock across locations with a ledger, multi-parcel shipping, GST invoices, a TallyPrime export, audit.",
   "ogTitle": "GoCommerce operations, feature by feature",
-  "ogDescription": "Order timelines and edits, stock across locations, 12 ways to ship, audit — and what is not built yet.",
+  "ogDescription": "Order timelines and edits, stock across locations, 12 ways to ship, GST invoices, audit, and what is not built yet.",
   "kicker": "Features · Operations",
   "h1": "Run the store from one admin, with every change on the record",
-  "lede": "Orders, stock, shipping, refunds and staff, handled from the admin compiled into the GoCommerce binary. Every stock movement lands in a ledger that reconciles, and every change says who made it.",
+  "lede": "Orders, stock, shipping, invoices, refunds and staff, handled from the admin compiled into the GoCommerce binary. Every stock movement lands in a ledger that reconciles, and every change says who made it.",
   "facts": [
     { "b": "12", "t": "carrier options, four of them Indian" },
     { "b": "11", "t": "kinds of stock movement, all on a ledger" },
-    { "b": "19", "t": "health checks in gocommerce doctor" }
+    { "b": "{coreRights}", "t": "core rights, given or withheld per role" }
   ],
   "groups": [
     {
       "name": "Orders",
       "tiles": [
-        { "title": "Order timeline", "status": "yes", "text": "Each order has a timeline of its events and changes, internal notes, and a log of every email and SMS sent — with a button to resend.", "source": "core/orders.go · Timeline" },
+        { "title": "Order timeline", "status": "yes", "text": "Each order has a timeline of its events and changes, latest first, internal notes, and a log of every email and SMS sent, with a button to resend.", "source": "core/orders.go · Timeline" },
         { "title": "Order edits", "status": "yes", "text": "Add, remove or change lines; stock moves with them and the balance owed either way is reported. Contact details, address and shipments can be corrected too. Line edits stop once anything has shipped, been refunded or returned.", "source": "PUT /api/admin/orders/{id}/lines" },
         { "title": "Unpaid orders cancel themselves", "status": "yes", "text": "Every five minutes, orders still unpaid past their window (24 hours by default) are cancelled and their stock released. Staff can run the sweep on demand.", "source": "core/orders.go · SweepUnpaid" },
         { "title": "Returns", "status": "partial", "text": "Record returns per line on shipped orders, capped at what shipped, with a restock decision and location for each; refunds are a separate step. Missing: exchange orders and customer-requested returns.", "source": "core/returns.go" },
@@ -30,9 +30,17 @@
       "tiles": [
         { "title": "Stock across locations", "status": "yes", "text": "Stock is held per variant per location, and one order can draw from several. Transfers move stock between locations; a picking sheet groups work by SKU and location.", "source": "core/inventory.go · core/locations.go" },
         { "title": "A ledger that reconciles", "status": "yes", "text": "Every stock change — reserve, commit, release, restock, transfer and more — is written to an append-only ledger that gocommerce doctor checks against the balances.", "source": "core/movements.go" },
-        { "title": "Shipping in several parcels", "status": "yes", "text": "An order ships in any number of parcels by line and quantity, each through its own carrier: manual, Shiprocket, Delhivery, NimbusPost, India Post, Shippo, ShipStation, Easyship, Shippit, USPS, Onfleet or Veeqo.", "source": "core/fulfillment.go · ext/fulfill-*/" },
+        { "title": "Shipping in several parcels", "status": "yes", "text": "An order ships in any number of parcels by line and quantity, each through its own carrier: manual, Shiprocket, Delhivery, NimbusPost, India Post, Shippo, ShipStation, Easyship, Shippit, USPS, Onfleet or Veeqo. When a carrier refuses a booking, the admin shows the carrier’s own reason.", "source": "core/fulfillment.go · ext/fulfill-*/" },
         { "title": "Low-stock report and stock import", "status": "yes", "text": "A report of variants running low, and CSV stock import that also reads Shopify’s inventory file.", "source": "GET /api/admin/inventory/low-stock" },
         { "title": "Backorders", "status": "partial", "text": "A variant can keep selling past zero and ship in parts as stock arrives. Missing: a separate backorder status and partial payment.", "source": "core/inventory.go" }
+      ]
+    },
+    {
+      "name": "Catalogue",
+      "tiles": [
+        { "title": "Four ways to import", "status": "yes", "text": "Product and category files run as upsert, insert only, update only or delete, each with a dry run. Delete runs the dry run first, asks you to confirm the count it found, then deletes through the same path as the delete button, audit included. Drop several CSV files at once: they run one after another, and one that fails does not stop the rest.", "source": "core/transfer_products.go · core/transfer_categories.go" },
+        { "title": "Prices from the products list", "status": "yes", "text": "Type a product’s price and MRP in its row, or per variant, and it saves when you leave the box. Select several rows to give them one price. Needs a price shows every product with a variant at zero, and Publish refuses, by name, any that still need one.", "source": "admin/src/routes/dash/products/+page.svelte" },
+        { "title": "Categories from the taxonomy", "status": "yes", "text": "Browse or search one built-in product taxonomy and switch on the categories the store sells; the categories above them and their product fields come too. Switching one off removes its branch, and is refused while products or the store’s own categories are in it. A store keeps its own categories alongside and can rename taxonomy ones.", "source": "core/taxonomy_master.go" }
       ]
     },
     {
@@ -40,17 +48,34 @@
       "tiles": [
         { "title": "Refunds through the gateway", "status": "partial", "text": "Staff refund any amount up to what remains, through the gateway that took the payment, each recorded with the gateway’s id. Missing: cash-on-delivery refunds through the engine, and RevenueCat refunds.", "source": "core/payments.go · Refund" },
         { "title": "Record payments by hand", "status": "partial", "text": "Mark an order paid with a reference for cash or bank transfer, or record a failed payment. Missing: manual refund records.", "source": "POST /api/admin/orders/{id}/mark-paid" },
-        { "title": "Payouts and reports", "status": "yes", "text": "Collected, refunded and net per payment method; sales and top products; saved custom SQL reports that run read-only.", "source": "core/reports_payouts.go · core/custom_reports.go" }
+        { "title": "Payouts and reports", "status": "yes", "text": "Collected, refunded and net per payment method; sales and top products; saved custom SQL reports that run read-only.", "source": "core/reports_payouts.go · core/custom_reports.go" },
+        { "title": "GST tax invoices", "status": "partial", "text": "A store in India with a valid GSTIN that sells in rupees issues a GST tax invoice for every paid order, numbered by financial year. It carries both GSTINs, HSN codes and the place of supply, with CGST and SGST (or UTGST) within a state and IGST between states, all from what checkout charged. A tax rate can apply to one product, so mixed rates come out right. Missing: GST on delivery, which checkout does not charge, so delivery prints untaxed.", "source": "ext/invoices/gst.go · core/taxes.go" },
+        { "title": "Export to TallyPrime", "status": "partial", "text": "A GST store downloads a period’s tax invoices as two TallyPrime import files, ledgers then vouchers, so nobody retypes them. Each invoice becomes one sales voucher that matches it to the paisa, and the ledger names are set once to match the accountant’s company. Missing: a test import into TallyPrime itself. The files follow Tally’s published format.", "source": "ext/invoices/tally.go" }
       ]
     },
     {
       "name": "Customers and staff",
       "tiles": [
         { "title": "Customer groups and price lists", "status": "yes", "text": "Group customers and give each group its own prices, with dates, priority, channel and quantity breaks.", "source": "core/pricing.go" },
-        { "title": "Roles and rights", "status": "partial", "text": "Four roles — owner, manager, staff, vendor — whose rights and names you can change, over {coreRights} core rights plus those modules add; invitations and session revocation. Missing: creating roles beyond the four.", "source": "core/rights.go · core/roles.go" },
+        { "title": "Roles and rights", "status": "yes", "text": "Four built-in roles (owner, manager, staff and vendor) and any the store makes, each renamable, with rights you can change over {coreRights} core rights plus those modules add. The owner always holds every right. Invite or add team members by email and sign them out everywhere, from a phone too.", "source": "core/rights.go · core/roles.go" },
         { "title": "Scoped API keys", "status": "yes", "text": "Keys carry a role and pass the same rights checks as a person. A key for an AI agent carries a list of reads instead, expires and is rate limited. Only owners mint them; revoked keys stay on the record.", "source": "core/api_keys.go" },
-        { "title": "Audit trail", "status": "yes", "text": "Who changed what, with before and after values, and a history for products, categories, discounts, tax rates and locations. A change made with an API key names the key.", "source": "core/audit.go" },
-        { "title": "Notifications you control", "status": "yes", "text": "Edit every email and SMS template in the admin; every message is logged, with reset and invitation links hidden, and can be resent. Email through Resend or SendGrid, SMS through Twilio or MSG91.", "source": "core/notify_templates.go" }
+        { "title": "Audit trail", "status": "yes", "text": "Who changed what, with before and after values, and a history for products, categories, discounts, tax rates and locations. A change made with an API key names the key.", "source": "core/audit.go" }
+      ]
+    },
+    {
+      "name": "Messages",
+      "tiles": [
+        { "title": "Notifications you control", "status": "yes", "text": "Edit every email and SMS template in the admin. Every message is logged with its one-time links and codes hidden, and can be resent unless it carried one. Email goes through Resend or SendGrid, SMS through Twilio or MSG91.", "source": "core/notify_templates.go · core/notifications.go" },
+        { "title": "Order alerts on Telegram", "status": "yes", "text": "The owner hears about each new order, payment, cancellation and return through a Telegram bot of their own, set up once in the admin. Each alert can be switched off or reworded with a live preview, and the admin shows whether each one arrived, with Send again for any that did not.", "source": "ext/telegram-alerts" },
+        { "title": "Replies and product enquiries", "status": "yes", "text": "Answer a contact message from the admin: the reply goes by email through the store’s own provider and joins the message’s thread with who sent it, once the provider has taken it. A storefront can post a question about one product into the same inbox, marked as an enquiry, and both forms are rate limited.", "source": "ext/contact/replies.go · ext/contact/enquiries.go" }
+      ]
+    },
+    {
+      "name": "Store set-up",
+      "tiles": [
+        { "title": "Each feature on its own screen", "status": "yes", "text": "Built-in features such as payments, carriers, notifications, menus and customer sign-in are switched on and set up on their own screens. Plugins lists only add-ons: analytics, chat, marketing, search and the rest.", "source": "core/plugins.go · PluginDef.Home" },
+        { "title": "Webhooks by event", "status": "yes", "text": "Settings › Webhooks lists the {events} events a store sends, in groups, each with a line on when it happens. Tick the ones an endpoint receives and change them later; a name the store never sends is refused.", "source": "ext/webhooks/webhooks.go · core/events.go" },
+        { "title": "The store’s currency", "status": "yes", "text": "Each store picks the currency it sells in when it is created or later in Settings, and prices are relabelled, not converted. The currency is fixed once the store has an order that was paid or is not cancelled, so test orders cancelled unpaid do not lock it.", "source": "core/store_currency.go · core/store_profile.go" }
       ]
     }
   ],
@@ -64,12 +89,15 @@
     { "name": "Gift cards and store credit", "why": "No balances of any kind." },
     { "name": "Single sign-on", "why": "Staff sign in with email and password." },
     { "name": "A translated admin", "why": "The admin is in English; storefront content can be translated." },
-    { "name": "Click-and-collect", "why": "No pickup option at checkout." }
+    { "name": "Click-and-collect", "why": "No pickup option at checkout." },
+    { "name": "E-invoices and e-way bills", "why": "A GST invoice carries no IRN or signed QR code, and no e-way bill is made. Both need an account with a GST Suvidha Provider or the Invoice Registration Portal." },
+    { "name": "GST credit notes", "why": "A return or refund issues no credit note, and there are no bills of supply or cess." }
   ],
   "faq": [
     { "q": "Can staff edit an order after it is placed?", "a": "Yes, until anything has shipped, been refunded or returned: lines can be added, removed or changed, stock moves to match, and the admin reports what is owed either way. Contact details and the address can be corrected at any time." },
     { "q": "How do I know stock figures are right?", "a": "Every movement is written to a ledger, and gocommerce doctor checks the ledger against the balances — from the command line, the admin or the API. A mismatch is reported, not hidden." },
     { "q": "Which Indian carriers are supported?", "a": "Shiprocket, Delhivery, NimbusPost and India Post, each a module. SMS goes through MSG91 using pre-registered DLT templates, as India requires." },
-    { "q": "Can different staff see different things?", "a": "By role: owner, manager, staff and vendor, each with rights you can adjust. A vendor login sees only that seller’s records. Splitting access by channel is not built yet." }
+    { "q": "Can different staff see different things?", "a": "By role: owner, manager, staff, vendor and any role the store makes, each with rights you can adjust. A vendor login sees only that seller’s records. Splitting access by channel is not built yet." },
+    { "q": "Does it make GST tax invoices?", "a": "Yes, for a store in India with a valid GSTIN that sells in rupees: every paid order gets a tax invoice with HSN codes, the place of supply and the CGST, SGST or IGST split. It does not make e-invoices or e-way bills. The invoices also export to TallyPrime, though an import into TallyPrime itself has not been tested." }
   ]
 }
