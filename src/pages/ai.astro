@@ -1,0 +1,175 @@
+---
+/**
+ * The AI landing page. Its one shipped feature is "create products from
+ * photos": the shop drops a batch of photographs on the products screen and
+ * the model drafts the products — the sorting into products and variants, and
+ * the title, description, highlights, type, tags, category, SEO copy and image
+ * alt text — as unpublished drafts with no price and no stock, which the shop
+ * reviews and prices before anything reaches a shopper. Checked against the
+ * GoCommerce repository, ext/photo-products (merged, D144).
+ *
+ * What it costs, as true on 30 October 2026 (GoCommerce D151): AI runs on the
+ * platform's Claude key, each AI action draws from the store's AI credit, a new
+ * store starts with a free trial of it, and more is added by the platform on
+ * request. There is no price and no way to buy credit, so the page names no
+ * amount and offers no purchase. The trial's figure is left out until
+ * GoCommerce ships it (PR #202 sets ₹30; main still carries a placeholder).
+ * The call to action is the real hosted sign-up (src/data/pricing.json).
+ */
+import Base from '../layouts/Base.astro'
+import Faq from '../components/Faq.astro'
+import { signupUrl } from '../lib/pricing'
+
+const path = '/ai/'
+const abs = (p: string) => new URL(p, Astro.site!).href
+const ext = { target: '_blank', rel: 'noopener noreferrer' }
+
+const graph = [
+  { '@type': 'WebPage', '@id': abs(path + '#page'), url: abs(path), name: 'Create products from photos — AI in KitCommerce', isPartOf: { '@id': abs('/#site') }, about: { '@id': abs('/gocommerce/#app') }, inLanguage: 'en' },
+]
+
+const tryIt = 'Try it free — every new store gets AI credit to start with. Need more? Ask us to top up.'
+
+const faq = [
+  { q: 'What does the AI write?', a: 'From the photographs of one item it drafts its title, description, highlights, product type, tags, category, the SEO copy, and the alt text on each of its images. It also sorts a batch: several angles of one item become one product’s pictures, the same item in other colours become that product’s variants, and unrelated pieces become separate products.' },
+  { q: 'Will AI-written products go live without me seeing them?', a: 'No. Every product is created as an unpublished draft, with no price and nothing in stock. Nothing an AI wrote reaches a shopper until you have reviewed it, set your prices and pressed publish. The drafts you do not want, you delete.' },
+  { q: 'Do I have to use the words it writes?', a: 'No. The draft is a starting point. Every field is yours to edit, rewrite or clear before you publish, and the photographs are stored in your media library exactly as you uploaded them.' },
+  { q: 'What does it cost?', a: 'Every new store gets free AI credit to try it, and each AI action draws a little from it. There is no key to set up: the AI runs on our own Claude account. If you run low, ask us and we top your credit up. There is no price list yet, and credit cannot be bought in the panel.' },
+  { q: 'Do I need my own AI key?', a: 'No. The AI runs on the platform’s own Claude key, so it works from the day you open your store, paid from your store’s AI credit.' },
+]
+---
+<Base
+  title="Create Products From Photos — AI in KitCommerce"
+  description="Drop a batch of photos on the products screen and AI drafts the products — titles, descriptions, variants, categories and SEO — as drafts you review and price before they go live. Every new store gets free AI credit."
+  path={path}
+  ogTitle="Photograph your stock. Get a catalogue to review."
+  ogDescription="Upload photos, AI drafts the products as unpublished drafts, you review and price, you publish. Every new store gets free AI credit to try it."
+  crumbs={[{ name: 'AI', href: path }]}
+  graph={graph}
+  faq={faq}
+>
+  <section class="wrap page-head">
+    <p class="kicker">AI</p>
+    <h1>Photograph your stock. Get a catalogue to review.</h1>
+    <p class="lede">Drop a batch of photos on the products screen and AI drafts the products for you — sorted into products and variants, with the title, description, highlights, category and SEO text written from what the photos show. Everything arrives as an unpublished draft, so nothing goes live until you have checked it and set your prices.</p>
+    <ul class="head-facts">
+      <li><b>Free AI credit to start</b></li>
+      <li><b>No AI key to set up</b></li>
+      <li><b>Drafts, never live by accident</b></li>
+    </ul>
+  </section>
+
+  <section id="flagship" class="section wrap" aria-labelledby="flagship-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Create products from photos</p>
+        <h2 id="flagship-title">The slow part of opening a store, done for you</h2>
+      </div>
+      <p class="section-lede">Typing a catalogue in by hand is the work that keeps a shop from opening. Upload your photographs instead, and the AI writes the first draft of every product.</p>
+    </div>
+    <ul class="evidence">
+      <li>
+        <svg aria-hidden="true"><use href="#i-package"/></svg>
+        <b>A batch becomes a catalogue</b>
+        <span>Drop in your photos — several angles of one item, the same item in other colours, unrelated pieces all mixed together. The AI sorts them: one item’s angles become its pictures, its colours become its variants, and different pieces become separate products.</span>
+      </li>
+      <li>
+        <svg aria-hidden="true"><use href="#i-tag"/></svg>
+        <b>Written from what’s visible</b>
+        <span>For each product it drafts the title, description, highlights, product type, tags, category, the SEO copy and the alt text on every image — read from the pictures, ready for you to edit.</span>
+      </li>
+      <li>
+        <svg aria-hidden="true"><use href="#i-shield"/></svg>
+        <b>Nothing goes live by accident</b>
+        <span>Every product is created as a draft, with no price and nothing in stock. What an AI wrote reaches a shopper only once you have priced it and pressed publish — until then it is yours alone to check and fix.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section id="how" class="section wrap" aria-labelledby="how-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">How it works</p>
+        <h2 id="how-title">Four steps, and you stay in charge of every one</h2>
+      </div>
+      <p class="section-lede">The AI does the typing. You do the deciding — what is right, what to fix, what a thing costs, and what is ready to sell.</p>
+    </div>
+    <div class="usecases">
+      <div class="usecase">
+        <h3>1 · Upload</h3>
+        <p>Drag a batch of photographs onto the products screen. Each one is kept in your media library exactly as you sent it.</p>
+      </div>
+      <div class="usecase">
+        <h3>2 · AI drafts</h3>
+        <p>The AI groups the photos into products and variants and writes the copy, the category and the SEO text for each.</p>
+      </div>
+      <div class="usecase">
+        <h3>3 · Review &amp; price</h3>
+        <p>Read every draft, change anything that is not right, and set your prices and stock. This part is yours.</p>
+      </div>
+      <div class="usecase">
+        <h3>4 · Publish</h3>
+        <p>Publish the ones you are happy with. The rest stay as drafts until you are — or you delete them.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="section wrap" aria-labelledby="pricing-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">What it costs</p>
+        <h2 id="pricing-title">Try it free</h2>
+      </div>
+      <p class="section-lede">See what it does for your own catalogue before you spend anything.</p>
+    </div>
+    <div class="statement">
+      <p class="statement-lead">{tryIt}</p>
+      <p>The AI runs on our own Claude key, so there is nothing to sign up for and no key to paste in. Each AI action draws a little from your store’s AI credit, and the AI screen in your panel shows what is left. Run low and we add more on request. There is no price list yet, and credit cannot be bought in the panel.</p>
+    </div>
+    <div class="actions" style="margin-top:26px">
+      <a class="button" href={signupUrl} {...ext} data-ev="signup_click">Start a store and try it</a>
+      <a class="button secondary" href="/contact/">Ask for a top-up</a>
+    </div>
+  </section>
+
+  <section id="more" class="section wrap" aria-labelledby="more-title">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">Also in your panel</p>
+        <h2 id="more-title">More help, same rule: it suggests, you decide</h2>
+      </div>
+    </div>
+    <ul class="evidence">
+      <li>
+        <svg aria-hidden="true"><use href="#i-store"/></svg>
+        <b>Match theme to logo</b>
+        <span>In the theme editor, Match to logo reads the colours in your store’s logo and offers palettes built from them. It works in your browser and calls no AI, so it is free and draws no credit.</span>
+      </li>
+      <li>
+        <svg aria-hidden="true"><use href="#i-coin"/></svg>
+        <b>Which ads pay for themselves</b>
+        <span>The ads report shows orders, sales and profit after product cost by source and campaign, against the spend you enter or import from Google Ads and Meta Ads Manager. An AI summary, on your AI credit, is written from the report’s own rows.</span>
+      </li>
+      <li>
+        <svg aria-hidden="true"><use href="#i-tag"/></svg>
+        <b>Better listings and review summaries</b>
+        <span>Improve with AI proposes a new title, description and SEO copy for a product you already sell, beside the current text, and nothing changes until you save. Summarize reviews sorts a product’s reviews into what shoppers praise and complain about.</span>
+      </li>
+    </ul>
+    <div class="actions" style="margin-top:26px">
+      <a class="button secondary" href="/features/ai/">Every AI tool, checked in the code</a>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions about AI in KitCommerce" />
+
+  <section class="closing wrap">
+    <h2>Turn today’s photos into tomorrow’s catalogue</h2>
+    <p>Start a store hosted on kitcommerce.store, upload a batch of photographs, and review the drafts the AI writes from them. {tryIt}</p>
+    <div class="actions">
+      <a class="button" href={signupUrl} {...ext} data-ev="signup_click">Start a store and try it</a>
+      <a class="button secondary" href="/features/">All features</a>
+      <a class="button secondary" href="/pricing/">See pricing</a>
+    </div>
+  </section>
+</Base>
