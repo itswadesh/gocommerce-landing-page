@@ -1,15 +1,15 @@
 {
   "/": {
-    "hash": "b78a6a46e72650fa",
-    "modified": "2026-10-28"
+    "hash": "c501f79cee5bd524",
+    "modified": "2026-10-30"
   },
   "/about/": {
     "hash": "124d891099c32639",
     "modified": "2026-10-28"
   },
   "/agencies/": {
-    "hash": "0fcd63b23552c2f3",
-    "modified": "2026-10-28"
+    "hash": "09c1b3989e043f7e",
+    "modified": "2026-10-30"
   },
   "/blog/": {
     "hash": "878dc146c0e9b2b1",
@@ -92,92 +92,92 @@
     "modified": "2026-10-28"
   },
   "/compare/kitcommerce-vs-bagisto/": {
-    "hash": "5ab37be5e1cb3223",
-    "modified": "2026-10-28"
+    "hash": "9a2be6e753d83999",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-bigcommerce/": {
-    "hash": "fd4f393b1b173525",
-    "modified": "2026-10-28"
+    "hash": "6e81369d109fd82d",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-dukaan/": {
-    "hash": "8d8e85698b11b1ac",
-    "modified": "2026-10-28"
+    "hash": "b01663a6c9d6bf94",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-instamojo/": {
-    "hash": "e66ae35a60be7e5b",
-    "modified": "2026-10-28"
+    "hash": "60b114a8db9be2ba",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-magento/": {
-    "hash": "456fe7b3244b56f2",
-    "modified": "2026-10-28"
+    "hash": "4c4f5fbbecf5b20f",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-medusa/": {
-    "hash": "906dce52f63babfb",
-    "modified": "2026-10-28"
+    "hash": "ebf6f6fe8e586e51",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-opencart/": {
-    "hash": "7e8f81ea182c98d7",
-    "modified": "2026-10-28"
+    "hash": "fd8938c097f553af",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-prestashop/": {
-    "hash": "f1f8397d0b495fa0",
-    "modified": "2026-10-28"
+    "hash": "e9ddf458e4c838a4",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-saleor/": {
-    "hash": "bb013bca8a497f28",
-    "modified": "2026-10-28"
+    "hash": "1db03c69d9c9bc05",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-shopify/": {
-    "hash": "bf0124016919ee2a",
-    "modified": "2026-10-28"
+    "hash": "1356eefed4ef94cf",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-squarespace/": {
-    "hash": "5873aac3a9ef4cb4",
-    "modified": "2026-10-28"
+    "hash": "b8ae193282de748a",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-storehippo/": {
-    "hash": "7ef92e67ae0aa41e",
-    "modified": "2026-10-28"
+    "hash": "066101daf65e63c2",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-vendure/": {
-    "hash": "b2d871d3008f9b39",
-    "modified": "2026-10-28"
+    "hash": "4852ace27b44f5f4",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-webnexs/": {
-    "hash": "8f88ef8d64a33eef",
-    "modified": "2026-10-28"
+    "hash": "f7f056607488b89b",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-wix/": {
-    "hash": "88f924c13d22e076",
-    "modified": "2026-10-28"
+    "hash": "7b952e8a40fcb580",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-woocommerce/": {
-    "hash": "17b5191bdf186cca",
-    "modified": "2026-10-28"
+    "hash": "db90645f08a76174",
+    "modified": "2026-10-30"
   },
   "/compare/kitcommerce-vs-zoho-commerce/": {
-    "hash": "a24390ef5e11d665",
-    "modified": "2026-10-28"
+    "hash": "eb4003c5aa4016de",
+    "modified": "2026-10-30"
   },
   "/compare/shopify-b2b-vs-kitcommerce/": {
-    "hash": "b8a2459ca42362bb",
-    "modified": "2026-10-28"
+    "hash": "915351ff597f0a53",
+    "modified": "2026-10-30"
   },
   "/compare/shopify-india-vs-kitcommerce/": {
-    "hash": "0395757470af7489",
-    "modified": "2026-10-28"
+    "hash": "7a56cae8a8c4382b",
+    "modified": "2026-10-30"
   },
   "/compare/shopify-plus-vs-kitcommerce/": {
-    "hash": "e14d9b1deb96e723",
-    "modified": "2026-10-28"
+    "hash": "511a21ccbab38803",
+    "modified": "2026-10-30"
   },
   "/contact/": {
     "hash": "216164447f7c5184",
     "modified": "2026-09-25"
   },
   "/features/": {
-    "hash": "2210a9f18c784a7a",
-    "modified": "2026-10-28"
+    "hash": "30bb1e3c906da3d3",
+    "modified": "2026-10-30"
   },
   "/features/ai/": {
     "hash": "4d747684ded1c6c4",
@@ -188,56 +188,56 @@
     "modified": "2026-10-28"
   },
   "/features/development/": {
-    "hash": "1c0133e4abe4e1eb",
-    "modified": "2026-10-28"
+    "hash": "43f2cdf3ea2689e8",
+    "modified": "2026-10-30"
   },
   "/features/operations/": {
     "hash": "ab17ee1c7149134f",
     "modified": "2026-10-28"
   },
   "/go-svelte-ecommerce/": {
-    "hash": "62269c56536f4ada",
-    "modified": "2026-10-28"
+    "hash": "0c8195849e03450a",
+    "modified": "2026-10-30"
   },
   "/gocommerce-svelte-commerce-connector/": {
-    "hash": "5dd78ace0ae4f2c9",
-    "modified": "2026-10-28"
+    "hash": "35d653dcd876d47a",
+    "modified": "2026-10-30"
   },
   "/gocommerce/": {
-    "hash": "3c85503eaf1c12db",
-    "modified": "2026-10-28"
+    "hash": "3744e5723f5b5fd1",
+    "modified": "2026-10-30"
   },
   "/gocommerce/admin/": {
-    "hash": "df499f2c03de1f1b",
-    "modified": "2026-10-28"
+    "hash": "b626a7242cac7347",
+    "modified": "2026-10-30"
   },
   "/gocommerce/mcp/": {
     "hash": "412283e03909a4b8",
     "modified": "2026-10-28"
   },
   "/integrations/": {
-    "hash": "07b10173f1847b79",
-    "modified": "2026-10-28"
+    "hash": "3182b48f3af4cbbe",
+    "modified": "2026-10-30"
   },
   "/integrations/ai-gateway/": {
-    "hash": "5d8fbbe1ce2c4af5",
-    "modified": "2026-10-28"
+    "hash": "da5822a51c592a20",
+    "modified": "2026-10-30"
   },
   "/integrations/banners/": {
     "hash": "f79022e6c3edc4cf",
     "modified": "2026-10-28"
   },
   "/integrations/cart-recovery/": {
-    "hash": "15550c00a9aa28a5",
-    "modified": "2026-10-28"
+    "hash": "3b62f4c4a54c2171",
+    "modified": "2026-10-30"
   },
   "/integrations/cms/": {
-    "hash": "0a81b8d9a449ddf4",
-    "modified": "2026-10-28"
+    "hash": "b0c0806072b93952",
+    "modified": "2026-10-30"
   },
   "/integrations/contact/": {
-    "hash": "3d6dde6d77ff13e1",
-    "modified": "2026-10-28"
+    "hash": "e3cfa851eff52217",
+    "modified": "2026-10-30"
   },
   "/integrations/faq/": {
     "hash": "9da8c9da3816f83c",
@@ -384,8 +384,8 @@
     "modified": "2026-10-28"
   },
   "/integrations/reviews/": {
-    "hash": "34e127ca8e1e5009",
-    "modified": "2026-10-28"
+    "hash": "7b2fb1cf4e01931c",
+    "modified": "2026-10-30"
   },
   "/integrations/search-meilisearch/": {
     "hash": "3959e1f90d8775f5",
@@ -420,12 +420,12 @@
     "modified": "2026-10-28"
   },
   "/open-source/": {
-    "hash": "3e6402661e49c583",
-    "modified": "2026-10-28"
+    "hash": "89b5a562ea9c66e7",
+    "modified": "2026-10-30"
   },
   "/pricing/": {
-    "hash": "3fa62a5a26ace3d7",
-    "modified": "2026-10-28"
+    "hash": "caa477e34f68f3b3",
+    "modified": "2026-10-30"
   },
   "/pricing/fee-calculator/": {
     "hash": "4dedacc8f0776f56",
@@ -436,20 +436,20 @@
     "modified": "2026-10-28"
   },
   "/sitemap/": {
-    "hash": "a568d6342f628682",
-    "modified": "2026-10-28"
+    "hash": "e3b88737af9e1486",
+    "modified": "2026-10-30"
   },
   "/solutions/": {
-    "hash": "8c8e3fb8de74490c",
-    "modified": "2026-10-28"
+    "hash": "c6af634b617e74d7",
+    "modified": "2026-10-30"
   },
   "/solutions/auto-parts/": {
-    "hash": "f75ab43b84a2009b",
-    "modified": "2026-10-28"
+    "hash": "41b7b54e5b4bd3b0",
+    "modified": "2026-10-30"
   },
   "/solutions/b2b-ecommerce-india/": {
-    "hash": "dd7dca1d38e476a2",
-    "modified": "2026-10-28"
+    "hash": "05566f3ec7dfc7ed",
+    "modified": "2026-10-30"
   },
   "/solutions/b2b/": {
     "hash": "a528bb5cd44973e3",
@@ -468,8 +468,8 @@
     "modified": "2026-10-28"
   },
   "/solutions/electricals/": {
-    "hash": "35469f73a351795a",
-    "modified": "2026-10-28"
+    "hash": "c849e083bf5ed4d2",
+    "modified": "2026-10-30"
   },
   "/solutions/marketplace/": {
     "hash": "14fa0b45e69a9f36",
@@ -596,15 +596,19 @@
     "modified": "2026-10-28"
   },
   "/updates/": {
-    "hash": "970b46e9d64eac84",
-    "modified": "2026-10-26"
+    "hash": "398e13f38617af72",
+    "modified": "2026-10-30"
   },
   "/updates/2/": {
-    "hash": "6f160aeb34b42fec",
-    "modified": "2026-10-26"
+    "hash": "a6ea41b3e3cb67ee",
+    "modified": "2026-10-30"
+  },
+  "/updates/3/": {
+    "hash": "7c130e4acecf1148",
+    "modified": "2026-10-30"
   },
   "/vibe-coding-commerce/": {
-    "hash": "9ccb9f76517e1370",
-    "modified": "2026-10-28"
+    "hash": "6a1c3d548e12822a",
+    "modified": "2026-10-30"
   }
 }

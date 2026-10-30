@@ -2,29 +2,29 @@
   "_comment": "GoCommerce figures the site states, read by scripts/read-facts.mjs from the commit named here. Pages read them through src/lib/facts.ts, data files write {token}s that fill() replaces, and scripts/verify.js fails on a page that states another figure. \"how\" says what each one counts.",
   "repository": "itswadesh/gocommerce",
   "ref": "origin/main",
-  "commit": "622f8cdc",
-  "committed": "2026-10-28",
-  "modules": 53,
+  "commit": "a6e3fee5",
+  "committed": "2026-10-30",
+  "modules": 54,
   "paymentModules": 11,
   "fulfilmentModules": 11,
-  "binaryModules": 50,
-  "apiOperations": 540,
-  "coreOperations": 286,
-  "moduleOperations": 254,
+  "binaryModules": 51,
+  "apiOperations": 550,
+  "coreOperations": 289,
+  "moduleOperations": 261,
   "adminScreens": 93,
-  "tests": 1972,
+  "tests": 2034,
   "mcpTools": 19,
   "mcpWriteTools": 10,
   "coreRights": 50,
-  "migrations": 81,
+  "migrations": 83,
   "events": 17,
   "agentRules": 16,
   "agentNotes": 4,
   "skillGuides": 16,
   "perModule": {
     "ai-gateway": {
-      "tests": 76,
-      "operations": 12
+      "tests": 100,
+      "operations": 16
     },
     "b2b": {
       "tests": 49,
@@ -35,15 +35,19 @@
       "operations": 6
     },
     "cart-recovery": {
-      "tests": 39,
+      "tests": 40,
       "operations": 10
     },
+    "catalog-ai": {
+      "tests": 10,
+      "operations": 2
+    },
     "cms": {
-      "tests": 8,
+      "tests": 10,
       "operations": 7
     },
     "contact": {
-      "tests": 9,
+      "tests": 10,
       "operations": 7
     },
     "faq": {
@@ -123,7 +127,7 @@
       "operations": 1
     },
     "layouts": {
-      "tests": 39,
+      "tests": 42,
       "operations": 13
     },
     "mcp": {
@@ -199,12 +203,12 @@
       "operations": 0
     },
     "photo-products": {
-      "tests": 7,
+      "tests": 8,
       "operations": 8
     },
     "reviews": {
-      "tests": 6,
-      "operations": 7
+      "tests": 15,
+      "operations": 8
     },
     "search-meilisearch": {
       "tests": 8,

@@ -16,6 +16,10 @@
     "doc": "chases a basket somebody gave up on."
   },
   {
+    "dir": "catalog-ai",
+    "doc": "is the catalogue's AI work, every model call made through the store's AI gateway."
+  },
+  {
     "dir": "cms",
     "doc": "adds content pages — about, terms, delivery, a landing page — to a gocommerce store."
   },
