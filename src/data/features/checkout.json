@@ -1,11 +1,11 @@
 {
   "slug": "checkout",
   "name": "Checkout",
-  "summary": "One idempotent call that never charges a changed price, guest checkout for good, and eleven gateways beside cash on delivery.",
+  "summary": "One idempotent call that never charges a changed price, guest checkout for good, and {paymentModules} gateways beside cash on delivery.",
   "title": "Checkout API — GoCommerce’s Idempotent, Guest-First Checkout",
-  "description": "GoCommerce checkout: one idempotent call that returns 409 rather than charge a changed price, permanent guest checkout, eleven gateways plus cash on delivery.",
+  "description": "GoCommerce checkout: one idempotent call that returns 409 rather than charge a changed price, permanent guest checkout, {paymentModules} gateways plus cash on delivery.",
   "ogTitle": "GoCommerce checkout, feature by feature",
-  "ogDescription": "One idempotent call, guest checkout for good, eleven gateways plus cash on delivery — and what is not built yet.",
+  "ogDescription": "One idempotent call, guest checkout for good, {paymentModules} gateways plus cash on delivery, and what is not built yet.",
   "kicker": "Features · Checkout",
   "h1": "A checkout that refuses to charge the wrong price",
   "lede": "One call turns a cart into an order and tells the client how to pay. Retry it and you get the same order back; change a price underneath it and it answers 409 with the new figures instead of charging something the shopper never saw.",
@@ -26,12 +26,22 @@
       ]
     },
     {
+      "name": "Guests find their order",
+      "lede": "A guest has no account to sign in to, so the way back to an order is the order itself: a link in its emails, or its number and the email or phone it was placed with.",
+      "tiles": [
+        { "title": "A link in the order emails", "status": "yes", "text": "The “Order placed” and “Order shipped” emails end with a link to the storefront’s order page that opens the order with nothing to type. The texts carry it too; through MSG91 the store’s approved DLT template decides. Staff who manage orders copy the same link from the order’s Customer card to paste into a chat. It uses the store’s verified domain or its address under the base domain, and a store with neither sends no link.", "source": "core/storefront_url.go · orderTrackingURL" },
+        { "title": "Order number and email", "status": "yes", "text": "Without the link, a guest opens their order with its number and the email or phone on it. A wrong email and an unknown number get the same answer, so nothing says which orders exist, and one visitor gets 20 tries an hour.", "source": "core/order_lookup.go · OpenWithContact" },
+        { "title": "Or a 4-digit code", "status": "yes", "text": "A storefront can instead have a 4-digit code sent to the email or phone on the order. A code works for ten minutes and five tries, an order gets one a minute and five a day, and the answer is the same whether or not the order and contact matched.", "source": "core/order_lookup.go · RequestLookupCode" }
+      ]
+    },
+    {
       "name": "Abandoned checkouts",
       "lede": "A basket somebody left is the order closest to happening. The cart-recovery module notices it within minutes, writes to the shopper, and stops the moment it becomes an order.",
       "tiles": [
         { "title": "Noticed within minutes", "status": "yes", "text": "A basket left for 10 minutes after the shopper typed an email — 30 if they never reached checkout — is recorded with its items and value as they were. The store sets both times. Baskets left before the module was installed are shown, and the reminders never go to them.", "source": "ext/cart-recovery · pass.go" },
-        { "title": "A sequence of reminders", "status": "yes", "text": "Up to five “wait, then send” emails, one sequence for checkouts and one for carts. Each send is checked again first: nothing goes out if the basket became an order, was emptied, sold out, or the shopper is in it right now. The wording is the store’s, edited with the other emails.", "source": "ext/cart-recovery · sendStep" },
-        { "title": "A link back to the basket", "status": "yes", "text": "Each reminder links to the shopper’s basket on the storefront. When the store’s panel address is set, the link passes through the store first, which counts the click.", "source": "GET /x/cart-recovery/r/{token}" },
+        { "title": "A sequence of reminders", "status": "yes", "text": "Up to five “wait, then send” emails, one sequence for checkouts and one for carts. Each send is checked again first: nothing goes out if the basket became an order, was emptied, sold out, or the shopper is in it right now. The wording is the store’s, edited with the other emails. The three default reminders greet the shopper by first name when an earlier order gave it, and list each item with its price and the total.", "source": "ext/cart-recovery · sendStep" },
+        { "title": "One shopper, one sequence", "status": "yes", "text": "A shopper who left one basket on a phone and another on a laptop hears about the newest only. Before each send, a basket stops with the reason “Newer basket” when the same email, compared without case, has a newer one still being chased or already bought. It stays on the screen with that reason.", "source": "ext/cart-recovery/pass.go · hasNewerBasket" },
+        { "title": "A link back to the basket", "status": "yes", "text": "Each reminder links to the shopper’s basket on the storefront. With no storefront address set, the link uses the store’s own: its verified domain, or its address under the base domain. When the store’s panel address is set, the link passes through the store first, which counts the click.", "source": "GET /x/cart-recovery/r/{token}" },
         { "title": "The order is credited", "status": "yes", "text": "When the basket is bought, that order is credited to it. The figures keep apart orders a reminder came before and shoppers who came back on their own.", "source": "order.created · cart_id" },
         { "title": "Staff can step in", "status": "yes", "text": "Send a reminder now, copy the recovery link to paste into a chat, or stop the reminders with a reason. Every step is on the basket’s timeline with who took it.", "source": "/api/admin/x/cart-recovery/abandonments" },
         { "title": "Recovery figures", "status": "yes", "text": "Abandoned, potential revenue, reminders sent, clicks, recovered orders and revenue, the recovery rate, a funnel, and recovered revenue by day, week or month.", "source": "/api/admin/x/cart-recovery/analytics" }
@@ -41,8 +51,19 @@
       "name": "Payments",
       "tiles": [
         { "title": "{paymentModules} gateway modules", "status": "yes", "text": "Stripe, Razorpay, Cashfree, Adyen, Paddle, Lemon Squeezy, Creem, Hyperswitch, Helcim, Clover and RevenueCat, each configured from the admin’s payment methods screen.", "source": "ext/payments-*/" },
-        { "title": "Cash on delivery by default", "status": "yes", "text": "The built-in cod method confirms the order and takes stock off the shelf at once; payment stays pending until an operator marks it paid.", "source": "core/payments.go · codProvider" },
+        { "title": "Cash on delivery by default", "status": "yes", "text": "The built-in cod method confirms the order and takes stock off the shelf at once; payment stays pending until an operator marks it paid. A payment marked by mistake can be taken back, even after the order is cancelled, while money that really went back stays a refund. A store can switch cash on delivery off on its payment methods screen, and it is then offered nowhere.", "source": "core/payments.go · codProvider" },
+        { "title": "Checking a payment with the gateway", "status": "partial", "text": "When a gateway’s confirmation never arrived, the order’s “Check with” button asks Stripe, Razorpay or Cashfree. A payment the gateway reports for the order’s total is recorded as the lost webhook would have recorded it, and nothing it did not report is recorded. Missing: the other gateways.", "source": "core/payments.go · CheckPayment" },
         { "title": "Several gateways side by side", "status": "yes", "text": "Any number of providers run at once, each at its own checkout route with a webhook route the core owns. Writing your own is a two-method interface.", "source": "core/ports.go · PaymentProvider" }
+      ]
+    },
+    {
+      "name": "Signing in",
+      "lede": "With the identity module, shoppers sign in with an email and password, with a code texted to their phone, or either way into the same account.",
+      "tiles": [
+        { "title": "Email, phone, or either", "status": "yes", "text": "The store picks how shoppers sign in under Settings › Customer sign-in: email and password, the default; phone and a 4-digit code by SMS, with no password; or both. The engine refuses the way the store did not pick. Phone sign-in can be chosen once an SMS provider is sending, and texts its codes to Indian (+91) numbers. A code works for ten minutes and five tries, and a phone gets one a minute and five a day.", "source": "ext/identity/phone_login.go" },
+        { "title": "One account, either way in", "status": "yes", "text": "On a store that allows both, a phone with no account lets the storefront ask “Already have an account?” after its code. The shopper signs in with their email and password and the phone joins that account, or opens a new one with it. A signed-in shopper can also add a phone with a code, or an email and password to a phone account. A phone is linked only by its code, and one that already opens another account is refused, not moved.", "source": "ext/identity/phone_login.go · ask_if_new" },
+        { "title": "Codes through MSG91", "status": "yes", "text": "A store that texts through MSG91 sets a DLT template for the sign-in code and one for the order code, beside the order messages, under Notifications › Setup SMS. Sign-in codes go through MSG91’s OTP API, and each text MSG91 accepts is logged with its request id. When no template would carry a code, the shopper is told the shop cannot text sign-in codes yet, instead of waiting for one that never comes.", "source": "ext/notify-msg91/msg91.go" },
+        { "title": "Codes that fill themselves in", "status": "yes", "text": "When the storefront names its address and it is the store’s verified domain, or its address under the base domain, the sign-in text ends with the line Chrome on Android reads, so the code fills itself in. Any other address is left out, so no other site can have a shopper’s code filled in. Through MSG91 the line appears once the store’s DLT template ends with it.", "source": "ext/identity/phone_login.go · ownSite" }
       ]
     },
     {
@@ -50,8 +71,20 @@
       "tiles": [
         { "title": "Order history for shoppers", "status": "yes", "text": "With the identity module, signed-in shoppers list and read their orders.", "source": "ext/identity" },
         { "title": "Address book", "status": "partial", "text": "Signed-in shoppers keep labelled addresses with a default. Missing: separate billing and shipping addresses, and staff editing a customer’s book.", "source": "ext/identity" },
-        { "title": "Discount codes", "status": "partial", "text": "Percentage, fixed or free shipping; scoped to the order, products, collections or a category; with minimum spend, dates, usage limits and once-per-email. Missing: automatic discounts at checkout, more than one code per cart, buy-X-get-Y.", "source": "core/discounts.go" },
-        { "title": "Price lists", "status": "partial", "text": "A line’s price resolves by customer group, channel, date window, priority and quantity break. Missing: a hook for your own pricing logic, and overriding one line’s price by hand.", "source": "core/pricing.go" }
+        { "title": "Discount codes", "status": "partial", "text": "Percentage, fixed or free shipping; scoped to the order, products, collections or a category; with minimum spend, dates, usage limits and once-per-email. A code the shop marks “Show in the basket’s offers” is listed for the basket, with what it takes off or how much more the basket needs. Missing: automatic discounts at checkout, more than one code per cart, buy-X-get-Y.", "source": "core/discounts.go" },
+        { "title": "Price lists", "status": "partial", "text": "A line’s price resolves by customer group, channel, date window, priority and quantity break. Staff who may set prices can agree a line’s price when they place an order, and it beats every list. Missing: a hook for your own pricing logic, and changing a price on an order already placed or in a shopper’s basket.", "source": "core/pricing.go" }
+      ]
+    },
+    {
+      "name": "The product page and the basket",
+      "lede": "The engine works out each of these, so an offer price, a free-delivery figure or a sold count is the same for every client that reads it.",
+      "tiles": [
+        { "title": "Add-ons at an offer price", "status": "yes", "text": "A product offers up to ten add-ons in its Complete the set card, each another product’s variant with an optional offer price. The offer holds while the product is in the basket, one add-on for each, and never above the buyer’s own price. Take the product out and the add-on goes back to its own price. A withdrawn offer is a price change, which checkout refuses until the shopper has seen it.", "source": "core/upsells.go" },
+        { "title": "Suggestions", "status": "yes", "text": "A product suggests up to 24 others, shown in a “You may also like” section of the product page that the theme editor moves or hides. The basket’s suggestions leave out what it already holds, and Basket suggestions, under Themes › Storefront extras, adds one collection’s products after them.", "source": "core/upsells.go · cross-sells" },
+        { "title": "Free-delivery progress", "status": "yes", "text": "The basket says whether delivery is free, or how much more it needs, read from the shop’s own shipping rates for the destination or the store’s country. There is no second figure to keep in step.", "source": "core/upsells.go · FreeShipping" },
+        { "title": "Highlights and a free gift", "status": "yes", "text": "Up to eight highlights and a free-gift line per product, typed in the product editor’s Highlights card, each line 80 characters at most. The gift is a note on the product page, not an item added to the basket.", "source": "core/product_extras.go" },
+        { "title": "Videos beside the pictures", "status": "yes", "text": "The public product lists its pictures and videos in their order, so a storefront’s gallery can play a product video among the photos.", "source": "core/catalog.go · Media" },
+        { "title": "A sold count", "status": "yes", "text": "Off until the shop turns it on under Themes › Storefront extras. It counts units on confirmed orders, leaving out cancelled, fully refunded and sample orders, and rounds down to tens, hundreds or thousands, so the figure shown is never more than the units sold. A product under the threshold, 25 unless the shop changes it, shows nothing. The count is refreshed every five minutes.", "source": "core/sold_counts.go" }
       ]
     },
     {
@@ -60,9 +93,11 @@
         { "title": "Stock reservation", "status": "partial", "text": "Checkout reserves stock per location when the order is created and holds it until payment or until the unpaid-order window (24 hours by default) runs out. Missing: holding stock at the cart stage.", "source": "core/inventory.go · reserveStock" },
         { "title": "Shipping in parts", "status": "partial", "text": "An order can ship in several parcels by line and quantity, each through any carrier module. Missing: several payments on one order.", "source": "core/fulfillment.go" },
         { "title": "Stock allocation", "status": "partial", "text": "Each line is reserved at the first active location, by priority, that can cover it all. Missing: other strategies, and splitting one line across locations.", "source": "core/inventory.go · pickLocation" },
-        { "title": "Tax rates", "status": "partial", "text": "Flat rates by country, state and category, the most specific winning, prices tax-inclusive or not, each line’s tax recorded. Missing: tax classes apart from categories, and per-channel rates.", "source": "core/taxes.go" },
-        { "title": "Shipping zones and rates", "status": "partial", "text": "Zones by country and state, with named rates priced by basket subtotal (“free over 2,000”). Missing: weight-based rates and postal-code zones.", "source": "core/shipping.go" },
-        { "title": "Address checks", "status": "partial", "text": "Checkout requires line one, city, postal code and country. Missing: format rules and a validation hook.", "source": "core/types.go · Address.Validate" }
+        { "title": "Tax rates", "status": "partial", "text": "Flat rates by country, state and category, or for one product, the most specific winning, prices tax-inclusive or not, each line’s tax recorded. A customer group can be tax-exempt, and its orders carry no tax. Missing: tax classes apart from categories and products, and per-channel rates.", "source": "core/taxes.go" },
+        { "title": "Shipping zones and rates", "status": "partial", "text": "Zones by country and state, with named rates priced by basket subtotal (“free over 2,000”) or by parcel weight, each with an optional handling fee and delivery estimate. A rate can be kept for one customer group. Missing: postal-code zones.", "source": "core/shipping.go" },
+        { "title": "Only the countries you deliver to", "status": "yes", "text": "Checkout’s address form is offered only the countries named by the store’s active zones that have a rate for everybody. A store with no rates, or with a priced zone that names no country, delivers everywhere. The engine still offers no delivery for an address no zone prices.", "source": "core/shipping.go · ShipsTo" },
+        { "title": "Address checks", "status": "partial", "text": "Checkout requires line one, city, postal code and country, and a module’s checkout guard can refuse an address before the order exists. Missing: format rules.", "source": "core/types.go · Address.Validate" },
+        { "title": "City and state from a PIN code", "status": "yes", "text": "A six-digit Indian PIN code gives the city, as India Post’s district, and the state, from India Post’s All India Pincode Directory built into the engine, with nothing to set up. A PIN that India Post lists with no district or state is left out, and there the shopper types them.", "source": "core/postcodes.go" }
       ]
     },
     {
@@ -79,20 +114,23 @@
     { "name": "Split payments", "why": "An order carries exactly one payment provider." },
     { "name": "Gift cards and store credit", "why": "No balance, issuing or redemption." },
     { "name": "Multi-currency", "why": "A store settles in one currency; channels carry none." },
-    { "name": "Tax exemptions", "why": "No exempt flag on customers, groups or orders." },
+    { "name": "Tax exemption for one customer", "why": "Exemption comes only through a customer group. No flag sits on a single customer or order." },
     { "name": "Tax or rate providers", "why": "No hook for Avalara-style tax or live carrier rates at checkout." },
     { "name": "Click-and-collect", "why": "No pickup option at checkout." },
     { "name": "Per-product quantity limits", "why": "A cart line is capped only by stock." },
-    { "name": "Reorder", "why": "Nothing turns a past order into a new cart." },
+    { "name": "Reorder for shoppers", "why": "Only a trade buyer in the b2b module can turn a past order into a new basket." },
     { "name": "Recovery by SMS or WhatsApp", "why": "A basket carries an email and no phone number, so reminders go by email." },
-    { "name": "Chasing a failed payment", "why": "Once checkout runs the basket is an order, and nothing reopens it for another try." }
+    { "name": "Chasing a failed payment", "why": "Once checkout runs the basket is an order, and nothing reopens it for another try." },
+    { "name": "Merging customer accounts", "why": "Two accounts stay two. A phone that already opens one account is refused on another, not moved." }
   ],
   "faq": [
     { "q": "What happens if a price changes while someone is checking out?", "a": "The checkout call answers 409 with the line that changed and its current price, and no order is charged. The client shows the new figure and the shopper decides. The engine never reprices an order silently." },
-    { "q": "Can shoppers buy without an account?", "a": "Always. Guest checkout is a permanent guarantee in the core: an order needs an email, and the access token returned at checkout reads it back. Accounts are the identity module, added when you want them." },
-    { "q": "Which payment gateways work in India?", "a": "Razorpay is a module, and cash on delivery is built in and on by default. Hyperswitch and Stripe are also modules; whether a gateway serves your business is between you and it." },
-    { "q": "Can a cash-on-delivery order be refunded?", "a": "Not through the engine — the cod method has no refund call, so the API answers 409. The money goes back however you collected it, outside GoCommerce. Gateway orders refund through their gateway." },
+    { "q": "Can shoppers buy without an account?", "a": "Yes. Guest checkout is a permanent guarantee in the core: an order needs an email, and the access token returned at checkout reads it back. A store can turn its Guest checkout switch off, and the storefront then asks shoppers to sign in first. Accounts are the identity module, added when you want them." },
+    { "q": "How does a guest find their order again?", "a": "Through the link in their order emails, which opens the order with nothing to type, or with the order number and the email or phone it was placed with. Neither needs an account." },
+    { "q": "Can shoppers sign in with a phone number?", "a": "Yes, with the identity module. The store chooses email and password, a code texted to the phone, or either, and a shopper who uses both ways keeps one account. Codes go to Indian (+91) numbers through the store’s SMS provider, such as MSG91 or Twilio." },
+    { "q": "Which payment gateways work in India?", "a": "Razorpay and Cashfree are modules, and cash on delivery is built in and on until the store switches it off. Hyperswitch and Stripe are also modules; whether a gateway serves your business is between you and it." },
+    { "q": "Can a cash-on-delivery order be refunded?", "a": "Not through the engine. The cod method has no refund call, so the API answers 409. The money goes back however you collected it, outside GoCommerce. Gateway orders refund through their gateway, except RevenueCat’s, which are refunded in RevenueCat." },
     { "q": "Does GoCommerce send abandoned-cart emails?", "a": "Yes, with the cart-recovery module. A basket left for a few minutes is recorded, and the store’s own sequence of reminders goes out by email, each one checked again before it is sent. When the shopper buys, the order is credited to the basket and the reminders stop." },
-    { "q": "Does it calculate tax automatically?", "a": "From your own rate table: flat rates by country, state and product category, applied at checkout and recorded per line. There is no connection to a tax service yet." }
+    { "q": "Does it calculate tax automatically?", "a": "From your own rate table: flat rates by country, state, product category or one product, applied at checkout and recorded per line. There is no connection to a tax service yet." }
   ]
 }
