@@ -1,14 +1,14 @@
 {
   "slug": "ai",
   "name": "AI",
-  "summary": "An AI gateway that caps and records every model call, an approval queue, read-only keys for AI agents and an MCP server — and what is not built.",
+  "summary": "Products from photos, listing rewrites and review summaries, a capped AI gateway, read-only agent keys and MCP, and what is not built.",
   "title": "AI in GoCommerce — Gateway, Agent Keys and MCP",
-  "description": "GoCommerce’s AI features, checked against the code: a gateway that caps and records every model call, an approval queue, read-only agent keys and MCP.",
+  "description": "GoCommerce’s AI, checked against the code: products from photos, listing rewrites and review summaries, on a gateway that caps and records every call.",
   "ogTitle": "AI in GoCommerce, feature by feature",
-  "ogDescription": "A capped, recorded AI gateway, an approval queue, read-only agent keys and MCP — and what is not built yet.",
+  "ogDescription": "Products drafted from photos, better listings and review summaries on a capped, recorded AI gateway. Read-only agent keys, MCP, and what is not built yet.",
   "kicker": "Features · AI",
   "h1": "Model calls on a budget, agents on read-only keys",
-  "lede": "GoCommerce calls a model in one place, the AI gateway, which holds each store to its own key, a monthly cap and the data its owner lets out. An AI agent gets a key of its own that only reads, and reaches the store through the MCP server. Both are modules you install when you run GoCommerce yourself.",
+  "lede": "GoCommerce calls a model in one place, the AI gateway, which records every call, holds each store to its AI credit or to its own key and cap, and sends only the data its owner lets out. Three tools in the panel run through it: products drafted from a batch of photos, a better listing for a product already in the catalogue, and a summary of a product’s reviews. An AI agent gets a key of its own that only reads, and reaches the store through the MCP server. The gateway, the tools and MCP are modules you install when you run GoCommerce yourself.",
   "facts": [
     { "b": "2", "t": "model providers, Anthropic and OpenAI" },
     { "b": "5", "t": "kinds of store data, each a switch the owner sets" },
@@ -16,15 +16,27 @@
   ],
   "groups": [
     {
-      "name": "The AI gateway",
-      "lede": "ext/ai-gateway, installed with -ai-gateway or in your own main(). It stays idle until a store gives it a key, a monthly cap and a price for each model.",
+      "name": "AI tools in the panel",
+      "lede": "Buttons a person presses on the store’s own products and reviews. Each is a task on the AI gateway below, so it is recorded, paid from the store’s AI credit or held to its own cap, and sent only the data the owner lets out.",
       "tiles": [
-        { "title": "The store’s own key", "status": "yes", "text": "Each store picks Anthropic or OpenAI and pastes its own key, so calls are billed to its own account. Check connection lists the models the key reaches without spending tokens.", "source": "ext/ai-gateway/gateway.go · POST /api/admin/x/ai-gateway/check" },
-        { "title": "A monthly cap that holds", "status": "yes", "text": "A cap in the store’s currency per calendar month. Before each call its worst-case cost is reserved in one conditional update, so calls running at once cannot spend past it; afterwards it is settled to what the provider reported.", "source": "ext/ai-gateway/budget.go" },
+        { "title": "Products from a batch of photos", "status": "yes", "text": "Create from photos, on the products screen, takes up to 60 photos at a time. The AI sorts them into products, with the angles of one item as its pictures and its other colours or finishes as variants, and writes each product’s title, description, highlights, type, tags, category, SEO copy and alt text from what the photos show. The shop renames, moves a photo, merges, splits or leaves one out, then presses Create.", "source": "ext/photo-products/tasks.go · ext/photo-products/run.go" },
+        { "title": "Created as drafts with no price", "status": "yes", "text": "Each product is created as a draft, every variant at price 0 with nothing in stock, so no shopper can buy it and the products list’s Needs a price filter finds it. Sizes come only from the shop, as a Size option, and a suggested new category is never created. A batch that stops picks up where it left off and never makes a product twice.", "source": "ext/photo-products/create.go" },
+        { "title": "A better listing for a product you sell", "status": "yes", "text": "Improve with AI on a product’s page proposes a new title, description, highlights, tags, type, category, SEO copy and alt text, each beside the current value with a reason. A list names what the model inferred, such as a material or a fit, for the shop to check. Apply selected copies the ticked fields into the form. Nothing is written until the shop saves.", "source": "ext/catalog-ai/improve.go · POST /api/admin/x/catalog-ai/products/{id}/improve" },
+        { "title": "No prices or ratings in AI copy", "status": "yes", "text": "Create from photos and Improve with AI are told to write only what the shop’s own words or the photos show: never a price, discount, stock level, rating, review or “bestseller”, and no material, size or origin that cannot be seen. Improve with AI also drops any proposed line that names a price, discount, stock level, rating, review or bestseller. It is never sent a product’s prices, stock or orders.", "source": "ext/catalog-ai/module.go · Honesty" },
+        { "title": "What shoppers praise and complain about", "status": "yes", "text": "Summarize reviews, on the Reviews screen, sorts a product’s published reviews into themes under fit, quality, colour, delivery, value and other, each listing the reviews that say it, beside the average rating. The average and the counts are worked out in code from the reviews each theme cites, not by the model. Below three reviews no model is asked, an unchanged set is answered from the cache for 30 days, and no shopper’s name or email is sent.", "source": "ext/reviews/summarize.go · POST /api/admin/x/reviews/products/{id}/summarize" }
+      ]
+    },
+    {
+      "name": "The AI gateway",
+      "lede": "ext/ai-gateway, installed with -ai-gateway or in your own main(), and brought in by -photo-products and -catalog-ai. With an Anthropic key for the install in ANTHROPIC_API_KEY, every store has AI with nothing to set up. Without one, it stays idle until a store gives it a key, a monthly cap and a price for each model.",
+      "tiles": [
+        { "title": "The install’s key, or the store’s own", "status": "yes", "text": "A store that enters no key runs on the install’s Anthropic key, at the models and prices the install sets, with the gateway on and pictures allowed from the start. A store may paste its own Anthropic or OpenAI key instead, and is then billed by its provider and draws no credit. Check connection lists the models a store’s own key reaches without spending tokens.", "source": "ext/ai-gateway/platform.go · ext/ai-gateway/gateway.go" },
+        { "title": "Pay-per-use AI credit", "status": "yes", "text": "A call on the install’s key is paid from the store’s AI credit: a free trial allowance each store starts with, plus what the install’s operator tops up with the admin token. The most a call could cost is held before it goes out and settled to the real cost after, so a failed call or a cached answer costs nothing. A store with no credit left is refused before any model is called. The AI screen shows the free trial left, the topped-up balance and what is spent.", "source": "ext/ai-gateway/credit.go" },
+        { "title": "A monthly cap that holds", "status": "yes", "text": "A cap in the store’s currency per calendar month, needed with the store’s own key and optional on the install’s, where the credit is the limit. Before each call its worst-case cost is reserved in one conditional update, so calls running at once cannot spend past it; afterwards it is settled to what the provider reported.", "source": "ext/ai-gateway/budget.go" },
         { "title": "Every run on the record", "status": "yes", "text": "One row per run: the task, the model, tokens, time taken, the outcome, and the cost as an integer in millionths of a minor unit. The Usage screen adds them up by day, task or model against the cap.", "source": "ext/ai-gateway/records.go · GET /api/admin/x/ai-gateway/usage" },
-        { "title": "Switches for what leaves the store", "status": "yes", "text": "Catalogue, order lines, contact details, message bodies and documents, the last three off until the owner turns them on. Data in a class that is off is dropped before sending, and an email address or international phone number found elsewhere is replaced.", "source": "ext/ai-gateway/policy.go" },
-        { "title": "The small model first", "status": "yes", "text": "Each task names its models in order: the small one first, the strong one only when an answer fails its schema or its own check, with the reason written down. Answers may be reused within one store, never across stores.", "source": "ext/ai-gateway/run.go · ext/ai-gateway/task.go" },
-        { "title": "A queue for model work", "status": "partial", "text": "Work is queued in the transaction that caused it and retried only for timeouts, rate limits and outages; the Jobs screen retries or cancels the rest. Missing: a module that queues work — the one task today, the Amazon importer’s rewrite, runs directly.", "source": "ext/ai-gateway/jobs.go" }
+        { "title": "Switches for what leaves the store", "status": "yes", "text": "Catalogue, order lines, contact details, message bodies and documents. Contact details and message bodies stay in until the owner turns them on, and documents too unless the install runs AI on its own key. Data in a class that is off is dropped before sending, and an email address or international phone number found elsewhere is replaced.", "source": "ext/ai-gateway/policy.go" },
+        { "title": "The small model first", "status": "yes", "text": "Each task names its models in order: the small one first and the strong one only when an answer fails its schema or its own check, with the reason written down. Reading photos goes straight to the strong one. The defaults are Claude Haiku 5.5 and Claude Sonnet 5.5. Answers may be reused within one store, never across stores.", "source": "ext/ai-gateway/run.go · ext/ai-gateway/task.go" },
+        { "title": "A queue for model work", "status": "partial", "text": "Work is queued in the transaction that caused it and retried only for timeouts, rate limits and outages; the Jobs screen retries or cancels the rest. Missing: a module that queues work. Every task today, from photos to review summaries, runs directly.", "source": "ext/ai-gateway/jobs.go" }
       ]
     },
     {
@@ -52,7 +64,7 @@
       "name": "MCP",
       "tiles": [
         { "title": "Store tools for agents", "status": "yes", "text": "{mcpTools} tools over the same domain services as the REST API, each checked against the caller’s rights, with every change written to an audit table. Over HTTP or stdio.", "source": "ext/mcp" },
-        { "title": "A read-only mode", "status": "yes", "text": "Config.ReadOnly withholds all ten tools that change things from every caller, the admin token included, and tools/list marks each tool with readOnlyHint.", "source": "ext/mcp/mcp.go · Config.ReadOnly" },
+        { "title": "A read-only mode", "status": "yes", "text": "Config.ReadOnly withholds all {mcpWriteTools} tools that change things from every caller, the admin token included, and tools/list marks each tool with readOnlyHint.", "source": "ext/mcp/mcp.go · Config.ReadOnly" },
         { "title": "Agent keys get the read tools", "status": "yes", "text": "An agent key is offered the read tools only. A tool that changes the store, a module’s own included, is left out of its list and refused and audited if called.", "source": "ext/mcp/mcp.go · callTool" }
       ]
     }
@@ -60,19 +72,22 @@
   "notYetLede": "GoCommerce’s AI-Native B2B specification, in the repository under docs/ai-b2b, describes more than the code does. None of the following is built.",
   "notYet": [
     { "name": "Agents that change things", "why": "An agent key only reads, and no module registers an action in the approval queue, so an agent cannot propose a change." },
+    { "name": "Improving many products at once", "why": "Improve with AI works on one product at a time; nothing rewrites a whole catalogue in one go." },
+    { "name": "Buying AI credit", "why": "A store cannot pay for credit itself. The install’s operator tops it up with the admin token." },
     { "name": "A WhatsApp sales inbox", "why": "No WhatsApp connection, shared inbox or suggested replies." },
     { "name": "An order desk", "why": "Nothing reads a message, an email or a PDF purchase order and drafts an order or a quote from it." },
     { "name": "Semantic search", "why": "No embeddings are made or stored; search is the engine’s own or Meilisearch’s." },
     { "name": "Agent memory", "why": "Nothing keeps an agent’s notes or a customer’s preferences between runs." },
     { "name": "Procurement and catalogue tools", "why": "No supplier catalogue mapping, quote requests to suppliers or product substitution." },
-    { "name": "Other model providers", "why": "Anthropic and OpenAI only, at their own addresses; no self-hosted or custom endpoint." },
-    { "name": "AI on admin.kitcommerce.store", "why": "That install runs the one-command Docker stack, which installs neither the AI gateway nor MCP." }
+    { "name": "Other model providers", "why": "Anthropic and OpenAI only, at their own addresses, and the install’s own key is Anthropic’s; no self-hosted or custom endpoint." },
+    { "name": "AI on admin.kitcommerce.store", "why": "This page describes the software, not the hosted panel. The site’s backend + admin quick start installs neither the AI gateway nor MCP." }
   ],
   "faq": [
-    { "q": "Does GoCommerce come with an AI key?", "a": "No. Each store brings its own Anthropic or OpenAI key, and calls are billed to that account. Until a store has a key, a monthly cap and a price for each model, the gateway makes no call." },
-    { "q": "Can an AI agent change my store?", "a": "Not with an agent key: it only reads. An agent handed a person’s credential or the admin token can use MCP’s ten tools that change things, each checked against that credential’s rights and audited. The approval queue, which would let an agent propose a change for a person to approve, has no actions yet." },
-    { "q": "What customer data does a model see?", "a": "Only what the store’s owner allows. The catalogue and order lines may leave by default; contact details, message bodies and documents stay in until switched on. An agent key sees emails and phone numbers masked whatever the switches say." },
-    { "q": "What uses the AI gateway today?", "a": "The Amazon importer’s rewrite of a listing’s copy, when the gateway is installed and switched on for the store. Nothing else in the repository calls a model yet." },
-    { "q": "Can I try this on admin.kitcommerce.store?", "a": "Not today. That install runs the one-command Docker stack, which installs neither module. Run GoCommerce yourself with -ai-gateway, and install ext/mcp in your own main()." }
+    { "q": "Does a store need its own AI key?", "a": "Not on an install that has an Anthropic key of its own in ANTHROPIC_API_KEY: every store with no key runs on it, paid from its AI credit. A store may enter its own Anthropic or OpenAI key instead and is billed by that provider. Without an install key, a store needs its own key, a monthly cap and a price for each model before the gateway makes a call." },
+    { "q": "What does the AI cost a store?", "a": "On the install’s key it is pay-per-use, paid from the store’s AI credit, and each store starts with a free trial allowance. Only a model call draws credit: a cached answer, an answer worked out without a model and every feature that is not AI draw none. A store on its own key pays its provider and draws no credit." },
+    { "q": "Can an AI agent change my store?", "a": "Not with an agent key: it only reads. An agent handed a person’s credential or the admin token can use MCP’s {mcpWriteTools} tools that change things, each checked against that credential’s rights and audited. The approval queue, which would let an agent propose a change for a person to approve, has no actions yet." },
+    { "q": "What customer data does a model see?", "a": "Only what the store’s owner allows. The catalogue and order lines may leave by default, and documents too when the install runs AI on its own key; contact details and message bodies stay in until switched on. Review summaries need message bodies on and never send a shopper’s name or email. An agent key sees emails and phone numbers masked whatever the switches say." },
+    { "q": "What uses the AI gateway today?", "a": "Create from photos and Improve with AI on the products screens, Summarize reviews on the Reviews screen, and the Amazon importer’s rewrite of a listing’s copy. Nothing else in the repository calls a model." },
+    { "q": "How do I run the AI tools?", "a": "Run GoCommerce yourself and start it with -photo-products and -catalog-ai, which bring -ai-gateway with them, and -reviews for review summaries. Give the engine an Anthropic key in ANTHROPIC_API_KEY and every store runs on it; without one, each store sets its own key, cap and prices. For MCP, install ext/mcp in your own main()." }
   ]
 }
