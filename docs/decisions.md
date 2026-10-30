@@ -18,6 +18,26 @@ Open with the owner: GoCommerce D119 puts phone sign-in outside India on a
 FAQ still says there is no higher tier. It changes when the owner says
 which decision stands.
 
+## 30 October 2026: "both together" starts from the tested full-stack example
+
+The owner asked to "publish all features that we made into
+kitcommerce.store". GoCommerce PR #163 (merged 29 October, D147) added
+`examples/kitcommerce-stack/`: PostgreSQL, the engine, Svelte Commerce at a
+pinned commit and Caddy, with a smoke test that places a cash-on-delivery
+order through the shop. The pull request reports two passing runs from
+fresh clones with `docker compose up -d --build --wait`, and its CI
+workflow passed on main at 74425f4d (read from GitHub on 30 October).
+
+- The homepage's "Both together" track now links that example ("Full-stack
+  quick start") instead of the connector status, and says what it lacks:
+  shopper sign-in, search and online payment. It keeps the Early label.
+  "One command" is said of the example only, because it meets the bar of 28
+  October: every service started from a fresh clone and a real test order.
+- GoCommerce's root `docker-compose.yml` (D143) is still not described.
+  The entry of 28 October stands: no test order has gone through that file,
+  and it builds the storefront from a branch.
+- The connector status page is still linked from the hero and the header.
+
 ## 28 October 2026: the audit's funnel events, on the links that exist
 
 The site already names its events in the markup (`data-ev`) and sends
