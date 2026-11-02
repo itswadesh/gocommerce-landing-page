@@ -443,6 +443,6 @@ UPI or bank transfer"*.
   it is placed or delivered.
 - The fee is billed monthly, for the previous month's successful orders, and
   paid by UPI or bank transfer. Stores in India pay 18% GST on it (27 October).
-- Not yet decided: whether the 1% is worked out on the amount the customer
-  paid (delivery and COD charge included) or on the products alone, and the
-  day the monthly bill falls due. No page states either until the owner does.
+- The 1% is worked out on the amount the customer paid, delivery and COD
+  charge included, and the monthly bill is due within 7 days of the invoice
+  (the owner, the same day). shopnx.in's pricing section explains all of it.
