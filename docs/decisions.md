@@ -430,3 +430,19 @@ The owner: "keep all prices throughout the website in $USD".
   about the software, not prices, and stay.
 - This overrides the owner's general standard of rupee prices formatted with
   `Intl.NumberFormat('en-IN')` for this site.
+
+## 2 November 2026: when the hosted fee is earned and how it is billed
+
+The owner, asked how a hosted store is charged its 1%: *"successful=delivered
+and not returned. COD order counted after cash is received. Monthly through
+UPI or bank transfer"*.
+
+- "Successful" means delivered and not returned. A cancelled order, one that
+  never reached the customer, and one returned carry no fee.
+- A cash-on-delivery order counts once the cash has been received, not when
+  it is placed or delivered.
+- The fee is billed monthly, for the previous month's successful orders, and
+  paid by UPI or bank transfer. Stores in India pay 18% GST on it (27 October).
+- Not yet decided: whether the 1% is worked out on the amount the customer
+  paid (delivery and COD charge included) or on the products alone, and the
+  day the monthly bill falls due. No page states either until the owner does.
