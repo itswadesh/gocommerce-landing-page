@@ -1,5 +1,257 @@
 [
   {
+    "sha": "99ebe94b7aa33c13f8c2ec130db89c4946cae1fb",
+    "date": "2026-11-05",
+    "type": "feature",
+    "title": "Tell the install's owner on Telegram when a store opens",
+    "url": "https://github.com/itswadesh/gocommerce/commit/99ebe94b7aa33c13f8c2ec130db89c4946cae1fb"
+  },
+  {
+    "sha": "3b553b83c687e6269b7d992f4f6651f4c19d3990",
+    "date": "2026-11-05",
+    "type": "feature",
+    "title": "Price jewellery from the day's metal rate",
+    "url": "https://github.com/itswadesh/gocommerce/commit/3b553b83c687e6269b7d992f4f6651f4c19d3990"
+  },
+  {
+    "sha": "1053190d7285afc2c790d71239bb2f9ee95686e1",
+    "date": "2026-11-05",
+    "type": "feature",
+    "title": "Take payments through PayPal",
+    "url": "https://github.com/itswadesh/gocommerce/commit/1053190d7285afc2c790d71239bb2f9ee95686e1"
+  },
+  {
+    "sha": "6cc0c343dcf5d5ef1e48d65057ccbd421e7a32ed",
+    "date": "2026-11-03",
+    "type": "feature",
+    "title": "Let a column hold a video, for a row of customer testimonials",
+    "url": "https://github.com/itswadesh/gocommerce/commit/6cc0c343dcf5d5ef1e48d65057ccbd421e7a32ed"
+  },
+  {
+    "sha": "329fabcb7739bef4841ee26ba782d8aefbfe97b1",
+    "date": "2026-11-03",
+    "type": "feature",
+    "title": "Let a discount take money off and send the order free in one offer",
+    "url": "https://github.com/itswadesh/gocommerce/commit/329fabcb7739bef4841ee26ba782d8aefbfe97b1"
+  },
+  {
+    "sha": "ff6f91a6707ec764a7d04b0baf0e2b77feb298ae",
+    "date": "2026-11-03",
+    "type": "feature",
+    "title": "Send a product's second picture with listings, so cards can swap to it on hover",
+    "url": "https://github.com/itswadesh/gocommerce/commit/ff6f91a6707ec764a7d04b0baf0e2b77feb298ae"
+  },
+  {
+    "sha": "782cdfff555548550b939db64f24f3267b2de037",
+    "date": "2026-11-02",
+    "type": "fix",
+    "title": "Fix cart reminder links pointing shoppers at the admin panel's address",
+    "url": "https://github.com/itswadesh/gocommerce/commit/782cdfff555548550b939db64f24f3267b2de037"
+  },
+  {
+    "sha": "4979394c6be3ce07933639c355ecf4b078e69432",
+    "date": "2026-11-02",
+    "type": "feature",
+    "title": "Show a typed password or key with an eye button in plugin settings",
+    "url": "https://github.com/itswadesh/gocommerce/commit/4979394c6be3ce07933639c355ecf4b078e69432"
+  },
+  {
+    "sha": "87d1ea49e945c4699b0e24663a7cd02be72c7def",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Let columns be captioned pictures, collections carry titles on the picture, and a shelf scroll on a phone",
+    "url": "https://github.com/itswadesh/gocommerce/commit/87d1ea49e945c4699b0e24663a7cd02be72c7def"
+  },
+  {
+    "sha": "287d2329563eb7681d436931fc5563356a743265",
+    "date": "2026-10-31",
+    "type": "fix",
+    "title": "Stop editing a closed store's message signing every visitor out",
+    "url": "https://github.com/itswadesh/gocommerce/commit/287d2329563eb7681d436931fc5563356a743265"
+  },
+  {
+    "sha": "b16b7fa3b9af1460a3efdb61f8ddb836528987d6",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Refuse a checkout whose total moved since the shopper's quote",
+    "url": "https://github.com/itswadesh/gocommerce/commit/b16b7fa3b9af1460a3efdb61f8ddb836528987d6"
+  },
+  {
+    "sha": "8b26fd249cbc8d52d10f2eff6e8ab8c0848a78fd",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Show the checkout total, automatic coupon included, before it is charged",
+    "url": "https://github.com/itswadesh/gocommerce/commit/8b26fd249cbc8d52d10f2eff6e8ab8c0848a78fd"
+  },
+  {
+    "sha": "247c3c37448fdc0173f7b3d7510fbe8abaae1fc4",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Let a section sit on a line or a band, fade the hero and scroll the benefits",
+    "url": "https://github.com/itswadesh/gocommerce/commit/247c3c37448fdc0173f7b3d7510fbe8abaae1fc4"
+  },
+  {
+    "sha": "09a40e33dbd3980cd6688d4b25ef0888a555d815",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Let a section heading carry a small line, a subtitle and a View all link",
+    "url": "https://github.com/itswadesh/gocommerce/commit/09a40e33dbd3980cd6688d4b25ef0888a555d815"
+  },
+  {
+    "sha": "a3d6d4a6fbbc14579b9d62cb0299c5015166b9ca",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Offer Noto Serif and Source Sans 3 in the theme editor",
+    "url": "https://github.com/itswadesh/gocommerce/commit/a3d6d4a6fbbc14579b9d62cb0299c5015166b9ca"
+  },
+  {
+    "sha": "3d976d30930222e0719307fada76de1fee20d7ef",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Make the product import template Shopify's CSV, with instructions in it",
+    "url": "https://github.com/itswadesh/gocommerce/commit/3d976d30930222e0719307fada76de1fee20d7ef"
+  },
+  {
+    "sha": "635b84ba1afbc0bb35b184b70ee75973dbc5c966",
+    "date": "2026-10-31",
+    "type": "fix",
+    "title": "Fix saving one Store details field through the API blanking the others",
+    "url": "https://github.com/itswadesh/gocommerce/commit/635b84ba1afbc0bb35b184b70ee75973dbc5c966"
+  },
+  {
+    "sha": "edad255e4d2a30b975351b77c506f8599aebd960",
+    "date": "2026-10-31",
+    "type": "fix",
+    "title": "Fix a storefront's request bodies being ignored, such as a partial refund turning full",
+    "url": "https://github.com/itswadesh/gocommerce/commit/edad255e4d2a30b975351b77c506f8599aebd960"
+  },
+  {
+    "sha": "607727c22b1f028a4d9907017185c8060d18c142",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Edit a page or description as HTML",
+    "url": "https://github.com/itswadesh/gocommerce/commit/607727c22b1f028a4d9907017185c8060d18c142"
+  },
+  {
+    "sha": "fcc9fe4775d456183176643cefa72e5bc253aae0",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Coupons can apply themselves, and a store can show every active code to shoppers",
+    "url": "https://github.com/itswadesh/gocommerce/commit/fcc9fe4775d456183176643cefa72e5bc253aae0"
+  },
+  {
+    "sha": "9dbaac0bc11f8868e46f2fbcab9156ba4b2d379a",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "List the payment methods open instead of folded",
+    "url": "https://github.com/itswadesh/gocommerce/commit/9dbaac0bc11f8868e46f2fbcab9156ba4b2d379a"
+  },
+  {
+    "sha": "588e3be27b48fc99f2686fef188066228678aef0",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Download a product import template to fill in",
+    "url": "https://github.com/itswadesh/gocommerce/commit/588e3be27b48fc99f2686fef188066228678aef0"
+  },
+  {
+    "sha": "33c5e411926d55084b00a15c0a1b70c47be2f11b",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Tell the storefront whether a store's prices include tax",
+    "url": "https://github.com/itswadesh/gocommerce/commit/33c5e411926d55084b00a15c0a1b70c47be2f11b"
+  },
+  {
+    "sha": "8e99f70073a57176c580c68c1acc5099ed685e04",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Each store can say its prices include tax",
+    "url": "https://github.com/itswadesh/gocommerce/commit/8e99f70073a57176c580c68c1acc5099ed685e04"
+  },
+  {
+    "sha": "5ec01f81a9632a3e8646f785de7a66ae3d9e8f1c",
+    "date": "2026-10-31",
+    "type": "fix",
+    "title": "Stop a Dokploy deploy failing on port 80: Caddy is opt-in in the compose file",
+    "url": "https://github.com/itswadesh/gocommerce/commit/5ec01f81a9632a3e8646f785de7a66ae3d9e8f1c"
+  },
+  {
+    "sha": "f6d05ded91a97a7cbb88ccbddfb30987829ab600",
+    "date": "2026-10-31",
+    "type": "feature",
+    "title": "Search results say whether a product is made to a design",
+    "url": "https://github.com/itswadesh/gocommerce/commit/f6d05ded91a97a7cbb88ccbddfb30987829ab600"
+  },
+  {
+    "sha": "d0967e8acb4296554f1f48f7f0bcd17f8c8d4e9c",
+    "date": "2026-10-31",
+    "type": "fix",
+    "title": "Fix a business buyer's retried checkout answering that the cart was already checked out",
+    "url": "https://github.com/itswadesh/gocommerce/commit/d0967e8acb4296554f1f48f7f0bcd17f8c8d4e9c"
+  },
+  {
+    "sha": "4acc37b9ec2988b656f84a704b3fe1d994e6f530",
+    "date": "2026-10-30",
+    "type": "feature",
+    "title": "Fill India's tax rates from the GST schedule on the taxes screen",
+    "url": "https://github.com/itswadesh/gocommerce/commit/4acc37b9ec2988b656f84a704b3fe1d994e6f530"
+  },
+  {
+    "sha": "6369cd0879ba37ce22108eb584db140fe5b4deaf",
+    "date": "2026-10-30",
+    "type": "feature",
+    "title": "Look up India's GST rate for an HSN code from CBIC's own schedule",
+    "url": "https://github.com/itswadesh/gocommerce/commit/6369cd0879ba37ce22108eb584db140fe5b4deaf"
+  },
+  {
+    "sha": "525a54daeec3d7ddcc1e23bc7576aa2d38495d14",
+    "date": "2026-10-30",
+    "type": "fix",
+    "title": "Fix Categories stopping as soon as it opens",
+    "url": "https://github.com/itswadesh/gocommerce/commit/525a54daeec3d7ddcc1e23bc7576aa2d38495d14"
+  },
+  {
+    "sha": "e2181ff7e7b65f0d4786a6ac21af803ff8a7b22a",
+    "date": "2026-10-30",
+    "type": "feature",
+    "title": "Pick an Indian tax rate's state from a list",
+    "url": "https://github.com/itswadesh/gocommerce/commit/e2181ff7e7b65f0d4786a6ac21af803ff8a7b22a"
+  },
+  {
+    "sha": "9d65d7d6518f18a020206e00be9ebc7aed74d12c",
+    "date": "2026-10-30",
+    "type": "feature",
+    "title": "Send designable: false for a plain product rather than leaving it out",
+    "url": "https://github.com/itswadesh/gocommerce/commit/9d65d7d6518f18a020206e00be9ebc7aed74d12c"
+  },
+  {
+    "sha": "9c9d03a4e210e57b68e6014d8e20330d1847c76a",
+    "date": "2026-10-30",
+    "type": "feature",
+    "title": "Products made to a design say so, a quick add of one is refused, and cart errors get codes",
+    "url": "https://github.com/itswadesh/gocommerce/commit/9c9d03a4e210e57b68e6014d8e20330d1847c76a"
+  },
+  {
+    "sha": "8749ebde242e6e2a2b3b24fd1190563e6a64cc95",
+    "date": "2026-10-30",
+    "type": "feature",
+    "title": "Shoppers design their own print on a product: the customizer's engine module and panel",
+    "url": "https://github.com/itswadesh/gocommerce/commit/8749ebde242e6e2a2b3b24fd1190563e6a64cc95"
+  },
+  {
+    "sha": "23d18fd54fd86581a45c889c8ec8592377a35ab4",
+    "date": "2026-10-30",
+    "type": "feature",
+    "title": "Count limits per shopper behind a trusted proxy",
+    "url": "https://github.com/itswadesh/gocommerce/commit/23d18fd54fd86581a45c889c8ec8592377a35ab4"
+  },
+  {
+    "sha": "ddd47ebb40d8f7e334dbb78999e9906053e0cca9",
+    "date": "2026-10-30",
+    "type": "feature",
+    "title": "Criteo retargeting tag as a plugin",
+    "url": "https://github.com/itswadesh/gocommerce/commit/ddd47ebb40d8f7e334dbb78999e9906053e0cca9"
+  },
+  {
     "sha": "12bae7d60ac1fcea72486ae3fb6206b748a0ae36",
     "date": "2026-10-30",
     "type": "feature",
