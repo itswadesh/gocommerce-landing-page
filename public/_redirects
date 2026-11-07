@@ -17,7 +17,7 @@
 # Shapes people guess at for the pages that do exist.
 /backends         /svelte-commerce/backends/                      301
 /connector        /gocommerce-svelte-commerce-connector/          301
-/docs             https://github.com/itswadesh/gocommerce#readme  301
+/docs             https://shopnx.in/help  301
 
 # Do not re-add a `/* /404 404` splat here. It was tried and does nothing: an
 # unmatched path returns 404 with a zero-length body either way. The site is
@@ -42,7 +42,7 @@
 /admin/            /gocommerce/admin/                              301
 /backends/         /svelte-commerce/backends/                      301
 /connector/        /gocommerce-svelte-commerce-connector/          301
-/docs/             https://github.com/itswadesh/gocommerce#readme  301
+/docs/             https://shopnx.in/help  301
 /marketplace/      /solutions/marketplace/                         301
 /multi-store/      /solutions/multi-store/                         301
 /plugins/          /integrations/                                  301
